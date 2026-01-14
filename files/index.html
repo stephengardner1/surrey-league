@@ -174,25 +174,55 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps})=>{
 
 const ClubsView=({setView,clubAllTime})=><div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-6"><h1 className="text-2xl font-bold text-gray-900">Clubs</h1></div><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4 text-xs text-gray-500 uppercase">Club</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-16">Titles</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-16">2nd</th><th className="text-right py-1.5 pl-2 text-xs text-gray-500 uppercase w-16">3rd</th></tr></thead><tbody>{clubAllTime.map((c,i)=><tr key={c.club} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'club',club:c.club})}><td className="py-1.5 pr-4"><div className="flex items-center gap-2"><span className="text-gray-400 text-sm w-5 text-right">{i+1}</span><ClubShield club={c.club} size={14}/><ClubName club={c.club} className="text-sm text-gray-900"/></div></td><td className="text-right py-1.5 px-2 text-sm tabular-nums font-semibold text-gray-900">{c.titles||'-'}</td><td className="text-right py-1.5 px-2 text-sm tabular-nums text-gray-600">{c.runnerUp||'-'}</td><td className="text-right py-1.5 pl-2 text-sm tabular-nums text-gray-400">{c.third||'-'}</td></tr>)}</tbody></table></div>;
 
-const ClubDetailView=({clubCode,setView,athletes,clubAllTime,clubMvps})=>{
+const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps})=>{
   const[sort,setSort]=useState('aScores');const clubData=clubAllTime.find(c=>c.club===clubCode);const clubInfo=CLUBS[clubCode];
+  
+  // Compute club-specific stats from race results
   const clubAthletes=useMemo(()=>{
-    const mvpList=clubMvps?.[clubCode]||[];
-    return athletes.filter(a=>a.club===clubCode).map(a=>{
-      const mvpEntry=mvpList.find(m=>namesMatch(m.name,a.name));
-      return{...a,mvpRank:mvpEntry?.mvpRank||999};
-    }).sort((a,b)=>{
-    // MVP sort: first by aScores desc, then by sum of scores (lower is better for ties)
-    if(sort==='aScores'){
-      if((b.aScores||0)!==(a.aScores||0))return(b.aScores||0)-(a.aScores||0);
-      // For ties, would need actual score sum - for now just use wins as tiebreaker
-      return(b.wins||0)-(a.wins||0);
-    }
-    if(b[sort]!==a[sort])return(b[sort]||0)-(a[sort]||0);
-    if(b.wins!==a.wins)return(b.wins||0)-(a.wins||0);
-    if(b.top3!==a.top3)return(b.top3||0)-(a.top3||0);
-    return(b.races||0)-(a.races||0);
-  });},[clubCode,sort,athletes,clubMvps]);
+    const athleteStats={};
+    
+    // Go through all races and count stats only when athlete represented this club
+    races.forEach(race=>{
+      if(race.historical||!race.results)return;
+      race.results.forEach((r,idx)=>{
+        if(r.club!==clubCode)return;
+        const nameKey=normalizeNameForCompare(r.name);
+        if(!athleteStats[nameKey]){
+          athleteStats[nameKey]={
+            name:r.name,
+            club:clubCode,
+            wins:0,top3:0,top5:0,top10:0,top20:0,top50:0,top100:0,
+            races:0,aScores:0
+          };
+        }
+        const s=athleteStats[nameKey];
+        s.races++;
+        if(r.pos===1)s.wins++;
+        if(r.pos<=3)s.top3++;
+        if(r.pos<=5)s.top5++;
+        if(r.pos<=10)s.top10++;
+        if(r.pos<=20)s.top20++;
+        if(r.pos<=50)s.top50++;
+        if(r.pos<=100)s.top100++;
+        // Count A-team scores (first 10 finishers for this club in this race)
+        const clubRunnersInRace=race.results.filter(x=>x.club===clubCode);
+        const posInClub=clubRunnersInRace.findIndex(x=>namesMatch(x.name,r.name))+1;
+        if(posInClub>=1&&posInClub<=10)s.aScores++;
+      });
+    });
+    
+    return Object.values(athleteStats).sort((a,b)=>{
+      if(sort==='aScores'){
+        if((b.aScores||0)!==(a.aScores||0))return(b.aScores||0)-(a.aScores||0);
+        return(b.wins||0)-(a.wins||0);
+      }
+      if(b[sort]!==a[sort])return(b[sort]||0)-(a[sort]||0);
+      if(b.wins!==a.wins)return(b.wins||0)-(a.wins||0);
+      if(b.top3!==a.top3)return(b.top3||0)-(a.top3||0);
+      return(b.races||0)-(a.races||0);
+    });
+  },[clubCode,sort,races]);
+  
   const mvp=clubAthletes[0];
   const allTimeRank=clubAllTime.findIndex(c=>c.club===clubCode)+1;if(!clubData||!clubInfo)return<div className="max-w-4xl mx-auto px-4 py-8"><p>Club not found</p></div>;
   const cols=[{f:'aScores',l:'A'},{f:'wins',l:'W'},{f:'top3',l:'T3'},{f:'top10',l:'T10'},{f:'races',l:'R'}];
@@ -552,14 +582,127 @@ QUESTION: ${query}`
   </div>;
 };
 
+// Normalize data to merge case-variant athlete names
+const normalizeData=(data)=>{
+  // Venue name mappings
+  const venueMap={
+    'Croyden':'Croydon',
+    'Moden':'Morden Park',
+    'Morden':'Morden Park',
+    'Morden Pk':'Morden Park',
+    'Beckenham':'Beckenham Place Park',
+    'Beckenham Place':'Beckenham Place Park',
+    'Richmond':'Richmond Park',
+    'Richmond Pk':'Richmond Park',
+    'G Richmond Pk':'Richmond Park',
+    'Richmond Park (Sheen Rugby Fields)':'Richmond Park',
+    'Wimbledon':'Wimbledon Common',
+    'Wimbledon (race won by n/s R Dessaix-Chin, Belg)':'Wimbledon Common',
+    'Hamlands':'Ham Lands',
+    'Lloyd Park, Croydon':'Lloyd Park',
+    'Mitcham':'Mitcham Common',
+    'Streatham':'Streatham Common',
+    'Epsom':'Epsom Downs',
+    'Dorking (race won by n/s F Tickner, Wells)':'Dorking',
+    'Pol Dorking':'Dorking',
+    'Farthing Down, Coulsdon':'Coulsdon',
+    'West Horsley Place, Guildford':'West Horsley Place',
+    'W Wickham':'West Wickham'
+  };
+  
+  // Normalize venue names in races
+  data.races.forEach(race=>{
+    if(race.venue&&venueMap[race.venue]){
+      race.venue=venueMap[race.venue];
+    }
+  });
+  
+  // Normalize venue names in seasonsData matches
+  Object.values(data.seasonsData||{}).forEach(sd=>{
+    (sd.matches||[]).forEach(m=>{
+      if(m.venue&&venueMap[m.venue]){
+        m.venue=venueMap[m.venue];
+      }
+    });
+  });
+  
+  // Build a map of normalized name -> preferred display name (first occurrence)
+  const nameMap={};
+  data.athletes.forEach(a=>{
+    const key=normalizeNameForCompare(a.name);
+    if(!nameMap[key])nameMap[key]=a.name;
+  });
+  
+  // Also check race results for names not in athletes list
+  data.races.forEach(race=>{
+    (race.results||[]).forEach(r=>{
+      const key=normalizeNameForCompare(r.name);
+      if(!nameMap[key])nameMap[key]=r.name;
+    });
+  });
+  
+  // Merge duplicate athletes
+  const mergedAthletes={};
+  data.athletes.forEach(a=>{
+    const key=normalizeNameForCompare(a.name);
+    if(!mergedAthletes[key]){
+      mergedAthletes[key]={...a,name:nameMap[key]};
+    }else{
+      // Merge stats
+      const m=mergedAthletes[key];
+      m.wins=(m.wins||0)+(a.wins||0);
+      m.top3=(m.top3||0)+(a.top3||0);
+      m.top5=(m.top5||0)+(a.top5||0);
+      m.top10=(m.top10||0)+(a.top10||0);
+      m.top20=(m.top20||0)+(a.top20||0);
+      m.top50=(m.top50||0)+(a.top50||0);
+      m.top100=(m.top100||0)+(a.top100||0);
+      m.races=(m.races||0)+(a.races||0);
+      m.aScores=(m.aScores||0)+(a.aScores||0);
+      // Merge clubs array if present
+      if(a.clubs){
+        m.clubs=m.clubs||[m.club];
+        a.clubs.forEach(c=>{if(!m.clubs.includes(c))m.clubs.push(c);});
+      }
+    }
+  });
+  data.athletes=Object.values(mergedAthletes);
+  
+  // Normalize names in race results
+  data.races.forEach(race=>{
+    (race.results||[]).forEach(r=>{
+      const key=normalizeNameForCompare(r.name);
+      if(nameMap[key])r.name=nameMap[key];
+    });
+  });
+  
+  // Normalize names in seasonsData individualRankings
+  Object.values(data.seasonsData||{}).forEach(sd=>{
+    (sd.individualRankings||[]).forEach(r=>{
+      const key=normalizeNameForCompare(r.name);
+      if(nameMap[key])r.name=nameMap[key];
+    });
+  });
+  
+  // Normalize names in clubMvps
+  Object.keys(data.clubMvps||{}).forEach(club=>{
+    data.clubMvps[club].forEach(m=>{
+      const key=normalizeNameForCompare(m.name);
+      if(nameMap[key])m.name=nameMap[key];
+    });
+  });
+  
+  return data;
+};
+
 function App(){
   const[view,setViewState]=useState(parseUrlParams());const[data,setData]=useState(null);const[loading,setLoading]=useState(true);const[error,setError]=useState(null);
   const setView=(v)=>{setViewState(v);updateUrl(v);};
-  useEffect(()=>{fetch('data.json').then(r=>r.json()).then(j=>{setData(j);setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});},[]);
+  useEffect(()=>{fetch('data.json').then(r=>r.json()).then(j=>{setData(normalizeData(j));setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});},[]);
   useEffect(()=>{const onPop=()=>setViewState(parseUrlParams());window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[]);
   useEffect(()=>{if(data&&view.raceKey){const race=data.races.find(r=>r.season===view.raceKey.season&&r.match===view.raceKey.match);if(race)setViewState({type:'race',race});}},[data,view.raceKey]);
   if(loading)return<div className="loading text-gray-500">Loading...</div>;if(error)return<div className="loading text-red-500">Error: {error}</div>;if(!data)return<div className="loading text-gray-500">No data</div>;
-  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView}/>}</main><Footer/></div>;
+  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView}/>}</main><Footer/></div>;
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
