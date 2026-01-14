@@ -66,13 +66,32 @@ const Nav=({setView})=><nav className="border-b border-gray-200 bg-white sticky 
 const SeasonSelector=({season,setSeason,seasons})=>{const idx=seasons.indexOf(season);return<div className="flex items-center gap-1"><button onClick={()=>idx<seasons.length-1&&setSeason(seasons[idx+1])} className={`p-1 rounded ${idx<seasons.length-1?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronLeft className="w-4 h-4"/></button><span className="text-sm font-medium w-16 text-center">{season}</span><button onClick={()=>idx>0&&setSeason(seasons[idx-1])} className={`p-1 rounded ${idx>0?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronRight className="w-4 h-4"/></button></div>;};
 
 const TeamResultsTable=({results,startPos=1,count=10})=>{
-  const teams=useMemo(()=>{const clubScores={};const clubCounts={};results.forEach(r=>{if(!clubCounts[r.club])clubCounts[r.club]=0;if(!clubScores[r.club])clubScores[r.club]=[];clubCounts[r.club]++;if(clubCounts[r.club]>=startPos&&clubCounts[r.club]<startPos+count&&r.pts!==null)clubScores[r.club].push(r.pts);});return Object.entries(clubScores).map(([club,scores])=>({club,points:scores.reduce((a,b)=>a+b,0),scores,complete:scores.length>=count})).filter(t=>t.scores.length>0).sort((a,b)=>{if(a.complete&&!b.complete)return-1;if(!a.complete&&b.complete)return 1;return a.points-b.points;}).map((t,i)=>({...t,pos:i+1}));},[results,startPos,count]);
+  const teams=useMemo(()=>{
+    const clubScores={};
+    const clubScoringCounts={};
+    // For A team (startPos=1): count runners with pts, take first 10
+    // For B team (startPos=11): count runners with b_pts, take first 10
+    const isATeam = startPos === 1;
+    results.forEach(r=>{
+      const hasPts = isATeam ? (r.pts != null) : (r.b_pts != null);
+      const pts = isATeam ? r.pts : r.b_pts;
+      if(!clubScoringCounts[r.club]) clubScoringCounts[r.club] = 0;
+      if(!clubScores[r.club]) clubScores[r.club] = [];
+      if(hasPts) {
+        clubScoringCounts[r.club]++;
+        if(clubScoringCounts[r.club] <= count) {
+          clubScores[r.club].push(pts);
+        }
+      }
+    });
+    return Object.entries(clubScores).map(([club,scores])=>({club,points:scores.reduce((a,b)=>a+b,0),scores,complete:scores.length>=count})).filter(t=>t.scores.length>0).sort((a,b)=>{if(a.complete&&!b.complete)return-1;if(!a.complete&&b.complete)return 1;return a.points-b.points;}).map((t,i)=>({...t,pos:i+1}));
+  },[results,startPos,count]);
   return<div><table className="w-full"><thead><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="w-8"></th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Points</th><th className="text-left py-2 px-4 text-xs font-semibold text-[#0077b6] uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-100">{teams.map(team=><tr key={team.club} className="hover:bg-gray-50"><td className="py-2 px-2 text-sm text-gray-700">{team.pos}</td><td className="py-2 px-1"><ClubShield club={team.club} size={20}/></td><td className="py-2 px-2 text-sm font-medium text-gray-900">{team.club}</td><td className="py-2 px-2 text-sm font-bold text-gray-900 text-right">{team.points}</td><td className="py-2 px-4"><div className="flex flex-wrap gap-1.5">{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-400 tabular-nums">{s}</span>)}{!team.complete&&<span className="text-xs text-gray-300 italic ml-1">incomplete</span>}</div></td></tr>)}</tbody></table></div>;
 };
 
 const IndividualResultsTable=({results,clubFilter,setClubFilter,setView})=>{
   const filtered=clubFilter?results.filter(r=>r.club===clubFilter):results;
-  return<div>{clubFilter&&<div className="mb-4 flex items-center gap-2 text-sm"><span className="text-gray-500">Showing:</span><span className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded"><ClubShield club={clubFilter} size={16}/><span className="font-medium">{CLUBS[clubFilter]?.name||clubFilter}</span><button onClick={()=>setClubFilter(null)} className="text-gray-400 hover:text-gray-600"><X className="w-4 h-4"/></button></span></div>}<table className="w-full"><thead><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pts</th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Name</th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-16">Time</th></tr></thead><tbody className="divide-y divide-gray-100">{filtered.map((r,i)=><tr key={i} className="hover:bg-blue-50"><td className="py-1.5 px-2 text-sm text-gray-700">{r.pos}</td><td className="py-1.5 px-2 text-sm text-gray-500">{r.pts||'-'}</td><td className="py-1.5 px-2"><span className="text-sm text-gray-900 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:r.name,club:r.club}})}>{r.name}{r.ns&&<span className="text-gray-400 ml-1">(N/S)</span>}</span></td><td className="py-1.5 px-2"><span className="flex items-center gap-1 cursor-pointer" onClick={()=>setClubFilter(r.club)}><ClubShield club={r.club} size={14}/><span className="text-xs text-gray-500">{r.club}</span></span></td><td className="py-1.5 px-2 text-sm text-gray-700 text-right font-mono">{r.time}</td></tr>)}</tbody></table></div>;
+  return<div>{clubFilter&&<div className="mb-4 flex items-center gap-2 text-sm"><span className="text-gray-500">Showing:</span><span className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded"><ClubShield club={clubFilter} size={16}/><span className="font-medium">{CLUBS[clubFilter]?.name||clubFilter}</span><button onClick={()=>setClubFilter(null)} className="text-gray-400 hover:text-gray-600"><X className="w-4 h-4"/></button></span></div>}<table className="w-full"><thead><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pts</th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Name</th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-16">Time</th></tr></thead><tbody className="divide-y divide-gray-100">{filtered.map((r,i)=><tr key={i} className="hover:bg-blue-50"><td className="py-1.5 px-2 text-sm text-gray-700">{r.pos}</td><td className="py-1.5 px-2 text-sm text-gray-500">{r.pts||'-'}</td><td className="py-1.5 px-2"><span className="text-sm text-gray-900 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:r.name,club:r.club}})}>{r.name}{r.ns&&<span className="text-gray-400 ml-1">(N/S)</span>}{r.secondClaim&&<span className="text-orange-500 ml-1">(2C)</span>}</span></td><td className="py-1.5 px-2"><span className="flex items-center gap-1 cursor-pointer" onClick={()=>setClubFilter(r.club)}><ClubShield club={r.club} size={14}/><span className="text-xs text-gray-500">{r.club}</span></span></td><td className="py-1.5 px-2 text-sm text-gray-700 text-right font-mono">{r.time}</td></tr>)}</tbody></table></div>;
 };
 
 const RaceDetailView=({race,setView,seasonsData})=>{
@@ -117,7 +136,7 @@ const AthleteDetailView=({athlete,setView,athletes,races})=>{
     if(athleteData?.historicalRaces){
       athleteData.historicalRaces.forEach(hr=>{
         const race=races.find(r=>r.season===hr.season&&r.match===hr.match);
-        h.push({date:race?.date||hr.season,venue:hr.venue,pos:hr.pos,time:'-',club:hr.club,race,historical:true,season:hr.season,teamScore:''});
+        h.push({date:race?.date||hr.season,venue:hr.venue,pos:hr.pos,time:'-',club:hr.club,race,historical:true,season:hr.season,teamScore:hr.pos===1?'A1':''});
       });
     }
     return h.sort((a,b)=>{const aKey=a.historical?a.season:a.date;const bKey=b.historical?b.season:b.date;return bKey.localeCompare(aKey);});
