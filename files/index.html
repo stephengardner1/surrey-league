@@ -262,13 +262,17 @@ const H2HView=({athletes,races,setView})=>{
     const found=athletes.find(x=>x.name===a.name)||a;
     const allTimeRank=athletes.filter(x=>!x.historical).sort((a,b)=>b.wins-a.wins).findIndex(x=>x.name===found.name)+1;
     const positions=[];
+    let bestRace=null;
+    let bestPos=Infinity;
     races.filter(r=>!r.historical).forEach(race=>{
       const result=race.results.find(r=>r.name===a.name);
-      if(result)positions.push(result.pos);
+      if(result){
+        positions.push(result.pos);
+        if(result.pos<bestPos){bestPos=result.pos;bestRace=race;}
+      }
     });
     const avgPos=positions.length>0?positions.reduce((a,b)=>a+b,0)/positions.length:0;
-    const bestPos=positions.length>0?Math.min(...positions):0;
-    return{...found,allTimeRank,avgPos,bestPos};
+    return{...found,allTimeRank,avgPos,bestPos:bestPos===Infinity?0:bestPos,bestRace};
   };
   
   const computeH2H=()=>{
@@ -292,13 +296,17 @@ const H2HView=({athletes,races,setView})=>{
   const stats2=getStats(athlete2);
   const h2h=computeH2H();
   
-  const StatRow=({label,val1,val2,better='lower'})=>{
-    const w1=better==='lower'?val1<val2:val1>val2;
-    const w2=better==='lower'?val2<val1:val2>val1;
+  const StatRow=({label,val1,val2,better='lower',onClick1,onClick2})=>{
+    const n1=typeof val1==='string'&&val1.startsWith('#')?parseInt(val1.slice(1)):parseFloat(val1);
+    const n2=typeof val2==='string'&&val2.startsWith('#')?parseInt(val2.slice(1)):parseFloat(val2);
+    const w1=better==='lower'?n1<n2:n1>n2;
+    const w2=better==='lower'?n2<n1:n2>n1;
+    const color1=w1?'text-green-600':w2?'text-red-500':'text-gray-600';
+    const color2=w2?'text-green-600':w1?'text-red-500':'text-gray-600';
     return<tr className="border-b border-gray-100">
-      <td className={`py-3 px-4 text-right text-lg font-semibold ${w1?'text-[#0077b6]':'text-gray-600'}`}>{val1}</td>
+      <td className={`py-3 px-4 text-right text-lg font-semibold ${color1} ${onClick1?'cursor-pointer hover:underline':''}`} onClick={onClick1}>{val1}</td>
       <td className="py-3 px-4 text-center text-sm text-gray-500 bg-gray-50">{label}</td>
-      <td className={`py-3 px-4 text-left text-lg font-semibold ${w2?'text-[#0077b6]':'text-gray-600'}`}>{val2}</td>
+      <td className={`py-3 px-4 text-left text-lg font-semibold ${color2} ${onClick2?'cursor-pointer hover:underline':''}`} onClick={onClick2}>{val2}</td>
     </tr>;
   };
   
@@ -329,14 +337,14 @@ const H2HView=({athletes,races,setView})=>{
       
       <table className="w-full mb-8">
         <tbody>
-          <tr className="border-b-2 border-[#0077b6]">
-            <td className={`py-4 px-4 text-right text-3xl font-bold ${h2h.wins1>h2h.wins2?'text-[#0077b6]':'text-gray-600'}`}>{h2h.wins1}</td>
+          <tr className="border-b-2 border-gray-200">
+            <td className={`py-4 px-4 text-right text-3xl font-bold ${h2h.wins1>h2h.wins2?'text-green-600':h2h.wins1<h2h.wins2?'text-red-500':'text-gray-600'}`}>{h2h.wins1}</td>
             <td className="py-4 px-4 text-center text-sm text-gray-500 bg-gray-50 uppercase">H2H Wins</td>
-            <td className={`py-4 px-4 text-left text-3xl font-bold ${h2h.wins2>h2h.wins1?'text-[#0077b6]':'text-gray-600'}`}>{h2h.wins2}</td>
+            <td className={`py-4 px-4 text-left text-3xl font-bold ${h2h.wins2>h2h.wins1?'text-green-600':h2h.wins2<h2h.wins1?'text-red-500':'text-gray-600'}`}>{h2h.wins2}</td>
           </tr>
           <StatRow label="A-Team Scores" val1={stats1.aScores||0} val2={stats2.aScores||0} better="higher"/>
           <StatRow label="Avg Finish" val1={(stats1.avgPos||0).toFixed(1)} val2={(stats2.avgPos||0).toFixed(1)} better="lower"/>
-          <StatRow label="Best Finish" val1={stats1.bestPos||'-'} val2={stats2.bestPos||'-'} better="lower"/>
+          <StatRow label="Best Finish" val1={stats1.bestPos||'-'} val2={stats2.bestPos||'-'} better="lower" onClick1={stats1.bestRace?()=>setView({type:'race',race:stats1.bestRace}):null} onClick2={stats2.bestRace?()=>setView({type:'race',race:stats2.bestRace}):null}/>
           <StatRow label="Total Races" val1={stats1.races||0} val2={stats2.races||0} better="higher"/>
           <StatRow label="All-Time Rank" val1={stats1.allTimeRank>0?'#'+stats1.allTimeRank:'-'} val2={stats2.allTimeRank>0?'#'+stats2.allTimeRank:'-'} better="lower"/>
         </tbody>
@@ -351,10 +359,10 @@ const H2HView=({athletes,races,setView})=>{
             <th className="text-right py-2 px-2 text-xs text-gray-500 uppercase w-16">{stats2.name.split(' ')[0]}</th>
           </tr></thead>
           <tbody className="divide-y divide-gray-100">
-            {h2h.sharedRaces.slice().reverse().map((sr,i)=><tr key={i} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'race',race:sr.race})}>
+            {h2h.sharedRaces.slice().reverse().map((sr,i)=><tr key={i} className="hover:bg-gray-50 cursor-pointer" onClick={()=>setView({type:'race',race:sr.race})}>
               <td className="py-2 text-sm text-gray-700">{formatDate(sr.race.date)} · {sr.race.venue}</td>
-              <td className={`py-2 px-2 text-sm text-right font-medium ${sr.pos1<sr.pos2?'text-[#0077b6]':'text-gray-600'}`}>{sr.pos1}</td>
-              <td className={`py-2 px-2 text-sm text-right font-medium ${sr.pos2<sr.pos1?'text-[#0077b6]':'text-gray-600'}`}>{sr.pos2}</td>
+              <td className={`py-2 px-2 text-sm text-right font-medium ${sr.pos1<sr.pos2?'text-green-600':sr.pos1>sr.pos2?'text-red-500':'text-gray-600'}`}>{sr.pos1}</td>
+              <td className={`py-2 px-2 text-sm text-right font-medium ${sr.pos2<sr.pos1?'text-green-600':sr.pos2>sr.pos1?'text-red-500':'text-gray-600'}`}>{sr.pos2}</td>
             </tr>)}
           </tbody>
         </table>
