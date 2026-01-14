@@ -63,7 +63,7 @@ const formatDate=(d)=>new Date(d).toLocaleDateString('en-GB',{day:'numeric',mont
 const formatDateShort=(d)=>new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
 const formatDateMonthYear=(d)=>new Date(d).toLocaleDateString('en-GB',{month:'short',year:'numeric'});
 
-const Nav=({setView})=><nav className="border-b border-gray-200 bg-white sticky top-0 z-50"><div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-12"><div className="cursor-pointer hidden md:block" onClick={()=>setView({type:'home'})}><span className="text-sm text-gray-500">Unofficial Surrey League archive</span></div><div className="flex gap-1 text-sm w-full md:w-auto justify-between md:justify-end"><button onClick={()=>setView({type:'home'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Standings</button><button onClick={()=>setView({type:'fixtures'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Fixtures</button><button onClick={()=>setView({type:'seasons'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Winners</button><button onClick={()=>setView({type:'athletes'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Athletes</button><button onClick={()=>setView({type:'clubs'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Clubs</button><button onClick={()=>setView({type:'ask'})} className="px-3 py-1.5 rounded text-[#0077b6] hover:bg-blue-50 flex items-center gap-1"><Sparkles className="w-4 h-4"/>Ask</button></div></div></nav>;
+const Nav=({setView})=><nav className="border-b border-gray-200 bg-white sticky top-0 z-50"><div className="max-w-6xl mx-auto px-4 flex items-center justify-between h-12"><div className="cursor-pointer hidden md:block" onClick={()=>setView({type:'home'})}><span className="text-sm text-gray-500">Unofficial Surrey League archive</span></div><div className="flex gap-1 text-sm w-full md:w-auto justify-between md:justify-end"><button onClick={()=>setView({type:'home'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Standings</button><button onClick={()=>setView({type:'fixtures'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Fixtures</button><button onClick={()=>setView({type:'seasons'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Winners</button><button onClick={()=>setView({type:'athletes'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Athletes</button><button onClick={()=>setView({type:'clubs'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Clubs</button><button onClick={()=>setView({type:'h2h'})} className="px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">H2H</button><button onClick={()=>setView({type:'ask'})} className="px-3 py-1.5 rounded text-[#0077b6] hover:bg-blue-50 flex items-center gap-1"><Sparkles className="w-4 h-4"/>Ask</button></div></div></nav>;
 
 const SeasonSelector=({season,setSeason,seasons})=>{const idx=seasons.indexOf(season);return<div className="flex items-center"><button onClick={()=>idx<seasons.length-1&&setSeason(seasons[idx+1])} className={`p-0.5 rounded ${idx<seasons.length-1?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronLeft className="w-5 h-5"/></button><span className="text-lg font-semibold text-gray-900 min-w-[5.5rem] text-center">{season}</span><button onClick={()=>idx>0&&setSeason(seasons[idx-1])} className={`p-0.5 rounded ${idx>0?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronRight className="w-5 h-5"/></button></div>;};
 
@@ -236,6 +236,135 @@ const updateUrl=(view)=>{
   else if(view.type==='race'&&view.race)url+='?race='+encodeURIComponent(view.race.season+'-'+view.race.match);
   else if(view.type!=='home')url+='?view='+view.type;
   window.history.pushState({},'',url);
+};
+
+const AthleteInput=({value,onChange,onSelect,athletes,placeholder})=>{
+  const[focused,setFocused]=useState(false);
+  const[inputVal,setInputVal]=useState(value?.name||'');
+  const suggestions=inputVal.length>=2?athletes.filter(a=>a.name.toLowerCase().includes(inputVal.toLowerCase())).slice(0,8):[];
+  useEffect(()=>{setInputVal(value?.name||'');},[value]);
+  return<div className="relative flex-1">
+    <input type="text" value={inputVal} onChange={e=>{setInputVal(e.target.value);onChange(null);}} onFocus={()=>setFocused(true)} onBlur={()=>setTimeout(()=>setFocused(false),200)} placeholder={placeholder} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0077b6] focus:border-transparent"/>
+    {focused&&suggestions.length>0&&<div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-64 overflow-y-auto">
+      {suggestions.map((a,i)=><div key={i} className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center gap-2" onClick={()=>{onSelect(a);setInputVal(a.name);setFocused(false);}}>
+        <ClubShield club={a.club} size={16}/><span className="text-sm text-gray-900">{a.name}</span><span className="text-xs text-gray-400">{CLUBS[a.club]?.name||a.club}</span>
+      </div>)}
+    </div>}
+  </div>;
+};
+
+const H2HView=({athletes,races,setView})=>{
+  const[athlete1,setAthlete1]=useState(null);
+  const[athlete2,setAthlete2]=useState(null);
+  
+  const getStats=(a)=>{
+    if(!a)return null;
+    const found=athletes.find(x=>x.name===a.name)||a;
+    const allTimeRank=athletes.filter(x=>!x.historical).sort((a,b)=>b.wins-a.wins).findIndex(x=>x.name===found.name)+1;
+    const positions=[];
+    races.filter(r=>!r.historical).forEach(race=>{
+      const result=race.results.find(r=>r.name===a.name);
+      if(result)positions.push(result.pos);
+    });
+    const avgPos=positions.length>0?positions.reduce((a,b)=>a+b,0)/positions.length:0;
+    const bestPos=positions.length>0?Math.min(...positions):0;
+    return{...found,allTimeRank,avgPos,bestPos};
+  };
+  
+  const computeH2H=()=>{
+    if(!athlete1||!athlete2)return null;
+    let wins1=0,wins2=0,ties=0;
+    const sharedRaces=[];
+    races.filter(r=>!r.historical).forEach(race=>{
+      const r1=race.results.find(r=>r.name===athlete1.name);
+      const r2=race.results.find(r=>r.name===athlete2.name);
+      if(r1&&r2){
+        sharedRaces.push({race,pos1:r1.pos,pos2:r2.pos});
+        if(r1.pos<r2.pos)wins1++;
+        else if(r2.pos<r1.pos)wins2++;
+        else ties++;
+      }
+    });
+    return{wins1,wins2,ties,sharedRaces,total:sharedRaces.length};
+  };
+  
+  const stats1=getStats(athlete1);
+  const stats2=getStats(athlete2);
+  const h2h=computeH2H();
+  
+  const StatRow=({label,val1,val2,better='lower'})=>{
+    const w1=better==='lower'?val1<val2:val1>val2;
+    const w2=better==='lower'?val2<val1:val2>val1;
+    return<tr className="border-b border-gray-100">
+      <td className={`py-3 px-4 text-right text-lg font-semibold ${w1?'text-[#0077b6]':'text-gray-600'}`}>{val1}</td>
+      <td className="py-3 px-4 text-center text-sm text-gray-500 bg-gray-50">{label}</td>
+      <td className={`py-3 px-4 text-left text-lg font-semibold ${w2?'text-[#0077b6]':'text-gray-600'}`}>{val2}</td>
+    </tr>;
+  };
+  
+  return<div className="max-w-4xl mx-auto px-4 py-8">
+    <h1 className="text-2xl font-bold text-gray-900 mb-6">Head to Head</h1>
+    
+    <div className="flex gap-4 mb-8">
+      <AthleteInput value={athlete1} onChange={setAthlete1} onSelect={setAthlete1} athletes={athletes.filter(a=>!a.historical)} placeholder="Search athlete..."/>
+      <div className="flex items-center text-gray-400 font-semibold">vs</div>
+      <AthleteInput value={athlete2} onChange={setAthlete2} onSelect={setAthlete2} athletes={athletes.filter(a=>!a.historical)} placeholder="Search athlete..."/>
+    </div>
+    
+    {stats1&&stats2&&h2h&&<div>
+      <div className="mb-6 text-center">
+        <div className="flex items-center justify-center gap-4 mb-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:athlete1})}>
+            <ClubShield club={stats1.club} size={24}/>
+            <span className="text-lg font-semibold text-gray-900 hover:text-[#0077b6]">{stats1.name}</span>
+          </div>
+          <span className="text-2xl font-bold text-gray-400">vs</span>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:athlete2})}>
+            <span className="text-lg font-semibold text-gray-900 hover:text-[#0077b6]">{stats2.name}</span>
+            <ClubShield club={stats2.club} size={24}/>
+          </div>
+        </div>
+        <p className="text-sm text-gray-500">{h2h.total} shared races</p>
+      </div>
+      
+      <table className="w-full mb-8">
+        <tbody>
+          <tr className="border-b-2 border-[#0077b6]">
+            <td className={`py-4 px-4 text-right text-3xl font-bold ${h2h.wins1>h2h.wins2?'text-[#0077b6]':'text-gray-600'}`}>{h2h.wins1}</td>
+            <td className="py-4 px-4 text-center text-sm text-gray-500 bg-gray-50 uppercase">H2H Wins</td>
+            <td className={`py-4 px-4 text-left text-3xl font-bold ${h2h.wins2>h2h.wins1?'text-[#0077b6]':'text-gray-600'}`}>{h2h.wins2}</td>
+          </tr>
+          <StatRow label="A-Team Scores" val1={stats1.aScores||0} val2={stats2.aScores||0} better="higher"/>
+          <StatRow label="Avg Finish" val1={(stats1.avgPos||0).toFixed(1)} val2={(stats2.avgPos||0).toFixed(1)} better="lower"/>
+          <StatRow label="Best Finish" val1={stats1.bestPos||'-'} val2={stats2.bestPos||'-'} better="lower"/>
+          <StatRow label="Total Races" val1={stats1.races||0} val2={stats2.races||0} better="higher"/>
+          <StatRow label="All-Time Rank" val1={stats1.allTimeRank>0?'#'+stats1.allTimeRank:'-'} val2={stats2.allTimeRank>0?'#'+stats2.allTimeRank:'-'} better="lower"/>
+        </tbody>
+      </table>
+      
+      {h2h.sharedRaces.length>0&&<div>
+        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3 pb-2 border-b border-gray-200">Race by Race</h2>
+        <table className="w-full">
+          <thead><tr className="border-b border-gray-200">
+            <th className="text-left py-2 text-xs text-gray-500 uppercase">Race</th>
+            <th className="text-right py-2 px-2 text-xs text-gray-500 uppercase w-16">{stats1.name.split(' ')[0]}</th>
+            <th className="text-right py-2 px-2 text-xs text-gray-500 uppercase w-16">{stats2.name.split(' ')[0]}</th>
+          </tr></thead>
+          <tbody className="divide-y divide-gray-100">
+            {h2h.sharedRaces.slice().reverse().map((sr,i)=><tr key={i} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'race',race:sr.race})}>
+              <td className="py-2 text-sm text-gray-700">{formatDate(sr.race.date)} · {sr.race.venue}</td>
+              <td className={`py-2 px-2 text-sm text-right font-medium ${sr.pos1<sr.pos2?'text-[#0077b6]':'text-gray-600'}`}>{sr.pos1}</td>
+              <td className={`py-2 px-2 text-sm text-right font-medium ${sr.pos2<sr.pos1?'text-[#0077b6]':'text-gray-600'}`}>{sr.pos2}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>}
+    </div>}
+    
+    {(!athlete1||!athlete2)&&<div className="text-center py-12 text-gray-400">
+      <p>Select two athletes to compare</p>
+    </div>}
+  </div>;
 };
 
 const AskView=({data,setView})=>{
@@ -420,7 +549,7 @@ function App(){
   useEffect(()=>{const onPop=()=>setViewState(parseUrlParams());window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[]);
   useEffect(()=>{if(data&&view.raceKey){const race=data.races.find(r=>r.season===view.raceKey.season&&r.match===view.raceKey.match);if(race)setViewState({type:'race',race});}},[data,view.raceKey]);
   if(loading)return<div className="loading text-gray-500">Loading...</div>;if(error)return<div className="loading text-red-500">Error: {error}</div>;if(!data)return<div className="loading text-gray-500">No data</div>;
-  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps}/>}{view.type==='ask'&&<AskView data={data} setView={setView}/>}</main><Footer/></div>;
+  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView}/>}{view.type==='ask'&&<AskView data={data} setView={setView}/>}</main><Footer/></div>;
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
