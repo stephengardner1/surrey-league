@@ -336,7 +336,10 @@ const HomeView=({setView,data})=>{
   const isHistorical=seasonData?.historical;const isComplete=isHistorical||(standings[0]?.m4!==null&&standings[0]?.m4!==undefined);
   const showRelegation=season>='2022/23';
   
-  const StandingsTable=()=><table className="w-full md:w-auto"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-2" colSpan="3"><div className="flex items-center gap-2"><h2 className="text-base font-semibold text-gray-900 hidden sm:block">Div 1</h2><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div></th><th className="text-right py-1.5 pr-1"><span className="text-xs text-gray-500 uppercase font-semibold">Tot</span></th>{matches.map((m,i)=><th key={i} className="text-right py-1.5 px-0.5 w-8"><span className="text-xs text-gray-500 uppercase">M{m.num}</span></th>)}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===7?'border-b border-dashed border-gray-400':'border-b border-gray-100'}`}><td className="py-1 pr-1 w-6"><div className="flex items-center"><span className={`text-xs ${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`text-xs ${i===0?'font-semibold':''}`}/></td><td className="text-right py-1 pr-1"><span className={`text-xs tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1 px-0.5"><span className="text-xs text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>;
+  const StandingsTable=()=><div>
+    <div className="flex items-center gap-2 mb-3"><h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide hidden md:block">Standings</h2><span className="md:hidden text-base font-semibold text-gray-900">Div 1</span><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
+    <table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-1 w-6"></th><th className="text-left py-1.5 pr-1 w-5"></th><th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Club</th><th className="text-right py-1.5 pr-1 text-xs text-gray-500 uppercase">Tot</th>{matches.map((m,i)=><th key={i} className="text-right py-1.5 px-0.5 w-8 text-xs text-gray-500 uppercase">M{m.num}</th>)}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===7?'border-b border-dashed border-gray-400':'border-b border-gray-100'}`}><td className="py-1 pr-1 w-6"><div className="flex items-center"><span className={`text-xs ${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`text-sm ${i===0?'font-semibold':''}`}/></td><td className="text-right py-1 pr-1"><span className={`text-sm tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1 px-0.5"><span className="text-sm text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+  </div>;
   
   const FixturesTable=()=><div>
     <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">{season} Fixtures</h2>
@@ -368,9 +371,9 @@ const HomeView=({setView,data})=>{
       <p className="text-sm text-gray-500">Men's Division 1 · Complete data 2014–present · Partial data 1962–2014</p>
     </div>
     
-    {seasonData?<div className="flex flex-col md:flex-row md:items-start gap-8 mb-8">
-      <div className="overflow-x-auto flex-shrink-0"><StandingsTable/></div>
-      <div className="flex-1 min-w-0"><FixturesTable/></div>
+    {seasonData?<div className="grid md:grid-cols-2 gap-8 mb-8">
+      <div className="overflow-x-auto"><StandingsTable/></div>
+      <div><FixturesTable/></div>
     </div>:<p className="text-sm text-gray-500 mb-10">No data</p>}
     
     <div className="grid md:grid-cols-2 gap-8 pt-6">
