@@ -438,6 +438,8 @@ const PubQuizView=({setView,data})=>{
   
   const qd=calcQuizData();
   
+  const ordSuffix=(n)=>n===1?'st':n===2?'nd':n===3?'rd':'th';
+  
   const questions=[
     {q:"Which father/son duo holds the record for best combined score?",
      opts:["The Ogdens (SLH)","The Sandersons (G&G)","The Clarks (H/W)","The Makkars (SLH)"],
@@ -476,8 +478,6 @@ const PubQuizView=({setView,data})=>{
      ans:2,
      info:`${qd.biggestTurnout.finishers} finishers at ${qd.biggestTurnout.venue}, ${qd.biggestTurnout.season} M${qd.biggestTurnout.match}`}
   ];
-  
-  const ordSuffix=(n)=>n===1?'st':n===2?'nd':n===3?'rd':'th';
   
   const[current,setCurrent]=useState(0);
   const[selected,setSelected]=useState(null);
