@@ -134,6 +134,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps})=>{
   const po10Url=useMemo(()=>{if(!athleteData?.name)return null;const parts=athleteData.name.split(' ');if(parts.length<2)return null;const firstname=parts[0];const surname=parts.slice(1).join(' ');return`https://www.thepowerof10.info/athletes/athleteslookup.aspx?surname=${encodeURIComponent(surname)}&firstname=${encodeURIComponent(firstname)}`;},[athleteData?.name]);
   const raceHistory=useMemo(()=>{
     const h=[];
+    const seenRaces=new Set();
     races.forEach(race=>{
       const result=race.results?.find(r=>namesMatch(r.name,athleteData?.name));
       if(result){
@@ -146,10 +147,16 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps})=>{
           else if(posInClub>=11&&posInClub<=20)teamScore=`B${posInClub-10}`;
         }
         h.push({date:race.date,venue:race.venue,pos:result.pos,time:result.time,club:result.club,race,historical:false,teamScore});
+        // Track by season+match AND season+venue+pos to catch duplicates
+        seenRaces.add(`${race.season}-${race.match}`);
+        seenRaces.add(`${race.season}-${race.venue}-${result.pos}`);
       }
     });
     if(athleteData?.historicalRaces){
       athleteData.historicalRaces.forEach(hr=>{
+        // Skip if we already have actual results for this race (check both match# and venue+pos)
+        if(seenRaces.has(`${hr.season}-${hr.match}`))return;
+        if(seenRaces.has(`${hr.season}-${hr.venue}-${hr.pos}`))return;
         const race=races.find(r=>r.season===hr.season&&r.match===hr.match);
         h.push({date:race?.date||hr.season,venue:hr.venue,pos:hr.pos,time:'-',club:hr.club,race,historical:true,season:hr.season,teamScore:hr.pos===1?'A1':''});
       });
