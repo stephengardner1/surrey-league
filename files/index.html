@@ -780,11 +780,6 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
             else if(deficit>600)text+=` – would require a near-record final day swing`;
             else if(deficit<=15)text+=` (record: 15 pts)`;
             
-            // Add yo-yo stat if applicable
-            if(relegationCount>=3&&maxConsecutive<=3){
-              text+=` – relegated ${relegationCount} times since 2014 and never stayed up for more than ${maxConsecutive} consecutive seasons`;
-            }
-            
             items.push({text,club:team.club});
           }
         });
