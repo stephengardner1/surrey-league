@@ -21,7 +21,7 @@ const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name
 
 const ClubVest=({club,size=20})=>{
   const id=`v-${club}-${Math.random().toString(36).substr(2,5)}`;
-  const p="M3 0 L7 0 Q8 3 10 3.5 Q12 3 13 0 L17 0 L17 20 L3 20 Z";
+  const p="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
   const r=()=>{switch(club){
     case'KEN':return<><path d={p} fill="#2a4d7a"/><path d="M13 5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 L11 5.5 Z" fill="#dc2626"/></>;
     case'H/W':return<><path d={p} fill="#f4c430"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><polygon points="0,0 6,0 20,20 14,20" fill="#c41e3a"/></g></>;
