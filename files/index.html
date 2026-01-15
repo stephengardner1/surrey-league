@@ -312,6 +312,9 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     const seasonRaces=races.filter(r=>r.season===season);
     const currentSeason=data.seasons[0];
     const isCurrentSeason=season===currentSeason;
+    const numTeams=standings.length;
+    const winningTotal=standings[0]?.total;
+    const margin=standings.length>=2&&standings[0].total&&standings[1].total?standings[1].total-standings[0].total:null;
     
     const findLastTitle=(club)=>{
       const seasons=Object.keys(allSeasonsData).sort().reverse();
@@ -322,6 +325,18 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     const findLastInDiv1=(club)=>{
       const seasons=Object.keys(allSeasonsData).sort().reverse();
       for(const s of seasons){if(s>=season)continue;if(allSeasonsData[s]?.standings?.some(t=>t.club===club))return s;}
+      return null;
+    };
+    
+    const findNextInDiv1=(club)=>{
+      const seasons=Object.keys(allSeasonsData).sort();
+      for(const s of seasons){if(s<=season)continue;if(allSeasonsData[s]?.standings?.some(t=>t.club===club))return s;}
+      return null;
+    };
+    
+    const findFirstInDiv1=(club)=>{
+      const seasons=Object.keys(allSeasonsData).sort();
+      for(const s of seasons){if(allSeasonsData[s]?.standings?.some(t=>t.club===club))return s;}
       return null;
     };
     
@@ -342,6 +357,26 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         if(Object.values(wins).some(v=>v===4))return true;
       }
       return false;
+    };
+    
+    // Find closest/biggest margins and best totals up to this season
+    const getMarginStats=()=>{
+      let closest=null,biggest=null,bestTotal9=null,bestTotal10=null;
+      for(const[s,sd] of Object.entries(allSeasonsData)){
+        if(s>season||!sd?.standings?.length||sd.standings.length<2)continue;
+        const st=sd.standings;
+        const m=st[1].total&&st[0].total?st[1].total-st[0].total:null;
+        const total=st[0].total;
+        if(m!==null){
+          if(!closest||m<closest.margin)closest={season:s,margin:m};
+          if(!biggest||m>biggest.margin)biggest={season:s,margin:m};
+        }
+        if(total){
+          if(st.length===9&&(!bestTotal9||total<bestTotal9.total))bestTotal9={season:s,total};
+          if(st.length===10&&(!bestTotal10||total<bestTotal10.total))bestTotal10={season:s,total};
+        }
+      }
+      return{closest,biggest,bestTotal9,bestTotal10};
     };
     
     const indWins={};matches.forEach(m=>{if(m.winner)indWins[m.winner]=(indWins[m.winner]||0)+1;});
@@ -393,9 +428,11 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       
     }else if(isComplete){
       const champion=standings[0]?.club;
+      const marginStats=getMarginStats();
+      
       if(champion){
         const lastTitle=findLastTitle(champion);
-        const titleCount=Object.values(allSeasonsData).filter(sd=>sd?.standings?.[0]?.club===champion).length;
+        const titleCount=Object.entries(allSeasonsData).filter(([s,sd])=>s<=season&&sd?.standings?.[0]?.club===champion).length;
         if(lastTitle){
           const gap=parseInt(season.split('/')[0])-parseInt(lastTitle.split('/')[0]);
           if(gap>=5)items.push({text:`won first title in ${gap} years, since`,club:champion,linkSeason:lastTitle});
@@ -406,9 +443,23 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         }
       }
       
-      if(standings.length>=2&&standings[0].total&&standings[1].total){
-        const margin=standings[1].total-standings[0].total;
-        if(margin<=20)items.push({text:`Title decided by just ${margin} points`});
+      // Margin records
+      if(margin!==null&&marginStats.closest?.season===season&&margin<=20){
+        items.push({text:`Closest ever winning margin: just ${margin} points`});
+      }else if(margin!==null&&margin<=20){
+        items.push({text:`Title decided by just ${margin} points`});
+      }
+      
+      if(margin!==null&&marginStats.biggest?.season===season&&margin>=200){
+        items.push({text:`Biggest ever winning margin: ${margin} points`});
+      }
+      
+      // Best totals
+      if(winningTotal&&numTeams===9&&marginStats.bestTotal9?.season===season){
+        items.push({text:`Best ever winning total in a 9-team season: ${winningTotal} points`,club:champion});
+      }
+      if(winningTotal&&numTeams===10&&marginStats.bestTotal10?.season===season){
+        items.push({text:`Best ever winning total in a 10-team season: ${winningTotal} points`,club:champion});
       }
       
       if(maxIndWins>=3&&dominantInd)items.push({text:`won ${maxIndWins} of 4 races`,athlete:{name:dominantInd,club:dominantIndClub}});
@@ -421,7 +472,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       }
       
       const biggestRace=seasonRaces.reduce((max,r)=>(r.finishers||0)>=(max?.finishers||0)?r:max,null);
-      const allTimeBiggest=races.reduce((max,r)=>(r.finishers||0)>=(max?.finishers||0)?r:max,null);
+      const allTimeBiggest=races.filter(r=>r.season<=season).reduce((max,r)=>(r.finishers||0)>=(max?.finishers||0)?r:max,null);
       if(biggestRace&&biggestRace===allTimeBiggest&&biggestRace.finishers>=200){
         items.push({text:`set league record with ${biggestRace.finishers} finishers`,race:biggestRace,venueName:biggestRace.venue});
       }else if(biggestRace?.finishers>=280){
@@ -434,6 +485,23 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         const prevChamp=prevSeason&&allSeasonsData[prevSeason]?.standings?.[0]?.club;
         if(prevChamp===runnerUp)items.push({text:'were defending champions but finished 2nd',club:runnerUp});
       }
+      
+      // First/last appearances
+      standings.forEach(team=>{
+        if(items.length>=5)return;
+        const firstSeason=findFirstInDiv1(team.club);
+        const nextSeason=findNextInDiv1(team.club);
+        
+        // First season in Div 1
+        if(firstSeason===season){
+          items.push({text:`made their first appearance in Surrey League Div 1`,club:team.club});
+        }
+        
+        // Last season in Div 1
+        if(!nextSeason&&firstSeason!==season){
+          items.push({text:`last appeared in Surrey League Div 1`,club:team.club});
+        }
+      });
     }
     
     return items.slice(0,5);
