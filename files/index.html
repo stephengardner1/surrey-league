@@ -284,48 +284,138 @@ const SeasonsView=({setView,seasonsData})=>{
   return<div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-6"><h1 className="text-2xl font-bold text-gray-900">Winners</h1><p className="text-sm text-gray-500">{seasons.filter(s=>s.isComplete).length} completed seasons since 1962</p></div><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="w-6"></th><th className="text-left py-1.5 pr-4 text-xs text-gray-500 uppercase">Season</th><th className="text-left py-1.5 px-4 text-xs text-gray-500 uppercase">A Team</th><th className="text-left py-1.5 px-4 text-xs text-gray-500 uppercase">B Team</th><th className="text-left py-1.5 pl-4 text-xs text-gray-500 uppercase">Individual</th></tr></thead><tbody>{seasons.map(s=><React.Fragment key={s.season}><tr className={`border-b border-gray-50 hover:bg-blue-50 ${canExpand(s)?'cursor-pointer':''}`} onClick={()=>canExpand(s)&&setExpanded(expanded===s.season?null:s.season)}><td className="py-1.5 pr-1">{canExpand(s)&&<span className="text-gray-400">{expanded===s.season?<ChevronUp className="w-4 h-4"/>:<ChevronDown className="w-4 h-4"/>}</span>}</td><td className="py-1.5 pr-4"><span className="text-sm text-gray-900">{s.season}</span></td><td className="py-1.5 px-4">{s.aTeam[0]?<div className="flex items-center gap-1.5"><ClubShield club={s.aTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.aTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-4">{s.bTeam[0]?<div className="flex items-center gap-1.5"><ClubShield club={s.bTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.bTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-4">{s.individual[0]?<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:s.individual[0].name,club:s.individual[0].club}});}}><ClubShield club={s.individual[0].club} size={14}/><span className="text-sm text-gray-700">{s.individual[0].name}</span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr>{expanded===s.season&&<><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-1"></td><td className="py-1.5 pr-4 text-sm text-gray-400">2nd</td><td className="py-1.5 px-4">{s.aTeam[1]?<div className="flex items-center gap-1.5"><ClubShield club={s.aTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-4">{s.bTeam[1]?<div className="flex items-center gap-1.5"><ClubShield club={s.bTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-4">{s.individual[1]?<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[1].name,club:s.individual[1].club}})}><ClubShield club={s.individual[1].club} size={14}/><span className="text-sm text-gray-600">{s.individual[1].name}</span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-1"></td><td className="py-1.5 pr-4 text-sm text-gray-400">3rd</td><td className="py-1.5 px-4">{s.aTeam[2]?<div className="flex items-center gap-1.5"><ClubShield club={s.aTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-4">{s.bTeam[2]?<div className="flex items-center gap-1.5"><ClubShield club={s.bTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-4">{s.individual[2]?<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[2].name,club:s.individual[2].club}})}><ClubShield club={s.individual[2].club} size={14}/><span className="text-sm text-gray-600">{s.individual[2].name}</span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr></>}</React.Fragment>)}</tbody></table></div>;
 };
 
-const SeasonAnalysis=({season,seasonData,races,standings})=>{
+const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComplete,data,setView})=>{
   const insights=useMemo(()=>{
     const items=[];
     if(!seasonData||!standings?.length)return items;
     const matches=seasonData.matches||[];
     const seasonRaces=races.filter(r=>r.season===season);
+    const currentSeason=data.seasons[0];
+    const isCurrentSeason=season===currentSeason;
     
-    // Check for close title race
-    if(standings.length>=2&&standings[0].total&&standings[1].total){
-      const margin=standings[1].total-standings[0].total;
-      if(margin<=20)items.push({type:'close',text:`Title decided by just ${margin} points`});
-    }
+    // Helper to find last time a club won title
+    const findLastTitle=(club)=>{
+      const seasons=Object.keys(allSeasonsData).sort().reverse();
+      for(const s of seasons){
+        if(s>=season)continue;
+        const sd=allSeasonsData[s];
+        if(sd?.standings?.[0]?.club===club)return s;
+      }
+      return null;
+    };
     
-    // Check for dominant champion (won all team races)
-    const teamWins={};
-    matches.forEach(m=>{if(m.teamWinner){teamWins[m.teamWinner]=(teamWins[m.teamWinner]||0)+1;}});
-    const maxTeamWins=Math.max(...Object.values(teamWins),0);
-    const dominantTeam=Object.keys(teamWins).find(k=>teamWins[k]===maxTeamWins);
-    if(maxTeamWins===4&&dominantTeam)items.push({type:'dominant',text:`${dominantTeam} won all 4 team races`});
-    else if(maxTeamWins===3&&dominantTeam)items.push({type:'strong',text:`${dominantTeam} won 3 of 4 team races`});
+    // Helper to find last time club was in div 1
+    const findLastInDiv1=(club)=>{
+      const seasons=Object.keys(allSeasonsData).sort().reverse();
+      for(const s of seasons){
+        if(s>=season)continue;
+        const sd=allSeasonsData[s];
+        if(sd?.standings?.some(t=>t.club===club))return s;
+      }
+      return null;
+    };
     
-    // Check for individual dominance
+    // Helper to count all-4-wins occurrences
+    const countAllFourWins=()=>{
+      let count=0;
+      for(const[s,sd] of Object.entries(allSeasonsData)){
+        if(s>=season)continue;
+        const ms=sd.matches||[];
+        const wins={};
+        ms.forEach(m=>{if(m.teamWinner)wins[m.teamWinner]=(wins[m.teamWinner]||0)+1;});
+        if(Object.values(wins).some(v=>v===4))count++;
+      }
+      return count;
+    };
+    
+    // Check individual dominance
     const indWins={};
     matches.forEach(m=>{if(m.winner){indWins[m.winner]=(indWins[m.winner]||0)+1;}});
     const maxIndWins=Math.max(...Object.values(indWins),0);
     const dominantInd=Object.keys(indWins).find(k=>indWins[k]===maxIndWins);
-    if(maxIndWins>=3&&dominantInd)items.push({type:'ind',text:`${dominantInd} won ${maxIndWins} of 4 races`});
+    const dominantIndClub=matches.find(m=>m.winner===dominantInd)?.winnerClub;
     
-    // Check for biggest race
-    const biggestRace=seasonRaces.reduce((max,r)=>r.finishers>=(max?.finishers||0)?r:max,null);
-    if(biggestRace?.finishers>=200)items.push({type:'big',text:`${biggestRace.venue} attracted ${biggestRace.finishers} finishers`});
+    // Check team dominance
+    const teamWins={};
+    matches.forEach(m=>{if(m.teamWinner){teamWins[m.teamWinner]=(teamWins[m.teamWinner]||0)+1;}});
+    const maxTeamWins=Math.max(...Object.values(teamWins),0);
+    const dominantTeam=Object.keys(teamWins).find(k=>teamWins[k]===maxTeamWins);
     
-    // Check for new champion (different from previous season)
+    if(isCurrentSeason){
+      // Current season - look ahead insights
+      if(maxIndWins>=3&&dominantInd){
+        items.push({text:`could become first to win all 4 races this season`,athlete:{name:dominantInd,club:dominantIndClub}});
+      }
+      
+      const leader=standings[0]?.club;
+      if(leader){
+        const lastTitle=findLastTitle(leader);
+        if(lastTitle&&parseInt(lastTitle.split('/')[0])<parseInt(season.split('/')[0])-5){
+          items.push({text:`poised to win first title since ${lastTitle}`,club:leader});
+        }
+      }
+      
+      // Relegation battle insights
+      if(standings.length>=9){
+        const relegationZone=[standings[8],standings[9]].filter(Boolean);
+        relegationZone.forEach(team=>{
+          if(team){
+            const lastIn=findLastInDiv1(team.club);
+            if(!lastIn||lastIn===season){
+              items.push({text:`fighting to avoid first ever relegation from Div 1`,club:team.club});
+            }
+          }
+        });
+      }
+    }else if(isComplete){
+      // Completed season insights
+      
+      // Title winner insight
+      const champion=standings[0]?.club;
+      if(champion){
+        const lastTitle=findLastTitle(champion);
+        const titleCount=Object.values(allSeasonsData).filter(sd=>sd?.standings?.[0]?.club===champion).length;
+        if(lastTitle){
+          const gap=parseInt(season.split('/')[0])-parseInt(lastTitle.split('/')[0]);
+          if(gap>=5)items.push({text:`won first title in ${gap} years`,club:champion});
+        }
+        if(titleCount>1){
+          const ordinal=['','','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','11th','12th','13th','14th','15th','16th','17th'][titleCount]||`${titleCount}th`;
+          items.push({text:`claimed their ${ordinal} league title`,club:champion});
+        }
+      }
+      
+      // Close title race
+      if(standings.length>=2&&standings[0].total&&standings[1].total){
+        const margin=standings[1].total-standings[0].total;
+        if(margin<=20)items.push({text:`Title decided by just ${margin} points`});
+      }
+      
+      // All 4 team wins
+      if(maxTeamWins===4&&dominantTeam){
+        const prevCount=countAllFourWins();
+        if(prevCount===0)items.push({text:`became first club to win all 4 matches`,club:dominantTeam});
+        else items.push({text:`won all 4 matches – only happened ${prevCount} time${prevCount>1?'s':''} before`,club:dominantTeam});
+      }
+      
+      // Biggest race
+      const biggestRace=seasonRaces.reduce((max,r)=>(r.finishers||0)>=(max?.finishers||0)?r:max,null);
+      const allTimeBiggest=races.reduce((max,r)=>(r.finishers||0)>=(max?.finishers||0)?r:max,null);
+      if(biggestRace&&biggestRace===allTimeBiggest&&biggestRace.finishers>=200){
+        items.push({text:`set new record with ${biggestRace.finishers} finishers`,race:biggestRace,venueName:biggestRace.venue});
+      }else if(biggestRace?.finishers>=250){
+        items.push({text:`attracted ${biggestRace.finishers} finishers`,race:biggestRace,venueName:biggestRace.venue});
+      }
+    }
     
     return items.slice(0,3);
-  },[season,seasonData,races,standings]);
+  },[season,seasonData,races,standings,allSeasonsData,isComplete,data]);
   
   if(!insights.length)return null;
   return<div className="hidden md:block mt-4 pt-4 border-t border-gray-100">
     <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Analysis</h3>
     <ul className="space-y-1">
-      {insights.map((item,i)=><li key={i} className="text-xs text-gray-600">• {item.text}</li>)}
+      {insights.map((item,i)=><li key={i} className="text-xs text-gray-600">• {item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:item.athlete})}>{item.athlete.name}</span>}{item.venueName&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)?' ':''}{item.text}</li>)}
     </ul>
   </div>;
 };
@@ -337,12 +427,10 @@ const HomeView=({setView,data})=>{
   const showRelegation=season>='2022/23';
   
   const StandingsTable=()=><div>
-    <div className="flex items-center gap-2 mb-3"><h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide hidden md:block">Standings</h2><span className="md:hidden text-base font-semibold text-gray-900">Div 1</span><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
-    <table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-1 w-6"></th><th className="text-left py-1.5 pr-1 w-5"></th><th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Club</th><th className="text-right py-1.5 pr-1 text-xs text-gray-500 uppercase">Tot</th>{matches.map((m,i)=><th key={i} className="text-right py-1.5 px-0.5 w-8 text-xs text-gray-500 uppercase">M{m.num}</th>)}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===7?'border-b border-dashed border-gray-400':'border-b border-gray-100'}`}><td className="py-1 pr-1 w-6"><div className="flex items-center"><span className={`text-xs ${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`text-sm ${i===0?'font-semibold':''}`}/></td><td className="text-right py-1 pr-1"><span className={`text-sm tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1 px-0.5"><span className="text-sm text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-1 w-6 text-xs text-gray-500 uppercase">#</th><th className="text-left py-1.5 pr-1 w-5"></th><th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Club</th><th className="text-right py-1.5 pr-1 text-xs text-gray-500 uppercase">Tot</th>{matches.map((m,i)=><th key={i} className="text-right py-1.5 px-0.5 w-9 text-xs text-gray-500 uppercase">M{m.num}</th>)}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===7?'border-b border-dashed border-gray-400':'border-b border-gray-100'}`}><td className="py-1.5 pr-1 w-6"><div className="flex items-center"><span className={`text-sm ${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1.5 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`text-sm ${i===0?'font-semibold':''}`}/></td><td className="text-right py-1.5 pr-1"><span className={`text-sm tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1.5 px-0.5"><span className="text-sm text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
   </div>;
   
   const FixturesTable=()=><div>
-    <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">{season} Fixtures</h2>
     <table className="w-full text-sm">
       <thead><tr className="border-b border-gray-200">
         <th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">M</th>
@@ -362,7 +450,7 @@ const HomeView=({setView,data})=>{
         </tr>;
       })}</tbody>
     </table>
-    <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings}/>
+    <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView}/>
   </div>;
   
   return<div className="max-w-5xl mx-auto px-4 py-8">
@@ -371,14 +459,17 @@ const HomeView=({setView,data})=>{
       <p className="text-sm text-gray-500">Men's Division 1 · Complete data 2014–present · Partial data 1962–2014</p>
     </div>
     
-    {seasonData?<div className="grid md:grid-cols-2 gap-8 mb-8">
-      <div className="overflow-x-auto"><StandingsTable/></div>
-      <div><FixturesTable/></div>
+    {seasonData?<div className="mb-8">
+      <div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="overflow-x-auto"><StandingsTable/></div>
+        <div><FixturesTable/></div>
+      </div>
     </div>:<p className="text-sm text-gray-500 mb-10">No data</p>}
     
     <div className="grid md:grid-cols-2 gap-8 pt-6">
-      <div><table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-1" colSpan="2"><h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">All-Time Individuals</h2></th><th className="text-right py-1.5 px-1 text-xs text-gray-500 uppercase w-7">W</th><th className="text-right py-1.5 px-1 text-xs text-gray-500 uppercase w-7">T3</th><th className="text-right py-1.5 px-1 text-xs text-gray-500 uppercase w-7">T10</th><th className="text-right py-1.5 pl-1 text-xs text-gray-500 uppercase w-7">R</th></tr></thead><tbody className="divide-y divide-gray-100">{topWinners.map((a,i)=><tr key={a.name} className="hover:bg-gray-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-1 text-gray-400">{i+1}</td><td className="py-1.5 pr-1"><div className="flex items-center gap-1.5 whitespace-nowrap"><ClubShield club={a.club} size={14}/><span className="text-gray-900">{a.name}</span></div></td><td className="py-1.5 px-1 text-right font-semibold">{a.wins||'-'}</td><td className="py-1.5 px-1 text-right text-gray-600">{a.top3||'-'}</td><td className="py-1.5 px-1 text-right text-gray-600">{a.top10||'-'}</td><td className="py-1.5 pl-1 text-right text-gray-400">{a.races}</td></tr>)}</tbody></table><div className="mt-2 text-xs text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athletes'})}>View all →</div></div>
-      <div><table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-2" colSpan="2"><h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">All-Time Clubs</h2></th><th className="text-right py-1.5 px-1 text-xs text-gray-500 uppercase w-12">Titles</th><th className="text-right py-1.5 pl-1 text-xs text-gray-500 uppercase w-12">2nd</th></tr></thead><tbody className="divide-y divide-gray-100">{data.clubAllTime.slice(0,5).map((c,i)=><tr key={c.club} className="hover:bg-gray-50 cursor-pointer" onClick={()=>setView({type:'club',club:c.club})}><td className="py-1.5 pr-2 text-gray-400">{i+1}</td><td className="py-1.5 pr-2"><div className="flex items-center gap-1.5"><ClubShield club={c.club} size={14}/><ClubName club={c.club} className="text-gray-900"/></div></td><td className="py-1.5 px-1 text-right font-semibold">{c.titles||'-'}</td><td className="py-1.5 pl-1 text-right text-gray-400">{c.runnerUp||'-'}</td></tr>)}</tbody></table><div className="mt-2 text-xs text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'clubs'})}>View all →</div></div>
+      <div><table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-1" colSpan="2"><h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athletes'})}>All-Time Athletes →</h2></th><th className="text-right py-1.5 px-1 text-xs text-gray-500 uppercase w-7">W</th><th className="text-right py-1.5 px-1 text-xs text-gray-500 uppercase w-7">T3</th><th className="text-right py-1.5 px-1 text-xs text-gray-500 uppercase w-7">T10</th><th className="text-right py-1.5 pl-1 text-xs text-gray-500 uppercase w-7">R</th></tr></thead><tbody className="divide-y divide-gray-100">{topWinners.map((a,i)=><tr key={a.name} className="hover:bg-gray-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-1 text-gray-400">{i+1}</td><td className="py-1.5 pr-1"><div className="flex items-center gap-1.5 whitespace-nowrap"><ClubShield club={a.club} size={14}/><span className="text-gray-900">{a.name}</span></div></td><td className="py-1.5 px-1 text-right font-semibold">{a.wins||'-'}</td><td className="py-1.5 px-1 text-right text-gray-600">{a.top3||'-'}</td><td className="py-1.5 px-1 text-right text-gray-600">{a.top10||'-'}</td><td className="py-1.5 pl-1 text-right text-gray-400">{a.races}</td></tr>)}</tbody></table></div>
+      <div><table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-2" colSpan="2"><h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'clubs'})}>All-Time Clubs →</h2></th><th className="text-right py-1.5 px-1 text-xs text-gray-500 uppercase w-12">Titles</th><th className="text-right py-1.5 pl-1 text-xs text-gray-500 uppercase w-12">2nd</th></tr></thead><tbody className="divide-y divide-gray-100">{data.clubAllTime.slice(0,5).map((c,i)=><tr key={c.club} className="hover:bg-gray-50 cursor-pointer" onClick={()=>setView({type:'club',club:c.club})}><td className="py-1.5 pr-2 text-gray-400">{i+1}</td><td className="py-1.5 pr-2"><div className="flex items-center gap-1.5"><ClubShield club={c.club} size={14}/><ClubName club={c.club} className="text-gray-900"/></div></td><td className="py-1.5 px-1 text-right font-semibold">{c.titles||'-'}</td><td className="py-1.5 pl-1 text-right text-gray-400">{c.runnerUp||'-'}</td></tr>)}</tbody></table></div>
     </div>
     
     {data.achievements&&<><div className="grid md:grid-cols-3 gap-6 mt-8 pt-6"><div><h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2 pb-1 border-b border-gray-200">Most Wins in Season</h3><table className="w-full text-xs"><tbody className="divide-y divide-gray-100">{data.achievements.mostWinsSeason?.map((a,i)=><tr key={i} className="hover:bg-gray-50"><td className="py-1 pr-1 text-gray-400 w-4">{i+1}</td><td className="py-1 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}><div className="flex items-center gap-1"><ClubShield club={a.club} size={12}/><span className="truncate">{a.name}</span></div></td><td className="py-1 text-right text-gray-500 w-8">{a.wins}</td></tr>)}</tbody></table></div><div><h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2 pb-1 border-b border-gray-200">Consecutive Wins</h3><table className="w-full text-xs"><tbody className="divide-y divide-gray-100">{data.achievements.mostConsecutiveWins?.map((a,i)=><tr key={i} className="hover:bg-gray-50"><td className="py-1 pr-1 text-gray-400 w-4">{i+1}</td><td className="py-1 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}><div className="flex items-center gap-1"><ClubShield club={a.club} size={12}/><span className="truncate">{a.name}</span></div></td><td className="py-1 text-right text-gray-500 w-8">{a.streak}</td></tr>)}</tbody></table></div><div><h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2 pb-1 border-b border-gray-200">Consecutive Titles</h3><table className="w-full text-xs"><tbody className="divide-y divide-gray-100">{data.achievements.mostConsecutiveTitles?.map((c,i)=><tr key={i} className="hover:bg-gray-50"><td className="py-1 pr-1 text-gray-400 w-4">{i+1}</td><td className="py-1 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:c.club})}><div className="flex items-center gap-1"><ClubShield club={c.club} size={12}/><span>{c.club}</span></div></td><td className="py-1 text-right text-gray-500 w-8">{c.streak}</td></tr>)}</tbody></table></div></div><div className="grid md:grid-cols-2 gap-6 mt-6"><div><h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2 pb-1 border-b border-gray-200">Biggest Races</h3><table className="w-full text-xs"><tbody className="divide-y divide-gray-100">{data.achievements.biggestRaces?.map((r,i)=>{const race=data.races.find(x=>x.season===r.season&&x.match===r.match);const year=r.date?.slice(0,4);return<tr key={i} className="hover:bg-gray-50 cursor-pointer" onClick={()=>race&&setView({type:'race',race})}><td className="py-1 pr-1 text-gray-400 w-4">{i+1}</td><td className="py-1"><span>{r.venue} {year}</span></td><td className="py-1 text-right text-gray-500 w-10">{r.finishers}</td></tr>;})}</tbody></table></div><div><h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2 pb-1 border-b border-gray-200">Best Turnout</h3><table className="w-full text-xs"><tbody className="divide-y divide-gray-100">{data.achievements.biggestTurnouts?.map((t,i)=>{const race=data.races.find(x=>x.season===t.season&&x.match===t.match);const year=t.date?.slice(0,4);return<tr key={i} className="hover:bg-gray-50 cursor-pointer" onClick={()=>race&&setView({type:'race',race})}><td className="py-1 pr-1 text-gray-400 w-4">{i+1}</td><td className="py-1"><div className="flex items-center gap-1"><ClubShield club={t.club} size={12}/><span>{t.venue} {year}</span></div></td><td className="py-1 text-right text-gray-500 w-8">{t.count}</td></tr>;})}</tbody></table></div></div></>}
