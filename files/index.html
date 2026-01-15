@@ -349,6 +349,7 @@ const ChartRoomView=({setView,data})=>{
   const seasons=['2014/15','2015/16','2016/17','2017/18','2018/19','2019/20','2021/22','2022/23','2023/24','2024/25','2025/26'];
   const seasonLabels=['14/15','15/16','16/17','17/18','18/19','19/20','21/22','22/23','23/24','24/25','25/26'];
   
+  const primaryClubs=['BEL','KEN','THH','H/W'];
   const clubs=[
     {code:'BEL',color:'#7A001D'},{code:'THH',color:'#374151'},{code:'KEN',color:'#2a4d7a'},
     {code:'HHH',color:'#dc2626'},{code:'H/W',color:'#ca8a04'},{code:'G&G',color:'#16a34a'},
@@ -361,15 +362,19 @@ const ChartRoomView=({setView,data})=>{
   const getPositions=(club)=>seasons.map(s=>{
     const standings=data.seasonsData[s]?.standings||[];
     const idx=standings.findIndex(t=>t.club===club);
-    return idx>=0?idx+1:11;
+    return idx>=0?idx+1:null;
   });
-  const hasDiv1History=(club)=>getPositions(club).some(p=>p<=10);
+  const hasDiv1History=(club)=>getPositions(club).some(p=>p!==null&&p<=10);
   const activeClubs=clubs.filter(c=>hasDiv1History(c.code));
   
   const [hoveredClub,setHoveredClub]=useState(null);
+  const [tappedClub,setTappedClub]=useState(null);
   const [hoveredMatch,setHoveredMatch]=useState(null);
   const [hoveredSeason,setHoveredSeason]=useState(null);
-  const [tappedPoint,setTappedPoint]=useState(null);
+  const [tappedMatch,setTappedMatch]=useState(null);
+  const [tappedSeason,setTappedSeason]=useState(null);
+  
+  const selectedClub=hoveredClub||tappedClub;
   
   // Attendance data
   const getAttendanceData=()=>{
@@ -410,23 +415,26 @@ const ChartRoomView=({setView,data})=>{
             {seasonLabels.map((s,i)=><text key={s} x={padL+i*xStep} y={chartH-8} textAnchor="middle" fontSize="9" fill="#6b7280">{s}</text>)}
             {activeClubs.map(({code,color})=>{
               const positions=getPositions(code);
-              const points=positions.map((pos,i)=>({x:padL+i*xStep,y:yScale(pos),pos,season:seasons[i]}));
+              const isPrimary=primaryClubs.includes(code);
+              const isSelected=selectedClub===code;
+              if(!isPrimary&&!isSelected)return null;
+              const points=positions.map((pos,i)=>pos!==null?{x:padL+i*xStep,y:yScale(pos),pos,season:seasons[i]}:null).filter(Boolean);
+              if(points.length<2)return null;
               const pathD=points.map((p,i)=>i===0?`M${p.x},${p.y}`:`L${p.x},${p.y}`).join(' ');
-              const isHovered=hoveredClub===code;
-              const currentlyDiv1=positions[positions.length-1]<=10;
-              return<g key={code} onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedPoint(tappedPoint===code?null:code)} style={{cursor:'pointer'}}>
-                <path d={pathD} fill="none" stroke={color} strokeWidth={isHovered||tappedPoint===code?2:1.5} strokeLinecap="round" strokeLinejoin="round" opacity={hoveredClub&&!isHovered&&tappedPoint!==code?0.15:currentlyDiv1?1:0.5}/>
-                {points.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r={isHovered||tappedPoint===code?4:2.5} fill={color} opacity={hoveredClub&&!isHovered&&tappedPoint!==code?0.15:currentlyDiv1?1:0.5}/>)}
-                {(isHovered||tappedPoint===code)&&<text x={points[points.length-1].x+8} y={points[points.length-1].y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
+              return<g key={code} onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)} style={{cursor:'pointer'}}>
+                <path d={pathD} fill="none" stroke={color} strokeWidth={isSelected?1.5:1} strokeLinecap="round" strokeLinejoin="round" opacity={selectedClub&&!isSelected?0.2:1}/>
+                {points.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r={isSelected?3:2} fill={color} opacity={selectedClub&&!isSelected?0.2:1}/>)}
+                {isSelected&&<text x={points[points.length-1].x+8} y={points[points.length-1].y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
               </g>;
             })}
           </svg>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-3">
             {activeClubs.map(({code,color})=>{
-              const currentlyDiv1=getPositions(code)[seasons.length-1]<=10;
-              return<div key={code} className="flex items-center gap-1 cursor-pointer" onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedPoint(tappedPoint===code?null:code)}>
-                <div className="w-2 h-2 rounded-full" style={{backgroundColor:color,opacity:currentlyDiv1?1:0.5}}/>
-                <span className={`text-[10px] ${currentlyDiv1?'text-gray-600':'text-gray-400'}`}>{code}</span>
+              const isPrimary=primaryClubs.includes(code);
+              const isSelected=selectedClub===code;
+              return<div key={code} className="flex items-center gap-1 cursor-pointer" onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)}>
+                <div className="w-2 h-2 rounded-full" style={{backgroundColor:color,opacity:isPrimary||isSelected?1:0.3}}/>
+                <span className={`text-[10px] ${isPrimary||isSelected?'text-gray-600':'text-gray-400'}`}>{code}</span>
               </div>;
             })}
           </div>
@@ -441,11 +449,11 @@ const ChartRoomView=({setView,data})=>{
               <line x1="40" y1={190-(v-100)*0.7} x2="870" y2={190-(v-100)*0.7} stroke="#e5e7eb" strokeWidth="1"/>
               <text x="35" y={190-(v-100)*0.7+4} textAnchor="end" fontSize="9" fill="#9ca3af">{v}</text>
             </g>)}
-            <path d={matchData.map((d,i)=>`${i===0?'M':'L'}${40+i*19.5},${190-(d.value-100)*0.7}`).join(' ')} fill="none" stroke="#0077b6" strokeWidth="1.5" opacity="0.3"/>
-            <path d={movingAvg.map((v,i)=>v?`${movingAvg.slice(0,i).filter(Boolean).length===0?'M':'L'}${40+i*19.5},${190-(v-100)*0.7}`:``).join(' ')} fill="none" stroke="#0077b6" strokeWidth="2"/>
-            {matchData.map((d,i)=><circle key={i} cx={40+i*19.5} cy={190-(d.value-100)*0.7} r={hoveredMatch===i?5:3} fill="#0077b6" opacity={hoveredMatch===i?1:0.4} style={{cursor:'pointer'}} onMouseEnter={()=>setHoveredMatch(i)} onMouseLeave={()=>setHoveredMatch(null)} onClick={()=>setTappedPoint(tappedPoint===`m${i}`?null:`m${i}`)}/>)}
-            {(hoveredMatch!==null||tappedPoint?.startsWith('m'))&&(()=>{
-              const idx=hoveredMatch!==null?hoveredMatch:parseInt(tappedPoint?.slice(1));
+            <path d={matchData.map((d,i)=>`${i===0?'M':'L'}${40+i*19.5},${190-(d.value-100)*0.7}`).join(' ')} fill="none" stroke="#0077b6" strokeWidth="1" opacity="0.3"/>
+            <path d={movingAvg.map((v,i)=>v?`${movingAvg.slice(0,i).filter(Boolean).length===0?'M':'L'}${40+i*19.5},${190-(v-100)*0.7}`:``).join(' ')} fill="none" stroke="#0077b6" strokeWidth="1.5"/>
+            {matchData.map((d,i)=><circle key={i} cx={40+i*19.5} cy={190-(d.value-100)*0.7} r={hoveredMatch===i||tappedMatch===i?4:2} fill="#0077b6" opacity={hoveredMatch===i||tappedMatch===i?1:0.4} style={{cursor:'pointer'}} onMouseEnter={()=>setHoveredMatch(i)} onMouseLeave={()=>setHoveredMatch(null)} onClick={()=>setTappedMatch(tappedMatch===i?null:i)}/>)}
+            {(hoveredMatch!==null||tappedMatch!==null)&&(()=>{
+              const idx=hoveredMatch!==null?hoveredMatch:tappedMatch;
               const d=matchData[idx];
               if(!d)return null;
               return<g>
@@ -467,8 +475,8 @@ const ChartRoomView=({setView,data})=>{
         <div className="bg-gray-50 rounded-lg p-3">
           <svg viewBox="0 0 600 180" className="w-full">
             {seasonTotals.map((d,i)=>{
-              const isHovered=hoveredSeason===i||tappedPoint===`s${i}`;
-              return<g key={i} style={{cursor:'pointer'}} onMouseEnter={()=>setHoveredSeason(i)} onMouseLeave={()=>setHoveredSeason(null)} onClick={()=>setTappedPoint(tappedPoint===`s${i}`?null:`s${i}`)}>
+              const isHovered=hoveredSeason===i||tappedSeason===i;
+              return<g key={i} style={{cursor:'pointer'}} onMouseEnter={()=>setHoveredSeason(i)} onMouseLeave={()=>setHoveredSeason(null)} onClick={()=>setTappedSeason(tappedSeason===i?null:i)}>
                 <rect x={35+i*50} y={160-d.value*0.11} width="40" height={d.value*0.11} fill={isHovered?'#005f8a':'#0077b6'} rx="2"/>
                 <text x={35+i*50+20} y="175" textAnchor="middle" fontSize="9" fill="#6b7280">{d.label}</text>
                 {isHovered&&d.value>0&&<text x={35+i*50+20} y={155-d.value*0.11} textAnchor="middle" fontSize="10" fill="#1f2937" fontWeight="600">{d.value}</text>}
@@ -1242,6 +1250,7 @@ const HomeView=({setView,data})=>{
     {(()=>{
       const seasons=['2014/15','2015/16','2016/17','2017/18','2018/19','2019/20','2021/22','2022/23','2023/24','2024/25','2025/26'];
       const seasonLabels=['14/15','15/16','16/17','17/18','18/19','19/20','21/22','22/23','23/24','24/25','25/26'];
+      const primaryClubs=['BEL','KEN','THH','H/W'];
       const clubs=[
         {code:'BEL',color:'#7A001D'},{code:'THH',color:'#374151'},{code:'KEN',color:'#2a4d7a'},
         {code:'HHH',color:'#dc2626'},{code:'H/W',color:'#ca8a04'},{code:'G&G',color:'#16a34a'},
@@ -1253,15 +1262,17 @@ const HomeView=({setView,data})=>{
       const getPositions=(club)=>seasons.map(s=>{
         const standings=data.seasonsData[s]?.standings||[];
         const idx=standings.findIndex(t=>t.club===club);
-        return idx>=0?idx+1:11;
+        return idx>=0?idx+1:null;
       });
-      const hasDiv1History=(club)=>getPositions(club).some(p=>p<=10);
+      const hasDiv1History=(club)=>getPositions(club).some(p=>p!==null&&p<=10);
       const activeClubs=clubs.filter(c=>hasDiv1History(c.code));
       const [hovered,setHovered]=React.useState(null);
+      const [tapped,setTapped]=React.useState(null);
       const chartW=800,chartH=250,padL=35,padR=20,padT=20,padB=30;
       const plotW=chartW-padL-padR,plotH=chartH-padT-padB;
       const xStep=plotW/(seasons.length-1);
       const yScale=(pos)=>padT+(pos-1)*(plotH/10);
+      const selected=hovered||tapped;
       return<div className="mt-8 pt-6 border-t border-gray-200">
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'chartroom'})}>Chart room →</h2>
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
@@ -1275,23 +1286,26 @@ const HomeView=({setView,data})=>{
             {seasonLabels.map((s,i)=><text key={s} x={padL+i*xStep} y={chartH-8} textAnchor="middle" fontSize="9" fill="#6b7280">{s}</text>)}
             {activeClubs.map(({code,color})=>{
               const positions=getPositions(code);
-              const points=positions.map((pos,i)=>({x:padL+i*xStep,y:yScale(pos),pos,season:seasons[i]}));
+              const isPrimary=primaryClubs.includes(code);
+              const isSelected=selected===code;
+              if(!isPrimary&&!isSelected)return null;
+              const points=positions.map((pos,i)=>pos!==null?{x:padL+i*xStep,y:yScale(pos),pos,season:seasons[i]}:null).filter(Boolean);
+              if(points.length<2)return null;
               const pathD=points.map((p,i)=>i===0?`M${p.x},${p.y}`:`L${p.x},${p.y}`).join(' ');
-              const isHovered=hovered===code;
-              const currentlyDiv1=positions[positions.length-1]<=10;
-              return<g key={code} onMouseEnter={()=>setHovered(code)} onMouseLeave={()=>setHovered(null)} style={{cursor:'pointer'}}>
-                <path d={pathD} fill="none" stroke={color} strokeWidth={isHovered?2:1.5} strokeLinecap="round" strokeLinejoin="round" opacity={hovered&&!isHovered?0.15:currentlyDiv1?1:0.5}/>
-                {points.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r={isHovered?4:2.5} fill={color} opacity={hovered&&!isHovered?0.15:currentlyDiv1?1:0.5}/>)}
-                {isHovered&&<text x={points[points.length-1].x+8} y={points[points.length-1].y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
+              return<g key={code} onMouseEnter={()=>setHovered(code)} onMouseLeave={()=>setHovered(null)} onClick={()=>setTapped(tapped===code?null:code)} style={{cursor:'pointer'}}>
+                <path d={pathD} fill="none" stroke={color} strokeWidth={isSelected?1.5:1} strokeLinecap="round" strokeLinejoin="round" opacity={selected&&!isSelected?0.2:1}/>
+                {points.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r={isSelected?3:2} fill={color} opacity={selected&&!isSelected?0.2:1}/>)}
+                {isSelected&&<text x={points[points.length-1].x+8} y={points[points.length-1].y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
               </g>;
             })}
           </svg>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-3">
             {activeClubs.map(({code,color})=>{
-              const currentlyDiv1=getPositions(code)[seasons.length-1]<=10;
-              return<div key={code} className="flex items-center gap-1 cursor-pointer" onMouseEnter={()=>setHovered(code)} onMouseLeave={()=>setHovered(null)}>
-                <div className="w-2 h-2 rounded-full" style={{backgroundColor:color,opacity:currentlyDiv1?1:0.5}}/>
-                <span className={`text-[10px] ${currentlyDiv1?'text-gray-600':'text-gray-400'}`}>{code}</span>
+              const isPrimary=primaryClubs.includes(code);
+              const isSelected=selected===code;
+              return<div key={code} className="flex items-center gap-1 cursor-pointer" onMouseEnter={()=>setHovered(code)} onMouseLeave={()=>setHovered(null)} onClick={()=>setTapped(tapped===code?null:code)}>
+                <div className="w-2 h-2 rounded-full" style={{backgroundColor:color,opacity:isPrimary||isSelected?1:0.3}}/>
+                <span className={`text-[10px] ${isPrimary||isSelected?'text-gray-600':'text-gray-400'}`}>{code}</span>
               </div>;
             })}
           </div>
