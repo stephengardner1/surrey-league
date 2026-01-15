@@ -209,19 +209,27 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps})=>{
     races.forEach(race=>{
       // Handle historical races (only have winner info)
       if(race.historical){
-        if(race.winnerClub===clubCode){
-          // Handle dead heats (multiple winners)
-          const winners=race.winners||[race.winner];
-          winners.forEach(winner=>{
-            if(!winner)return;
-            const s=ensureAthlete(winner,clubCode);
-            s.wins++;
-            s.top3++;
-            s.top5++;
-            s.top10++;
-            s.races++;
-            s.aScores++; // A win counts as an A-team score
+        // Handle dead heats (multiple winners) - each winner has their own club
+        if(race.winners){
+          race.winners.forEach(w=>{
+            if(w.club===clubCode){
+              const s=ensureAthlete(w.name,clubCode);
+              s.wins++;
+              s.top3++;
+              s.top5++;
+              s.top10++;
+              s.races++;
+              s.aScores++;
+            }
           });
+        }else if(race.winnerClub===clubCode){
+          const s=ensureAthlete(race.winner,clubCode);
+          s.wins++;
+          s.top3++;
+          s.top5++;
+          s.top10++;
+          s.races++;
+          s.aScores++;
         }
         return;
       }
@@ -652,37 +660,55 @@ const normalizeData=(data)=>{
     'd holt':'Dave Holt',
     'dave ogden':'David Ogden',
     'tom austin':'Thomas Austin',
-    // Historical abbreviated names
+    // Historical abbreviated names - winners with multiple wins
     'g north':'Gerry North',
+    'b ford':'Bernie Ford',
     'b whitby':'Benedict Whitby',
     'p owor':'Paskar Owor',
     'p wicks':'Phil Wicks',
     'j mcmullan':'James McMullan',
     'f tickner':'Frank Tickner',
-    'g north/bobholt':'Gerry North' // Dead heat but we handle Bob Holt separately
+    'g staines':'Gary Staines',
+    's rayner':'Steve Rayner',
+    'd clarke':'Dave Clarke',
+    'j snowden':'John Snowden',
+    'p adams':'Phil Adams',
+    'r gevers':'Rene Gevers',
+    'j roberts':'John Roberts',
+    'i wheeler':'Ian Wheeler',
+    'r richardson':'Ron Richardson',
+    'd taylor':'Dave Taylor',
+    'a black':'Alastair Black',
+    'j thresher':'John Thresher',
+    'j hogan':'John Hogan',
+    'p carr-locke':'Peter Carr-Locke',
+    'c smith':'Chris Smith',
+    'm miles':'Martin Miles',
+    'm hicken':'Malcolm Hicken',
+    'c hensby':'Chris Hensby',
+    'd murphy':'Declan Murphy',
+    'k tadesse':'Kidane Tadesse'
   };
   
-  // Handle special dead heat cases - these races have two winners
+  // Handle special dead heat cases - these races have two winners with their clubs
   const deadHeats={
-    '1969/70-3':['Bob Holt','Dave Holt'] // R&D Holt was a dead heat between the brothers
+    '1967/68-2':{winner:'Gerry North / Bob Holt',winners:[{name:'Gerry North',club:'BEL'},{name:'Bob Holt',club:'H/W'}]},
+    '1969/70-3':{winner:'Bob Holt / Dave Holt',winners:[{name:'Bob Holt',club:'H/W'},{name:'Dave Holt',club:'H/W'}]},
+    '1974/75-1':{winner:'Bernie Ford / Phil Adams',winners:[{name:'Bernie Ford',club:'AFD'},{name:'Phil Adams',club:'AFD'}]},
+    '1997/98-4':{winner:'Kidane Tadesse / Gary Staines',winners:[{name:'Kidane Tadesse',club:'BEL'},{name:'Gary Staines',club:'BEL'}]}
   };
   
   // Pre-process races to handle dead heats and name fixes
   data.races.forEach(race=>{
     const raceKey=`${race.season}-${race.match}`;
+    // Apply dead heat data
     if(deadHeats[raceKey]){
-      race.winners=deadHeats[raceKey];
+      race.winner=deadHeats[raceKey].winner;
+      race.winners=deadHeats[raceKey].winners;
       race.deadHeat=true;
     }
-    // Fix R Holt -> Bob Holt in winner field
-    if(race.winner==='R Holt'){
-      race.winner='Bob Holt';
-    }
-    if(race.winner==='R&D Holt'){
-      race.winner='Bob Holt & Dave Holt';
-    }
-    // Normalize winner name using aliases
-    if(race.winner){
+    // Normalize winner name using aliases (for non-dead-heat races)
+    if(race.winner&&!race.deadHeat){
       const winnerKey=normalizeNameForCompare(race.winner);
       if(nameAliases[winnerKey]){
         race.winner=nameAliases[winnerKey];
