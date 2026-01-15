@@ -342,277 +342,6 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData})=
 
 const ClubsView=({setView,clubAllTime})=><div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-6"><h1 className="text-2xl font-bold text-gray-900">Division 1 Clubs</h1></div><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4 text-xs text-gray-500 uppercase">Club</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-12">Titles</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-10">2nd</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-10">3rd</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-10">4th</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-10">5th</th><th className="text-right py-1.5 pl-2 text-xs text-gray-500 uppercase w-10">6th</th></tr></thead><tbody>{clubAllTime.map((c,i)=><tr key={c.club} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'club',club:c.club})}><td className="py-1.5 pr-4"><div className="flex items-center gap-2"><span className="text-gray-400 text-sm w-5 text-right">{i+1}</span><ClubShield club={c.club} size={14}/><ClubName club={c.club} className="text-sm text-gray-900"/></div></td><td className="text-right py-1.5 px-2 text-sm tabular-nums font-semibold text-gray-900">{c.titles||'-'}</td><td className="text-right py-1.5 px-2 text-sm tabular-nums text-gray-600">{c.runnerUp||'-'}</td><td className="text-right py-1.5 px-2 text-sm tabular-nums text-gray-500">{c.third||'-'}</td><td className="text-right py-1.5 px-2 text-sm tabular-nums text-gray-400">{c.fourth||'-'}</td><td className="text-right py-1.5 px-2 text-sm tabular-nums text-gray-400">{c.fifth||'-'}</td><td className="text-right py-1.5 pl-2 text-sm tabular-nums text-gray-300">{c.sixth||'-'}</td></tr>)}</tbody></table></div>;
 
-const PubQuizView=({setView,data})=>{
-  // Calculate quiz answers from data
-  const calcQuizData=()=>{
-    const {races,seasonsData,fatherSonPairs,brotherPairs}=data;
-    
-    // Q1: Best father/son combined score
-    let bestFS={combined:Infinity};
-    (fatherSonPairs||[]).forEach(fp=>{
-      races.forEach(race=>{
-        if(!race.results)return;
-        const father=race.results.find(r=>r.name===fp.father&&r.club===fp.club);
-        const sons=fp.sons.map(s=>race.results.find(r=>r.name===s&&r.club===fp.club)).filter(Boolean);
-        if(father&&sons.length>0){
-          const bestSon=sons.reduce((a,b)=>a.pos<b.pos?a:b);
-          const combined=father.pos+bestSon.pos;
-          if(combined<bestFS.combined)bestFS={combined,father,son:bestSon,surname:fp.surname,club:fp.club,race};
-        }
-      });
-    });
-    
-    // Q2: Relegation escapes & Q3: Title collapses (since 2014)
-    let relEscapes=0,titleCollapses=0,escapeInfo=[],collapseInfo=[];
-    Object.entries(seasonsData).filter(([s])=>s>='2014/15').forEach(([season,sd])=>{
-      if(!sd.standings||sd.standings.length<2||!sd.standings[0].m4)return;
-      const numTeams=sd.standings.length;
-      const relZone=season==='2022/23'?[numTeams]:[numTeams-1,numTeams];
-      const m3Data=sd.standings.map(t=>({club:t.club,m3:(t.m1||0)+(t.m2||0)+(t.m3||0),final:t.total}));
-      const m3Sorted=[...m3Data].sort((a,b)=>a.m3-b.m3);
-      const finalSorted=[...m3Data].sort((a,b)=>a.final-b.final);
-      m3Sorted.forEach((t,i)=>{
-        const m3Pos=i+1,finalPos=finalSorted.findIndex(x=>x.club===t.club)+1;
-        if(relZone.includes(m3Pos)&&!relZone.includes(finalPos)){relEscapes++;escapeInfo.push({season,club:t.club,deficit:t.m3-m3Sorted[Math.min(...relZone)-2].m3});}
-      });
-      if(finalSorted[0].club!==m3Sorted[0].club){titleCollapses++;collapseInfo.push({season,loser:m3Sorted[0].club,winner:finalSorted[0].club,deficit:m3Sorted[1].m3-m3Sorted[0].m3});}
-    });
-    
-    // Q4 & Q5: Best/worst team match scores by league size
-    const teamScores=[];
-    races.forEach(race=>{
-      if(!race.results)return;
-      const numTeams=seasonsData[race.season]?.standings?.length||0;
-      const clubPts={};
-      race.results.forEach(r=>{if(r.pts&&r.club){if(!clubPts[r.club])clubPts[r.club]=[];clubPts[r.club].push(r.pts);}});
-      Object.entries(clubPts).forEach(([club,pts])=>{
-        if(pts.length>=10)teamScores.push({club,total:pts.slice(0,10).reduce((a,b)=>a+b,0),race,numTeams});
-      });
-    });
-    const worst10=teamScores.filter(s=>s.numTeams===10).reduce((w,s)=>s.total>w.total?s:w,{total:0});
-    const best9=teamScores.filter(s=>s.numTeams===9).reduce((b,s)=>s.total<b.total?s:b,{total:Infinity});
-    
-    // Q6: Clapham relegations (completed seasons only)
-    let ccRelegations=0,ccRelSeasons=[];
-    Object.entries(seasonsData).filter(([s])=>s>='2014/15').forEach(([season,sd])=>{
-      if(!sd.standings||!sd.standings[0]?.m4)return;// Only completed seasons
-      const numTeams=sd.standings.length;
-      const relZone=season==='2022/23'?[numTeams]:[numTeams-1,numTeams];
-      const ccPos=sd.standings.findIndex(t=>t.club==='C/C')+1;
-      if(ccPos>0&&relZone.includes(ccPos)){ccRelegations++;ccRelSeasons.push(season);}
-    });
-    
-    // Q7: Best brother combined score
-    let bestBros={combined:Infinity};
-    (brotherPairs||[]).forEach(bp=>{
-      races.forEach(race=>{
-        if(!race.results)return;
-        const bros=bp.brothers.map(b=>race.results.find(r=>r.name===b&&r.club===bp.club)).filter(Boolean);
-        if(bros.length>=2){
-          bros.sort((a,b)=>a.pos-b.pos);
-          const combined=bros[0].pos+bros[1].pos;
-          if(combined<bestBros.combined)bestBros={combined,bro1:bros[0],bro2:bros[1],surname:bp.surname,club:bp.club,race};
-        }
-      });
-    });
-    
-    // Q8: Biggest single-match swing
-    let biggestSwing={swing:0};
-    races.forEach(race=>{
-      if(!race.results)return;
-      const clubPts={};
-      race.results.forEach(r=>{if(r.pts&&r.club){if(!clubPts[r.club])clubPts[r.club]=[];clubPts[r.club].push(r.pts);}});
-      const totals=Object.entries(clubPts).filter(([_,pts])=>pts.length>=10).map(([club,pts])=>({club,total:pts.slice(0,10).reduce((a,b)=>a+b,0)}));
-      if(totals.length>=2){
-        totals.sort((a,b)=>a.total-b.total);
-        const swing=totals[totals.length-1].total-totals[0].total;
-        if(swing>biggestSwing.swing)biggestSwing={swing,best:totals[0],worst:totals[totals.length-1],race};
-      }
-    });
-    
-    // Q10: Biggest turnout
-    const biggestTurnout=races.reduce((max,r)=>(r.finishers||0)>(max.finishers||0)?r:max,{finishers:0});
-    
-    return{bestFS,relEscapes,escapeInfo,titleCollapses,collapseInfo,worst10,best9,ccRelegations,ccRelSeasons,bestBros,biggestSwing,biggestTurnout};
-  };
-  
-  const qd=calcQuizData();
-  
-  const ordSuffix=(n)=>n===1?'st':n===2?'nd':n===3?'rd':'th';
-  
-  const questions=[
-    {q:"Which father/son duo holds the record for best combined score?",
-     opts:["The Ogdens (SLH)","The Sandersons (G&G)","The Clarks (H/W)","The Makkars (SLH)"],
-     ans:["Ogden","Sanderson","Clark","Makkar"].findIndex(s=>s===qd.bestFS.surname),
-     info:`${qd.bestFS.son?.name} (${qd.bestFS.son?.pos}${ordSuffix(qd.bestFS.son?.pos)}) + ${qd.bestFS.father?.name} (${qd.bestFS.father?.pos}${ordSuffix(qd.bestFS.father?.pos)}) = ${qd.bestFS.combined} pts at ${qd.bestFS.race?.venue}, ${qd.bestFS.race?.season} M${qd.bestFS.race?.match}`},
-    {q:"Since 2014, how many times has a team escaped the relegation zone on the final day?",
-     opts:["0","1","2","3"],ans:Math.min(qd.relEscapes,3),
-     info:qd.relEscapes===0?"It's never happened!":qd.relEscapes===1?`Just once: ${qd.escapeInfo[0]?.club} in ${qd.escapeInfo[0]?.season}, overcoming a ${qd.escapeInfo[0]?.deficit}-point deficit`:`${qd.relEscapes} times: ${qd.escapeInfo.map(e=>`${e.club} ${e.season}`).join(', ')}`},
-    {q:"Since 2014, how many times has a team thrown away the lead on the final day?",
-     opts:["0","1","2","3"],ans:Math.min(qd.titleCollapses,3),
-     info:qd.titleCollapses===0?"It's never happened!":qd.collapseInfo.map(c=>`${c.loser} lost a ${c.deficit}-point lead to ${c.winner} in ${c.season}`).join('; ')},
-    {q:"Which team recorded the worst single-match score in a 10-team season?",
-     opts:["Ranelagh Harriers","Epsom & Ewell","Clapham Chasers","Woking AC"],
-     ans:["RAN","E&E","C/C","WOK"].findIndex(c=>c===qd.worst10.club),
-     info:`${CLUBS[qd.worst10.club]?.name||qd.worst10.club} scored ${qd.worst10.total} points at ${qd.worst10.race?.venue} in ${qd.worst10.race?.season} M${qd.worst10.race?.match}`},
-    {q:"Which team recorded the best single-match score in a 9-team season?",
-     opts:["Hercules Wimbledon","Kent AC","Herne Hill Harriers","Thames Hare & Hounds"],
-     ans:["H/W","KEN","HHH","THH"].findIndex(c=>c===qd.best9.club),
-     info:`${CLUBS[qd.best9.club]?.name||qd.best9.club} scored ${qd.best9.total} points at ${qd.best9.race?.venue} in ${qd.best9.race?.season} M${qd.best9.race?.match}`},
-    {q:"How many times have Clapham Chasers been relegated since 2014?",
-     opts:["1 time","2 times","3 times","4 times"],ans:Math.min(qd.ccRelegations,4)-1,
-     info:`Relegated in ${qd.ccRelSeasons.join(', ')} – never staying up for more than 3 consecutive seasons`},
-    {q:"Which brothers hold the record for best combined score?",
-     opts:["The Malletts (H/W)","The Roberts (HHH)","The Lynes (SLH)","The Cockerells (BEL)"],
-     ans:["Mallett","Roberts","Lyne","Cockerell"].findIndex(s=>s===qd.bestBros.surname),
-     info:`${qd.bestBros.bro1?.name} (${qd.bestBros.bro1?.pos}${ordSuffix(qd.bestBros.bro1?.pos)}) + ${qd.bestBros.bro2?.name} (${qd.bestBros.bro2?.pos}${ordSuffix(qd.bestBros.bro2?.pos)}) = ${qd.bestBros.combined} pts at ${qd.bestBros.race?.venue}, ${qd.bestBros.race?.season} M${qd.bestBros.race?.match}`},
-    {q:"What is the biggest points swing between two teams in a single match?",
-     opts:[`${Math.floor(qd.biggestSwing.swing*0.83)} points`,`${Math.floor(qd.biggestSwing.swing*0.91)} points`,`${Math.floor(qd.biggestSwing.swing*0.97)} points`,`${qd.biggestSwing.swing} points`],
-     ans:3,
-     info:`${CLUBS[qd.biggestSwing.best?.club]?.name||qd.biggestSwing.best?.club} scored ${qd.biggestSwing.best?.total} pts while ${CLUBS[qd.biggestSwing.worst?.club]?.name||qd.biggestSwing.worst?.club} scored ${qd.biggestSwing.worst?.total} pts at ${qd.biggestSwing.race?.venue}, ${qd.biggestSwing.race?.season} M${qd.biggestSwing.race?.match}`},
-    {q:"Which clubs have won the title despite winning only one match that season?",
-     opts:["Belgrave Harriers only","Hercules Wimbledon and Aldershot only","Three different clubs","No club has ever done this"],ans:2,
-     info:"BOH (1996/97), H/W (1964/65), and AFD (1975/76) all won titles with just 1 match win"},
-    {q:"What is the biggest race turnout in Surrey League history?",
-     opts:[`${qd.biggestTurnout.finishers-25} finishers`,`${qd.biggestTurnout.finishers-11} finishers`,`${qd.biggestTurnout.finishers} finishers`,`${qd.biggestTurnout.finishers+18} finishers`],
-     ans:2,
-     info:`${qd.biggestTurnout.finishers} finishers at ${qd.biggestTurnout.venue}, ${qd.biggestTurnout.season} M${qd.biggestTurnout.match}`}
-  ];
-  
-  const[current,setCurrent]=useState(0);
-  const[selected,setSelected]=useState(null);
-  const[score,setScore]=useState(0);
-  const[showResult,setShowResult]=useState(false);
-  const[finished,setFinished]=useState(false);
-  
-  const handleSelect=(idx)=>{
-    if(showResult)return;
-    setSelected(idx);
-    setShowResult(true);
-    if(idx===questions[current].ans)setScore(s=>s+1);
-  };
-  
-  const nextQuestion=()=>{
-    if(current<questions.length-1){
-      setCurrent(c=>c+1);
-      setSelected(null);
-      setShowResult(false);
-    }else{
-      setFinished(true);
-    }
-  };
-  
-  const restart=()=>{
-    setCurrent(0);
-    setSelected(null);
-    setScore(0);
-    setShowResult(false);
-    setFinished(false);
-  };
-  
-  if(finished){
-    const comparisons=[
-      {min:0,max:0,name:"Clapham's 917-pt meltdown",club:"C/C",desc:"Beckenham Place Park, 2025/26 M2. The worst single-match score on record.",isTeam:true},
-      {min:1,max:1,name:"Ranelagh's 907-pt disaster",club:"RAN",desc:"West Horsley Place, 2023/24 M4. A day to forget – this one will haunt you for a while.",isTeam:true},
-      {min:2,max:2,name:"Dorking's 850-pt collapse",club:"DMV",desc:"Mitcham Common, 2016/17 M3. The day the wheels came off.",isTeam:true},
-      {min:3,max:3,name:"Steve Gardner",club:"BEL",desc:"16 races averaging 104th. You clearly care, but that hasn't helped your performance on this terrain."},
-      {min:4,max:4,name:"David Ogden",club:"SLH",desc:"32 races averaging 156th. You clearly like this league enough to put your own son through it too."},
-      {min:5,max:5,name:"David Grima",club:"H/W",desc:"40 races averaging 111th. Hercules' most persistent pack runner."},
-      {min:6,max:6,name:"Jeff Cunningham",club:"HHH",desc:"36 races with 26 A-team scores. Herne Hill's modern-era ironman."},
-      {min:7,max:7,name:"Chris Greenwood",club:"KEN",desc:"26 races averaging 19th. Consistent A-team scorer."},
-      {min:8,max:8,name:"John Gilbert",club:"KEN",desc:"27 races averaging 8th with 2 wins. Top 10 regular."},
-      {min:9,max:9,name:"Jack Millar",club:"THH",desc:"5 wins from 14 races. Elite performer."},
-      {min:10,max:10,name:"Paskar Owor",club:"BEL",desc:"The modern-era GOAT. 12 wins from 24 races, averaging 7th place."}
-    ];
-    const comp=comparisons.find(c=>score>=c.min&&score<=c.max)||comparisons[5];
-    return<div className="max-w-2xl mx-auto px-4 py-8">
-      <button onClick={()=>setView({type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button>
-      <div className="text-center py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Quiz Complete!</h1>
-        <div className="text-6xl font-bold text-[#0077b6] mb-6">{score}/{questions.length}</div>
-        <div className="bg-gray-50 rounded-xl p-6 mb-6">
-          <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">You are{comp.isTeam?' equivalent to':' the'}...</p>
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <ClubShield club={comp.club} size={32}/>
-            <span className="text-2xl font-bold text-gray-900">{comp.name}</span>
-          </div>
-          <p className="text-gray-600">{comp.desc}</p>
-        </div>
-        <button onClick={restart} className="px-6 py-3 bg-[#0077b6] text-white rounded-lg hover:bg-[#005f8a] font-medium">Try Again</button>
-      </div>
-    </div>;
-  }
-  
-  const q=questions[current];
-  return<div className="max-w-2xl mx-auto px-4 py-8">
-    <button onClick={()=>setView({type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button>
-    <div className="mb-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">🍺 Surrey League Pub Quiz</h1>
-      <p className="text-sm text-gray-500">Question {current+1} of {questions.length} • Score: {score}/{current+(showResult?1:0)}</p>
-    </div>
-    <div className="bg-gray-50 rounded-xl p-6 mb-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">{q.q}</h2>
-      <div className="space-y-3">
-        {q.opts.map((opt,i)=>{
-          let cls="w-full text-left px-4 py-3 rounded-lg border-2 transition-all ";
-          if(!showResult){
-            cls+=selected===i?"border-[#0077b6] bg-blue-50":"border-gray-200 hover:border-gray-300 bg-white";
-          }else{
-            if(i===q.ans)cls+="border-green-500 bg-green-50";
-            else if(i===selected)cls+="border-red-500 bg-red-50";
-            else cls+="border-gray-200 bg-white opacity-50";
-          }
-          return<button key={i} onClick={()=>handleSelect(i)} className={cls} disabled={showResult}>
-            <span className="font-medium">{String.fromCharCode(65+i)}.</span> {opt}
-          </button>;
-        })}
-      </div>
-      {showResult&&<div className={`mt-4 p-4 rounded-lg ${selected===q.ans?'bg-green-100 text-green-800':'bg-amber-100 text-amber-800'}`}>
-        <p className="font-medium mb-1">{selected===q.ans?'✓ Correct!':'✗ Not quite!'}</p>
-        <p className="text-sm">{q.info}</p>
-      </div>}
-    </div>
-    {showResult&&<button onClick={nextQuestion} className="w-full py-3 bg-[#0077b6] text-white rounded-lg hover:bg-[#005f8a] font-medium">
-      {current<questions.length-1?'Next Question':'See Results'}
-    </button>}
-  </div>;
-};
-  
-  const q=questions[current];
-  return<div className="max-w-2xl mx-auto px-4 py-8">
-    <button onClick={()=>setView({type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button>
-    <div className="mb-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">🍺 Surrey League Pub Quiz</h1>
-      <p className="text-sm text-gray-500">Question {current+1} of {questions.length} • Score: {score}/{current+(showResult?1:0)}</p>
-    </div>
-    <div className="bg-gray-50 rounded-xl p-6 mb-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">{q.q}</h2>
-      <div className="space-y-3">
-        {q.opts.map((opt,i)=>{
-          let cls="w-full text-left px-4 py-3 rounded-lg border-2 transition-all ";
-          if(!showResult){
-            cls+=selected===i?"border-[#0077b6] bg-blue-50":"border-gray-200 hover:border-gray-300 bg-white";
-          }else{
-            if(i===q.ans)cls+="border-green-500 bg-green-50";
-            else if(i===selected)cls+="border-red-500 bg-red-50";
-            else cls+="border-gray-200 bg-white opacity-50";
-          }
-          return<button key={i} onClick={()=>handleSelect(i)} className={cls} disabled={showResult}>
-            <span className="font-medium">{String.fromCharCode(65+i)}.</span> {opt}
-          </button>;
-        })}
-      </div>
-      {showResult&&<div className={`mt-4 p-4 rounded-lg ${selected===q.ans?'bg-green-100 text-green-800':'bg-amber-100 text-amber-800'}`}>
-        <p className="font-medium mb-1">{selected===q.ans?'✓ Correct!':'✗ Not quite!'}</p>
-        <p className="text-sm">{q.info}</p>
-      </div>}
-    </div>
-    {showResult&&<button onClick={nextQuestion} className="w-full py-3 bg-[#0077b6] text-white rounded-lg hover:bg-[#005f8a] font-medium">
-      {current<questions.length-1?'Next Question':'See Results'}
-    </button>}
-  </div>;
-};
-
 const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seasonsData})=>{
   const[sort,setSort]=useState('aScores');const clubData=clubAllTime.find(c=>c.club===clubCode);const clubInfo=CLUBS[clubCode];
   
@@ -749,19 +478,9 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     
     // Confirmed brother pairs
     const brotherPairs=[
-      {names:['Ed Mallett','George Mallett'],club:'H/W',surname:'Mallett'},
-      {names:['Morgan Roberts','Harry Roberts'],club:'HHH',surname:'Roberts'},
-      {names:['James Lyne','Alex Lyne'],club:'SLH',surname:'Lyne'},
-      {names:['James Lyne','Joe Lyne'],club:'SLH',surname:'Lyne'},
-      {names:['Alex Lyne','Joe Lyne'],club:'SLH',surname:'Lyne'}
-    ];
-    
-    // Confirmed father/son pairs (from data.fatherSonPairs)
-    const fatherSonPairs=data.fatherSonPairs||[
-      {father:'David Ogden',sons:['George Ogden'],club:'SLH',surname:'Ogden'},
-      {father:'Paul Sanderson',sons:['John Sanderson'],club:'G&G',surname:'Sanderson'},
-      {father:'Richard Clark',sons:['Joseph Clark'],club:'H/W',surname:'Clark'},
-      {father:'Vikram Makkar',sons:['Ishaan Makkar'],club:'SLH',surname:'Makkar'}
+      {names:['Ed Mallett','George Mallet'],club:'H/W',surname:'Mallett'},
+      {names:['Edward Mallett','George Mallet'],club:'H/W',surname:'Mallett'},
+      {names:['Morgan Roberts','Harry Roberts'],club:'HHH',surname:'Roberts'}
     ];
     
     const findLastTitle=(club)=>{
@@ -908,68 +627,15 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       
       if(standings.length>=9){
         // Relegation zone insight with deficit
-        // Determine safe position based on season rules
-        const numTeams=standings.length;
-        const safePos=season==='2022/23'?numTeams-2:numTeams-3;// 2022/23 only relegated 1 team
-        const safeTeam=standings[safePos];
-        const relegationZone=season==='2022/23'?[standings[numTeams-1]]:[standings[numTeams-2],standings[numTeams-1]].filter(Boolean);
-        
-        // Record for biggest final-day deficit overcome: 15 pts (THH 2023/24)
-        const recordDeficitOvercome=15;
-        // Best/worst M4 team scores for mathematical possibility check
-        const bestEverM4=150;// THH 2001/02
-        const worstEverM4=907;// RAN 2023/24
-        const maxPossibleSwing=worstEverM4-bestEverM4;// 757 pts
-        // Threshold for "very difficult" - biggest swing exceeded only a few times
-        const veryDifficultThreshold=600;// Only exceeded ~3 times
-        
-        relegationZone.forEach(team=>{
+        const safeTeam=standings[7];// 8th place is safe
+        [standings[8],standings[9]].filter(Boolean).forEach(team=>{
           if(team&&items.length<6){
             const deficit=team.total-safeTeam?.total;
             const lastRelegation=findLastRelegation(team.club);
-            const canMatch=deficit<=recordDeficitOvercome;
-            const mathPossible=deficit<=maxPossibleSwing;
-            const veryDifficult=deficit>veryDifficultThreshold;
-            let deficitNote='';
-            if(canMatch){
-              deficitNote=` (record: ${recordDeficitOvercome} pts)`;
-            }else if(!mathPossible){
-              deficitNote=' – mathematically impossible to avoid relegation';
-            }else if(veryDifficult){
-              deficitNote=' – would require a near-record final day swing';
-            }
-            
-            // Check if this is a yo-yo club (just returned after recent relegation)
-            const prevSeason=Object.keys(allSeasonsData).sort().reverse().find(s=>s<season);
-            const wasInPrevSeason=prevSeason&&allSeasonsData[prevSeason]?.standings?.some(t=>t.club===team.club);
-            
-            // Count relegations and max consecutive seasons since 2014/15
-            const modernSeasons=Object.keys(allSeasonsData).filter(s=>s>='2014/15').sort();
-            let relegationCount=0;
-            let maxConsecutive=0;
-            let currentStreak=0;
-            modernSeasons.forEach(s=>{
-              const inDiv1=allSeasonsData[s]?.standings?.some(t=>t.club===team.club);
-              if(inDiv1){
-                currentStreak++;
-                maxConsecutive=Math.max(maxConsecutive,currentStreak);
-              }else{
-                if(currentStreak>0)relegationCount++;// Was in, now out = relegated
-                currentStreak=0;
-              }
-            });
-            
-            if(!wasInPrevSeason&&lastRelegation){
-              // Just came back this season after relegation - yo-yo club
-              let yoyoNote='';
-              if(relegationCount>=3&&maxConsecutive<=3){
-                yoyoNote=` – relegated ${relegationCount} times since 2014 and never stayed up for more than ${maxConsecutive} consecutive season${maxConsecutive>1?'s':''}`;
-              }
-              items.push({text:`have ${deficit}-point deficit to overcome to avoid relegation after just one season back in the top flight${deficitNote}${yoyoNote}`,club:team.club});
-            }else if(lastRelegation){
-              items.push({text:`have ${deficit}-point deficit to overcome if they are to avoid first relegation since ${getYear(lastRelegation.season)}${deficitNote}`,club:team.club});
+            if(lastRelegation){
+              items.push({text:`have ${deficit}-point deficit to overcome if they are to avoid first relegation since ${getYear(lastRelegation.season)}`,club:team.club});
             }else{
-              items.push({text:`have ${deficit}-point deficit to overcome to avoid first ever relegation from Div 1${deficitNote}`,club:team.club});
+              items.push({text:`have ${deficit}-point deficit to overcome to avoid first ever relegation from Div 1`,club:team.club});
             }
           }
         });
@@ -1026,13 +692,6 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       }
       if(isCurrentSeason&&winningTotal&&numTeams===10&&marginStats.bestTotal10?.season===season){
         items.push({text:`Best ever winning total in a 10-team season: ${winningTotal} points`,club:champion});
-      }
-      
-      // Check if champion won with fewer than 2 match wins
-      const championMatchWins=teamWins[champion]||0;
-      if(champion&&championMatchWins<2){
-        const matchesWon=matches.filter(m=>m.teamWinner===champion).map(m=>`M${m.num}`).join(', ')||'none';
-        items.push({text:`won the title despite winning just ${championMatchWins===1?'1 match ('+matchesWon+')':'no matches'}`,club:champion});
       }
       
       if(maxIndWins>=3&&dominantInd)items.push({text:`won ${maxIndWins} of 4 races`,athlete:{name:dominantInd,club:dominantIndClub}});
@@ -1104,99 +763,6 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         }
       }
       
-      // Check for father/son pairs combined scores
-      const findFatherSonScores=(race)=>{
-        if(!race.results)return null;
-        for(const pair of fatherSonPairs){
-          const fatherResult=race.results.find(r=>r.name.toLowerCase()===pair.father.toLowerCase());
-          if(!fatherResult)continue;
-          const sonResults=pair.sons.map(son=>race.results.find(r=>r.name.toLowerCase()===son.toLowerCase())).filter(Boolean);
-          if(sonResults.length>0){
-            const bestSon=sonResults.sort((a,b)=>a.pos-b.pos)[0];
-            return{combined:fatherResult.pos+bestSon.pos,father:fatherResult,son:bestSon,surname:pair.surname,club:pair.club};
-          }
-        }
-        return null;
-      };
-      
-      // Find best father/son score in this season
-      let bestFatherSonThisSeason=null;
-      seasonRaces.forEach(race=>{
-        const score=findFatherSonScores(race);
-        if(score&&(!bestFatherSonThisSeason||score.combined<bestFatherSonThisSeason.combined)){
-          bestFatherSonThisSeason={...score,race};
-        }
-      });
-      
-      if(bestFatherSonThisSeason){
-        // Check if it's the all-time record up to this point
-        let allTimeBestFS=bestFatherSonThisSeason.combined;
-        races.filter(r=>r.season<season).forEach(race=>{
-          const score=findFatherSonScores(race);
-          if(score&&score.combined<allTimeBestFS)allTimeBestFS=score.combined;
-        });
-        
-        if(bestFatherSonThisSeason.combined<=allTimeBestFS&&bestFatherSonThisSeason.combined<=250){
-          items.push({
-            text:`Match ${bestFatherSonThisSeason.race.match} saw the lowest combined father/son score on record:`,
-            race:bestFatherSonThisSeason.race,
-            fatherSon:{
-              father:{name:bestFatherSonThisSeason.father.name,club:bestFatherSonThisSeason.club,pos:bestFatherSonThisSeason.father.pos},
-              son:{name:bestFatherSonThisSeason.son.name,club:bestFatherSonThisSeason.club,pos:bestFatherSonThisSeason.son.pos}
-            },
-            fatherSonTotal:bestFatherSonThisSeason.combined
-          });
-        }
-      }
-      
-      // Check for relegation escapes (team in relegation zone after M3 but escaped)
-      if(standings.length>=9&&completedMatches===4){
-        const numTeams=standings.length;
-        const relZone=season==='2022/23'?[numTeams]:[numTeams-1,numTeams];
-        const safePos=Math.min(...relZone)-1;
-        
-        // Calculate M3 standings
-        const m3Data=standings.map(t=>({
-          club:t.club,
-          m3Total:(t.m1||0)+(t.m2||0)+(t.m3||0),
-          finalTotal:t.total
-        }));
-        const m3Sorted=[...m3Data].sort((a,b)=>a.m3Total-b.m3Total);
-        const finalSorted=[...m3Data].sort((a,b)=>a.finalTotal-b.finalTotal);
-        
-        m3Sorted.forEach((team,idx)=>{
-          const m3Pos=idx+1;
-          const finalPos=finalSorted.findIndex(t=>t.club===team.club)+1;
-          
-          if(relZone.includes(m3Pos)&&!relZone.includes(finalPos)){
-            // This team escaped!
-            const safeTeamM3=m3Sorted[safePos-1];
-            const deficit=team.m3Total-safeTeamM3.m3Total;
-            items.push({text:`became the first team to escape the relegation zone on the final day, overcoming a ${deficit}-point deficit`,club:team.club});
-          }
-        });
-        
-        // Check for final-day title comebacks
-        const m3Leader=m3Sorted[0];
-        const champion=finalSorted[0];
-        const championM3Pos=m3Sorted.findIndex(t=>t.club===champion.club)+1;
-        
-        if(championM3Pos>1){
-          const championM3Data=m3Sorted[championM3Pos-1];
-          const deficit=championM3Data.m3Total-m3Leader.m3Total;
-          // Check if this is the biggest comeback
-          const comebacks=[{season:'2017/18',deficit:12},{season:'2022/23',deficit:24}];
-          const biggestBefore=comebacks.filter(c=>c.season<season).reduce((max,c)=>Math.max(max,c.deficit),0);
-          const isRecord=deficit>biggestBefore;
-          
-          if(isRecord){
-            items.push({text:`won the title on the final day with the biggest comeback in league history, overturning a ${deficit}-point deficit to`,club:m3Leader.club});
-          }else{
-            items.push({text:`won the title on the final day, overturning a ${deficit}-point deficit to`,club:m3Leader.club});
-          }
-        }
-      }
-      
       if(maxTeamWins===4&&dominantTeam){
         const prevCount=countAllFourWins();
         items.push({text:prevCount===0?'became first club to win all 4 matches':`won all 4 matches – only happened ${prevCount} time${prevCount>1?'s':''} before`,club:dominantTeam});
@@ -1215,41 +781,6 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
           if(rank<=10)items.push({text:`was the ${ordinal} biggest turnout on record (${biggestRace.finishers})`,race:biggestRace,venueName:biggestRace.venue});
         }
       }
-      
-      // Check for best/worst single match team scores
-      const calcTeamMatchScores=(race)=>{
-        if(!race?.results)return[];
-        const clubScores={};
-        race.results.forEach(r=>{
-          if(r.pts&&r.club){
-            if(!clubScores[r.club])clubScores[r.club]=[];
-            clubScores[r.club].push(r.pts);
-          }
-        });
-        return Object.entries(clubScores).filter(([_,scores])=>scores.length>=10).map(([club,scores])=>({club,total:scores.slice(0,10).reduce((a,b)=>a+b,0),race}));
-      };
-      
-      const numTeams=standings.length;
-      const allMatchScores=races.filter(r=>r.season<=season).flatMap(r=>{
-        const sd=allSeasonsData[r.season];
-        const nt=sd?.standings?.length||0;
-        if(nt!==numTeams)return[];// Only compare same league size
-        return calcTeamMatchScores(r);
-      });
-      
-      seasonRaces.forEach(race=>{
-        const scores=calcTeamMatchScores(race);
-        scores.forEach(s=>{
-          const best=Math.min(...allMatchScores.map(x=>x.total));
-          const worst=Math.max(...allMatchScores.map(x=>x.total));
-          if(s.total===best&&items.length<6){
-            items.push({text:`set the best single-match team score on record in a ${numTeams}-team season (${s.total} pts) at`,club:s.club,race:s.race,venueName:s.race.venue});
-          }
-          if(s.total===worst&&items.length<6){
-            items.push({text:`recorded the worst single-match team score on record in a ${numTeams}-team season (${s.total} pts) at`,club:s.club,race:s.race,venueName:s.race.venue});
-          }
-        });
-      });
       
       if(standings.length>=2&&standings[1].club){
         const runnerUp=standings[1].club;
@@ -1279,27 +810,11 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     return items.slice(0,5);
   },[season,seasonData,races,standings,allSeasonsData,isComplete,data]);
   
-  const [mobileExpanded, setMobileExpanded] = useState(false);
-  
   if(!insights.length)return null;
-  
-  const PunditryContent=()=><ul className="space-y-1">{insights.map((item,i)=><li key={i} className="text-xs text-gray-600">• {item.textBefore}{item.club&&!item.brothers&&!item.fatherSon&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:item.athlete})}>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&!item.fatherSon&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.fatherSon&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{item.fatherSon&&<><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>Match {item.race.match}</span> saw the lowest combined father/son score on record: <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.fatherSon.son.name,club:item.fatherSon.son.club}})}>{item.fatherSon.son.name}</span> ({item.fatherSon.son.pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.fatherSon.father.name,club:item.fatherSon.father.club}})}>{item.fatherSon.father.name}</span> ({item.fatherSon.father.pos}) = {item.fatherSonTotal} pts</>}{!item.brothers&&!item.fatherSon&&item.text}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}</li>)}</ul>;
-  
-  return<>
-    {/* Desktop: always visible */}
-    <div className="hidden md:block mt-4 pt-4 border-t border-gray-100">
-      <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Punditry <span className="cursor-pointer" onClick={()=>setView({type:'quiz'})} title="🍺 Pub Quiz">📊</span></h3>
-      <PunditryContent/>
-    </div>
-    {/* Mobile: collapsible */}
-    <div className="md:hidden mt-4 pt-4 border-t border-gray-100">
-      <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2 flex items-center justify-between cursor-pointer" onClick={()=>setMobileExpanded(!mobileExpanded)}>
-        <span>Punditry <span className="cursor-pointer" onClick={(e)=>{e.stopPropagation();setView({type:'quiz'});}} title="🍺 Pub Quiz">📊</span></span>
-        <span className="text-gray-400">{mobileExpanded?'▲':'▼'}</span>
-      </h3>
-      {mobileExpanded&&<PunditryContent/>}
-    </div>
-  </>;
+  return<div className="hidden md:block mt-4 pt-4 border-t border-gray-100">
+    <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Punditry 🧮</h3>
+    <ul className="space-y-1">{insights.map((item,i)=><li key={i} className="text-xs text-gray-600">• {item.textBefore}{item.club&&!item.brothers&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:item.athlete})}>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{!item.brothers&&item.text}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}</li>)}</ul>
+  </div>;
 };
 
 const HomeView=({setView,data})=>{
@@ -1309,24 +824,23 @@ const HomeView=({setView,data})=>{
   const showRelegation=season>='2022/23';
   
   const StandingsTable=()=><div>
-    <table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-1 text-xs text-gray-500 uppercase hidden md:table-cell" colSpan="3">Div 1</th><th className="text-left py-1.5 pr-1 w-6 text-xs text-gray-500 uppercase md:hidden">#</th><th className="text-left py-1.5 pr-1 w-5 md:hidden"></th><th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase md:hidden">Club</th><th className="text-right py-1.5 pr-1 text-xs text-gray-500 uppercase">Tot</th>{matches.map((m,i)=><th key={i} className="text-right py-1.5 px-0.5 w-9 text-xs text-gray-500 uppercase">M{m.num}</th>)}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===7?'border-b border-dashed border-gray-400':'border-b border-gray-100'}`}><td className="py-1.5 pr-1 w-6"><div className="flex items-center"><span className={`text-sm ${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1.5 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`text-sm ${i===0?'font-semibold':''}`}/></td><td className="text-right py-1.5 pr-1"><span className={`text-sm tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1.5 px-0.5"><span className="text-sm text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-1 w-6 text-xs text-gray-500 uppercase">#</th><th className="text-left py-1.5 pr-1 w-5"></th><th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Club</th><th className="text-right py-1.5 pr-1 text-xs text-gray-500 uppercase">Tot</th>{matches.map((m,i)=><th key={i} className="text-right py-1.5 px-0.5 w-9 text-xs text-gray-500 uppercase">M{m.num}</th>)}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===7?'border-b border-dashed border-gray-400':'border-b border-gray-100'}`}><td className="py-1.5 pr-1 w-6"><div className="flex items-center"><span className={`text-sm ${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1.5 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`text-sm ${i===0?'font-semibold':''}`}/></td><td className="text-right py-1.5 pr-1"><span className={`text-sm tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1.5 px-0.5"><span className="text-sm text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {isHistorical&&<p className="text-xs text-gray-400 mt-2 italic">* Only partial results in for this season</p>}
   </div>;
   
   const FixturesTable=()=><div>
     <table className="w-full text-sm">
       <thead><tr className="border-b border-gray-200">
-        <th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase md:hidden">M</th>
-        <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase hidden md:table-cell" colSpan="2">Fixtures</th>
-        <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase md:hidden">Date</th>
-        <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase md:hidden">Venue</th>
+        <th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">M</th>
+        <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase">Date</th>
+        <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase">Venue</th>
         <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase">Winner</th>
         <th className="text-left py-1.5 pl-2 text-xs text-gray-500 uppercase">Team</th>
       </tr></thead>
       <tbody className="divide-y divide-gray-100">{matches.map(match=>{
         const race=findRace(match.num);const upcoming=!match.winner;
         return<tr key={match.num} className={`${upcoming?'opacity-50':'hover:bg-blue-50 cursor-pointer'}`} onClick={()=>!upcoming&&race&&setView({type:'race',race})}>
-          <td className="py-1.5 pr-2 font-medium text-gray-900 md:hidden">{match.num}</td>
+          <td className="py-1.5 pr-2 font-medium text-gray-900">{match.num}</td>
           <td className="py-1.5 px-2 text-gray-500">{match.date?.length<=3?match.date:formatDateShort(match.date)}</td>
           <td className="py-1.5 px-2 text-gray-900">{match.venue}</td>
           <td className="py-1.5 px-2">{upcoming?<span className="text-gray-400 italic">-</span>:<div className="flex items-center gap-1.5"><ClubShield club={match.winnerClub} size={14}/><span className="text-gray-700">{match.winner}</span></div>}</td>
@@ -1334,6 +848,7 @@ const HomeView=({setView,data})=>{
         </tr>;
       })}</tbody>
     </table>
+    <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>
   </div>;
   
   return<div className="max-w-5xl mx-auto px-4 py-8">
@@ -1344,16 +859,9 @@ const HomeView=({setView,data})=>{
     
     {seasonData?<div className="mb-8">
       <div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
-      {/* Desktop: side by side */}
-      <div className="hidden md:grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-8">
         <div className="overflow-x-auto"><StandingsTable/></div>
-        <div><FixturesTable/><SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/></div>
-      </div>
-      {/* Mobile: stacked with punditry between standings and fixtures */}
-      <div className="md:hidden">
-        <div className="overflow-x-auto"><StandingsTable/></div>
-        <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>
-        <div className="mt-4"><FixturesTable/></div>
+        <div><FixturesTable/></div>
       </div>
     </div>:<p className="text-sm text-gray-500 mb-10">No data</p>}
     
@@ -1367,7 +875,7 @@ const HomeView=({setView,data})=>{
   </div>;
 };
 
-const Footer=({setView})=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-400">Unofficial Surrey League archive. Work in progress. Vibecoded by Steve. <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'quiz'})}>Quiz</span>.</footer>;
+const Footer=()=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-400">Unofficial Surrey League archive. Work in progress. Vibecoded by Steve.</footer>;
 
 const parseUrlParams=()=>{
   const params=new URLSearchParams(window.location.search);
@@ -1924,7 +1432,7 @@ function App(){
   useEffect(()=>{const onPop=()=>setViewState(parseUrlParams());window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[]);
   useEffect(()=>{if(data&&view.raceKey){const race=data.races.find(r=>r.season===view.raceKey.season&&r.match===view.raceKey.match);if(race)setViewState({type:'race',race});}},[data,view.raceKey]);
   if(loading)return<div className="loading text-gray-500">Loading...</div>;if(error)return<div className="loading text-red-500">Error: {error}</div>;if(!data)return<div className="loading text-gray-500">No data</div>;
-  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
+  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}</main><Footer/></div>;
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
