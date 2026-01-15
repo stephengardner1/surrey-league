@@ -1024,7 +1024,7 @@ const HomeView=({setView,data})=>{
   </div>;
 };
 
-const Footer=({setView})=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-400">Unofficial Surrey League archive. Work in progress. Vibecoded by Steve. <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'quiz'})}>Quiz</span>.</footer>;
+const Footer=({setView})=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-400">Vibecoded by Steve. Work in progress. Now <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'quiz'})}>quiz this</span>.</footer>;
 
 const parseUrlParams=()=>{
   const params=new URLSearchParams(window.location.search);
