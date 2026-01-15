@@ -738,17 +738,54 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       }
       
       if(standings.length>=9){
-        // Relegation zone insight with deficit
+        // Relegation zone insight with deficit and yo-yo stats
         const safeTeam=standings[7];// 8th place is safe
-        [standings[8],standings[9]].filter(Boolean).forEach(team=>{
+        const numTeams=standings.length;
+        const relZone=season==='2022/23'?[numTeams]:[numTeams-1,numTeams];
+        
+        relZone.map(pos=>standings[pos-1]).filter(Boolean).forEach(team=>{
           if(team&&items.length<6){
             const deficit=team.total-safeTeam?.total;
-            const lastRelegation=findLastRelegation(team.club);
-            if(lastRelegation){
-              items.push({text:`have ${deficit}-point deficit to overcome if they are to avoid first relegation since ${getYear(lastRelegation.season)}`,club:team.club});
-            }else{
-              items.push({text:`have ${deficit}-point deficit to overcome to avoid first ever relegation from Div 1`,club:team.club});
+            
+            // Check if just promoted back
+            const prevSeason=data.seasons[data.seasons.indexOf(season)+1];
+            const wasInDiv1Last=prevSeason&&allSeasonsData[prevSeason]?.standings?.some(t=>t.club===team.club);
+            const justPromoted=!wasInDiv1Last;
+            
+            // Count relegations since 2014/15 and max consecutive seasons
+            let relegationCount=0;
+            const relegationSeasons=[];
+            let maxConsecutive=0,currentStreak=0;
+            
+            data.seasons.filter(s=>s>='2014/15'&&s<season).forEach(s=>{
+              const sd=allSeasonsData[s];
+              if(!sd?.standings)return;
+              const wasIn=sd.standings.some(t=>t.club===team.club);
+              const numT=sd.standings.length;
+              const relZ=s==='2022/23'?[numT]:[numT-1,numT];
+              const pos=sd.standings.findIndex(t=>t.club===team.club)+1;
+              if(wasIn){
+                currentStreak++;
+                maxConsecutive=Math.max(maxConsecutive,currentStreak);
+                if(relZ.includes(pos)){relegationCount++;relegationSeasons.push(s);}
+              }else{currentStreak=0;}
+            });
+            
+            // Build the insight text
+            let text=`have ${deficit}-point deficit to overcome to avoid relegation`;
+            if(justPromoted)text+=` after just one season back in the top flight`;
+            
+            // Add threshold note
+            if(deficit>757)text+=` – mathematically impossible`;
+            else if(deficit>600)text+=` – would require a near-record final day swing`;
+            else if(deficit<=15)text+=` (record: 15 pts)`;
+            
+            // Add yo-yo stat if applicable
+            if(relegationCount>=3&&maxConsecutive<=3){
+              text+=` – relegated ${relegationCount} times since 2014 and never stayed up for more than ${maxConsecutive} consecutive seasons`;
             }
+            
+            items.push({text,club:team.club});
           }
         });
         
