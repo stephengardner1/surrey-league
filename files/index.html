@@ -637,15 +637,37 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       
       if(standings.length>=9){
         // Relegation zone insight with deficit
-        const safeTeam=standings[7];// 8th place is safe
-        [standings[8],standings[9]].filter(Boolean).forEach(team=>{
+        // Determine safe position based on season rules
+        const numTeams=standings.length;
+        const safePos=season==='2022/23'?numTeams-2:numTeams-3;// 2022/23 only relegated 1 team
+        const safeTeam=standings[safePos];
+        const relegationZone=season==='2022/23'?[standings[numTeams-1]]:[standings[numTeams-2],standings[numTeams-1]].filter(Boolean);
+        
+        // Record for biggest final-day deficit overcome: 15 pts (THH 2023/24)
+        const recordDeficitOvercome=15;
+        // Best/worst M4 team scores for mathematical possibility check
+        const bestEverM4=150;// THH 2001/02
+        const worstEverM4=907;// RAN 2023/24
+        const maxPossibleSwing=worstEverM4-bestEverM4;// 757 pts
+        
+        relegationZone.forEach(team=>{
           if(team&&items.length<6){
             const deficit=team.total-safeTeam?.total;
             const lastRelegation=findLastRelegation(team.club);
-            if(lastRelegation){
-              items.push({text:`have ${deficit}-point deficit to overcome if they are to avoid first relegation since ${getYear(lastRelegation.season)}`,club:team.club});
+            const canMatch=deficit<=recordDeficitOvercome;
+            const mathPossible=deficit<=maxPossibleSwing;
+            let deficitNote='';
+            if(canMatch){
+              deficitNote=` (record: ${recordDeficitOvercome} pts)`;
+            }else if(mathPossible){
+              deficitNote=' – mathematically possible but virtually certain relegation';
             }else{
-              items.push({text:`have ${deficit}-point deficit to overcome to avoid first ever relegation from Div 1`,club:team.club});
+              deficitNote=' – mathematically impossible to avoid relegation';
+            }
+            if(lastRelegation){
+              items.push({text:`have ${deficit}-point deficit to overcome if they are to avoid first relegation since ${getYear(lastRelegation.season)}${deficitNote}`,club:team.club});
+            }else{
+              items.push({text:`have ${deficit}-point deficit to overcome to avoid first ever relegation from Div 1${deficitNote}`,club:team.club});
             }
           }
         });
@@ -825,6 +847,54 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         }
       }
       
+      // Check for relegation escapes (team in relegation zone after M3 but escaped)
+      if(standings.length>=9&&completedMatches===4){
+        const numTeams=standings.length;
+        const relZone=season==='2022/23'?[numTeams]:[numTeams-1,numTeams];
+        const safePos=Math.min(...relZone)-1;
+        
+        // Calculate M3 standings
+        const m3Data=standings.map(t=>({
+          club:t.club,
+          m3Total:(t.m1||0)+(t.m2||0)+(t.m3||0),
+          finalTotal:t.total
+        }));
+        const m3Sorted=[...m3Data].sort((a,b)=>a.m3Total-b.m3Total);
+        const finalSorted=[...m3Data].sort((a,b)=>a.finalTotal-b.finalTotal);
+        
+        m3Sorted.forEach((team,idx)=>{
+          const m3Pos=idx+1;
+          const finalPos=finalSorted.findIndex(t=>t.club===team.club)+1;
+          
+          if(relZone.includes(m3Pos)&&!relZone.includes(finalPos)){
+            // This team escaped!
+            const safeTeamM3=m3Sorted[safePos-1];
+            const deficit=team.m3Total-safeTeamM3.m3Total;
+            items.push({text:`became the first team to escape the relegation zone on the final day, overcoming a ${deficit}-point deficit`,club:team.club});
+          }
+        });
+        
+        // Check for final-day title comebacks
+        const m3Leader=m3Sorted[0];
+        const champion=finalSorted[0];
+        const championM3Pos=m3Sorted.findIndex(t=>t.club===champion.club)+1;
+        
+        if(championM3Pos>1){
+          const championM3Data=m3Sorted[championM3Pos-1];
+          const deficit=championM3Data.m3Total-m3Leader.m3Total;
+          // Check if this is the biggest comeback
+          const comebacks=[{season:'2017/18',deficit:12},{season:'2022/23',deficit:24}];
+          const biggestBefore=comebacks.filter(c=>c.season<season).reduce((max,c)=>Math.max(max,c.deficit),0);
+          const isRecord=deficit>biggestBefore;
+          
+          if(isRecord){
+            items.push({text:`won the title on the final day with the biggest comeback in league history, overturning a ${deficit}-point deficit to`,club:m3Leader.club});
+          }else{
+            items.push({text:`won the title on the final day, overturning a ${deficit}-point deficit to`,club:m3Leader.club});
+          }
+        }
+      }
+      
       if(maxTeamWins===4&&dominantTeam){
         const prevCount=countAllFourWins();
         items.push({text:prevCount===0?'became first club to win all 4 matches':`won all 4 matches – only happened ${prevCount} time${prevCount>1?'s':''} before`,club:dominantTeam});
@@ -875,7 +945,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
   if(!insights.length)return null;
   return<div className="hidden md:block mt-4 pt-4 border-t border-gray-100">
     <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Punditry 📊</h3>
-    <ul className="space-y-1">{insights.map((item,i)=><li key={i} className="text-xs text-gray-600">• {item.textBefore}{item.club&&!item.brothers&&!item.fatherSon&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:item.athlete})}>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&!item.fatherSon&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.fatherSon&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{item.fatherSon&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.fatherSon.son.name,club:item.fatherSon.son.club}})}>{item.fatherSon.son.name}</span> ({item.fatherSon.son.pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.fatherSon.father.name,club:item.fatherSon.father.club}})}>{item.fatherSon.father.name}</span> ({item.fatherSon.father.pos}) = {item.fatherSonTotal} pts</>}{!item.brothers&&!item.fatherSon&&item.text}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}</li>)}</ul>
+    <ul className="space-y-1">{insights.map((item,i)=><li key={i} className="text-xs text-gray-600">• {item.textBefore}{item.club&&!item.brothers&&!item.fatherSon&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:item.athlete})}>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&!item.fatherSon&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.fatherSon&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{item.fatherSon&&<><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>Match {item.race.match}</span> saw the lowest combined father/son score on record: <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.fatherSon.son.name,club:item.fatherSon.son.club}})}>{item.fatherSon.son.name}</span> ({item.fatherSon.son.pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.fatherSon.father.name,club:item.fatherSon.father.club}})}>{item.fatherSon.father.name}</span> ({item.fatherSon.father.pos}) = {item.fatherSonTotal} pts</>}{!item.brothers&&!item.fatherSon&&item.text}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}</li>)}</ul>
   </div>;
 };
 
