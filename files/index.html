@@ -226,10 +226,27 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData})=
       // Compute A-scores for all athletes at this club from race results
       const clubStats={};
       races.forEach(race=>{
+        // Handle historical races (only have winner info)
+        if(race.historical){
+          if(race.winners){
+            race.winners.forEach(w=>{
+              if(w.club===club){
+                const key=normalizeNameForCompare(w.name);
+                if(!clubStats[key])clubStats[key]={name:w.name,aScores:0};
+                clubStats[key].aScores++;
+              }
+            });
+          }else if(race.winnerClub===club&&race.winner){
+            const key=normalizeNameForCompare(race.winner);
+            if(!clubStats[key])clubStats[key]={name:race.winner,aScores:0};
+            clubStats[key].aScores++;
+          }
+          return;
+        }
         if(!race.results)return;
         const clubRunners=race.results.filter(r=>r.club===club);
         clubRunners.slice(0,10).forEach((r,i)=>{
-          const key=r.name.toLowerCase();
+          const key=normalizeNameForCompare(r.name);
           if(!clubStats[key])clubStats[key]={name:r.name,aScores:0};
           clubStats[key].aScores++;
         });
@@ -490,6 +507,45 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       return null;
     };
     
+    const findLastRelegation=(club)=>{
+      const seasons=Object.keys(allSeasonsData).sort().reverse();
+      for(const s of seasons){
+        if(s>=season)continue;
+        const sd=allSeasonsData[s];
+        if(!sd?.standings)continue;
+        const pos=sd.standings.findIndex(t=>t.club===club)+1;
+        const numTeams=sd.standings.length;
+        // Check if club was in relegation zone (9th or 10th in a 9 or 10 team league)
+        if(pos>=9&&pos===numTeams){
+          return{season:s,pos};
+        }
+        // Also check if club disappeared next season (was relegated)
+        const nextSeason=Object.keys(allSeasonsData).sort().find(ns=>ns>s);
+        if(nextSeason&&allSeasonsData[nextSeason]?.standings){
+          const inNext=allSeasonsData[nextSeason].standings.some(t=>t.club===club);
+          if(!inNext&&pos>=8)return{season:s,pos};
+        }
+      }
+      return null;
+    };
+    
+    const findLowestPosition=(club)=>{
+      let lowest=null;
+      const seasons=Object.keys(allSeasonsData).sort();
+      for(const s of seasons){
+        if(s>=season)continue;
+        const sd=allSeasonsData[s];
+        if(!sd?.standings)continue;
+        const pos=sd.standings.findIndex(t=>t.club===club)+1;
+        if(pos>0&&(!lowest||pos>lowest.pos)){
+          lowest={season:s,pos};
+        }
+      }
+      return lowest;
+    };
+    
+    const getYear=(s)=>{const yy=s.split('/')[1];return(parseInt(yy)<50?'20':'19')+yy;};
+    
     const countAllFourWins=()=>{
       let count=0;
       for(const[s,sd] of Object.entries(allSeasonsData)){
@@ -547,12 +603,17 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       }
       
       const leader=standings[0]?.club;
+      const leaderTotal=standings[0]?.total;
+      const secondTotal=standings[1]?.total;
+      const pointLead=leaderTotal&&secondTotal?leaderTotal-secondTotal:null;
       if(leader){
         const lastTitle=findLastTitle(leader);
         if(lastTitle&&parseInt(lastTitle.split('/')[0])<parseInt(season.split('/')[0])-5){
-          items.push({text:'poised to win first title since',club:leader,linkSeason:lastTitle});
+          items.push({text:`have ${Math.abs(pointLead)}-point lead and could win first title since`,club:leader,linkSeason:lastTitle});
         }else if(!lastTitle){
-          items.push({text:'on course for first ever league title',club:leader});
+          items.push({text:`have ${Math.abs(pointLead)}-point lead and are on course for first ever league title`,club:leader});
+        }else if(pointLead){
+          items.push({text:`lead by ${Math.abs(pointLead)} points`,club:leader});
         }
       }
       
@@ -565,10 +626,26 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       }
       
       if(standings.length>=9){
+        // Relegation zone insight with deficit
+        const safeTeam=standings[7];// 8th place is safe
         [standings[8],standings[9]].filter(Boolean).forEach(team=>{
-          if(team&&items.length<5){
-            const lastIn=findLastInDiv1(team.club);
-            if(!lastIn||lastIn===season)items.push({text:'fighting to avoid first ever relegation from Div 1',club:team.club});
+          if(team&&items.length<6){
+            const deficit=team.total-safeTeam?.total;
+            const lastRelegation=findLastRelegation(team.club);
+            if(lastRelegation){
+              items.push({text:`have ${deficit}-point deficit to overcome if they are to avoid first relegation since ${getYear(lastRelegation.season)}`,club:team.club});
+            }else{
+              items.push({text:`have ${deficit}-point deficit to overcome to avoid first ever relegation from Div 1`,club:team.club});
+            }
+          }
+        });
+        
+        // Check for clubs that might have their lowest finish
+        standings.slice(3,8).forEach((team,idx)=>{
+          const currentPos=idx+4;// positions 4-8
+          const lowestEver=findLowestPosition(team.club);
+          if(lowestEver&&currentPos>lowestEver.pos&&items.length<6){
+            items.push({text:`${currentPos}${currentPos===4?'th':currentPos===5?'th':'th'} place would be their lowest Div 1 finish since ${getYear(lowestEver.season)}`,club:team.club});
           }
         });
       }
@@ -735,7 +812,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
   
   if(!insights.length)return null;
   return<div className="hidden md:block mt-4 pt-4 border-t border-gray-100">
-    <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Analysis</h3>
+    <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Punditry 🧮</h3>
     <ul className="space-y-1">{insights.map((item,i)=><li key={i} className="text-xs text-gray-600">• {item.textBefore}{item.club&&!item.brothers&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:item.athlete})}>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{!item.brothers&&item.text}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}</li>)}</ul>
   </div>;
 };
