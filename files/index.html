@@ -336,7 +336,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
       const isHist=sd.historical;
       const hasM4=sd.standings[0].m4!==null||isHist;
       if(!hasM4)return;
-      const getYear=s=>'20'+s.split('/')[1];
+      const getYear=s=>{const parts=s.split('/');const yy=parts[1];return(parseInt(yy)<50?'20':'19')+yy;};
       if(sd.standings[0]?.club===clubCode)titles.push(getYear(season));
       if(sd.standings[1]?.club===clubCode)seconds.push(getYear(season));
       if(sd.standings[2]?.club===clubCode)thirds.push(getYear(season));
