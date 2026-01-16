@@ -1325,13 +1325,11 @@ const HomeView=({setView,data,initialSeason})=>{
   const setSeason=(s)=>{setSeasonState(s);setView({type:'home',season:s});};
   const seasonData=data.seasonsData[season];const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);const matches=seasonData?.matches||[];const standings=seasonData?.standings||[];
-  // Season is historical (partial) if any race is missing full results (results count < finishers, or no finishers recorded and results < 100)
+  // Season is complete if all 4 races have >100 results each
   const seasonRaces=data.races.filter(r=>r.season===season);
-  const hasCompleteResults=seasonRaces.length===4&&seasonRaces.every(r=>{
-    const results=r.results?.length||0;
-    const finishers=r.finishers||0;
-    return finishers>0?results>=finishers:results>=100;
-  });
+  const racesWithResults=seasonRaces.filter(r=>r.results&&r.results.length>100);
+  const isCurrentSeason=season===data.seasons[0];
+  const hasCompleteResults=isCurrentSeason?racesWithResults.length===seasonRaces.filter(r=>r.results?.length>0).length:racesWithResults.length===4;
   const isHistorical=!hasCompleteResults;
   const isComplete=!isHistorical||(standings[0]?.m4!==null&&standings[0]?.m4!==undefined);
   // Show relegation zone for complete seasons with full standings (2022/23 only relegated 1 team for expansion)
