@@ -99,11 +99,15 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
   const teams=useMemo(()=>{
     const clubScores={};
     const clubScoringCounts={};
-    // For A team (startPos=1): count runners with pts, take first 10
-    // For B team (startPos=11): count runners with b_pts, take first 10
+    const aTeamClubs = new Set();
     const isATeam = startPos === 1;
-    // Penalty score for incomplete teams: (finishers + 1) / 2, rounded to nearest 0.5
-    const penaltyScore = finishers ? Math.round((finishers + 1) / 2 * 2) / 2 : null;
+    
+    // First pass: count A team clubs (needed for B team penalty calc)
+    results.forEach(r=>{
+      if(r.pts != null) aTeamClubs.add(r.club);
+    });
+    
+    // Second pass: collect scores
     results.forEach(r=>{
       const hasPts = isATeam ? (r.pts != null) : (r.b_pts != null);
       const pts = isATeam ? r.pts : r.b_pts;
@@ -116,15 +120,23 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
         }
       }
     });
-    // Add penalty scores for incomplete teams
+    
+    // Calculate penalty: (num_A_clubs * 10 + actual_scorers + 1) / 2
+    // For both A and B teams, use A team club count
+    const numClubs = aTeamClubs.size;
+    const totalScorers = Object.values(clubScoringCounts).reduce((a,b)=>a+Math.min(b,count),0);
+    const penaltyScore = (numClubs * count + totalScorers + 1) / 2;
+    
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
-      const penalties = missing > 0 && penaltyScore ? Array(missing).fill(penaltyScore) : [];
+      const penalties = missing > 0 ? Array(missing).fill(penaltyScore) : [];
       const allScores = [...scores, ...penalties];
-      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, complete: scores.length >= count};
+      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore, complete: scores.length >= count};
     }).filter(t=>t.scores.length>0).sort((a,b)=>{if(a.complete&&!b.complete)return-1;if(!a.complete&&b.complete)return 1;return a.points-b.points;}).map((t,i)=>({...t,pos:i+1}));
   },[results,startPos,count,finishers]);
-  return<div><table className="w-full"><thead><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="w-8"></th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Points</th><th className="text-left py-2 px-4 text-xs font-semibold text-[#0077b6] uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-100">{teams.map(team=><tr key={team.club} className="hover:bg-gray-50"><td className="py-2 px-2 text-sm text-gray-700">{team.pos}</td><td className="py-2 px-1"><ClubShield club={team.club} size={20}/></td><td className="py-2 px-2 text-sm font-medium text-gray-900">{team.club}</td><td className="py-2 px-2 text-sm font-bold text-gray-900 text-right">{team.points}</td><td className="py-2 px-4"><div className="flex flex-wrap gap-1.5">{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-500 tabular-nums border border-gray-200 px-1 rounded">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="text-xs text-red-400 tabular-nums border border-red-200 px-1 rounded" title="Penalty score">*</span>)}{!team.complete&&team.penalties.length===0&&<span className="text-xs text-gray-300 italic ml-1">incomplete</span>}</div></td></tr>)}</tbody></table>{teams.some(t=>t.penalties.length>0)&&<p className="text-xs text-gray-400 mt-2">* Penalty score for each incomplete position = {finishers?Math.round((finishers+1)/2*2)/2:'?'} points</p>}</div>;
+  
+  const penaltyValue = teams.find(t=>t.penalties.length>0)?.penaltyScore;
+  return<div><table className="w-full"><thead><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="w-8"></th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Points</th><th className="text-left py-2 px-4 text-xs font-semibold text-[#0077b6] uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-100">{teams.map(team=><tr key={team.club} className="hover:bg-gray-50"><td className="py-2 px-2 text-sm text-gray-700">{team.pos}</td><td className="py-2 px-1"><ClubShield club={team.club} size={20}/></td><td className="py-2 px-2 text-sm font-medium text-gray-900">{team.club}</td><td className="py-2 px-2 text-sm font-bold text-gray-900 text-right">{team.points}</td><td className="py-2 px-4"><div className="flex flex-wrap gap-1.5">{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-500 tabular-nums border border-gray-200 px-1 rounded">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="text-xs text-red-400 tabular-nums border border-red-200 px-1 rounded" title="Penalty score">*</span>)}{!team.complete&&team.penalties.length===0&&<span className="text-xs text-gray-300 italic ml-1">incomplete</span>}</div></td></tr>)}</tbody></table>{penaltyValue&&<p className="text-xs text-gray-400 mt-2">* Penalty score for each incomplete position = {penaltyValue} points</p>}</div>;
 };
 
 const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps})=>{
