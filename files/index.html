@@ -1373,9 +1373,9 @@ const HomeView=({setView,data})=>{
     return<div className="mt-4">
       <table className="w-full text-sm">
         <thead><tr className="border-b border-gray-200">
-          <th colSpan="2" className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Individuals</th>
-          <th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-12">Tot</th>
-          <th className="text-right py-1.5 pl-2 text-xs text-gray-500 uppercase">Runs</th>
+          <th colSpan="2" className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase" title="Top 5 athletes who raced in all matches this season, ranked by total of finishing positions (lowest is best)">Individuals</th>
+          <th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-12" title="Sum of finishing positions across all races">Tot</th>
+          <th className="text-right py-1.5 pl-2 text-xs text-gray-500 uppercase" title="Finishing position in each race (chronological order)">Runs</th>
         </tr></thead>
         <tbody className="divide-y divide-gray-100">{eligible.map((a,i)=>
           <tr key={a.name} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
