@@ -1321,6 +1321,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
 
 const HomeView=({setView,data,initialSeason})=>{
   const[season,setSeasonState]=useState(initialSeason&&data.seasons.includes(initialSeason)?initialSeason:data.seasons[0]);
+  useEffect(()=>{if(initialSeason&&data.seasons.includes(initialSeason))setSeasonState(initialSeason);},[initialSeason]);
   const setSeason=(s)=>{setSeasonState(s);setView({type:'home',season:s});};
   const seasonData=data.seasonsData[season];const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);const matches=seasonData?.matches||[];const standings=seasonData?.standings||[];
@@ -1369,6 +1370,8 @@ const HomeView=({setView,data,initialSeason})=>{
   </div>;
   
   const IndividualsTable=()=>{
+    // Only show for seasons with complete results
+    if(isHistorical)return null;
     const seasonRaces=data.races.filter(r=>r.season===season&&r.results);
     const numRaces=seasonRaces.length;
     if(numRaces===0)return null;
