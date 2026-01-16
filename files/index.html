@@ -1327,10 +1327,9 @@ const HomeView=({setView,data})=>{
   const numTeams=standings.length;
   const showRelegation=numTeams>=9&&season!=='2022/23';
   // Row height alignment: Left has numTeams rows, Right has 4+5=9 rows (plus headers and gap)
-  // Left needs MORE padding, right needs LESS padding to align
-  // For 10 teams: left py-[9px], right py-[5px]
-  // For 9 teams: left py-[11px], right py-[5px]
-  const leftRowPy=numTeams>=10?'py-[9px]':'py-[11px]';
+  // For 10 teams: left py-[7px], right py-[5px]
+  // For 9 teams: left py-[9px], right py-[5px]
+  const leftRowPy=numTeams>=10?'py-[7px]':'py-[9px]';
   const rightRowPy='py-[5px]';
   
   const StandingsTable=()=><div>
