@@ -440,12 +440,12 @@ const ChartRoomView=({setView,data})=>{
   const squadSizes=getSquadSizes();
   const selectedSquad=hoveredSquad||tappedSquad;
   
-  const chartW=800,chartH=250,padL=35,padR=20,padT=20,padB=30;
+  const chartW=800,chartH=250,padL=35,padR=80,padT=20,padB=30;
   const plotW=chartW-padL-padR,plotH=chartH-padT-padB;
   const xStep=plotW/(seasons.length-1);
   const yScale=(pos)=>padT+(pos-1)*(plotH/10);
   
-  return<div className="max-w-6xl mx-auto px-4 py-8">
+  return<div className="max-w-5xl mx-auto px-4 py-8">
     <button onClick={()=>setView({type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button>
     <h1 className="text-2xl font-bold text-gray-900 mb-1">📊 Chart room</h1>
     <p className="text-sm text-gray-500 mb-8">League trends and statistics visualised</p>
