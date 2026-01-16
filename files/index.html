@@ -1277,7 +1277,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
   if(!insights.length)return null;
   return<div className="mt-4 pt-4 border-t border-gray-100">
     <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2">Punditry <span className="cursor-pointer" onClick={()=>setView({type:'quiz'})} title="🍺 Pub Quiz">📊</span></h3>
-    <p className="text-xs text-gray-600 leading-relaxed">{insights.map((item,i)=><React.Fragment key={i}>{i>0&&<span className="mx-1.5 text-gray-300">·</span>}{item.textBefore}{item.club&&!item.brothers&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:item.club})}><ClubShield club={item.club} size={12} className="inline-block align-middle mr-0.5"/>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:item.club})}><ClubShield club={item.club} size={12} className="inline-block align-middle mr-0.5"/>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:item.athlete})}>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{!item.brothers&&item.text}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}.</React.Fragment>)}</p>
+    <p className="text-xs text-gray-600 leading-relaxed">{insights.map((item,i)=><React.Fragment key={i}>{i>0&&<span className="mx-1.5 text-gray-300">·</span>}{item.textBefore}{item.club&&!item.brothers&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.club} size={12}/></span>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:item.club})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.club} size={12}/></span>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:item.athlete})}>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{!item.brothers&&item.text}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}.</React.Fragment>)}</p>
   </div>;
 };
 
@@ -1295,7 +1295,7 @@ const HomeView=({setView,data})=>{
   const FixturesTable=()=><div>
     <table className="w-full text-sm">
       <thead><tr className="border-b border-gray-200">
-        <th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase w-8"></th>
+        <th className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase w-8 md:w-14"></th>
         <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase">Matches</th>
         <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase">Winner</th>
         <th className="text-right py-1.5 pl-2 text-xs text-gray-500 uppercase">Team</th>
@@ -1303,7 +1303,7 @@ const HomeView=({setView,data})=>{
       <tbody className="divide-y divide-gray-100">{matches.map(match=>{
         const race=findRace(match.num);const upcoming=!match.winner;
         return<tr key={match.num} className={`${upcoming?'opacity-50':'hover:bg-blue-50 cursor-pointer'}`} onClick={()=>!upcoming&&race&&setView({type:'race',race})}>
-          <td className="py-1.5 pr-2 text-gray-500">{match.date?.length<=3?match.date:formatDateShort(match.date)}</td>
+          <td className="py-1.5 pr-2 text-gray-500 whitespace-nowrap">{match.date?.length<=3?match.date:formatDateShort(match.date)}</td>
           <td className="py-1.5 px-2 text-gray-900">{match.venue}</td>
           <td className="py-1.5 px-2">{upcoming?<span className="text-gray-400 italic">-</span>:<div className="flex items-center gap-1.5"><ClubShield club={match.winnerClub} size={14}/><span className="text-gray-700"><span className="hidden md:inline">{match.winner}</span><span className="md:hidden">{getSurname(match.winner)}</span></span></div>}</td>
           <td className="py-1.5 pl-2 text-right">{!upcoming&&match.teamWinner?<div className="inline-flex items-center gap-1.5"><ClubShield club={match.teamWinner} size={14}/><span className="font-medium">{match.teamWinner}</span></div>:'-'}</td>
@@ -1351,6 +1351,18 @@ const HomeView=({setView,data})=>{
     </div>;
   };
   
+  const allTimeRef=React.useRef(null);
+  const [stickyVisible,setStickyVisible]=useState(true);
+  
+  React.useEffect(()=>{
+    if(!allTimeRef.current)return;
+    const observer=new IntersectionObserver(([entry])=>{
+      setStickyVisible(!entry.isIntersecting);
+    },{threshold:0,rootMargin:'-48px 0px 0px 0px'});
+    observer.observe(allTimeRef.current);
+    return()=>observer.disconnect();
+  },[]);
+  
   return<div className="max-w-5xl mx-auto px-4 py-8">
     <div className="mb-6 pb-4 border-b border-gray-200">
       <h1 className="text-2xl font-bold text-gray-900 mb-1">Surrey Cross Country League</h1>
@@ -1359,6 +1371,7 @@ const HomeView=({setView,data})=>{
     
     {seasonData?<div className="mb-8">
       <div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
+      {stickyVisible&&<div className="md:hidden fixed top-12 left-0 right-0 bg-white border-b border-gray-200 px-4 py-2 z-40 shadow-sm"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>}
       <div className="grid md:grid-cols-2 gap-8">
         <div className="overflow-x-auto"><StandingsTable/></div>
         <div><FixturesTable/><IndividualsTable/></div>
@@ -1366,7 +1379,7 @@ const HomeView=({setView,data})=>{
       <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>
     </div>:<p className="text-sm text-gray-500 mb-10">No data</p>}
     
-    <div className="border-t border-gray-200 mt-4"></div>
+    <div ref={allTimeRef} className="border-t border-gray-200 mt-4"></div>
     <div className="grid md:grid-cols-2 gap-8 pt-6">
       <div><table className="w-full text-xs"><thead><tr className="border-b border-gray-200"><th className="text-left py-1 pr-1" colSpan="2"><h2 className="text-xs font-semibold text-gray-900 uppercase tracking-wide cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athletes'})}>All-Time Athletes →</h2></th><th className="text-right py-1 px-1 text-gray-500 uppercase w-7">W</th><th className="text-right py-1 px-1 text-gray-500 uppercase w-7">T3</th><th className="text-right py-1 px-1 text-gray-500 uppercase w-7">T10</th><th className="text-right py-1 pl-1 text-gray-500 uppercase w-7">R</th></tr></thead><tbody className="divide-y divide-gray-100">{topWinners.map((a,i)=><tr key={a.name} className="hover:bg-gray-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1 pr-1 text-gray-400 w-4">{i+1}</td><td className="py-1 pr-1"><div className="flex items-center gap-1 whitespace-nowrap"><ClubShield club={a.club} size={12}/><span className="text-gray-900">{a.name}</span></div></td><td className="py-1 px-1 text-right font-semibold">{a.wins||'-'}</td><td className="py-1 px-1 text-right text-gray-600">{a.top3||'-'}</td><td className="py-1 px-1 text-right text-gray-600">{a.top10||'-'}</td><td className="py-1 pl-1 text-right text-gray-400">{a.races}</td></tr>)}</tbody></table></div>
       <div><table className="w-full text-xs"><thead><tr className="border-b border-gray-200"><th className="text-left py-1 pr-1" colSpan="2"><h2 className="text-xs font-semibold text-gray-900 uppercase tracking-wide cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'clubs'})}>All-Time Clubs →</h2></th><th className="text-right py-1 px-1 text-gray-500 uppercase w-12">Titles</th><th className="text-right py-1 pl-1 text-gray-500 uppercase w-8">2nd</th></tr></thead><tbody className="divide-y divide-gray-100">{data.clubAllTime.slice(0,5).map((c,i)=><tr key={c.club} className="hover:bg-gray-50 cursor-pointer" onClick={()=>setView({type:'club',club:c.club})}><td className="py-1 pr-1 text-gray-400 w-4">{i+1}</td><td className="py-1 pr-1"><div className="flex items-center gap-1"><ClubShield club={c.club} size={12}/><ClubName club={c.club} className="text-gray-900"/></div></td><td className="py-1 px-1 text-right font-semibold">{c.titles||'-'}</td><td className="py-1 pl-1 text-right text-gray-400">{c.runnerUp||'-'}</td></tr>)}</tbody></table></div>
