@@ -173,6 +173,11 @@ const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title})=>{
   return<div><table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 text-xs font-semibold text-gray-900 uppercase tracking-wide" colSpan="3">{title||'Club'}</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-12">Pts</th><th className="text-left py-1.5 pl-2 text-xs text-gray-500 uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-50">{teams.map(team=><tr key={team.club}><td className="py-1.5 text-gray-500 w-6">{team.pos}</td><td className="py-1.5 w-6"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 font-medium text-gray-900">{team.club}</td><td className="py-1.5 px-2 font-bold text-gray-900 text-right">{Math.round(team.points)}</td><td className="py-1.5 pl-2"><div className="flex flex-wrap gap-x-0.5 tabular-nums text-xs text-gray-500">{team.scores.map((s,i)=><span key={i} className="w-6 text-center">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="w-6 text-center text-red-400">*</span>)}</div></td></tr>)}</tbody></table>{penaltyValue&&<p className="text-xs text-gray-400 mt-2">* Penalty = {Math.round(penaltyValue)} pts</p>}</div>;
 };
 
+const KnownTeamScoresTable=({scores,title})=>{
+  if(!scores?.length)return null;
+  return<div><table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 text-xs font-semibold text-gray-900 uppercase tracking-wide" colSpan="3">{title||'A Teams'}</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-16">Pts</th></tr></thead><tbody className="divide-y divide-gray-50">{scores.map(team=><tr key={team.club}><td className="py-1.5 text-gray-500 w-6">{team.pos}</td><td className="py-1.5 w-6"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 font-medium text-gray-900">{CLUBS[team.club]?.name||team.club}</td><td className="py-1.5 px-2 font-bold text-gray-900 text-right">{team.pts}</td></tr>)}</tbody></table><p className="text-xs text-gray-400 mt-2">* From archived results</p></div>;
+};
+
 const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps,individualChampions})=>{
   const filtered=clubFilter?results.filter(r=>r.club===clubFilter):results;
   const isClubGoat=(name,club)=>{const mvps=clubMvps?.[club];return mvps&&namesMatch(mvps[0]?.name,name);};
@@ -203,8 +208,9 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
     {/* Mobile: tabs */}
     <div className="lg:hidden">
       <div className="flex gap-4 mb-6 border-b border-gray-200">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`pb-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab===t.id?'border-[#0077b6] text-[#0077b6]':'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
-      {tab==='a-teams'&&<TeamResultsTable results={race.results} startPos={1} count={10} finishers={race.finishers}/>}
-      {tab==='b-teams'&&<TeamResultsTable results={race.results} startPos={11} count={10} finishers={race.finishers}/>}
+      {tab==='a-teams'&&(race.knownTeamScores?<KnownTeamScoresTable scores={race.knownTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={10} finishers={race.finishers}/>)}
+      {tab==='b-teams'&&!race.knownTeamScores&&<TeamResultsTable results={race.results} startPos={11} count={10} finishers={race.finishers}/>}
+      {tab==='b-teams'&&race.knownTeamScores&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
       {tab==='individual'&&<IndividualResultsTable results={race.results} clubFilter={clubFilter} setClubFilter={setClubFilter} setView={setView} clubMvps={clubMvps} individualChampions={individualChampions}/>}
     </div>
     
@@ -215,10 +221,10 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
       </div>
       <div>
         <div className="mb-6">
-          <TeamResultsTableCompact results={race.results} startPos={1} count={10} finishers={race.finishers} title="A Teams"/>
+          {race.knownTeamScores?<KnownTeamScoresTable scores={race.knownTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={10} finishers={race.finishers} title="A Teams"/>}
         </div>
         <div>
-          <TeamResultsTableCompact results={race.results} startPos={11} count={10} finishers={race.finishers} title="B Teams"/>
+          {!race.knownTeamScores&&<TeamResultsTableCompact results={race.results} startPos={11} count={10} finishers={race.finishers} title="B Teams"/>}
         </div>
       </div>
     </div>
@@ -1485,10 +1491,17 @@ const HomeView=({setView,data,initialSeason})=>{
   const leftRowPy=numTeams>=10?'py-[7px]':'py-[9px]';
   const rightRowPy='py-[5px]';
   
-  const StandingsTable=()=><div>
+  const KnownStandingsTable=({knownStandings,setView})=><div>
+    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className="text-left py-[9px] pr-2 text-xs text-gray-500 uppercase">Division 1</th><th className="text-right py-[9px] pr-1 text-xs text-gray-500 uppercase">Tot</th></tr></thead><tbody>{knownStandings.map((team,i)=><tr key={team.club} className="hover:bg-gray-50 border-b border-gray-100"><td className="py-[9px] pr-1 w-6"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0?'🏆':team.pos}</span></td><td className="py-[9px] pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-[9px] pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className="text-right py-[9px] pr-1"><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.pts}</span></td></tr>)}</tbody></table>
+    <p className="text-xs text-gray-400 mt-2 italic">* Final standings from archived results.</p>
+  </div>;
+  
+  const StandingsTable=()=>{
+    if(seasonData?.knownStandings)return<KnownStandingsTable knownStandings={seasonData.knownStandings} setView={setView}/>;
+    return<div>
     <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} pr-1 text-xs text-gray-500 uppercase`} title="Total of a team's scores across all matches">Tot</th>{matches.map((m,i)=>{const race=findRace(m.num);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-9 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#0077b6]':''}`} title={`Sum of a team's top 10 scoring positions in match ${m.num}`} onClick={()=>race&&setView({type:'race',race})}>M{m.num}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#0077b6]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} pr-1`}><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {isHistorical&&<p className="text-xs text-gray-400 mt-2 italic">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
-  </div>;
+  </div>;};
   
   const FixturesTable=()=><div>
     <table className="w-full text-sm">
