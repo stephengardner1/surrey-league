@@ -1057,11 +1057,12 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         }
       }
       
-      if(standings.length>=9){
+      if(standings.length>=9&&season!=='2022/23'){
         // Relegation zone insight with deficit and yo-yo stats
-        const safeTeam=standings[7];// 8th place is safe
         const numTeams=standings.length;
-        const relZone=season==='2022/23'?[numTeams]:[numTeams-1,numTeams];
+        const safePos=numTeams-2;// Position that's safe (e.g. 8th in 10-team league)
+        const safeTeam=standings[safePos-1];
+        const relZone=[numTeams-1,numTeams];// Bottom 2 relegated
         
         relZone.map(pos=>standings[pos-1]).filter(Boolean).forEach(team=>{
           if(team&&items.length<6){
@@ -1077,12 +1078,12 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
             const relegationSeasons=[];
             let maxConsecutive=0,currentStreak=0;
             
-            data.seasons.filter(s=>s>='2014/15'&&s<season).forEach(s=>{
+            data.seasons.filter(s=>s>='2014/15'&&s<season&&s!=='2022/23').forEach(s=>{
               const sd=allSeasonsData[s];
               if(!sd?.standings)return;
               const wasIn=sd.standings.some(t=>t.club===team.club);
               const numT=sd.standings.length;
-              const relZ=s==='2022/23'?[numT]:[numT-1,numT];
+              const relZ=[numT-1,numT];// Bottom 2
               const pos=sd.standings.findIndex(t=>t.club===team.club)+1;
               if(wasIn){
                 currentStreak++;
@@ -1253,6 +1254,44 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         if(prevChamp===runnerUp)items.push({text:'were defending champions but finished 2nd',club:runnerUp});
       }
       
+      // 2022/23 league expansion - no relegation that season
+      if(season==='2022/23'){
+        items.push({text:'League expanded to 10 teams – no relegation this season'});
+      }
+      
+      // Final day relegation escape (not for 2022/23 which had no relegation)
+      if(season!=='2022/23'&&standings.length>=9){
+        const afterM3=standings.map(t=>({
+          club:t.club,
+          totalM3:(t.m1||0)+(t.m2||0)+(t.m3||0),
+          final:standings.findIndex(x=>x.club===t.club)+1
+        })).sort((a,b)=>a.totalM3-b.totalM3);
+        
+        const numT=standings.length;
+        const relZone=[numT-1,numT];// Bottom 2 relegated
+        
+        afterM3.forEach((t,i)=>{
+          const posAfterM3=i+1;
+          if(relZone.includes(posAfterM3)&&!relZone.includes(t.final)){
+            // Check if this is unique in our data
+            const otherEscapes=Object.entries(allSeasonsData).filter(([s,sd])=>{
+              if(s>=season||s==='2022/23'||!sd.standings||sd.standings.length<9)return false;
+              if(sd.standings[0].m4===null||sd.standings[0].m4===undefined)return false;
+              const numTeams=sd.standings.length;
+              const rz=[numTeams-1,numTeams];
+              const after=sd.standings.map(x=>({
+                club:x.club,
+                tot:(x.m1||0)+(x.m2||0)+(x.m3||0),
+                fin:sd.standings.findIndex(y=>y.club===x.club)+1
+              })).sort((a,b)=>a.tot-b.tot);
+              return after.some((x,idx)=>rz.includes(idx+1)&&!rz.includes(x.fin));
+            });
+            const isFirst=otherEscapes.length===0;
+            items.push({text:isFirst?'escaped relegation on the final day – the only time in league history':'escaped relegation on the final day',club:t.club});
+          }
+        });
+      }
+      
       // First/last appearances
       standings.forEach(team=>{
         if(items.length>=5)return;
@@ -1284,10 +1323,12 @@ const HomeView=({setView,data})=>{
   const[season,setSeason]=useState(data.seasons[0]);const seasonData=data.seasonsData[season];const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);const matches=seasonData?.matches||[];const standings=seasonData?.standings||[];
   const isHistorical=seasonData?.historical;const isComplete=isHistorical||(standings[0]?.m4!==null&&standings[0]?.m4!==undefined);
-  const showRelegation=season>='2022/23';
+  // Show relegation zone for complete seasons with full standings (not 2022/23 which had no relegation for expansion)
+  const numTeams=standings.length;
+  const showRelegation=isComplete&&numTeams>=9&&season!=='2022/23';
   
   const StandingsTable=()=><div>
-    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Division 1</th><th className="text-right py-1.5 pr-1 text-xs text-gray-500 uppercase">Tot</th>{matches.map((m,i)=><th key={i} className="text-right py-1.5 px-0.5 w-9 text-xs text-gray-500 uppercase">M{m.num}</th>)}</tr></thead><tbody className="divide-y divide-gray-100">{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===7?'border-b border-dashed border-gray-400':''}`}><td className="py-1.5 pr-1 w-6"><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1.5 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className="text-right py-1.5 pr-1"><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1.5 px-0.5"><span className="text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Division 1</th><th className="text-right py-1.5 pr-1 text-xs text-gray-500 uppercase">Tot</th>{matches.map((m,i)=><th key={i} className="text-right py-1.5 px-0.5 w-9 text-xs text-gray-500 uppercase">M{m.num}</th>)}</tr></thead><tbody className="divide-y divide-gray-100">{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===numTeams-3?'border-b border-dashed border-gray-400':''}`}><td className="py-1.5 pr-1 w-6"><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1.5 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className="text-right py-1.5 pr-1"><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1.5 px-0.5"><span className="text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {isHistorical&&<p className="text-xs text-gray-400 mt-2 italic">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
   </div>;
   
