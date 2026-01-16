@@ -876,15 +876,70 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   return<div className="max-w-5xl mx-auto px-4 py-8"><button onClick={()=>setView({type:'clubs'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button><div className="mb-8"><div className="flex items-center gap-4 mb-3"><ClubShield club={clubCode} size={48}/><div><h1 className="text-2xl font-bold text-gray-900">{clubInfo.name}</h1>{allTimeRank>0&&<p className="text-sm text-gray-500">#{allTimeRank} all-time</p>}</div></div><div className="flex flex-wrap gap-2">{titleYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{titleYears.length}× League Champions 🏆</span><span className="text-sm font-medium text-gray-700">{titleYears.join(' · ')}</span></div>}{secondYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{secondYears.length}× Runners-up 🥈</span><span className="text-sm font-medium text-gray-700">{secondYears.join(' · ')}</span></div>}{thirdYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{thirdYears.length}× Third place 🥉</span><span className="text-sm font-medium text-gray-700">{thirdYears.join(' · ')}</span></div>}</div>{mvp&&<p className="mt-3 text-sm text-gray-600">Club 🐐: <span className="font-medium text-[#0077b6] cursor-pointer hover:underline" onClick={()=>setView({type:'athlete',athlete:mvp})}>{mvp.name}</span></p>}</div><div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="py-1.5 px-1 w-10 text-center"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#0077b6] font-semibold':'text-gray-500'}`} title={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{clubAthletes.map((a,i)=><tr key={a.name} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-4"><div className="flex items-center gap-2"><span className="text-gray-400 text-sm w-6 text-right">{i+1}</span><span className="text-sm text-gray-900">{a.name}</span></div></td>{cols.map(c=><td key={c.f} className={`py-1.5 px-1 w-10 text-center text-sm tabular-nums ${sort===c.f?'font-semibold text-[#0077b6]':'text-gray-600'} ${a[c.f]===0?'text-gray-300':''}`}>{a[c.f]||'-'}</td>)}</tr>)}</tbody></table></div></div>;
 };
 
-const SeasonsView=({setView,seasonsData})=>{
+const SeasonsView=({setView,seasonsData,races})=>{
   const[expanded,setExpanded]=useState(null);
+  
+  // Helper to compute individual rankings from race results
+  const computeIndividualRankings=(season,seasonRaces)=>{
+    const athleteResults={};
+    seasonRaces.forEach(r=>{
+      if(!r.results)return;
+      r.results.forEach(res=>{
+        if(!res.pts)return;
+        const key=res.name;
+        if(!athleteResults[key])athleteResults[key]={name:res.name,club:res.club,runs:[],total:0};
+        athleteResults[key].runs.push({match:r.match,pos:res.pos});
+      });
+    });
+    return Object.values(athleteResults)
+      .filter(a=>a.runs.length===4)
+      .map(a=>{a.total=a.runs.reduce((sum,r)=>sum+r.pos,0);return a;})
+      .sort((a,b)=>a.total-b.total);
+  };
+  
+  // Helper to compute B team standings from race results
+  const computeBTeamStandings=(season,seasonRaces,numAClubs)=>{
+    const clubBScores={};
+    seasonRaces.forEach(r=>{
+      if(!r.results)return;
+      const clubScorers={};
+      r.results.forEach(res=>{
+        if(!res.pts||!res.club)return;
+        if(!clubScorers[res.club])clubScorers[res.club]=[];
+        clubScorers[res.club].push(res.pts);
+      });
+      Object.entries(clubScorers).forEach(([club,pts])=>{
+        const bPts=pts.slice(10,20);// B team is scorers 11-20
+        if(bPts.length>0){
+          if(!clubBScores[club])clubBScores[club]={club,scores:[],total:0};
+          const bScore=bPts.reduce((s,p)=>s+p,0);
+          // Add penalty for incomplete B team
+          const missing=10-bPts.length;
+          const penalty=missing>0?missing*Math.floor((numAClubs*10+bPts.length+1)/2):0;
+          clubBScores[club].scores.push(bScore+penalty);
+        }
+      });
+    });
+    return Object.values(clubBScores)
+      .filter(c=>c.scores.length===4)
+      .map(c=>{c.total=c.scores.reduce((s,v)=>s+v,0);return c;})
+      .sort((a,b)=>a.total-b.total);
+  };
+  
   const seasons=useMemo(()=>Object.entries(seasonsData).sort((a,b)=>b[0].localeCompare(a[0])).map(([season,data])=>{
-    const isHistorical=data.historical||false;
-    // Historical seasons are complete even with 3 matches (cancelled races)
-    // Modern seasons need m4 to be set
-    const isComplete=isHistorical?true:(data.standings?.[0]?.m4!==null&&data.standings?.[0]?.m4!==undefined);
-    return{season,isComplete,isHistorical,aTeam:isComplete?data.standings?.slice(0,3):[],bTeam:(isComplete&&!isHistorical)?data.bStandings?.slice(0,3):[],individual:(isComplete&&!isHistorical)?data.individualRankings?.slice(0,3):[]};
-  }),[seasonsData]);
+    const storedHistorical=data.historical||false;
+    // Check if we have complete race data (>100 results per race for all 4)
+    const seasonRaces=races.filter(r=>r.season===season);
+    const racesWithResults=seasonRaces.filter(r=>r.results&&r.results.length>100);
+    const hasCompleteRaceData=racesWithResults.length===4;
+    // Modern seasons need m4 to be set, historical can be complete with standings only
+    const isComplete=storedHistorical?true:(data.standings?.[0]?.m4!==null&&data.standings?.[0]?.m4!==undefined);
+    // Compute individual/B team if we have complete race data but no stored rankings
+    const individual=data.individualRankings?.slice(0,3)||(hasCompleteRaceData?computeIndividualRankings(season,seasonRaces).slice(0,3):[]);
+    const numAClubs=data.standings?.length||9;
+    const bTeam=data.bStandings?.slice(0,3)||(hasCompleteRaceData?computeBTeamStandings(season,seasonRaces,numAClubs).slice(0,3):[]);
+    return{season,isComplete,isHistorical:storedHistorical&&!hasCompleteRaceData,aTeam:isComplete?data.standings?.slice(0,3):[],bTeam,individual};
+  }),[seasonsData,races]);
   const canExpand=(s)=>s.isComplete&&!s.isHistorical&&(s.bTeam.length>0||s.individual.length>0);
   const shortSeason=(s)=>s.slice(2);// "2024/25" -> "24/25"
   return<div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-6"><h1 className="text-2xl font-bold text-gray-900">Winners</h1><p className="text-sm text-gray-500">{seasons.filter(s=>s.isComplete).length} completed seasons since 1962</p></div><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="w-5 md:w-6"></th><th className="text-left py-1.5 pr-2 md:pr-4 text-xs text-gray-500 uppercase">Season</th><th className="text-left py-1.5 px-1 md:px-4 text-xs text-gray-500 uppercase">A Team</th><th className="text-left py-1.5 px-1 md:px-4 text-xs text-gray-500 uppercase">B Team</th><th className="text-left py-1.5 pl-1 md:pl-4 text-xs text-gray-500 uppercase">Individual</th></tr></thead><tbody>{seasons.map(s=><React.Fragment key={s.season}><tr className={`border-b border-gray-50 hover:bg-blue-50 ${canExpand(s)?'cursor-pointer':''}`} onClick={()=>canExpand(s)&&setExpanded(expanded===s.season?null:s.season)}><td className="py-1.5 pr-0.5 md:pr-1">{canExpand(s)&&<span className="text-gray-400">{expanded===s.season?<ChevronUp className="w-4 h-4"/>:<ChevronDown className="w-4 h-4"/>}</span>}</td><td className="py-1.5 pr-2 md:pr-4"><span className="text-sm text-gray-900"><span className="md:hidden">{shortSeason(s.season)}</span><span className="hidden md:inline">{s.season}</span></span></td><td className="py-1.5 px-1 md:px-4">{s.aTeam[0]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.aTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[0]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.bTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[0]?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:s.individual[0].name,club:s.individual[0].club}});}}><ClubShield club={s.individual[0].club} size={14}/><span className="text-sm text-gray-700"><span className="hidden md:inline">{s.individual[0].name}</span><span className="md:hidden">{getSurname(s.individual[0].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr>{expanded===s.season&&<><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-0.5 md:pr-1"></td><td className="py-1.5 pr-2 md:pr-4 text-sm text-gray-400">2nd</td><td className="py-1.5 px-1 md:px-4">{s.aTeam[1]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[1]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[1]?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[1].name,club:s.individual[1].club}})}><ClubShield club={s.individual[1].club} size={14}/><span className="text-sm text-gray-600"><span className="hidden md:inline">{s.individual[1].name}</span><span className="md:hidden">{getSurname(s.individual[1].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-0.5 md:pr-1"></td><td className="py-1.5 pr-2 md:pr-4 text-sm text-gray-400">3rd</td><td className="py-1.5 px-1 md:px-4">{s.aTeam[2]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[2]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[2]?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[2].name,club:s.individual[2].club}})}><ClubShield club={s.individual[2].club} size={14}/><span className="text-sm text-gray-600"><span className="hidden md:inline">{s.individual[2].name}</span><span className="md:hidden">{getSurname(s.individual[2].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr></>}</React.Fragment>)}</tbody></table></div>;
@@ -2094,7 +2149,7 @@ function App(){
   useEffect(()=>{const onHash=()=>setViewState(parseUrlParams(data?.athletes));window.addEventListener('hashchange',onHash);return()=>window.removeEventListener('hashchange',onHash);},[data]);
   useEffect(()=>{if(data&&view.raceKey){const race=data.races.find(r=>r.season===view.raceKey.season&&r.match===view.raceKey.match);if(race)setViewState({type:'race',race});}},[data,view.raceKey]);
   if(loading)return<div className="loading text-gray-500">Loading...</div>;if(error)return<div className="loading text-red-500">Error: {error}</div>;if(!data)return<div className="loading text-gray-500">No data</div>;
-  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data} initialSeason={view.urlSeason}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView}/>}{view.type==='submit'&&<SubmitView setView={setView}/>}{view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
+  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data} initialSeason={view.urlSeason}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView}/>}{view.type==='submit'&&<SubmitView setView={setView}/>}{view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
