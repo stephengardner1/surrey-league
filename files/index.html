@@ -1319,8 +1319,10 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
   </div>;
 };
 
-const HomeView=({setView,data})=>{
-  const[season,setSeason]=useState(data.seasons[0]);const seasonData=data.seasonsData[season];const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
+const HomeView=({setView,data,initialSeason})=>{
+  const[season,setSeasonState]=useState(initialSeason&&data.seasons.includes(initialSeason)?initialSeason:data.seasons[0]);
+  const setSeason=(s)=>{setSeasonState(s);setView({type:'home',season:s});};
+  const seasonData=data.seasonsData[season];const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);const matches=seasonData?.matches||[];const standings=seasonData?.standings||[];
   const isHistorical=seasonData?.historical;const isComplete=isHistorical||(standings[0]?.m4!==null&&standings[0]?.m4!==undefined);
   // Show relegation zone for complete seasons with full standings (2022/23 only relegated 1 team for expansion)
@@ -1501,23 +1503,47 @@ const HomeView=({setView,data})=>{
 
 const Footer=({setView})=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-400">Vibecoded by Steve. Work in progress. Now <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'quiz'})}>quiz this</span>. <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'chartroom'})}>📊</span><br/><span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit more results</span></footer>;
 
-const parseUrlParams=()=>{
-  const params=new URLSearchParams(window.location.search);
-  if(params.get('athlete'))return{type:'athlete',athlete:{name:params.get('athlete')}};
-  if(params.get('club'))return{type:'club',club:params.get('club')};
-  if(params.get('race')){const[season,match]=params.get('race').split('-');return{type:'race',raceKey:{season,match:parseInt(match)}};}
-  if(params.get('season'))return{type:'home',season:params.get('season')};
-  if(params.get('view'))return{type:params.get('view')};
-  return{type:'home'};
+// Hash-based routing utilities
+const seasonToCompact=(s)=>s?s.replace('/','').slice(-4):''; // "2013/14" -> "1314"
+const compactToSeason=(c)=>{if(!c||c.length!==4)return null;const y1=parseInt(c.slice(0,2));const y2=parseInt(c.slice(2,4));return y2===y1+1||y2===0&&y1===99?`20${c.slice(0,2)}/${c.slice(2,4)}`:y1>=62?`19${c.slice(0,2)}/${c.slice(2,4)}`:`20${c.slice(0,2)}/${c.slice(2,4)}`;};
+const nameToSlug=(n)=>n?.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')||'';
+const slugToName=(s,athletes)=>{if(!s)return null;const slug=s.toLowerCase();const match=athletes?.find(a=>nameToSlug(a.name)===slug);return match?.name||s.replace(/-/g,' ');};
+
+const parseUrlParams=(athletes)=>{
+  const hash=window.location.hash.slice(1).toLowerCase();
+  if(!hash)return{type:'home'};
+  const[route,...rest]=hash.split('/');
+  const param=rest.join('/');
+  switch(route){
+    case'season':return{type:'home',urlSeason:compactToSeason(param)};
+    case'athlete':return{type:'athlete',athlete:{name:slugToName(param,athletes),slug:param}};
+    case'club':return{type:'club',club:param.toUpperCase().replace('HW','H/W').replace('GG','G&G').replace('CC','C/C').replace('EE','E&E')};
+    case'race':{const[s,m]=param.split('-');return{type:'race',raceKey:{season:compactToSeason(s),match:parseInt(m)}};}
+    case'fixtures':return{type:'fixtures'};
+    case'winners':return{type:'seasons'};
+    case'athletes':return{type:'athletes'};
+    case'clubs':return{type:'clubs'};
+    case'h2h':return{type:'h2h'};
+    case'quiz':return{type:'quiz'};
+    case'chartroom':return{type:'chartroom'};
+    default:return{type:'home'};
+  }
 };
 
 const updateUrl=(view)=>{
-  let url=window.location.pathname;
-  if(view.type==='athlete'&&view.athlete?.name)url+='?athlete='+encodeURIComponent(view.athlete.name);
-  else if(view.type==='club'&&view.club)url+='?club='+encodeURIComponent(view.club);
-  else if(view.type==='race'&&view.race)url+='?race='+encodeURIComponent(view.race.season+'-'+view.race.match);
-  else if(view.type!=='home')url+='?view='+view.type;
-  window.history.pushState({},'',url);
+  let hash='';
+  if(view.type==='home'&&view.season)hash='#season/'+seasonToCompact(view.season);
+  else if(view.type==='athlete'&&view.athlete?.name)hash='#athlete/'+nameToSlug(view.athlete.name);
+  else if(view.type==='club'&&view.club)hash='#club/'+view.club.toLowerCase().replace('/','').replace('&','');
+  else if(view.type==='race'&&view.race)hash='#race/'+seasonToCompact(view.race.season)+'-'+view.race.match;
+  else if(view.type==='fixtures')hash='#fixtures';
+  else if(view.type==='seasons')hash='#winners';
+  else if(view.type==='athletes')hash='#athletes';
+  else if(view.type==='clubs')hash='#clubs';
+  else if(view.type==='h2h')hash='#h2h';
+  else if(view.type==='quiz')hash='#quiz';
+  else if(view.type==='chartroom')hash='#chartroom';
+  if(hash!==window.location.hash)window.history.pushState({},'',hash||window.location.pathname);
 };
 
 const AthleteInput=({value,onChange,onSelect,athletes,placeholder})=>{
@@ -2050,13 +2076,16 @@ const normalizeData=(data)=>{
 };
 
 function App(){
-  const[view,setViewState]=useState(parseUrlParams());const[data,setData]=useState(null);const[loading,setLoading]=useState(true);const[error,setError]=useState(null);
+  const[view,setViewState]=useState({type:'home'});const[data,setData]=useState(null);const[loading,setLoading]=useState(true);const[error,setError]=useState(null);
   const setView=(v)=>{setViewState(v);updateUrl(v);};
   useEffect(()=>{fetch('data.json').then(r=>r.json()).then(j=>{setData(normalizeData(j));setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});},[]);
-  useEffect(()=>{const onPop=()=>setViewState(parseUrlParams());window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[]);
+  // Parse URL once data is loaded (needed for athlete name resolution)
+  useEffect(()=>{if(data){const parsed=parseUrlParams(data.athletes);setViewState(parsed);}},[data]);
+  useEffect(()=>{const onPop=()=>setViewState(parseUrlParams(data?.athletes));window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[data]);
+  useEffect(()=>{const onHash=()=>setViewState(parseUrlParams(data?.athletes));window.addEventListener('hashchange',onHash);return()=>window.removeEventListener('hashchange',onHash);},[data]);
   useEffect(()=>{if(data&&view.raceKey){const race=data.races.find(r=>r.season===view.raceKey.season&&r.match===view.raceKey.match);if(race)setViewState({type:'race',race});}},[data,view.raceKey]);
   if(loading)return<div className="loading text-gray-500">Loading...</div>;if(error)return<div className="loading text-red-500">Error: {error}</div>;if(!data)return<div className="loading text-gray-500">No data</div>;
-  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView}/>}{view.type==='submit'&&<SubmitView setView={setView}/>}{view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
+  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data} initialSeason={view.urlSeason}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView}/>}{view.type==='submit'&&<SubmitView setView={setView}/>}{view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
