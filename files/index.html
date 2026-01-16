@@ -1254,12 +1254,12 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         if(prevChamp===runnerUp)items.push({text:'were defending champions but finished 2nd',club:runnerUp});
       }
       
-      // 2022/23 league expansion - no relegation that season
+      // 2022/23 league expansion - only one team relegated
       if(season==='2022/23'){
-        items.push({text:'League expanded to 10 teams – no relegation this season'});
+        items.push({text:'League expanded to 10 teams – only one team relegated this season'});
       }
       
-      // Final day relegation escape (not for 2022/23 which had no relegation)
+      // Final day relegation escape (not for 2022/23 which only relegated one team)
       if(season!=='2022/23'&&standings.length>=9){
         const afterM3=standings.map(t=>({
           club:t.club,
@@ -1323,9 +1323,11 @@ const HomeView=({setView,data})=>{
   const[season,setSeason]=useState(data.seasons[0]);const seasonData=data.seasonsData[season];const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);const matches=seasonData?.matches||[];const standings=seasonData?.standings||[];
   const isHistorical=seasonData?.historical;const isComplete=isHistorical||(standings[0]?.m4!==null&&standings[0]?.m4!==undefined);
-  // Show relegation zone for complete seasons with full standings (not 2022/23 which had no relegation for expansion)
+  // Show relegation zone for complete seasons with full standings (2022/23 only relegated 1 team for expansion)
   const numTeams=standings.length;
-  const showRelegation=numTeams>=9&&season!=='2022/23';
+  const showRelegation=numTeams>=9;
+  // Relegation line position: 2022/23 only relegated 1 team (to expand to 10), all other seasons relegate 2
+  const relegationLineAfter=season==='2022/23'?numTeams-2:numTeams-3;
   // Row height alignment: Left has numTeams rows, Right has 4+5=9 rows (plus headers and gap)
   // For 10 teams: left py-[7px], right py-[5px]
   // For 9 teams: left py-[9px], right py-[5px]
@@ -1333,7 +1335,7 @@ const HomeView=({setView,data})=>{
   const rightRowPy='py-[5px]';
   
   const StandingsTable=()=><div>
-    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} pr-1 text-xs text-gray-500 uppercase`} title="Total of a team's scores across all matches">Tot</th>{matches.map((m,i)=>{const race=findRace(m.num);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-9 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#0077b6]':''}`} title={`Sum of a team's top 10 scoring positions in match ${m.num}`} onClick={()=>race&&setView({type:'race',race})}>M{m.num}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===numTeams-3?'border-b-2 border-dashed border-gray-400':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#0077b6]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} pr-1`}><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} pr-1 text-xs text-gray-500 uppercase`} title="Total of a team's scores across all matches">Tot</th>{matches.map((m,i)=>{const race=findRace(m.num);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-9 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#0077b6]':''}`} title={`Sum of a team's top 10 scoring positions in match ${m.num}`} onClick={()=>race&&setView({type:'race',race})}>M{m.num}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b-2 border-dashed border-gray-400':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#0077b6]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} pr-1`}><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {isHistorical&&<p className="text-xs text-gray-400 mt-2 italic">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
   </div>;
   
