@@ -1298,14 +1298,14 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         const firstSeason=findFirstInDiv1(team.club);
         const nextSeason=findNextInDiv1(team.club);
         
-        // First season in Div 1
+        // First season in Div 1 (in our data)
         if(firstSeason===season){
-          items.push({text:`made their first appearance in Surrey League Div 1`,club:team.club});
+          items.push({text:`made their first Div 1 appearance in our records`,club:team.club});
         }
         
-        // Last season in Div 1
+        // Last season in Div 1 (in our data)
         if(!nextSeason&&firstSeason!==season){
-          items.push({textBefore:`This was the last season `,club:team.club,text:` appeared in Surrey League Div 1`});
+          items.push({textBefore:`This is the last season `,club:team.club,text:` appear in Div 1 in our records`});
         }
       });
     }
@@ -1324,7 +1324,15 @@ const HomeView=({setView,data,initialSeason})=>{
   const setSeason=(s)=>{setSeasonState(s);setView({type:'home',season:s});};
   const seasonData=data.seasonsData[season];const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);const matches=seasonData?.matches||[];const standings=seasonData?.standings||[];
-  const isHistorical=seasonData?.historical;const isComplete=isHistorical||(standings[0]?.m4!==null&&standings[0]?.m4!==undefined);
+  // Season is historical (partial) if any race is missing full results (results count < finishers, or no finishers recorded and results < 100)
+  const seasonRaces=data.races.filter(r=>r.season===season);
+  const hasCompleteResults=seasonRaces.length===4&&seasonRaces.every(r=>{
+    const results=r.results?.length||0;
+    const finishers=r.finishers||0;
+    return finishers>0?results>=finishers:results>=100;
+  });
+  const isHistorical=!hasCompleteResults;
+  const isComplete=!isHistorical||(standings[0]?.m4!==null&&standings[0]?.m4!==undefined);
   // Show relegation zone for complete seasons with full standings (2022/23 only relegated 1 team for expansion)
   const numTeams=standings.length;
   const showRelegation=numTeams>=9;
