@@ -176,7 +176,19 @@ const FixturesView=({setView,races,seasonsData})=>{
 const AthletesView=({setView,athletes})=>{
   const[sort,setSort]=useState('wins');const[search,setSearch]=useState('');const[limit,setLimit]=useState(100);
   const filtered=useMemo(()=>{const s=search.toLowerCase();return athletes.filter(a=>!s||a.name.toLowerCase().includes(s)||a.club?.toLowerCase().includes(s));},[athletes,search]);
-  const sorted=useMemo(()=>[...filtered].sort((a,b)=>b[sort]-a[sort]),[filtered,sort]);
+  const colOrder=['wins','top3','top5','top10','top20','top50','top100','races'];
+  const sorted=useMemo(()=>[...filtered].sort((a,b)=>{
+    // Primary sort by selected column
+    const diff=b[sort]-a[sort];
+    if(diff!==0)return diff;
+    // Tiebreakers: left to right through columns
+    for(const col of colOrder){
+      if(col===sort)continue;
+      const d=b[col]-a[col];
+      if(d!==0)return d;
+    }
+    return a.name.localeCompare(b.name);
+  }),[filtered,sort]);
   const cols=[{f:'wins',l:'W',t:'Race wins'},{f:'top3',l:'T3',t:'Top 3 finishes'},{f:'top5',l:'T5',t:'Top 5 finishes'},{f:'top10',l:'T10',t:'Top 10 finishes'},{f:'top20',l:'T20',t:'Top 20 finishes'},{f:'top50',l:'T50',t:'Top 50 finishes'},{f:'top100',l:'T100',t:'Top 100 finishes'},{f:'races',l:'R',t:'Total races'}];
   return<div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-6"><input type="text" placeholder={`Search ${filtered.length.toLocaleString()} athletes...`} value={search} onChange={e=>{setSearch(e.target.value);setLimit(100);}} className="px-3 py-2 border border-gray-300 rounded text-sm w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-[#0077b6]"/></div><div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="text-right py-1.5 px-2 min-w-[2.5rem]"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#0077b6] font-semibold':'text-gray-500'}`} data-tip={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{sorted.slice(0,limit).map((a,i)=><tr key={a.name} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-4"><div className="flex items-center gap-2"><span className="text-gray-400 text-sm w-6 text-right">{i+1}</span><ClubShield club={a.club} size={14}/><span className="text-sm text-gray-900">{a.name}</span></div></td>{cols.map(c=><td key={c.f} className={`text-right py-1.5 px-2 text-sm tabular-nums ${sort===c.f?'font-semibold text-[#0077b6]':'text-gray-600'} ${a[c.f]===0?'text-gray-300':''}`}>{a[c.f]||'-'}</td>)}</tr>)}</tbody></table></div>{sorted.length>limit&&<div className="mt-4 text-center"><button onClick={()=>setLimit(l=>l+100)} className="px-4 py-2 bg-[#0077b6] text-white rounded text-sm hover:bg-[#005f8a]">Show more ({sorted.length-limit} remaining)</button></div>}</div>;
 };
