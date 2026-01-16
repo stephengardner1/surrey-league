@@ -134,7 +134,7 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
       const penalties = missing > 0 ? Array(missing).fill(penaltyScore) : [];
       const allScores = [...scores, ...penalties];
       return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore, complete: scores.length >= count};
-    }).filter(t=>t.scores.length>0).sort((a,b)=>{if(a.complete&&!b.complete)return-1;if(!a.complete&&b.complete)return 1;return a.points-b.points;}).map((t,i)=>({...t,pos:i+1}));
+    }).filter(t=>t.scores.length>0).sort((a,b)=>a.points-b.points).map((t,i)=>({...t,pos:i+1}));
   },[results,startPos,count,finishers]);
   
   const penaltyValue = teams.find(t=>t.penalties.length>0)?.penaltyScore;
@@ -166,7 +166,7 @@ const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title})=>{
       const penalties = missing > 0 ? Array(missing).fill(penaltyScore) : [];
       const allScores = [...scores, ...penalties];
       return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore, complete: scores.length >= count};
-    }).filter(t=>t.scores.length>0).sort((a,b)=>{if(a.complete&&!b.complete)return-1;if(!a.complete&&b.complete)return 1;return a.points-b.points;}).map((t,i)=>({...t,pos:i+1}));
+    }).filter(t=>t.scores.length>0).sort((a,b)=>a.points-b.points).map((t,i)=>({...t,pos:i+1}));
   },[results,startPos,count,finishers]);
   
   const penaltyValue = teams.find(t=>t.penalties.length>0)?.penaltyScore;
