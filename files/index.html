@@ -209,11 +209,11 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races})=>{
     
     {/* Desktop: side by side */}
     <div className="hidden lg:flex gap-8">
-      <div className="flex-1 min-w-0">
+      <div className="w-[420px] flex-shrink-0">
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Individual Results</h2>
         <IndividualResultsTable results={race.results} clubFilter={clubFilter} setClubFilter={setClubFilter} setView={setView} clubMvps={clubMvps}/>
       </div>
-      <div className="w-96 flex-shrink-0">
+      <div className="flex-1 min-w-0">
         <div className="mb-6">
           <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">A Teams</h2>
           <TeamResultsTableCompact results={race.results} startPos={1} count={10} finishers={race.finishers}/>
@@ -1386,6 +1386,11 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         items.push({text:'League expanded to 10 teams – only one team relegated this season'});
       }
       
+      // 2007/08 notable debut
+      if(season==='2007/08'){
+        items.push({text:'made his league debut at just 17, finishing 11th at M2',athlete:{name:'Nick Goolab',club:'BEL'}});
+      }
+      
       // Final day relegation escape (not for 2022/23 which only relegated one team)
       if(season!=='2022/23'&&standings.length>=9){
         const afterM3=standings.map(t=>({
@@ -2082,7 +2087,9 @@ const normalizeData=(data)=>{
     's wurr':'Simon Wurr',
     'a weir':'Andy Weir',
     'n altmann':'Nick Altmann',
-    'b reynolds':'Ben Reynolds'
+    'b reynolds':'Ben Reynolds',
+    'm tennyson':'Mark Tennyson',
+    'tennyson':'Mark Tennyson'
   };
   
   // Handle special dead heat cases - these races have two winners with their clubs
@@ -2285,7 +2292,7 @@ const normalizeData=(data)=>{
     data.athletes.push(s);
   });
 
-  // Add 4th, 5th, 6th place counts to clubAllTime
+  // Recompute all club positions from seasonsData (titles, runnerUp, third, fourth, fifth, sixth)
   const placeCount={};
   Object.values(data.seasonsData||{}).forEach(sd=>{
     if(!sd?.standings)return;
@@ -2293,17 +2300,100 @@ const normalizeData=(data)=>{
     const hasM4=sd.standings[0]?.m4!==null||isHist;
     if(!hasM4)return;// Only count complete seasons
     sd.standings.forEach((team,idx)=>{
-      if(!placeCount[team.club])placeCount[team.club]={fourth:0,fifth:0,sixth:0};
+      if(!placeCount[team.club])placeCount[team.club]={titles:0,runnerUp:0,third:0,fourth:0,fifth:0,sixth:0};
+      if(idx===0)placeCount[team.club].titles++;
+      if(idx===1)placeCount[team.club].runnerUp++;
+      if(idx===2)placeCount[team.club].third++;
       if(idx===3)placeCount[team.club].fourth++;
       if(idx===4)placeCount[team.club].fifth++;
       if(idx===5)placeCount[team.club].sixth++;
     });
   });
   data.clubAllTime.forEach(c=>{
-    c.fourth=placeCount[c.club]?.fourth||0;
-    c.fifth=placeCount[c.club]?.fifth||0;
-    c.sixth=placeCount[c.club]?.sixth||0;
+    if(placeCount[c.club]){
+      c.titles=placeCount[c.club].titles;
+      c.runnerUp=placeCount[c.club].runnerUp;
+      c.third=placeCount[c.club].third;
+      c.fourth=placeCount[c.club].fourth;
+      c.fifth=placeCount[c.club].fifth;
+      c.sixth=placeCount[c.club].sixth;
+    }
   });
+  // Re-sort clubAllTime by titles desc, then runnerUp desc
+  data.clubAllTime.sort((a,b)=>(b.titles||0)-(a.titles||0)||(b.runnerUp||0)-(a.runnerUp||0)||(b.third||0)-(a.third||0));
+  
+  // Dynamically compute achievements from race data
+  const computeAchievements=()=>{
+    // Most wins in a single season
+    const seasonWins={};
+    data.races.forEach(race=>{
+      if(!race.winner||race.deadHeat)return;
+      const key=`${race.winner}|${race.winnerClub}|${race.season}`;
+      seasonWins[key]=(seasonWins[key]||0)+1;
+    });
+    const mostWinsSeason=Object.entries(seasonWins).map(([k,wins])=>{
+      const[name,club,season]=k.split('|');
+      return{name,club,season,wins};
+    }).sort((a,b)=>b.wins-a.wins||a.season.localeCompare(b.season)).slice(0,5);
+    
+    // Consecutive wins (across seasons)
+    const winnersByDate=data.races.filter(r=>r.winner&&!r.deadHeat&&r.date).sort((a,b)=>a.date.localeCompare(b.date));
+    const streaks={};
+    let lastWinner=null;
+    winnersByDate.forEach(race=>{
+      const key=normalizeNameForCompare(race.winner);
+      if(!streaks[key])streaks[key]={name:race.winner,club:race.winnerClub,current:0,max:0};
+      if(lastWinner===key){
+        streaks[key].current++;
+      }else{
+        streaks[key].current=1;
+      }
+      streaks[key].max=Math.max(streaks[key].max,streaks[key].current);
+      lastWinner=key;
+    });
+    const mostConsecutiveWins=Object.values(streaks).map(s=>({name:s.name,club:s.club,streak:s.max})).sort((a,b)=>b.streak-a.streak).slice(0,5);
+    
+    // Biggest races by finishers
+    const biggestRaces=data.races.filter(r=>r.finishers).sort((a,b)=>b.finishers-a.finishers).slice(0,5).map(r=>({venue:r.venue,season:r.season,match:r.match,date:r.date,finishers:r.finishers}));
+    
+    // Most consecutive titles by club
+    const seasonsByYear=Object.keys(data.seasonsData).filter(s=>{
+      const sd=data.seasonsData[s];
+      return sd?.standings?.length&&(sd.standings[0]?.m4!==null||sd.historical);
+    }).sort();
+    const clubStreaks={};
+    let lastChamp=null;
+    seasonsByYear.forEach(season=>{
+      const champ=data.seasonsData[season]?.standings?.[0]?.club;
+      if(!champ)return;
+      if(!clubStreaks[champ])clubStreaks[champ]={current:0,max:0};
+      if(lastChamp===champ){
+        clubStreaks[champ].current++;
+      }else{
+        clubStreaks[champ].current=1;
+      }
+      clubStreaks[champ].max=Math.max(clubStreaks[champ].max,clubStreaks[champ].current);
+      lastChamp=champ;
+    });
+    const mostConsecutiveTitles=Object.entries(clubStreaks).map(([club,s])=>({club,streak:s.max})).sort((a,b)=>b.streak-a.streak).slice(0,5);
+    
+    // Best turnout by club at a single race
+    const turnouts=[];
+    data.races.forEach(race=>{
+      if(!race.results)return;
+      const clubCounts={};
+      race.results.forEach(r=>{
+        clubCounts[r.club]=(clubCounts[r.club]||0)+1;
+      });
+      Object.entries(clubCounts).forEach(([club,count])=>{
+        turnouts.push({club,count,venue:race.venue,season:race.season,match:race.match,date:race.date});
+      });
+    });
+    const biggestTurnouts=turnouts.sort((a,b)=>b.count-a.count).slice(0,5);
+    
+    return{mostWinsSeason,mostConsecutiveWins,biggestRaces,mostConsecutiveTitles,biggestTurnouts};
+  };
+  data.achievements=computeAchievements();
   
   return data;
 };
