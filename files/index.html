@@ -1326,26 +1326,29 @@ const HomeView=({setView,data})=>{
   // Show relegation zone for complete seasons with full standings (not 2022/23 which had no relegation for expansion)
   const numTeams=standings.length;
   const showRelegation=isComplete&&numTeams>=9&&season!=='2022/23';
+  // Row height: tighter for right column (4+5 rows) to align with left column (9 or 10 rows)
+  const rightRowPy=numTeams>=10?'py-[7px]':'py-2';
+  const leftRowPy=numTeams>=10?'py-1':'py-[5px]';
   
   const StandingsTable=()=><div>
-    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Division 1</th><th className="text-right py-1.5 pr-1 text-xs text-gray-500 uppercase" title="Total of a team's scores across all matches">Tot</th>{matches.map((m,i)=>{const race=findRace(m.num);return<th key={i} className={`text-right py-1.5 px-0.5 w-9 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#0077b6]':''}`} title={`Total of the scoring positions of a team's first 10 eligible athletes in match ${m.num}`} onClick={()=>race&&setView({type:'race',race})}>M{m.num}</th>})}</tr></thead><tbody className="divide-y divide-gray-100">{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===numTeams-3?'border-b border-dashed border-gray-400':''}`}><td className="py-1.5 pr-1 w-6"><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className="py-1.5 pr-1 w-5"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 pr-2 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className="text-right py-1.5 pr-1"><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className="text-right py-1.5 px-0.5"><span className="text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} pr-1 text-xs text-gray-500 uppercase`} title="Total of a team's scores across all matches">Tot</th>{matches.map((m,i)=>{const race=findRace(m.num);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-9 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#0077b6]':''}`} title={`Total of the scoring positions of a team's first 10 eligible athletes in match ${m.num}`} onClick={()=>race&&setView({type:'race',race})}>M{m.num}</th>})}</tr></thead><tbody className="divide-y divide-gray-100">{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===numTeams-3?'border-b border-dashed border-gray-400':''}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#0077b6]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} pr-1`}><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {isHistorical&&<p className="text-xs text-gray-400 mt-2 italic">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
   </div>;
   
   const FixturesTable=()=><div>
     <table className="w-full text-sm">
       <thead><tr className="border-b border-gray-200">
-        <th colSpan="2" className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Matches</th>
-        <th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase">Winner</th>
-        <th className="text-right py-1.5 pl-2 text-xs text-gray-500 uppercase">Team</th>
+        <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`}>Matches</th>
+        <th className={`text-left ${rightRowPy} px-2 text-xs text-gray-500 uppercase`}>Winner</th>
+        <th className={`text-right ${rightRowPy} pl-2 text-xs text-gray-500 uppercase`}>Team</th>
       </tr></thead>
       <tbody className="divide-y divide-gray-100">{matches.map(match=>{
         const race=findRace(match.num);const upcoming=!match.winner;
         return<tr key={match.num} className={`${upcoming?'opacity-50':'hover:bg-blue-50 cursor-pointer'}`} onClick={()=>!upcoming&&race&&setView({type:'race',race})}>
-          <td className="py-1.5 pr-2 text-gray-500 whitespace-nowrap w-14">{match.date?.length<=3?match.date:formatDateShort(match.date)}</td>
-          <td className="py-1.5 px-2 text-gray-900">{match.venue}</td>
-          <td className="py-1.5 px-2">{upcoming?<span className="text-gray-400 italic">-</span>:<div className="flex items-center gap-1.5"><ClubShield club={match.winnerClub} size={14}/><span className="text-gray-700"><span className="hidden md:inline">{match.winner}</span><span className="md:hidden">{getSurname(match.winner)}</span></span></div>}</td>
-          <td className="py-1.5 pl-2 text-right">{!upcoming&&match.teamWinner?<div className="inline-flex items-center gap-1.5"><ClubShield club={match.teamWinner} size={14}/><span className="font-medium">{match.teamWinner}</span></div>:'-'}</td>
+          <td className={`${rightRowPy} pr-2 text-gray-500 whitespace-nowrap w-14`}>{match.date?.length<=3?match.date:formatDateShort(match.date)}</td>
+          <td className={`${rightRowPy} px-2 text-gray-900`}>{match.venue}</td>
+          <td className={`${rightRowPy} px-2`}>{upcoming?<span className="text-gray-400 italic">-</span>:<div className="flex items-center gap-1.5"><ClubShield club={match.winnerClub} size={14}/><span className="text-gray-700"><span className="hidden md:inline">{match.winner}</span><span className="md:hidden">{getSurname(match.winner)}</span></span></div>}</td>
+          <td className={`${rightRowPy} pl-2 text-right`}>{!upcoming&&match.teamWinner?<div className="inline-flex items-center gap-1.5"><ClubShield club={match.teamWinner} size={14}/><span className="font-medium">{match.teamWinner}</span></div>:'-'}</td>
         </tr>;
       })}</tbody>
     </table>
@@ -1366,21 +1369,22 @@ const HomeView=({setView,data})=>{
     const eligible=Object.values(athleteResults).filter(a=>a.runs.length===numRaces).map(a=>{
       a.runs.sort((x,y)=>x.match-y.match);
       a.total=a.runs.reduce((sum,r)=>sum+r.pos,0);
-      a.runStr=a.runs.map(r=>r.pos).join(', ');
       return a;
     }).sort((a,b)=>a.total-b.total).slice(0,5);
     if(eligible.length===0)return null;
     return<div className="mt-4">
       <table className="w-full text-sm">
         <thead><tr className="border-b border-gray-200">
-          <th colSpan="2" className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase" title="Top 5 athletes who raced in all matches this season, ranked by total of finishing positions (lowest is best)">Individuals</th>
-          <th className="text-right py-1.5 pl-2 text-xs text-gray-500 uppercase" title="Sum of finishing positions across all races (individual race positions shown in grey)">Tot</th>
+          <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title="Top 5 athletes who raced in all matches this season, ranked by total of finishing positions (lowest is best)">Individuals</th>
+          <th className={`text-right ${rightRowPy} px-1 text-xs text-gray-500 uppercase w-10`} title="Sum of finishing positions across all races">Tot</th>
+          {[1,2,3,4].slice(0,numRaces).map(n=><th key={n} className={`text-right ${rightRowPy} px-1 text-xs text-gray-300 uppercase w-8`}></th>)}
         </tr></thead>
         <tbody className="divide-y divide-gray-100">{eligible.map((a,i)=>
           <tr key={a.name} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
-            <td className="py-1.5 pr-2 text-gray-400 w-6">{i+1}</td>
-            <td className="py-1.5 px-2"><div className="flex items-center gap-1.5"><ClubShield club={a.club} size={14}/><span className="text-gray-700">{a.name}</span></div></td>
-            <td className="py-1.5 pl-2 text-right whitespace-nowrap"><span className="font-medium tabular-nums">{a.total}</span><span className="text-gray-400 text-xs tabular-nums ml-1.5">{a.runStr}</span></td>
+            <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{i+1}</td>
+            <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><ClubShield club={a.club} size={14}/><span className="text-gray-700">{a.name}</span></div></td>
+            <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
+            {a.runs.map((r,ri)=><td key={ri} className={`${rightRowPy} px-1 text-right text-gray-400 text-xs tabular-nums w-8`}>{r.pos}</td>)}
           </tr>
         )}</tbody>
       </table>
