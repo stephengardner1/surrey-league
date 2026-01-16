@@ -1326,9 +1326,11 @@ const HomeView=({setView,data})=>{
   // Show relegation zone for complete seasons with full standings (not 2022/23 which had no relegation for expansion)
   const numTeams=standings.length;
   const showRelegation=numTeams>=9&&season!=='2022/23';
-  // Row height: tighter for right column (4+5 rows) to align with left column (9 or 10 rows)
-  const rightRowPy=numTeams>=10?'py-[7px]':'py-2';
-  const leftRowPy=numTeams>=10?'py-1':'py-[5px]';
+  // Row height alignment: Left has numTeams rows, Right has 4+5=9 rows (plus headers and gap)
+  // For 10 teams: left needs py-[5px], right needs py-[9px] 
+  // For 9 teams: left needs py-[7px], right needs py-[11px]
+  const leftRowPy=numTeams>=10?'py-[5px]':'py-[7px]';
+  const rightRowPy=numTeams>=10?'py-[9px]':'py-[13px]';
   
   const StandingsTable=()=><div>
     <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} pr-1 text-xs text-gray-500 uppercase`} title="Total of a team's scores across all matches">Tot</th>{matches.map((m,i)=>{const race=findRace(m.num);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-9 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#0077b6]':''}`} title={`Sum of a team's top 10 scoring positions in match ${m.num}`} onClick={()=>race&&setView({type:'race',race})}>M{m.num}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===numTeams-3?'border-b-2 border-dashed border-gray-400':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isComplete?'🏆':team.pos}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#0077b6]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} pr-1`}><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total}</span></td>{matches.map((m,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${m.num}`]||'-'}</span></td>)}</tr>)}</tbody></table>
@@ -1372,7 +1374,7 @@ const HomeView=({setView,data})=>{
       return a;
     }).sort((a,b)=>a.total-b.total).slice(0,5);
     if(eligible.length===0)return null;
-    return<div className="mt-4">
+    return<div className="mt-2">
       <table className="w-full text-sm">
         <thead><tr className="border-b border-gray-200">
           <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title="Top 5 athletes who raced in all matches, ranked by sum of positions (lowest is best)">Individuals</th>
