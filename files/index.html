@@ -1309,7 +1309,6 @@ const HomeView=({setView,data})=>{
         </tr>;
       })}</tbody>
     </table>
-    <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>
   </div>;
   
   const IndividualsTable=()=>{
@@ -1362,6 +1361,7 @@ const HomeView=({setView,data})=>{
         <div className="overflow-x-auto"><StandingsTable/></div>
         <div><FixturesTable/><IndividualsTable/></div>
       </div>
+      <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>
     </div>:<p className="text-sm text-gray-500 mb-10">No data</p>}
     
     <div className="border-t border-gray-200 mt-4"></div>
