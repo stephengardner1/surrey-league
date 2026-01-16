@@ -775,7 +775,7 @@ const PubQuizView=({setView})=>{
     {q:"Which brothers hold the record for best combined score?",opts:["The Malletts (H/W)","The Roberts (HHH)","The Lynes (SLH)","The Cockerells (BEL)"],ans:0,info:"Ed Mallett (13th) + George Mallett (14th) = 27 pts at Wimbledon Common, 2023/24 M3"},
     {q:"What is the biggest points swing between two teams in a single match?",opts:["601 points","657 points","703 points","722 points"],ans:3,info:"H/W scored 153 pts while E&E scored 875 pts at Wimbledon Common, 2024/25 M1 – a 722-point gap"},
     {q:"Which clubs have won the title despite winning only one match that season?",opts:["Belgrave Harriers only","Hercules Wimbledon and Aldershot only","Three different clubs","No club has ever done this"],ans:2,info:"BOH (1996/97), H/W (1964/65), and AFD (1975/76) all won titles with just 1 match win"},
-    {q:"What is the biggest race turnout in Surrey League history?",opts:["298 finishers","312 finishers","323 finishers","341 finishers"],ans:2,info:"323 finishers at Beckenham Place Park, 2025/26 M2 – the largest field in league history"}
+    {q:"What is the biggest race turnout in Surrey League history?",opts:["312 finishers","327 finishers","341 finishers","354 finishers"],ans:3,info:"354 finishers at Wimbledon Common, 2023/24 M3 – the largest field in league history"}
   ];
   const[current,setCurrent]=useState(0);
   const[selected,setSelected]=useState(null);
@@ -813,14 +813,14 @@ const PubQuizView=({setView})=>{
       {min:0,max:0,name:"Clapham's 917-pt meltdown",club:"C/C",desc:"Beckenham Place Park, 2025/26 M2. The worst single-match score on record.",isTeam:true},
       {min:1,max:1,name:"Ranelagh's 907-pt disaster",club:"RAN",desc:"West Horsley Place, 2023/24 M4. A day to forget – this one will haunt you for a while.",isTeam:true},
       {min:2,max:2,name:"Dorking's 850-pt collapse",club:"DMV",desc:"Mitcham Common, 2016/17 M3. The day the wheels came off.",isTeam:true},
-      {min:3,max:3,name:"Steve Gardner",club:"BEL",desc:"16 races averaging 104th. You clearly care, but that hasn't helped your performance on this terrain."},
-      {min:4,max:4,name:"David Ogden",club:"SLH",desc:"32 races averaging 156th. You clearly like this league enough to put your own son through it too."},
+      {min:3,max:3,name:"Steve Gardner",club:"BEL",desc:"17 races averaging 106th. You clearly care, but that hasn't helped your performance on this terrain."},
+      {min:4,max:4,name:"David Ogden",club:"SLH",desc:"42 races averaging 135th. You clearly like this league enough to put your own son through it too."},
       {min:5,max:5,name:"David Grima",club:"H/W",desc:"40 races averaging 111th. Hercules' most persistent pack runner."},
-      {min:6,max:6,name:"Jeff Cunningham",club:"HHH",desc:"36 races with 26 A-team scores. Herne Hill's modern-era ironman."},
-      {min:7,max:7,name:"Chris Greenwood",club:"KEN",desc:"26 races averaging 19th. Consistent A-team scorer."},
-      {min:8,max:8,name:"John Gilbert",club:"KEN",desc:"27 races averaging 8th with 2 wins. Top 10 regular."},
-      {min:9,max:9,name:"Jack Millar",club:"THH",desc:"5 wins from 14 races. Elite performer."},
-      {min:10,max:10,name:"Paskar Owor",club:"BEL",desc:"The modern-era GOAT. 12 wins from 24 races, averaging 7th place."}
+      {min:6,max:6,name:"Jeff Cunningham",club:"HHH",desc:"39 races averaging 56th. Herne Hill's modern-era ironman."},
+      {min:7,max:7,name:"Chris Greenwood",club:"KEN",desc:"28 races averaging 18th. Consistent A-team scorer."},
+      {min:8,max:8,name:"John Gilbert",club:"KEN",desc:"32 races averaging 7th with 2 wins. Top 10 regular."},
+      {min:9,max:9,name:"Jack Millar",club:"THH",desc:"5 wins from 9 races. Elite performer."},
+      {min:10,max:10,name:"Paskar Owor",club:"BEL",desc:"The modern-era GOAT. 11 wins from 37 races, averaging 5th place."}
     ];
     const comp=comparisons.find(c=>score>=c.min&&score<=c.max)||comparisons[5];
     return<div className="max-w-2xl mx-auto px-4 py-8">
@@ -1064,14 +1064,13 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     
     // Notable athletes with achievements
     const notableAthletes={
-      'Alex Yee':{accolade:'future Olympic gold medalist',club:'KEN'},
-      'Marc Scott':{accolade:'Olympic finalist',club:'RAN'}
+      'Alex Yee':{accolade:'future Olympic gold medalist',club:'KEN'}
     };
     
     // Confirmed brother pairs
     const brotherPairs=[
-      {names:['Ed Mallett','George Mallet'],club:'H/W',surname:'Mallett'},
-      {names:['Edward Mallett','George Mallet'],club:'H/W',surname:'Mallett'},
+      {names:['Ed Mallett','George Mallett'],club:'H/W',surname:'Mallett'},
+      {names:['Edward Mallett','George Mallett'],club:'H/W',surname:'Mallett'},
       {names:['Morgan Roberts','Harry Roberts'],club:'HHH',surname:'Roberts'}
     ];
     
