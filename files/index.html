@@ -1312,6 +1312,44 @@ const HomeView=({setView,data})=>{
     <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>
   </div>;
   
+  const IndividualsTable=()=>{
+    const seasonRaces=data.races.filter(r=>r.season===season&&r.results);
+    const numRaces=seasonRaces.length;
+    if(numRaces===0)return null;
+    const athleteResults={};
+    seasonRaces.forEach(r=>{
+      r.results.forEach(res=>{
+        const key=res.name;
+        if(!athleteResults[key])athleteResults[key]={name:res.name,club:res.club,runs:[],total:0};
+        athleteResults[key].runs.push({match:r.match,pos:res.pos});
+      });
+    });
+    const eligible=Object.values(athleteResults).filter(a=>a.runs.length===numRaces).map(a=>{
+      a.runs.sort((x,y)=>x.match-y.match);
+      a.total=a.runs.reduce((sum,r)=>sum+r.pos,0);
+      a.runStr=a.runs.map(r=>r.pos).join(', ');
+      return a;
+    }).sort((a,b)=>a.total-b.total).slice(0,5);
+    if(eligible.length===0)return null;
+    return<div className="mt-4">
+      <table className="w-full text-sm">
+        <thead><tr className="border-b border-gray-200">
+          <th colSpan="2" className="text-left py-1.5 pr-2 text-xs text-gray-500 uppercase">Individuals</th>
+          <th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase">Tot</th>
+          <th className="text-left py-1.5 pl-2 text-xs text-gray-500 uppercase">Runs</th>
+        </tr></thead>
+        <tbody className="divide-y divide-gray-100">{eligible.map((a,i)=>
+          <tr key={a.name} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
+            <td className="py-1.5 pr-1 text-gray-400 w-5">{i+1}</td>
+            <td className="py-1.5 px-1"><div className="flex items-center gap-1.5"><ClubShield club={a.club} size={14}/><span className="text-gray-700"><span className="hidden md:inline">{a.name}</span><span className="md:hidden">{getSurname(a.name)}</span></span></div></td>
+            <td className="py-1.5 px-2 text-right font-medium">{a.total}</td>
+            <td className="py-1.5 pl-2 text-gray-500 text-xs tabular-nums">{a.runStr}</td>
+          </tr>
+        )}</tbody>
+      </table>
+    </div>;
+  };
+  
   return<div className="max-w-5xl mx-auto px-4 py-8">
     <div className="mb-6 pb-4 border-b border-gray-200">
       <h1 className="text-2xl font-bold text-gray-900 mb-1">Surrey Cross Country League</h1>
@@ -1322,7 +1360,7 @@ const HomeView=({setView,data})=>{
       <div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
       <div className="grid md:grid-cols-2 gap-8">
         <div className="overflow-x-auto"><StandingsTable/></div>
-        <div><FixturesTable/></div>
+        <div><FixturesTable/><IndividualsTable/></div>
       </div>
     </div>:<p className="text-sm text-gray-500 mb-10">No data</p>}
     
