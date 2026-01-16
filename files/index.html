@@ -2138,21 +2138,47 @@ const normalizeData=(data)=>{
     });
   });
   
-  // Merge computed stats with existing athletes (keeping historical data)
+  // Also count historical races that aren't in race results
+  data.athletes.forEach(a=>{
+    if(!a.historicalRaces)return;
+    const key=normalizeNameForCompare(a.name);
+    a.historicalRaces.forEach(hr=>{
+      // Check if this race is already in results
+      const race=data.races.find(r=>r.season===hr.season&&r.match===hr.match);
+      const alreadyCounted=race?.results?.some(res=>normalizeNameForCompare(res.name)===key);
+      if(alreadyCounted)return;
+      // Count this historical race
+      if(!athleteStats[key]){
+        athleteStats[key]={name:a.name,club:hr.club||a.club,wins:0,top3:0,top5:0,top10:0,top20:0,top50:0,top100:0,races:0,aScores:0,clubs:new Set()};
+      }
+      const s=athleteStats[key];
+      s.races++;
+      s.clubs.add(hr.club||a.club);
+      if(hr.pos===1){s.wins++;s.top3++;s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;s.aScores++;}
+      else if(hr.pos<=3){s.top3++;s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;s.aScores++;}
+      else if(hr.pos<=5){s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;s.aScores++;}
+      else if(hr.pos<=10){s.top10++;s.top20++;s.top50++;s.top100++;s.aScores++;}
+      else if(hr.pos<=20){s.top20++;s.top50++;s.top100++;}
+      else if(hr.pos<=50){s.top50++;s.top100++;}
+      else if(hr.pos<=100){s.top100++;}
+    });
+  });
+  
+  // Merge computed stats with existing athletes
   data.athletes.forEach(a=>{
     const key=normalizeNameForCompare(a.name);
     if(athleteStats[key]){
       const s=athleteStats[key];
       // Use computed stats from race results
-      a.wins=s.wins+(a.historicalWins||0);
-      a.top3=s.top3+(a.historicalWins||0);
-      a.top5=s.top5+(a.historicalWins||0);
-      a.top10=s.top10+(a.historicalWins||0);
-      a.top20=s.top20+(a.historicalWins||0);
-      a.top50=s.top50+(a.historicalWins||0);
-      a.top100=s.top100+(a.historicalWins||0);
-      a.races=s.races+(a.historicalRaces?.length||0);
-      a.aScores=s.aScores+(a.historicalWins||0);
+      a.wins=s.wins;
+      a.top3=s.top3;
+      a.top5=s.top5;
+      a.top10=s.top10;
+      a.top20=s.top20;
+      a.top50=s.top50;
+      a.top100=s.top100;
+      a.races=s.races;
+      a.aScores=s.aScores;
       // Merge clubs
       if(!a.clubs)a.clubs=[a.club];
       s.clubs.forEach(c=>{if(!a.clubs.includes(c))a.clubs.push(c);});
