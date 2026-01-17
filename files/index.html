@@ -1663,7 +1663,7 @@ const HomeView=({setView,data,initialSeason})=>{
   return<div className="max-w-5xl mx-auto px-4 py-8">
     <div className="mb-6">
       <h1 className="text-2xl font-bold text-gray-900 mb-1">Surrey League compendium 🏆</h1>
-      <p className="text-sm text-gray-500">Men's Division 1 · Complete data 2014–present · <span className="cursor-pointer hover:text-[#0077b6] underline" onClick={()=>setView({type:'submit'})}>Partial data 1962–2014</span></p>
+      <p className="text-sm text-gray-500">Men's Division 1 · <span className="cursor-pointer hover:text-[#0077b6] underline" onClick={()=>setView({type:'submit'})}>Partial data 1962–2014</span> · Complete 2014–present</p>
     </div>
     
     {seasonData?<div className="mb-8">
