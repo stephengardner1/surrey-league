@@ -414,7 +414,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
   // Compute badges dynamically
   const computedBadges=useMemo(()=>{
     const badges=[];
-    const getYear=(season)=>season?'20'+season.split('/')[1]:null;
+    const getYear=(season)=>{if(!season)return null;const yy=season.split('/')[1];return(parseInt(yy)<50?'20':'19')+yy;};
     
     // Find seasons where athlete scored for the A team of each club
     const seasonClubsWithAScore={};// season -> clubs they scored A-team points for
@@ -2186,7 +2186,11 @@ const normalizeData=(data)=>{
     'n altmann':'Nick Altmann',
     'b reynolds':'Ben Reynolds',
     'm tennyson':'Mark Tennyson',
-    'tennyson':'Mark Tennyson'
+    'tennyson':'Mark Tennyson',
+    // Stuart Major variants
+    's major':'Stuart Major',
+    'steve major':'Stuart Major',
+    'major':'Stuart Major'
   };
   
   // Club code aliases (map variant codes to canonical codes)
