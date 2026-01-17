@@ -1423,6 +1423,16 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         items.push({text:'made his league debut at just 17, finishing 11th at M2',athlete:{name:'Nick Goolab',club:'BEL'}});
       }
       
+      // 2004/05 - AFD's final season
+      if(season==='2004/05'){
+        items.push({text:`competed in their final Surrey League season before joining the Hampshire League`,club:'AFD'});
+      }
+      
+      // 2005/06 - league contracted to 8 teams
+      if(season==='2005/06'){
+        items.push({text:'League dropped to 8 teams after AFD left to join the Hampshire League (not through relegation)'});
+      }
+      
       // Final day relegation escape (not for 2022/23 which only relegated one team)
       if(season!=='2022/23'&&standings.length>=9){
         const afterM3=standings.map(t=>({
