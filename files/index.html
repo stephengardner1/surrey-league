@@ -49,7 +49,8 @@ const ClubVest=({club,size=20})=>{
     case'BOX':return<><path d={p} fill="#f4c430"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="3" y="0" width="3" height="20" fill="#dc2626"/><rect x="14" y="0" width="3" height="20" fill="#dc2626"/></g></>;
     case'BOH':return<><path d={p} fill="#87CEEB"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="3" y="0" width="3" height="20" fill="#dc2626"/><rect x="14" y="0" width="3" height="20" fill="#dc2626"/></g></>;
     case'AFD':return<><path d={p} fill="#dc2626"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/></g></>;
-    case'SUR':return<path d={p} fill="#f4c430"/>;
+    case'SUR':return<><path d={p} fill="#fff"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="6" width="20" height="1.5" fill="#2563eb"/><rect x="0" y="8" width="20" height="1.5" fill="#1a1a1a"/><rect x="0" y="10" width="20" height="1.5" fill="#2563eb"/></g><circle cx="10" cy="8.5" r="2.5" fill="none" stroke="#2563eb" strokeWidth="0.5"/></>;
+    case'MIT':return<><path d={p} fill="#2563eb"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="5" width="20" height="1.5" fill="#fff"/><rect x="0" y="8" width="20" height="3" fill="#fff"/><rect x="0" y="12.5" width="20" height="1.5" fill="#fff"/></g></>;
     case'DMV':return<><path d={p} fill="#A52A2A"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="3" y="0" width="3" height="20" fill="#fff"/><rect x="14" y="0" width="3" height="20" fill="#fff"/></g></>;
     case'REI':return<><path d={p} fill="#dc2626"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><polygon points="0,0 6,0 20,14 20,20 14,20 0,6" fill="#87CEEB"/></g></>;
     case'STR':return<><path d={p} fill="#f4c430"/><text x="10" y="13" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#1a1a1a">S</text></>;
@@ -188,7 +189,10 @@ const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps
 
 const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampions})=>{
   const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);if(!race)return null;
-  const seasonData=seasonsData[race.season];const matchData=seasonData?.matches?.find(m=>m.num===race.match);const teamWinner=matchData?.teamWinner||race.teamWinner;
+  const seasonData=seasonsData[race.season];const matchData=seasonData?.matches?.find(m=>m.num===race.match);const teamWinner=matchData?.teamWinner||race.teamWinner||(race.teamScores?.[0]?.club);
+  
+  // Convert teamScores to knownTeamScores format if available
+  const displayTeamScores=race.knownTeamScores||(race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score})));
   
   // Find prev/next races
   const sortedRaces=useMemo(()=>[...races].filter(r=>r.results?.length>0).sort((a,b)=>{if(a.season!==b.season)return a.season.localeCompare(b.season);return a.match-b.match;}),[races]);
@@ -225,9 +229,9 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
     {/* Mobile: tabs */}
     <div className="lg:hidden">
       <div className="flex gap-4 mb-6 border-b border-gray-200">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`pb-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab===t.id?'border-[#0077b6] text-[#0077b6]':'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
-      {tab==='a-teams'&&(race.knownTeamScores?<KnownTeamScoresTable scores={race.knownTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={10} finishers={race.finishers}/>)}
-      {tab==='b-teams'&&!race.knownTeamScores&&<TeamResultsTable results={race.results} startPos={11} count={10} finishers={race.finishers}/>}
-      {tab==='b-teams'&&race.knownTeamScores&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
+      {tab==='a-teams'&&(displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={10} finishers={race.finishers}/>)}
+      {tab==='b-teams'&&!displayTeamScores&&<TeamResultsTable results={race.results} startPos={11} count={10} finishers={race.finishers}/>}
+      {tab==='b-teams'&&displayTeamScores&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
       {tab==='individual'&&<IndividualResultsTable results={race.results} clubFilter={clubFilter} setClubFilter={setClubFilter} setView={setView} clubMvps={clubMvps} individualChampions={individualChampions}/>}
     </div>
     
@@ -238,10 +242,10 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
       </div>
       <div>
         <div className="mb-6">
-          {race.knownTeamScores?<KnownTeamScoresTable scores={race.knownTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={10} finishers={race.finishers} title="A Teams"/>}
+          {displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={10} finishers={race.finishers} title="A Teams"/>}
         </div>
         <div>
-          {!race.knownTeamScores&&<TeamResultsTableCompact results={race.results} startPos={11} count={10} finishers={race.finishers} title="B Teams"/>}
+          {!displayTeamScores&&<TeamResultsTableCompact results={race.results} startPos={11} count={10} finishers={race.finishers} title="B Teams"/>}
         </div>
       </div>
     </div>
@@ -465,7 +469,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
   
   const individualChampData=computedBadges.filter(b=>b.type==='individual_champion').map(b=>({year:b.year,season:b.season})).filter(b=>b.year).sort((a,b)=>b.year.localeCompare(a.year));
   const leagueWinnerData=computedBadges.filter(b=>b.type==='title_winner').map(b=>({year:b.year,season:b.season})).filter(b=>b.year).sort((a,b)=>b.year.localeCompare(a.year));
-  const renderYearLinks=(data)=>data.map((d,i)=><React.Fragment key={d.season}>{i>0&&<span className="text-gray-400"> · </span>}<span className="cursor-pointer hover:text-[#0077b6] hover:underline" onClick={()=>setView({type:'home',season:d.season})}>{d.year}</span></React.Fragment>);
+  const renderYearLinks=(data)=>data.map((d,i)=><React.Fragment key={d.season}>{i>0&&<span className="text-gray-400"> · </span>}<span className="cursor-pointer hover:text-[#0077b6] hover:underline" onClick={()=>setView({type:'home',urlSeason:d.season})}>{d.year}</span></React.Fragment>);
   const staticBadges=athleteData.badges||[];
   const otherBadges=staticBadges.filter(b=>b.type!=='individual_champion'&&b.type!=='title_winner').map(b=>{
     if(b.type==='all_time_wins_leader')return{label:'#1 All-Time Wins'};
@@ -1536,7 +1540,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
 const HomeView=({setView,data,initialSeason})=>{
   const[season,setSeasonState]=useState(initialSeason&&data.seasons.includes(initialSeason)?initialSeason:data.seasons[0]);
   useEffect(()=>{if(initialSeason&&data.seasons.includes(initialSeason))setSeasonState(initialSeason);},[initialSeason]);
-  const setSeason=(s)=>{setSeasonState(s);setView({type:'home',season:s});};
+  const setSeason=(s)=>{setSeasonState(s);setView({type:'home',urlSeason:s});};
   const seasonData=data.seasonsData[season];const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);const matches=seasonData?.matches||[];const standings=seasonData?.standings||[];
   // Season is complete if all 4 races have >100 results each
@@ -1770,7 +1774,7 @@ const parseUrlParams=(athletes)=>{
 
 const updateUrl=(view)=>{
   let hash='';
-  if(view.type==='home'&&view.season)hash='#season/'+seasonToCompact(view.season);
+  if(view.type==='home'&&view.urlSeason)hash='#season/'+seasonToCompact(view.urlSeason);
   else if(view.type==='athlete'&&view.athlete?.name)hash='#athlete/'+nameToSlug(view.athlete.name);
   else if(view.type==='club'&&view.club)hash='#club/'+view.club.toLowerCase().replace('/','').replace('&','');
   else if(view.type==='race'&&view.race)hash='#race/'+seasonToCompact(view.race.season)+'-'+view.race.match;
