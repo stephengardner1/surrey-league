@@ -277,7 +277,7 @@ const AthletesView=({setView,athletes})=>{
   return<div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-6"><input type="text" placeholder={`Search ${filtered.length.toLocaleString()} athletes...`} value={search} onChange={e=>{setSearch(e.target.value);setLimit(100);}} className="px-3 py-2 border border-gray-300 rounded text-sm w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-[#0077b6]"/></div><div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-2"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="text-right py-1.5 px-1 md:px-2 min-w-[2rem] md:min-w-[2.5rem]"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#0077b6] font-semibold':'text-gray-500'}`} data-tip={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{sorted.slice(0,limit).map((a,i)=><tr key={a.name} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-2"><div className="flex items-center gap-1.5 md:gap-2"><span className="text-gray-400 text-sm w-7 text-right tabular-nums flex-shrink-0">{i+1}</span><ClubShield club={a.club} size={14} className="flex-shrink-0"/><span className="text-sm text-gray-900 whitespace-nowrap">{a.name}</span></div></td>{cols.map(c=><td key={c.f} className={`text-right py-1.5 px-1 md:px-2 text-sm tabular-nums ${sort===c.f?'font-semibold text-[#0077b6]':'text-gray-600'} ${a[c.f]===0?'text-gray-300':''}`}>{a[c.f]||'-'}</td>)}</tr>)}</tbody></table></div>{sorted.length>limit&&<div className="mt-4 text-center"><button onClick={()=>setLimit(l=>l+100)} className="px-4 py-2 bg-[#0077b6] text-white rounded text-sm hover:bg-[#005f8a]">Show more ({sorted.length-limit} remaining)</button></div>}</div>;
 };
 
-const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData})=>{
+const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mitchellCupWinners})=>{
   const[compareInput,setCompareInput]=useState('');
   const[compareFocused,setCompareFocused]=useState(false);
   // Enhanced athlete lookup - match by exact name, or by abbreviated first initial + surname
@@ -439,7 +439,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData})=
       }
     });
     
-    // Check for individual champion seasons
+    // Check for individual champion seasons (from computed rankings)
     Object.entries(seasonsData).forEach(([season,sd])=>{
       if(!sd?.individualRankings?.length)return;
       const champion=sd.individualRankings[0];
@@ -448,8 +448,20 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData})=
       }
     });
     
+    // Also check Mitchell Cup historical winners
+    if(mitchellCupWinners){
+      Object.entries(mitchellCupWinners).forEach(([season,winners])=>{
+        // Skip if we already have this season from computed rankings
+        if(badges.some(b=>b.type==='individual_champion'&&b.season===season))return;
+        // Check if athlete is among the winners (handles joint winners)
+        if(winners.some(w=>namesMatch(w.name,athleteData.name))){
+          badges.push({type:'individual_champion',season,year:getYear(season)});
+        }
+      });
+    }
+    
     return badges;
-  },[raceHistory,seasonsData,athleteData.name]);
+  },[raceHistory,seasonsData,athleteData.name,mitchellCupWinners]);
   
   const individualChampYears=computedBadges.filter(b=>b.type==='individual_champion').map(b=>b.year).filter(Boolean);
   const leagueWinnerYears=computedBadges.filter(b=>b.type==='title_winner').map(b=>b.year).filter(Boolean).sort();
@@ -976,7 +988,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   },[clubCode,sort,races]);
   
   const mvp=clubAthletes[0];
-  const allTimeRank=clubAllTime.findIndex(c=>c.club===clubCode)+1;if(!clubData||!clubInfo)return<div className="max-w-4xl mx-auto px-4 py-8"><p>Club not found</p></div>;
+  const allTimeRank=clubAllTime.findIndex(c=>c.club===clubCode)+1;if(!clubInfo)return<div className="max-w-4xl mx-auto px-4 py-8"><p>Club not found</p></div>;
   const cols=[{f:'aScores',l:'A',t:'A-team scores for this club'},{f:'wins',l:'W',t:'Race wins'},{f:'top3',l:'T3',t:'Top 3 finishes'},{f:'top5',l:'T5',t:'Top 5 finishes'},{f:'top10',l:'T10',t:'Top 10 finishes'},{f:'top20',l:'T20',t:'Top 20 finishes'},{f:'top50',l:'T50',t:'Top 50 finishes'},{f:'top100',l:'T100',t:'Top 100 finishes'},{f:'races',l:'R',t:'Total races'}];
   return<div className="max-w-5xl mx-auto px-4 py-8"><button onClick={()=>setView({type:'clubs'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button><div className="mb-8"><div className="flex items-center gap-4 mb-3"><ClubShield club={clubCode} size={48}/><div><h1 className="text-2xl font-bold text-gray-900">{clubInfo.name}</h1>{allTimeRank>0&&<p className="text-sm text-gray-500">#{allTimeRank} all-time</p>}</div></div><div className="flex flex-wrap gap-2">{titleYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{titleYears.length}× League Champions 🏆</span><span className="text-sm font-medium text-gray-700">{titleYears.join(' · ')}</span></div>}{secondYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{secondYears.length}× Runners-up 🥈</span><span className="text-sm font-medium text-gray-700">{secondYears.join(' · ')}</span></div>}{thirdYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{thirdYears.length}× Third place 🥉</span><span className="text-sm font-medium text-gray-700">{thirdYears.join(' · ')}</span></div>}</div>{mvp&&<p className="mt-3 text-sm text-gray-600">Club 🐐: <span className="font-medium text-[#0077b6] cursor-pointer hover:underline" onClick={()=>setView({type:'athlete',athlete:mvp})}>{mvp.name}</span></p>}</div><div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="py-1.5 px-1 w-10 text-center"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#0077b6] font-semibold':'text-gray-500'}`} title={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{clubAthletes.map((a,i)=><tr key={a.name} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-4"><div className="flex items-center gap-2"><span className="text-gray-400 text-sm w-6 text-right">{i+1}</span><span className="text-sm text-gray-900">{a.name}</span></div></td>{cols.map(c=><td key={c.f} className={`py-1.5 px-1 w-10 text-center text-sm tabular-nums ${sort===c.f?'font-semibold text-[#0077b6]':'text-gray-600'} ${a[c.f]===0?'text-gray-300':''}`}>{a[c.f]||'-'}</td>)}</tr>)}</tbody></table></div></div>;
 };
@@ -2571,7 +2583,7 @@ function App(){
   useEffect(()=>{const onHash=()=>setViewState(parseUrlParams(data?.athletes));window.addEventListener('hashchange',onHash);return()=>window.removeEventListener('hashchange',onHash);},[data]);
   useEffect(()=>{if(data&&view.raceKey){const race=data.races.find(r=>r.season===view.raceKey.season&&r.match===view.raceKey.match);if(race)setViewState({type:'race',race});}},[data,view.raceKey]);
   if(loading)return<div className="loading text-gray-500">Loading...</div>;if(error)return<div className="loading text-red-500">Error: {error}</div>;if(!data)return<div className="loading text-gray-500">No data</div>;
-  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data} initialSeason={view.urlSeason}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races} mitchellCupWinners={data.mitchellCupWinners}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView}/>}{view.type==='submit'&&<SubmitView setView={setView}/>}{view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
+  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data} initialSeason={view.urlSeason}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races} mitchellCupWinners={data.mitchellCupWinners}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData} mitchellCupWinners={data.mitchellCupWinners}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView}/>}{view.type==='submit'&&<SubmitView setView={setView}/>}{view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
