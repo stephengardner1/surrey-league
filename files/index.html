@@ -344,8 +344,8 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
   const clubRankings=useMemo(()=>{
     if(!raceHistory.length)return [];
     
-    // Get unique clubs this athlete has represented (excluding N/S)
-    const athleteClubs=[...new Set(raceHistory.map(r=>r.club).filter(c=>c&&c!=='N/S'))];
+    // Get unique clubs this athlete has represented (excluding N/S and GUEST)
+    const athleteClubs=[...new Set(raceHistory.map(r=>r.club).filter(c=>c&&c!=='N/S'&&c!=='GUEST'))];
     
     // For each club, compute all athletes' A-scores and find this athlete's rank
     const rankings=[];
@@ -1746,7 +1746,7 @@ const Footer=({setView})=><footer className="border-t border-gray-200 mt-12 py-6
 
 // Hash-based routing utilities
 const seasonToCompact=(s)=>s?s.replace('/','').slice(-4):''; // "2013/14" -> "1314"
-const compactToSeason=(c)=>{if(!c||c.length!==4)return null;const y1=parseInt(c.slice(0,2));const y2=parseInt(c.slice(2,4));return y2===y1+1||y2===0&&y1===99?`20${c.slice(0,2)}/${c.slice(2,4)}`:y1>=62?`19${c.slice(0,2)}/${c.slice(2,4)}`:`20${c.slice(0,2)}/${c.slice(2,4)}`;};
+const compactToSeason=(c)=>{if(!c||c.length!==4)return null;const y1=parseInt(c.slice(0,2));const y2=parseInt(c.slice(2,4));const prefix=y1>=62&&y1<=99?'19':'20';return `${prefix}${c.slice(0,2)}/${c.slice(2,4)}`;};
 const nameToSlug=(n)=>n?.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')||'';
 const slugToName=(s,athletes)=>{if(!s)return null;const slug=s.toLowerCase();const match=athletes?.find(a=>nameToSlug(a.name)===slug);return match?.name||s.replace(/-/g,' ');};
 
