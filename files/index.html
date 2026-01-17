@@ -2396,8 +2396,8 @@ const normalizeData=(data)=>{
       if(r.pos<=20)s.top20++;
       if(r.pos<=50)s.top50++;
       if(r.pos<=100)s.top100++;
-      if(r._clubPos<=10)s.aScores++; // A-team = top 10 scorers per club
-      delete r._clubPos; // Clean up
+      if(r._clubPos&&r._clubPos<=10)s.aScores++; // A-team = top 10 scorers per club
+      if(r._clubPos)delete r._clubPos; // Clean up
     });
   });
   
