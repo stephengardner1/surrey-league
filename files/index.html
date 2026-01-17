@@ -183,7 +183,7 @@ const KnownTeamScoresTable=({scores,title})=>{
 const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps,individualChampions})=>{
   const filtered=clubFilter?results.filter(r=>r.club===clubFilter):results;
   const isClubGoat=(name,club)=>{const mvps=clubMvps?.[club];return mvps&&namesMatch(mvps[0]?.name,name);};
-  const getChampionStars=(name)=>{const count=individualChampions?.[normalizeNameForCompare(name)]||0;return count>0?'⭐'.repeat(count):'';};
+  const getChampionStars=(name)=>{const count=individualChampions?.[normalizeNameForCompare(name)]||0;return count>0?'⭐'.repeat(Math.min(count,2)):'';};
   return<div>{clubFilter&&<div className="mb-4 flex items-center gap-2 text-sm"><span className="text-gray-500">Showing:</span><span className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded"><ClubShield club={clubFilter} size={16}/><span className="font-medium">{CLUBS[clubFilter]?.name||clubFilter}</span><button onClick={()=>setClubFilter(null)} className="text-gray-400 hover:text-gray-600"><X className="w-4 h-4"/></button></span></div>}<table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 text-xs font-semibold text-gray-900 uppercase tracking-wide w-10">Pos</th><th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase w-10">Pts</th><th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase w-16">Club</th><th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase">Name</th><th className="text-right py-1.5 text-xs text-gray-500 uppercase w-14">Time</th></tr></thead><tbody className="divide-y divide-gray-100">{filtered.map((r,i)=><tr key={i} className="hover:bg-blue-50"><td className="py-1.5 text-sm text-gray-700 tabular-nums">{r.pos}</td><td className="py-1.5 px-2 text-sm text-gray-500 tabular-nums">{r.pts||'-'}</td><td className="py-1.5 px-2"><span className="flex items-center gap-1 cursor-pointer" onClick={()=>setClubFilter(r.club)}><ClubShield club={r.club} size={14}/><span className="text-xs text-gray-500">{r.club}</span></span></td><td className="py-1.5 px-2"><span className="text-sm text-gray-900 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:r.name,club:r.club}})}>{r.name}{getChampionStars(r.name)&&` ${getChampionStars(r.name)}`}{isClubGoat(r.name,r.club)&&' 🐐'}{r.ns&&<span className="text-gray-400 ml-1">(N/S)</span>}{r.secondClaim&&<span className="text-gray-400 ml-1">(2C)</span>}</span></td><td className="py-1.5 text-sm text-gray-700 text-right tabular-nums font-mono">{r.time}</td></tr>)}</tbody></table></div>;
 };
 
@@ -2364,6 +2364,15 @@ const normalizeData=(data)=>{
   // Recompute athlete stats from ALL race results (including historical)
   const athleteStats={};
   data.races.forEach(race=>{
+    // First pass: count positions within each club for this race (A-team = top 10 per club)
+    const clubPositions={};
+    (race.results||[]).forEach(r=>{
+      if(!r.name||!r.club)return;
+      if(!clubPositions[r.club])clubPositions[r.club]=0;
+      clubPositions[r.club]++;
+      r._clubPos=clubPositions[r.club]; // Temporary: position within club for this race
+    });
+    // Second pass: compute stats
     (race.results||[]).forEach(r=>{
       if(!r.name)return;
       const key=normalizeNameForCompare(r.name);
@@ -2376,10 +2385,12 @@ const normalizeData=(data)=>{
       if(r.pos===1)s.wins++;
       if(r.pos<=3)s.top3++;
       if(r.pos<=5)s.top5++;
-      if(r.pos<=10){s.top10++;s.aScores++;}
+      if(r.pos<=10)s.top10++;
       if(r.pos<=20)s.top20++;
       if(r.pos<=50)s.top50++;
       if(r.pos<=100)s.top100++;
+      if(r._clubPos<=10)s.aScores++; // A-team = top 10 scorers per club
+      delete r._clubPos; // Clean up
     });
   });
   
@@ -2399,10 +2410,10 @@ const normalizeData=(data)=>{
       const s=athleteStats[key];
       s.races++;
       s.clubs.add(hr.club||a.club);
-      if(hr.pos===1){s.wins++;s.top3++;s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;s.aScores++;}
-      else if(hr.pos<=3){s.top3++;s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;s.aScores++;}
-      else if(hr.pos<=5){s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;s.aScores++;}
-      else if(hr.pos<=10){s.top10++;s.top20++;s.top50++;s.top100++;s.aScores++;}
+      if(hr.pos===1){s.wins++;s.top3++;s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;}
+      else if(hr.pos<=3){s.top3++;s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;}
+      else if(hr.pos<=5){s.top5++;s.top10++;s.top20++;s.top50++;s.top100++;}
+      else if(hr.pos<=10){s.top10++;s.top20++;s.top50++;s.top100++;}
       else if(hr.pos<=20){s.top20++;s.top50++;s.top100++;}
       else if(hr.pos<=50){s.top50++;s.top100++;}
       else if(hr.pos<=100){s.top100++;}
