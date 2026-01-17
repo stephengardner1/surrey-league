@@ -981,7 +981,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   return<div className="max-w-5xl mx-auto px-4 py-8"><button onClick={()=>setView({type:'clubs'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button><div className="mb-8"><div className="flex items-center gap-4 mb-3"><ClubShield club={clubCode} size={48}/><div><h1 className="text-2xl font-bold text-gray-900">{clubInfo.name}</h1>{allTimeRank>0&&<p className="text-sm text-gray-500">#{allTimeRank} all-time</p>}</div></div><div className="flex flex-wrap gap-2">{titleYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{titleYears.length}× League Champions 🏆</span><span className="text-sm font-medium text-gray-700">{titleYears.join(' · ')}</span></div>}{secondYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{secondYears.length}× Runners-up 🥈</span><span className="text-sm font-medium text-gray-700">{secondYears.join(' · ')}</span></div>}{thirdYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{thirdYears.length}× Third place 🥉</span><span className="text-sm font-medium text-gray-700">{thirdYears.join(' · ')}</span></div>}</div>{mvp&&<p className="mt-3 text-sm text-gray-600">Club 🐐: <span className="font-medium text-[#0077b6] cursor-pointer hover:underline" onClick={()=>setView({type:'athlete',athlete:mvp})}>{mvp.name}</span></p>}</div><div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="py-1.5 px-1 w-10 text-center"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#0077b6] font-semibold':'text-gray-500'}`} title={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{clubAthletes.map((a,i)=><tr key={a.name} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-4"><div className="flex items-center gap-2"><span className="text-gray-400 text-sm w-6 text-right">{i+1}</span><span className="text-sm text-gray-900">{a.name}</span></div></td>{cols.map(c=><td key={c.f} className={`py-1.5 px-1 w-10 text-center text-sm tabular-nums ${sort===c.f?'font-semibold text-[#0077b6]':'text-gray-600'} ${a[c.f]===0?'text-gray-300':''}`}>{a[c.f]||'-'}</td>)}</tr>)}</tbody></table></div></div>;
 };
 
-const SeasonsView=({setView,seasonsData,races})=>{
+const SeasonsView=({setView,seasonsData,races,mitchellCupWinners})=>{
   const[expanded,setExpanded]=useState(null);
   
   // Helper to compute individual rankings from race results
@@ -1040,14 +1040,29 @@ const SeasonsView=({setView,seasonsData,races})=>{
     // Modern seasons need m4 to be set, historical can be complete with standings only
     const isComplete=storedHistorical?true:(data.standings?.[0]?.m4!==null&&data.standings?.[0]?.m4!==undefined);
     // Compute individual/B team if we have complete race data but no stored rankings
-    const individual=data.individualRankings?.slice(0,3)||(hasCompleteRaceData?computeIndividualRankings(season,seasonRaces).slice(0,3):[]);
+    // Fall back to Mitchell Cup historical data if no calculated data available
+    let individual=data.individualRankings?.slice(0,3)||(hasCompleteRaceData?computeIndividualRankings(season,seasonRaces).slice(0,3):[]);
+    if(individual.length===0&&mitchellCupWinners?.[season]){
+      individual=mitchellCupWinners[season].map(w=>({name:w.name,club:w.club,historical:true}));
+    }
     const numAClubs=data.standings?.length||9;
     const bTeam=data.bStandings?.slice(0,3)||(hasCompleteRaceData?computeBTeamStandings(season,seasonRaces,numAClubs).slice(0,3):[]);
     return{season,isComplete,isHistorical:storedHistorical&&!hasCompleteRaceData,aTeam:isComplete?data.standings?.slice(0,3):[],bTeam,individual};
-  }),[seasonsData,races]);
-  const canExpand=(s)=>s.isComplete&&!s.isHistorical&&(s.bTeam.length>0||s.individual.length>0);
+  }),[seasonsData,races,mitchellCupWinners]);
+  const canExpand=(s)=>s.isComplete&&!s.isHistorical&&(s.bTeam.length>0||(s.individual.length>0&&!s.individual[0]?.historical));
   const shortSeason=(s)=>s.slice(2);// "2024/25" -> "24/25"
-  return<div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-6"><h1 className="text-2xl font-bold text-gray-900">Winners</h1><p className="text-sm text-gray-500">{seasons.filter(s=>s.isComplete).length} completed seasons since 1962</p></div><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="w-5 md:w-6"></th><th className="text-left py-1.5 pr-2 md:pr-4 text-xs text-gray-500 uppercase">Season</th><th className="text-left py-1.5 px-1 md:px-4 text-xs text-gray-500 uppercase">A Team</th><th className="text-left py-1.5 px-1 md:px-4 text-xs text-gray-500 uppercase">B Team</th><th className="text-left py-1.5 pl-1 md:pl-4 text-xs text-gray-500 uppercase">Individual</th></tr></thead><tbody>{seasons.map(s=><React.Fragment key={s.season}><tr className={`border-b border-gray-50 hover:bg-blue-50 ${canExpand(s)?'cursor-pointer':''}`} onClick={()=>canExpand(s)&&setExpanded(expanded===s.season?null:s.season)}><td className="py-1.5 pr-0.5 md:pr-1">{canExpand(s)&&<span className="text-gray-400">{expanded===s.season?<ChevronUp className="w-4 h-4"/>:<ChevronDown className="w-4 h-4"/>}</span>}</td><td className="py-1.5 pr-2 md:pr-4"><span className="text-sm text-gray-900"><span className="md:hidden">{shortSeason(s.season)}</span><span className="hidden md:inline">{s.season}</span></span></td><td className="py-1.5 px-1 md:px-4">{s.aTeam[0]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.aTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[0]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.bTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[0]?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:s.individual[0].name,club:s.individual[0].club}});}}><ClubShield club={s.individual[0].club} size={14}/><span className="text-sm text-gray-700"><span className="hidden md:inline">{s.individual[0].name}</span><span className="md:hidden">{getSurname(s.individual[0].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr>{expanded===s.season&&<><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-0.5 md:pr-1"></td><td className="py-1.5 pr-2 md:pr-4 text-sm text-gray-400">2nd</td><td className="py-1.5 px-1 md:px-4">{s.aTeam[1]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[1]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[1]?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[1].name,club:s.individual[1].club}})}><ClubShield club={s.individual[1].club} size={14}/><span className="text-sm text-gray-600"><span className="hidden md:inline">{s.individual[1].name}</span><span className="md:hidden">{getSurname(s.individual[1].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-0.5 md:pr-1"></td><td className="py-1.5 pr-2 md:pr-4 text-sm text-gray-400">3rd</td><td className="py-1.5 px-1 md:px-4">{s.aTeam[2]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[2]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[2]?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[2].name,club:s.individual[2].club}})}><ClubShield club={s.individual[2].club} size={14}/><span className="text-sm text-gray-600"><span className="hidden md:inline">{s.individual[2].name}</span><span className="md:hidden">{getSurname(s.individual[2].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr></>}</React.Fragment>)}</tbody></table></div>;
+  // Render individual winner(s) - handles joint winners from Mitchell Cup data
+  const renderIndividual=(ind,isHistorical)=>{
+    if(!ind||ind.length===0)return<span className="text-sm text-gray-400">-</span>;
+    // Check if this is historical Mitchell Cup data with joint winners
+    const isJoint=ind[0]?.historical&&ind.length>1;
+    if(isJoint){
+      return<div className="flex flex-col gap-0.5">{ind.map((w,i)=><div key={i} className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:w.name,club:w.club}});}}><ClubShield club={w.club} size={14}/><span className="text-sm text-gray-700"><span className="hidden md:inline">{w.name}</span><span className="md:hidden">{getSurname(w.name)}</span></span></div>)}</div>;
+    }
+    const w=ind[0];
+    return<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:w.name,club:w.club}});}}><ClubShield club={w.club} size={14}/><span className="text-sm text-gray-700"><span className="hidden md:inline">{w.name}</span><span className="md:hidden">{getSurname(w.name)}</span></span></div>;
+  };
+  return<div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-6"><h1 className="text-2xl font-bold text-gray-900">Winners</h1><p className="text-sm text-gray-500">{seasons.filter(s=>s.isComplete).length} completed seasons since 1962</p><p className="text-xs text-gray-400 mt-1">Individual: The Mitchell Cup, in memory of William Mitchell</p></div><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="w-5 md:w-6"></th><th className="text-left py-1.5 pr-2 md:pr-4 text-xs text-gray-500 uppercase">Season</th><th className="text-left py-1.5 px-1 md:px-4 text-xs text-gray-500 uppercase">A Team</th><th className="text-left py-1.5 px-1 md:px-4 text-xs text-gray-500 uppercase">B Team</th><th className="text-left py-1.5 pl-1 md:pl-4 text-xs text-gray-500 uppercase">Individual</th></tr></thead><tbody>{seasons.map(s=><React.Fragment key={s.season}><tr className={`border-b border-gray-50 hover:bg-blue-50 ${canExpand(s)?'cursor-pointer':''}`} onClick={()=>canExpand(s)&&setExpanded(expanded===s.season?null:s.season)}><td className="py-1.5 pr-0.5 md:pr-1">{canExpand(s)&&<span className="text-gray-400">{expanded===s.season?<ChevronUp className="w-4 h-4"/>:<ChevronDown className="w-4 h-4"/>}</span>}</td><td className="py-1.5 pr-2 md:pr-4"><span className="text-sm text-gray-900"><span className="md:hidden">{shortSeason(s.season)}</span><span className="hidden md:inline">{s.season}</span></span></td><td className="py-1.5 px-1 md:px-4">{s.aTeam[0]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.aTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[0]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.bTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{renderIndividual(s.individual,s.isHistorical)}</td></tr>{expanded===s.season&&<><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-0.5 md:pr-1"></td><td className="py-1.5 pr-2 md:pr-4 text-sm text-gray-400">2nd</td><td className="py-1.5 px-1 md:px-4">{s.aTeam[1]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[1]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[1]&&!s.individual[0]?.historical?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[1].name,club:s.individual[1].club}})}><ClubShield club={s.individual[1].club} size={14}/><span className="text-sm text-gray-600"><span className="hidden md:inline">{s.individual[1].name}</span><span className="md:hidden">{getSurname(s.individual[1].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-0.5 md:pr-1"></td><td className="py-1.5 pr-2 md:pr-4 text-sm text-gray-400">3rd</td><td className="py-1.5 px-1 md:px-4">{s.aTeam[2]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[2]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[2]&&!s.individual[0]?.historical?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[2].name,club:s.individual[2].club}})}><ClubShield club={s.individual[2].club} size={14}/><span className="text-sm text-gray-600"><span className="hidden md:inline">{s.individual[2].name}</span><span className="md:hidden">{getSurname(s.individual[2].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr></>}</React.Fragment>)}</tbody></table></div>;
 };
 
 const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComplete,data,setView,setSeason})=>{
@@ -1554,8 +1569,27 @@ const HomeView=({setView,data,initialSeason})=>{
   </div>;
   
   const IndividualsTable=()=>{
-    // Only show for seasons with complete results
-    if(isHistorical)return null;
+    // For historical seasons without race data, show Mitchell Cup winner if available
+    if(isHistorical){
+      const mitchellWinners=data.mitchellCupWinners?.[season];
+      if(!mitchellWinners||mitchellWinners.length===0)return null;
+      const isJoint=mitchellWinners.length>1;
+      return<div className="mt-3">
+        <table className="w-full text-sm">
+          <thead><tr className="border-b border-gray-200">
+            <th colSpan="3" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title="The Mitchell Cup - Individual champion">Individual Champion</th>
+          </tr></thead>
+          <tbody className="divide-y divide-gray-100">
+            {mitchellWinners.map((w,i)=><tr key={i} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:w.name,club:w.club}})}>
+              <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{isJoint?'=':(i+1)}</td>
+              <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><ClubShield club={w.club} size={14}/><span className="text-gray-700">{w.name}</span></div></td>
+              <td className={`${rightRowPy} px-1 text-right text-gray-400 text-xs`}></td>
+            </tr>)}
+          </tbody>
+        </table>
+        <p className="text-xs text-gray-400 mt-1 italic">Mitchell Cup winner{isJoint?'s':''}</p>
+      </div>;
+    }
     const seasonRaces=data.races.filter(r=>r.season===season&&r.results);
     const numRaces=seasonRaces.length;
     if(numRaces===0)return null;
@@ -2135,6 +2169,17 @@ const normalizeData=(data)=>{
     'tennyson':'Mark Tennyson'
   };
   
+  // Club code aliases (map variant codes to canonical codes)
+  const clubAliases={
+    'RPR':'REI',  // Reigate Priory
+    'REG':'REI',  // Reigate
+    'PRP':'REI',  // Reigate Priory (typo)
+    'WW':'WWM',   // Wimbledon Windmilers
+  };
+  
+  // Normalize club codes in a value
+  const normalizeClub=(code)=>clubAliases[code]||code;
+  
   // Handle special dead heat cases - these races have two winners with their clubs
   const deadHeats={
     '1967/68-2':{winner:'Gerry North / Bob Holt',winners:[{name:'Gerry North',club:'BEL'},{name:'Bob Holt',club:'H/W'}]},
@@ -2166,14 +2211,34 @@ const normalizeData=(data)=>{
     if(race.venue&&venueMap[race.venue]){
       race.venue=venueMap[race.venue];
     }
+    // Normalize club codes
+    if(race.winnerClub)race.winnerClub=normalizeClub(race.winnerClub);
+    if(race.teamWinner)race.teamWinner=normalizeClub(race.teamWinner);
+    (race.results||[]).forEach(r=>{
+      if(r.club)r.club=normalizeClub(r.club);
+    });
   });
   
-  // Normalize venue names in seasonsData matches
+  // Normalize venue names and club codes in seasonsData
   Object.values(data.seasonsData||{}).forEach(sd=>{
     (sd.matches||[]).forEach(m=>{
       if(m.venue&&venueMap[m.venue]){
         m.venue=venueMap[m.venue];
       }
+      if(m.winnerClub)m.winnerClub=normalizeClub(m.winnerClub);
+      if(m.teamWinner)m.teamWinner=normalizeClub(m.teamWinner);
+    });
+    (sd.standings||[]).forEach(t=>{
+      if(t.club)t.club=normalizeClub(t.club);
+    });
+    (sd.bStandings||[]).forEach(t=>{
+      if(t.club)t.club=normalizeClub(t.club);
+    });
+    (sd.individualRankings||[]).forEach(a=>{
+      if(a.club)a.club=normalizeClub(a.club);
+    });
+    (sd.knownStandings||[]).forEach(t=>{
+      if(t.club)t.club=normalizeClub(t.club);
     });
   });
   
@@ -2213,6 +2278,8 @@ const normalizeData=(data)=>{
     if(nameAliases[key]){
       key=normalizeNameForCompare(nameAliases[key]);
     }
+    // Normalize club code
+    if(a.club)a.club=normalizeClub(a.club);
     if(!mergedAthletes[key]){
       mergedAthletes[key]={...a,name:nameMap[normalizeNameForCompare(a.name)]||a.name};
     }else{
@@ -2227,9 +2294,10 @@ const normalizeData=(data)=>{
       m.top100=(m.top100||0)+(a.top100||0);
       m.races=(m.races||0)+(a.races||0);
       m.aScores=(m.aScores||0)+(a.aScores||0);
-      // Merge clubs array
+      // Merge clubs array (normalized)
       if(!m.clubs)m.clubs=[m.club];
-      if(a.club&&!m.clubs.includes(a.club))m.clubs.push(a.club);
+      const normClub=normalizeClub(a.club);
+      if(normClub&&!m.clubs.includes(normClub))m.clubs.push(normClub);
     }
   });
   data.athletes=Object.values(mergedAthletes);
@@ -2495,7 +2563,7 @@ function App(){
   useEffect(()=>{const onHash=()=>setViewState(parseUrlParams(data?.athletes));window.addEventListener('hashchange',onHash);return()=>window.removeEventListener('hashchange',onHash);},[data]);
   useEffect(()=>{if(data&&view.raceKey){const race=data.races.find(r=>r.season===view.raceKey.season&&r.match===view.raceKey.match);if(race)setViewState({type:'race',race});}},[data,view.raceKey]);
   if(loading)return<div className="loading text-gray-500">Loading...</div>;if(error)return<div className="loading text-red-500">Error: {error}</div>;if(!data)return<div className="loading text-gray-500">No data</div>;
-  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data} initialSeason={view.urlSeason}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView}/>}{view.type==='submit'&&<SubmitView setView={setView}/>}{view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
+  return<div className="min-h-screen bg-white flex flex-col"><Nav setView={setView}/><main className="flex-1">{view.type==='home'&&<HomeView setView={setView} data={data} initialSeason={view.urlSeason}/>}{view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions}/>}{view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}{view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races} mitchellCupWinners={data.mitchellCupWinners}/>}{view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}{view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}{view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}{view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}{view.type==='quiz'&&<PubQuizView setView={setView}/>}{view.type==='submit'&&<SubmitView setView={setView}/>}{view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}</main><Footer setView={setView}/></div>;
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
