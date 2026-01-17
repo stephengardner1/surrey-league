@@ -1505,7 +1505,7 @@ const HomeView=({setView,data,initialSeason})=>{
   const isCurrentSeason=season===data.seasons[0];
   const hasCompleteResults=isCurrentSeason?racesWithResults.length===seasonRaces.filter(r=>r.results?.length>0).length:racesWithResults.length===4;
   const isHistorical=!hasCompleteResults;
-  const isComplete=!isHistorical||(standings[0]?.m4!==null&&standings[0]?.m4!==undefined);
+  const isComplete=isCurrentSeason?(seasonRaces.length>=4&&standings[0]?.m4!==null&&standings[0]?.m4!==undefined):true;
   // Show relegation zone for complete seasons with full standings (2022/23 only relegated 1 team for expansion)
   const numTeams=standings.length;
   const showRelegation=numTeams>=9;
