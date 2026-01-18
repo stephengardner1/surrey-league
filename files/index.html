@@ -2911,9 +2911,48 @@ const normalizeData=(data,division='men')=>{
     data.athletes.push(s);
   });
 
+  // Ensure clubAllTime is an array (may be empty object in women's data)
+  if(!Array.isArray(data.clubAllTime)){
+    // Build clubAllTime from race results
+    const clubStats={};
+    data.races.forEach(race=>{
+      (race.results||[]).forEach(r=>{
+        if(!clubStats[r.club])clubStats[r.club]={club:r.club,races:0,runners:0};
+        clubStats[r.club].runners++;
+      });
+      if(race.teamWinner){
+        if(!clubStats[race.teamWinner])clubStats[race.teamWinner]={club:race.teamWinner,races:0,runners:0};
+        clubStats[race.teamWinner].races++;
+      }
+    });
+    data.clubAllTime=Object.values(clubStats);
+  }
+
   // Recompute all club positions from seasonsData (titles, runnerUp, third, fourth, fifth, sixth)
   const placeCount={};
   Object.values(data.seasonsData||{}).forEach(sd=>{
+    // Handle women's format: has 'champion' field and 'standings' array with {club, total, pos}
+    if(sd.champion && sd.standings){
+      sd.standings.forEach((team,idx)=>{
+        const club = team.club;
+        if(!club)return;
+        if(!placeCount[club])placeCount[club]={titles:0,runnerUp:0,third:0,fourth:0,fifth:0,sixth:0};
+        if(idx===0)placeCount[club].titles++;
+        if(idx===1)placeCount[club].runnerUp++;
+        if(idx===2)placeCount[club].third++;
+        if(idx===3)placeCount[club].fourth++;
+        if(idx===4)placeCount[club].fifth++;
+        if(idx===5)placeCount[club].sixth++;
+      });
+      return;
+    }
+    // Handle women's format with just champion (no standings)
+    if(sd.champion && !sd.standings){
+      if(!placeCount[sd.champion])placeCount[sd.champion]={titles:0,runnerUp:0,third:0,fourth:0,fifth:0,sixth:0};
+      placeCount[sd.champion].titles++;
+      return;
+    }
+    // Handle men's format: standings array with m1,m2,m3,m4 fields
     if(!sd?.standings)return;
     const isHist=sd.historical;
     const hasM4=sd.standings[0]?.m4!==null||isHist;
