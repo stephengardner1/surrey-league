@@ -250,8 +250,10 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   // Generate the race win text with proper grammar
   const raceWinText=useMemo(()=>{
     if(!race.winner||winnerWinCount===0)return null;
-    if(winnerTotalWins===1)return <span><span className="font-medium text-gray-700">{race.winner}</span>'s only Div 1 race win</span>;
-    return <span><span className="font-medium text-gray-700">{race.winner}</span>'s {getOrdinal(winnerWinCount)} of {winnerTotalWins} Div 1 race wins</span>;
+    const name=race.winner;
+    const possessive=name.endsWith('s')?`${name}'`:`${name}'s`;
+    if(winnerTotalWins===1)return <span><span className="font-medium text-gray-700">{possessive}</span> only Div 1 race win</span>;
+    return <span><span className="font-medium text-gray-700">{possessive}</span> {getOrdinal(winnerWinCount)} of {winnerTotalWins} Div 1 race wins</span>;
   },[race.winner,winnerWinCount,winnerTotalWins]);
   
   return<div className="max-w-6xl mx-auto px-4 py-8">
