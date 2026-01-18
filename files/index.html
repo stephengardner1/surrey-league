@@ -607,7 +607,7 @@ const PathRenderer=({positions,getY,padding,bestPos,highlightIdx,lineColor})=>{
   </g>;
 };
 
-const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mitchellCupWinners})=>{
+const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mitchellCupWinners,divisionConfig})=>{
   const[compareInput,setCompareInput]=useState('');
   const[highlightIdx,setHighlightIdx]=useState(null);
   const[compareFocused,setCompareFocused]=useState(false);
@@ -654,10 +654,12 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
         // Calculate team scoring position
         let teamScore='';
         if(result.club&&race.results){
+          const teamSizeA=divisionConfig?.teamSize?.a||10;
+          const teamSizeB=divisionConfig?.teamSize?.b||10;
           const clubRunners=race.results.filter(r=>r.club===result.club);
           const posInClub=clubRunners.findIndex(r=>namesMatch(r.name,result.name))+1;
-          if(posInClub>=1&&posInClub<=10)teamScore=`A${posInClub}`;
-          else if(posInClub>=11&&posInClub<=20)teamScore=`B${posInClub-10}`;
+          if(posInClub>=1&&posInClub<=teamSizeA)teamScore=`A${posInClub}`;
+          else if(posInClub>=teamSizeA+1&&posInClub<=teamSizeA+teamSizeB)teamScore=`B${posInClub-teamSizeA}`;
         }
         const hasFullDate=race.date&&race.date.includes('-')&&race.date.length>=10;
         h.push({date:race.date,venue:race.venue,pos:result.pos,time:result.time,club:result.club,race,hasFullDate,season:race.season,teamScore});
@@ -676,7 +678,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
       });
     }
     return h.sort((a,b)=>{const aKey=a.hasFullDate?a.date:a.season;const bKey=b.hasFullDate?b.date:b.season;return bKey.localeCompare(aKey);});
-  },[athleteData?.name,athleteData?.historicalRaces,races]);
+  },[athleteData?.name,athleteData?.historicalRaces,races,divisionConfig]);
   
   // Compute club GOAT rankings dynamically from race history for each club
   const clubRankings=useMemo(()=>{
@@ -3266,7 +3268,7 @@ function App(){
       {view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}
       {view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races} mitchellCupWinners={data.mitchellCupWinners} division={division}/>}
       {view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}
-      {view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData} mitchellCupWinners={data.mitchellCupWinners} division={division}/>}
+      {view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData} mitchellCupWinners={data.mitchellCupWinners} divisionConfig={divisionConfig}/>}
       {view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}
       {view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData}/>}
       {view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}
