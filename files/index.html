@@ -228,21 +228,31 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   const prevRace=currentIdx>0?sortedRaces[currentIdx-1]:null;
   const nextRace=currentIdx<sortedRaces.length-1?sortedRaces[currentIdx+1]:null;
   
-  // Count individual winner's race wins up to and including this race
-  const winnerWinCount=useMemo(()=>{
-    if(!race.winner)return 0;
+  // Count individual winner's race wins up to and including this race, and total career wins
+  const {winnerWinCount, winnerTotalWins}=useMemo(()=>{
+    if(!race.winner)return {winnerWinCount:0, winnerTotalWins:0};
     const winnerName=normalizeNameForCompare(race.winner);
-    let count=0;
+    let count=0, total=0, foundCurrent=false;
     for(const r of races){
       if(r.winner&&normalizeNameForCompare(r.winner)===winnerName){
-        count++;
-        if(r.season===race.season&&r.match===race.match)break;
+        total++;
+        if(!foundCurrent){
+          count++;
+          if(r.season===race.season&&r.match===race.match)foundCurrent=true;
+        }
       }
     }
-    return count;
+    return {winnerWinCount:count, winnerTotalWins:total};
   },[race,races]);
   
   const getOrdinal=(n)=>{const s=['th','st','nd','rd'];const v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);};
+  
+  // Generate the race win text with proper grammar
+  const raceWinText=useMemo(()=>{
+    if(!race.winner||winnerWinCount===0)return null;
+    if(winnerTotalWins===1)return <span>This was <span className="font-medium text-gray-700">{race.winner}</span>'s only SL Div 1 race win</span>;
+    return <span>This was <span className="font-medium text-gray-700">{race.winner}</span>'s {getOrdinal(winnerWinCount)} of {winnerTotalWins} SL Div 1 race wins</span>;
+  },[race.winner,winnerWinCount,winnerTotalWins]);
   
   return<div className="max-w-6xl mx-auto px-4 py-8">
     <div className="flex items-center justify-between mb-4">
@@ -252,7 +262,7 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
         {nextRace?<button onClick={()=>setView({type:'race',race:nextRace})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><span className="hidden sm:inline">{nextRace.venue}</span><span className="sm:hidden">Next</span><ChevronRight className="w-4 h-4"/></button>:<span className="w-16"/>}
       </div>
     </div>
-    <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&race.date.includes('-')&&race.date.length>=10?formatDate(race.date):(()=>{const months=['Oct','Nov','Dec','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match}</div><h1 className="text-2xl font-bold text-gray-900">{race.venue}</h1>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-2"><ClubShield club={teamWinner} size={16}/><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span><span className="text-gray-500">win the match</span></p>}{race.winner&&winnerWinCount>0&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-2"><ClubShield club={race.winnerClub} size={16}/><span className="text-gray-500">This was <span className="font-medium text-gray-700">{race.winner}</span>'s {getOrdinal(winnerWinCount)} SL race win</span></p>}</div>
+    <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&race.date.includes('-')&&race.date.length>=10?formatDate(race.date):(()=>{const months=['Oct','Nov','Dec','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match}</div><h1 className="text-2xl font-bold text-gray-900">{race.venue}</h1>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-2"><ClubShield club={teamWinner} size={16}/><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span><span className="text-gray-500">won the match</span></p>}{raceWinText&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-2"><ClubShield club={race.winnerClub} size={16}/><span className="text-gray-500">{raceWinText}</span></p>}</div>
     
     {/* Mobile: tabs */}
     <div className="lg:hidden">
