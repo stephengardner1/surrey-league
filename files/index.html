@@ -449,8 +449,20 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     });
     
     // Check for individual champion seasons (from computed rankings)
+    // Only award if season is complete (historical, or has results for final scheduled match)
     Object.entries(seasonsData).forEach(([season,sd])=>{
       if(!sd?.individualRankings?.length)return;
+      // Historical seasons are always complete (even if only 3 matches due to weather)
+      if(sd.historical){
+        const champion=sd.individualRankings[0];
+        if(namesMatch(champion.name,athleteData.name)){
+          badges.push({type:'individual_champion',season,year:getYear(season)});
+        }
+        return;
+      }
+      // For non-historical seasons, check if match 4 results exist
+      const isComplete=sd.standings?.[0]?.m4!==null&&sd.standings?.[0]?.m4!==undefined;
+      if(!isComplete)return;
       const champion=sd.individualRankings[0];
       if(namesMatch(champion.name,athleteData.name)){
         badges.push({type:'individual_champion',season,year:getYear(season)});
@@ -700,6 +712,97 @@ const ChartRoomView=({setView,data})=>{
             })}
           </div>
           <p className="text-xs text-gray-400 mt-2 text-center">Unique runners per club per season. Lines stop when club not in Div 1.</p>
+        </div>
+      </div>
+      
+      <div>
+        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Venues by usage</h2>
+        <div className="bg-gray-50 rounded-lg p-4">
+          {(()=>{
+            // Normalize venues using aliases
+            const venueAliases=data.venueAliases||{};
+            const normalizeVenue=(v)=>{
+              for(const[canonical,aliases]of Object.entries(venueAliases)){
+                if(aliases.includes(v))return canonical;
+              }
+              return v;
+            };
+            
+            // Count venues
+            const venueCounts={};
+            data.races.forEach(r=>{
+              if(!r.venue)return;
+              const v=normalizeVenue(r.venue);
+              venueCounts[v]=(venueCounts[v]||0)+1;
+            });
+            
+            // Sort by count and prepare data, grouping rare venues
+            const allVenues=Object.entries(venueCounts).sort((a,b)=>b[1]-a[1]);
+            const mainVenues=allVenues.filter(([,count])=>count>2).map(([name,count])=>({name,count}));
+            const rareVenues=allVenues.filter(([,count])=>count<=2);
+            
+            // Add "Other" category if there are rare venues
+            const venues=[...mainVenues];
+            if(rareVenues.length>0){
+              const rareCount=rareVenues.reduce((sum,[,c])=>sum+c,0);
+              venues.push({name:`Other venues (${rareVenues.length})`,count:rareCount,isOther:true});
+            }
+            
+            const total=venues.reduce((sum,v)=>sum+v.count,0);
+            
+            // Treemap layout - simple squarified algorithm
+            const width=750,height=300;
+            const colors=['#0077b6','#00a8e8','#48cae4','#90e0ef','#ade8f4','#caf0f8','#e0f7fa','#b2ebf2','#80deea','#4dd0e1','#26c6da','#00bcd4'];
+            
+            // Simple treemap: arrange in rows
+            const rects=[];
+            let x=0,y=0,rowHeight=0,rowWidth=width;
+            let remaining=[...venues];
+            
+            while(remaining.length>0){
+              // Find how many items fit in this row
+              const rowItems=[];
+              let rowTotal=0;
+              const targetRowHeight=height*0.25; // Aim for ~4 rows
+              
+              for(const v of remaining){
+                const itemWidth=(v.count/total)*width*1.5;
+                if(rowItems.length>0&&x+itemWidth>width){
+                  break;
+                }
+                rowItems.push(v);
+                rowTotal+=v.count;
+              }
+              
+              // Calculate actual row height based on total area
+              rowHeight=Math.min((rowTotal/total)*height*1.8,height-y);
+              
+              // Place items in row
+              let rx=0;
+              rowItems.forEach((v,i)=>{
+                const itemWidth=(v.count/rowTotal)*width;
+                rects.push({
+                  x:rx,y,width:itemWidth,height:rowHeight,
+                  name:v.name,count:v.count,isOther:v.isOther,
+                  color:v.isOther?'#9ca3af':colors[rects.length%colors.length]
+                });
+                rx+=itemWidth;
+              });
+              
+              y+=rowHeight;
+              remaining=remaining.slice(rowItems.length);
+              x=0;
+            }
+            
+            return<svg viewBox={`0 0 ${width} ${height}`} className="w-full">
+              {rects.map((r,i)=><g key={i}>
+                <rect x={r.x+1} y={r.y+1} width={Math.max(0,r.width-2)} height={Math.max(0,r.height-2)} fill={r.color} rx="3" className="hover:opacity-80 cursor-default"/>
+                {r.width>50&&r.height>25&&<text x={r.x+r.width/2} y={r.y+r.height/2-6} textAnchor="middle" fontSize={r.width>100?"12":"10"} fill="white" fontWeight="500">{r.name}</text>}
+                {r.width>40&&r.height>25&&<text x={r.x+r.width/2} y={r.y+r.height/2+8} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.8)">{r.count} races</text>}
+              </g>)}
+            </svg>;
+          })()}
+          <p className="text-xs text-gray-400 mt-3 text-center">Size represents number of races hosted at each venue since 1962</p>
         </div>
       </div>
     </div>
@@ -1546,30 +1649,30 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
   // Special historian note for first season
   if(season==='1962/63'){
     return<div className="mt-4">
-      <p className="text-xs text-gray-600 leading-relaxed"><span className="font-semibold text-gray-900 uppercase tracking-wide mr-2">📖 Alan Mead 🖋️</span>The league's first season attracted some fine talent. Belgrave provided three individual winners, but the best race of the series came in Match 3 where, over a snow-covered course, the Bels' <span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Gerry North',club:'BEL'}})}>Gerry North</span> and Surrey's <span className="inline-block align-middle mr-0.5"><ClubShield club="SUR" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'John Snowden',club:'SUR'}})}>John Snowden</span> had a battle royal; the latter eventually gained victory by a single second in the last stride or two. Both were nearly 90 seconds clear of the field. The solid Walton AC team became the first league winners.</p>
+      <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>The league's first season attracted some fine talent. Belgrave provided three individual winners, but the best race of the series came in Match 3 where, over a snow-covered course, the Bels' <span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Gerry North',club:'BEL'}})}>Gerry North</span> and Surrey's <span className="inline-block align-middle mr-0.5"><ClubShield club="SUR" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'John Snowden',club:'SUR'}})}>John Snowden</span> had a battle royal; the latter eventually gained victory by a single second in the last stride or two. Both were nearly 90 seconds clear of the field. The solid Walton AC team became the first league winners.</p>
     </div>;
   }
   // Special historian note for second season
   if(season==='1963/64'){
     return<div className="mt-4">
-      <p className="text-xs text-gray-600 leading-relaxed"><span className="font-semibold text-gray-900 uppercase tracking-wide mr-2">📖 Alan Mead 🖋️</span>A 50-strong <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'BEL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span>Belgrave</span> team took a commanding lead in match 1, and hopes were high for a league win. But <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'WAL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span>Walton AC</span> came back strongly to take the next two matches and although their margin was still only 39 points going into the final race, the Bels could not rise to the task of pulling them back. The individual winner was again <span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bob Roath',club:'WAL'}})}>Bob Roath</span> with 16 pts.</p>
+      <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>A 50-strong <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'BEL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span>Belgrave</span> team took a commanding lead in match 1, and hopes were high for a league win. But <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'WAL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span>Walton AC</span> came back strongly to take the next two matches and although their margin was still only 39 points going into the final race, the Bels could not rise to the task of pulling them back. The individual winner was again <span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bob Roath',club:'WAL'}})}>Bob Roath</span> with 16 pts.</p>
     </div>;
   }
   // Special historian note for third season
   if(season==='1964/65'){
     const match3=races.find(r=>r.season==='1964/65'&&r.match===3);
     return<div className="mt-4">
-      <p className="text-xs text-gray-600 leading-relaxed"><span className="font-semibold text-gray-900 uppercase tracking-wide mr-2">📖 Alan Mead 🖋️</span>The number of teams rose to seven as <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'CRO'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="CRO" size={12}/></span>Croydon Harriers</span> joined the Surrey League. <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'WAL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span>Walton</span> had high hopes for a league hat-trick but crashed badly in Race 2 when they were unable to field a complete team. <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'BEL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span>Belgrave</span> prevailed in the opening two runs before they also turned out a weak {match3?<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:match3})}>Match 3</span>:'Match 3'} team, which was further hamstrung when some missed the start. This allowed <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'H/W'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="H/W" size={12}/></span>Hercules</span> to take the advantage, overturning a huge points deficit. Even a record low score from Belgrave in the final race was not enough to stop their local rivals from hanging on for the win. That last race saw Tokyo Olympic 5,000m runner <span className="inline-block align-middle mr-0.5"><ClubShield club="MIT" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bengt Nadje',club:'MIT'}})}>Bengt Nadje</span> of Sweden become the league's first overseas race victor.</p>
+      <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>The number of teams rose to seven as <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'CRO'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="CRO" size={12}/></span>Croydon Harriers</span> joined the Surrey League. <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'WAL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span>Walton</span> had high hopes for a league hat-trick but crashed badly in Race 2 when they were unable to field a complete team. <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'BEL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span>Belgrave</span> prevailed in the opening two runs before they also turned out a weak {match3?<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:match3})}>Match 3</span>:'Match 3'} team, which was further hamstrung when some missed the start. This allowed <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'H/W'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="H/W" size={12}/></span>Hercules</span> to take the advantage, overturning a huge points deficit. Even a record low score from Belgrave in the final race was not enough to stop their local rivals from hanging on for the win. That last race saw Tokyo Olympic 5,000m runner <span className="inline-block align-middle mr-0.5"><ClubShield club="MIT" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bengt Nadje',club:'MIT'}})}>Bengt Nadje</span> of Sweden become the league's first overseas race victor.</p>
     </div>;
   }
   // If we have stored punditry for historical seasons, show it
   if(seasonData?.punditry&&insights.length===0){
     return<div className="mt-4">
-      <p className="text-xs text-gray-600 leading-relaxed"><span className="font-semibold text-gray-900 uppercase tracking-wide mr-2">Autopundit 🗣️</span>{seasonData.punditry}</p>
+      <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">Autopundit 🗣️</span>{seasonData.punditry}</p>
     </div>;
   }
   return<div className="mt-4">
-    <p className="text-xs text-gray-600 leading-relaxed"><span className="font-semibold text-gray-900 uppercase tracking-wide mr-2">Autopundit 🗣️</span>{insights.map((item,i)=><React.Fragment key={i}>{i>0&&<span className="mx-1.5 text-gray-300">·</span>}{item.textBefore}{item.club&&!item.brothers&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:item.club})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.club} size={12}/></span>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:item.club})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.club} size={12}/></span>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'athlete',athlete:item.athlete})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.athlete.club} size={12}/></span>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{!item.brothers&&item.text}{item.link&&<a href={item.link} target="_blank" rel="noopener noreferrer" className="inline-block align-middle ml-1 text-gray-400 hover:text-[#0077b6]"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}.</React.Fragment>)}</p>
+    <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">Autopundit 🗣️</span>{insights.map((item,i)=><React.Fragment key={i}>{i>0&&<span className="mx-1.5 text-gray-300">·</span>}{item.textBefore}{item.club&&!item.brothers&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:item.club})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.club} size={12}/></span>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:item.club})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.club} size={12}/></span>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'athlete',athlete:item.athlete})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.athlete.club} size={12}/></span>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{!item.brothers&&item.text}{item.link&&<a href={item.link} target="_blank" rel="noopener noreferrer" className="inline-block align-middle ml-1 text-gray-400 hover:text-[#0077b6]"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}.</React.Fragment>)}</p>
   </div>;
 };
 
