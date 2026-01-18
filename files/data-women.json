@@ -1,0 +1,7225 @@
+{
+  "division": "women",
+  "config": {
+    "name": "Women's Division 1",
+    "shortName": "Women",
+    "foundedYear": 1979,
+    "teamSize": {
+      "a": 5,
+      "b": 5
+    },
+    "matchesPerSeason": 4,
+    "relegationSpots": 3,
+    "individualChampionship": "best3of4"
+  },
+  "stats": {
+    "totalRaces": 175,
+    "totalResults": 858,
+    "totalAthletes": 0,
+    "seasons": 44
+  },
+  "seasons": [
+    "2025/26",
+    "2022/23",
+    "2021/22",
+    "2019/20",
+    "2018/19",
+    "2017/18",
+    "2016/17",
+    "2015/16",
+    "2014/15",
+    "2013/14",
+    "2012/13",
+    "2011/12",
+    "2010/11",
+    "2009/10",
+    "2008/09",
+    "2007/08",
+    "2006/07",
+    "2005/06",
+    "2004/05",
+    "2003/04",
+    "2002/03",
+    "2001/02",
+    "2000/01",
+    "1999/00",
+    "1998/99",
+    "1997/98",
+    "1996/97",
+    "1995/96",
+    "1994/95",
+    "1993/94",
+    "1992/93",
+    "1991/92",
+    "1990/91",
+    "1989/90",
+    "1988/89",
+    "1987/88",
+    "1986/87",
+    "1985/86",
+    "1984/85",
+    "1983/84",
+    "1982/83",
+    "1981/82",
+    "1980/81",
+    "1979/80"
+  ],
+  "races": [
+    {
+      "season": "2025/26",
+      "match": 1,
+      "venue": "Hurst Green",
+      "date": "2025-10-11",
+      "winner": "Ruby Carter",
+      "winnerClub": "H/W",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Ruby Carter",
+          "club": "H/W",
+          "time": "20:53"
+        },
+        {
+          "pos": 2,
+          "name": "Juliet Hodder",
+          "club": "BEL",
+          "time": "21:00"
+        },
+        {
+          "pos": 3,
+          "name": "Emily Bradley",
+          "club": "BEL",
+          "time": "21:05"
+        },
+        {
+          "pos": 4,
+          "name": "Suzie Monk",
+          "club": "G&G",
+          "time": "21:14"
+        },
+        {
+          "pos": 5,
+          "name": "Elizabeth Apsley",
+          "club": "THH",
+          "time": "21:18"
+        },
+        {
+          "pos": 6,
+          "name": "Mimi Corden-Lloyd",
+          "club": "BEL",
+          "time": "21:18"
+        },
+        {
+          "pos": 7,
+          "name": "Ruby Whyte-Wilding",
+          "club": "BEL",
+          "time": "21:23"
+        },
+        {
+          "pos": 8,
+          "name": "Alexandra Barbour",
+          "club": "BEL",
+          "time": "21:29"
+        },
+        {
+          "pos": 9,
+          "name": "Amy Clements",
+          "club": "KEN",
+          "time": "21:38"
+        },
+        {
+          "pos": 10,
+          "name": "Sarah Holt",
+          "club": "STR",
+          "time": "21:39"
+        },
+        {
+          "pos": 11,
+          "name": "Abbey Brooke",
+          "club": "BEL",
+          "time": "21:45"
+        },
+        {
+          "pos": 12,
+          "name": "Sarah Grover",
+          "club": "HHH",
+          "time": "21:53"
+        },
+        {
+          "pos": 13,
+          "name": "Evie Warren",
+          "club": "G&G",
+          "time": "21:53"
+        },
+        {
+          "pos": 14,
+          "name": "Amelia Pettitt",
+          "club": "KEN",
+          "time": "21:56",
+          "secondClaim": true
+        },
+        {
+          "pos": 15,
+          "name": "Sophie Tooley",
+          "club": "HHH",
+          "time": "21:58"
+        },
+        {
+          "pos": 16,
+          "name": "Laura Gent",
+          "club": "HHH",
+          "time": "22:03",
+          "secondClaim": true
+        },
+        {
+          "pos": 17,
+          "name": "Felicity Harrison",
+          "club": "BEL",
+          "time": "22:12"
+        },
+        {
+          "pos": 18,
+          "name": "Charlotte Davies",
+          "club": "HHH",
+          "time": "22:13"
+        },
+        {
+          "pos": 19,
+          "name": "Lauren Major",
+          "club": "THH",
+          "time": "22:17"
+        },
+        {
+          "pos": 20,
+          "name": "Julia Bijl",
+          "club": "C/C",
+          "time": "22:23"
+        },
+        {
+          "pos": 21,
+          "name": "Darcie Hey",
+          "club": "HHH",
+          "time": "22:28"
+        },
+        {
+          "pos": 22,
+          "name": "Alex Gandee",
+          "club": "BEL",
+          "time": "22:31"
+        },
+        {
+          "pos": 23,
+          "name": "Martha Collings",
+          "club": "WOK",
+          "time": "22:33"
+        },
+        {
+          "pos": 24,
+          "name": "Amie Walker",
+          "club": "HHH",
+          "time": "22:51"
+        },
+        {
+          "pos": 25,
+          "name": "Lily Newton",
+          "club": "HHH",
+          "time": "22:53"
+        },
+        {
+          "pos": 26,
+          "name": "Nicola Douglas",
+          "club": "STR",
+          "time": "22:56"
+        },
+        {
+          "pos": 27,
+          "name": "Claire Grima",
+          "club": "H/W",
+          "time": "23:02"
+        },
+        {
+          "pos": 28,
+          "name": "Abbie Bulbulian",
+          "club": "C/C",
+          "time": "23:09"
+        },
+        {
+          "pos": 29,
+          "name": "Laura Hancock",
+          "club": "SLH",
+          "time": "23:10"
+        },
+        {
+          "pos": 30,
+          "name": "Niamh Thompson",
+          "club": "H/W",
+          "time": "23:15"
+        },
+        {
+          "pos": 31,
+          "name": "Mary James",
+          "club": "SLH",
+          "time": "23:16"
+        },
+        {
+          "pos": 32,
+          "name": "Poppy Robson",
+          "club": "H/W",
+          "time": "23:21"
+        },
+        {
+          "pos": 33,
+          "name": "Louise Mills",
+          "club": "WOK",
+          "time": "23:23"
+        },
+        {
+          "pos": 34,
+          "name": "Ellie Freeden",
+          "club": "KEN",
+          "time": "23:24"
+        },
+        {
+          "pos": 35,
+          "name": "Aisling Ahern",
+          "club": "KEN",
+          "time": "23:25"
+        },
+        {
+          "pos": 36,
+          "name": "Ellen Weir",
+          "club": "THH",
+          "time": "23:26"
+        },
+        {
+          "pos": 37,
+          "name": "Jo Vickers",
+          "club": "SLH",
+          "time": "23:28"
+        },
+        {
+          "pos": 38,
+          "name": "Georgie Furze",
+          "club": "WOK",
+          "time": "23:35"
+        },
+        {
+          "pos": 39,
+          "name": "Claire Oxlade",
+          "club": "KEN",
+          "time": "23:39"
+        },
+        {
+          "pos": 40,
+          "name": "Sarah Overington",
+          "club": "SLH",
+          "time": "23:42"
+        },
+        {
+          "pos": 41,
+          "name": "Imogen Chesterton",
+          "club": "G&G",
+          "time": "23:46",
+          "secondClaim": true
+        },
+        {
+          "pos": 42,
+          "name": "Nicola Archer",
+          "club": "SLH",
+          "time": "23:49"
+        },
+        {
+          "pos": 43,
+          "name": "Ella Newton",
+          "club": "HHH",
+          "time": "23:49"
+        },
+        {
+          "pos": 44,
+          "name": "Samantha Munday",
+          "club": "BEL",
+          "time": "23:52"
+        },
+        {
+          "pos": 45,
+          "name": "Alice Batchelor",
+          "club": "G&G",
+          "time": "23:53"
+        },
+        {
+          "pos": 46,
+          "name": "Madelaine Parmar",
+          "club": "HHH",
+          "time": "23:54",
+          "secondClaim": true
+        },
+        {
+          "pos": 47,
+          "name": "Cecily Day",
+          "club": "RAN",
+          "time": "23:56"
+        },
+        {
+          "pos": 48,
+          "name": "Eilidh Hide",
+          "club": "BEL",
+          "time": "23:57"
+        },
+        {
+          "pos": 49,
+          "name": "Mariana Marques",
+          "club": "C/C",
+          "time": "23:58"
+        },
+        {
+          "pos": 50,
+          "name": "Dillan Quinn",
+          "club": "H/W",
+          "time": "23:58"
+        },
+        {
+          "pos": 51,
+          "name": "Alice Riddell-Webster",
+          "club": "FUL",
+          "time": "23:59"
+        },
+        {
+          "pos": 52,
+          "name": "Lucy Chambers",
+          "club": "STR",
+          "time": "24:03"
+        },
+        {
+          "pos": 53,
+          "name": "Lizzie Broughton",
+          "club": "RAN",
+          "time": "24:08"
+        },
+        {
+          "pos": 54,
+          "name": "Katie Hopkins",
+          "club": "WOK",
+          "time": "24:12"
+        },
+        {
+          "pos": 55,
+          "name": "Lucy Berryman",
+          "club": "HOL",
+          "time": "24:17"
+        },
+        {
+          "pos": 56,
+          "name": "Emily Goff",
+          "club": "BEL",
+          "time": "24:19"
+        },
+        {
+          "pos": 57,
+          "name": "Sarah Cogswell",
+          "club": "RAN",
+          "time": "24:26"
+        },
+        {
+          "pos": 58,
+          "name": "Katie Lysons",
+          "club": "C/C",
+          "time": "24:30"
+        },
+        {
+          "pos": 59,
+          "name": "Emilie Arnoux",
+          "club": "BEL",
+          "time": "24:31"
+        },
+        {
+          "pos": 60,
+          "name": "Nesrin Sabanci",
+          "club": "KEN",
+          "time": "24:33"
+        },
+        {
+          "pos": 61,
+          "name": "Caroline McLellan",
+          "club": "C/C",
+          "time": "24:34"
+        },
+        {
+          "pos": 62,
+          "name": "Claire Altmann",
+          "club": "THH",
+          "time": "24:35"
+        },
+        {
+          "pos": 63,
+          "name": "Amy Cragg",
+          "club": "THH",
+          "time": "24:36"
+        },
+        {
+          "pos": 64,
+          "name": "Alex Maher",
+          "club": "FOT",
+          "time": "24:36"
+        },
+        {
+          "pos": 65,
+          "name": "Nici Cahusac",
+          "club": "G&G",
+          "time": "24:37"
+        },
+        {
+          "pos": 66,
+          "name": "Holly Pan",
+          "club": "BEL",
+          "time": "24:38"
+        },
+        {
+          "pos": 67,
+          "name": "Emily Bannister",
+          "club": "C/C",
+          "time": "24:39"
+        },
+        {
+          "pos": 68,
+          "name": "Elinor Skinner",
+          "club": "KEN",
+          "time": "24:43"
+        },
+        {
+          "pos": 69,
+          "name": "Aoife Kilpatrick",
+          "club": "RAN",
+          "time": "24:44"
+        },
+        {
+          "pos": 70,
+          "name": "Sophie McKeeman",
+          "club": "FUL",
+          "time": "24:46"
+        },
+        {
+          "pos": 71,
+          "name": "Becky Philips",
+          "club": "HOL",
+          "time": "24:47",
+          "secondClaim": true
+        },
+        {
+          "pos": 72,
+          "name": "Bethan Goddard",
+          "club": "BEL",
+          "time": "24:48"
+        },
+        {
+          "pos": 73,
+          "name": "Alana Smith",
+          "club": "SLH",
+          "time": "24:57"
+        },
+        {
+          "pos": 74,
+          "name": "Amy Bull",
+          "club": "HHH",
+          "time": "24:58"
+        },
+        {
+          "pos": 75,
+          "name": "Sarah Crichton",
+          "club": "KEN",
+          "time": "24:58"
+        },
+        {
+          "pos": 76,
+          "name": "Karen Ellison",
+          "club": "HHH",
+          "time": "24:59"
+        },
+        {
+          "pos": 77,
+          "name": "Natalie Haarer",
+          "club": "RAN",
+          "time": "24:59"
+        },
+        {
+          "pos": 78,
+          "name": "Philippa Mitchell",
+          "club": "H/W",
+          "time": "25:00"
+        },
+        {
+          "pos": 79,
+          "name": "Nadia Ogilvie",
+          "club": "FOT",
+          "time": "25:03"
+        },
+        {
+          "pos": 80,
+          "name": "Eleanor Andrews",
+          "club": "C/C",
+          "time": "25:04"
+        },
+        {
+          "pos": 81,
+          "name": "Charlotte Perfect",
+          "club": "KEN",
+          "time": "25:05"
+        },
+        {
+          "pos": 82,
+          "name": "Emily Barrett",
+          "club": "BEL",
+          "time": "25:06"
+        },
+        {
+          "pos": 83,
+          "name": "Mari Woodhatch",
+          "club": "WOK",
+          "time": "25:12"
+        },
+        {
+          "pos": 84,
+          "name": "Sarah Burdett",
+          "club": "STR",
+          "time": "25:15"
+        },
+        {
+          "pos": 85,
+          "name": "Teresa Murphy",
+          "club": "KEN",
+          "time": "25:18"
+        },
+        {
+          "pos": 86,
+          "name": "Diana Dolce",
+          "club": "SLH",
+          "time": "25:18"
+        },
+        {
+          "pos": 87,
+          "name": "Emily Roberts",
+          "club": "HHH",
+          "time": "25:20"
+        },
+        {
+          "pos": 88,
+          "name": "Grace King",
+          "club": "H/W",
+          "time": "25:23"
+        },
+        {
+          "pos": 89,
+          "name": "Holly Govey",
+          "club": "C/C",
+          "time": "25:24"
+        },
+        {
+          "pos": 90,
+          "name": "Anastasia Hancock",
+          "club": "H/W",
+          "time": "25:25"
+        },
+        {
+          "pos": 91,
+          "name": "Kath Taylor",
+          "club": "WOK",
+          "time": "25:35"
+        },
+        {
+          "pos": 92,
+          "name": "Helen Cooper",
+          "club": "C/C",
+          "time": "25:36"
+        },
+        {
+          "pos": 93,
+          "name": "Laura Cullen",
+          "club": "C/C",
+          "time": "25:39"
+        },
+        {
+          "pos": 94,
+          "name": "Carys Bill",
+          "club": "FOT",
+          "time": "25:42"
+        },
+        {
+          "pos": 95,
+          "name": "Sara Ridmy",
+          "club": "BEL",
+          "time": "25:44"
+        },
+        {
+          "pos": 96,
+          "name": "Kirsty Cutting",
+          "club": "HOL",
+          "time": "25:47"
+        },
+        {
+          "pos": 97,
+          "name": "Freya Billinghurst",
+          "club": "THH",
+          "time": "25:47"
+        },
+        {
+          "pos": 98,
+          "name": "Rhona MacLeod",
+          "club": "SLH",
+          "time": "25:49"
+        },
+        {
+          "pos": 99,
+          "name": "Yvette Dore",
+          "club": "DUL",
+          "time": "25:53"
+        },
+        {
+          "pos": 100,
+          "name": "Lucy Hancock",
+          "club": "C/C",
+          "time": "25:54"
+        },
+        {
+          "pos": 101,
+          "name": "Jessica Booth",
+          "club": "SLH",
+          "time": "25:56"
+        },
+        {
+          "pos": 102,
+          "name": "Ailsa Clay",
+          "club": "C/C",
+          "time": "25:59"
+        },
+        {
+          "pos": 103,
+          "name": "Emily Stainer",
+          "club": "DUL",
+          "time": "26:00"
+        },
+        {
+          "pos": 104,
+          "name": "Katie Styles",
+          "club": "DUL",
+          "time": "26:01"
+        },
+        {
+          "pos": 105,
+          "name": "Wenjia Chen",
+          "club": "H/W",
+          "time": "26:01"
+        },
+        {
+          "pos": 106,
+          "name": "Bea Lafreniere",
+          "club": "BEL",
+          "time": "26:02",
+          "secondClaim": true
+        },
+        {
+          "pos": 107,
+          "name": "Lucia Tregellis",
+          "club": "WOK",
+          "time": "26:04"
+        },
+        {
+          "pos": 108,
+          "name": "Clara Pettit",
+          "club": "H/W",
+          "time": "26:06",
+          "secondClaim": true
+        },
+        {
+          "pos": 109,
+          "name": "Charlotte Lydford",
+          "club": "C/C",
+          "time": "26:09"
+        },
+        {
+          "pos": 110,
+          "name": "Sydney Nunamaker",
+          "club": "KEN",
+          "time": "26:10"
+        },
+        {
+          "pos": 111,
+          "name": "Isabel Wolfenden",
+          "club": "G&G",
+          "time": "26:12"
+        },
+        {
+          "pos": 112,
+          "name": "Parris Williams",
+          "club": "KEN",
+          "time": "26:15"
+        },
+        {
+          "pos": 113,
+          "name": "Ella Barker",
+          "club": "WOK",
+          "time": "26:16"
+        },
+        {
+          "pos": 114,
+          "name": "Sarah Twaite",
+          "club": "H/W",
+          "time": "26:21"
+        },
+        {
+          "pos": 115,
+          "name": "Genevieve Blanch",
+          "club": "KEN",
+          "time": "26:24"
+        },
+        {
+          "pos": 116,
+          "name": "Fiona Smith",
+          "club": "RAN",
+          "time": "26:24"
+        },
+        {
+          "pos": 117,
+          "name": "Abigail White",
+          "club": "WOK",
+          "time": "26:26"
+        },
+        {
+          "pos": 118,
+          "name": "Olivia Farrow",
+          "club": "WOK",
+          "time": "26:28"
+        },
+        {
+          "pos": 119,
+          "name": "Becky Kilner",
+          "club": "C/C",
+          "time": "26:31"
+        },
+        {
+          "pos": 120,
+          "name": "Rebecca Gravell",
+          "club": "STR",
+          "time": "26:33"
+        },
+        {
+          "pos": 121,
+          "name": "Claire Brittain",
+          "club": "WOK",
+          "time": "26:34"
+        },
+        {
+          "pos": 122,
+          "name": "Lauren Chadwick",
+          "club": "WOK",
+          "time": "26:34"
+        },
+        {
+          "pos": 123,
+          "name": "Ruth Hutton",
+          "club": "SLH",
+          "time": "26:35"
+        },
+        {
+          "pos": 124,
+          "name": "Sarah Carnwath",
+          "club": "RAN",
+          "time": "26:35"
+        },
+        {
+          "pos": 125,
+          "name": "Klara Saville",
+          "club": "DUL",
+          "time": "26:36"
+        },
+        {
+          "pos": 126,
+          "name": "Marianna Patat",
+          "club": "BEL",
+          "time": "26:36"
+        },
+        {
+          "pos": 127,
+          "name": "Clare Fowler",
+          "club": "RAN",
+          "time": "26:39"
+        },
+        {
+          "pos": 128,
+          "name": "Gemma Hall",
+          "club": "HOL",
+          "time": "26:40"
+        },
+        {
+          "pos": 129,
+          "name": "Alice Martin",
+          "club": "HOL",
+          "time": "26:42"
+        },
+        {
+          "pos": 130,
+          "name": "Rosie Fontaine",
+          "club": "HOL",
+          "time": "26:47"
+        },
+        {
+          "pos": 131,
+          "name": "Edel McKeever",
+          "club": "RAN",
+          "time": "26:48"
+        },
+        {
+          "pos": 132,
+          "name": "Ruth Moxon",
+          "club": "HOL",
+          "time": "26:51"
+        },
+        {
+          "pos": 133,
+          "name": "Alicja Furmanczyk",
+          "club": "DUL",
+          "time": "26:54"
+        },
+        {
+          "pos": 134,
+          "name": "Claire Woolf",
+          "club": "RAN",
+          "time": "26:55"
+        },
+        {
+          "pos": 135,
+          "name": "Jade Christy",
+          "club": "G&G",
+          "time": "26:58"
+        },
+        {
+          "pos": 136,
+          "name": "Katie Hughes",
+          "club": "C/C",
+          "time": "26:59"
+        },
+        {
+          "pos": 137,
+          "name": "Sally Urquhart",
+          "club": "KEN",
+          "time": "27:03"
+        },
+        {
+          "pos": 138,
+          "name": "Rosie Case-Green",
+          "club": "SLH",
+          "time": "27:06"
+        },
+        {
+          "pos": 139,
+          "name": "Sarah Anderson",
+          "club": "HOL",
+          "time": "27:06"
+        },
+        {
+          "pos": 140,
+          "name": "Pam Whitter",
+          "club": "STR",
+          "time": "27:08"
+        },
+        {
+          "pos": 141,
+          "name": "Laura Hales",
+          "club": "G&G",
+          "time": "27:12"
+        },
+        {
+          "pos": 142,
+          "name": "Tasminder Marsh",
+          "club": "H/W",
+          "time": "27:16"
+        },
+        {
+          "pos": 143,
+          "name": "Katherine Ellis",
+          "club": "HOL",
+          "time": "27:19"
+        },
+        {
+          "pos": 144,
+          "name": "Jayne Edwards",
+          "club": "FOT",
+          "time": "27:20"
+        },
+        {
+          "pos": 145,
+          "name": "Miranda King",
+          "club": "C/C",
+          "time": "27:25"
+        },
+        {
+          "pos": 146,
+          "name": "Tracey Lenthall",
+          "club": "STR",
+          "time": "27:26"
+        },
+        {
+          "pos": 147,
+          "name": "Imogen Shapland",
+          "club": "FUL",
+          "time": "27:29"
+        },
+        {
+          "pos": 148,
+          "name": "Sarah O'Neill",
+          "club": "HOL",
+          "time": "27:30"
+        },
+        {
+          "pos": 149,
+          "name": "Patricia Ronksley",
+          "club": "STR",
+          "time": "27:43"
+        },
+        {
+          "pos": 150,
+          "name": "Adrianne Gibbins",
+          "club": "HOL",
+          "time": "27:47"
+        },
+        {
+          "pos": 151,
+          "name": "Emma Proto",
+          "club": "HOL",
+          "time": "27:48"
+        },
+        {
+          "pos": 152,
+          "name": "Lauren Eckley",
+          "club": "C/C",
+          "time": "27:49"
+        },
+        {
+          "pos": 153,
+          "name": "Sophie Lovie",
+          "club": "HOL",
+          "time": "27:50"
+        },
+        {
+          "pos": 154,
+          "name": "Faye Brown",
+          "club": "C/C",
+          "time": "27:51"
+        },
+        {
+          "pos": 155,
+          "name": "Sian Dudgeon",
+          "club": "SLH",
+          "time": "27:52"
+        },
+        {
+          "pos": 156,
+          "name": "Jane Bradshaw",
+          "club": "DUL",
+          "time": "27:54",
+          "secondClaim": true
+        },
+        {
+          "pos": 157,
+          "name": "Isabelle Bourassa",
+          "club": "C/C",
+          "time": "28:00"
+        },
+        {
+          "pos": 158,
+          "name": "Emma Ibell",
+          "club": "DUL",
+          "time": "28:05"
+        },
+        {
+          "pos": 159,
+          "name": "Allie Donoghue-Hunt",
+          "club": "H/W",
+          "time": "28:06"
+        },
+        {
+          "pos": 160,
+          "name": "Regan Drennan",
+          "club": "FUL",
+          "time": "28:07"
+        },
+        {
+          "pos": 161,
+          "name": "Sarah Nixon Browne",
+          "club": "HOL",
+          "time": "28:14"
+        },
+        {
+          "pos": 162,
+          "name": "Ellie Proudlove",
+          "club": "FUL",
+          "time": "28:14"
+        },
+        {
+          "pos": 163,
+          "name": "Susanna Harrison",
+          "club": "G&G",
+          "time": "28:16"
+        },
+        {
+          "pos": 164,
+          "name": "Michelle Lennon",
+          "club": "DUL",
+          "time": "28:17"
+        },
+        {
+          "pos": 165,
+          "name": "Samantha Moon",
+          "club": "SLH",
+          "time": "28:29"
+        },
+        {
+          "pos": 166,
+          "name": "Claire Chamley",
+          "club": "WOK",
+          "time": "28:33"
+        },
+        {
+          "pos": 167,
+          "name": "Shun-Lai Chan",
+          "club": "SLH",
+          "time": "28:36"
+        },
+        {
+          "pos": 168,
+          "name": "Katrin Metcalfe",
+          "club": "STR",
+          "time": "28:46"
+        },
+        {
+          "pos": 169,
+          "name": "Susan Grounds",
+          "club": "HHH",
+          "time": "28:48"
+        },
+        {
+          "pos": 170,
+          "name": "Rachel Giancola",
+          "club": "FUL",
+          "time": "29:07"
+        },
+        {
+          "pos": 171,
+          "name": "Jemima Hayward-Bhikha",
+          "club": "HHH",
+          "time": "29:15"
+        },
+        {
+          "pos": 172,
+          "name": "Tara Holt",
+          "club": "STR",
+          "time": "29:20"
+        },
+        {
+          "pos": 173,
+          "name": "Sena Mucklow",
+          "club": "DUL",
+          "time": "29:21"
+        },
+        {
+          "pos": 174,
+          "name": "Claire Warner",
+          "club": "RAN",
+          "time": "29:23"
+        },
+        {
+          "pos": 175,
+          "name": "Lucy Hoseason",
+          "club": "STR",
+          "time": "29:27"
+        },
+        {
+          "pos": 176,
+          "name": "Izzy Deeley",
+          "club": "H/W",
+          "time": "29:29"
+        },
+        {
+          "pos": 177,
+          "name": "Sarah Bell",
+          "club": "STR",
+          "time": "29:32"
+        },
+        {
+          "pos": 178,
+          "name": "Suze Spalding",
+          "club": "KEN",
+          "time": "29:34"
+        },
+        {
+          "pos": 179,
+          "name": "Pamela McHutchon",
+          "club": "STR",
+          "time": "29:39"
+        },
+        {
+          "pos": 180,
+          "name": "Wiebke Kortum",
+          "club": "RAN",
+          "time": "29:41"
+        },
+        {
+          "pos": 181,
+          "name": "Molly Laycock",
+          "club": "C/C",
+          "time": "29:43"
+        },
+        {
+          "pos": 182,
+          "name": "Jenny Finch",
+          "club": "C/C",
+          "time": "29:48"
+        },
+        {
+          "pos": 183,
+          "name": "Alexandra Fedina",
+          "club": "HHH",
+          "time": "29:48"
+        },
+        {
+          "pos": 184,
+          "name": "Clare Day",
+          "club": "RAN",
+          "time": "29:53"
+        },
+        {
+          "pos": 185,
+          "name": "Harriet Spelman",
+          "club": "FUL",
+          "time": "30:00"
+        },
+        {
+          "pos": 186,
+          "name": "Pam Iannella",
+          "club": "SLH",
+          "time": "30:09"
+        },
+        {
+          "pos": 187,
+          "name": "Sam West",
+          "club": "HOL",
+          "time": "30:10"
+        },
+        {
+          "pos": 188,
+          "name": "Caroline Welch",
+          "club": "SLH",
+          "time": "30:12"
+        },
+        {
+          "pos": 189,
+          "name": "Joanne Shelton",
+          "club": "DUL",
+          "time": "30:16"
+        },
+        {
+          "pos": 190,
+          "name": "Ann Kearey",
+          "club": "RAN",
+          "time": "30:23"
+        },
+        {
+          "pos": 191,
+          "name": "Heidi Quine",
+          "club": "HOL",
+          "time": "30:27"
+        },
+        {
+          "pos": 192,
+          "name": "Victoria Linsley",
+          "club": "C/C",
+          "time": "30:35"
+        },
+        {
+          "pos": 193,
+          "name": "Elizabeth Watson",
+          "club": "C/C",
+          "time": "30:36"
+        },
+        {
+          "pos": 194,
+          "name": "Emma Less",
+          "club": "FUL",
+          "time": "30:55"
+        },
+        {
+          "pos": 195,
+          "name": "Sarah Jackson",
+          "club": "FUL",
+          "time": "31:02"
+        },
+        {
+          "pos": 196,
+          "name": "Mary Setyabule",
+          "club": "HHH",
+          "time": "31:12"
+        },
+        {
+          "pos": 197,
+          "name": "Julie Haworth",
+          "club": "STR",
+          "time": "31:18"
+        },
+        {
+          "pos": 198,
+          "name": "Jessica Davies",
+          "club": "THH",
+          "time": "31:20"
+        },
+        {
+          "pos": 199,
+          "name": "Ronnie Haydon",
+          "club": "KEN",
+          "time": "31:22"
+        },
+        {
+          "pos": 200,
+          "name": "Sophie Denman",
+          "club": "FUL",
+          "time": "31:35"
+        },
+        {
+          "pos": 201,
+          "name": "Eve Chan",
+          "club": "FUL",
+          "time": "31:35"
+        },
+        {
+          "pos": 202,
+          "name": "Lynsey Harley",
+          "club": "C/C",
+          "time": "31:40"
+        },
+        {
+          "pos": 203,
+          "name": "Emer Tedders",
+          "club": "C/C",
+          "time": "31:41"
+        },
+        {
+          "pos": 205,
+          "name": "Amy Hickman",
+          "club": "HOL",
+          "time": "31:54"
+        },
+        {
+          "pos": 206,
+          "name": "Iona Cullen-Stephen",
+          "club": "C/C",
+          "time": "32:31"
+        },
+        {
+          "pos": 207,
+          "name": "Rebecca Spencer",
+          "club": "C/C",
+          "time": "32:38"
+        },
+        {
+          "pos": 208,
+          "name": "Ashleigh Lezard",
+          "club": "STR",
+          "time": "32:43"
+        },
+        {
+          "pos": 209,
+          "name": "Izzie Clark",
+          "club": "C/C",
+          "time": "32:49"
+        },
+        {
+          "pos": 210,
+          "name": "Colette Doran",
+          "club": "RAN",
+          "time": "32:55"
+        },
+        {
+          "pos": 211,
+          "name": "Mirella Genziani",
+          "club": "STR",
+          "time": "33:04"
+        },
+        {
+          "pos": 212,
+          "name": "Sarah Young",
+          "club": "KEN",
+          "time": "33:22"
+        },
+        {
+          "pos": 213,
+          "name": "Charlotte Watson",
+          "club": "WOK",
+          "time": "33:52"
+        },
+        {
+          "pos": 214,
+          "name": "Elizabeth Davies",
+          "club": "G&G",
+          "time": "33:58"
+        },
+        {
+          "pos": 215,
+          "name": "Angela Ramsier",
+          "club": "HOL",
+          "time": "33:58"
+        },
+        {
+          "pos": 216,
+          "name": "Charlotte Brown",
+          "club": "FUL",
+          "time": "34:01"
+        },
+        {
+          "pos": 217,
+          "name": "Arlene Leonard",
+          "club": "SLH",
+          "time": "34:08"
+        },
+        {
+          "pos": 218,
+          "name": "Sadie Fifield",
+          "club": "SLH",
+          "time": "34:09"
+        },
+        {
+          "pos": 219,
+          "name": "Reema Ismail",
+          "club": "C/C",
+          "time": "34:34"
+        },
+        {
+          "pos": 220,
+          "name": "Alexa Pinner",
+          "club": "FOT",
+          "time": "34:39"
+        },
+        {
+          "pos": 221,
+          "name": "Jo Moon",
+          "club": "SLH",
+          "time": "35:25"
+        },
+        {
+          "pos": 222,
+          "name": "Maddie Barrow",
+          "club": "FUL",
+          "time": "35:35"
+        },
+        {
+          "pos": 223,
+          "name": "Maria David",
+          "club": "DUL",
+          "time": "36:02"
+        },
+        {
+          "pos": 224,
+          "name": "Lauren Feltham",
+          "club": "FUL",
+          "time": "38:56"
+        },
+        {
+          "pos": 225,
+          "name": "Laure Selle",
+          "club": "FUL",
+          "time": "40:17"
+        },
+        {
+          "pos": 226,
+          "name": "Louise Garlick",
+          "club": "FUL",
+          "time": "40:53"
+        },
+        {
+          "pos": 227,
+          "name": "Annabelle Hadlow",
+          "club": "KEN",
+          "time": "41:10"
+        },
+        {
+          "pos": 228,
+          "name": "Zo\u00eb Gaffen",
+          "club": "KEN",
+          "time": "41:28"
+        },
+        {
+          "pos": 229,
+          "name": "Emilyn Hutchinson",
+          "club": "FUL",
+          "time": "46:51"
+        }
+      ],
+      "finishers": 228,
+      "sourceType": "official"
+    },
+    {
+      "season": "2025/26",
+      "match": 2,
+      "venue": "Beckenham Place",
+      "date": "2025-11-15",
+      "winner": "Lucy Jones",
+      "winnerClub": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Lucy Jones",
+          "club": "HHH",
+          "time": "19:18"
+        },
+        {
+          "pos": 2,
+          "name": "Molly Smith",
+          "club": "HHH",
+          "time": "19:44"
+        },
+        {
+          "pos": 3,
+          "name": "Ruby Carter",
+          "club": "H/W",
+          "time": "20:04"
+        },
+        {
+          "pos": 4,
+          "name": "Sophie Tooley",
+          "club": "HHH",
+          "time": "20:19"
+        },
+        {
+          "pos": 5,
+          "name": "Ella Fennelly",
+          "club": "BEL",
+          "time": "20:20"
+        },
+        {
+          "pos": 6,
+          "name": "Juliet Hodder",
+          "club": "BEL",
+          "time": "20:21"
+        },
+        {
+          "pos": 7,
+          "name": "Becky Briggs",
+          "club": "BEL",
+          "time": "20:29",
+          "secondClaim": true
+        },
+        {
+          "pos": 8,
+          "name": "Amy Clements",
+          "club": "KEN",
+          "time": "20:33"
+        },
+        {
+          "pos": 9,
+          "name": "Suzie Monk",
+          "club": "G&G",
+          "time": "20:35"
+        },
+        {
+          "pos": 10,
+          "name": "Georgie Bruinvels",
+          "club": "SLH",
+          "time": "20:39",
+          "secondClaim": true
+        },
+        {
+          "pos": 11,
+          "name": "Claire Hammett",
+          "club": "THH",
+          "time": "20:40"
+        },
+        {
+          "pos": 12,
+          "name": "Amelia Pettitt",
+          "club": "KEN",
+          "time": "20:41",
+          "secondClaim": true
+        },
+        {
+          "pos": 13,
+          "name": "Abbey Brooke",
+          "club": "BEL",
+          "time": "20:48"
+        },
+        {
+          "pos": 14,
+          "name": "Laura Gent",
+          "club": "HHH",
+          "time": "20:49",
+          "secondClaim": true
+        },
+        {
+          "pos": 15,
+          "name": "Evie Warren",
+          "club": "G&G",
+          "time": "21:00"
+        },
+        {
+          "pos": 16,
+          "name": "Olivia Stillman",
+          "club": "HHH",
+          "time": "21:08"
+        },
+        {
+          "pos": 17,
+          "name": "Isobel Hodder",
+          "club": "BEL",
+          "time": "21:14",
+          "secondClaim": true
+        },
+        {
+          "pos": 18,
+          "name": "Katie Grinyer",
+          "club": "G&G",
+          "time": "21:25"
+        },
+        {
+          "pos": 19,
+          "name": "Ellen Weir",
+          "club": "THH",
+          "time": "21:25"
+        },
+        {
+          "pos": 20,
+          "name": "Margaret Coogan",
+          "club": "HHH",
+          "time": "21:30"
+        },
+        {
+          "pos": 21,
+          "name": "Niamh Thompson",
+          "club": "H/W",
+          "time": "21:33"
+        },
+        {
+          "pos": 22,
+          "name": "Bethanie Murray",
+          "club": "THH",
+          "time": "21:33"
+        },
+        {
+          "pos": 23,
+          "name": "Natalie Beadle",
+          "club": "BEL",
+          "time": "21:40"
+        },
+        {
+          "pos": 24,
+          "name": "Charlotte Davies",
+          "club": "HHH",
+          "time": "21:42"
+        },
+        {
+          "pos": 25,
+          "name": "Alex Gandee",
+          "club": "BEL",
+          "time": "21:43"
+        },
+        {
+          "pos": 26,
+          "name": "Billie McCloskey",
+          "club": "BEL",
+          "time": "21:44"
+        },
+        {
+          "pos": 27,
+          "name": "Maddie Mastrolonardo",
+          "club": "BEL",
+          "time": "21:47",
+          "secondClaim": true
+        },
+        {
+          "pos": 28,
+          "name": "Emily Lowery",
+          "club": "BEL",
+          "time": "21:47",
+          "secondClaim": true
+        },
+        {
+          "pos": 29,
+          "name": "Martha Collings",
+          "club": "WOK",
+          "time": "21:49"
+        },
+        {
+          "pos": 30,
+          "name": "Annice Kemp",
+          "club": "SLH",
+          "time": "21:50"
+        },
+        {
+          "pos": 31,
+          "name": "Lily Newton",
+          "club": "HHH",
+          "time": "21:53"
+        },
+        {
+          "pos": 32,
+          "name": "Eloise Bull",
+          "club": "G&G",
+          "time": "21:55"
+        },
+        {
+          "pos": 33,
+          "name": "Lara Mangan",
+          "club": "BEL",
+          "time": "22:01"
+        },
+        {
+          "pos": 34,
+          "name": "Nicola Douglas",
+          "club": "STR",
+          "time": "22:02"
+        },
+        {
+          "pos": 35,
+          "name": "Claire Grima",
+          "club": "H/W",
+          "time": "22:07"
+        },
+        {
+          "pos": 36,
+          "name": "Suzy Whatmough",
+          "club": "RAN",
+          "time": "22:09"
+        },
+        {
+          "pos": 37,
+          "name": "Jennifer Nandi",
+          "club": "HHH",
+          "time": "22:11"
+        },
+        {
+          "pos": 38,
+          "name": "Stephanie Hewitt",
+          "club": "BEL",
+          "time": "22:12"
+        },
+        {
+          "pos": 39,
+          "name": "Abby Michalec",
+          "club": "THH",
+          "time": "22:13"
+        },
+        {
+          "pos": 40,
+          "name": "Jessica Rusby",
+          "club": "BEL",
+          "time": "22:15"
+        },
+        {
+          "pos": 41,
+          "name": "Grace Knapp",
+          "club": "BEL",
+          "time": "22:17"
+        },
+        {
+          "pos": 42,
+          "name": "Aisling Ahern",
+          "club": "KEN",
+          "time": "22:20"
+        },
+        {
+          "pos": 43,
+          "name": "Sarah Overington",
+          "club": "SLH",
+          "time": "22:23"
+        },
+        {
+          "pos": 44,
+          "name": "Sarah Riceman",
+          "club": "BEL",
+          "time": "22:24"
+        },
+        {
+          "pos": 45,
+          "name": "Iona Cousland",
+          "club": "KEN",
+          "time": "22:29"
+        },
+        {
+          "pos": 46,
+          "name": "Poppy Robson",
+          "club": "H/W",
+          "time": "22:32"
+        },
+        {
+          "pos": 47,
+          "name": "Emma Ingham",
+          "club": "C/C",
+          "time": "22:33"
+        },
+        {
+          "pos": 48,
+          "name": "Felicity Hayward",
+          "club": "THH",
+          "time": "22:35"
+        },
+        {
+          "pos": 49,
+          "name": "Molly O'Connor",
+          "club": "KEN",
+          "time": "22:39"
+        },
+        {
+          "pos": 50,
+          "name": "Eilidh Hide",
+          "club": "BEL",
+          "time": "22:41"
+        },
+        {
+          "pos": 51,
+          "name": "Kate O'Malley",
+          "club": "C/C",
+          "time": "22:43"
+        },
+        {
+          "pos": 52,
+          "name": "Dillan Quinn",
+          "club": "H/W",
+          "time": "22:45"
+        },
+        {
+          "pos": 53,
+          "name": "Alice Malin",
+          "club": "FUL",
+          "time": "22:47"
+        },
+        {
+          "pos": 54,
+          "name": "Sophie Biggs",
+          "club": "STR",
+          "time": "22:53"
+        },
+        {
+          "pos": 55,
+          "name": "Alice Riddell-Webster",
+          "club": "FUL",
+          "time": "23:01"
+        },
+        {
+          "pos": 56,
+          "name": "Lucy Chambers",
+          "club": "STR",
+          "time": "23:08"
+        },
+        {
+          "pos": 57,
+          "name": "Ellie Freeden",
+          "club": "KEN",
+          "time": "23:11"
+        },
+        {
+          "pos": 58,
+          "name": "Katie Mooney",
+          "club": "SLH",
+          "time": "23:14"
+        },
+        {
+          "pos": 59,
+          "name": "Alice Batchelor",
+          "club": "G&G",
+          "time": "23:15"
+        },
+        {
+          "pos": 60,
+          "name": "Bethan Goddard",
+          "club": "BEL",
+          "time": "23:17"
+        },
+        {
+          "pos": 61,
+          "name": "Nicola Archer",
+          "club": "SLH",
+          "time": "23:17"
+        },
+        {
+          "pos": 62,
+          "name": "Hayley Cherry",
+          "club": "KEN",
+          "time": "23:21"
+        },
+        {
+          "pos": 63,
+          "name": "Georgie Furze",
+          "club": "WOK",
+          "time": "23:24"
+        },
+        {
+          "pos": 64,
+          "name": "Lucy Berryman",
+          "club": "HOL",
+          "time": "23:24"
+        },
+        {
+          "pos": 65,
+          "name": "Samantha Munday",
+          "club": "BEL",
+          "time": "23:28"
+        },
+        {
+          "pos": 66,
+          "name": "Lucy Wagstaff",
+          "club": "BEL",
+          "time": "23:30"
+        },
+        {
+          "pos": 67,
+          "name": "Lizzie Broughton",
+          "club": "RAN",
+          "time": "23:32"
+        },
+        {
+          "pos": 68,
+          "name": "Rebecca Schofield",
+          "club": "H/W",
+          "time": "23:33"
+        },
+        {
+          "pos": 69,
+          "name": "Karen Ellison",
+          "club": "HHH",
+          "time": "23:34"
+        },
+        {
+          "pos": 70,
+          "name": "Claire Oxlade",
+          "club": "KEN",
+          "time": "23:35"
+        },
+        {
+          "pos": 71,
+          "name": "Eleanor Andrews",
+          "club": "C/C",
+          "time": "23:36"
+        },
+        {
+          "pos": 72,
+          "name": "Clare Cummings",
+          "club": "FUL",
+          "time": "23:38"
+        },
+        {
+          "pos": 73,
+          "name": "Bethan Philp",
+          "club": "HHH",
+          "time": "23:38"
+        },
+        {
+          "pos": 74,
+          "name": "Jo Vickers",
+          "club": "SLH",
+          "time": "23:39"
+        },
+        {
+          "pos": 75,
+          "name": "Polly Low-macrae",
+          "club": "DUL",
+          "time": "23:41"
+        },
+        {
+          "pos": 76,
+          "name": "Holly Pan",
+          "club": "BEL",
+          "time": "23:42"
+        },
+        {
+          "pos": 77,
+          "name": "Lara Bromilow",
+          "club": "KEN",
+          "time": "23:43",
+          "secondClaim": true
+        },
+        {
+          "pos": 78,
+          "name": "Elyse Jenkins",
+          "club": "KEN",
+          "time": "23:46"
+        },
+        {
+          "pos": 79,
+          "name": "Kylara Hassall",
+          "club": "WOK",
+          "time": "23:49"
+        },
+        {
+          "pos": 80,
+          "name": "Gina Galbraith",
+          "club": "H/W",
+          "time": "23:51"
+        },
+        {
+          "pos": 81,
+          "name": "Vic Cartwright",
+          "club": "KEN",
+          "time": "23:54"
+        },
+        {
+          "pos": 82,
+          "name": "Nesrin Sabanci",
+          "club": "KEN",
+          "time": "23:58"
+        },
+        {
+          "pos": 83,
+          "name": "Sarah Crichton",
+          "club": "KEN",
+          "time": "24:02"
+        },
+        {
+          "pos": 84,
+          "name": "Natalie Haarer",
+          "club": "RAN",
+          "time": "24:03"
+        },
+        {
+          "pos": 85,
+          "name": "Hannah Edwards",
+          "club": "HHH",
+          "time": "24:04"
+        },
+        {
+          "pos": 86,
+          "name": "Maeve Lane",
+          "club": "DUL",
+          "time": "24:06"
+        },
+        {
+          "pos": 87,
+          "name": "Maude Wolstenholme",
+          "club": "HHH",
+          "time": "24:07"
+        },
+        {
+          "pos": 88,
+          "name": "Laura Goodson",
+          "club": "BEL",
+          "time": "24:07"
+        },
+        {
+          "pos": 89,
+          "name": "Ruby Masson",
+          "club": "HOL",
+          "time": "24:10"
+        },
+        {
+          "pos": 90,
+          "name": "Chloe Mangan",
+          "club": "BEL",
+          "time": "24:10"
+        },
+        {
+          "pos": 91,
+          "name": "Amy Cragg",
+          "club": "THH",
+          "time": "24:11"
+        },
+        {
+          "pos": 92,
+          "name": "Victoria Buck",
+          "club": "KEN",
+          "time": "24:11"
+        },
+        {
+          "pos": 93,
+          "name": "Freya Billinghurst",
+          "club": "THH",
+          "time": "24:13"
+        },
+        {
+          "pos": 94,
+          "name": "Lauren Liversidge",
+          "club": "BEL",
+          "time": "24:15"
+        },
+        {
+          "pos": 95,
+          "name": "Philippa Mitchell",
+          "club": "H/W",
+          "time": "24:18"
+        },
+        {
+          "pos": 96,
+          "name": "Rhiannon Northeast",
+          "club": "THH",
+          "time": "24:20"
+        },
+        {
+          "pos": 97,
+          "name": "Alana Smith",
+          "club": "SLH",
+          "time": "24:21"
+        },
+        {
+          "pos": 98,
+          "name": "Emilie Arnoux",
+          "club": "BEL",
+          "time": "24:22"
+        },
+        {
+          "pos": 99,
+          "name": "Bea Lafreniere",
+          "club": "BEL",
+          "time": "24:23",
+          "secondClaim": true
+        },
+        {
+          "pos": 100,
+          "name": "Emma Proto",
+          "club": "HOL",
+          "time": "24:24"
+        },
+        {
+          "pos": 101,
+          "name": "Katie Hopkins",
+          "club": "WOK",
+          "time": "24:25"
+        },
+        {
+          "pos": 102,
+          "name": "Sara Ridmy",
+          "club": "BEL",
+          "time": "24:30"
+        },
+        {
+          "pos": 103,
+          "name": "Kath Taylor",
+          "club": "WOK",
+          "time": "24:31"
+        },
+        {
+          "pos": 104,
+          "name": "Teresa Murphy",
+          "club": "KEN",
+          "time": "24:33"
+        },
+        {
+          "pos": 105,
+          "name": "Genevieve Blanch",
+          "club": "KEN",
+          "time": "24:33"
+        },
+        {
+          "pos": 106,
+          "name": "Katie Rowland",
+          "club": "KEN",
+          "time": "24:34"
+        },
+        {
+          "pos": 107,
+          "name": "Agnes Nagy",
+          "club": "RAN",
+          "time": "24:36"
+        },
+        {
+          "pos": 108,
+          "name": "Lizzi Pitt",
+          "club": "C/C",
+          "time": "24:43"
+        },
+        {
+          "pos": 109,
+          "name": "Lucy Hancock",
+          "club": "C/C",
+          "time": "24:50"
+        },
+        {
+          "pos": 110,
+          "name": "Martha Brennan",
+          "club": "HHH",
+          "time": "24:51"
+        },
+        {
+          "pos": 111,
+          "name": "Ella Barker",
+          "club": "WOK",
+          "time": "24:52"
+        },
+        {
+          "pos": 112,
+          "name": "Charlotte Lydford",
+          "club": "C/C",
+          "time": "24:52"
+        },
+        {
+          "pos": 113,
+          "name": "Isabel Wolfenden",
+          "club": "G&G",
+          "time": "24:53"
+        },
+        {
+          "pos": 114,
+          "name": "Rosie Murton",
+          "club": "DUL",
+          "time": "24:54"
+        },
+        {
+          "pos": 115,
+          "name": "Chloe Wright",
+          "club": "HHH",
+          "time": "24:55"
+        },
+        {
+          "pos": 116,
+          "name": "Holly Govey",
+          "club": "C/C",
+          "time": "24:56"
+        },
+        {
+          "pos": 117,
+          "name": "Amy Johnson",
+          "club": "WOK",
+          "time": "24:57"
+        },
+        {
+          "pos": 118,
+          "name": "Kirsty Cutting",
+          "club": "HOL",
+          "time": "25:06"
+        },
+        {
+          "pos": 119,
+          "name": "Fran Buss",
+          "club": "KEN",
+          "time": "25:08"
+        },
+        {
+          "pos": 120,
+          "name": "Julia Wedmore",
+          "club": "HHH",
+          "time": "25:10"
+        },
+        {
+          "pos": 121,
+          "name": "Alice Martin",
+          "club": "HOL",
+          "time": "25:13"
+        },
+        {
+          "pos": 122,
+          "name": "Aoife Kilpatrick",
+          "club": "RAN",
+          "time": "25:15"
+        },
+        {
+          "pos": 123,
+          "name": "Clara Pettit",
+          "club": "H/W",
+          "time": "25:16",
+          "secondClaim": true
+        },
+        {
+          "pos": 124,
+          "name": "Maia Morrell",
+          "club": "SLH",
+          "time": "25:17"
+        },
+        {
+          "pos": 125,
+          "name": "Yvette Dore",
+          "club": "DUL",
+          "time": "25:19"
+        },
+        {
+          "pos": 126,
+          "name": "Edel McKeever",
+          "club": "RAN",
+          "time": "25:22"
+        },
+        {
+          "pos": 127,
+          "name": "Gemma Hall",
+          "club": "HOL",
+          "time": "25:24"
+        },
+        {
+          "pos": 128,
+          "name": "Georgia Herring",
+          "club": "H/W",
+          "time": "25:31"
+        },
+        {
+          "pos": 129,
+          "name": "Emily Stainer",
+          "club": "DUL",
+          "time": "25:34"
+        },
+        {
+          "pos": 130,
+          "name": "Parris Williams",
+          "club": "KEN",
+          "time": "25:35"
+        },
+        {
+          "pos": 131,
+          "name": "Abigail White",
+          "club": "WOK",
+          "time": "25:38"
+        },
+        {
+          "pos": 132,
+          "name": "Angharad Flower",
+          "club": "C/C",
+          "time": "25:39"
+        },
+        {
+          "pos": 133,
+          "name": "Sally Urquhart",
+          "club": "KEN",
+          "time": "25:41"
+        },
+        {
+          "pos": 134,
+          "name": "Klara Saville",
+          "club": "DUL",
+          "time": "25:42"
+        },
+        {
+          "pos": 135,
+          "name": "Amy Kearney",
+          "club": "HOL",
+          "time": "25:42"
+        },
+        {
+          "pos": 136,
+          "name": "Claire Brittain",
+          "club": "WOK",
+          "time": "25:43"
+        },
+        {
+          "pos": 137,
+          "name": "Alicja Furmanczyk",
+          "club": "DUL",
+          "time": "25:45"
+        },
+        {
+          "pos": 138,
+          "name": "Katie Styles",
+          "club": "DUL",
+          "time": "25:46"
+        },
+        {
+          "pos": 139,
+          "name": "Clare Fowler",
+          "club": "RAN",
+          "time": "25:49"
+        },
+        {
+          "pos": 140,
+          "name": "Jessica Booth",
+          "club": "SLH",
+          "time": "25:50"
+        },
+        {
+          "pos": 141,
+          "name": "Danielle Spencer",
+          "club": "KEN",
+          "time": "25:52"
+        },
+        {
+          "pos": 142,
+          "name": "Amy Rollason",
+          "club": "SLH",
+          "time": "25:52"
+        },
+        {
+          "pos": 143,
+          "name": "Ailsa Clay",
+          "club": "C/C",
+          "time": "25:58"
+        },
+        {
+          "pos": 144,
+          "name": "Louise Coombes",
+          "club": "HHH",
+          "time": "25:59"
+        },
+        {
+          "pos": 145,
+          "name": "Diana Dolce",
+          "club": "SLH",
+          "time": "26:00"
+        },
+        {
+          "pos": 146,
+          "name": "Tracey Lenthall",
+          "club": "STR",
+          "time": "26:02"
+        },
+        {
+          "pos": 147,
+          "name": "Amber England",
+          "club": "WOK",
+          "time": "26:03"
+        },
+        {
+          "pos": 148,
+          "name": "Sarah Crockett",
+          "club": "FUL",
+          "time": "26:04"
+        },
+        {
+          "pos": 149,
+          "name": "Alice Smith",
+          "club": "SLH",
+          "time": "26:09"
+        },
+        {
+          "pos": 150,
+          "name": "Susie Fairbrass",
+          "club": "KEN",
+          "time": "26:10"
+        },
+        {
+          "pos": 151,
+          "name": "Sarah O'Neill",
+          "club": "HOL",
+          "time": "26:10"
+        },
+        {
+          "pos": 152,
+          "name": "Laura Vincent",
+          "club": "DUL",
+          "time": "26:16"
+        },
+        {
+          "pos": 153,
+          "name": "Lauren Eckley",
+          "club": "C/C",
+          "time": "26:22"
+        },
+        {
+          "pos": 154,
+          "name": "Allie Donoghue-Hunt",
+          "club": "H/W",
+          "time": "26:23"
+        },
+        {
+          "pos": 155,
+          "name": "Becky Kilner",
+          "club": "C/C",
+          "time": "26:24"
+        },
+        {
+          "pos": 156,
+          "name": "Vicky Houghton-Price",
+          "club": "KEN",
+          "time": "26:24"
+        },
+        {
+          "pos": 157,
+          "name": "Sydney Nunamaker",
+          "club": "KEN",
+          "time": "26:25"
+        },
+        {
+          "pos": 158,
+          "name": "Robyn Smith",
+          "club": "RAN",
+          "time": "26:26"
+        },
+        {
+          "pos": 159,
+          "name": "Sophie Lovie",
+          "club": "HOL",
+          "time": "26:27"
+        },
+        {
+          "pos": 160,
+          "name": "Nicolette Edwards",
+          "club": "C/C",
+          "time": "26:29"
+        },
+        {
+          "pos": 161,
+          "name": "Marianna Patat",
+          "club": "BEL",
+          "time": "26:29"
+        },
+        {
+          "pos": 162,
+          "name": "Regan Drennan",
+          "club": "FUL",
+          "time": "26:32"
+        },
+        {
+          "pos": 163,
+          "name": "Wenjia Chen",
+          "club": "H/W",
+          "time": "26:36"
+        },
+        {
+          "pos": 164,
+          "name": "Helen Cooper",
+          "club": "C/C",
+          "time": "26:38"
+        },
+        {
+          "pos": 165,
+          "name": "Imogen Shapland",
+          "club": "FUL",
+          "time": "26:39"
+        },
+        {
+          "pos": 166,
+          "name": "Karina Box",
+          "club": "KEN",
+          "time": "26:40"
+        },
+        {
+          "pos": 167,
+          "name": "Sarah Anderson",
+          "club": "HOL",
+          "time": "26:41"
+        },
+        {
+          "pos": 168,
+          "name": "Susanna Davies",
+          "club": "KEN",
+          "time": "26:47"
+        },
+        {
+          "pos": 169,
+          "name": "Anne-Marie Clifford",
+          "club": "FOT",
+          "time": "26:50"
+        },
+        {
+          "pos": 170,
+          "name": "Carla Cotton",
+          "club": "STR",
+          "time": "26:50"
+        },
+        {
+          "pos": 171,
+          "name": "Claire Woolf",
+          "club": "RAN",
+          "time": "26:51"
+        },
+        {
+          "pos": 172,
+          "name": "Lucy Hoseason",
+          "club": "STR",
+          "time": "26:58"
+        },
+        {
+          "pos": 173,
+          "name": "Adrianne Gibbins",
+          "club": "HOL",
+          "time": "27:01"
+        },
+        {
+          "pos": 174,
+          "name": "Ann Brennan",
+          "club": "C/C",
+          "time": "27:02"
+        },
+        {
+          "pos": 175,
+          "name": "Laura Schmid",
+          "club": "C/C",
+          "time": "27:04"
+        },
+        {
+          "pos": 176,
+          "name": "Jane Dwyer",
+          "club": "STR",
+          "time": "27:06"
+        },
+        {
+          "pos": 177,
+          "name": "Jane Bradshaw",
+          "club": "DUL",
+          "time": "27:07",
+          "secondClaim": true
+        },
+        {
+          "pos": 178,
+          "name": "Eleanor Simmons",
+          "club": "DUL",
+          "time": "27:16"
+        },
+        {
+          "pos": 179,
+          "name": "Susanna Harrison",
+          "club": "G&G",
+          "time": "27:24"
+        },
+        {
+          "pos": 180,
+          "name": "Fiona Smith",
+          "club": "RAN",
+          "time": "27:31"
+        },
+        {
+          "pos": 181,
+          "name": "Molly Laycock",
+          "club": "C/C",
+          "time": "27:31"
+        },
+        {
+          "pos": 182,
+          "name": "Tara Holt",
+          "club": "STR",
+          "time": "27:41"
+        },
+        {
+          "pos": 183,
+          "name": "Sarah Bergin",
+          "club": "FUL",
+          "time": "27:43"
+        },
+        {
+          "pos": 184,
+          "name": "Noemie Cavaillon-Ram",
+          "club": "C/C",
+          "time": "27:45",
+          "secondClaim": true
+        },
+        {
+          "pos": 185,
+          "name": "Rohini Keites",
+          "club": "WOK",
+          "time": "27:58"
+        },
+        {
+          "pos": 186,
+          "name": "Claire Warner",
+          "club": "RAN",
+          "time": "28:02"
+        },
+        {
+          "pos": 187,
+          "name": "Katrin Metcalfe",
+          "club": "STR",
+          "time": "28:03"
+        },
+        {
+          "pos": 188,
+          "name": "Sam West",
+          "club": "HOL",
+          "time": "28:12"
+        },
+        {
+          "pos": 189,
+          "name": "Izzy Deeley",
+          "club": "H/W",
+          "time": "28:18"
+        },
+        {
+          "pos": 190,
+          "name": "Jessica Miller",
+          "club": "C/C",
+          "time": "28:21"
+        },
+        {
+          "pos": 191,
+          "name": "Tracey Hamilton",
+          "club": "C/C",
+          "time": "28:21"
+        },
+        {
+          "pos": 192,
+          "name": "Gaby Anderson",
+          "club": "C/C",
+          "time": "28:25"
+        },
+        {
+          "pos": 193,
+          "name": "Rebecca Bissell",
+          "club": "RAN",
+          "time": "28:27"
+        },
+        {
+          "pos": 194,
+          "name": "Pam Iannella",
+          "club": "SLH",
+          "time": "28:33"
+        },
+        {
+          "pos": 195,
+          "name": "Lucy O'Donoghue",
+          "club": "FUL",
+          "time": "28:36"
+        },
+        {
+          "pos": 196,
+          "name": "Shun-Lai Chan",
+          "club": "SLH",
+          "time": "28:37"
+        },
+        {
+          "pos": 197,
+          "name": "Heidi Quine",
+          "club": "HOL",
+          "time": "28:42"
+        },
+        {
+          "pos": 198,
+          "name": "Katie Ferry",
+          "club": "WOK",
+          "time": "28:43"
+        },
+        {
+          "pos": 199,
+          "name": "Victoria Linsley",
+          "club": "C/C",
+          "time": "28:45"
+        },
+        {
+          "pos": 200,
+          "name": "Caroline Welch",
+          "club": "SLH",
+          "time": "28:46"
+        },
+        {
+          "pos": 201,
+          "name": "Elizabeth Watson",
+          "club": "C/C",
+          "time": "28:49"
+        },
+        {
+          "pos": 202,
+          "name": "Pamela McHutchon",
+          "club": "STR",
+          "time": "28:50"
+        },
+        {
+          "pos": 204,
+          "name": "Jenny Finch",
+          "club": "C/C",
+          "time": "29:01"
+        },
+        {
+          "pos": 205,
+          "name": "Izabel Grindal",
+          "club": "STR",
+          "time": "29:02"
+        },
+        {
+          "pos": 206,
+          "name": "Solene Pezot",
+          "club": "RAN",
+          "time": "29:11"
+        },
+        {
+          "pos": 208,
+          "name": "Arlene Leonard",
+          "club": "SLH",
+          "time": "29:19"
+        },
+        {
+          "pos": 209,
+          "name": "Jo Wint",
+          "club": "KEN",
+          "time": "29:38"
+        },
+        {
+          "pos": 210,
+          "name": "Sinead Feely",
+          "club": "C/C",
+          "time": "29:42"
+        },
+        {
+          "pos": 211,
+          "name": "Katie Thompson",
+          "club": "DUL",
+          "time": "29:43"
+        },
+        {
+          "pos": 212,
+          "name": "Jess Winfield",
+          "club": "HHH",
+          "time": "29:47"
+        },
+        {
+          "pos": 213,
+          "name": "Emma Less",
+          "club": "FUL",
+          "time": "30:01"
+        },
+        {
+          "pos": 214,
+          "name": "Clare Day",
+          "club": "RAN",
+          "time": "30:04"
+        },
+        {
+          "pos": 215,
+          "name": "Sophie Denman",
+          "club": "FUL",
+          "time": "30:20"
+        },
+        {
+          "pos": 216,
+          "name": "Sarah Hill",
+          "club": "FUL",
+          "time": "30:34"
+        },
+        {
+          "pos": 217,
+          "name": "Mary Setyabule",
+          "club": "HHH",
+          "time": "30:46"
+        },
+        {
+          "pos": 218,
+          "name": "Carol Aikin",
+          "club": "RAN",
+          "time": "30:50"
+        },
+        {
+          "pos": 219,
+          "name": "Jhilla Khodaie",
+          "club": "FUL",
+          "time": "30:50"
+        },
+        {
+          "pos": 220,
+          "name": "Anna Delis",
+          "club": "KEN",
+          "time": "30:51"
+        },
+        {
+          "pos": 221,
+          "name": "Poppy Ovenden",
+          "club": "C/C",
+          "time": "30:56"
+        },
+        {
+          "pos": 222,
+          "name": "Beth Clarke",
+          "club": "C/C",
+          "time": "30:57"
+        },
+        {
+          "pos": 223,
+          "name": "Iona Cullen-Stephen",
+          "club": "C/C",
+          "time": "30:58"
+        },
+        {
+          "pos": 224,
+          "name": "Eve Chan",
+          "club": "FUL",
+          "time": "31:00"
+        },
+        {
+          "pos": 225,
+          "name": "Sarah Young",
+          "club": "KEN",
+          "time": "31:27"
+        },
+        {
+          "pos": 226,
+          "name": "Marisa Pineo",
+          "club": "C/C",
+          "time": "31:38"
+        },
+        {
+          "pos": 227,
+          "name": "Claire Leger",
+          "club": "FOT",
+          "time": "31:56"
+        },
+        {
+          "pos": 228,
+          "name": "Samantha Moon",
+          "club": "SLH",
+          "time": "31:58"
+        },
+        {
+          "pos": 229,
+          "name": "Amy Hickman",
+          "club": "HOL",
+          "time": "32:23"
+        },
+        {
+          "pos": 230,
+          "name": "Angela Ramsier",
+          "club": "HOL",
+          "time": "33:09"
+        },
+        {
+          "pos": 231,
+          "name": "Sally Boulton",
+          "club": "STR",
+          "time": "34:04"
+        },
+        {
+          "pos": 232,
+          "name": "Reema Ismail",
+          "club": "C/C",
+          "time": "34:18"
+        },
+        {
+          "pos": 233,
+          "name": "Jo Moon",
+          "club": "SLH",
+          "time": "35:43"
+        },
+        {
+          "pos": 234,
+          "name": "Annabelle Hadlow",
+          "club": "KEN",
+          "time": "37:23"
+        },
+        {
+          "pos": 235,
+          "name": "Maddie Barrow",
+          "club": "FUL",
+          "time": "37:27"
+        },
+        {
+          "pos": 236,
+          "name": "Chrissie Glew",
+          "club": "STR",
+          "time": "38:53"
+        },
+        {
+          "pos": 237,
+          "name": "Lynda Chase",
+          "club": "STR",
+          "time": "39:24"
+        },
+        {
+          "pos": 238,
+          "name": "Zo\u00eb Gaffen",
+          "club": "KEN",
+          "time": "40:32"
+        },
+        {
+          "pos": 239,
+          "name": "Alice Heath",
+          "club": "FUL",
+          "time": "43:41"
+        }
+      ],
+      "finishers": 237,
+      "sourceType": "official"
+    },
+    {
+      "season": "2025/26",
+      "match": 3,
+      "venue": "Mitcham Common",
+      "date": "2026-01-10",
+      "winner": "Ruby Carter",
+      "winnerClub": "H/W",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Ruby Carter",
+          "club": "H/W",
+          "time": "31:07"
+        },
+        {
+          "pos": 2,
+          "name": "Alexandra Barbour",
+          "club": "BEL",
+          "time": "31:08"
+        },
+        {
+          "pos": 3,
+          "name": "Hanna Andrejczuk",
+          "club": "THH",
+          "time": "31:16",
+          "secondClaim": true
+        },
+        {
+          "pos": 4,
+          "name": "Emily Bradley",
+          "club": "BEL",
+          "time": "31:33"
+        },
+        {
+          "pos": 5,
+          "name": "Suzie Monk",
+          "club": "G&G",
+          "time": "31:44"
+        },
+        {
+          "pos": 6,
+          "name": "Sophie Tooley",
+          "club": "HHH",
+          "time": "31:53"
+        },
+        {
+          "pos": 7,
+          "name": "Sarah Holt",
+          "club": "STR",
+          "time": "32:09"
+        },
+        {
+          "pos": 8,
+          "name": "Evie Warren",
+          "club": "G&G",
+          "time": "32:18"
+        },
+        {
+          "pos": 9,
+          "name": "Serena Carter",
+          "club": "THH",
+          "time": "32:21"
+        },
+        {
+          "pos": 10,
+          "name": "Margaret Coogan",
+          "club": "HHH",
+          "time": "32:27"
+        },
+        {
+          "pos": 11,
+          "name": "Amy Clements",
+          "club": "KEN",
+          "time": "32:32"
+        },
+        {
+          "pos": 12,
+          "name": "Helena Keenan",
+          "club": "HHH",
+          "time": "32:40"
+        },
+        {
+          "pos": 13,
+          "name": "Isobel Hodder",
+          "club": "BEL",
+          "time": "32:47",
+          "secondClaim": true
+        },
+        {
+          "pos": 14,
+          "name": "Saron Haileselase",
+          "club": "BEL",
+          "time": "32:51"
+        },
+        {
+          "pos": 15,
+          "name": "Eloise Bull",
+          "club": "G&G",
+          "time": "32:51"
+        },
+        {
+          "pos": 16,
+          "name": "Charlotte Griffiths",
+          "club": "BEL",
+          "time": "32:52"
+        },
+        {
+          "pos": 17,
+          "name": "Lisa Bailey",
+          "club": "STR",
+          "time": "32:54"
+        },
+        {
+          "pos": 18,
+          "name": "Ellen Weir",
+          "club": "THH",
+          "time": "33:03"
+        },
+        {
+          "pos": 19,
+          "name": "Katie Grinyer",
+          "club": "G&G",
+          "time": "33:07"
+        },
+        {
+          "pos": 20,
+          "name": "Olivia Stillman",
+          "club": "HHH",
+          "time": "33:11"
+        },
+        {
+          "pos": 21,
+          "name": "Lara Mangan",
+          "club": "BEL",
+          "time": "33:35"
+        },
+        {
+          "pos": 22,
+          "name": "Anika Schwarze-Chintapatla",
+          "club": "THH",
+          "time": "33:47",
+          "secondClaim": true
+        },
+        {
+          "pos": 23,
+          "name": "Suzy Whatmough",
+          "club": "RAN",
+          "time": "33:51"
+        },
+        {
+          "pos": 24,
+          "name": "Abbie Bulbulian",
+          "club": "C/C",
+          "time": "33:56"
+        },
+        {
+          "pos": 25,
+          "name": "Billie McCloskey",
+          "club": "BEL",
+          "time": "34:02"
+        },
+        {
+          "pos": 26,
+          "name": "Iona Cousland",
+          "club": "KEN",
+          "time": "34:06"
+        },
+        {
+          "pos": 27,
+          "name": "Alice Malin",
+          "club": "FUL",
+          "time": "34:10"
+        },
+        {
+          "pos": 28,
+          "name": "Cali Brannan",
+          "club": "HHH",
+          "time": "34:24"
+        },
+        {
+          "pos": 29,
+          "name": "Kristina Popadich",
+          "club": "BEL",
+          "time": "34:25"
+        },
+        {
+          "pos": 30,
+          "name": "Claire Grima",
+          "club": "H/W",
+          "time": "34:38"
+        },
+        {
+          "pos": 31,
+          "name": "Sophie Biggs",
+          "club": "STR",
+          "time": "34:47"
+        },
+        {
+          "pos": 32,
+          "name": "Cecily Day",
+          "club": "RAN",
+          "time": "34:53"
+        },
+        {
+          "pos": 33,
+          "name": "Eilidh Hide",
+          "club": "BEL",
+          "time": "34:55"
+        },
+        {
+          "pos": 34,
+          "name": "Sarah Riceman",
+          "club": "BEL",
+          "time": "35:03"
+        },
+        {
+          "pos": 35,
+          "name": "Betsy Griffiths",
+          "club": "RAN",
+          "time": "35:10"
+        },
+        {
+          "pos": 36,
+          "name": "Clare Elms",
+          "club": "KEN",
+          "time": "35:12"
+        },
+        {
+          "pos": 37,
+          "name": "Sarah Palmer",
+          "club": "RAN",
+          "time": "35:15"
+        },
+        {
+          "pos": 38,
+          "name": "Kate O'Malley",
+          "club": "C/C",
+          "time": "35:18"
+        },
+        {
+          "pos": 39,
+          "name": "Mary James",
+          "club": "SLH",
+          "time": "35:21"
+        },
+        {
+          "pos": 40,
+          "name": "Gemma Newport",
+          "club": "BEL",
+          "time": "35:24"
+        },
+        {
+          "pos": 41,
+          "name": "Eilidh Roberts",
+          "club": "BEL",
+          "time": "35:26"
+        },
+        {
+          "pos": 42,
+          "name": "Imogen Deakin",
+          "club": "STR",
+          "time": "35:34"
+        },
+        {
+          "pos": 43,
+          "name": "Ines Beernaert",
+          "club": "BEL",
+          "time": "35:41"
+        },
+        {
+          "pos": 44,
+          "name": "Alice Riddell-Webster",
+          "club": "FUL",
+          "time": "35:41"
+        },
+        {
+          "pos": 45,
+          "name": "Leonie Biemolt",
+          "club": "HHH",
+          "time": "35:45"
+        },
+        {
+          "pos": 46,
+          "name": "Suzanne Swaine",
+          "club": "HHH",
+          "time": "35:46"
+        },
+        {
+          "pos": 47,
+          "name": "Dillan Quinn",
+          "club": "H/W",
+          "time": "35:49"
+        },
+        {
+          "pos": 48,
+          "name": "Elinor Skinner",
+          "club": "KEN",
+          "time": "35:50"
+        },
+        {
+          "pos": 49,
+          "name": "Claire Altmann",
+          "club": "THH",
+          "time": "35:53"
+        },
+        {
+          "pos": 50,
+          "name": "Rebecca Schofield",
+          "club": "H/W",
+          "time": "35:55"
+        },
+        {
+          "pos": 51,
+          "name": "Alexandra Carr",
+          "club": "H/W",
+          "time": "35:57"
+        },
+        {
+          "pos": 52,
+          "name": "Clare Cummings",
+          "club": "FUL",
+          "time": "36:07"
+        },
+        {
+          "pos": 53,
+          "name": "Molly O'Connor",
+          "club": "KEN",
+          "time": "36:10"
+        },
+        {
+          "pos": 54,
+          "name": "Alex Binley",
+          "club": "H/W",
+          "time": "36:14"
+        },
+        {
+          "pos": 55,
+          "name": "Megan Gildea",
+          "club": "HHH",
+          "time": "36:21"
+        },
+        {
+          "pos": 56,
+          "name": "Sophie McKeeman",
+          "club": "FUL",
+          "time": "36:22"
+        },
+        {
+          "pos": 57,
+          "name": "Jilly Raw",
+          "club": "G&G",
+          "time": "36:24"
+        },
+        {
+          "pos": 58,
+          "name": "Helen Cooper",
+          "club": "C/C",
+          "time": "36:25"
+        },
+        {
+          "pos": 59,
+          "name": "Karen Ellison",
+          "club": "HHH",
+          "time": "36:30"
+        },
+        {
+          "pos": 60,
+          "name": "Nicola Archer",
+          "club": "SLH",
+          "time": "36:32"
+        },
+        {
+          "pos": 61,
+          "name": "Lucy Berryman",
+          "club": "HOL",
+          "time": "36:33"
+        },
+        {
+          "pos": 62,
+          "name": "Sophie Cowley",
+          "club": "C/C",
+          "time": "36:33"
+        },
+        {
+          "pos": 63,
+          "name": "Ella Newton",
+          "club": "HHH",
+          "time": "36:34"
+        },
+        {
+          "pos": 64,
+          "name": "Rosanna Mutsaars",
+          "club": "BEL",
+          "time": "36:34"
+        },
+        {
+          "pos": 65,
+          "name": "Bethanie Murray",
+          "club": "THH",
+          "time": "36:38"
+        },
+        {
+          "pos": 66,
+          "name": "Natalie Haarer",
+          "club": "RAN",
+          "time": "36:40"
+        },
+        {
+          "pos": 67,
+          "name": "Penny Oliver",
+          "club": "BEL",
+          "time": "36:43"
+        },
+        {
+          "pos": 68,
+          "name": "Caitlin Eckley",
+          "club": "C/C",
+          "time": "36:45"
+        },
+        {
+          "pos": 69,
+          "name": "Holly Pan",
+          "club": "BEL",
+          "time": "36:50"
+        },
+        {
+          "pos": 70,
+          "name": "Emily Barrett",
+          "club": "BEL",
+          "time": "36:51"
+        },
+        {
+          "pos": 71,
+          "name": "Bethan Philp",
+          "club": "HHH",
+          "time": "36:58"
+        },
+        {
+          "pos": 72,
+          "name": "Claire Oxlade",
+          "club": "KEN",
+          "time": "37:02"
+        },
+        {
+          "pos": 73,
+          "name": "Georgie Furze",
+          "club": "WOK",
+          "time": "37:07"
+        },
+        {
+          "pos": 74,
+          "name": "Eleanor Andrews",
+          "club": "C/C",
+          "time": "37:09"
+        },
+        {
+          "pos": 75,
+          "name": "Jessie Spivey",
+          "club": "FOT",
+          "time": "37:11"
+        },
+        {
+          "pos": 76,
+          "name": "Katie Hopkins",
+          "club": "WOK",
+          "time": "37:19"
+        },
+        {
+          "pos": 77,
+          "name": "Emma Ingham",
+          "club": "C/C",
+          "time": "37:20"
+        },
+        {
+          "pos": 78,
+          "name": "Lucy Hancock",
+          "club": "C/C",
+          "time": "37:20"
+        },
+        {
+          "pos": 79,
+          "name": "Gina Galbraith",
+          "club": "H/W",
+          "time": "37:21"
+        },
+        {
+          "pos": 80,
+          "name": "Kath Taylor",
+          "club": "WOK",
+          "time": "37:23"
+        },
+        {
+          "pos": 81,
+          "name": "Shannon Sinclair",
+          "club": "HHH",
+          "time": "37:26"
+        },
+        {
+          "pos": 82,
+          "name": "Grace King",
+          "club": "H/W",
+          "time": "37:27"
+        },
+        {
+          "pos": 83,
+          "name": "Alana Smith",
+          "club": "SLH",
+          "time": "37:28"
+        },
+        {
+          "pos": 84,
+          "name": "Emilie Arnoux",
+          "club": "BEL",
+          "time": "37:28"
+        },
+        {
+          "pos": 85,
+          "name": "Lizzie Broughton",
+          "club": "RAN",
+          "time": "37:29"
+        },
+        {
+          "pos": 86,
+          "name": "Maude Wolstenholme",
+          "club": "HHH",
+          "time": "37:30"
+        },
+        {
+          "pos": 87,
+          "name": "Nadia Ogilvie",
+          "club": "FOT",
+          "time": "37:35"
+        },
+        {
+          "pos": 88,
+          "name": "Kylara Hassall",
+          "club": "WOK",
+          "time": "37:39"
+        },
+        {
+          "pos": 89,
+          "name": "Clara Pettit",
+          "club": "H/W",
+          "time": "37:50",
+          "secondClaim": true
+        },
+        {
+          "pos": 90,
+          "name": "Abi Jacobs",
+          "club": "C/C",
+          "time": "37:53"
+        },
+        {
+          "pos": 91,
+          "name": "Hazel May",
+          "club": "C/C",
+          "time": "37:57"
+        },
+        {
+          "pos": 92,
+          "name": "Chloe Wright",
+          "club": "HHH",
+          "time": "37:59"
+        },
+        {
+          "pos": 93,
+          "name": "Caroline McLellan",
+          "club": "C/C",
+          "time": "38:04"
+        },
+        {
+          "pos": 94,
+          "name": "Julia Wedmore",
+          "club": "HHH",
+          "time": "38:07"
+        },
+        {
+          "pos": 95,
+          "name": "Charlotte Davies",
+          "club": "HHH",
+          "time": "38:11"
+        },
+        {
+          "pos": 96,
+          "name": "Rebecca Hughes",
+          "club": "THH",
+          "time": "38:13"
+        },
+        {
+          "pos": 97,
+          "name": "Sarah Burdett",
+          "club": "STR",
+          "time": "38:13"
+        },
+        {
+          "pos": 98,
+          "name": "Lizzi Pitt",
+          "club": "C/C",
+          "time": "38:18"
+        },
+        {
+          "pos": 99,
+          "name": "Lucy Jones",
+          "club": "G&G",
+          "time": "38:20"
+        },
+        {
+          "pos": 100,
+          "name": "Molly Hemming",
+          "club": "BEL",
+          "time": "38:26",
+          "secondClaim": true
+        },
+        {
+          "pos": 101,
+          "name": "Mari Woodhatch",
+          "club": "WOK",
+          "time": "38:27"
+        },
+        {
+          "pos": 102,
+          "name": "Isabel Wolfenden",
+          "club": "G&G",
+          "time": "38:35"
+        },
+        {
+          "pos": 103,
+          "name": "Chloe Mangan",
+          "club": "BEL",
+          "time": "38:42"
+        },
+        {
+          "pos": 104,
+          "name": "Charlotte Kenyon",
+          "club": "HHH",
+          "time": "38:46"
+        },
+        {
+          "pos": 105,
+          "name": "Fran Buss",
+          "club": "KEN",
+          "time": "38:46"
+        },
+        {
+          "pos": 106,
+          "name": "Alice Martin",
+          "club": "HOL",
+          "time": "38:50"
+        },
+        {
+          "pos": 107,
+          "name": "Mathilde sreeves",
+          "club": "FOT",
+          "time": "38:50"
+        },
+        {
+          "pos": 108,
+          "name": "Genevieve Blanch",
+          "club": "KEN",
+          "time": "38:55"
+        },
+        {
+          "pos": 109,
+          "name": "Kirsty Cutting",
+          "club": "HOL",
+          "time": "39:02"
+        },
+        {
+          "pos": 110,
+          "name": "Rebecca Gravell",
+          "club": "STR",
+          "time": "39:03"
+        },
+        {
+          "pos": 111,
+          "name": "Emma Proto",
+          "club": "HOL",
+          "time": "39:10"
+        },
+        {
+          "pos": 112,
+          "name": "Tracey Lenthall",
+          "club": "STR",
+          "time": "39:21"
+        },
+        {
+          "pos": 113,
+          "name": "Rosie Murton",
+          "club": "DUL",
+          "time": "39:24"
+        },
+        {
+          "pos": 114,
+          "name": "Karina Box",
+          "club": "KEN",
+          "time": "39:31"
+        },
+        {
+          "pos": 115,
+          "name": "Joanna Peterschmitt",
+          "club": "FOT",
+          "time": "39:38"
+        },
+        {
+          "pos": 116,
+          "name": "Freya Billinghurst",
+          "club": "THH",
+          "time": "39:40"
+        },
+        {
+          "pos": 117,
+          "name": "Chloe Beckett",
+          "club": "THH",
+          "time": "39:50"
+        },
+        {
+          "pos": 118,
+          "name": "Edel McKeever",
+          "club": "RAN",
+          "time": "39:54"
+        },
+        {
+          "pos": 119,
+          "name": "Emily Stainer",
+          "club": "DUL",
+          "time": "39:59"
+        },
+        {
+          "pos": 120,
+          "name": "Yvette Dore",
+          "club": "DUL",
+          "time": "40:01"
+        },
+        {
+          "pos": 121,
+          "name": "Louise Clarkson",
+          "club": "C/C",
+          "time": "40:02"
+        },
+        {
+          "pos": 122,
+          "name": "Laura Errington",
+          "club": "SLH",
+          "time": "40:06"
+        },
+        {
+          "pos": 123,
+          "name": "Rosie Case-Green",
+          "club": "SLH",
+          "time": "40:07"
+        },
+        {
+          "pos": 124,
+          "name": "Sally Urquhart",
+          "club": "KEN",
+          "time": "40:14"
+        },
+        {
+          "pos": 125,
+          "name": "Amy Johnson",
+          "club": "WOK",
+          "time": "40:16"
+        },
+        {
+          "pos": 126,
+          "name": "Jessica Booth",
+          "club": "SLH",
+          "time": "40:21"
+        },
+        {
+          "pos": 127,
+          "name": "Lucy Berryman",
+          "club": "HOL",
+          "time": "40:23"
+        },
+        {
+          "pos": 128,
+          "name": "Maddie Spellman",
+          "club": "C/C",
+          "time": "40:25"
+        },
+        {
+          "pos": 129,
+          "name": "Clare Fowler",
+          "club": "RAN",
+          "time": "40:30"
+        },
+        {
+          "pos": 130,
+          "name": "Amy Kearney",
+          "club": "HOL",
+          "time": "40:32"
+        },
+        {
+          "pos": 131,
+          "name": "Sarah Twaite",
+          "club": "H/W",
+          "time": "40:33"
+        },
+        {
+          "pos": 132,
+          "name": "Klara Saville",
+          "club": "DUL",
+          "time": "40:40"
+        },
+        {
+          "pos": 133,
+          "name": "Lauren Eckley",
+          "club": "C/C",
+          "time": "40:41"
+        },
+        {
+          "pos": 134,
+          "name": "Emily Roberts",
+          "club": "HHH",
+          "time": "40:42"
+        },
+        {
+          "pos": 135,
+          "name": "Elle Mecrow",
+          "club": "C/C",
+          "time": "40:45"
+        },
+        {
+          "pos": 136,
+          "name": "Pascale Dorey",
+          "club": "C/C",
+          "time": "40:48"
+        },
+        {
+          "pos": 137,
+          "name": "Sarah Bergin",
+          "club": "FUL",
+          "time": "40:49"
+        },
+        {
+          "pos": 138,
+          "name": "Claire Brittain",
+          "club": "WOK",
+          "time": "40:50"
+        },
+        {
+          "pos": 139,
+          "name": "Gemma Hall",
+          "club": "HOL",
+          "time": "40:54"
+        },
+        {
+          "pos": 140,
+          "name": "Katherine Ellis",
+          "club": "HOL",
+          "time": "40:59"
+        },
+        {
+          "pos": 141,
+          "name": "Aoife Kilpatrick",
+          "club": "RAN",
+          "time": "41:00"
+        },
+        {
+          "pos": 142,
+          "name": "Allie Donoghue-Hunt",
+          "club": "H/W",
+          "time": "41:11"
+        },
+        {
+          "pos": 143,
+          "name": "Lucy Hoseason",
+          "club": "STR",
+          "time": "41:13"
+        },
+        {
+          "pos": 144,
+          "name": "Ann Brennan",
+          "club": "C/C",
+          "time": "41:15"
+        },
+        {
+          "pos": 145,
+          "name": "Alicia Martin",
+          "club": "FUL",
+          "time": "41:24"
+        },
+        {
+          "pos": 146,
+          "name": "Robyn Smith",
+          "club": "RAN",
+          "time": "41:25"
+        },
+        {
+          "pos": 147,
+          "name": "Laura Vincent",
+          "club": "DUL",
+          "time": "41:33"
+        },
+        {
+          "pos": 148,
+          "name": "Michelle Oldham",
+          "club": "G&G",
+          "time": "41:35"
+        },
+        {
+          "pos": 149,
+          "name": "Sarah O'Neill",
+          "club": "HOL",
+          "time": "41:40"
+        },
+        {
+          "pos": 150,
+          "name": "Laura Schmid",
+          "club": "C/C",
+          "time": "41:48"
+        },
+        {
+          "pos": 151,
+          "name": "Eleanor Simmons",
+          "club": "DUL",
+          "time": "41:50"
+        },
+        {
+          "pos": 152,
+          "name": "Emma Ibell",
+          "club": "DUL",
+          "time": "41:57"
+        },
+        {
+          "pos": 153,
+          "name": "Laura Hales",
+          "club": "G&G",
+          "time": "41:58"
+        },
+        {
+          "pos": 154,
+          "name": "Sarah Nixon Browne",
+          "club": "HOL",
+          "time": "42:00"
+        },
+        {
+          "pos": 155,
+          "name": "Harriet Spelman",
+          "club": "FUL",
+          "time": "42:06"
+        },
+        {
+          "pos": 156,
+          "name": "Lucy O'Donoghue",
+          "club": "FUL",
+          "time": "42:20"
+        },
+        {
+          "pos": 157,
+          "name": "Fiona Smith",
+          "club": "RAN",
+          "time": "42:43"
+        },
+        {
+          "pos": 158,
+          "name": "Susanna Harrison",
+          "club": "G&G",
+          "time": "42:46"
+        },
+        {
+          "pos": 159,
+          "name": "Molly Laycock",
+          "club": "C/C",
+          "time": "42:53"
+        },
+        {
+          "pos": 160,
+          "name": "Regan Drennan",
+          "club": "FUL",
+          "time": "42:56"
+        },
+        {
+          "pos": 161,
+          "name": "Suze Spalding",
+          "club": "KEN",
+          "time": "42:57"
+        },
+        {
+          "pos": 162,
+          "name": "Sarah Crockett",
+          "club": "FUL",
+          "time": "42:59"
+        },
+        {
+          "pos": 163,
+          "name": "Adrianne Gibbins",
+          "club": "HOL",
+          "time": "43:02"
+        },
+        {
+          "pos": 164,
+          "name": "Sarah Anderson",
+          "club": "HOL",
+          "time": "43:03"
+        },
+        {
+          "pos": 165,
+          "name": "Susan Grounds",
+          "club": "HHH",
+          "time": "43:11"
+        },
+        {
+          "pos": 166,
+          "name": "Jane Dwyer",
+          "club": "STR",
+          "time": "43:17"
+        },
+        {
+          "pos": 167,
+          "name": "Rebecca Bissell",
+          "club": "RAN",
+          "time": "43:34"
+        },
+        {
+          "pos": 168,
+          "name": "Marisa Pineo",
+          "club": "C/C",
+          "time": "43:41"
+        },
+        {
+          "pos": 169,
+          "name": "Rosalie Laban",
+          "club": "HHH",
+          "time": "44:00"
+        },
+        {
+          "pos": 170,
+          "name": "Ellie Proudlove",
+          "club": "FUL",
+          "time": "44:02"
+        },
+        {
+          "pos": 171,
+          "name": "Katrin Metcalfe",
+          "club": "STR",
+          "time": "44:03"
+        },
+        {
+          "pos": 172,
+          "name": "Rohini Keites",
+          "club": "WOK",
+          "time": "44:05"
+        },
+        {
+          "pos": 173,
+          "name": "Lydia Ward",
+          "club": "C/C",
+          "time": "44:08"
+        },
+        {
+          "pos": 174,
+          "name": "Beatriz Fernandez",
+          "club": "FOT",
+          "time": "44:08"
+        },
+        {
+          "pos": 175,
+          "name": "Pam Iannella",
+          "club": "SLH",
+          "time": "44:18"
+        },
+        {
+          "pos": 176,
+          "name": "Tara Holt",
+          "club": "STR",
+          "time": "44:22"
+        },
+        {
+          "pos": 177,
+          "name": "Jacqueline White",
+          "club": "G&G",
+          "time": "44:39"
+        },
+        {
+          "pos": 178,
+          "name": "Helen Jaques",
+          "club": "C/C",
+          "time": "44:45"
+        },
+        {
+          "pos": 179,
+          "name": "Victoria Linsley",
+          "club": "C/C",
+          "time": "44:46"
+        },
+        {
+          "pos": 180,
+          "name": "Gaby Anderson",
+          "club": "C/C",
+          "time": "44:46"
+        },
+        {
+          "pos": 181,
+          "name": "Lucy Pickering",
+          "club": "DUL",
+          "time": "44:48"
+        },
+        {
+          "pos": 182,
+          "name": "Pamela McHutchon",
+          "club": "STR",
+          "time": "44:54"
+        },
+        {
+          "pos": 183,
+          "name": "Julie Haworth",
+          "club": "STR",
+          "time": "45:10"
+        },
+        {
+          "pos": 184,
+          "name": "Antonia Welch",
+          "club": "FUL",
+          "time": "45:15"
+        },
+        {
+          "pos": 185,
+          "name": "Claire Warner",
+          "club": "RAN",
+          "time": "45:30"
+        },
+        {
+          "pos": 186,
+          "name": "Caroline Welch",
+          "club": "SLH",
+          "time": "45:37"
+        },
+        {
+          "pos": 187,
+          "name": "Rachel Giancola",
+          "club": "FUL",
+          "time": "45:54"
+        },
+        {
+          "pos": 188,
+          "name": "Elizabeth Watson",
+          "club": "C/C",
+          "time": "45:56"
+        },
+        {
+          "pos": 189,
+          "name": "Heidi Quine",
+          "club": "HOL",
+          "time": "45:57"
+        },
+        {
+          "pos": 190,
+          "name": "Ann Kearey",
+          "club": "RAN",
+          "time": "46:00"
+        },
+        {
+          "pos": 191,
+          "name": "Jo Wint",
+          "club": "KEN",
+          "time": "46:04"
+        },
+        {
+          "pos": 192,
+          "name": "Johanna Mott",
+          "club": "KEN",
+          "time": "46:22"
+        },
+        {
+          "pos": 193,
+          "name": "Emma Less",
+          "club": "FUL",
+          "time": "46:34"
+        },
+        {
+          "pos": 194,
+          "name": "Mary Setyabule",
+          "club": "HHH",
+          "time": "46:42"
+        },
+        {
+          "pos": 195,
+          "name": "Emer Tedders",
+          "club": "C/C",
+          "time": "46:45"
+        },
+        {
+          "pos": 196,
+          "name": "Emily Riddell",
+          "club": "C/C",
+          "time": "46:46"
+        },
+        {
+          "pos": 197,
+          "name": "Ellie Steeden",
+          "club": "HOL",
+          "time": "46:55"
+        },
+        {
+          "pos": 198,
+          "name": "Jess Winfield",
+          "club": "HHH",
+          "time": "47:09"
+        },
+        {
+          "pos": 199,
+          "name": "Carla Willars",
+          "club": "C/C",
+          "time": "47:12"
+        },
+        {
+          "pos": 200,
+          "name": "Sarah Hill",
+          "club": "FUL",
+          "time": "47:13"
+        },
+        {
+          "pos": 201,
+          "name": "Kim Scofield",
+          "club": "C/C",
+          "time": "47:17"
+        },
+        {
+          "pos": 202,
+          "name": "Sam West",
+          "club": "HOL",
+          "time": "47:34"
+        },
+        {
+          "pos": 203,
+          "name": "Sarah Jackson",
+          "club": "FUL",
+          "time": "47:42"
+        },
+        {
+          "pos": 204,
+          "name": "Rhonna Spindley",
+          "club": "FUL",
+          "time": "47:56"
+        },
+        {
+          "pos": 205,
+          "name": "Ronnie Haydon",
+          "club": "KEN",
+          "time": "48:04"
+        },
+        {
+          "pos": 206,
+          "name": "Clare Day",
+          "club": "RAN",
+          "time": "48:47"
+        },
+        {
+          "pos": 207,
+          "name": "Carol Aikin",
+          "club": "RAN",
+          "time": "49:21"
+        },
+        {
+          "pos": 208,
+          "name": "Sarah Young",
+          "club": "KEN",
+          "time": "49:26"
+        },
+        {
+          "pos": 209,
+          "name": "Ruth Mchutchon",
+          "club": "WOK",
+          "time": "49:51"
+        },
+        {
+          "pos": 210,
+          "name": "Mirella Genziani",
+          "club": "STR",
+          "time": "51:24"
+        },
+        {
+          "pos": 211,
+          "name": "Eve Chan",
+          "club": "FUL",
+          "time": "52:04"
+        },
+        {
+          "pos": 212,
+          "name": "Alice Guichenez",
+          "club": "FOT",
+          "time": "52:39"
+        },
+        {
+          "pos": 213,
+          "name": "Camille Goigoux",
+          "club": "FOT",
+          "time": "52:40"
+        },
+        {
+          "pos": 214,
+          "name": "Fiona Bishop",
+          "club": "WOK",
+          "time": "52:40"
+        },
+        {
+          "pos": 215,
+          "name": "Charlotte Watson",
+          "club": "WOK",
+          "time": "N/A"
+        },
+        {
+          "pos": 216,
+          "name": "Maddie Barrow",
+          "club": "FUL",
+          "time": "N/A"
+        },
+        {
+          "pos": 217,
+          "name": "Annabelle Hadlow",
+          "club": "KEN",
+          "time": "N/A"
+        },
+        {
+          "pos": 218,
+          "name": "Chrissie Glew",
+          "club": "STR",
+          "time": "N/A"
+        },
+        {
+          "pos": 219,
+          "name": "Louise Garlick",
+          "club": "FUL",
+          "time": "N/A"
+        },
+        {
+          "pos": 220,
+          "name": "Lynda Chase",
+          "club": "STR",
+          "time": "N/A"
+        },
+        {
+          "pos": 221,
+          "name": "Zo\u00eb Gaffen",
+          "club": "KEN",
+          "time": "N/A"
+        }
+      ],
+      "finishers": 221,
+      "sourceType": "official"
+    },
+    {
+      "season": "1979/80",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "S Nixon",
+      "winnerClub": "G&G",
+      "teamWinner": "G&G",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Nixon",
+          "club": "G&G"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1979/80",
+      "match": 2,
+      "venue": "Lloyd Park",
+      "winner": "L Dally",
+      "winnerClub": "SUR",
+      "teamWinner": "G&G",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Dally",
+          "club": "SUR"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1979/80",
+      "match": 3,
+      "venue": "Redhill",
+      "winner": "L Barrett",
+      "winnerClub": "SEL",
+      "teamWinner": "SEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Barrett",
+          "club": "SEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1979/80",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "S Nixon",
+      "winnerClub": "G&G",
+      "teamWinner": "H/W",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Nixon",
+          "club": "G&G"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1980/81",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "J Drake",
+      "winnerClub": "CRO",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Drake",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1980/81",
+      "match": 2,
+      "venue": "Milford",
+      "winner": "K Sims",
+      "winnerClub": "G&G",
+      "teamWinner": "G&G",
+      "results": [
+        {
+          "pos": 1,
+          "name": "K Sims",
+          "club": "G&G"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1980/81",
+      "match": 3,
+      "venue": "Dorking",
+      "winner": "D Chettle",
+      "winnerClub": "CRO",
+      "teamWinner": "E&E",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Chettle",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1980/81",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "D Phillips",
+      "winnerClub": "CRO",
+      "teamWinner": "E&E",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Phillips",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1981/82",
+      "match": 1,
+      "venue": "Ottershaw",
+      "winner": "A Bott",
+      "winnerClub": "WOK",
+      "teamWinner": "MIT",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Bott",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1981/82",
+      "match": 2,
+      "venue": "Ewell",
+      "winner": "D Wilson",
+      "winnerClub": "MIT",
+      "teamWinner": "MIT",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Wilson",
+          "club": "MIT"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1981/82",
+      "match": 3,
+      "venue": "Camberley",
+      "winner": "S Anderson",
+      "winnerClub": "S&D",
+      "teamWinner": "E&E",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Anderson",
+          "club": "S&D"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1981/82",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "S Shields",
+      "winnerClub": "E&E",
+      "teamWinner": "MIT",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Shields",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1982/83",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "H Baker",
+      "winnerClub": "MIT",
+      "teamWinner": "E&E",
+      "results": [
+        {
+          "pos": 1,
+          "name": "H Baker",
+          "club": "MIT"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1982/83",
+      "match": 2,
+      "venue": "Lloyd Park",
+      "winner": "H Baker",
+      "winnerClub": "MIT",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "H Baker",
+          "club": "MIT"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1982/83",
+      "match": 3,
+      "venue": "Redhill",
+      "winner": "H Baker",
+      "winnerClub": "MIT",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "H Baker",
+          "club": "MIT"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1982/83",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "D Chettle",
+      "winnerClub": "CRO",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Chettle",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1983/84",
+      "match": 1,
+      "venue": "Ottershaw",
+      "winner": "N Menendez",
+      "winnerClub": "CRO",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "N Menendez",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1983/84",
+      "match": 2,
+      "venue": "Ewell",
+      "winner": "S Foster",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Foster",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1983/84",
+      "match": 3,
+      "venue": "Milford",
+      "winner": "N Menendez",
+      "winnerClub": "CRO",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "N Menendez",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1983/84",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "K Ellis",
+      "winnerClub": "CRO",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "K Ellis",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1984/85",
+      "match": 1,
+      "venue": "Lloyd Park",
+      "winner": "G Drake",
+      "winnerClub": "DWN",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Drake",
+          "club": "DWN"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1984/85",
+      "match": 2,
+      "venue": "Walton",
+      "winner": "G Drake",
+      "winnerClub": "DWN",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Drake",
+          "club": "DWN"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1984/85",
+      "match": 3,
+      "venue": "Wimbledon",
+      "winner": "R Honeychurch",
+      "winnerClub": "BEL",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "R Honeychurch",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1984/85",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "G Drake",
+      "winnerClub": "DWN",
+      "teamWinner": "CRO",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Drake",
+          "club": "DWN"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1985/86",
+      "match": 1,
+      "venue": "Morden Park",
+      "winner": "S March",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S March",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1985/86",
+      "match": 2,
+      "venue": "Ewell",
+      "winner": "S March",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S March",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1985/86",
+      "match": 3,
+      "venue": "Tilford",
+      "winner": "S March",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S March",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1985/86",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "A Bott",
+      "winnerClub": "WOK",
+      "teamWinner": "W/W",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Bott",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1986/87",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "J Harrop",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Harrop",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1986/87",
+      "match": 2,
+      "venue": "Morden Park",
+      "winner": "S Lanham",
+      "winnerClub": "MIT",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Lanham",
+          "club": "MIT"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1986/87",
+      "match": 3,
+      "venue": "Ewell",
+      "winner": "S Lanham",
+      "winnerClub": "MIT",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Lanham",
+          "club": "MIT"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1986/87",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "S March",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S March",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1987/88",
+      "match": 1,
+      "venue": "Lightwater",
+      "winner": "P Mason",
+      "winnerClub": "G&G",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "P Mason",
+          "club": "G&G"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1987/88",
+      "match": 2,
+      "venue": "Morden Park",
+      "winner": "P Mason",
+      "winnerClub": "G&G",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "P Mason",
+          "club": "G&G"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1987/88",
+      "match": 3,
+      "venue": "Milford",
+      "winner": "P Mason",
+      "winnerClub": "G&G",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "P Mason",
+          "club": "G&G"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1987/88",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "C Letchford",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Letchford",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1988/89",
+      "match": 1,
+      "venue": "Tilford",
+      "winner": "Z Hyde",
+      "winnerClub": "WOK",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Z Hyde",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1988/89",
+      "match": 2,
+      "venue": "Dorking",
+      "winner": "J Harrop",
+      "winnerClub": "WOK",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Harrop",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1988/89",
+      "match": 3,
+      "venue": "Roehampton",
+      "winner": "J Harrop",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Harrop",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1988/89",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "J Harrop",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Harrop",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1989/90",
+      "match": 1,
+      "venue": "Richmond Park",
+      "winner": "Z Hyde",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Z Hyde",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1989/90",
+      "match": 2,
+      "venue": "Tilford",
+      "winner": "A Roden",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Roden",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1989/90",
+      "match": 3,
+      "venue": "Lloyd Park",
+      "winner": "S Young",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Young",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1989/90",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "Z Hyde",
+      "winnerClub": "WOK",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Z Hyde",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1990/91",
+      "match": 1,
+      "venue": "Tilford",
+      "winner": "N McCracken",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "N McCracken",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1990/91",
+      "match": 2,
+      "venue": "Ewell",
+      "winner": "S Young",
+      "winnerClub": "SLH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Young",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1990/91",
+      "match": 3,
+      "venue": "Lightwater",
+      "winner": "F Richardson",
+      "winnerClub": "DMV",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "F Richardson",
+          "club": "DMV"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1990/91",
+      "match": 4,
+      "venue": "Coulsdon",
+      "winner": "F Richardson",
+      "winnerClub": "DMV",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "F Richardson",
+          "club": "DMV"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1991/92",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "S Young",
+      "winnerClub": "DMV",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Young",
+          "club": "DMV"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1991/92",
+      "match": 2,
+      "venue": "Petersham",
+      "winner": "Z Hyde",
+      "winnerClub": "WOK",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Z Hyde",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1991/92",
+      "match": 3,
+      "venue": "Dorking",
+      "winner": "S Young",
+      "winnerClub": "DMV",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Young",
+          "club": "DMV"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1991/92",
+      "match": 4,
+      "venue": "Coulsdon",
+      "winner": "A Roden",
+      "winnerClub": "SLH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Roden",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1992/93",
+      "match": 1,
+      "venue": "Tilford",
+      "winner": "Z Hyde",
+      "winnerClub": "WOK",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Z Hyde",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1992/93",
+      "match": 2,
+      "venue": "Ewell",
+      "winner": "K Sutton",
+      "winnerClub": "CRO",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "K Sutton",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1992/93",
+      "match": 3,
+      "venue": "Richmond Park",
+      "winner": "C Diss",
+      "winnerClub": "HHH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Diss",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1992/93",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "J Mitchell",
+      "winnerClub": "CRO",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Mitchell",
+          "club": "CRO"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1993/94",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "G Collison",
+      "winnerClub": "BEL",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Collison",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1993/94",
+      "match": 2,
+      "venue": "Brockwell Park",
+      "winner": "G Collison",
+      "winnerClub": "BEL",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Collison",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1993/94",
+      "match": 3,
+      "venue": "Ewell",
+      "winner": "Z Hyde",
+      "winnerClub": "WOK",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "Z Hyde",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1993/94",
+      "match": 4,
+      "venue": "Reigate",
+      "winner": "A Fletcher",
+      "winnerClub": "DUL",
+      "teamWinner": "WOK",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Fletcher",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1994/95",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "G Collison",
+      "winnerClub": "BEL",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Collison",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1994/95",
+      "match": 2,
+      "venue": "Bagshot",
+      "winner": "C Pauzers",
+      "winnerClub": "HHH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Pauzers",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1994/95",
+      "match": 3,
+      "venue": "Brockwell Park",
+      "winner": "A Fletcher",
+      "winnerClub": "DUL",
+      "teamWinner": "DUL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Fletcher",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1994/95",
+      "match": 4,
+      "venue": "Richmond Park",
+      "winner": "G Collison",
+      "winnerClub": "BEL",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Collison",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1995/96",
+      "match": 1,
+      "venue": "Epsom",
+      "winner": "C Pauzers",
+      "winnerClub": "HHH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Pauzers",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1995/96",
+      "match": 2,
+      "venue": "Petersham",
+      "winner": "C Pauzers",
+      "winnerClub": "HHH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Pauzers",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1995/96",
+      "match": 3,
+      "venue": "Milford",
+      "winner": "R Disley",
+      "winnerClub": "THH",
+      "teamWinner": "DUL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "R Disley",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1995/96",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "S Young",
+      "winnerClub": "DMV",
+      "teamWinner": "DUL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Young",
+          "club": "DMV"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1996/97",
+      "match": 1,
+      "venue": "Reigate",
+      "winner": "S Young",
+      "winnerClub": "DMV",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Young",
+          "club": "DMV"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1996/97",
+      "match": 2,
+      "venue": "Richmond Park",
+      "winner": "A Mellodew",
+      "winnerClub": "E&E",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Mellodew",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1996/97",
+      "match": 3,
+      "venue": "Woking",
+      "winner": "A Fletcher",
+      "winnerClub": "DUL",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Fletcher",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1996/97",
+      "match": 4,
+      "venue": "Wimbledon",
+      "winner": "E Danilova",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Danilova",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1997/98",
+      "match": 1,
+      "venue": "Brockwell Park",
+      "winner": "C Pauzers",
+      "winnerClub": "HHH",
+      "teamWinner": "DUL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Pauzers",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1997/98",
+      "match": 2,
+      "venue": "Richmond Park",
+      "winner": "E Danilova",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Danilova",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1997/98",
+      "match": 3,
+      "venue": "Milford",
+      "winner": "E Danilova",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Danilova",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1997/98",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "A Fletcher",
+      "winnerClub": "DUL",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Fletcher",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1998/99",
+      "match": 1,
+      "venue": "Tilford",
+      "winner": "M Pannett",
+      "winnerClub": "DUL",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "M Pannett",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1998/99",
+      "match": 2,
+      "venue": "Brockwell Park",
+      "winner": "R Disley",
+      "winnerClub": "THH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "R Disley",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1998/99",
+      "match": 3,
+      "venue": "Richmond Park",
+      "winner": "R Disley",
+      "winnerClub": "THH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "R Disley",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1998/99",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "A Wood",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Wood",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1999/00",
+      "match": 1,
+      "venue": "Milford",
+      "winner": "N Harvey",
+      "winnerClub": "SLH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "N Harvey",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1999/00",
+      "match": 2,
+      "venue": "Richmond Park",
+      "winner": "D Lee",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Lee",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1999/00",
+      "match": 3,
+      "venue": "Petersham",
+      "winner": "D Lee",
+      "winnerClub": "THH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Lee",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "1999/00",
+      "match": 4,
+      "venue": "Brockwell Park",
+      "winner": "M Pannett",
+      "winnerClub": "DUL",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "M Pannett",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2000/01",
+      "match": 1,
+      "venue": "Tilford",
+      "winner": "D Lee",
+      "winnerClub": "THH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Lee",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2000/01",
+      "match": 2,
+      "venue": "Lightwater",
+      "winner": "D Lee",
+      "winnerClub": "THH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Lee",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2000/01",
+      "match": 3,
+      "venue": "Lightwater",
+      "winner": "A Ridley",
+      "winnerClub": "WOK",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Ridley",
+          "club": "WOK"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2000/01",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "A Fletcher",
+      "winnerClub": "DUL",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Fletcher",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2001/02",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "C Pauzers",
+      "winnerClub": "HHH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Pauzers",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2001/02",
+      "match": 2,
+      "venue": "Tilford",
+      "winner": "C Pauzers",
+      "winnerClub": "HHH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Pauzers",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2001/02",
+      "match": 3,
+      "venue": "Richmond Park",
+      "winner": "A Fletcher",
+      "winnerClub": "DUL",
+      "teamWinner": "DUL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Fletcher",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2001/02",
+      "match": 4,
+      "venue": "Coulsdon",
+      "winner": "D Lee",
+      "winnerClub": "THH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Lee",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2002/03",
+      "match": 1,
+      "venue": "Epsom",
+      "winner": "D Lee",
+      "winnerClub": "THH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Lee",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2002/03",
+      "match": 2,
+      "venue": "Putney Vale",
+      "winner": "D Lee",
+      "winnerClub": "THH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Lee",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2002/03",
+      "match": 3,
+      "venue": "Petersham",
+      "winner": "L Watson",
+      "winnerClub": "THH",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Watson",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2002/03",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "L Hasell",
+      "winnerClub": "THH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Hasell",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2003/04",
+      "match": 1,
+      "venue": "Richmond Park",
+      "winner": "L Hasell",
+      "winnerClub": "THH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Hasell",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2003/04",
+      "match": 2,
+      "venue": "Lightwater",
+      "winner": "E Baker",
+      "winnerClub": "SLH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Baker",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2003/04",
+      "match": 3,
+      "venue": "Petersham",
+      "winner": "M Pannett",
+      "winnerClub": "DUL",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "M Pannett",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2003/04",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "A O'Neill",
+      "winnerClub": "RAN",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A O'Neill",
+          "club": "RAN"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2004/05",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "L Hasell",
+      "winnerClub": "THH",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Hasell",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2004/05",
+      "match": 2,
+      "venue": "Richmond Park",
+      "winner": "L Hasell",
+      "winnerClub": "THH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Hasell",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2004/05",
+      "match": 3,
+      "venue": "Wimbledon",
+      "winner": "E Nelson",
+      "winnerClub": "E&E",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Nelson",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2004/05",
+      "match": 4,
+      "venue": "Ewell",
+      "winner": "D Lee",
+      "winnerClub": "THH",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "D Lee",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2005/06",
+      "match": 1,
+      "venue": "Wimbledon",
+      "winner": "E Nelson",
+      "winnerClub": "E&E",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Nelson",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2005/06",
+      "match": 2,
+      "venue": "Reigate",
+      "winner": "E Nelson",
+      "winnerClub": "E&E",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Nelson",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2005/06",
+      "match": 3,
+      "venue": "Guildford",
+      "winner": "C Nicholson",
+      "winnerClub": "STR",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Nicholson",
+          "club": "STR"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2005/06",
+      "match": 4,
+      "venue": "Petersham",
+      "winner": "J Bleasdale",
+      "winnerClub": "THH",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Bleasdale",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2006/07",
+      "match": 1,
+      "venue": "Epsom",
+      "winner": "L Hasell",
+      "winnerClub": "THH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Hasell",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2006/07",
+      "match": 2,
+      "venue": "Lightwater",
+      "winner": "C Wellington",
+      "winnerClub": "BEL",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Wellington",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2006/07",
+      "match": 3,
+      "venue": "Wimbledon",
+      "winner": "C Bryson",
+      "winnerClub": "BEL",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Bryson",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2006/07",
+      "match": 4,
+      "venue": "Petersham",
+      "winner": "C Diss",
+      "winnerClub": "HHH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Diss",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2007/08",
+      "match": 1,
+      "venue": "Esher",
+      "winner": "C Bryson",
+      "winnerClub": "BEL",
+      "teamWinner": "RAN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Bryson",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2007/08",
+      "match": 2,
+      "venue": "Cranford",
+      "winner": "A Sheringham",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Sheringham",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2007/08",
+      "match": 3,
+      "venue": "Reigate",
+      "winner": "E Nelson",
+      "winnerClub": "E&E",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Nelson",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2007/08",
+      "match": 4,
+      "venue": "Petersham",
+      "winner": "E Nelson",
+      "winnerClub": "E&E",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "E Nelson",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2008/09",
+      "match": 1,
+      "venue": "Nork Park",
+      "winner": "F Clark",
+      "winnerClub": "REI",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "F Clark",
+          "club": "REI"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2008/09",
+      "match": 2,
+      "venue": "Lightwater",
+      "winner": "C Elms",
+      "winnerClub": "DUL",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Elms",
+          "club": "DUL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2008/09",
+      "match": 3,
+      "venue": "Coulsdon",
+      "winner": "C Bryson",
+      "winnerClub": "BEL",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Bryson",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2008/09",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "J Bleasdale",
+      "winnerClub": "THH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Bleasdale",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2009/10",
+      "match": 1,
+      "venue": "Reigate",
+      "winner": "F Clark",
+      "winnerClub": "REI",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "F Clark",
+          "club": "REI"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2009/10",
+      "match": 2,
+      "venue": "Dorking",
+      "winner": "G Bruinvels",
+      "winnerClub": "SLH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Bruinvels",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2009/10",
+      "match": 3,
+      "venue": "Petersham",
+      "winner": "J Bleasdale",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Bleasdale",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2009/10",
+      "match": 4,
+      "venue": "Wimbledon",
+      "winner": "J Bleasdale",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Bleasdale",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2010/11",
+      "match": 1,
+      "venue": "Richmond Park",
+      "winner": "F Clark",
+      "winnerClub": "REI",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "F Clark",
+          "club": "REI"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2010/11",
+      "match": 2,
+      "venue": "Dorking",
+      "winner": "J Bleasdale",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Bleasdale",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2010/11",
+      "match": 3,
+      "venue": "Ham Lands",
+      "winner": "L Macalister",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Macalister",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2010/11",
+      "match": 4,
+      "venue": "Wimbledon",
+      "winner": "L Macalister",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Macalister",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2011/12",
+      "match": 1,
+      "venue": "Lightwater",
+      "winner": "F Clark",
+      "winnerClub": "REI",
+      "teamWinner": "H/W",
+      "results": [
+        {
+          "pos": 1,
+          "name": "F Clark",
+          "club": "REI"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2011/12",
+      "match": 2,
+      "venue": "Petersham",
+      "winner": "L Macalister",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Macalister",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2011/12",
+      "match": 3,
+      "venue": "Coulsdon",
+      "winner": "L Macalister",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Macalister",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2011/12",
+      "match": 4,
+      "venue": "Esher",
+      "winner": "L Macalister",
+      "winnerClub": "THH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Macalister",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2012/13",
+      "match": 1,
+      "venue": "Putney Vale",
+      "winner": "T Jones",
+      "winnerClub": "BEL",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "T Jones",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2012/13",
+      "match": 2,
+      "venue": "Nonsuch Park",
+      "winner": "T Jones",
+      "winnerClub": "BEL",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "T Jones",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2012/13",
+      "match": 3,
+      "venue": "Mitcham",
+      "winner": "R Clifton",
+      "winnerClub": "THH",
+      "teamWinner": "DUL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "R Clifton",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2012/13",
+      "match": 4,
+      "venue": "Dorking",
+      "winner": "R Clifton",
+      "winnerClub": "THH",
+      "teamWinner": "DUL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "R Clifton",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2013/14",
+      "match": 1,
+      "venue": "Lightwater",
+      "winner": "J Bleasdale",
+      "winnerClub": "THH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "J Bleasdale",
+          "club": "THH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2013/14",
+      "match": 2,
+      "venue": "Coulsdon",
+      "winner": "C Ansell",
+      "winnerClub": "HHH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Ansell",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2013/14",
+      "match": 3,
+      "venue": "Putney Vale",
+      "winner": "T Jones",
+      "winnerClub": "BEL",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "T Jones",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2013/14",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "H Sheringham",
+      "winnerClub": "C/C",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "H Sheringham",
+          "club": "C/C"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2014/15",
+      "match": 1,
+      "venue": "Richmond Park",
+      "winner": "C Ansell",
+      "winnerClub": "HHH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Ansell",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2014/15",
+      "match": 2,
+      "venue": "Nonsuch Park",
+      "winner": "H Sheringham",
+      "winnerClub": "C/C",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "H Sheringham",
+          "club": "C/C"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2014/15",
+      "match": 3,
+      "venue": "Putney Vale",
+      "winner": "C Ansell",
+      "winnerClub": "HHH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Ansell",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2014/15",
+      "match": 4,
+      "venue": "Coulsdon",
+      "winner": "C Ansell",
+      "winnerClub": "HHH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "C Ansell",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2015/16",
+      "match": 1,
+      "venue": "Roundshaw Common",
+      "winner": "S McCall",
+      "winnerClub": "SLH",
+      "teamWinner": "C/C",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S McCall",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2015/16",
+      "match": 2,
+      "venue": "Esher",
+      "winner": "L Custance",
+      "winnerClub": "C/C",
+      "teamWinner": "C/C",
+      "results": [
+        {
+          "pos": 1,
+          "name": "L Custance",
+          "club": "C/C"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2015/16",
+      "match": 3,
+      "venue": "Reigate",
+      "winner": "G Sanders",
+      "winnerClub": "RAN",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Sanders",
+          "club": "RAN"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2015/16",
+      "match": 4,
+      "venue": "Petersham",
+      "winner": "S McCall",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S McCall",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2016/17",
+      "match": 1,
+      "venue": "Nonsuch Park",
+      "winner": "A Sheringham",
+      "winnerClub": "KEN",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Sheringham",
+          "club": "KEN"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2016/17",
+      "match": 2,
+      "venue": "Mitcham Common",
+      "winner": "A Brown",
+      "winnerClub": "HHH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Brown",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2016/17",
+      "match": 3,
+      "venue": "Lloyd Park",
+      "winner": "G Bruinvels",
+      "winnerClub": "SLH",
+      "teamWinner": "SLH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Bruinvels",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2016/17",
+      "match": 4,
+      "venue": "Coulsdon",
+      "winner": "I Brinsden",
+      "winnerClub": "E&E",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "I Brinsden",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2017/18",
+      "match": 1,
+      "venue": "Reigate",
+      "winner": "S Harris",
+      "winnerClub": "BEL",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Harris",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2017/18",
+      "match": 2,
+      "venue": "Nonsuch Park",
+      "winner": "S Harris",
+      "winnerClub": "BEL",
+      "teamWinner": "C/C",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Harris",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2017/18",
+      "match": 3,
+      "venue": "Wimbledon Common",
+      "winner": "S Harris",
+      "winnerClub": "BEL",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Harris",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2017/18",
+      "match": 4,
+      "venue": "Richmond Park",
+      "winner": "S Harris",
+      "winnerClub": "BEL",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Harris",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2018/19",
+      "match": 1,
+      "venue": "Wimbledon Common",
+      "winner": "S Haileselase",
+      "winnerClub": "BEL",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Haileselase",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2018/19",
+      "match": 2,
+      "venue": "Nonsuch Park",
+      "winner": "K Sheringham",
+      "winnerClub": "HHH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "K Sheringham",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2018/19",
+      "match": 3,
+      "venue": "Richmond Park",
+      "winner": "S Ward",
+      "winnerClub": "HHH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Ward",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2018/19",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "S Ward",
+      "winnerClub": "HHH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Ward",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2019/20",
+      "match": 1,
+      "venue": "Reigate",
+      "winner": "A Sheringham",
+      "winnerClub": "KEN",
+      "teamWinner": "C/C",
+      "results": [
+        {
+          "pos": 1,
+          "name": "A Sheringham",
+          "club": "KEN"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2019/20",
+      "match": 2,
+      "venue": "Mitcham",
+      "winner": "S McCall",
+      "winnerClub": "HHH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S McCall",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2019/20",
+      "match": 3,
+      "venue": "Wimbledon",
+      "winner": "O Matthews",
+      "winnerClub": "C/C",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "O Matthews",
+          "club": "C/C"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2019/20",
+      "match": 4,
+      "venue": "Richmond Park",
+      "winner": "I Brinsden",
+      "winnerClub": "E&E",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "I Brinsden",
+          "club": "E&E"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2021/22",
+      "match": 1,
+      "venue": "Richmond Park",
+      "winner": "G Bruinvels",
+      "winnerClub": "SLH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Bruinvels",
+          "club": "SLH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2021/22",
+      "match": 2,
+      "venue": "Wimbledon Common",
+      "winner": "O Matthews",
+      "winnerClub": "C/C",
+      "teamWinner": "C/C",
+      "results": [
+        {
+          "pos": 1,
+          "name": "O Matthews",
+          "club": "C/C"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2021/22",
+      "match": 3,
+      "venue": "Mitcham Common",
+      "winner": "S Astin",
+      "winnerClub": "BEL",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "S Astin",
+          "club": "BEL"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2021/22",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "G Grgec",
+      "winnerClub": "HHH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Grgec",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2022/23",
+      "match": 1,
+      "venue": "Effingham Common",
+      "winner": "K Sheringham",
+      "winnerClub": "HHH",
+      "teamWinner": "THH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "K Sheringham",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2022/23",
+      "match": 2,
+      "venue": "Wimbledon Common",
+      "winner": "G Grgec",
+      "winnerClub": "HHH",
+      "teamWinner": "BEL",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Grgec",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2022/23",
+      "match": 3,
+      "venue": "Beckenham",
+      "winner": "G Grgec",
+      "winnerClub": "HHH",
+      "teamWinner": "KEN",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Grgec",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    },
+    {
+      "season": "2022/23",
+      "match": 4,
+      "venue": "Lloyd Park",
+      "winner": "G Grgec",
+      "winnerClub": "HHH",
+      "teamWinner": "HHH",
+      "results": [
+        {
+          "pos": 1,
+          "name": "G Grgec",
+          "club": "HHH"
+        }
+      ],
+      "sourceType": "archive"
+    }
+  ],
+  "seasonsData": {
+    "1979/80": {
+      "champion": "G&G",
+      "championSource": "archive"
+    },
+    "1980/81": {
+      "champion": "CRO",
+      "championSource": "archive"
+    },
+    "1981/82": {
+      "champion": "MIT",
+      "championSource": "archive"
+    },
+    "1982/83": {
+      "champion": "CRO",
+      "championSource": "archive"
+    },
+    "1983/84": {
+      "champion": "CRO",
+      "championSource": "archive"
+    },
+    "1984/85": {
+      "champion": "CRO",
+      "championSource": "archive"
+    },
+    "1985/86": {
+      "champion": "WOK",
+      "championSource": "archive"
+    },
+    "1986/87": {
+      "champion": "WOK",
+      "championSource": "archive"
+    },
+    "1987/88": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "1988/89": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "1989/90": {
+      "champion": "WOK",
+      "championSource": "archive"
+    },
+    "1990/91": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "1991/92": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "1992/93": {
+      "champion": "WOK",
+      "championSource": "archive"
+    },
+    "1993/94": {
+      "champion": "BEL",
+      "championSource": "archive"
+    },
+    "1994/95": {
+      "champion": "HHH",
+      "championSource": "archive"
+    },
+    "1995/96": {
+      "champion": "DUL",
+      "championSource": "archive"
+    },
+    "1996/97": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "1997/98": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "1998/99": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "1999/00": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "2000/01": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "2001/02": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "2002/03": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "2003/04": {
+      "champion": "BEL",
+      "championSource": "archive"
+    },
+    "2004/05": {
+      "champion": "RAN",
+      "championSource": "archive"
+    },
+    "2005/06": {
+      "champion": "RAN",
+      "championSource": "archive"
+    },
+    "2006/07": {
+      "champion": "BEL",
+      "championSource": "archive"
+    },
+    "2007/08": {
+      "champion": "RAN",
+      "championSource": "archive"
+    },
+    "2008/09": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "2009/10": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "2010/11": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "2011/12": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "2012/13": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "2013/14": {
+      "champion": "BEL",
+      "championSource": "archive"
+    },
+    "2014/15": {
+      "champion": "BEL",
+      "championSource": "archive"
+    },
+    "2015/16": {
+      "champion": "C/C",
+      "championSource": "archive"
+    },
+    "2016/17": {
+      "champion": "SLH",
+      "championSource": "archive"
+    },
+    "2017/18": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "2018/19": {
+      "champion": "HHH",
+      "championSource": "archive"
+    },
+    "2019/20": {
+      "champion": "THH",
+      "championSource": "archive"
+    },
+    "2021/22": {
+      "champion": "BEL",
+      "championSource": "archive"
+    },
+    "2022/23": {
+      "champion": "HHH",
+      "championSource": "archive"
+    },
+    "2025/26": {
+      "championSource": "pending"
+    }
+  },
+  "athletes": [],
+  "clubAllTime": {},
+  "athleteAliases": {
+    "Lucy Macalister": [
+      "L Hasell",
+      "Lucy Hasell",
+      "L Macalister",
+      "L MacAlister"
+    ],
+    "Dorchie Cockerell": [
+      "D Lee",
+      "Dorchie Lee"
+    ],
+    "Emily Alden": [
+      "E Nelson",
+      "Emily Nelson"
+    ],
+    "Hannah Sheringham": [
+      "H Munn",
+      "Hannah Munn"
+    ],
+    "Aly Sheringham": [
+      "A Clements",
+      "Aly Clements"
+    ]
+  },
+  "athleteNee": {
+    "Lucy Macalister": "Hasell",
+    "Dorchie Cockerell": "Lee",
+    "Emily Alden": "Nelson",
+    "Hannah Sheringham": "Munn",
+    "Aly Sheringham": "Clements"
+  },
+  "clubs": {
+    "S&D": {
+      "name": "Sutton & District",
+      "defunct": false
+    },
+    "SEL": {
+      "name": "Selsonia Ladies AC",
+      "defunct": true
+    },
+    "DWN": {
+      "name": "Downland",
+      "defunct": true
+    },
+    "FOT": {
+      "name": "Ful-On Tri"
+    }
+  }
+}
