@@ -3166,8 +3166,11 @@ function App(){
   const setView=(v)=>{setViewState(v);updateUrl(v,division);};
   const setDivision=(d)=>{
     setDivisionState(d);
-    setViewState({type:'home'});
-    updateUrl({type:'home'},d);
+    // Preserve current view type, but reset any specific selections (race, athlete, club)
+    const preservedTypes = ['home', 'fixtures', 'seasons', 'athletes', 'clubs', 'h2h'];
+    const newView = preservedTypes.includes(view.type) ? {type: view.type} : {type: 'home'};
+    setViewState(newView);
+    updateUrl(newView, d);
   };
   
   // Load men's data on mount
