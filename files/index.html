@@ -129,18 +129,38 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
       }
     });
     
-    // Surrey League A-team penalty formula:
-    // Each missing runner scores (complete_teams × 10 + 1) points
-    // Where complete_teams = number of clubs with 10+ finishers in this race
-    // This places missing runners just after the last possible A-team scoring position
-    const completeTeams = Object.values(clubScoringCounts).filter(c => c >= count).length;
-    const penaltyScore = completeTeams * count + 1;
+    /*
+     * SURREY LEAGUE PENALTY SCORING FORMULA
+     * =====================================
+     * When a team fields fewer than 10 eligible runners, they receive penalty points.
+     * 
+     * The penalty is calculated MATCH-WIDE as follows:
+     * 1. Count total actual scorers across all teams (capped at 10 per team)
+     * 2. Count total missing positions across all teams (sum of 10 - runners for each incomplete team)
+     * 3. The missing positions are: totalScorers+1, totalScorers+2, ..., totalScorers+totalMissing
+     * 4. Average all missing positions: (sum of missing positions) / totalMissing
+     * 5. Every missing runner (regardless of team) gets this same average as their penalty
+     *
+     * Examples:
+     * - 8-club match, all complete: 80 scorers, no penalties
+     * - 8-club match, 1 team missing 1: 79 scorers, missing pos [80], penalty = 80
+     * - 8-club match, 2 teams missing 1 each: 78 scorers, missing pos [79,80], penalty = 79.5 each
+     * - 8-club match, 1 team missing 2, 1 missing 1: 77 scorers, missing pos [78,79,80], penalty = 79 each
+     * - 9-club match, 1 team missing 1: 89 scorers, missing pos [90], penalty = 90
+     * - 10-club match, 1 team missing 1: 99 scorers, missing pos [100], penalty = 100
+     *
+     * This formula scales automatically with the number of clubs in the match.
+     */
+    const totalScorers = Object.values(clubScores).reduce((sum, scores) => sum + scores.length, 0);
+    const totalMissing = Object.values(clubScores).reduce((sum, scores) => sum + Math.max(0, count - scores.length), 0);
+    const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
+    const avgPenalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
     
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
-      const penalties = missing > 0 ? Array(missing).fill(penaltyScore) : [];
+      const penalties = missing > 0 ? Array(missing).fill(avgPenalty) : [];
       const allScores = [...scores, ...penalties];
-      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore, complete: scores.length >= count};
+      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: avgPenalty, complete: scores.length >= count};
     }).filter(t=>t.scores.length>0).sort((a,b)=>a.points-b.points).map((t,i)=>({...t,pos:i+1}));
   },[results,startPos,count,finishers]);
   
@@ -165,14 +185,17 @@ const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title})=>{
         if(clubScoringCounts[r.club] <= count) clubScores[r.club].push(pts);
       }
     });
-    // Surrey League A-team penalty: each missing runner scores (complete_teams × 10 + 1)
-    const completeTeams = Object.values(clubScoringCounts).filter(c => c >= count).length;
-    const penaltyScore = completeTeams * count + 1;
+    // Surrey League penalty: see full formula documentation in TeamResultsTable above
+    // Penalty = average of all missing positions across ALL teams in the match
+    const totalScorers = Object.values(clubScores).reduce((sum, scores) => sum + scores.length, 0);
+    const totalMissing = Object.values(clubScores).reduce((sum, scores) => sum + Math.max(0, count - scores.length), 0);
+    const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
+    const avgPenalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
-      const penalties = missing > 0 ? Array(missing).fill(penaltyScore) : [];
+      const penalties = missing > 0 ? Array(missing).fill(avgPenalty) : [];
       const allScores = [...scores, ...penalties];
-      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore, complete: scores.length >= count};
+      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: avgPenalty, complete: scores.length >= count};
     }).filter(t=>t.scores.length>0).sort((a,b)=>a.points-b.points).map((t,i)=>({...t,pos:i+1}));
   },[results,startPos,count,finishers]);
   
