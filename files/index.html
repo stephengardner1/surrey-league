@@ -219,8 +219,16 @@ const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps
 };
 
 const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampions})=>{
-  const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);if(!race)return null;
+  const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const[statusHover,setStatusHover]=useState(false);if(!race)return null;
   const seasonData=seasonsData[race.season];const matchData=seasonData?.matches?.find(m=>m.num===race.match);const teamWinner=matchData?.teamWinner||race.teamWinner||(race.teamScores?.[0]?.club);
+  
+  // Format season as yyyy/yyyy
+  const formatSeasonFull=(s)=>{const p=s.split('/');if(p.length!==2)return s;const y1=parseInt(p[0]);const century=y1<50?'20':'19';const y2=parseInt(p[1]);const century2=y2<50?'20':'19';return `${century}${p[0]}/${century2}${p[1]}`;};
+  
+  // Determine results status
+  const resultsStatus=race.results?.length>=100?'complete':race.results?.length>=4?'partial':'winners';
+  const statusColor=resultsStatus==='complete'?'bg-green-500':resultsStatus==='partial'?'bg-amber-500':'bg-red-500';
+  const statusText=resultsStatus==='complete'?'Complete results':resultsStatus==='partial'?'Partial results':'Winners\' data only';
   
   // Check if we have full results with pts field - if so, calculate team scores dynamically
   // Only fall back to knownTeamScores/teamScores if we don't have calculable results
@@ -269,7 +277,7 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
         {nextRace?<button onClick={()=>setView({type:'race',race:nextRace})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><span className="hidden sm:inline">{nextRace.venue}</span><span className="sm:hidden">Next</span><ChevronRight className="w-4 h-4"/></button>:<span className="w-16"/>}
       </div>
     </div>
-    <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&race.date.includes('-')&&race.date.length>=10?formatDate(race.date):(()=>{const months=['Oct','Nov','Dec','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match}</div><h1 className="text-2xl font-bold text-gray-900">{race.venue}</h1>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span> <span className="text-gray-500">won the match</span></span></p>}{raceWinText&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={race.winnerClub} size={16}/><span className="text-gray-500">{raceWinText}</span></p>}</div>
+    <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&race.date.includes('-')&&race.date.length>=10?formatDate(race.date):(()=>{const months=['Oct','Nov','Dec','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex items-center gap-2"><h1 className="text-2xl font-bold text-gray-900">{race.venue}</h1><div className="relative" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}</div></div>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span> <span className="text-gray-500">won the match</span></span></p>}{raceWinText&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={race.winnerClub} size={16}/><span className="text-gray-500">{raceWinText}</span></p>}</div>
     
     {/* Mobile: tabs */}
     <div className="lg:hidden">
