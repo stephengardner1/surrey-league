@@ -1647,7 +1647,6 @@ const HomeView=({setView,data,initialSeason})=>{
             </tr>)}
           </tbody>
         </table>
-        <p className="text-xs text-gray-400 mt-1 italic">Mitchell Cup winner{isJoint?'s':''}</p>
       </div>;
     }
     const seasonRaces=data.races.filter(r=>r.season===season&&r.results);
@@ -1670,7 +1669,7 @@ const HomeView=({setView,data,initialSeason})=>{
     return<div className="mt-3">
       <table className="w-full text-sm">
         <thead><tr className="border-b border-gray-200">
-          <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title="Top 5 athletes who raced in all matches, ranked by sum of positions (lowest is best)">Individuals</th>
+          <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title="Top 5 athletes who raced in all matches, ranked by sum of positions (lowest is best)">Mitchell Cup</th>
           <th className={`text-right ${rightRowPy} px-1 text-xs text-gray-500 uppercase w-10`} title="Sum of finishing positions across all races">Tot</th>
           {[1,2,3,4].slice(0,numRaces).map(n=><th key={n} className={`text-right ${rightRowPy} px-1 text-xs text-gray-300 uppercase w-8`}></th>)}
         </tr></thead>
@@ -2233,6 +2232,16 @@ const normalizeData=(data)=>{
     'steve major':'Stuart Major',
     'major':'Stuart Major'
   };
+  
+  // Merge athleteAliases from data.json into nameAliases
+  // Format in data.json: { "Canonical Name": ["alias1", "alias2"] }
+  if(data.athleteAliases){
+    Object.entries(data.athleteAliases).forEach(([canonical, aliases])=>{
+      aliases.forEach(alias=>{
+        nameAliases[normalizeNameForCompare(alias)]=canonical;
+      });
+    });
+  }
   
   // Club code aliases (map variant codes to canonical codes)
   const clubAliases={
