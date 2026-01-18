@@ -749,8 +749,8 @@ const ChartRoomView=({setView,data})=>{
             }
             
             const total=venues.reduce((sum,v)=>sum+v.count,0);
-            const width=750,height=300;
-            const colors=['#0077b6','#00a8e8','#48cae4','#90e0ef','#ade8f4','#caf0f8','#e0f7fa','#b2ebf2','#80deea','#4dd0e1','#26c6da','#00bcd4'];
+            const width=750,height=450;
+            const colors=['#0077b6','#005f8a','#023e58','#1a5276','#2874a6','#1b4f72','#0e4d64','#1f618d','#21618c','#2e86ab','#1a3c5c','#154360'];
             
             // Simple slice-and-dice treemap
             const rects=[];
@@ -764,7 +764,7 @@ const ChartRoomView=({setView,data})=>{
               if(horizontal){
                 rw=w*ratio/(venues.slice(i).reduce((s,vv)=>s+vv.count,0)/total);
                 rh=h;
-                rects.push({...v,x,y,width:rw,height:rh,color:v.isOther?'#9ca3af':colors[i%colors.length]});
+                rects.push({...v,x,y,width:rw,height:rh,color:v.isOther?'#6b7280':colors[i%colors.length]});
                 x+=rw;
                 if(i<venues.length-1&&x>width*0.6){
                   horizontal=false;
@@ -775,16 +775,16 @@ const ChartRoomView=({setView,data})=>{
               }else{
                 rw=w;
                 rh=h*ratio/(venues.slice(i).reduce((s,vv)=>s+vv.count,0)/total);
-                rects.push({...v,x,y,width:rw,height:rh,color:v.isOther?'#9ca3af':colors[i%colors.length]});
+                rects.push({...v,x,y,width:rw,height:rh,color:v.isOther?'#6b7280':colors[i%colors.length]});
                 y+=rh;
               }
             });
             
             return<svg viewBox={`0 0 ${width} ${height}`} className="w-full">
               {rects.map((r,i)=><g key={i}>
-                <rect x={r.x+1} y={r.y+1} width={Math.max(0,r.width-2)} height={Math.max(0,r.height-2)} fill={r.color} rx="3" className="hover:opacity-80 cursor-default"/>
-                {r.width>60&&r.height>30&&<text x={r.x+r.width/2} y={r.y+r.height/2-6} textAnchor="middle" fontSize={r.width>120?"12":"10"} fill="white" fontWeight="500">{r.name}</text>}
-                {r.width>50&&r.height>30&&<text x={r.x+r.width/2} y={r.y+r.height/2+8} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.8)">{r.count} races</text>}
+                <rect x={r.x+1} y={r.y+1} width={Math.max(0,r.width-2)} height={Math.max(0,r.height-2)} fill={r.color} rx="4" className="hover:opacity-90 cursor-default"/>
+                {r.width>45&&r.height>35&&<text x={r.x+r.width/2} y={r.y+r.height/2-8} textAnchor="middle" fontSize={r.width>140?"14":"12"} fill="white" fontWeight="600">{r.name}</text>}
+                {r.width>40&&r.height>35&&<text x={r.x+r.width/2} y={r.y+r.height/2+10} textAnchor="middle" fontSize="12" fill="rgba(255,255,255,0.9)">{r.count} races</text>}
               </g>)}
             </svg>;
           })()}
