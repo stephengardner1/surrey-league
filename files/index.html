@@ -749,56 +749,96 @@ const ChartRoomView=({setView,data})=>{
             }
             
             const total=venues.reduce((sum,v)=>sum+v.count,0);
-            
-            // Treemap layout - simple squarified algorithm
             const width=750,height=300;
             const colors=['#0077b6','#00a8e8','#48cae4','#90e0ef','#ade8f4','#caf0f8','#e0f7fa','#b2ebf2','#80deea','#4dd0e1','#26c6da','#00bcd4'];
             
-            // Simple treemap: arrange in rows
-            const rects=[];
-            let x=0,y=0,rowHeight=0,rowWidth=width;
-            let remaining=[...venues];
-            
-            while(remaining.length>0){
-              // Find how many items fit in this row
-              const rowItems=[];
-              let rowTotal=0;
-              const targetRowHeight=height*0.25; // Aim for ~4 rows
-              
-              for(const v of remaining){
-                const itemWidth=(v.count/total)*width*1.5;
-                if(rowItems.length>0&&x+itemWidth>width){
-                  break;
-                }
-                rowItems.push(v);
-                rowTotal+=v.count;
+            // Squarified treemap algorithm
+            const squarify=(items,x,y,w,h,totalValue)=>{
+              if(items.length===0)return[];
+              if(items.length===1){
+                return[{...items[0],x,y,width:w,height:h}];
               }
               
-              // Calculate actual row height based on total area
-              rowHeight=Math.min((rowTotal/total)*height*1.8,height-y);
+              // Determine layout direction (shorter side)
+              const vertical=w>=h;
+              const side=vertical?h:w;
               
-              // Place items in row
-              let rx=0;
-              rowItems.forEach((v,i)=>{
-                const itemWidth=(v.count/rowTotal)*width;
-                rects.push({
-                  x:rx,y,width:itemWidth,height:rowHeight,
-                  name:v.name,count:v.count,isOther:v.isOther,
-                  color:v.isOther?'#9ca3af':colors[rects.length%colors.length]
+              // Find optimal row using squarify algorithm
+              let row=[],rowSum=0,rowArea=0;
+              const remaining=[...items];
+              const totalArea=w*h;
+              
+              const worst=(row,side,rowSum,totalValue,totalArea)=>{
+                if(row.length===0)return Infinity;
+                const rowArea=(rowSum/totalValue)*totalArea;
+                const rowSide=rowArea/side;
+                let maxRatio=0;
+                row.forEach(item=>{
+                  const itemArea=(item.count/totalValue)*totalArea;
+                  const itemSide=itemArea/rowSide;
+                  const ratio=Math.max(rowSide/itemSide,itemSide/rowSide);
+                  if(ratio>maxRatio)maxRatio=ratio;
                 });
-                rx+=itemWidth;
+                return maxRatio;
+              };
+              
+              // Greedily add items to row while aspect ratio improves
+              while(remaining.length>0){
+                const item=remaining[0];
+                const newRow=[...row,item];
+                const newSum=rowSum+item.count;
+                
+                if(row.length===0||worst(newRow,side,newSum,total,totalArea)<=worst(row,side,rowSum,total,totalArea)){
+                  row.push(remaining.shift());
+                  rowSum=newSum;
+                }else{
+                  break;
+                }
+              }
+              
+              // Layout the row
+              const rects=[];
+              const rowArea=(rowSum/total)*totalArea;
+              const rowSide=rowArea/side;
+              
+              let offset=0;
+              row.forEach(item=>{
+                const itemArea=(item.count/total)*totalArea;
+                const itemSide=itemArea/rowSide;
+                
+                if(vertical){
+                  rects.push({...item,x:x,y:y+offset,width:rowSide,height:itemSide});
+                  offset+=itemSide;
+                }else{
+                  rects.push({...item,x:x+offset,y:y,width:itemSide,height:rowSide});
+                  offset+=itemSide;
+                }
               });
               
-              y+=rowHeight;
-              remaining=remaining.slice(rowItems.length);
-              x=0;
-            }
+              // Recurse for remaining items
+              if(remaining.length>0){
+                const newX=vertical?x+rowSide:x;
+                const newY=vertical?y:y+rowSide;
+                const newW=vertical?w-rowSide:w;
+                const newH=vertical?h:h-rowSide;
+                rects.push(...squarify(remaining,newX,newY,newW,newH,total));
+              }
+              
+              return rects;
+            };
+            
+            const rects=squarify(venues,0,0,width,height,total);
+            
+            // Assign colors
+            rects.forEach((r,i)=>{
+              r.color=r.isOther?'#9ca3af':colors[i%colors.length];
+            });
             
             return<svg viewBox={`0 0 ${width} ${height}`} className="w-full">
               {rects.map((r,i)=><g key={i}>
                 <rect x={r.x+1} y={r.y+1} width={Math.max(0,r.width-2)} height={Math.max(0,r.height-2)} fill={r.color} rx="3" className="hover:opacity-80 cursor-default"/>
-                {r.width>50&&r.height>25&&<text x={r.x+r.width/2} y={r.y+r.height/2-6} textAnchor="middle" fontSize={r.width>100?"12":"10"} fill="white" fontWeight="500">{r.name}</text>}
-                {r.width>40&&r.height>25&&<text x={r.x+r.width/2} y={r.y+r.height/2+8} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.8)">{r.count} races</text>}
+                {r.width>60&&r.height>30&&<text x={r.x+r.width/2} y={r.y+r.height/2-6} textAnchor="middle" fontSize={r.width>120?"12":"10"} fill="white" fontWeight="500">{r.name}</text>}
+                {r.width>50&&r.height>30&&<text x={r.x+r.width/2} y={r.y+r.height/2+8} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.8)">{r.count} races</text>}
               </g>)}
             </svg>;
           })()}
@@ -2398,6 +2438,9 @@ const normalizeData=(data)=>{
     if(race.teamWinner)race.teamWinner=normalizeClub(race.teamWinner);
     (race.results||[]).forEach(r=>{
       if(r.club)r.club=normalizeClub(r.club);
+    });
+    (race.knownTeamScores||[]).forEach(t=>{
+      if(t.club)t.club=normalizeClub(t.club);
     });
   });
   
