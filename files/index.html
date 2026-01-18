@@ -26,7 +26,7 @@ const{useState,useMemo,useEffect}=React;
 const normalizeNameForCompare=(name)=>name?.toLowerCase().trim()||'';
 const namesMatch=(a,b)=>normalizeNameForCompare(a)===normalizeNameForCompare(b);
 const getSurname=(name)=>{if(!name)return'';const parts=name.split(' ');return parts.length>1?parts[parts.length-1]:name;};
-const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'}};
+const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'},'LCR':{name:'London City Runners'}};
 
 // Division configurations
 const DIVISIONS={
@@ -92,6 +92,7 @@ const ClubVest=({club,size=20})=>{
     case'S&D':return<><path d={p} fill="#1e3a8a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="3" fill="#f4c430"/></g></>;
     case'SEL':return<><path d={p} fill="#dc2626"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="6" width="20" height="3" fill="#fff"/><rect x="0" y="11" width="20" height="3" fill="#fff"/></g></>;
     case'DWN':return<><path d={p} fill="#228b22"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="3" fill="#fff"/></g></>;
+    case'LCR':return<><path d={p} fill="#1e3a8a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="3" y="0" width="3" height="20" fill="#f4c430"/><rect x="14" y="0" width="3" height="20" fill="#f4c430"/></g></>;
     default:return<path d={p} fill="#9ca3af"/>;
   }};
   return<svg width={size} height={size} viewBox="0 0 20 20" className="shrink-0">{r()}<path d={p} fill="none" stroke="#374151" strokeWidth="0.5"/></svg>;
@@ -130,7 +131,8 @@ const getClubVestSvg=(club)=>{
     'STR':`<path d="${p}" fill="#f4c430"/><text x="10" y="13" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a1a1a">S</text>`,
     'W4H':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#00CED1"/></g>`,
     'W/W':`<path d="${p}" fill="#1a1a1a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#dc2626"/></g>`,
-    'K&P':`<path d="${p}" fill="#1E90FF"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="8,0 20,0 20,20 0,20 0,8" fill="#1a1a1a"/><polygon points="0,0 8,0 20,12 20,20 12,20 0,8" fill="#fff"/></g>`
+    'K&P':`<path d="${p}" fill="#1E90FF"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="8,0 20,0 20,20 0,20 0,8" fill="#1a1a1a"/><polygon points="0,0 8,0 20,12 20,20 12,20 0,8" fill="#fff"/></g>`,
+    'LCR':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#f4c430"/><rect x="14" y="0" width="3" height="20" fill="#f4c430"/></g>`
   };
   const content=vestSvg[club]||`<path d="${p}" fill="#9ca3af"/>`;
   return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">${content}<path d="${p}" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
@@ -235,51 +237,35 @@ const SeasonSelector=({season,setSeason,seasons})=>{
 const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
   const teams=useMemo(()=>{
     const clubScores={};
-    const clubScoringCounts={};
-    const aTeamClubs = new Set();
     const isATeam = startPos === 1;
     
-    // First pass: count A team clubs (needed for B team penalty calc)
+    // For B teams, we need to know which clubs have A teams (and thus could have B teams)
+    const aTeamClubs = new Set();
     results.forEach(r=>{
       if(r.pts != null) aTeamClubs.add(r.club);
     });
     
-    // Second pass: collect scores
+    // Collect scores
     results.forEach(r=>{
       const hasPts = isATeam ? (r.pts != null) : (r.b_pts != null);
       const pts = isATeam ? r.pts : r.b_pts;
-      if(!clubScoringCounts[r.club]) clubScoringCounts[r.club] = 0;
-      if(!clubScores[r.club]) clubScores[r.club] = [];
       if(hasPts) {
-        clubScoringCounts[r.club]++;
-        if(clubScoringCounts[r.club] <= count) {
+        if(!clubScores[r.club]) clubScores[r.club] = [];
+        if(clubScores[r.club].length < count) {
           clubScores[r.club].push(pts);
         }
       }
     });
     
-    /*
-     * SURREY LEAGUE PENALTY SCORING FORMULA
-     * =====================================
-     * When a team fields fewer than 10 eligible runners, they receive penalty points.
-     * 
-     * The penalty is calculated MATCH-WIDE as follows:
-     * 1. Count total actual scorers across all teams (capped at 10 per team)
-     * 2. Count total missing positions across all teams (sum of 10 - runners for each incomplete team)
-     * 3. The missing positions are: totalScorers+1, totalScorers+2, ..., totalScorers+totalMissing
-     * 4. Average all missing positions: (sum of missing positions) / totalMissing
-     * 5. Every missing runner (regardless of team) gets this same average as their penalty
-     *
-     * Examples:
-     * - 8-club match, all complete: 80 scorers, no penalties
-     * - 8-club match, 1 team missing 1: 79 scorers, missing pos [80], penalty = 80
-     * - 8-club match, 2 teams missing 1 each: 78 scorers, missing pos [79,80], penalty = 79.5 each
-     * - 8-club match, 1 team missing 2, 1 missing 1: 77 scorers, missing pos [78,79,80], penalty = 79 each
-     * - 9-club match, 1 team missing 1: 89 scorers, missing pos [90], penalty = 90
-     * - 10-club match, 1 team missing 1: 99 scorers, missing pos [100], penalty = 100
-     *
-     * This formula scales automatically with the number of clubs in the match.
-     */
+    // For B teams, include clubs that have A teams but no B scorers yet
+    if(!isATeam) {
+      aTeamClubs.forEach(club => {
+        if(!clubScores[club]) clubScores[club] = [];
+      });
+    }
+    
+    // Calculate penalty - for B teams this is based on total B team positions available
+    const numTeams = Object.keys(clubScores).length;
     const totalScorers = Object.values(clubScores).reduce((sum, scores) => sum + scores.length, 0);
     const totalMissing = Object.values(clubScores).reduce((sum, scores) => sum + Math.max(0, count - scores.length), 0);
     const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
@@ -289,8 +275,13 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
       const missing = count - scores.length;
       const penalties = missing > 0 ? Array(missing).fill(avgPenalty) : [];
       const allScores = [...scores, ...penalties];
-      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: avgPenalty, complete: scores.length >= count};
-    }).filter(t=>t.scores.length>0).sort((a,b)=>a.points-b.points).map((t,i)=>({...t,pos:i+1}));
+      const lastScorer = scores.length > 0 ? scores[scores.length - 1] : Infinity;
+      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: avgPenalty, complete: scores.length >= count, lastScorer};
+    }).filter(t=>t.scores.length>0||t.penalties.length>0).sort((a,b)=>{
+      // Sort by points, then by last scorer (tiebreaker)
+      if(a.points !== b.points) return a.points - b.points;
+      return a.lastScorer - b.lastScorer;
+    }).map((t,i)=>({...t,pos:i+1}));
   },[results,startPos,count,finishers]);
   
   const penaltyValue = teams.find(t=>t.penalties.length>0)?.penaltyScore;
@@ -300,32 +291,45 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
 const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title})=>{
   const teams=useMemo(()=>{
     const clubScores={};
-    const clubScoringCounts={};
-    const aTeamClubs = new Set();
     const isATeam = startPos === 1;
+    
+    // For B teams, we need to know which clubs have A teams
+    const aTeamClubs = new Set();
     results.forEach(r=>{if(r.pts != null) aTeamClubs.add(r.club);});
+    
+    // Collect scores
     results.forEach(r=>{
       const hasPts = isATeam ? (r.pts != null) : (r.b_pts != null);
       const pts = isATeam ? r.pts : r.b_pts;
-      if(!clubScoringCounts[r.club]) clubScoringCounts[r.club] = 0;
-      if(!clubScores[r.club]) clubScores[r.club] = [];
       if(hasPts) {
-        clubScoringCounts[r.club]++;
-        if(clubScoringCounts[r.club] <= count) clubScores[r.club].push(pts);
+        if(!clubScores[r.club]) clubScores[r.club] = [];
+        if(clubScores[r.club].length < count) clubScores[r.club].push(pts);
       }
     });
-    // Surrey League penalty: see full formula documentation in TeamResultsTable above
-    // Penalty = average of all missing positions across ALL teams in the match
+    
+    // For B teams, include clubs that have A teams but no B scorers
+    if(!isATeam) {
+      aTeamClubs.forEach(club => {
+        if(!clubScores[club]) clubScores[club] = [];
+      });
+    }
+    
+    // Calculate penalty
     const totalScorers = Object.values(clubScores).reduce((sum, scores) => sum + scores.length, 0);
     const totalMissing = Object.values(clubScores).reduce((sum, scores) => sum + Math.max(0, count - scores.length), 0);
     const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
     const avgPenalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
+    
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
       const penalties = missing > 0 ? Array(missing).fill(avgPenalty) : [];
       const allScores = [...scores, ...penalties];
-      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: avgPenalty, complete: scores.length >= count};
-    }).filter(t=>t.scores.length>0).sort((a,b)=>a.points-b.points).map((t,i)=>({...t,pos:i+1}));
+      const lastScorer = scores.length > 0 ? scores[scores.length - 1] : Infinity;
+      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: avgPenalty, complete: scores.length >= count, lastScorer};
+    }).filter(t=>t.scores.length>0||t.penalties.length>0).sort((a,b)=>{
+      if(a.points !== b.points) return a.points - b.points;
+      return a.lastScorer - b.lastScorer;
+    }).map((t,i)=>({...t,pos:i+1}));
   },[results,startPos,count,finishers]);
   
   const penaltyValue = teams.find(t=>t.penalties.length>0)?.penaltyScore;
