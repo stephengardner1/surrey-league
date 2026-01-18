@@ -88,7 +88,7 @@ const ClubVest=({club,size=20})=>{
     case'W4H':return<><path d={p} fill="#f4c430"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="4" fill="#00CED1"/></g></>;
     case'W/W':return<><path d={p} fill="#1a1a1a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="4" fill="#dc2626"/></g></>;
     case'K&P':return<><path d={p} fill="#1E90FF"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><polygon points="8,0 20,0 20,20 0,20 0,8" fill="#1a1a1a"/><polygon points="0,0 8,0 20,12 20,20 12,20 0,8" fill="#fff"/></g></>;
-    case'FOT':return<><path d={p} fill="#fff"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><polygon points="0,6 20,0 20,6 0,12" fill="#f4c430"/></g></>;
+    case'FOT':return<><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="0" width="20" height="6" fill="#fff"/><rect x="0" y="6" width="20" height="4" fill="#f4c430"/><rect x="0" y="10" width="20" height="10" fill="#000"/></g></>;
     case'S&D':return<><path d={p} fill="#1e3a8a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="3" fill="#f4c430"/></g></>;
     case'SEL':return<><path d={p} fill="#dc2626"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="6" width="20" height="3" fill="#fff"/><rect x="0" y="11" width="20" height="3" fill="#fff"/></g></>;
     case'DWN':return<><path d={p} fill="#228b22"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="3" fill="#fff"/></g></>;
