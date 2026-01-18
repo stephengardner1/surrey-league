@@ -219,8 +219,10 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);if(!race)return null;
   const seasonData=seasonsData[race.season];const matchData=seasonData?.matches?.find(m=>m.num===race.match);const teamWinner=matchData?.teamWinner||race.teamWinner||(race.teamScores?.[0]?.club);
   
-  // Convert teamScores/knownTeamScores to display format with pts field
-  const displayTeamScores=race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||(race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score})));
+  // Check if we have full results with pts field - if so, calculate team scores dynamically
+  // Only fall back to knownTeamScores/teamScores if we don't have calculable results
+  const hasCalculableResults = race.results?.length > 100 && race.results.some(r => r.pts != null);
+  const displayTeamScores = hasCalculableResults ? null : (race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||(race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score}))));
   
   // Find prev/next races
   const sortedRaces=useMemo(()=>[...races].filter(r=>r.results?.length>0).sort((a,b)=>{if(a.season!==b.season)return a.season.localeCompare(b.season);return a.match-b.match;}),[races]);
