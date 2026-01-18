@@ -752,86 +752,32 @@ const ChartRoomView=({setView,data})=>{
             const width=750,height=300;
             const colors=['#0077b6','#00a8e8','#48cae4','#90e0ef','#ade8f4','#caf0f8','#e0f7fa','#b2ebf2','#80deea','#4dd0e1','#26c6da','#00bcd4'];
             
-            // Squarified treemap algorithm
-            const squarify=(items,x,y,w,h,totalValue)=>{
-              if(items.length===0)return[];
-              if(items.length===1){
-                return[{...items[0],x,y,width:w,height:h}];
-              }
-              
-              // Determine layout direction (shorter side)
-              const vertical=w>=h;
-              const side=vertical?h:w;
-              
-              // Find optimal row using squarify algorithm
-              let row=[],rowSum=0,rowArea=0;
-              const remaining=[...items];
-              const totalArea=w*h;
-              
-              const worst=(row,side,rowSum,totalValue,totalArea)=>{
-                if(row.length===0)return Infinity;
-                const rowArea=(rowSum/totalValue)*totalArea;
-                const rowSide=rowArea/side;
-                let maxRatio=0;
-                row.forEach(item=>{
-                  const itemArea=(item.count/totalValue)*totalArea;
-                  const itemSide=itemArea/rowSide;
-                  const ratio=Math.max(rowSide/itemSide,itemSide/rowSide);
-                  if(ratio>maxRatio)maxRatio=ratio;
-                });
-                return maxRatio;
-              };
-              
-              // Greedily add items to row while aspect ratio improves
-              while(remaining.length>0){
-                const item=remaining[0];
-                const newRow=[...row,item];
-                const newSum=rowSum+item.count;
-                
-                if(row.length===0||worst(newRow,side,newSum,total,totalArea)<=worst(row,side,rowSum,total,totalArea)){
-                  row.push(remaining.shift());
-                  rowSum=newSum;
-                }else{
-                  break;
-                }
-              }
-              
-              // Layout the row
-              const rects=[];
-              const rowArea=(rowSum/total)*totalArea;
-              const rowSide=rowArea/side;
-              
-              let offset=0;
-              row.forEach(item=>{
-                const itemArea=(item.count/total)*totalArea;
-                const itemSide=itemArea/rowSide;
-                
-                if(vertical){
-                  rects.push({...item,x:x,y:y+offset,width:rowSide,height:itemSide});
-                  offset+=itemSide;
-                }else{
-                  rects.push({...item,x:x+offset,y:y,width:itemSide,height:rowSide});
-                  offset+=itemSide;
-                }
-              });
-              
-              // Recurse for remaining items
-              if(remaining.length>0){
-                const newX=vertical?x+rowSide:x;
-                const newY=vertical?y:y+rowSide;
-                const newW=vertical?w-rowSide:w;
-                const newH=vertical?h:h-rowSide;
-                rects.push(...squarify(remaining,newX,newY,newW,newH,total));
-              }
-              
-              return rects;
-            };
+            // Simple slice-and-dice treemap
+            const rects=[];
+            let x=0,y=0,w=width,h=height;
+            let horizontal=true;
             
-            const rects=squarify(venues,0,0,width,height,total);
-            
-            // Assign colors
-            rects.forEach((r,i)=>{
-              r.color=r.isOther?'#9ca3af':colors[i%colors.length];
+            venues.forEach((v,i)=>{
+              const ratio=v.count/total;
+              let rw,rh;
+              
+              if(horizontal){
+                rw=w*ratio/(venues.slice(i).reduce((s,vv)=>s+vv.count,0)/total);
+                rh=h;
+                rects.push({...v,x,y,width:rw,height:rh,color:v.isOther?'#9ca3af':colors[i%colors.length]});
+                x+=rw;
+                if(i<venues.length-1&&x>width*0.6){
+                  horizontal=false;
+                  w=width-x;
+                  x=width-w;
+                  y=0;
+                }
+              }else{
+                rw=w;
+                rh=h*ratio/(venues.slice(i).reduce((s,vv)=>s+vv.count,0)/total);
+                rects.push({...v,x,y,width:rw,height:rh,color:v.isOther?'#9ca3af':colors[i%colors.length]});
+                y+=rh;
+              }
             });
             
             return<svg viewBox={`0 0 ${width} ${height}`} className="w-full">
