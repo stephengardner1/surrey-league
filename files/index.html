@@ -129,11 +129,12 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
       }
     });
     
-    // Calculate penalty: (num_A_clubs * 10 + actual_scorers + 1) / 2
-    // For both A and B teams, use A team club count
-    const numClubs = aTeamClubs.size;
-    const totalScorers = Object.values(clubScoringCounts).reduce((a,b)=>a+Math.min(b,count),0);
-    const penaltyScore = (numClubs * count + totalScorers + 1) / 2;
+    // Surrey League A-team penalty formula:
+    // Each missing runner scores (complete_teams × 10 + 1) points
+    // Where complete_teams = number of clubs with 10+ finishers in this race
+    // This places missing runners just after the last possible A-team scoring position
+    const completeTeams = Object.values(clubScoringCounts).filter(c => c >= count).length;
+    const penaltyScore = completeTeams * count + 1;
     
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
@@ -164,9 +165,9 @@ const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title})=>{
         if(clubScoringCounts[r.club] <= count) clubScores[r.club].push(pts);
       }
     });
-    const numClubs = aTeamClubs.size;
-    const totalScorers = Object.values(clubScoringCounts).reduce((a,b)=>a+Math.min(b,count),0);
-    const penaltyScore = (numClubs * count + totalScorers + 1) / 2;
+    // Surrey League A-team penalty: each missing runner scores (complete_teams × 10 + 1)
+    const completeTeams = Object.values(clubScoringCounts).filter(c => c >= count).length;
+    const penaltyScore = completeTeams * count + 1;
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
       const penalties = missing > 0 ? Array(missing).fill(penaltyScore) : [];
@@ -1050,9 +1051,10 @@ const SeasonsView=({setView,seasonsData,races,mitchellCupWinners})=>{
         if(bPts.length>0){
           if(!clubBScores[club])clubBScores[club]={club,scores:[],total:0};
           const bScore=bPts.reduce((s,p)=>s+p,0);
-          // Add penalty for incomplete B team
+          // B-team penalty: each missing runner scores (numAClubs × 10 + 1)
+          // This matches the A-team penalty formula pattern
           const missing=10-bPts.length;
-          const penalty=missing>0?missing*Math.floor((numAClubs*10+bPts.length+1)/2):0;
+          const penalty=missing>0?missing*(numAClubs*10+1):0;
           clubBScores[club].scores.push(bScore+penalty);
         }
       });
