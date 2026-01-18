@@ -65,6 +65,93 @@ const ClubVest=({club,size=20})=>{
   return<svg width={size} height={size} viewBox="0 0 20 20" className="shrink-0">{r()}<path d={p} fill="none" stroke="#374151" strokeWidth="0.5"/></svg>;
 };
 const ClubShield=ClubVest;
+
+// Generate club vest SVG as string for favicon
+const getClubVestSvg=(club)=>{
+  const p="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
+  const id=`fav-${club}`;
+  const vestSvg={
+    'KEN':`<path d="${p}" fill="#2a4d7a"/><path d="M13 5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 L11 5.5 Z" fill="#dc2626"/>`,
+    'H/W':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="0,0 6,0 20,20 14,20" fill="#c41e3a"/></g>`,
+    'THH':`<path d="${p}" fill="#fff"/><line x1="6" y1="5" x2="14" y2="15" stroke="#1a1a1a" stroke-width="2"/><line x1="14" y1="5" x2="6" y2="15" stroke="#1a1a1a" stroke-width="2"/>`,
+    'BEL':`<path d="${p}" fill="#7A001D"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="20" height="4" fill="#CCAD6A"/></g>`,
+    'HHH':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="0" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="6" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="12" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="18" width="20" height="3" fill="#1a1a1a"/></g>`,
+    'G&G':`<path d="${p}" fill="#228b22"/>`,
+    'SLH':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="13" y="0" width="4" height="20" fill="#800020"/></g>`,
+    'DUL':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="6" width="20" height="2" fill="#1e3a8a"/><rect x="0" y="12" width="20" height="2" fill="#1e3a8a"/></g>`,
+    'HOL':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#fff"/></g>`,
+    'RAN':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#f4c430"/></g>`,
+    'C/C':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="10" width="20" height="10" fill="#1e3a8a"/><rect x="0" y="9" width="20" height="2" fill="#228b22"/></g>`,
+    'WAL':`<path d="${p}" fill="#1a1a1a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="6" width="20" height="2" fill="#f4c430"/><rect x="0" y="8" width="20" height="2" fill="#dc2626"/><rect x="0" y="10" width="20" height="2" fill="#f4c430"/></g>`,
+    'CRO':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="5" width="20" height="2" fill="#1a1a1a"/><rect x="0" y="12" width="20" height="2" fill="#1a1a1a"/></g>`,
+    'WOK':`<path d="${p}" fill="#ff6600"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#32CD32"/></g>`,
+    'E&E':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#f4c430"/></g>`,
+    'FUL':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="0" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="6" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="12" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="18" width="20" height="3" fill="#1a1a1a"/></g>`,
+    'SOC':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#228b22"/><rect x="14" y="0" width="3" height="20" fill="#228b22"/></g>`,
+    'BOX':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#dc2626"/><rect x="14" y="0" width="3" height="20" fill="#dc2626"/></g>`,
+    'BOH':`<path d="${p}" fill="#87CEEB"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#dc2626"/><rect x="14" y="0" width="3" height="20" fill="#dc2626"/></g>`,
+    'AFD':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/></g>`,
+    'SUR':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="6" width="20" height="1.5" fill="#2563eb"/><rect x="0" y="8" width="20" height="1.5" fill="#1a1a1a"/><rect x="0" y="10" width="20" height="1.5" fill="#2563eb"/></g><circle cx="10" cy="8.5" r="2.5" fill="none" stroke="#2563eb" stroke-width="0.5"/>`,
+    'MIT':`<path d="${p}" fill="#2563eb"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="5" width="20" height="1.5" fill="#fff"/><rect x="0" y="8" width="20" height="3" fill="#fff"/><rect x="0" y="12.5" width="20" height="1.5" fill="#fff"/></g>`,
+    'DMV':`<path d="${p}" fill="#A52A2A"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#fff"/><rect x="14" y="0" width="3" height="20" fill="#fff"/></g>`,
+    'REI':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="0,0 6,0 20,14 20,20 14,20 0,6" fill="#87CEEB"/></g>`,
+    'STR':`<path d="${p}" fill="#f4c430"/><text x="10" y="13" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a1a1a">S</text>`,
+    'W4H':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#00CED1"/></g>`,
+    'W/W':`<path d="${p}" fill="#1a1a1a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#dc2626"/></g>`,
+    'K&P':`<path d="${p}" fill="#1E90FF"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="8,0 20,0 20,20 0,20 0,8" fill="#1a1a1a"/><polygon points="0,0 8,0 20,12 20,20 12,20 0,8" fill="#fff"/></g>`
+  };
+  const content=vestSvg[club]||`<path d="${p}" fill="#9ca3af"/>`;
+  return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">${content}<path d="${p}" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
+};
+
+// Default site metadata
+const DEFAULT_TITLE='Surrey League cross country - the unofficial archive';
+const DEFAULT_FAVICON="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M6 6L26 26M26 6L6 26' stroke='%2322c55e' stroke-width='5' stroke-linecap='round'/></svg>";
+const DEFAULT_OG_IMAGE='https://s.microlink.io/https://slarchive.org';
+const DEFAULT_OG_DESC="Men's Division 1 results and statistics 1962-present 🐐";
+
+// Hook to manage document metadata (title, favicon, og tags)
+const useDocumentMeta=({title,favicon,ogImage,ogDesc})=>{
+  useEffect(()=>{
+    // Store original values on first run
+    if(!window._originalMeta){
+      window._originalMeta={
+        title:document.title,
+        favicon:document.querySelector('link[rel="icon"]')?.href,
+        ogTitle:document.querySelector('meta[property="og:title"]')?.content,
+        ogImage:document.querySelector('meta[property="og:image"]')?.content,
+        ogDesc:document.querySelector('meta[property="og:description"]')?.content
+      };
+    }
+    
+    // Update title
+    document.title=title||DEFAULT_TITLE;
+    
+    // Update favicon
+    const faviconEl=document.querySelector('link[rel="icon"]');
+    if(faviconEl){
+      faviconEl.href=favicon||DEFAULT_FAVICON;
+    }
+    
+    // Update OG tags
+    const ogTitleEl=document.querySelector('meta[property="og:title"]');
+    const ogImageEl=document.querySelector('meta[property="og:image"]');
+    const ogDescEl=document.querySelector('meta[property="og:description"]');
+    if(ogTitleEl)ogTitleEl.content=title||DEFAULT_TITLE;
+    if(ogImageEl)ogImageEl.content=ogImage||DEFAULT_OG_IMAGE;
+    if(ogDescEl)ogDescEl.content=ogDesc||DEFAULT_OG_DESC;
+    
+    // Cleanup: restore defaults when unmounting
+    return()=>{
+      document.title=DEFAULT_TITLE;
+      if(faviconEl)faviconEl.href=DEFAULT_FAVICON;
+      if(ogTitleEl)ogTitleEl.content=DEFAULT_TITLE;
+      if(ogImageEl)ogImageEl.content=DEFAULT_OG_IMAGE;
+      if(ogDescEl)ogDescEl.content=DEFAULT_OG_DESC;
+    };
+  },[title,favicon,ogImage,ogDesc]);
+};
+
 const PositionChange=({change})=>{if(change===0||change===null||change===undefined)return null;if(change>0)return<span className="w-3 text-center text-green-600 text-xs font-bold">↑</span>;return<span className="w-3 text-center text-red-600 text-xs font-bold">↓</span>;};
 const ClubName=({club,className=''})=><><span className={`md:hidden ${className}`}>{club}</span><span className={`hidden md:inline ${className}`}>{CLUBS[club]?.name||club}</span></>;
 const ChevronLeft=({className})=><svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>;
@@ -502,6 +589,17 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     }
     return found||athlete;
   },[athlete,athletes]);
+  
+  // Update document metadata for athlete page
+  const athleteSlug=useMemo(()=>athleteData?.name?.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')||'',[athleteData?.name]);
+  const possessive=athleteData?.name?(athleteData.name.endsWith('s')?`${athleteData.name}'`:`${athleteData.name}'s`):null;
+  useDocumentMeta({
+    title:possessive?`${possessive} Surrey League history`:null,
+    favicon:athleteData?.club?`data:image/svg+xml,${encodeURIComponent(getClubVestSvg(athleteData.club))}`:null,
+    ogImage:athleteSlug?`https://s.microlink.io/https://slarchive.org/%23athlete/${athleteSlug}`:null,
+    ogDesc:athleteData?.name?`Surrey League cross country career of ${athleteData.name}`:null
+  });
+  
   const sortedByWins=[...athletes].sort((a,b)=>b.wins-a.wins);const allTimeRank=sortedByWins.findIndex(a=>namesMatch(a.name,athleteData?.name))+1;
   
   const raceHistory=useMemo(()=>{
