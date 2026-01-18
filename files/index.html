@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surrey League cross country - the unofficial archive</title>
-  <meta property="og:title" content="Surrey League cross country - the unofficial archive">
-  <meta property="og:description" content="Men's Division 1 results and statistics 1962-present 🐐">
+  <title>Surrey League compendium</title>
+  <meta property="og:title" content="Surrey League compendium">
+  <meta property="og:description" content="Unofficial archive of the world's greatest cross country competition">
   <meta property="og:image" content="https://s.microlink.io/https://slarchive.org">
   <meta property="og:url" content="https://slarchive.org">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M6 6L26 26M26 6L6 26' stroke='%2322c55e' stroke-width='5' stroke-linecap='round'/></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z' fill='white' stroke='%23374151' stroke-width='0.5'/><line x1='6' y1='5' x2='14' y2='15' stroke='%2322c55e' stroke-width='2'/><line x1='14' y1='5' x2='6' y2='15' stroke='%2322c55e' stroke-width='2'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&display=swap" rel="stylesheet">
@@ -105,10 +105,10 @@ const getClubVestSvg=(club)=>{
 };
 
 // Default site metadata
-const DEFAULT_TITLE='Surrey League cross country - the unofficial archive';
-const DEFAULT_FAVICON="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M6 6L26 26M26 6L6 26' stroke='%2322c55e' stroke-width='5' stroke-linecap='round'/></svg>";
+const DEFAULT_TITLE='Surrey League compendium';
+const DEFAULT_FAVICON="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z' fill='white' stroke='%23374151' stroke-width='0.5'/><line x1='6' y1='5' x2='14' y2='15' stroke='%2322c55e' stroke-width='2'/><line x1='14' y1='5' x2='6' y2='15' stroke='%2322c55e' stroke-width='2'/></svg>";
 const DEFAULT_OG_IMAGE='https://s.microlink.io/https://slarchive.org';
-const DEFAULT_OG_DESC="Men's Division 1 results and statistics 1962-present 🐐";
+const DEFAULT_OG_DESC='Unofficial archive of the world\'s greatest cross country competition';
 
 // Hook to manage document metadata (title, favicon, og tags)
 const useDocumentMeta=({title,favicon,ogImage,ogDesc})=>{
