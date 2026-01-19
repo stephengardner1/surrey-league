@@ -3385,16 +3385,16 @@ function App(){
     }).catch(e=>{setError(e.message);setLoading(false);});
   },[]);
   
-  // Load women's data when switching to women (lazy load)
+  // Load women's data when switching to women or viewing chartroom (lazy load)
   useEffect(()=>{
-    if(division==='women'&&!womenData){
+    if((division==='women'||view.type==='chartroom')&&!womenData){
       setLoading(true);
       fetch('data-women.json').then(r=>r.json()).then(j=>{
         setWomenData(normalizeData(j,'women'));
         setLoading(false);
       }).catch(e=>{setError(e.message);setLoading(false);});
     }
-  },[division,womenData]);
+  },[division,womenData,view.type]);
   
   // Parse URL once data is loaded (needed for athlete name resolution)
   useEffect(()=>{
