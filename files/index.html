@@ -958,6 +958,63 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
   
   // Calculate name frequencies for both divisions
   const nameStats=useMemo(()=>{
+    // Normalize common name variations to canonical form
+    const nameVariants={
+      // Men's names
+      'Dave':'David','Davey':'David','Dan':'Daniel','Danny':'Daniel',
+      'Steve':'Stephen','Steven':'Stephen','Stevie':'Stephen',
+      'Mike':'Michael','Mick':'Michael','Mickey':'Michael',
+      'Rob':'Robert','Bob':'Robert','Bobby':'Robert','Robbie':'Robert',
+      'Tom':'Thomas','Tommy':'Thomas',
+      'Jim':'James','Jimmy':'James','Jamie':'James',
+      'Bill':'William','Billy':'William','Will':'William','Willy':'William',
+      'Nick':'Nicholas','Nicky':'Nicholas',
+      'Chris':'Christopher','Kit':'Christopher',
+      'Matt':'Matthew','Matty':'Matthew',
+      'Andy':'Andrew','Drew':'Andrew',
+      'Tony':'Anthony',
+      'Ed':'Edward','Eddie':'Edward','Ted':'Edward','Teddy':'Edward',
+      'Alex':'Alexander','Xander':'Alexander',
+      'Ben':'Benjamin','Benny':'Benjamin',
+      'Joe':'Joseph','Joey':'Joseph',
+      'Jon':'Jonathan','Jonny':'Jonathan','Johnny':'Jonathan',
+      'Sam':'Samuel','Sammy':'Samuel',
+      'Phil':'Philip','Phillip':'Philip',
+      'Rich':'Richard','Rick':'Richard','Ricky':'Richard','Dick':'Richard',
+      'Pat':'Patrick','Paddy':'Patrick',
+      'Pete':'Peter',
+      'Geoff':'Geoffrey','Jeff':'Jeffrey',
+      'Greg':'Gregory',
+      'Tim':'Timothy','Timmy':'Timothy',
+      // Women's names
+      'Steph':'Stephanie','Stephie':'Stephanie',
+      'Kate':'Katherine','Katie':'Katherine','Katy':'Katherine','Cathy':'Catherine','Cath':'Catherine','Kathy':'Katherine',
+      'Liz':'Elizabeth','Lizzy':'Elizabeth','Beth':'Elizabeth','Eliza':'Elizabeth','Libby':'Elizabeth',
+      'Jenny':'Jennifer','Jen':'Jennifer','Jenna':'Jennifer',
+      'Becky':'Rebecca','Becca':'Rebecca',
+      'Sam':'Samantha','Sammy':'Samantha',
+      'Alex':'Alexandra','Lexi':'Alexandra',
+      'Vicky':'Victoria','Vicki':'Victoria',
+      'Meg':'Margaret','Maggie':'Margaret','Peggy':'Margaret',
+      'Mandy':'Amanda',
+      'Abby':'Abigail','Abbie':'Abigail',
+      'Em':'Emily','Emmy':'Emily',
+      'Jo':'Joanne','Joanna':'Joanne',
+      'Maddie':'Madeleine','Maddy':'Madeleine',
+      'Ellie':'Eleanor','Elle':'Eleanor','Ella':'Eleanor',
+      'Izzy':'Isabel','Izzie':'Isabel','Bella':'Isabel',
+      'Nikki':'Nicole','Nicky':'Nicole',
+      'Debbie':'Deborah','Deb':'Deborah',
+      'Sue':'Susan','Susie':'Susan',
+      'Nat':'Natalie',
+      'Charlie':'Charlotte','Charley':'Charlotte',
+      'Lottie':'Charlotte',
+      'Lou':'Louise','Louisa':'Louise',
+      'Mel':'Melanie',
+      'Rach':'Rachel'
+    };
+    const normalizeName=name=>nameVariants[name]||name;
+    
     const countNames=(athletes,races)=>{
       // Get all unique names - from athletes array or race results
       const allNames=new Set();
@@ -974,7 +1031,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
       allNames.forEach(name=>{
         const parts=name.split(' ');
         if(parts.length>=2){
-          const first=parts[0];
+          const first=normalizeName(parts[0]);
           const last=parts[parts.length-1];
           firstNames[first]=(firstNames[first]||0)+1;
           surnames[last]=(surnames[last]||0)+1;
