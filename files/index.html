@@ -3043,13 +3043,21 @@ const normalizeData=(data,division='men')=>{
 
   // Recompute all club positions from seasonsData (titles, runnerUp, third, fourth, fifth, sixth)
   const placeCount={};
-  Object.values(data.seasonsData||{}).forEach(sd=>{
-    // Handle women's format: has 'champion' field and 'standings' array with {club, total, pos}
-    if(sd.champion && sd.standings){
+  const clubSeasons={}; // Track which seasons each club appeared in
+  Object.entries(data.seasonsData||{}).forEach(([season,sd])=>{
+    // Women's format: has 'champion' field explicitly set (string value, indicates complete season)
+    // Men's format: no 'champion' field or champion is null/undefined, uses m4 to determine completeness
+    
+    const hasChampion = sd.champion && typeof sd.champion === 'string';
+    
+    // For women (or any format with champion): count if champion is set
+    if(hasChampion && sd.standings){
       sd.standings.forEach((team,idx)=>{
         const club = team.club;
         if(!club)return;
         if(!placeCount[club])placeCount[club]={titles:0,runnerUp:0,third:0,fourth:0,fifth:0,sixth:0};
+        if(!clubSeasons[club])clubSeasons[club]=new Set();
+        clubSeasons[club].add(season);
         if(idx===0)placeCount[club].titles++;
         if(idx===1)placeCount[club].runnerUp++;
         if(idx===2)placeCount[club].third++;
@@ -3059,19 +3067,23 @@ const normalizeData=(data,division='men')=>{
       });
       return;
     }
-    // Handle women's format with just champion (no standings)
-    if(sd.champion && !sd.standings){
+    // Handle historical format with just champion (no standings)
+    if(hasChampion && !sd.standings){
       if(!placeCount[sd.champion])placeCount[sd.champion]={titles:0,runnerUp:0,third:0,fourth:0,fifth:0,sixth:0};
+      if(!clubSeasons[sd.champion])clubSeasons[sd.champion]=new Set();
+      clubSeasons[sd.champion].add(season);
       placeCount[sd.champion].titles++;
       return;
     }
-    // Handle men's format: standings array with m1,m2,m3,m4 fields
+    // Handle men's format: no champion field, standings array with m1,m2,m3,m4 fields
     if(!sd?.standings)return;
     const isHist=sd.historical;
-    const hasM4=sd.standings[0]?.m4!==null||isHist;
+    const hasM4=sd.standings[0]?.m4!==null&&sd.standings[0]?.m4!==undefined||isHist;
     if(!hasM4)return;// Only count complete seasons
     sd.standings.forEach((team,idx)=>{
       if(!placeCount[team.club])placeCount[team.club]={titles:0,runnerUp:0,third:0,fourth:0,fifth:0,sixth:0};
+      if(!clubSeasons[team.club])clubSeasons[team.club]=new Set();
+      clubSeasons[team.club].add(season);
       if(idx===0)placeCount[team.club].titles++;
       if(idx===1)placeCount[team.club].runnerUp++;
       if(idx===2)placeCount[team.club].third++;
@@ -3084,10 +3096,15 @@ const normalizeData=(data,division='men')=>{
     if(placeCount[c.club]){
       c.titles=placeCount[c.club].titles;
       c.runnerUp=placeCount[c.club].runnerUp;
+      c.seconds=placeCount[c.club].runnerUp; // Alias for ClubsView
       c.third=placeCount[c.club].third;
+      c.thirds=placeCount[c.club].third; // Alias for ClubsView
       c.fourth=placeCount[c.club].fourth;
       c.fifth=placeCount[c.club].fifth;
       c.sixth=placeCount[c.club].sixth;
+    }
+    if(clubSeasons[c.club]){
+      c.seasonCount=clubSeasons[c.club].size;
     }
   });
   // Re-sort clubAllTime by titles desc, then runnerUp desc
