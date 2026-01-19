@@ -40,7 +40,10 @@ const DIVISIONS={
     relegationSpots:2,
     individualChampionship:'all4',
     dataFile:'data.json',
-    color:'#0077b6'
+    color:'#0077b6',
+    // Men's penalty: calculated differently per match based on finisher distribution
+    // See historical data for specifics - typically higher than women's formula
+    penaltyFormula: 'legacy'
   },
   women:{
     id:'women',
@@ -52,7 +55,14 @@ const DIVISIONS={
     relegationSpots:3,
     individualChampionship:'best3of4',
     dataFile:'data-women.json',
-    color:'#9333ea'
+    color:'#9333ea',
+    // Women's penalty formula: scoringFinishers + 10
+    // - scoringFinishers = total Div 1 finishers EXCLUDING N/S (non-scorer) runners
+    // - Same penalty applies to both A and B teams
+    // - N/S runners finish the race but don't count for team scoring
+    // - Their positions are skipped when calculating scoring positions
+    // Example: M4 2024/25 had 205 finishers, 1 N/S = 204 scoring, penalty = 214
+    penaltyFormula: 'scoringFinishers+10'
   }
 };
 
@@ -235,7 +245,7 @@ const SeasonSelector=({season,setSeason,seasons})=>{
   </div>;
 };
 
-const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
+const TeamResultsTable=({results,startPos=1,count=10,finishers,divisionConfig,race})=>{
   const teams=useMemo(()=>{
     const clubScores={};
     const isATeam = startPos === 1;
@@ -265,31 +275,40 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers})=>{
       });
     }
     
-    // Calculate penalty - for B teams this is based on total B team positions available
-    const numTeams = Object.keys(clubScores).length;
-    const totalScorers = Object.values(clubScores).reduce((sum, scores) => sum + scores.length, 0);
-    const totalMissing = Object.values(clubScores).reduce((sum, scores) => sum + Math.max(0, count - scores.length), 0);
-    const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
-    const avgPenalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
+    // Calculate penalty based on division formula
+    let penalty;
+    if(divisionConfig?.penaltyFormula === 'scoringFinishers+10') {
+      // Women's formula: scoringFinishers + 10
+      // scoringFinishers excludes N/S runners
+      const scoringFinishers = race?.scoringFinishers || results.filter(r => !r.ns).length;
+      penalty = scoringFinishers + 10;
+    } else {
+      // Legacy/men's formula: average of missing positions
+      const numTeams = Object.keys(clubScores).length;
+      const totalScorers = Object.values(clubScores).reduce((sum, scores) => sum + scores.length, 0);
+      const totalMissing = Object.values(clubScores).reduce((sum, scores) => sum + Math.max(0, count - scores.length), 0);
+      const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
+      penalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
+    }
     
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
-      const penalties = missing > 0 ? Array(missing).fill(avgPenalty) : [];
+      const penalties = missing > 0 ? Array(missing).fill(penalty) : [];
       const allScores = [...scores, ...penalties];
       const lastScorer = scores.length > 0 ? scores[scores.length - 1] : Infinity;
-      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: avgPenalty, complete: scores.length >= count, lastScorer};
+      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: penalty, complete: scores.length >= count, lastScorer};
     }).filter(t=>t.scores.length>0||t.penalties.length>0).sort((a,b)=>{
       // Sort by points, then by last scorer (tiebreaker)
       if(a.points !== b.points) return a.points - b.points;
       return a.lastScorer - b.lastScorer;
     }).map((t,i)=>({...t,pos:i+1}));
-  },[results,startPos,count,finishers]);
+  },[results,startPos,count,finishers,divisionConfig,race]);
   
   const penaltyValue = teams.find(t=>t.penalties.length>0)?.penaltyScore;
-  return<div><table className="w-full"><thead><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="w-8"></th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Points</th><th className="text-left py-2 px-4 text-xs font-semibold text-[#0077b6] uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-100">{teams.map(team=><tr key={team.club} className="hover:bg-gray-50"><td className="py-2 px-2 text-sm text-gray-700 tabular-nums">{team.pos}</td><td className="py-2 px-1"><ClubShield club={team.club} size={20}/></td><td className="py-2 px-2 text-sm font-medium text-gray-900">{team.club}</td><td className="py-2 px-2 text-sm font-bold text-gray-900 text-right tabular-nums">{Number.isInteger(team.points)?team.points:team.points.toFixed(1)}</td><td className="py-2 px-4"><div className="flex flex-wrap gap-1.5">{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-500 tabular-nums border border-gray-200 px-1 rounded">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="text-xs text-red-400 tabular-nums border border-red-200 px-1 rounded" title="Penalty score">*</span>)}{!team.complete&&team.penalties.length===0&&<span className="text-xs text-gray-300 italic ml-1">incomplete</span>}</div></td></tr>)}</tbody></table>{penaltyValue&&<p className="text-xs text-gray-400 mt-2">* Penalty = {Number.isInteger(penaltyValue)?penaltyValue:penaltyValue.toFixed(1)} pts each</p>}</div>;
+  return<div><table className="w-full"><thead><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="w-8"></th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Points</th><th className="text-left py-2 px-4 text-xs font-semibold text-[#0077b6] uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-100">{teams.map(team=><tr key={team.club} className="hover:bg-gray-50"><td className="py-2 px-2 text-sm text-gray-700 tabular-nums">{team.pos}</td><td className="py-2 px-1"><ClubShield club={team.club} size={20}/></td><td className="py-2 px-2 text-sm font-medium text-gray-900">{team.club}</td><td className="py-2 px-2 text-sm font-bold text-gray-900 text-right tabular-nums">{Number.isInteger(team.points)?team.points:team.points.toFixed(1)}</td><td className="py-2 px-4"><div className="flex flex-wrap gap-1.5">{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-500 tabular-nums border border-gray-200 px-1 rounded">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="text-xs text-red-400 tabular-nums border border-red-200 px-1 rounded" title="Penalty score">*</span>)}{!team.complete&&team.penalties.length===0&&<span className="text-xs text-gray-300 italic ml-1">incomplete</span>}</div></td></tr>)}</tbody></table>{penaltyValue&&<p className="text-xs text-gray-400 mt-2">* Penalty = {Number.isInteger(penaltyValue)?penaltyValue:penaltyValue.toFixed(1)} pts</p>}</div>;
 };
 
-const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title})=>{
+const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title,divisionConfig,race})=>{
   const teams=useMemo(()=>{
     const clubScores={};
     const isATeam = startPos === 1;
@@ -315,23 +334,31 @@ const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title})=>{
       });
     }
     
-    // Calculate penalty
-    const totalScorers = Object.values(clubScores).reduce((sum, scores) => sum + scores.length, 0);
-    const totalMissing = Object.values(clubScores).reduce((sum, scores) => sum + Math.max(0, count - scores.length), 0);
-    const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
-    const avgPenalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
+    // Calculate penalty based on division formula
+    let penalty;
+    if(divisionConfig?.penaltyFormula === 'scoringFinishers+10') {
+      // Women's formula: scoringFinishers + 10
+      const scoringFinishers = race?.scoringFinishers || results.filter(r => !r.ns).length;
+      penalty = scoringFinishers + 10;
+    } else {
+      // Legacy/men's formula: average of missing positions
+      const totalScorers = Object.values(clubScores).reduce((sum, scores) => sum + scores.length, 0);
+      const totalMissing = Object.values(clubScores).reduce((sum, scores) => sum + Math.max(0, count - scores.length), 0);
+      const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
+      penalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
+    }
     
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
-      const penalties = missing > 0 ? Array(missing).fill(avgPenalty) : [];
+      const penalties = missing > 0 ? Array(missing).fill(penalty) : [];
       const allScores = [...scores, ...penalties];
       const lastScorer = scores.length > 0 ? scores[scores.length - 1] : Infinity;
-      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: avgPenalty, complete: scores.length >= count, lastScorer};
+      return {club, points: allScores.reduce((a,b)=>a+b,0), scores, penalties, penaltyScore: penalty, complete: scores.length >= count, lastScorer};
     }).filter(t=>t.scores.length>0||t.penalties.length>0).sort((a,b)=>{
       if(a.points !== b.points) return a.points - b.points;
       return a.lastScorer - b.lastScorer;
     }).map((t,i)=>({...t,pos:i+1}));
-  },[results,startPos,count,finishers]);
+  },[results,startPos,count,finishers,divisionConfig,race]);
   
   const penaltyValue = teams.find(t=>t.penalties.length>0)?.penaltyScore;
   return<div><table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 text-xs font-semibold text-gray-900 uppercase tracking-wide" colSpan="3">{title||'Club'}</th><th className="text-right py-1.5 px-2 text-xs text-gray-500 uppercase w-12">Pts</th><th className="text-left py-1.5 pl-2 text-xs text-gray-500 uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-50">{teams.map(team=><tr key={team.club}><td className="py-1.5 text-gray-500 w-6 tabular-nums">{team.pos}</td><td className="py-1.5 w-6"><ClubShield club={team.club} size={16}/></td><td className="py-1.5 font-medium text-gray-900">{team.club}</td><td className="py-1.5 px-2 font-bold text-gray-900 text-right tabular-nums">{Number.isInteger(team.points)?team.points:team.points.toFixed(1)}</td><td className="py-1.5 pl-2"><div className="flex flex-wrap gap-x-0.5 tabular-nums text-xs text-gray-500">{team.scores.map((s,i)=><span key={i} className="w-6 text-center">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="w-6 text-center text-red-400">*</span>)}</div></td></tr>)}</tbody></table>{penaltyValue&&<p className="text-xs text-gray-400 mt-2">* Penalty = {Number.isInteger(penaltyValue)?penaltyValue:penaltyValue.toFixed(1)} pts</p>}</div>;
@@ -413,8 +440,8 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
     {/* Mobile: tabs */}
     <div className="lg:hidden">
       <div className="flex gap-4 mb-6 border-b border-gray-200">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`pb-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab===t.id?'border-[#0077b6] text-[#0077b6]':'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
-      {tab==='a-teams'&&(displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={divisionConfig?.teamSize?.a||10} finishers={race.finishers}/>)}
-      {tab==='b-teams'&&!displayTeamScores&&<TeamResultsTable results={race.results} startPos={(divisionConfig?.teamSize?.a||10)+1} count={divisionConfig?.teamSize?.b||10} finishers={race.finishers}/>}
+      {tab==='a-teams'&&(displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={divisionConfig?.teamSize?.a||10} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>)}
+      {tab==='b-teams'&&!displayTeamScores&&<TeamResultsTable results={race.results} startPos={(divisionConfig?.teamSize?.a||10)+1} count={divisionConfig?.teamSize?.b||10} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>}
       {tab==='b-teams'&&displayTeamScores&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
       {tab==='individual'&&<IndividualResultsTable results={race.results} clubFilter={clubFilter} setClubFilter={setClubFilter} setView={setView} clubMvps={clubMvps} individualChampions={individualChampions}/>}
     </div>
@@ -426,10 +453,10 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
       </div>
       <div>
         <div className="mb-6">
-          {displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={divisionConfig?.teamSize?.a||10} finishers={race.finishers} title="A Teams"/>}
+          {displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={divisionConfig?.teamSize?.a||10} finishers={race.finishers} title="A Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
         <div>
-          {!displayTeamScores&&<TeamResultsTableCompact results={race.results} startPos={(divisionConfig?.teamSize?.a||10)+1} count={divisionConfig?.teamSize?.b||10} finishers={race.finishers} title="B Teams"/>}
+          {!displayTeamScores&&<TeamResultsTableCompact results={race.results} startPos={(divisionConfig?.teamSize?.a||10)+1} count={divisionConfig?.teamSize?.b||10} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
       </div>
     </div>
