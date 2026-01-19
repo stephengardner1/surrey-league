@@ -27,7 +27,7 @@ const{useState,useMemo,useEffect}=React;
 const normalizeNameForCompare=(name)=>name?.toLowerCase().trim()||'';
 const namesMatch=(a,b)=>normalizeNameForCompare(a)===normalizeNameForCompare(b);
 const getSurname=(name)=>{if(!name)return'';const parts=name.split(' ');return parts.length>1?parts[parts.length-1]:name;};
-const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'},'LCR':{name:'London City Runners'},'ADV':{name:'Advent Runners',defunct:true}};
+const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'},'LCR':{name:'London City Runners'},'ADV':{name:'Advent Runners',defunct:true},'262':{name:'26.2 Road Runners'}};
 
 // Division configurations
 const DIVISIONS={
@@ -144,7 +144,8 @@ const getClubVestSvg=(club)=>{
     'W4H':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#00CED1"/></g>`,
     'W/W':`<path d="${p}" fill="#1a1a1a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#dc2626"/></g>`,
     'K&P':`<path d="${p}" fill="#1E90FF"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="8,0 20,0 20,20 0,20 0,8" fill="#1a1a1a"/><polygon points="0,0 8,0 20,12 20,20 12,20 0,8" fill="#fff"/></g>`,
-    'LCR':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#f4c430"/><rect x="14" y="0" width="3" height="20" fill="#f4c430"/></g>`
+    'LCR':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#f4c430"/><rect x="14" y="0" width="3" height="20" fill="#f4c430"/></g>`,
+    '262':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="4,0 9,0 20,11 20,16" fill="#fff"/><polygon points="0,4 0,9 11,20 16,20" fill="#fff"/><polygon points="8,0 12,0 20,8 20,12" fill="#dc2626"/><polygon points="0,8 0,12 8,20 12,20" fill="#dc2626"/></g>`
   };
   const content=vestSvg[club]||`<path d="${p}" fill="#9ca3af"/>`;
   return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">${content}<path d="${p}" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
@@ -958,62 +959,68 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
   
   // Calculate name frequencies for both divisions
   const nameStats=useMemo(()=>{
-    // Normalize common name variations to canonical form
-    const nameVariants={
+    // Group name variants - key is canonical, values are variants that map to it
+    const nameGroups={
       // Men's names
-      'Dave':'David','Davey':'David','Dan':'Daniel','Danny':'Daniel',
-      'Steve':'Stephen','Steven':'Stephen','Stevie':'Stephen',
-      'Mike':'Michael','Mick':'Michael','Mickey':'Michael',
-      'Rob':'Robert','Bob':'Robert','Bobby':'Robert','Robbie':'Robert',
-      'Tom':'Thomas','Tommy':'Thomas',
-      'Jim':'James','Jimmy':'James','Jamie':'James',
-      'Bill':'William','Billy':'William','Will':'William','Willy':'William',
-      'Nick':'Nicholas','Nicky':'Nicholas',
-      'Chris':'Christopher','Kit':'Christopher',
-      'Matt':'Matthew','Matty':'Matthew',
-      'Andy':'Andrew','Drew':'Andrew',
-      'Tony':'Anthony',
-      'Ed':'Edward','Eddie':'Edward','Ted':'Edward','Teddy':'Edward',
-      'Alex':'Alexander','Xander':'Alexander',
-      'Ben':'Benjamin','Benny':'Benjamin',
-      'Joe':'Joseph','Joey':'Joseph',
-      'Jon':'Jonathan','Jonny':'Jonathan','Johnny':'Jonathan',
-      'Sam':'Samuel','Sammy':'Samuel',
-      'Phil':'Philip','Phillip':'Philip',
-      'Rich':'Richard','Rick':'Richard','Ricky':'Richard','Dick':'Richard',
-      'Pat':'Patrick','Paddy':'Patrick',
-      'Pete':'Peter',
-      'Geoff':'Geoffrey','Jeff':'Jeffrey',
-      'Greg':'Gregory',
-      'Tim':'Timothy','Timmy':'Timothy',
+      'David':['Dave','Davey','David'],
+      'Daniel':['Dan','Danny','Daniel'],
+      'Stephen':['Steve','Steven','Stephen','Stevie'],
+      'Michael':['Mike','Mick','Mickey','Michael'],
+      'Robert':['Rob','Bob','Bobby','Robbie','Robert'],
+      'Thomas':['Tom','Tommy','Thomas'],
+      'James':['Jim','Jimmy','Jamie','James'],
+      'William':['Bill','Billy','Will','Willy','William'],
+      'Nicholas':['Nick','Nicky','Nicholas'],
+      'Christopher':['Chris','Kit','Christopher'],
+      'Matthew':['Matt','Matty','Matthew'],
+      'Andrew':['Andy','Drew','Andrew'],
+      'Anthony':['Tony','Anthony'],
+      'Edward':['Ed','Eddie','Ted','Teddy','Edward'],
+      'Alexander':['Alex','Xander','Alexander'],
+      'Benjamin':['Ben','Benny','Benjamin'],
+      'Joseph':['Joe','Joey','Joseph'],
+      'Jonathan':['Jon','Jonny','Johnny','Jonathan'],
+      'Samuel':['Sam','Sammy','Samuel'],
+      'Philip':['Phil','Phillip','Philip'],
+      'Richard':['Rich','Rick','Ricky','Dick','Richard'],
+      'Patrick':['Pat','Paddy','Patrick'],
+      'Peter':['Pete','Peter'],
+      'Geoffrey':['Geoff','Geoffrey'],
+      'Jeffrey':['Jeff','Jeffrey'],
+      'Gregory':['Greg','Gregory'],
+      'Timothy':['Tim','Timmy','Timothy'],
       // Women's names
-      'Steph':'Stephanie','Stephie':'Stephanie',
-      'Kate':'Katherine','Katie':'Katherine','Katy':'Katherine','Cathy':'Catherine','Cath':'Catherine','Kathy':'Katherine',
-      'Liz':'Elizabeth','Lizzy':'Elizabeth','Beth':'Elizabeth','Eliza':'Elizabeth','Libby':'Elizabeth',
-      'Jenny':'Jennifer','Jen':'Jennifer','Jenna':'Jennifer',
-      'Becky':'Rebecca','Becca':'Rebecca',
-      'Sam':'Samantha','Sammy':'Samantha',
-      'Alex':'Alexandra','Lexi':'Alexandra',
-      'Vicky':'Victoria','Vicki':'Victoria',
-      'Meg':'Margaret','Maggie':'Margaret','Peggy':'Margaret',
-      'Mandy':'Amanda',
-      'Abby':'Abigail','Abbie':'Abigail',
-      'Em':'Emily','Emmy':'Emily',
-      'Jo':'Joanne','Joanna':'Joanne',
-      'Maddie':'Madeleine','Maddy':'Madeleine',
-      'Ellie':'Eleanor','Elle':'Eleanor','Ella':'Eleanor',
-      'Izzy':'Isabel','Izzie':'Isabel','Bella':'Isabel',
-      'Nikki':'Nicole','Nicky':'Nicole',
-      'Debbie':'Deborah','Deb':'Deborah',
-      'Sue':'Susan','Susie':'Susan',
-      'Nat':'Natalie',
-      'Charlie':'Charlotte','Charley':'Charlotte',
-      'Lottie':'Charlotte',
-      'Lou':'Louise','Louisa':'Louise',
-      'Mel':'Melanie',
-      'Rach':'Rachel'
+      'Stephanie':['Steph','Stephie','Stephanie'],
+      'Katherine':['Kate','Katie','Katy','Cathy','Cath','Kathy','Katherine','Catherine','Kathryn','Katharine'],
+      'Elizabeth':['Liz','Lizzy','Beth','Eliza','Libby','Elizabeth'],
+      'Jennifer':['Jenny','Jen','Jenna','Jennifer'],
+      'Rebecca':['Becky','Becca','Rebecca'],
+      'Samantha':['Sam','Sammy','Samantha'],
+      'Alexandra':['Alex','Lexi','Alexandra'],
+      'Victoria':['Vicky','Vicki','Victoria'],
+      'Margaret':['Meg','Maggie','Peggy','Margaret'],
+      'Amanda':['Mandy','Amanda'],
+      'Abigail':['Abby','Abbie','Abigail'],
+      'Emily':['Em','Emmy','Emily'],
+      'Joanne':['Jo','Joanna','Joanne'],
+      'Madeleine':['Maddie','Maddy','Madeleine','Madeline'],
+      'Eleanor':['Ellie','Elle','Ella','Eleanor'],
+      'Isabel':['Izzy','Izzie','Bella','Isabel','Isabella','Isobel'],
+      'Nicole':['Nikki','Nicky','Nicole'],
+      'Deborah':['Debbie','Deb','Deborah'],
+      'Susan':['Sue','Susie','Susan'],
+      'Natalie':['Nat','Natalie'],
+      'Charlotte':['Charlie','Charley','Lottie','Charlotte'],
+      'Louise':['Lou','Louisa','Louise'],
+      'Melanie':['Mel','Melanie'],
+      'Rachel':['Rach','Rachel']
     };
-    const normalizeName=name=>nameVariants[name]||name;
+    
+    // Build reverse lookup: variant -> canonical
+    const variantToCanonical={};
+    Object.entries(nameGroups).forEach(([canonical,variants])=>{
+      variants.forEach(v=>{variantToCanonical[v]=canonical;});
+    });
     
     const countNames=(athletes,races)=>{
       // Get all unique names - from athletes array or race results
@@ -1024,16 +1031,22 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
         races.forEach(r=>{r.results?.forEach(res=>{if(res.name)allNames.add(res.name);});});
       }
       
-      const firstNames={};
+      const canonicalCounts={};  // canonical name -> total count
+      const variantCounts={};    // canonical name -> {variant -> count}
       const surnames={};
       const clubCounts={};
       
       allNames.forEach(name=>{
         const parts=name.split(' ');
         if(parts.length>=2){
-          const first=normalizeName(parts[0]);
+          const first=parts[0];
           const last=parts[parts.length-1];
-          firstNames[first]=(firstNames[first]||0)+1;
+          const canonical=variantToCanonical[first]||first;
+          
+          canonicalCounts[canonical]=(canonicalCounts[canonical]||0)+1;
+          if(!variantCounts[canonical])variantCounts[canonical]={};
+          variantCounts[canonical][first]=(variantCounts[canonical][first]||0)+1;
+          
           surnames[last]=(surnames[last]||0)+1;
         }
       });
@@ -1047,9 +1060,19 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
         Object.values(athleteClub).forEach(club=>{clubCounts[club]=(clubCounts[club]||0)+1;});
       }
       
+      // For each canonical name, find most common variant
+      const getMostCommonVariant=(canonical)=>{
+        const variants=variantCounts[canonical]||{};
+        let best=canonical,bestCount=0;
+        Object.entries(variants).forEach(([v,c])=>{if(c>bestCount){best=v;bestCount=c;}});
+        return best;
+      };
+      
       const sortByCount=obj=>Object.entries(obj).sort((a,b)=>b[1]-a[1]);
+      const topFirstNames=sortByCount(canonicalCounts).slice(0,10).map(([canonical,count])=>[getMostCommonVariant(canonical),count]);
+      
       return{
-        firstNames:sortByCount(firstNames).slice(0,10),
+        firstNames:topFirstNames,
         surnames:sortByCount(surnames).slice(0,10),
         modalClub:sortByCount(clubCounts)[0]?.[0]||null
       };
