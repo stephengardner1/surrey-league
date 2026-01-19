@@ -872,7 +872,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
   return<div className="max-w-4xl mx-auto px-4 py-8"><button onClick={()=>setView({type:'athletes'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button><div className="mb-8">{/* Desktop layout */}<div className="hidden md:flex md:gap-4 md:items-end mb-4"><div className="cursor-pointer" onClick={()=>setView({type:'club',club:athleteData.club})}><ClubShield club={athleteData.club} size={110}/></div><div className="flex flex-col justify-end pb-1"><div className="flex flex-wrap gap-2 mb-2">{allTimeRank>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full cursor-pointer hover:bg-gray-200" onClick={()=>setView({type:'athletes'})}><span className="text-xs text-gray-500 uppercase">SL Index 📈</span><span className="text-sm font-bold text-[#0077b6]">#{allTimeRank}</span></div>}{clubRankings.map(cr=><div key={cr.club} className="inline-flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-full cursor-pointer hover:bg-gray-200" onClick={()=>setView({type:'club',club:cr.club})}><ClubShield club={cr.club} size={14}/><span className="text-xs text-gray-500">🐐</span><span className="text-sm font-bold text-[#0077b6]">#{cr.rank}</span></div>)}</div><div className="flex items-center gap-3"><h1 className="text-3xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{athleteData.name}</h1>{athleteNee?.[athleteData?.name]&&<p className="text-sm text-gray-500 italic mt-1">({athleteData.name.split(' ')[0]} {athleteNee[athleteData.name]})</p>}<div className="relative inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">Compare to</span><input type="text" value={compareInput} onChange={e=>setCompareInput(e.target.value)} onFocus={()=>setCompareFocused(true)} onBlur={()=>setTimeout(()=>setCompareFocused(false),200)} placeholder="Search..." className="w-24 text-sm bg-transparent border-none outline-none placeholder-gray-400"/>{compareFocused&&compareInput.length>=2&&(()=>{const suggestions=athletes.filter(a=>!a.historical&&a.name.toLowerCase().includes(compareInput.toLowerCase())&&!namesMatch(a.name,athleteData.name)).slice(0,5);return suggestions.length>0?<div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">{suggestions.map((a,i)=><div key={i} className="px-3 py-2 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-sm" onClick={()=>{setView({type:'h2h',prefill:{athlete1:athleteData,athlete2:a}});}}><ClubShield club={a.club} size={14}/><span>{a.name}</span></div>)}</div>:null;})()}</div></div><div className="flex items-center gap-2 mt-1"><p className="text-sm text-gray-500 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:athleteData.club})}>{CLUBS[athleteData.club]?.name||athleteData.club}</p>{po10Url&&<a href={po10Url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-[#0077b6]"><span>Power of 10</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>}</div></div></div>{/* Desktop badges */}{(individualChampData.length>0||leagueWinnerData.length>0||otherBadges.length>0)&&<div className="hidden md:flex flex-wrap gap-2 mb-4">{individualChampData.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{individualChampData.length}× Mitchell Cup 🏅</span><span className="text-sm font-medium text-gray-700">{renderYearLinks(individualChampData)}</span></div>}{leagueWinnerData.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{leagueWinnerData.length}× League Winner 🏆</span><span className="text-sm font-medium text-gray-700">{renderYearLinks(leagueWinnerData)}</span></div>}{otherBadges.map((b,i)=><div key={i} className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{b.label}</span></div>)}</div>}{/* Mobile layout */}<div className="md:hidden"><div className="flex items-start gap-3 mb-3"><div className="cursor-pointer" onClick={()=>setView({type:'club',club:athleteData.club})}><ClubShield club={athleteData.club} size={44}/></div><div><h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{athleteData.name}</h1>{athleteNee?.[athleteData?.name]&&<p className="text-xs text-gray-500 italic">({athleteData.name.split(' ')[0]} {athleteNee[athleteData.name]})</p>}<div className="flex items-center gap-2"><p className="text-sm text-gray-500 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:athleteData.club})}>{CLUBS[athleteData.club]?.name||athleteData.club}</p>{po10Url&&<a href={po10Url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-[#0077b6]"><span>Power of 10</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>}</div></div></div><div className="flex flex-wrap gap-2">{allTimeRank>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full cursor-pointer hover:bg-gray-200" onClick={()=>setView({type:'athletes'})}><span className="text-xs text-gray-500 uppercase">SL Index 📈</span><span className="text-sm font-bold text-[#0077b6]">#{allTimeRank}</span></div>}{clubRankings.map(cr=><div key={cr.club} className="inline-flex items-center gap-1.5 bg-gray-100 px-3 py-1.5 rounded-full cursor-pointer hover:bg-gray-200" onClick={()=>setView({type:'club',club:cr.club})}><ClubShield club={cr.club} size={14}/><span className="text-xs text-gray-500">🐐</span><span className="text-sm font-bold text-[#0077b6]">#{cr.rank}</span></div>)}</div>{(individualChampData.length>0||leagueWinnerData.length>0||otherBadges.length>0)&&<div className="flex flex-wrap gap-2 mt-2">{otherBadges.map((b,i)=><div key={i} className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{b.label}</span></div>)}{individualChampData.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{individualChampData.length}× Mitchell Cup 🏅</span><span className="text-sm font-medium text-gray-700">{renderYearLinks(individualChampData)}</span></div>}{leagueWinnerData.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{leagueWinnerData.length}× League Winner 🏆</span><span className="text-sm font-medium text-gray-700">{renderYearLinks(leagueWinnerData)}</span></div>}</div>}<div className="flex flex-wrap items-center gap-2 mt-2"><div className="relative inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">Compare to</span><input type="text" value={compareInput} onChange={e=>setCompareInput(e.target.value)} onFocus={()=>setCompareFocused(true)} onBlur={()=>setTimeout(()=>setCompareFocused(false),200)} placeholder="Search..." className="w-24 text-sm bg-transparent border-none outline-none placeholder-gray-400"/>{compareFocused&&compareInput.length>=2&&(()=>{const suggestions=athletes.filter(a=>!a.historical&&a.name.toLowerCase().includes(compareInput.toLowerCase())&&!namesMatch(a.name,athleteData.name)).slice(0,5);return suggestions.length>0?<div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">{suggestions.map((a,i)=><div key={i} className="px-3 py-2 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-sm" onClick={()=>{setView({type:'h2h',prefill:{athlete1:athleteData,athlete2:a}});}}><ClubShield club={a.club} size={14}/><span>{a.name}</span></div>)}</div>:null;})()}</div></div></div></div><StatsTable stats={computedStats}/><div>{raceHistory.length>0?<><PositionChart raceHistory={raceHistory} highlightIdx={highlightIdx} setHighlightIdx={setHighlightIdx} setView={setView} clubCode={athleteData.club}/><table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="2" className="text-left py-2 pr-2 text-xs text-gray-500 uppercase">Race History</th><th className="text-center py-2 px-1 text-[10px] md:text-xs text-gray-500 uppercase">Club</th><th className="text-right py-2 px-1 text-[10px] md:text-xs text-gray-500 uppercase">Pos</th><th className="text-right py-2 pl-1 text-[10px] md:text-xs text-gray-500 uppercase">Score</th></tr></thead><tbody className="divide-y divide-gray-100">{raceHistory.map((r,i)=>{const scoreNum=r.teamScore?parseInt(r.teamScore.slice(1)):0;const ordinal=scoreNum===1?'st':scoreNum===2?'nd':scoreNum===3?'rd':'th';const scoreTooltip=r.teamScore?`${CLUBS[r.club]?.name||r.club}'s ${scoreNum}${ordinal} scorer for ${r.teamScore[0]} team`:null;const dateObj=r.hasFullDate&&r.date?new Date(r.date):null;const formatSeasonMatch=(season,match)=>{const months=['Oct','Nov','Dec','Jan','Feb'];const p=season.split('/');if(p.length!==2||!match)return season;const y1=parseInt(p[0]),m=months[match-1]||'';return m?m+" '"+(match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):season;};const displayDate=dateObj?dateObj.toLocaleDateString('en-GB',{month:'short'})+" '"+dateObj.getFullYear().toString().slice(-2):formatSeasonMatch(r.season,r.race?.match);const isHighlighted=highlightIdx?.historyIdx===i;return<tr key={i} className={`${isHighlighted?'bg-blue-100':''} ${r.race?.results?.length?'hover:bg-blue-50 cursor-pointer':''} transition-colors`} onClick={()=>r.race?.results?.length&&setView({type:'race',race:r.race})}><td className="py-2 pr-2 text-xs text-gray-400 whitespace-nowrap">{displayDate}</td><td className="py-2 px-1 text-xs md:text-sm text-gray-900">{r.venue}</td><td className="py-2 px-1"><div className="flex justify-center"><ClubShield club={r.club} size={14}/></div></td><td className="py-2 px-1 text-right"><span className={`text-xs md:text-sm font-medium tabular-nums ${r.pos===1?'text-[#0077b6]':r.pos<=3?'text-gray-900':'text-gray-600'}`}>{r.pos===1?'🥇':r.pos===2?'🥈':r.pos===3?'🥉':r.pos}{showStar&&r.pos===bestPos&&' ⭐'}</span></td><td className="py-2 pl-1 text-xs md:text-sm text-gray-600 text-right tabular-nums font-mono" title={scoreTooltip}>{r.teamScore||'-'}</td></tr>})}</tbody></table></>:<p className="text-sm text-gray-500">No race history</p>}</div></div>;
 };
 
-const ChartRoomView=({setView,data})=>{
+const ChartRoomView=({setView,data,menData,womenData})=>{
   // Full seasons for position chart (starting 07/08)
   const allSeasons=['2007/08','2008/09','2009/10','2010/11','2011/12','2012/13','2013/14','2014/15','2015/16','2016/17','2017/18','2018/19','2019/20','2021/22','2022/23','2023/24','2024/25','2025/26'];
   const allSeasonLabels=['07/08','08/09','09/10','10/11','11/12','12/13','13/14','14/15','15/16','16/17','17/18','18/19','19/20','21/22','22/23','23/24','24/25','25/26'];
@@ -955,6 +955,54 @@ const ChartRoomView=({setView,data})=>{
   const plotW=chartW-padL-padR,plotH=chartH-padT-padB;
   const xStep=plotW/(allSeasons.length-1);
   const yScale=(pos)=>padT+(pos-1)*(plotH/10);
+  
+  // Calculate name frequencies for both divisions
+  const nameStats=useMemo(()=>{
+    const countNames=(athletes,races)=>{
+      // Get all unique names - from athletes array or race results
+      const allNames=new Set();
+      if(athletes?.length){
+        athletes.forEach(a=>{if(a.name)allNames.add(a.name);});
+      }else if(races?.length){
+        races.forEach(r=>{r.results?.forEach(res=>{if(res.name)allNames.add(res.name);});});
+      }
+      
+      const firstNames={};
+      const surnames={};
+      const clubCounts={};
+      
+      allNames.forEach(name=>{
+        const parts=name.split(' ');
+        if(parts.length>=2){
+          const first=parts[0];
+          const last=parts[parts.length-1];
+          firstNames[first]=(firstNames[first]||0)+1;
+          surnames[last]=(surnames[last]||0)+1;
+        }
+      });
+      
+      // Count clubs by unique athletes
+      if(athletes?.length){
+        athletes.forEach(a=>{if(a.club)clubCounts[a.club]=(clubCounts[a.club]||0)+1;});
+      }else if(races?.length){
+        const athleteClub={};
+        races.forEach(r=>{r.results?.forEach(res=>{if(res.name&&res.club)athleteClub[res.name]=res.club;});});
+        Object.values(athleteClub).forEach(club=>{clubCounts[club]=(clubCounts[club]||0)+1;});
+      }
+      
+      const sortByCount=obj=>Object.entries(obj).sort((a,b)=>b[1]-a[1]);
+      return{
+        firstNames:sortByCount(firstNames).slice(0,10),
+        surnames:sortByCount(surnames).slice(0,10),
+        modalClub:sortByCount(clubCounts)[0]?.[0]||null
+      };
+    };
+    
+    const men=menData?countNames(menData.athletes,menData.races):{firstNames:[],surnames:[],modalClub:null};
+    const women=womenData?countNames(womenData.athletes,womenData.races):{firstNames:[],surnames:[],modalClub:null};
+    
+    return{men,women};
+  },[menData,womenData]);
   
   return<div className="max-w-5xl mx-auto px-4 py-8">
     <button onClick={()=>setView({type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button>
@@ -1164,6 +1212,59 @@ const ChartRoomView=({setView,data})=>{
             </svg>;
           })()}
           <p className="text-xs text-gray-400 mt-3 text-center">Size represents number of races hosted at each venue since 1962</p>
+        </div>
+      </div>
+      
+      {/* Name Frequency Tables */}
+      <div>
+        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">Most common names</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Men's names */}
+          <div className="space-y-4">
+            <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide pb-1 border-b border-gray-200">Men's first names</h3>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+              {nameStats.men.firstNames.map(([name,count],i)=><div key={name} className="flex justify-between"><span className="text-gray-400 w-4">{i+1}.</span><span className="flex-1 text-gray-900">{name}</span><span className="text-gray-500 tabular-nums">{count}</span></div>)}
+            </div>
+            <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide pb-1 border-b border-gray-200 mt-4">Men's surnames</h3>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+              {nameStats.men.surnames.map(([name,count],i)=><div key={name} className="flex justify-between"><span className="text-gray-400 w-4">{i+1}.</span><span className="flex-1 text-gray-900">{name}</span><span className="text-gray-500 tabular-nums">{count}</span></div>)}
+            </div>
+          </div>
+          {/* Women's names */}
+          <div className="space-y-4">
+            <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide pb-1 border-b border-gray-200">Women's first names</h3>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+              {nameStats.women.firstNames.map(([name,count],i)=><div key={name} className="flex justify-between"><span className="text-gray-400 w-4">{i+1}.</span><span className="flex-1 text-gray-900">{name}</span><span className="text-gray-500 tabular-nums">{count}</span></div>)}
+            </div>
+            <h3 className="text-xs font-semibold text-gray-700 uppercase tracking-wide pb-1 border-b border-gray-200 mt-4">Women's surnames</h3>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+              {nameStats.women.surnames.map(([name,count],i)=><div key={name} className="flex justify-between"><span className="text-gray-400 w-4">{i+1}.</span><span className="flex-1 text-gray-900">{name}</span><span className="text-gray-500 tabular-nums">{count}</span></div>)}
+            </div>
+          </div>
+        </div>
+        
+        {/* The Modal Surrey Leaguers */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">The modal Surrey Leaguers</h3>
+          <p className="text-xs text-gray-500 mb-4">The statistically average competitors - combining the most common first name, surname, and club</p>
+          <div className="grid md:grid-cols-2 gap-6">
+            {nameStats.men.firstNames[0]&&nameStats.men.surnames[0]&&nameStats.men.modalClub&&<div className="bg-gray-50 rounded-lg p-4 flex items-center gap-4">
+              <div className="flex-shrink-0"><ClubShield club={nameStats.men.modalClub} size={48}/></div>
+              <div>
+                <div className="text-lg font-semibold text-gray-900">{nameStats.men.firstNames[0][0]} {nameStats.men.surnames[0][0]}</div>
+                <div className="text-sm text-gray-500">{CLUBS[nameStats.men.modalClub]?.name||nameStats.men.modalClub}</div>
+                <div className="text-xs text-gray-400 mt-1">Modal male Surrey Leaguer</div>
+              </div>
+            </div>}
+            {nameStats.women.firstNames[0]&&nameStats.women.surnames[0]&&nameStats.women.modalClub&&<div className="bg-gray-50 rounded-lg p-4 flex items-center gap-4">
+              <div className="flex-shrink-0"><ClubShield club={nameStats.women.modalClub} size={48}/></div>
+              <div>
+                <div className="text-lg font-semibold text-gray-900">{nameStats.women.firstNames[0][0]} {nameStats.women.surnames[0][0]}</div>
+                <div className="text-sm text-gray-500">{CLUBS[nameStats.women.modalClub]?.name||nameStats.women.modalClub}</div>
+                <div className="text-xs text-gray-400 mt-1">Modal female Surrey Leaguer</div>
+              </div>
+            </div>}
+          </div>
         </div>
       </div>
     </div>
@@ -3369,7 +3470,7 @@ function App(){
       {view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}
       {view.type==='quiz'&&<PubQuizView setView={setView}/>}
       {view.type==='submit'&&<SubmitView setView={setView}/>}
-      {view.type==='chartroom'&&<ChartRoomView setView={setView} data={data}/>}
+      {view.type==='chartroom'&&<ChartRoomView setView={setView} data={data} menData={menData} womenData={womenData}/>}
     </main>
     <Footer setView={setView}/>
   </div>;
