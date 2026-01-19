@@ -679,6 +679,10 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     races.forEach(race=>{
       const result=race.results?.find(r=>namesMatch(r.name,athleteData?.name));
       if(result){
+        // Skip if we already have this exact race (dedup for athletes appearing twice in same race)
+        const raceKey=`${race.season}-${race.match}`;
+        if(seenRaces.has(raceKey))return;
+        
         // Calculate team scoring position
         let teamScore='';
         if(result.club&&race.results){
@@ -692,7 +696,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
         const hasFullDate=race.date&&race.date.includes('-')&&race.date.length>=10;
         h.push({date:race.date,venue:race.venue,pos:result.pos,time:result.time,club:result.club,race,hasFullDate,season:race.season,teamScore});
         // Track by season+match AND season+venue+pos to catch duplicates
-        seenRaces.add(`${race.season}-${race.match}`);
+        seenRaces.add(raceKey);
         seenRaces.add(`${race.season}-${race.venue}-${result.pos}`);
       }
     });
@@ -2089,8 +2093,8 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   // Relegation line position
   const relegationSpots=divisionConfig?.relegationSpots||2;
   const relegationLineAfter=numTeams-1-relegationSpots;
-  // Row height alignment
-  const leftRowPy=numTeams>=10?'py-[7px]':'py-[9px]';
+  // Row height alignment - women's table needs tighter spacing due to more teams
+  const leftRowPy=division==='women'?'py-[5px]':(numTeams>=10?'py-[7px]':'py-[9px]');
   const rightRowPy='py-[5px]';
   // Division-specific labels
   const individualLabel=division==='women'?'Individual':'Mitchell Cup';
@@ -2206,9 +2210,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       <div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
       <div className="grid md:grid-cols-2 gap-8">
         <div className="overflow-hidden"><StandingsTable/></div>
-        <div><FixturesTable/><IndividualsTable/></div>
+        <div><FixturesTable/><IndividualsTable/>{division==='women'&&<SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>}</div>
       </div>
-      <SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>
+      {division!=='women'&&<SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>}
     </div>:<p className="text-sm text-gray-500 mb-10">No data</p>}
     
     <div ref={allTimeRef} className="border-t border-gray-200 mt-4"></div>
