@@ -111,6 +111,7 @@ const ClubVest=({club,size=20})=>{
     case'LCR':return<><path d={p} fill="#1e3a8a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="3" y="0" width="3" height="20" fill="#f4c430"/><rect x="14" y="0" width="3" height="20" fill="#f4c430"/></g></>;
     case'ADV':return<><path d={p} fill="#000"/><text x="10" y="14" textAnchor="middle" fill="#dc2626" fontSize="11" fontWeight="bold" fontFamily="sans-serif">A</text></>;
     case'MPA':return<><path d={p} fill="#fff"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><polygon points="0,8 8,0 12,0 0,12" fill="#1e3a8a"/><polygon points="0,12 12,0 16,0 0,16" fill="#f4c430"/><polygon points="0,16 16,0 20,0 0,20" fill="#1e3a8a"/><polygon points="0,20 20,0 20,4 4,20" fill="#f4c430"/><polygon points="4,20 20,4 20,8 8,20" fill="#1e3a8a"/></g></>;
+    case'262':return<><path d={p} fill="#2563eb"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><polygon points="4,0 9,0 20,11 20,16" fill="#fff"/><polygon points="0,4 0,9 11,20 16,20" fill="#fff"/><polygon points="8,0 12,0 20,8 20,12" fill="#dc2626"/><polygon points="0,8 0,12 8,20 12,20" fill="#dc2626"/></g></>;
     default:return<path d={p} fill="#9ca3af"/>;
   }};
   return<svg width={size} height={size} viewBox="0 0 20 20" className="shrink-0">{r()}<path d={p} fill="none" stroke="#374151" strokeWidth="0.5"/></svg>;
@@ -1674,11 +1675,8 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
         if(r.pos<=20)s.top20++;
         if(r.pos<=50)s.top50++;
         if(r.pos<=100)s.top100++;
-        // Count A-team scores - use pts field if available, otherwise calculate
-        if(r.pts){
-          s.aScores++;
-        }else if(!r.ns){
-          // Fallback: count position in club
+        // Count A-team scores - top N finishers for the club (excluding non-scorers)
+        if(!r.ns){
           const clubRunnersInRace=race.results.filter(x=>x.club===clubCode&&!x.ns);
           const posInClub=clubRunnersInRace.findIndex(x=>namesMatch(x.name,r.name))+1;
           if(posInClub>=1&&posInClub<=TEAM_SIZE_A)s.aScores++;
@@ -3274,6 +3272,17 @@ const normalizeData=(data,division='men')=>{
       }
     });
     data.clubAllTime=Object.values(clubStats);
+  }else{
+    // clubAllTime exists but may be missing clubs that have runners but weren't in Div 1 standings
+    const existingClubs=new Set(data.clubAllTime.map(c=>c.club));
+    data.races.forEach(race=>{
+      (race.results||[]).forEach(r=>{
+        if(r.club&&!existingClubs.has(r.club)){
+          data.clubAllTime.push({club:r.club,titles:0,seconds:0,thirds:0,seasonCount:0});
+          existingClubs.add(r.club);
+        }
+      });
+    });
   }
 
   // Recompute all club positions from seasonsData (titles, runnerUp, third, fourth, fifth, sixth)
@@ -3327,6 +3336,14 @@ const normalizeData=(data,division='men')=>{
       if(idx===5)placeCount[team.club].sixth++;
     });
   });
+  // Add any clubs from standings that aren't in clubAllTime yet
+  const existingClubsFromStandings=new Set(data.clubAllTime.map(c=>c.club));
+  Object.keys(placeCount).forEach(club=>{
+    if(!existingClubsFromStandings.has(club)){
+      data.clubAllTime.push({club:club,titles:0,seconds:0,thirds:0,seasonCount:0});
+    }
+  });
+  
   data.clubAllTime.forEach(c=>{
     if(placeCount[c.club]){
       c.titles=placeCount[c.club].titles;
@@ -3480,9 +3497,17 @@ function App(){
   const setView=(v)=>{setViewState(v);updateUrl(v,division);};
   const setDivision=(d)=>{
     setDivisionState(d);
-    // Preserve current view type, but reset any specific selections (race, athlete, club)
+    // Preserve current view type and context where appropriate
     const preservedTypes = ['home', 'fixtures', 'seasons', 'athletes', 'clubs', 'h2h'];
-    const newView = preservedTypes.includes(view.type) ? {type: view.type} : {type: 'home'};
+    let newView;
+    if(view.type === 'club' && view.club) {
+      // Stay on same club when switching division
+      newView = {type: 'club', club: view.club};
+    } else if(preservedTypes.includes(view.type)) {
+      newView = {type: view.type};
+    } else {
+      newView = {type: 'home'};
+    }
     setViewState(newView);
     updateUrl(newView, d);
   };
