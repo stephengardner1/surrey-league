@@ -37,6 +37,11 @@ const DIVISIONS={
     shortName:'Men',
     foundedYear:1962,
     teamSize:{a:10,b:10},
+    historicTeamSize:(season)=>{
+      // Men's league used 8-man A teams until 2013/14
+      const year=parseInt(season?.split('/')[0]||'2020');
+      return year<2014?{a:8,b:8}:{a:10,b:10};
+    },
     matchesPerSeason:4,
     relegationSpots:2,
     individualChampionship:'all4',
@@ -380,6 +385,8 @@ const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps
 
 const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampions,divisionConfig})=>{
   const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const[statusHover,setStatusHover]=useState(false);if(!race)return null;
+  // Use historic team size for older seasons (men's was 8 until 2013/14)
+  const effectiveTeamSize=divisionConfig?.historicTeamSize?.(race.season)||divisionConfig?.teamSize||{a:10,b:10};
   const seasonData=seasonsData[race.season];const matchData=seasonData?.matches?.find(m=>m.num===race.match);const teamWinner=matchData?.teamWinner||race.teamWinner||(race.teamScores?.[0]?.club);
   
   // Format season as yyyy/yy (or yyyy/yyyy for millennium crossover)
@@ -393,7 +400,10 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   // Check if we have full results with pts field - if so, calculate team scores dynamically
   // Only fall back to knownTeamScores/teamScores if we don't have calculable results
   const hasCalculableResults = race.results?.length > 100 && race.results.some(r => r.pts != null);
-  const displayTeamScores = hasCalculableResults ? null : (race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||(race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score}))));
+  // Prefer seasonsData match scores when available (more accurate for historical data)
+  const matchKey = `m${race.match}`;
+  const seasonStandingsScores = seasonData?.standings?.filter(s => s[matchKey] != null).map(s => ({club: s.club, pts: s[matchKey]})).sort((a,b) => a.pts - b.pts).map((s,i) => ({...s, pos: i+1}));
+  const displayTeamScores = seasonStandingsScores?.length > 0 ? seasonStandingsScores : (hasCalculableResults ? null : (race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||(race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score})))));
   
   // Find prev/next races
   const sortedRaces=useMemo(()=>[...races].filter(r=>r.results?.length>0).sort((a,b)=>{if(a.season!==b.season)return a.season.localeCompare(b.season);return a.match-b.match;}),[races]);
@@ -442,8 +452,8 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
     {/* Mobile: tabs */}
     <div className="lg:hidden">
       <div className="flex gap-4 mb-6 border-b border-gray-200">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`pb-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab===t.id?'border-[#0077b6] text-[#0077b6]':'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
-      {tab==='a-teams'&&(displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={divisionConfig?.teamSize?.a||10} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>)}
-      {tab==='b-teams'&&!displayTeamScores&&<TeamResultsTable results={race.results} startPos={(divisionConfig?.teamSize?.a||10)+1} count={divisionConfig?.teamSize?.b||10} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>}
+      {tab==='a-teams'&&(displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>)}
+      {tab==='b-teams'&&!displayTeamScores&&<TeamResultsTable results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>}
       {tab==='b-teams'&&displayTeamScores&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
       {tab==='individual'&&<IndividualResultsTable results={race.results} clubFilter={clubFilter} setClubFilter={setClubFilter} setView={setView} clubMvps={clubMvps} individualChampions={individualChampions}/>}
     </div>
@@ -455,10 +465,10 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
       </div>
       <div>
         <div className="mb-6">
-          {displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={divisionConfig?.teamSize?.a||10} finishers={race.finishers} title="A Teams" divisionConfig={divisionConfig} race={race}/>}
+          {displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} title="A Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
         <div>
-          {!displayTeamScores&&<TeamResultsTableCompact results={race.results} startPos={(divisionConfig?.teamSize?.a||10)+1} count={divisionConfig?.teamSize?.b||10} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
+          {!displayTeamScores&&<TeamResultsTableCompact results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
       </div>
     </div>
