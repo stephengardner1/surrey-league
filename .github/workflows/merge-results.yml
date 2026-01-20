@@ -15,32 +15,20 @@ jobs:
         run: |
           for file in pending/*.json; do
             [ -f "$file" ] || continue
-            
-            # Read the pending file to determine division
             division=$(jq -r '.division // "men"' "$file")
-            
             if [ "$division" = "women" ]; then
               datafile="data-women.json"
             else
               datafile="data.json"
             fi
-            
-            # Extract season and match to find/replace
             season=$(jq -r '.season' "$file")
             match=$(jq -r '.match' "$file")
-            
-            # Remove existing race with same season+match, then add new one
-            jq --slurpfile new "$file" \
-              '(.races |= map(select(.season != $new[0].season or .match != $new[0].match))) |
-               .races += $new' \
-              "$datafile" > tmp.json && mv tmp.json "$datafile"
-            
+            jq --slurpfile new "$file" '(.races |= map(select(.season != $new[0].season or .match != $new[0].match))) | .races += $new' "$datafile" > tmp.json && mv tmp.json "$datafile"
             echo "Merged $file into $datafile (season: $season, match: $match)"
           done
       
       - name: Remove processed files
-        run: |
-          rm -f pending/*.json
+        run: rm -f pending/*.json
           
       - name: Commit changes
         run: |
@@ -49,14 +37,3 @@ jobs:
           git add data.json data-women.json pending/
           git commit -m "Auto-merge pending results" || echo "No changes to commit"
           git push
-```
-
-4. Click **Commit changes** (green button)
-5. In the popup, click **Commit changes** again
-
-## Step 3: Create the pending folder
-
-1. Click **Add file** → **Create new file**
-2. In the name box, type:
-```
-   pending/.gitkeep
