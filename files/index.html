@@ -2540,9 +2540,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   // Show relegation zone for complete seasons with full standings
   const numTeams=standings.length;
   const showRelegation=numTeams>=9&&isComplete;
-  // Relegation line position
+  // Relegation line position - can be overridden in seasonsData for historical seasons
   const relegationSpots=divisionConfig?.relegationSpots||2;
-  const relegationLineAfter=numTeams-1-relegationSpots;
+  const relegationLineAfter=seasonData?.relegationLineAfter!=null?seasonData.relegationLineAfter:(numTeams-1-relegationSpots);
   // Row height alignment - women's table needs tighter spacing due to more teams
   const leftRowPy=division==='women'?'py-[5px]':(numTeams>=10?'py-[7px]':'py-[9px]');
   const rightRowPy='py-[5px]';
