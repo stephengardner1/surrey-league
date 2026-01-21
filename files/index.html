@@ -734,10 +734,10 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     const athleteClubs=[...new Set(raceHistory.map(r=>r.club).filter(c=>c&&c!=='N/S'&&c!=='GUEST'))];
     const TEAM_SIZE_A=divisionConfig?.teamSize?.a||10;
     
-    // For each club, compute all athletes' A-scores and find this athlete's rank
+    // For each club, compute all athletes' Value scores and find this athlete's rank
     const rankings=[];
     athleteClubs.forEach(club=>{
-      // Compute A-scores for all athletes at this club from race results
+      // Compute Value scores for all athletes at this club from race results
       const clubStats={};
       races.forEach(race=>{
         // Handle races without full results (only have winner info)
@@ -746,34 +746,32 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
             race.winners.forEach(w=>{
               if(w.club===club){
                 const key=normalizeNameForCompare(w.name);
-                if(!clubStats[key])clubStats[key]={name:w.name,aScores:0};
-                clubStats[key].aScores++;
+                if(!clubStats[key])clubStats[key]={name:w.name,value:0};
+                clubStats[key].value+=TEAM_SIZE_A; // A1 gets max points
               }
             });
           }else if(race.winnerClub===club&&race.winner){
             const key=normalizeNameForCompare(race.winner);
-            if(!clubStats[key])clubStats[key]={name:race.winner,aScores:0};
-            clubStats[key].aScores++;
+            if(!clubStats[key])clubStats[key]={name:race.winner,value:0};
+            clubStats[key].value+=TEAM_SIZE_A; // A1 gets max points
           }
           return;
         }
-        // Count A-scores properly using pts field or position in club
+        // Count Value scores properly - A1=max pts down to A10/A5=1pt
         race.results.forEach(r=>{
-          if(r.club!==club)return;
+          if(r.club!==club||r.ns)return;
           const key=normalizeNameForCompare(r.name);
-          if(!clubStats[key])clubStats[key]={name:r.name,aScores:0};
-          if(r.pts){
-            clubStats[key].aScores++;
-          }else if(!r.ns){
-            const clubRunnersInRace=race.results.filter(x=>x.club===club&&!x.ns);
-            const posInClub=clubRunnersInRace.findIndex(x=>namesMatch(x.name,r.name))+1;
-            if(posInClub>=1&&posInClub<=TEAM_SIZE_A)clubStats[key].aScores++;
+          if(!clubStats[key])clubStats[key]={name:r.name,value:0};
+          const clubRunnersInRace=race.results.filter(x=>x.club===club&&!x.ns);
+          const posInClub=clubRunnersInRace.findIndex(x=>namesMatch(x.name,r.name))+1;
+          if(posInClub>=1&&posInClub<=TEAM_SIZE_A){
+            clubStats[key].value+=(TEAM_SIZE_A-posInClub+1); // A1=max, A2=max-1, etc.
           }
         });
       });
       
-      // Sort by A-scores
-      const sorted=Object.values(clubStats).sort((a,b)=>b.aScores-a.aScores);
+      // Sort by Value
+      const sorted=Object.values(clubStats).sort((a,b)=>b.value-a.value);
       const rank=sorted.findIndex(a=>namesMatch(a.name,athleteData.name))+1;
       
       if(rank>0){
@@ -1594,8 +1592,20 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   const TEAM_SIZE_A=division==='women'?5:10;
   const currentSeason=Object.keys(seasonsData||{}).sort().reverse()[0]||'2025/26';
   
-  // Helper to convert season to year (end year of season)
-  const seasonToYear=(s)=>{if(!s)return'';const yy=s.split('/')[1];return(parseInt(yy)<50?'20':'19')+yy;};
+  // Helper to get the actual calendar year of a race from season and match
+  const getRaceYear=(season,match,date)=>{
+    // If we have a full date, use it
+    if(date&&date.length>3){
+      const d=new Date(date);
+      if(!isNaN(d))return d.getFullYear();
+    }
+    // Otherwise derive from season and match
+    // Season "2001/02" -> first year is 2001, second is 2002
+    // Match 1-2 (Oct/Nov) are in first year, Match 3-4 (Jan/Feb) are in second year
+    const parts=season.split('/');
+    const firstYear=parts[0].length===4?parseInt(parts[0]):(parseInt(parts[0])<50?2000:1900)+parseInt(parts[0]);
+    return match>=3?firstYear+1:firstYear;
+  };
   
   // Update document metadata for club page
   const divisionLabel=division==='women'?'women':'men';
@@ -1634,16 +1644,18 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
           club:club,
           wins:0,top3:0,top5:0,top10:0,top20:0,top50:0,top100:0,
           races:0,aScores:0,value:0,
-          firstSeason:null,lastSeason:null
+          firstYear:null,lastYear:null,lastSeason:null
         };
       }
       return athleteStats[nameKey];
     };
     
-    // Helper to update season range
-    const updateSeasons=(s,season)=>{
-      if(!s.firstSeason||season<s.firstSeason)s.firstSeason=season;
-      if(!s.lastSeason||season>s.lastSeason)s.lastSeason=season;
+    // Helper to update year range
+    const updateYears=(s,race)=>{
+      const year=getRaceYear(race.season,race.match,race.date);
+      if(!s.firstYear||year<s.firstYear)s.firstYear=year;
+      if(!s.lastYear||year>s.lastYear)s.lastYear=year;
+      if(!s.lastSeason||race.season>s.lastSeason)s.lastSeason=race.season;
     };
     
     // Go through all races and count stats only when athlete represented this club
@@ -1662,7 +1674,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
               s.races++;
               s.aScores++;
               s.value+=TEAM_SIZE_A; // A1 gets max points
-              updateSeasons(s,race.season);
+              updateYears(s,race);
             }
           });
         }else if(race.winnerClub===clubCode){
@@ -1674,7 +1686,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
           s.races++;
           s.aScores++;
           s.value+=TEAM_SIZE_A; // A1 gets max points
-          updateSeasons(s,race.season);
+          updateYears(s,race);
         }
         return;
       }
@@ -1683,7 +1695,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
         if(r.club!==clubCode)return;
         const s=ensureAthlete(r.name,clubCode);
         s.races++;
-        updateSeasons(s,race.season);
+        updateYears(s,race);
         if(r.pos===1)s.wins++;
         if(r.pos<=3)s.top3++;
         if(r.pos<=5)s.top5++;
@@ -1725,7 +1737,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   const cols=[{f:'value',l:'V',t:TEAM_SIZE_A===5?'Value: 5pts for A1 down to 1pt for A5':'Value: 10pts for A1 down to 1pt for A10'},{f:'aScores',l:'A',t:'A-team scores for this club'},{f:'wins',l:'W',t:'Race wins'},{f:'top3',l:'T3',t:'Top 3 finishes'},{f:'top5',l:'T5',t:'Top 5 finishes'},{f:'top10',l:'T10',t:'Top 10 finishes'},{f:'top20',l:'T20',t:'Top 20 finishes'},{f:'top50',l:'T50',t:'Top 50 finishes'},{f:'top100',l:'T100',t:'Top 100 finishes'},{f:'races',l:'R',t:'Total races'}];
   const yearToSeason=(year)=>{const y=parseInt(year);const yy=(y-1).toString().slice(-2);const yy2=y.toString().slice(-2);return `${y-1>=2000?'':'19'}${yy}/${yy2}`;};
   const renderYears=(years)=>years.map((y,i)=><React.Fragment key={y}>{i>0&&<span className="text-gray-400"> · </span>}<span className="cursor-pointer hover:text-[#0077b6] hover:underline" onClick={(e)=>{e.stopPropagation();setView({type:'home',urlSeason:yearToSeason(y)});}}>{y}</span></React.Fragment>);
-  return<div className="max-w-5xl mx-auto px-4 py-8"><button onClick={()=>setView({type:'clubs'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button><div className="mb-8"><div className="flex items-center gap-4 mb-3"><ClubShield club={clubCode} size={48}/><div><h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{clubInfo.name}</h1>{allTimeRank>0&&<p className="text-sm text-gray-500">#{allTimeRank} all-time</p>}{clubInfo.desc&&<p className="text-sm text-gray-500 italic mt-1">{clubInfo.desc}</p>}</div></div><div className="flex flex-wrap gap-2">{titleYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{titleYears.length}× League Champions 🏆</span><span className="text-sm font-medium text-gray-700">{renderYears(titleYears)}</span></div>}{secondYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{secondYears.length}× Runners-up 🥈</span><span className="text-sm font-medium text-gray-700">{renderYears(secondYears)}</span></div>}{thirdYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{thirdYears.length}× Third place 🥉</span><span className="text-sm font-medium text-gray-700">{renderYears(thirdYears)}</span></div>}</div>{mvp&&<p className="mt-3 text-sm text-gray-600">Club 🐐: <span className="font-medium text-[#0077b6] cursor-pointer hover:underline" onClick={()=>setView({type:'athlete',athlete:mvp})}>{mvp.name}</span></p>}</div><div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="py-1.5 px-1 w-10 text-center"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#0077b6] font-semibold':'text-gray-500'}`} data-tip={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{clubAthletes.map((a,i)=><tr key={a.name} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-4"><div className="flex items-center gap-2"><span className="text-gray-400 text-sm w-6 text-right">{i+1}</span><span className="text-sm text-gray-900">{a.name}</span>{a.firstSeason&&<span className="hidden md:inline text-xs text-gray-400 ml-1">{seasonToYear(a.firstSeason)}-{a.lastSeason===currentSeason?'present':seasonToYear(a.lastSeason)}</span>}</div></td>{cols.map(c=><td key={c.f} className={`py-1.5 px-1 w-10 text-center text-sm tabular-nums ${sort===c.f?'font-semibold text-[#0077b6]':'text-gray-600'} ${a[c.f]===0?'text-gray-300':''}`}>{a[c.f]||'-'}</td>)}</tr>)}</tbody></table></div></div>;
+  return<div className="max-w-5xl mx-auto px-4 py-8"><button onClick={()=>setView({type:'clubs'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button><div className="mb-8"><div className="flex items-center gap-4 mb-3"><ClubShield club={clubCode} size={48}/><div><h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{clubInfo.name}</h1>{allTimeRank>0&&<p className="text-sm text-gray-500">#{allTimeRank} all-time</p>}{clubInfo.desc&&<p className="text-sm text-gray-500 italic mt-1">{clubInfo.desc}</p>}</div></div><div className="flex flex-wrap gap-2">{titleYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{titleYears.length}× League Champions 🏆</span><span className="text-sm font-medium text-gray-700">{renderYears(titleYears)}</span></div>}{secondYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{secondYears.length}× Runners-up 🥈</span><span className="text-sm font-medium text-gray-700">{renderYears(secondYears)}</span></div>}{thirdYears.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{thirdYears.length}× Third place 🥉</span><span className="text-sm font-medium text-gray-700">{renderYears(thirdYears)}</span></div>}</div>{mvp&&<p className="mt-3 text-sm text-gray-600">Club 🐐: <span className="font-medium text-[#0077b6] cursor-pointer hover:underline" onClick={()=>setView({type:'athlete',athlete:mvp})}>{mvp.name}</span></p>}</div><div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="py-1.5 px-1 w-10 text-center"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#0077b6] font-semibold':'text-gray-500'}`} data-tip={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{clubAthletes.map((a,i)=><tr key={a.name} className="border-b border-gray-50 hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-4"><div className="flex items-center gap-2"><span className="text-gray-400 text-sm w-6 text-right">{i+1}</span><span className="text-sm text-gray-900">{a.name}</span>{a.firstYear&&<span className="hidden md:inline text-xs text-gray-400 ml-1">{a.firstYear}-{a.lastSeason===currentSeason?'present':a.lastYear}</span>}</div></td>{cols.map(c=><td key={c.f} className={`py-1.5 px-1 w-10 text-center text-sm tabular-nums ${sort===c.f?'font-semibold text-[#0077b6]':'text-gray-600'} ${a[c.f]===0?'text-gray-300':''}`}>{a[c.f]||'-'}</td>)}</tr>)}</tbody></table></div></div>;
 };
 
 const SeasonsView=({setView,seasonsData,races,mitchellCupWinners,division})=>{
