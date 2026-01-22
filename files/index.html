@@ -75,6 +75,10 @@ const DIVISIONS={
 // CMS Content - Google Sheet published as CSV
 const CMS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRPBDTtNa5mZMaRpVkHIGF26iXZBr1AU6XQpTV3JX8M6MawD8jXlRZbrQlvOqxKjqahHEpamMpYgJBh/pub?gid=389864213&single=true&output=csv';
 
+// Aliases - Google Sheet tab for name aliases
+// Format: Canonical, Alias1, Alias2, Alias3, etc.
+const ALIASES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRPBDTtNa5mZMaRpVkHIGF26iXZBr1AU6XQpTV3JX8M6MawD8jXlRZbrQlvOqxKjqahHEpamMpYgJBh/pub?gid=1248367953&single=true&output=csv';
+
 // Parse CMS content with simple markdown-like syntax
 // *bold* -> <strong>bold</strong>
 // [text](url) -> <a href="url">text</a>
@@ -206,6 +210,37 @@ const parseCmsContent=(csvText)=>{
   }
   
   return content;
+};
+
+// Parse aliases CSV: from_name,to_name
+const parseAliases=(csvText)=>{
+  const lines=csvText.split('\n');
+  const aliases={};
+  
+  // Skip header row
+  // Format: Canonical, Alias1, Alias2, Alias3, ...
+  for(let i=1;i<lines.length;i++){
+    const line=lines[i].trim();
+    if(!line)continue;
+    
+    // Parse CSV properly (handle potential quoted fields)
+    const parts=line.split(',').map(p=>p.trim().replace(/^"|"$/g,''));
+    if(parts.length<2)continue;
+    
+    const canonical=parts[0];
+    if(!canonical)continue;
+    
+    // All subsequent columns are aliases
+    for(let j=1;j<parts.length;j++){
+      const alias=parts[j];
+      if(alias){
+        // Store lowercase key for matching
+        aliases[alias.toLowerCase()]=canonical;
+      }
+    }
+  }
+  
+  return aliases;
 };
 
 // Helper to get CMS content for current division
@@ -3156,7 +3191,7 @@ QUESTION: ${query}`
 // our partial individual results might suggest. This is enforced in the standings
 // calculation logic which prioritizes seasonsData.standings for pre-modern era seasons.
 //
-const normalizeData=(data,division='men')=>{
+const normalizeData=(data,division='men',liveAliases={})=>{
   const divConfig=DIVISIONS[division];
   
   // Venue name mappings
@@ -3262,6 +3297,13 @@ const normalizeData=(data,division='men')=>{
       aliases.forEach(alias=>{
         nameAliases[normalizeNameForCompare(alias)]=canonical;
       });
+    });
+  }
+  
+  // Merge live aliases from Google Sheet (these take precedence)
+  if(liveAliases){
+    Object.entries(liveAliases).forEach(([alias, canonical])=>{
+      nameAliases[alias.toLowerCase()]=canonical;
     });
   }
   
@@ -3740,6 +3782,7 @@ function App(){
   const[menData,setMenData]=useState(null);
   const[womenData,setWomenData]=useState(null);
   const[cmsContent,setCmsContent]=useState({});
+  const[liveAliases,setLiveAliases]=useState({});
   const[loading,setLoading]=useState(true);
   const[error,setError]=useState(null);
   
@@ -3767,8 +3810,17 @@ function App(){
   
   // Load men's data on mount
   useEffect(()=>{
-    fetch('data.json').then(r=>r.json()).then(j=>{
-      setMenData(normalizeData(j,'men'));
+    // Load aliases first (if configured), then data
+    const loadAliases = ALIASES_URL 
+      ? fetch(ALIASES_URL).then(r=>r.text()).then(csv=>parseAliases(csv)).catch(()=>({}))
+      : Promise.resolve({});
+    
+    Promise.all([
+      fetch('data.json').then(r=>r.json()),
+      loadAliases
+    ]).then(([j, aliases])=>{
+      setLiveAliases(aliases);
+      setMenData(normalizeData(j,'men',aliases));
       setLoading(false);
     }).catch(e=>{setError(e.message);setLoading(false);});
     
@@ -3786,11 +3838,11 @@ function App(){
     if((division==='women'||view.type==='chartroom')&&!womenData){
       setLoading(true);
       fetch('data-women.json').then(r=>r.json()).then(j=>{
-        setWomenData(normalizeData(j,'women'));
+        setWomenData(normalizeData(j,'women',liveAliases));
         setLoading(false);
       }).catch(e=>{setError(e.message);setLoading(false);});
     }
-  },[division,womenData,view.type]);
+  },[division,womenData,view.type,liveAliases]);
   
   // Parse URL once data is loaded (needed for athlete name resolution)
   useEffect(()=>{
