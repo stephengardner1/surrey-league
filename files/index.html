@@ -2713,7 +2713,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   return<div className="max-w-5xl mx-auto px-4 py-8">
     {seasonData?<div className="mb-8">
       <div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-8 items-start">
         <div className="overflow-hidden"><StandingsTable/></div>
         <div><FixturesTable/><IndividualsTable/>{division==='women'&&<SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason}/>}</div>
       </div>
