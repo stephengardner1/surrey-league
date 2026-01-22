@@ -3756,20 +3756,63 @@ const normalizeData=(data,division='men',liveAliases={})=>{
   };
   data.achievements=computeAchievements();
   
-  // Dynamically compute club MVPs (GOATs) from athlete data
+  // Dynamically compute club MVPs (GOATs) from race data using value score
   const computeClubMvps=()=>{
+    const TEAM_SIZE_A=10;
     const clubAthletes={};
-    data.athletes.forEach(a=>{
-      const clubs=a.clubs||[a.club];
-      clubs.forEach(club=>{
-        if(!club)return;
-        if(!clubAthletes[club])clubAthletes[club]=[];
-        clubAthletes[club].push({name:a.name,aScores:a.aScores||0,races:a.races||0});
+    
+    // Go through all races to compute value scores per club
+    data.races.forEach(race=>{
+      if(!race.results?.length){
+        // Handle races without full results (only winner info)
+        if(race.winners){
+          race.winners.forEach(w=>{
+            if(!w.club)return;
+            const key=normalizeNameForCompare(w.name);
+            if(!clubAthletes[w.club])clubAthletes[w.club]={};
+            if(!clubAthletes[w.club][key])clubAthletes[w.club][key]={name:w.name,value:0,aScores:0,races:0};
+            clubAthletes[w.club][key].value+=TEAM_SIZE_A;
+            clubAthletes[w.club][key].aScores++;
+            clubAthletes[w.club][key].races++;
+          });
+        }else if(race.winner&&race.winnerClub){
+          const key=normalizeNameForCompare(race.winner);
+          if(!clubAthletes[race.winnerClub])clubAthletes[race.winnerClub]={};
+          if(!clubAthletes[race.winnerClub][key])clubAthletes[race.winnerClub][key]={name:race.winner,value:0,aScores:0,races:0};
+          clubAthletes[race.winnerClub][key].value+=TEAM_SIZE_A;
+          clubAthletes[race.winnerClub][key].aScores++;
+          clubAthletes[race.winnerClub][key].races++;
+        }
+        return;
+      }
+      
+      // Group results by club to determine A-team positions
+      const clubResults={};
+      race.results.forEach(r=>{
+        if(!r.club||r.ns)return;
+        if(!clubResults[r.club])clubResults[r.club]=[];
+        clubResults[r.club].push(r);
+      });
+      
+      // Assign value to each athlete based on their position within their club
+      Object.entries(clubResults).forEach(([club,results])=>{
+        if(!clubAthletes[club])clubAthletes[club]={};
+        results.forEach((r,posInClub)=>{
+          const key=normalizeNameForCompare(r.name);
+          if(!clubAthletes[club][key])clubAthletes[club][key]={name:r.name,value:0,aScores:0,races:0};
+          clubAthletes[club][key].races++;
+          if(posInClub<TEAM_SIZE_A){
+            clubAthletes[club][key].aScores++;
+            clubAthletes[club][key].value+=(TEAM_SIZE_A-posInClub); // A1=10, A2=9, etc.
+          }
+        });
       });
     });
+    
+    // Convert to sorted arrays per club
     const mvps={};
     Object.entries(clubAthletes).forEach(([club,athletes])=>{
-      const sorted=athletes.sort((a,b)=>b.aScores-a.aScores||b.races-a.races);
+      const sorted=Object.values(athletes).sort((a,b)=>b.value-a.value||b.aScores-a.aScores||b.races-a.races);
       mvps[club]=sorted.slice(0,3).map((a,i)=>({...a,mvpRank:i+1}));
     });
     return mvps;
