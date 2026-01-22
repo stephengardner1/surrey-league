@@ -2584,8 +2584,31 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   </div>;
   
   const IndividualsTable=()=>{
-    // For historical seasons without race data, show Mitchell Cup winner if available
+    // For historical seasons, check if we have individualRankings with positions first
     if(isHistorical){
+      const indRankings=seasonData?.individualRankings;
+      // If we have individualRankings with positions array, show the full breakdown
+      if(indRankings?.length>0&&indRankings[0]?.positions){
+        const numRaces=indRankings[0].positions.length;
+        return<div className="mt-3">
+          <table className="w-full text-sm">
+            <thead><tr className="border-b border-gray-200">
+              <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title={division==='women'?"Individual champion":"The Mitchell Cup - Individual champion"}>{individualLabel}</th>
+              <th className={`text-right ${rightRowPy} px-1 text-xs text-gray-500 uppercase w-10`} title={division==='women'?"Sum of best 3 finishing positions":"Sum of finishing positions across all races"}>Tot</th>
+              {[1,2,3,4].slice(0,numRaces).map(n=><th key={n} className={`text-right ${rightRowPy} px-1 text-xs text-gray-300 uppercase w-8`}></th>)}
+            </tr></thead>
+            <tbody className="divide-y divide-gray-100">{indRankings.slice(0,5).map((a,i)=>
+              <tr key={a.name} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
+                <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{i+1}</td>
+                <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><ClubShield club={a.club} size={14}/><span className="text-gray-700">{a.name}</span></div></td>
+                <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
+                {a.positions.map((pos,pi)=><td key={pi} className={`${rightRowPy} px-1 text-right text-gray-400 text-xs tabular-nums w-8`}>{pos}</td>)}
+              </tr>
+            )}</tbody>
+          </table>
+        </div>;
+      }
+      // Fall back to mitchellCupWinners (just names, no positions)
       const mitchellWinners=data.mitchellCupWinners?.[season];
       if(!mitchellWinners||mitchellWinners.length===0)return null;
       const isJoint=mitchellWinners.length>1;
