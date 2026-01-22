@@ -973,13 +973,13 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     const stats={wins:0,top3:0,top5:0,top10:0,top20:0,top50:0,top100:0,races:raceHistory.length,aScores:0};
     let histWins=0;
     raceHistory.forEach(r=>{
-      if(r.pos===1){stats.wins++;if(!r.hasFullDate)histWins++;}
-      if(r.pos<=3)stats.top3++;
-      if(r.pos<=5)stats.top5++;
-      if(r.pos<=10)stats.top10++;
-      if(r.pos<=20)stats.top20++;
-      if(r.pos<=50)stats.top50++;
-      if(r.pos<=100)stats.top100++;
+      if(r.pos===1||r.pos==='=1'){stats.wins++;if(!r.hasFullDate)histWins++;}
+      if(r.pos<=3||r.pos==='=1')stats.top3++;
+      if(r.pos<=5||r.pos==='=1')stats.top5++;
+      if(r.pos<=10||r.pos==='=1')stats.top10++;
+      if(r.pos<=20||r.pos==='=1')stats.top20++;
+      if(r.pos<=50||r.pos==='=1')stats.top50++;
+      if(r.pos<=100||r.pos==='=1')stats.top100++;
       if(r.teamScore&&r.teamScore.startsWith('A'))stats.aScores++;
     });
     return{...stats,histWins,modernWins:stats.wins-histWins};
@@ -1900,13 +1900,13 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
         const s=ensureAthlete(r.name,clubCode);
         s.races++;
         updateYears(s,race);
-        if(r.pos===1)s.wins++;
-        if(r.pos<=3)s.top3++;
-        if(r.pos<=5)s.top5++;
-        if(r.pos<=10)s.top10++;
-        if(r.pos<=20)s.top20++;
-        if(r.pos<=50)s.top50++;
-        if(r.pos<=100)s.top100++;
+        if(r.pos===1||r.pos==='=1')s.wins++;
+        if(r.pos<=3||r.pos==='=1')s.top3++;
+        if(r.pos<=5||r.pos==='=1')s.top5++;
+        if(r.pos<=10||r.pos==='=1')s.top10++;
+        if(r.pos<=20||r.pos==='=1')s.top20++;
+        if(r.pos<=50||r.pos==='=1')s.top50++;
+        if(r.pos<=100||r.pos==='=1')s.top100++;
         // Count A-team scores - top N finishers for the club (excluding non-scorers)
         if(!r.ns){
           const clubRunnersInRace=race.results.filter(x=>x.club===clubCode&&!x.ns);
@@ -3484,13 +3484,13 @@ const normalizeData=(data,division='men',liveAliases={})=>{
       const s=athleteStats[key];
       s.races++;
       s.clubs.add(r.club);
-      if(r.pos===1)s.wins++;
-      if(r.pos<=3)s.top3++;
-      if(r.pos<=5)s.top5++;
-      if(r.pos<=10)s.top10++;
-      if(r.pos<=20)s.top20++;
-      if(r.pos<=50)s.top50++;
-      if(r.pos<=100)s.top100++;
+      if(r.pos===1||r.pos==='=1')s.wins++;
+      if(r.pos<=3||r.pos==='=1')s.top3++;
+      if(r.pos<=5||r.pos==='=1')s.top5++;
+      if(r.pos<=10||r.pos==='=1')s.top10++;
+      if(r.pos<=20||r.pos==='=1')s.top20++;
+      if(r.pos<=50||r.pos==='=1')s.top50++;
+      if(r.pos<=100||r.pos==='=1')s.top100++;
       // Count A-team scores based on pts field (set for A-team scorers)
       if(r.pts)s.aScores++;
     });
