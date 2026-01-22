@@ -599,32 +599,42 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   const nextRace=currentIdx<sortedRaces.length-1?sortedRaces[currentIdx+1]:null;
   
   // Count individual winner's race wins up to and including this race, and total career wins
-  const {winnerWinCount, winnerTotalWins}=useMemo(()=>{
-    if(!race.winner)return {winnerWinCount:0, winnerTotalWins:0};
-    const winnerName=normalizeNameForCompare(race.winner);
-    let count=0, total=0, foundCurrent=false;
-    for(const r of races){
-      if(r.winner&&normalizeNameForCompare(r.winner)===winnerName){
-        total++;
-        if(!foundCurrent){
-          count++;
-          if(r.season===race.season&&r.match===race.match)foundCurrent=true;
+  // For dead heats, we need to handle multiple winners
+  const winnersData=useMemo(()=>{
+    // Check if this is a dead heat with multiple winners
+    const winners = race.winners || (race.winner ? [{name: race.winner, club: race.winnerClub}] : []);
+    if(winners.length === 0) return [];
+    
+    return winners.map(w => {
+      const winnerName = normalizeNameForCompare(w.name);
+      let count = 0, total = 0, foundCurrent = false;
+      for(const r of races){
+        // Check both single winner and dead heat winners
+        const raceWinners = r.winners || (r.winner ? [{name: r.winner}] : []);
+        const isWinner = raceWinners.some(rw => normalizeNameForCompare(rw.name) === winnerName);
+        if(isWinner){
+          total++;
+          if(!foundCurrent){
+            count++;
+            if(r.season===race.season&&r.match===race.match)foundCurrent=true;
+          }
         }
       }
-    }
-    return {winnerWinCount:count, winnerTotalWins:total};
+      return {name: w.name, club: w.club, winCount: count, totalWins: total};
+    });
   },[race,races]);
   
   const getOrdinal=(n)=>{const s=['th','st','nd','rd'];const v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);};
   
-  // Generate the race win text with proper grammar
-  const raceWinText=useMemo(()=>{
-    if(!race.winner||winnerWinCount===0)return null;
-    const name=race.winner;
-    const possessive=name.endsWith('s')?`${name}'`:`${name}'s`;
-    if(winnerTotalWins===1)return <span><span className="font-medium text-gray-700">{possessive}</span> only win in Div 1</span>;
-    return <span><span className="font-medium text-gray-700">{possessive}</span> {getOrdinal(winnerWinCount)} of {winnerTotalWins} wins in Div 1</span>;
-  },[race.winner,winnerWinCount,winnerTotalWins]);
+  // Generate the race win text with proper grammar for each winner
+  const raceWinTexts=useMemo(()=>{
+    return winnersData.map(w => {
+      if(w.winCount===0) return null;
+      const possessive = w.name.endsWith('s') ? `${w.name}'` : `${w.name}'s`;
+      if(w.totalWins===1) return {club: w.club, text: <span><span className="font-medium text-gray-700">{possessive}</span> only win in Div 1</span>};
+      return {club: w.club, text: <span><span className="font-medium text-gray-700">{possessive}</span> {getOrdinal(w.winCount)} of {w.totalWins} wins in Div 1</span>};
+    }).filter(Boolean);
+  },[winnersData]);
   
   return<div className="max-w-6xl mx-auto px-4 py-8">
     <div className="flex items-center justify-between mb-4">
@@ -634,7 +644,7 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
         {nextRace?<button onClick={()=>setView({type:'race',race:nextRace})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><span className="hidden sm:inline">{nextRace.venue}</span><span className="sm:hidden">Next</span><ChevronRight className="w-4 h-4"/></button>:<span className="w-16"/>}
       </div>
     </div>
-    <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&race.date.includes('-')&&race.date.length>=10?formatDate(race.date):(()=>{const months=['Oct','Nov','Dec','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4"><div><div className="flex items-center gap-2"><h1 className="text-2xl font-bold text-gray-900">{race.venue}</h1><div className="relative flex items-center gap-2" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-0 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}{resultsStatus!=='complete'&&<span className="text-xs text-gray-400 hover:text-[#0077b6] cursor-pointer" onClick={()=>setView({type:'submit'})}>Submit more results</span>}</div></div>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span> <span className="text-gray-500">won the match</span></span></p>}{raceWinText&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={race.winnerClub} size={16}/><span className="text-gray-500">{raceWinText}</span></p>}</div>{race.weather&&<div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 lg:min-w-[180px]"><span className="text-3xl">{race.weather.icon}</span><div className="flex flex-col"><span className="text-lg font-semibold text-gray-900">{race.weather.temp}°C</span><span className="text-sm text-gray-600">{race.weather.description}</span><span className="text-xs text-gray-500">{race.weather.windSpeed} km/h wind</span></div></div>}</div></div>
+    <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&race.date.includes('-')&&race.date.length>=10?formatDate(race.date):(()=>{const months=['Oct','Nov','Dec','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4"><div><div className="flex items-center gap-2"><h1 className="text-2xl font-bold text-gray-900">{race.venue}</h1><div className="relative flex items-center gap-2" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-0 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}{resultsStatus!=='complete'&&<span className="text-xs text-gray-400 hover:text-[#0077b6] cursor-pointer" onClick={()=>setView({type:'submit'})}>Submit more results</span>}</div></div>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span> <span className="text-gray-500">won the match</span></span></p>}{raceWinTexts.map((wt,i)=><p key={i} className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={wt.club} size={16}/><span className="text-gray-500">{wt.text}</span></p>)}</div>{race.weather&&<div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 lg:min-w-[180px]"><span className="text-3xl">{race.weather.icon}</span><div className="flex flex-col"><span className="text-lg font-semibold text-gray-900">{race.weather.temp}°C</span><span className="text-sm text-gray-600">{race.weather.description}</span><span className="text-xs text-gray-500">{race.weather.windSpeed} km/h wind</span></div></div>}</div></div>
     
     {/* Mobile: tabs */}
     <div className="lg:hidden">
@@ -2501,6 +2511,12 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     const match3=races.find(r=>r.season==='1964/65'&&r.match===3);
     return<div className="mt-4">
       <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>The number of teams rose to seven as <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'CRO'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="CRO" size={12}/></span>Croydon Harriers</span> joined the Surrey League. <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'WAL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span>Walton</span> had high hopes for a league hat-trick but crashed badly in Race 2 when they were unable to field a complete team. <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'BEL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span>Belgrave</span> prevailed in the opening two runs before they also turned out a weak {match3?<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:match3})}>Match 3</span>:'Match 3'} team, which was further hamstrung when some missed the start. This allowed <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'H/W'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="H/W" size={12}/></span>Hercules</span> to take the advantage, overturning a huge points deficit. Even a record low score from Belgrave in the final race was not enough to stop their local rivals from hanging on for the win. That last race saw Tokyo Olympic 5,000m runner <span className="inline-block align-middle mr-0.5"><ClubShield club="MIT" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bengt Nadje',club:'MIT'}})}>Bengt Nadje</span> of Sweden become the league's first overseas race victor.</p>
+    </div>;
+  }
+  // Special historian note for 1972/73 - AFD's first title
+  if(season==='1972/73'){
+    return<div className="mt-4">
+      <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>It had been hoped that the arrival of <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'AFD'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="AFD" size={12}/></span>Aldershot Farnham & District</span> would inject some excitement into a competition that had become a bit of a procession in the previous seven years. They certainly did! Despite <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'AFD'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="AFD" size={12}/></span>AFD</span> winning two of the first three fixtures, it was the Bels going into the final race with a slim lead of 18 points; but over a Coulsdon course patchy with snow, the west Surrey men were not to be denied and took their first league title. But it was a fairly close thing, just 12 points separating them from the Bels in second spot. The individual winner was <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bob Gevers',club:'SLH'}})}><span className="inline-block align-middle mr-0.5"><ClubShield club="SLH" size={12}/></span>Bob Gevers</span> (<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'SLH'})}>South London Harriers</span>).</p>
     </div>;
   }
   // If we have stored punditry for historical seasons, show it
