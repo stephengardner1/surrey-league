@@ -327,9 +327,9 @@ const ClubShield=ClubVest;
 const LoadingVests=()=>{
   const[idx,setIdx]=useState(0);
   const clubs=['MIT','BEL','WAL','HER','HHH','SLH'];
-  useEffect(()=>{const t=setInterval(()=>setIdx(i=>(i+1)%clubs.length),400);return()=>clearInterval(t);},[]);
+  useEffect(()=>{const t=setInterval(()=>setIdx(i=>(i+1)%clubs.length),250);return()=>clearInterval(t);},[]);
   return<div className="flex flex-col items-center gap-4">
-    <div className="relative w-12 h-12">{clubs.map((c,i)=><div key={c} className="absolute inset-0 flex items-center justify-center transition-opacity duration-200" style={{opacity:i===idx?1:0}}><ClubVest club={c} size={48}/></div>)}</div>
+    <div className="relative w-8 h-8">{clubs.map((c,i)=><div key={c} className="absolute inset-0 flex items-center justify-center transition-opacity duration-150" style={{opacity:i===idx?1:0}}><ClubVest club={c} size={32}/></div>)}</div>
   </div>;
 };
 
