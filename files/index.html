@@ -2643,6 +2643,17 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   
   const StandingsTable=()=>{
     if(seasonData?.knownStandings)return<KnownStandingsTable knownStandings={seasonData.knownStandings} setView={setView}/>;
+    // Handle seasons with missing full standings but known participants
+    if(seasonData?.missingStandings&&standings.length===1){
+      const teamsInDiv1=seasonData.teamsInDiv1||[];
+      const otherTeams=teamsInDiv1.filter(c=>c!==standings[0].club);
+      return<div>
+        <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th></tr></thead><tbody>
+          <tr className="border-b border-gray-100"><td className={`${leftRowPy} pr-1 w-6`}><span className="font-bold">🏆</span></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={standings[0].club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#0077b6]`} onClick={()=>setView({type:'club',club:standings[0].club})}><ClubName club={standings[0].club} className="font-semibold"/></td></tr>
+        </tbody></table>
+        <p className="text-xs text-gray-500 mt-3 italic">Full standings missing from archive. Also present: {otherTeams.map((c,i)=><span key={c}>{i>0&&', '}<span className="cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:c})}>{c}</span></span>)}.</p>
+      </div>;
+    }
     // Determine which match columns to show
     const matchNums=matches.length>0?matches.map(m=>m.num):[1,2,3,4].filter(n=>standings[0]?.[`m${n}`]!=null);
     return<div>
