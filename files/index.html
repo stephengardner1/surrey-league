@@ -1383,12 +1383,13 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
     return{men,women};
   },[menData,womenData]);
   
-  return<div className={isWomen?"max-w-5xl mx-auto px-4 py-8":"px-4 py-8"}>
-    <button onClick={()=>setView({type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button>
-    <h1 className="text-2xl font-bold text-gray-900 mb-1" style={{fontFamily:"'Fraunces',serif"}}>📊 Chart room</h1>
-    <p className="text-sm text-gray-500 mb-8">League trends and statistics visualised</p>
+  return<div className="px-4 py-8">
+    <div className="max-w-5xl mx-auto">
+      <button onClick={()=>setView({type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button>
+      <h1 className="text-2xl font-bold text-gray-900 mb-1" style={{fontFamily:"'Fraunces',serif"}}>📊 Chart room</h1>
+      <p className="text-sm text-gray-500 mb-8">League trends and statistics visualised</p>
     
-    <div className={isWomen?"space-y-12":"space-y-12 max-w-5xl mx-auto"}>
+    <div className="space-y-12">
       {/* Men's recent chart (smaller, at top) */}
       {!isWomen&&<div>
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Club positions by season</h2>
@@ -1695,7 +1696,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
           </div>
         </div>
       </div>
-    </div>{/* Close max-w-5xl wrapper for men, space-y-12 for women */}
+    </div>{/* Close max-w-5xl wrapper */}
       
       {/* Men's Full History Chart - at bottom, full width */}
       {!isWomen&&<div className="mt-12">
