@@ -18,7 +18,7 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.loading{display:flex;align-items:center;justify-content:center;height:100vh}[data-tip]{position:relative}[data-tip]:hover::after{content:attr(data-tip);position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:4px 8px;border-radius:4px;font-size:11px;white-space:nowrap;z-index:50;margin-top:4px;font-weight:normal;text-transform:none}</style>
+  <style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.loading{display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px}[data-tip]{position:relative}[data-tip]:hover::after{content:attr(data-tip);position:absolute;top:100%;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:4px 8px;border-radius:4px;font-size:11px;white-space:nowrap;z-index:50;margin-top:4px;font-weight:normal;text-transform:none}@keyframes vest-cycle{0%,16%{opacity:1}17%,100%{opacity:0}}</style>
 </head>
 <body>
 <div id="root"><div class="loading">Loading...</div></div>
@@ -323,6 +323,16 @@ const ClubVest=({club,size=20})=>{
 };
 const ClubShield=ClubVest;
 
+// Loading animation with founding club vests
+const LoadingVests=()=>{
+  const[idx,setIdx]=useState(0);
+  const clubs=['MIT','BEL','WAL','HER','HHH','SLH'];
+  useEffect(()=>{const t=setInterval(()=>setIdx(i=>(i+1)%clubs.length),400);return()=>clearInterval(t);},[]);
+  return<div className="flex flex-col items-center gap-4">
+    <div className="relative w-12 h-12">{clubs.map((c,i)=><div key={c} className="absolute inset-0 flex items-center justify-center transition-opacity duration-200" style={{opacity:i===idx?1:0}}><ClubVest club={c} size={48}/></div>)}</div>
+  </div>;
+};
+
 // Generate club vest SVG as string for favicon
 const getClubVestSvg=(club)=>{
   const p="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
@@ -609,7 +619,7 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   
   // Check if we have full results with pts field - if so, calculate team scores dynamically
   // Only fall back to knownTeamScores/teamScores if we don't have calculable results
-  const hasCalculableResults = race.results?.length > 100 && race.results.some(r => r.pts != null);
+  const hasCalculableResults = race.results?.length > 100 && race.results.some(r => r.pts != null || r.s != null);
   // Prefer seasonsData match scores when available (more accurate for historical data)
   const matchKey = `m${race.match}`;
   const seasonStandingsScores = seasonData?.standings?.filter(s => s[matchKey] != null).map(s => ({club: s.club, pts: s[matchKey]})).sort((a,b) => a.pts - b.pts).map((s,i) => ({...s, pos: i+1}));
@@ -3242,6 +3252,26 @@ QUESTION: ${query}`
 const normalizeData=(data,division='men',liveAliases={})=>{
   const divConfig=DIVISIONS[division];
   
+  // Expand minified result fields (p->pos, n->name, c->club, t->time, s->pts, b->b_pts, x->ns)
+  data.races.forEach(race=>{
+    if(race.results){
+      race.results=race.results.map(r=>{
+        if(r.p!==undefined||r.n!==undefined){
+          return{
+            pos:r.p??r.pos,
+            name:r.n??r.name,
+            club:r.c??r.club,
+            time:r.t??r.time,
+            ...(r.s!=null||r.pts!=null?{pts:r.s??r.pts}:{}),
+            ...(r.b!=null||r.b_pts!=null?{b_pts:r.b??r.b_pts}:{}),
+            ...(r.x!=null||r.ns!=null?{ns:r.x??r.ns}:{})
+          };
+        }
+        return r;
+      });
+    }
+  });
+  
   // Venue name mappings
   const venueMap={
     'Croyden':'Croydon',
@@ -3991,9 +4021,9 @@ function App(){
     return()=>window.removeEventListener('hashchange',onHash);
   },[data,division]);
   
-  if(loading)return<div className="loading text-gray-500">Loading...</div>;
+  if(loading)return<div className="loading"><LoadingVests/></div>;
   if(error)return<div className="loading text-red-500">Error: {error}</div>;
-  if(!data)return<div className="loading text-gray-500">No data</div>;
+  if(!data)return<div className="loading"><LoadingVests/></div>;
   
   return<div className="min-h-screen bg-white flex flex-col">
     <Nav setView={setView} division={division} setDivision={setDivision}/>
