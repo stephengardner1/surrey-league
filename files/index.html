@@ -39,9 +39,9 @@ const DIVISIONS={
     foundedYear:1962,
     teamSize:{a:10,b:10},
     historicTeamSize:(season)=>{
-      // Men's league used 8-man A teams until 2013/14
-      const year=parseInt(season?.split('/')[0]||'2020');
-      return year<2014?{a:8,b:8}:{a:10,b:10};
+      // Men's league has used 10-man A teams throughout recorded history
+      // (confirmed from historical documents back to at least 2000/01)
+      return {a:10,b:10};
     },
     matchesPerSeason:4,
     relegationSpots:2,
