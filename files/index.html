@@ -1383,121 +1383,61 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
     return{men,women};
   },[menData,womenData]);
   
-  return<div className={isWomen?"max-w-5xl mx-auto px-4 py-8":"px-4 py-8"}>
+  return<div className="max-w-5xl mx-auto px-4 py-8">
     <button onClick={()=>setView({type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button>
     <h1 className="text-2xl font-bold text-gray-900 mb-1" style={{fontFamily:"'Fraunces',serif"}}>📊 Chart room</h1>
     <p className="text-sm text-gray-500 mb-8">League trends and statistics visualised</p>
     
     <div className="space-y-12">
-      {/* Men's Full History Chart */}
+      {/* Men's recent chart (smaller, at top) */}
       {!isWomen&&<div>
-        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Club positions by season (1962–present)</h2>
+        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Club positions by season</h2>
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
-          {(()=>{
-            const fullW=1800,fullH=320,fPadL=35,fPadR=20,fPadT=25,fPadB=35;
-            const fPlotW=fullW-fPadL-fPadR,fPlotH=fullH-fPadT-fPadB;
-            const fXStep=fPlotW/(fullMenSeasons.length-1);
-            const fYScale=(pos)=>fPadT+(pos-1)*(fPlotH/11);
-            // Build league size line path
-            const leagueSizePath=fullMenSeasons.map((s,i)=>{
-              const size=leagueSizeBySeasonMap[s]||10;
-              const x=fPadL+i*fXStep;
-              const y=fYScale(size+0.5); // Position just below the last team slot
-              return i===0?`M${x},${y}`:`L${x},${y}`;
-            }).join(' ');
-            return<svg viewBox={`0 0 ${fullW} ${fullH}`} className="w-full" style={{minWidth:'900px'}}>
-              {/* Grid lines for positions 1-10 */}
-              {[1,2,3,4,5,6,7,8,9,10].map(pos=><g key={pos}>
-                <line x1={fPadL} y1={fYScale(pos)} x2={fullW-fPadR} y2={fYScale(pos)} stroke="#e5e7eb" strokeWidth="1"/>
-                <text x={fPadL-8} y={fYScale(pos)+4} textAnchor="end" fontSize="10" fill="#9ca3af">{pos}</text>
-              </g>)}
-              {/* Relegation zone indicator (Div 2) */}
-              <line x1={fPadL} y1={fYScale(11)} x2={fullW-fPadR} y2={fYScale(11)} stroke="#e5e7eb" strokeWidth="1"/>
-              <text x={fPadL-8} y={fYScale(11)+4} textAnchor="end" fontSize="9" fill="#d1d5db">Div 2</text>
-              {/* League size line - thick dotted showing where relegation zone starts */}
-              <path d={leagueSizePath} fill="none" stroke="#9ca3af" strokeWidth="2.5" strokeDasharray="6,4" opacity="0.6"/>
-              {/* Season labels - show every 5th */}
-              {fullMenSeasonLabels.map((s,i)=>{
-                const showLabel=i===0||i===fullMenSeasonLabels.length-1||(i%5===0);
-                return showLabel?<text key={s} x={fPadL+i*fXStep} y={fullH-8} textAnchor="middle" fontSize="8" fill="#6b7280">{s}</text>:null;
-              })}
-              {/* Decade markers */}
-              {fullMenSeasons.map((s,i)=>{
-                const year=parseInt(s.slice(0,4));
-                if(year%10===0&&s.endsWith('/01')){
-                  return<line key={s} x1={fPadL+i*fXStep} y1={fPadT} x2={fPadL+i*fXStep} y2={fullH-fPadB} stroke="#d1d5db" strokeWidth="1" strokeDasharray="2,4"/>;
-                }
-                return null;
-              })}
-              {/* Club lines */}
-              {fullHistoryClubs.map(({code,color})=>{
-                const positions=getPositions(code,fullMenSeasons);
-                const isPrimary=primaryClubs.includes(code);
-                const isSelected=selectedClub===code;
-                
-                // Find first and last season in Div 1 for this club
-                let firstDiv1Idx=-1;
-                let lastDiv1Idx=-1;
-                positions.forEach((pos,i)=>{
-                  const leagueSize=leagueSizeBySeasonMap[fullMenSeasons[i]]||10;
-                  if(pos<=leagueSize){
-                    if(firstDiv1Idx===-1)firstDiv1Idx=i;
-                    lastDiv1Idx=i;
-                  }
-                });
-                
-                // Skip if never in Div 1
-                if(firstDiv1Idx===-1)return null;
-                
-                // Build points - position on relegation line (league size) when in Div 2
-                const points=positions.map((pos,i)=>{
-                  const leagueSize=leagueSizeBySeasonMap[fullMenSeasons[i]]||10;
-                  const inDiv1=pos<=leagueSize;
-                  // If in Div 2, rest on the relegation line (leagueSize + 0.5)
-                  const displayPos=inDiv1?pos:leagueSize+0.5;
-                  return{x:fPadL+i*fXStep,y:fYScale(displayPos),pos,season:fullMenSeasons[i],inDiv1,displayPos};
-                });
-                
-                // Create continuous path from first Div 1 to last Div 1
-                let pathD='';
-                points.forEach((p,i)=>{
-                  if(i<firstDiv1Idx||i>lastDiv1Idx)return;
-                  if(i===firstDiv1Idx){
-                    pathD+=`M${p.x},${p.y}`;
-                  }else{
-                    pathD+=`L${p.x},${p.y}`;
-                  }
-                });
-                
-                const baseOpacity=isPrimary?0.85:0.12;
-                const opacity=selectedClub?(isSelected?1:0.08):baseOpacity;
-                return<g key={code} onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)} style={{cursor:'pointer'}}>
-                  <path d={pathD} fill="none" stroke={color} strokeWidth={isSelected?2:1.2} strokeLinecap="round" strokeLinejoin="round" opacity={opacity}/>
-                  {points.slice(firstDiv1Idx,lastDiv1Idx+1).filter(p=>p.inDiv1).map((p,i)=><circle key={i} cx={p.x} cy={p.y} r={isSelected?3:1.5} fill={color} opacity={opacity}/>)}
-                  {isSelected&&(()=>{
-                    const lastPoint=points[lastDiv1Idx];
-                    return lastPoint?<text x={lastPoint.x+8} y={lastPoint.y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>:null;
-                  })()}
-                </g>;
-              })}
-            </svg>;
-          })()}
-          {/* Legend - ordered by most seasons in Div 1 */}
-          <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-3">
-            {fullHistoryClubs.map(({code,color,div1Seasons})=>{
+          <svg viewBox={`0 0 ${chartW} ${chartH}`} className="w-full" style={{minWidth:'500px'}}>
+            {[1,2,3,4,5,6,7,8,9,10].map(pos=><g key={pos}>
+              <line x1={padL} y1={yScale(pos)} x2={chartW-padR} y2={yScale(pos)} stroke="#e5e7eb" strokeWidth="1"/>
+              <text x={padL-8} y={yScale(pos)+4} textAnchor="end" fontSize="10" fill="#9ca3af">{pos}</text>
+            </g>)}
+            <line x1={padL} y1={yScale(11)} x2={chartW-padR} y2={yScale(11)} stroke="#e5e7eb" strokeWidth="1" strokeDasharray="4,2"/>
+            <text x={padL-8} y={yScale(11)+4} textAnchor="end" fontSize="9" fill="#d1d5db">Div 2</text>
+            {recentSeasonLabels.map((s,i)=><text key={s} x={padL+i*(plotW/(recentSeasons.length-1))} y={chartH-8} textAnchor="middle" fontSize="9" fill="#6b7280">{s}</text>)}
+            {activeClubs.map(({code,color})=>{
+              const positions=getPositions(code,recentSeasons);
               const isPrimary=primaryClubs.includes(code);
               const isSelected=selectedClub===code;
-              return<div key={code} className="flex items-center gap-1 cursor-pointer" onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)} title={`${div1Seasons} seasons in Div 1`}>
+              const rxStep=plotW/(recentSeasons.length-1);
+              const points=positions.map((pos,i)=>{
+                const season=recentSeasons[i];
+                const isChampion=data.seasonsData[season]?.standings?.[0]?.club===code;
+                return{x:padL+i*rxStep,y:yScale(Math.min(pos,11)),pos,season,isChampion};
+              });
+              const pathD=points.map((p,i)=>i===0?`M${p.x},${p.y}`:`L${p.x},${p.y}`).join(' ');
+              const baseOpacity=isPrimary?0.8:0.15;
+              const opacity=selectedClub?(isSelected?1:0.1):baseOpacity;
+              return<g key={code} onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)} style={{cursor:'pointer'}}>
+                <path d={pathD} fill="none" stroke={color} strokeWidth={isSelected?1.5:1} strokeLinecap="round" strokeLinejoin="round" opacity={opacity}/>
+                {points.filter(p=>p.pos<=10).map((p,i)=>{
+                  const isGold=isSelected&&p.isChampion;
+                  return<circle key={i} cx={p.x} cy={p.y} r={isSelected?3:2} fill={isGold?'#eab308':color} stroke={isGold?'#ca8a04':undefined} strokeWidth={isGold?1:0} opacity={opacity}/>;
+                })}
+                {isSelected&&<text x={points[points.length-1].x+8} y={points[points.length-1].y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
+              </g>;
+            })}
+          </svg>
+          <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-3">
+            {activeClubs.map(({code,color})=>{
+              const isPrimary=primaryClubs.includes(code);
+              const isSelected=selectedClub===code;
+              return<div key={code} className="flex items-center gap-1 cursor-pointer" onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)}>
                 <div className="w-2 h-2 rounded-full" style={{backgroundColor:color,opacity:isPrimary||isSelected?1:0.3}}/>
                 <span className={`text-[10px] ${isPrimary||isSelected?'text-gray-600':'text-gray-400'}`}>{code}</span>
               </div>;
             })}
           </div>
-          <p className="text-xs text-gray-400 mt-2 text-center">Dotted line shows league size (relegation zone). Click a club to highlight. Ordered by Div 1 seasons.</p>
         </div>
       </div>}
       
-      {/* Women's simpler chart */}
+      {/* Women's chart */}
       {isWomen&&<div>
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Club positions by season</h2>
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
@@ -1537,9 +1477,6 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
         </div>
       </div>}
       
-      {/* Remaining charts - constrain width for men's full-width layout */}
-      <div className={isWomen?"":"max-w-5xl mx-auto"}>
-      <div className="space-y-12">
       <div>
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Match attendance since 2014</h2>
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
@@ -1572,14 +1509,14 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
       <div>
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Average team size per season</h2>
         <div className="bg-gray-50 rounded-lg p-3">
-          <svg viewBox="0 0 600 180" className="w-full">
+          <svg viewBox="0 0 600 220" className="w-full">
             {avgTeamSize.map((d,i)=>{
               const isHovered=hoveredSeason===i||tappedSeason===i;
-              const barH=d.value*6;
+              const barH=d.value*5; // Scale factor reduced to fit taller bars
               return<g key={i} style={{cursor:'pointer'}} onMouseEnter={()=>setHoveredSeason(i)} onMouseLeave={()=>setHoveredSeason(null)} onClick={()=>setTappedSeason(tappedSeason===i?null:i)}>
-                <rect x={35+i*50} y={160-barH} width="40" height={barH} fill={isHovered?'#005f8a':'#0077b6'} rx="2"/>
-                <text x={35+i*50+20} y="175" textAnchor="middle" fontSize="9" fill="#6b7280">{d.label}</text>
-                {isHovered&&d.value>0&&<text x={35+i*50+20} y={barH>100?170-barH:155-barH} textAnchor="middle" fontSize="10" fill={barH>100?'#fff':'#1f2937'} fontWeight="600">{d.value}</text>}
+                <rect x={35+i*50} y={195-barH} width="40" height={barH} fill={isHovered?'#005f8a':'#0077b6'} rx="2"/>
+                <text x={35+i*50+20} y="210" textAnchor="middle" fontSize="9" fill="#6b7280">{d.label}</text>
+                {isHovered&&d.value>0&&<text x={35+i*50+20} y={barH>80?205-barH:190-barH} textAnchor="middle" fontSize="10" fill={barH>80?'#fff':'#1f2937'} fontWeight="600">{d.value}</text>}
               </g>;
             })}
           </svg>
@@ -1758,8 +1695,122 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
           </div>
         </div>
       </div>
-    </div>
-    </div>
+      
+      {/* Men's Full History Chart - at bottom, full width */}
+      {!isWomen&&<div className="-mx-4 px-4 md:-mx-8 md:px-8 lg:-mx-16 lg:px-16">
+        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Complete Division 1 history (1962–present)</h2>
+        <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
+          {(()=>{
+            const fullW=1800,fullH=320,fPadL=35,fPadR=20,fPadT=25,fPadB=35;
+            const fPlotW=fullW-fPadL-fPadR,fPlotH=fullH-fPadT-fPadB;
+            const fXStep=fPlotW/(fullMenSeasons.length-1);
+            const fYScale=(pos)=>fPadT+(pos-1)*(fPlotH/11);
+            // Build league size line path
+            const leagueSizePath=fullMenSeasons.map((s,i)=>{
+              const size=leagueSizeBySeasonMap[s]||10;
+              const x=fPadL+i*fXStep;
+              const y=fYScale(size+0.5);
+              return i===0?`M${x},${y}`:`L${x},${y}`;
+            }).join(' ');
+            return<svg viewBox={`0 0 ${fullW} ${fullH}`} className="w-full h-[416px] md:h-auto" style={{minWidth:'900px'}}>
+              {/* Grid lines for positions 1-10 */}
+              {[1,2,3,4,5,6,7,8,9,10].map(pos=><g key={pos}>
+                <line x1={fPadL} y1={fYScale(pos)} x2={fullW-fPadR} y2={fYScale(pos)} stroke="#e5e7eb" strokeWidth="1"/>
+                <text x={fPadL-8} y={fYScale(pos)+4} textAnchor="end" fontSize="10" fill="#9ca3af">{pos}</text>
+              </g>)}
+              {/* Relegation zone indicator (Div 2) */}
+              <line x1={fPadL} y1={fYScale(11)} x2={fullW-fPadR} y2={fYScale(11)} stroke="#e5e7eb" strokeWidth="1"/>
+              <text x={fPadL-8} y={fYScale(11)+4} textAnchor="end" fontSize="9" fill="#d1d5db">Div 2</text>
+              {/* League size line - thick dotted showing league size each season */}
+              <path d={leagueSizePath} fill="none" stroke="#9ca3af" strokeWidth="2.5" strokeDasharray="6,4" opacity="0.6"/>
+              {/* Season labels - concluding year format 'YY, only show years ending in 5 */}
+              {fullMenSeasons.map((s,i)=>{
+                const concludingYear=s.slice(5,7); // e.g., "63" from "1962/63"
+                const endsIn5=concludingYear.endsWith('5');
+                if(!endsIn5)return null;
+                return<text key={s} x={fPadL+i*fXStep} y={fullH-8} textAnchor="middle" fontSize="10" fill="#6b7280">'{concludingYear}</text>;
+              })}
+              {/* Decade markers */}
+              {fullMenSeasons.map((s,i)=>{
+                const year=parseInt(s.slice(0,4));
+                if(year%10===0&&s.endsWith('/01')){
+                  return<line key={s} x1={fPadL+i*fXStep} y1={fPadT} x2={fPadL+i*fXStep} y2={fullH-fPadB} stroke="#d1d5db" strokeWidth="1" strokeDasharray="2,4"/>;
+                }
+                return null;
+              })}
+              {/* Club lines */}
+              {fullHistoryClubs.map(({code,color})=>{
+                const positions=getPositions(code,fullMenSeasons);
+                const isPrimary=primaryClubs.includes(code);
+                const isSelected=selectedClub===code;
+                
+                // Find first and last season in Div 1 for this club
+                let firstDiv1Idx=-1;
+                let lastDiv1Idx=-1;
+                positions.forEach((pos,i)=>{
+                  const leagueSize=leagueSizeBySeasonMap[fullMenSeasons[i]]||10;
+                  if(pos<=leagueSize){
+                    if(firstDiv1Idx===-1)firstDiv1Idx=i;
+                    lastDiv1Idx=i;
+                  }
+                });
+                
+                // Skip if never in Div 1
+                if(firstDiv1Idx===-1)return null;
+                
+                // Build points - position on relegation line (league size) when in Div 2
+                const points=positions.map((pos,i)=>{
+                  const leagueSize=leagueSizeBySeasonMap[fullMenSeasons[i]]||10;
+                  const inDiv1=pos<=leagueSize;
+                  const season=fullMenSeasons[i];
+                  // Check if this club won the title this season
+                  const isChampion=data.seasonsData[season]?.standings?.[0]?.club===code;
+                  // If in Div 2, rest on the relegation line (leagueSize + 0.5)
+                  const displayPos=inDiv1?pos:leagueSize+0.5;
+                  return{x:fPadL+i*fXStep,y:fYScale(displayPos),pos,season,inDiv1,displayPos,isChampion};
+                });
+                
+                // Create continuous path from first Div 1 to last Div 1
+                let pathD='';
+                points.forEach((p,i)=>{
+                  if(i<firstDiv1Idx||i>lastDiv1Idx)return;
+                  if(i===firstDiv1Idx){
+                    pathD+=`M${p.x},${p.y}`;
+                  }else{
+                    pathD+=`L${p.x},${p.y}`;
+                  }
+                });
+                
+                const baseOpacity=isPrimary?0.85:0.12;
+                const opacity=selectedClub?(isSelected?1:0.08):baseOpacity;
+                return<g key={code} onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)} style={{cursor:'pointer'}}>
+                  <path d={pathD} fill="none" stroke={color} strokeWidth={isSelected?2:1.2} strokeLinecap="round" strokeLinejoin="round" opacity={opacity}/>
+                  {points.slice(firstDiv1Idx,lastDiv1Idx+1).filter(p=>p.inDiv1).map((p,i)=>{
+                    const isGold=isSelected&&p.isChampion;
+                    return<circle key={i} cx={p.x} cy={p.y} r={isSelected?3:1.5} fill={isGold?'#eab308':color} stroke={isGold?'#ca8a04':undefined} strokeWidth={isGold?1:0} opacity={opacity}/>;
+                  })}
+                  {isSelected&&(()=>{
+                    const lastPoint=points[lastDiv1Idx];
+                    return lastPoint?<text x={lastPoint.x+8} y={lastPoint.y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>:null;
+                  })()}
+                </g>;
+              })}
+            </svg>;
+          })()}
+          {/* Legend - ordered by total seasons in Div 1 */}
+          <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-3">
+            {fullHistoryClubs.map(({code,color,div1Seasons})=>{
+              const isPrimary=primaryClubs.includes(code);
+              const isSelected=selectedClub===code;
+              return<div key={code} className="flex items-center gap-1 cursor-pointer" onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)} title={`${div1Seasons} seasons in Div 1`}>
+                <div className="w-2 h-2 rounded-full" style={{backgroundColor:color,opacity:isPrimary||isSelected?1:0.3}}/>
+                <span className={`text-[10px] ${isPrimary||isSelected?'text-gray-600':'text-gray-400'}`}>{code}</span>
+              </div>;
+            })}
+          </div>
+          <p className="text-xs text-gray-400 mt-2 text-center">Dotted line shows league size. Click a club to highlight. Ordered by total Div 1 seasons.</p>
+        </div>
+      </div>}
     </div>
   </div>;
 };
