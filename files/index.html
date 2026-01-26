@@ -707,7 +707,9 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
 
 const FixturesView=({setView,races,seasonsData})=>{
   const allFixtures=useMemo(()=>[...races].sort((a,b)=>{if(a.season!==b.season)return b.season.localeCompare(a.season);return a.match-b.match;}),[races]);let lastSeason=null;
-  const getChampion=(season)=>{const sd=seasonsData[season];if(!sd?.standings?.[0])return null;const isHist=sd.historical;const hasM4=sd.standings[0].m4!==null||isHist;return hasM4?sd.standings[0].club:null;};
+  const allSeasons=Object.keys(seasonsData||{}).sort();
+  const mostRecentSeason=allSeasons[allSeasons.length-1];
+  const getChampion=(season)=>{const sd=seasonsData[season];if(!sd?.standings?.[0])return null;if(season===mostRecentSeason){const raceCount=races.filter(r=>r.season===season&&r.results?.length>0).length;if(raceCount<4)return null;}return sd.standings[0].club;};
   const completeRaces=allFixtures.filter(r=>r.results?.length>=100).length;
   const partialRaces=allFixtures.filter(r=>r.results?.length>=4&&r.results?.length<100).length;
   const winnersOnly=allFixtures.filter(r=>!r.results?.length||r.results?.length<4).length;
@@ -1055,28 +1057,33 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
       const sd=seasonsData[season];
       if(!sd?.standings?.length)return;
       const champion=sd.standings[0].club;
-      // Check if season is complete
-      const isComplete=sd.historical||(sd.standings[0].m4!==null&&sd.standings[0].m4!==undefined);
+      // Check if season is complete - for most recent season only, require 4 races
+      const allSeasons=Object.keys(seasonsData||{}).sort();
+      const mostRecentSeason=allSeasons[allSeasons.length-1];
+      const isMostRecent=season===mostRecentSeason;
+      let isComplete=true;
+      if(isMostRecent){
+        const raceCount=races.filter(r=>r.season===season&&r.results?.length>0).length;
+        isComplete=raceCount>=4;
+      }
       if(isComplete&&clubs.has(champion)){
         badges.push({type:'title_winner',season,year:getYear(season)});
       }
     });
     
     // Check for individual champion seasons (from computed rankings)
-    // Only award if season is complete (historical, or has results for final scheduled match)
+    // Only award if season is complete - for most recent season, require 4 races with results
+    const allSeasons=Object.keys(seasonsData||{}).sort();
+    const mostRecentSeason=allSeasons[allSeasons.length-1];
     Object.entries(seasonsData).forEach(([season,sd])=>{
       if(!sd?.individualRankings?.length)return;
-      // Historical seasons are always complete (even if only 3 matches due to weather)
-      if(sd.historical){
-        const champion=sd.individualRankings[0];
-        if(namesMatch(champion.name,athleteData.name)){
-          badges.push({type:'individual_champion',season,year:getYear(season)});
-        }
-        return;
+      // For most recent season: check if 4 races have results
+      // For all other seasons: always count as complete
+      const isMostRecent=season===mostRecentSeason;
+      if(isMostRecent){
+        const raceCount=races.filter(r=>r.season===season&&r.results?.length>0).length;
+        if(raceCount<4)return; // Season not complete yet
       }
-      // For non-historical seasons, check if match 4 results exist
-      const isComplete=sd.standings?.[0]?.m4!==null&&sd.standings?.[0]?.m4!==undefined;
-      if(!isComplete)return;
       const champion=sd.individualRankings[0];
       if(namesMatch(champion.name,athleteData.name)){
         badges.push({type:'individual_champion',season,year:getYear(season)});
@@ -2089,18 +2096,24 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   // Compute championship years
   const{titleYears,secondYears,thirdYears}=useMemo(()=>{
     const titles=[],seconds=[],thirds=[];
+    const allSeasons=Object.keys(seasonsData||{}).sort();
+    const mostRecentSeason=allSeasons[allSeasons.length-1];
     Object.entries(seasonsData||{}).forEach(([season,sd])=>{
       if(!sd?.standings?.[0])return;
-      const isHist=sd.historical;
-      const hasM4=sd.standings[0].m4!==null||isHist;
-      if(!hasM4)return;
+      // For most recent season only: require all 4 matches to have results
+      // For historical seasons: always count as complete
+      const isMostRecent=season===mostRecentSeason;
+      if(isMostRecent){
+        const raceCount=races.filter(r=>r.season===season&&r.results?.length>0).length;
+        if(raceCount<4)return; // Season not complete yet
+      }
       const getYear=s=>{const parts=s.split('/');const yy=parts[1];return(parseInt(yy)<50?'20':'19')+yy;};
       if(sd.standings[0]?.club===clubCode)titles.push(getYear(season));
       if(sd.standings[1]?.club===clubCode)seconds.push(getYear(season));
       if(sd.standings[2]?.club===clubCode)thirds.push(getYear(season));
     });
     return{titleYears:titles.sort().reverse(),secondYears:seconds.sort().reverse(),thirdYears:thirds.sort().reverse()};
-  },[seasonsData,clubCode]);
+  },[seasonsData,clubCode,races]);
   
   // Compute club-specific stats from race results
   const clubAthletes=useMemo(()=>{
@@ -2273,10 +2286,16 @@ const SeasonsView=({setView,seasonsData,races,mitchellCupWinners,division})=>{
     const seasonRaces=races.filter(r=>r.season===season);
     const racesWithResults=seasonRaces.filter(r=>r.results&&r.results.length>100);
     const hasCompleteRaceData=racesWithResults.length===4;
+    // For most recent season: require 4 races with results to be complete
+    // For all other seasons: historical check
+    const allSeasons=Object.keys(seasonsData).sort();
+    const mostRecentSeason=allSeasons[allSeasons.length-1];
+    const isMostRecent=season===mostRecentSeason;
     // Historical = flagged as historical or has champion but limited standings/no race data
     const isHistorical=data.historical||(!hasCompleteRaceData&&data.champion&&(!data.standings||data.standings.length<=1||!data.standings[0]?.m4));
-    // Complete if we have standings with m4, or it's historical with a champion
-    const isComplete=isHistorical?(!!data.champion):(data.standings?.[0]?.m4!==null&&data.standings?.[0]?.m4!==undefined);
+    // Complete if: (for most recent) has 4 races with results, (for historical) has champion
+    const racesWithAnyResults=seasonRaces.filter(r=>r.results&&r.results.length>0).length;
+    const isComplete=isMostRecent?(racesWithAnyResults>=4):(isHistorical?(!!data.champion):(data.standings?.[0]?.m4!==null&&data.standings?.[0]?.m4!==undefined));
     // Compute individual/B team if we have complete race data but no stored rankings
     // Fall back to Mitchell Cup historical data if no calculated data available
     let individual=data.individualRankings?.slice(0,3)||(hasCompleteRaceData?computeIndividualRankings(season,seasonRaces).slice(0,3):[]);
@@ -3952,9 +3971,15 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     // Handle men's format: no champion field, standings array with m1,m2,m3,m4 fields
     // Only count positions for complete seasons
     if(!sd?.standings)return;
-    const isHist=sd.historical;
-    const hasM4=sd.standings[0]?.m4!==null&&sd.standings[0]?.m4!==undefined||isHist;
-    if(!hasM4)return;// Only count positions for complete seasons
+    const allSeasons=Object.keys(data.seasonsData||{}).sort();
+    const mostRecentSeason=allSeasons[allSeasons.length-1];
+    const isMostRecent=season===mostRecentSeason;
+    // For most recent season: check if 4 races have results
+    // For historical seasons: always count as complete
+    if(isMostRecent){
+      const raceCount=data.races.filter(r=>r.season===season&&r.results?.length>0).length;
+      if(raceCount<4)return; // Season not complete yet
+    }
     sd.standings.forEach((team,idx)=>{
       if(!placeCount[team.club])placeCount[team.club]={titles:0,runnerUp:0,third:0,fourth:0,fifth:0,sixth:0};
       if(idx===0)placeCount[team.club].titles++;
@@ -4034,9 +4059,18 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     const biggestRaces=data.races.filter(r=>r.finishers).sort((a,b)=>b.finishers-a.finishers).slice(0,5).map(r=>({venue:r.venue,season:r.season,match:r.match,date:r.date,finishers:r.finishers}));
     
     // Most consecutive titles by club
+    const allSeasons=Object.keys(data.seasonsData).sort();
+    const mostRecentSeason=allSeasons[allSeasons.length-1];
     const seasonsByYear=Object.keys(data.seasonsData).filter(s=>{
       const sd=data.seasonsData[s];
-      return sd?.standings?.length&&(sd.standings[0]?.m4!==null||sd.historical);
+      if(!sd?.standings?.length)return false;
+      // For most recent season: check if 4 races have results
+      if(s===mostRecentSeason){
+        const raceCount=data.races.filter(r=>r.season===s&&r.results?.length>0).length;
+        return raceCount>=4;
+      }
+      // For all other seasons: count as complete
+      return true;
     }).sort();
     const clubStreaks={};
     let lastChamp=null;
