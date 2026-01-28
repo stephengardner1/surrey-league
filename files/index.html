@@ -477,14 +477,18 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers,divisionConfig,ra
     const clubScores={};
     const isATeam = startPos === 1;
     
+    // Clubs to exclude from team scoring (guests, non-scorers, etc.)
+    const excludedClubs = new Set(Object.entries(CLUBS).filter(([k,v])=>v.hidden).map(([k])=>k));
+    
     // For B teams, we need to know which clubs have A teams (and thus could have B teams)
     const aTeamClubs = new Set();
     results.forEach(r=>{
-      if(r.pts != null) aTeamClubs.add(r.club);
+      if(r.pts != null && !excludedClubs.has(r.club)) aTeamClubs.add(r.club);
     });
     
-    // Collect scores
+    // Collect scores (excluding hidden clubs like GUEST)
     results.forEach(r=>{
+      if(excludedClubs.has(r.club)) return; // Skip GUEST, N/S, etc.
       const hasPts = isATeam ? (r.pts != null) : (r.b_pts != null);
       const pts = isATeam ? r.pts : r.b_pts;
       if(hasPts) {
@@ -540,12 +544,16 @@ const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title,divi
     const clubScores={};
     const isATeam = startPos === 1;
     
+    // Clubs to exclude from team scoring (guests, non-scorers, etc.)
+    const excludedClubs = new Set(Object.entries(CLUBS).filter(([k,v])=>v.hidden).map(([k])=>k));
+    
     // For B teams, we need to know which clubs have A teams
     const aTeamClubs = new Set();
-    results.forEach(r=>{if(r.pts != null) aTeamClubs.add(r.club);});
+    results.forEach(r=>{if(r.pts != null && !excludedClubs.has(r.club)) aTeamClubs.add(r.club);});
     
-    // Collect scores
+    // Collect scores (excluding hidden clubs like GUEST)
     results.forEach(r=>{
+      if(excludedClubs.has(r.club)) return; // Skip GUEST, N/S, etc.
       const hasPts = isATeam ? (r.pts != null) : (r.b_pts != null);
       const pts = isATeam ? r.pts : r.b_pts;
       if(hasPts) {
@@ -627,10 +635,12 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   // Calculate team scores from results to verify they match archived scores
   const calculatedScoresMatch = useMemo(() => {
     if (!hasCalculableResults || !seasonStandingsScores?.length) return false;
+    // Clubs to exclude (GUEST, N/S, etc.)
+    const excludedClubs = new Set(Object.entries(CLUBS).filter(([k,v])=>v.hidden).map(([k])=>k));
     // Calculate A-team scores from results (same logic as TeamResultsTable)
     const clubScores = {};
     race.results.forEach(r => {
-      if (r.pts != null) {
+      if (r.pts != null && !excludedClubs.has(r.club)) {
         if (!clubScores[r.club]) clubScores[r.club] = [];
         if (clubScores[r.club].length < 10) clubScores[r.club].push(r.pts);
       }
