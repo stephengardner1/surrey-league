@@ -617,13 +617,39 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   const statusColor=resultsStatus==='complete'?'bg-green-500':resultsStatus==='partial'?'bg-amber-500':'bg-red-500';
   const statusText=resultsStatus==='complete'?'Complete results':resultsStatus==='partial'?'Partial results':'Winners\' data only';
   
-  // Check if we have full results with pts field - if so, calculate team scores dynamically
-  // Only fall back to knownTeamScores/teamScores if we don't have calculable results
+  // Check if we have full results with pts/s field - if so, calculate team scores dynamically
+  // This shows the full scorer breakdown instead of just archived totals
   const hasCalculableResults = race.results?.length > 100 && race.results.some(r => r.pts != null || r.s != null);
-  // Prefer seasonsData match scores when available (more accurate for historical data)
+  // Get archived match scores from seasonsData for comparison
   const matchKey = `m${race.match}`;
   const seasonStandingsScores = seasonData?.standings?.filter(s => s[matchKey] != null).map(s => ({club: s.club, pts: s[matchKey]})).sort((a,b) => a.pts - b.pts).map((s,i) => ({...s, pos: i+1}));
-  const displayTeamScores = seasonStandingsScores?.length > 0 ? seasonStandingsScores : (hasCalculableResults ? null : (race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||(race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score})))));
+  
+  // Calculate team scores from results to verify they match archived scores
+  const calculatedScoresMatch = useMemo(() => {
+    if (!hasCalculableResults || !seasonStandingsScores?.length) return false;
+    // Calculate A-team scores from results (same logic as TeamResultsTable)
+    const clubScores = {};
+    race.results.forEach(r => {
+      if (r.pts != null) {
+        if (!clubScores[r.club]) clubScores[r.club] = [];
+        if (clubScores[r.club].length < 10) clubScores[r.club].push(r.pts);
+      }
+    });
+    // Sum scores for each club
+    const calculated = Object.entries(clubScores).map(([club, scores]) => ({
+      club,
+      total: scores.reduce((a, b) => a + b, 0)
+    }));
+    // Check if all archived scores match calculated scores
+    return seasonStandingsScores.every(archived => {
+      const calc = calculated.find(c => c.club === archived.club);
+      return calc && Math.abs(calc.total - archived.pts) < 0.5; // Allow for rounding
+    });
+  }, [hasCalculableResults, seasonStandingsScores, race.results]);
+  
+  // Only show calculated breakdown if totals match archived scores
+  // If they don't match, fall back to archived scores only (safer)
+  const displayTeamScores = (hasCalculableResults && calculatedScoresMatch) ? null : (seasonStandingsScores?.length > 0 ? seasonStandingsScores : (race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||(race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score})))));
   
   // Find prev/next races
   const sortedRaces=useMemo(()=>[...races].filter(r=>r.results?.length>0).sort((a,b)=>{if(a.season!==b.season)return a.season.localeCompare(b.season);return a.match-b.match;}),[races]);
@@ -3504,7 +3530,7 @@ QUESTION: ${query}`
 const normalizeData=(data,division='men',liveAliases={})=>{
   const divConfig=DIVISIONS[division];
   
-  // Expand minified result fields (p->pos, n->name, c->club, t->time, s->pts, b->b_pts, x->ns)
+  // Expand minified result fields (p->pos, n->name, c->club, t->time, s->pts, b_s/b->b_pts, x->ns)
   data.races.forEach(race=>{
     if(race.results){
       race.results=race.results.map(r=>{
@@ -3515,8 +3541,9 @@ const normalizeData=(data,division='men',liveAliases={})=>{
             club:r.c??r.club,
             time:r.t??r.time,
             ...(r.s!=null||r.pts!=null?{pts:r.s??r.pts}:{}),
-            ...(r.b!=null||r.b_pts!=null?{b_pts:r.b??r.b_pts}:{}),
-            ...(r.x!=null||r.ns!=null?{ns:r.x??r.ns}:{})
+            ...(r.b_s!=null||r.b!=null||r.b_pts!=null?{b_pts:r.b_s??r.b??r.b_pts}:{}),
+            ...(r.x!=null||r.ns!=null?{ns:r.x??r.ns}:{}),
+            ...(r.sc?{secondClaim:true}:{})
           };
         }
         return r;
