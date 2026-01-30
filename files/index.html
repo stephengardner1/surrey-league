@@ -995,8 +995,10 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
   const clubRankings=useMemo(()=>{
     if(!raceHistory.length)return [];
     
-    // Get unique clubs this athlete has represented (excluding N/S and GUEST)
-    const athleteClubs=[...new Set(raceHistory.map(r=>r.club).filter(c=>c&&c!=='N/S'&&c!=='GUEST'))];
+    // Get unique clubs this athlete has represented (excluding N/S, GUEST, G and other hidden clubs)
+    const hiddenClubs=new Set(Object.entries(CLUBS).filter(([k,v])=>v.hidden).map(([k])=>k));
+    hiddenClubs.add('G'); // Also exclude 'G' shorthand for guest
+    const athleteClubs=[...new Set(raceHistory.map(r=>r.club).filter(c=>c&&!hiddenClubs.has(c)))];
     const TEAM_SIZE_A=divisionConfig?.teamSize?.a||10;
     
     // For each club, compute all athletes' Value scores and find this athlete's rank
