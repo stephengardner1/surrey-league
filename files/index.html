@@ -651,9 +651,13 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
       total: scores.reduce((a, b) => a + b, 0)
     }));
     // Check if all archived scores match calculated scores
+    // Allow for incomplete teams: if club has <10 scorers, calculated total will be less than archived (which includes penalties)
     return seasonStandingsScores.every(archived => {
       const calc = calculated.find(c => c.club === archived.club);
-      return calc && Math.abs(calc.total - archived.pts) < 0.5; // Allow for rounding
+      if (!calc) return false;
+      const scorerCount = clubScores[archived.club]?.length || 0;
+      if (scorerCount < 10 && calc.total < archived.pts) return true; // Incomplete team with penalties
+      return Math.abs(calc.total - archived.pts) < 0.5; // Allow for rounding
     });
   }, [hasCalculableResults, seasonStandingsScores, race.results]);
   
@@ -3658,6 +3662,8 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     // Laurie Matthews variants
     'l matthews':'Laurie Matthews',
     'laurie mathews':'Laurie Matthews',
+    'larry mathews':'Laurie Matthews',
+    'larry matthews':'Laurie Matthews',
     // Sam Haughian variants
     's haughian':'Sam Haughian',
     'sam haughian':'Sam Haughian',
