@@ -52,6 +52,59 @@ const namesMatch=(a,b)=>normalizeNameForCompare(a)===normalizeNameForCompare(b);
 const getSurname=(name)=>{if(!name)return'';const parts=name.split(' ');return parts.length>1?parts[parts.length-1]:name;};
 const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'},'LCR':{name:'London City Runners'},'ADV':{name:'Advent Runners',defunct:true},'262':{name:'26.2 Road Runners'},'MPA':{name:'Metropolitan Police AC'},'BAC':{name:'British Airways AC',defunct:true},'OME':{name:'Omega RC',defunct:true},'GUEST':{name:'Guest',hidden:true},'N/S':{name:'Non-scorer',hidden:true},'MOR':{name:'Morden AC',defunct:true},'EAS':{name:'Ealing Southall & Middlesex'},'LIN':{name:'Lingfield RC'},'WAV':{name:'Waverley Harriers'}};
 
+// UK Bestselling Singles and Albums by Year (for seasons ending in that year)
+const UK_CHARTS={
+  1963:{single:"She Loves You",singleArtist:"The Beatles",singleSpotify:"3vCzDzs3p3KM72RCxPapA9",album:"With The Beatles",albumArtist:"The Beatles",albumSpotify:"5ju5Ouzan3QwXqQt1Tihbh"},
+  1964:{single:"Can't Buy Me Love",singleArtist:"The Beatles",singleSpotify:"5DB8ziQfJKk5gARNPfpEyM",album:"Beatles for Sale",albumArtist:"The Beatles",albumSpotify:"5YK44dhnKzItnQwG8nj7GY"},
+  1965:{single:"Tears",singleArtist:"Ken Dodd",album:"The Sound of Music",albumArtist:"Soundtrack",albumSpotify:"0TImkz4nPqjegtVSMZnMRq"},
+  1966:{single:"Green Green Grass of Home",singleArtist:"Tom Jones",singleSpotify:"54xb95msv1qpjLsxNbNGVJ",album:"The Sound of Music",albumArtist:"Soundtrack",albumSpotify:"0TImkz4nPqjegtVSMZnMRq"},
+  1967:{single:"Release Me",singleArtist:"Engelbert Humperdinck",singleSpotify:"2XesfGLdVVNHPRqw4VFRVw",album:"Sgt. Pepper's",albumArtist:"The Beatles",albumSpotify:"6QaVfG1pHYl1z15ZxkvVDW"},
+  1968:{single:"Hey Jude",singleArtist:"The Beatles",singleSpotify:"0aym2LBJBk9DAYuHHutrIl",album:"The White Album",albumArtist:"The Beatles",albumSpotify:"1klALx0u4AavZNEvC4LrTL"},
+  1969:{single:"Sugar Sugar",singleArtist:"The Archies",singleSpotify:"15SLDuxU3kjjlOxkQwvlAz",album:"Abbey Road",albumArtist:"The Beatles",albumSpotify:"0ETFjACtuP2ADo6LFhL6HN"},
+  1970:{single:"In the Summertime",singleArtist:"Mungo Jerry",singleSpotify:"716dbUVtOrGPrVEu32o1pY",album:"Bridge Over Troubled Water",albumArtist:"Simon & Garfunkel",albumSpotify:"0JwHz5SSvpYWuuCNbtYZoV"},
+  1971:{single:"My Sweet Lord",singleArtist:"George Harrison",singleSpotify:"6qspLvgatqFSDs9nrAJl1G",album:"Bridge Over Troubled Water",albumArtist:"Simon & Garfunkel",albumSpotify:"0JwHz5SSvpYWuuCNbtYZoV"},
+  1972:{single:"Amazing Grace",singleArtist:"Royal Scots Dragoon Guards",singleSpotify:"0fOh1fNZnGrHmePc17eNh7",album:"20 Dynamic Hits",albumArtist:"Various Artists"},
+  1973:{single:"Eye Level",singleArtist:"Simon Park Orchestra",album:"Don't Shoot Me",albumArtist:"Elton John",albumSpotify:"3X0FFsrAqLvDOKqLrPOFwK"},
+  1974:{single:"Tiger Feet",singleArtist:"Mud",singleSpotify:"5sS4AyPm1RU5bwJKGKpuEj",album:"The Singles 1969-1973",albumArtist:"Carpenters",albumSpotify:"2Rj86VZoW8KS56fAJzGlJ5"},
+  1975:{single:"Bye Bye Baby",singleArtist:"Bay City Rollers",singleSpotify:"0vl1lNdXfSUo4MIRlKhsDB",album:"Best of the Stylistics",albumArtist:"The Stylistics"},
+  1976:{single:"Save Your Kisses for Me",singleArtist:"Brotherhood of Man",singleSpotify:"69rJCJTFQKYzigMwdCPplC",album:"Greatest Hits",albumArtist:"ABBA",albumSpotify:"6R9PZGYbB5EzPVyJthwvkS"},
+  1977:{single:"Mull of Kintyre",singleArtist:"Wings",singleSpotify:"3lQsR5XlWkxKzNzVJGBKfE",album:"Rumours",albumArtist:"Fleetwood Mac",albumSpotify:"1bt6q2SruMsBtcerNVtpZB"},
+  1978:{single:"Rivers of Babylon",singleArtist:"Boney M",singleSpotify:"4P0VaXPZDx0j3YSUW5c1rj",album:"Saturday Night Fever",albumArtist:"Soundtrack",albumSpotify:"1GLQM1kEpsz3KlV1gKU0wE"},
+  1979:{single:"Bright Eyes",singleArtist:"Art Garfunkel",singleSpotify:"16hOnYDdgF9JdmIVT0UrNL",album:"Parallel Lines",albumArtist:"Blondie",albumSpotify:"2EFMLzE6SKBjSqrjusMqRN"},
+  1980:{single:"Don't Stand So Close to Me",singleArtist:"The Police",singleSpotify:"3bGk7oLJmq1h4rFQp6nfbE",album:"Super Trouper",albumArtist:"ABBA",albumSpotify:"5gyjKtwBIC5B74s10emVjf"},
+  1981:{single:"Don't You Want Me",singleArtist:"The Human League",singleSpotify:"5hLxYRqEJJJK1EyPFxkGVJ",album:"Kings of the Wild Frontier",albumArtist:"Adam and the Ants",albumSpotify:"1TXLZ0TCuI04vM8HoEkLBe"},
+  1982:{single:"Eye of the Tiger",singleArtist:"Survivor",singleSpotify:"2KH16WveTQWT6KOG9Rg6e2",album:"Love Songs",albumArtist:"Barbra Streisand",albumSpotify:"6RKj8pOe1WuBkJLous4ELi"},
+  1983:{single:"Karma Chameleon",singleArtist:"Culture Club",singleSpotify:"2NBQmPrOEEjA8VbeWOQGxO",album:"Thriller",albumArtist:"Michael Jackson",albumSpotify:"2ANVost0y2y52ema1E9xAZ"},
+  1984:{single:"Do They Know It's Christmas?",singleArtist:"Band Aid",singleSpotify:"0CT6rKw0vMfPnCLPL1KjqT",album:"Legend",albumArtist:"Bob Marley",albumSpotify:"33iwFfjTdA9YNsJqq770tf"},
+  1985:{single:"The Power of Love",singleArtist:"Jennifer Rush",singleSpotify:"0rQfJwkIjnBtCUvPbhyRft",album:"Brothers in Arms",albumArtist:"Dire Straits",albumSpotify:"3G22lUvafRKCZmRoaHPLNn"},
+  1986:{single:"Don't Leave Me This Way",singleArtist:"The Communards",singleSpotify:"7IuLzwdTGi6hRPzCb7yVv1",album:"True Blue",albumArtist:"Madonna",albumSpotify:"4hLN7S1rxCocA65v2dvDse"},
+  1987:{single:"Never Gonna Give You Up",singleArtist:"Rick Astley",singleSpotify:"4PTG3Z6ehGkBFwjybzWkR8",album:"Bad",albumArtist:"Michael Jackson",albumSpotify:"2eBg6K9cxfUOPl51MSSMgU"},
+  1988:{single:"Mistletoe and Wine",singleArtist:"Cliff Richard",singleSpotify:"7KRoJCu5d9kqrIL02SQUzS",album:"Kylie",albumArtist:"Kylie Minogue",albumSpotify:"3dYi7lwO4yCGHSIjSiAbZJ"},
+  1989:{single:"Ride on Time",singleArtist:"Black Box",singleSpotify:"5CXF8OXOZWpYBOyNjPEQcb",album:"Ten Good Reasons",albumArtist:"Jason Donovan"},
+  1990:{single:"Unchained Melody",singleArtist:"The Righteous Brothers",singleSpotify:"2ihWI81xdx8dVMwMg0GXCM",album:"...But Seriously",albumArtist:"Phil Collins",albumSpotify:"6RM3n6JcrnXTg2VKfKfbXV"},
+  1991:{single:"(Everything I Do) I Do It for You",singleArtist:"Bryan Adams",singleSpotify:"6rBvZuDiJjmASiqkwvr4fU",album:"Stars",albumArtist:"Simply Red",albumSpotify:"0bAkIanH9mL9mJdIKhfKcZ"},
+  1992:{single:"I Will Always Love You",singleArtist:"Whitney Houston",singleSpotify:"4eHbdreAnSOrDDsFfc4Fpm",album:"Stars",albumArtist:"Simply Red",albumSpotify:"0bAkIanH9mL9mJdIKhfKcZ"},
+  1993:{single:"I'd Do Anything for Love",singleArtist:"Meat Loaf",singleSpotify:"77tT1kLj6mCWtFNqiOmP9H",album:"Bat Out of Hell II",albumArtist:"Meat Loaf",albumSpotify:"6HLF4NEw5721FnrhX8mbdp"},
+  1994:{single:"Love Is All Around",singleArtist:"Wet Wet Wet",singleSpotify:"77YsSpPqC9VqGhTk0bCTx0",album:"Cross Road",albumArtist:"Bon Jovi",albumSpotify:"7APlJULNVhfLDqp1m1yMKP"},
+  1995:{single:"Unchained Melody",singleArtist:"Robson & Jerome",album:"(What's the Story) Morning Glory?",albumArtist:"Oasis",albumSpotify:"6Ar2o0KyqjQxoSt67CTFq6"},
+  1996:{single:"Killing Me Softly",singleArtist:"Fugees",singleSpotify:"7kkkjhPO4YrmcYbKLUZSMv",album:"Jagged Little Pill",albumArtist:"Alanis Morissette",albumSpotify:"1QMOq8Dkw1x6v4MhL5kxWh"},
+  1997:{single:"Candle in the Wind 1997",singleArtist:"Elton John",singleSpotify:"0tZBRaLSbqUpI7lKwigPrn",album:"Be Here Now",albumArtist:"Oasis",albumSpotify:"5mBMWkFEYxE9vUVOVUvVq4"},
+  1998:{single:"Believe",singleArtist:"Cher",singleSpotify:"39GU0jWpWgPvGf1oLGEXFH",album:"Talk on Corners",albumArtist:"The Corrs",albumSpotify:"4FqSdLvJC2RN23KBYlGZPq"},
+  1999:{single:"...Baby One More Time",singleArtist:"Britney Spears",singleSpotify:"3MjUtNVVq3C8Fn0MP3zhXa",album:"Come On Over",albumArtist:"Shania Twain",albumSpotify:"0K5GowcbacqAFihDdJmU46"},
+  2000:{single:"Can We Fix It?",singleArtist:"Bob the Builder",singleSpotify:"27OjPMUlq9P8f6VzB0GiVe",album:"1",albumArtist:"The Beatles",albumSpotify:"7vEJAtP3KgKSpOHVgwm3Eh"},
+  2001:{single:"It Wasn't Me",singleArtist:"Shaggy",singleSpotify:"6tG6D8GKxgAPwExBJJDJQn",album:"No Angel",albumArtist:"Dido",albumSpotify:"6eoif8cF7prsyYCHVCKYJR"},
+  2002:{single:"Anything Is Possible",singleArtist:"Will Young",singleSpotify:"1SNPMeIYu6hWDPrHzCzWnB",album:"Escapology",albumArtist:"Robbie Williams",albumSpotify:"6HxjfKMbPT2kT0FBIJQ6Qa"},
+  2003:{single:"Where Is the Love?",singleArtist:"Black Eyed Peas",singleSpotify:"1BWJcRfYwZdGYYOHiTF7IP",album:"Life for Rent",albumArtist:"Dido",albumSpotify:"4q8YwZc5yLlbEpIBfpzMmh"},
+  2004:{single:"Do They Know It's Christmas?",singleArtist:"Band Aid 20",album:"Scissor Sisters",albumArtist:"Scissor Sisters",albumSpotify:"1pP4lNXcmFGLqzM01qVoRD"},
+  2005:{single:"(Is This the Way to) Amarillo",singleArtist:"Tony Christie",singleSpotify:"2ifSJ5u4TRVPrDr6ghJNYk",album:"Back to Bedlam",albumArtist:"James Blunt",albumSpotify:"5uWqVj3ljzjVfNx2zWq8eo"},
+  2006:{single:"Crazy",singleArtist:"Gnarls Barkley",singleSpotify:"3vkCueOmm7xQDoB5rB3TCm",album:"Eyes Open",albumArtist:"Snow Patrol",albumSpotify:"4IwU1L10x81sE70h0U78to"},
+  2007:{single:"Bleeding Love",singleArtist:"Leona Lewis",singleSpotify:"7oK9VyNzrYvRFo7nQEYkWN",album:"Back to Black",albumArtist:"Amy Winehouse",albumSpotify:"097eYvf9NKjFnv4xA9s2oV"},
+  2008:{single:"Hallelujah",singleArtist:"Alexandra Burke",singleSpotify:"6aqcqKdJlDe9DLFiF3a3bZ",album:"Rockferry",albumArtist:"Duffy",albumSpotify:"5R3kBnmhcQ3kcw1hlfXCvD"},
+  2009:{single:"Poker Face",singleArtist:"Lady Gaga",singleSpotify:"5R8dQOPq8haW94K7mgERlO",album:"I Dreamed a Dream",albumArtist:"Susan Boyle",albumSpotify:"7nNUkHoQcRYpotdhwQhqJW"},
+  2010:{single:"Love the Way You Lie",singleArtist:"Eminem ft. Rihanna",singleSpotify:"1bCKRGcgbLjvC5lbgNOyh8",album:"Progress",albumArtist:"Take That",albumSpotify:"7dGrFUvJMrK5ooGxrJnmRg"},
+};
+
+
 // Division configurations
 const DIVISIONS={
   men:{
@@ -2369,6 +2422,37 @@ const SeasonsView=({setView,seasonsData,races,mitchellCupWinners,division})=>{
   return<div className="max-w-5xl mx-auto px-4 py-8"><h1 className="text-2xl font-bold text-gray-900 mb-4" style={{fontFamily:"'Fraunces',serif"}}>Winners</h1><table className="w-full"><thead><tr className="border-b border-gray-200"><th className="w-5 md:w-6"></th><th className="text-left py-1.5 pr-2 md:pr-4 text-xs text-gray-500 uppercase">Season</th><th className="text-left py-1.5 px-1 md:px-4 text-xs text-gray-500 uppercase">A Team</th><th className="text-left py-1.5 px-1 md:px-4 text-xs text-gray-500 uppercase">B Team</th><th className="text-left py-1.5 pl-1 md:pl-4 text-xs text-gray-500 uppercase"><span className="cursor-help" title={division==='women'?"Individual champion: Lowest cumulative finishing position from best 3 of 4 races":"Mitchell Cup: Lowest cumulative finishing position across all 4 fixtures. Must complete all fixtures to qualify."}>{individualLabel} <span className="text-gray-400">ⓘ</span></span></th></tr></thead><tbody>{seasons.filter(s=>!s.isCancelled).map(s=><React.Fragment key={s.season}><tr className={`border-b border-gray-50 hover:bg-blue-50 ${canExpand(s)?'cursor-pointer':''}`} onClick={()=>canExpand(s)&&setExpanded(expanded===s.season?null:s.season)}><td className="py-1.5 pr-0.5 md:pr-1">{canExpand(s)&&<span className="text-gray-400">{expanded===s.season?<ChevronUp className="w-4 h-4"/>:<ChevronDown className="w-4 h-4"/>}</span>}</td><td className="py-1.5 pr-2 md:pr-4"><span className="text-sm text-gray-900 cursor-pointer hover:text-[#0077b6]" onClick={(e)=>{e.stopPropagation();setView({type:'home',urlSeason:s.season});}}><span className="md:hidden">{shortSeason(s.season)}</span><span className="hidden md:inline">{s.season}</span></span></td><td className="py-1.5 px-1 md:px-4">{s.aTeam[0]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.aTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[0]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[0].club} size={14}/><span className="text-sm text-gray-900">{s.bTeam[0].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{renderIndividual(s.individual,s.isHistorical)}</td></tr>{expanded===s.season&&<><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-0.5 md:pr-1"></td><td className="py-1.5 pr-2 md:pr-4 text-sm text-gray-400">2nd</td><td className="py-1.5 px-1 md:px-4">{s.aTeam[1]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[1]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[1].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[1].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[1]&&!s.individual[0]?.historical?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[1].name,club:s.individual[1].club}})}><ClubShield club={s.individual[1].club} size={14}/><span className="text-sm text-gray-600"><span className="hidden md:inline">{s.individual[1].name}</span><span className="md:hidden">{getSurname(s.individual[1].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr><tr className="bg-gray-50 border-b border-gray-100"><td className="py-1.5 pr-0.5 md:pr-1"></td><td className="py-1.5 pr-2 md:pr-4 text-sm text-gray-400">3rd</td><td className="py-1.5 px-1 md:px-4">{s.aTeam[2]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.aTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.aTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 px-1 md:px-4">{s.bTeam[2]?<div className="flex items-center gap-1 md:gap-1.5"><ClubShield club={s.bTeam[2].club} size={14}/><span className="text-sm text-gray-600">{s.bTeam[2].club}</span></div>:<span className="text-sm text-gray-400">-</span>}</td><td className="py-1.5 pl-1 md:pl-4">{s.individual[2]&&!s.individual[0]?.historical?<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:s.individual[2].name,club:s.individual[2].club}})}><ClubShield club={s.individual[2].club} size={14}/><span className="text-sm text-gray-600"><span className="hidden md:inline">{s.individual[2].name}</span><span className="md:hidden">{getSurname(s.individual[2].name)}</span></span></div>:<span className="text-sm text-gray-400">-</span>}</td></tr></>}</React.Fragment>)}</tbody></table></div>;
 };
 
+
+// UK Charts display component for seasons before 2011
+const UKChartsDisplay=({season})=>{
+  const endYear=parseInt('19'+season.split('/')[1])||parseInt('20'+season.split('/')[1]);
+  const year=season.startsWith('19')||parseInt(season.slice(0,2))>50?parseInt('19'+season.split('/')[1]):parseInt('20'+season.split('/')[1]);
+  const actualYear=season.split('/')[1].length===2?(parseInt(season.split('/')[0].slice(0,2))*100+parseInt(season.split('/')[1])):parseInt(season.split('/')[1]);
+  // Parse season like "1996/97" -> 1997, "2009/10" -> 2010
+  const getEndYear=(s)=>{
+    const parts=s.split('/');
+    const startYear=parseInt(parts[0]);
+    const endPart=parts[1];
+    if(startYear>=2000)return startYear+1;
+    if(startYear>=1900)return 1900+parseInt(endPart);
+    return null;
+  };
+  const chartYear=getEndYear(season);
+  if(!chartYear||chartYear>2010)return null;
+  const charts=UK_CHARTS[chartYear];
+  if(!charts)return null;
+  const singleLink=charts.singleSpotify?`https://open.spotify.com/track/${charts.singleSpotify}`:null;
+  const albumLink=charts.albumSpotify?`https://open.spotify.com/album/${charts.albumSpotify}`:null;
+  return<div className="mt-3 text-xs text-gray-500">
+    <span className="uppercase text-gray-400 mr-2">UK #{chartYear}</span>
+    🎧 {singleLink?<a href={singleLink} target="_blank" rel="noopener noreferrer" className="hover:text-[#1DB954] hover:underline">{charts.single}</a>:charts.single}
+    <span className="text-gray-400"> by {charts.singleArtist}</span>
+    <span className="mx-2 text-gray-300">|</span>
+    💿 {albumLink?<a href={albumLink} target="_blank" rel="noopener noreferrer" className="hover:text-[#1DB954] hover:underline">{charts.album}</a>:charts.album}
+    <span className="text-gray-400"> by {charts.albumArtist}</span>
+  </div>;
+};
+
 const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComplete,data,setView,setSeason})=>{
   const insights=useMemo(()=>{
     const items=[];
@@ -2817,12 +2901,14 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
   if(season==='1962/63'){
     return<div className="mt-4">
       <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>The league's first season attracted some fine talent. Belgrave provided three individual winners, but the best race of the series came in Match 3 where, over a snow-covered course, the Bels' <span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Gerry North',club:'BEL'}})}>Gerry North</span> and Surrey's <span className="inline-block align-middle mr-0.5"><ClubShield club="SUR" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'John Snowden',club:'SUR'}})}>John Snowden</span> had a battle royal; the latter eventually gained victory by a single second in the last stride or two. Both were nearly 90 seconds clear of the field. The solid Walton AC team became the first league winners.</p>
+      <UKChartsDisplay season={season}/>
     </div>;
   }
   // Special historian note for second season
   if(season==='1963/64'){
     return<div className="mt-4">
       <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>A 50-strong <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'BEL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span>Belgrave</span> team took a commanding lead in match 1, and hopes were high for a league win. But <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'WAL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span>Walton AC</span> came back strongly to take the next two matches and although their margin was still only 39 points going into the final race, the Bels could not rise to the task of pulling them back. The individual winner was again <span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bob Roath',club:'WAL'}})}>Bob Roath</span> with 16 pts.</p>
+      <UKChartsDisplay season={season}/>
     </div>;
   }
   // Special historian note for third season
@@ -2830,22 +2916,26 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     const match3=races.find(r=>r.season==='1964/65'&&r.match===3);
     return<div className="mt-4">
       <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>The number of teams rose to seven as <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'CRO'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="CRO" size={12}/></span>Croydon Harriers</span> joined the Surrey League. <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'WAL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="WAL" size={12}/></span>Walton</span> had high hopes for a league hat-trick but crashed badly in Race 2 when they were unable to field a complete team. <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'BEL'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="BEL" size={12}/></span>Belgrave</span> prevailed in the opening two runs before they also turned out a weak {match3?<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:match3})}>Match 3</span>:'Match 3'} team, which was further hamstrung when some missed the start. This allowed <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'H/W'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="H/W" size={12}/></span>Hercules</span> to take the advantage, overturning a huge points deficit. Even a record low score from Belgrave in the final race was not enough to stop their local rivals from hanging on for the win. That last race saw Tokyo Olympic 5,000m runner <span className="inline-block align-middle mr-0.5"><ClubShield club="MIT" size={12}/></span><span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bengt Nadje',club:'MIT'}})}>Bengt Nadje</span> of Sweden become the league's first overseas race victor.</p>
+      <UKChartsDisplay season={season}/>
     </div>;
   }
   // Special historian note for 1972/73 - AFD's first title
   if(season==='1972/73'){
     return<div className="mt-4">
       <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">📖 Alan Mead 🖋️</span>It had been hoped that the arrival of <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'AFD'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="AFD" size={12}/></span>Aldershot Farnham & District</span> would inject some excitement into a competition that had become a bit of a procession in the previous seven years. They certainly did! Despite <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'AFD'})}><span className="inline-block align-middle mr-0.5"><ClubShield club="AFD" size={12}/></span>AFD</span> winning two of the first three fixtures, it was the Bels going into the final race with a slim lead of 18 points; but over a Coulsdon course patchy with snow, the west Surrey men were not to be denied and took their first league title. But it was a fairly close thing, just 12 points separating them from the Bels in second spot. The individual winner was <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:'Bob Gevers',club:'SLH'}})}><span className="inline-block align-middle mr-0.5"><ClubShield club="SLH" size={12}/></span>Bob Gevers</span> (<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:'SLH'})}>South London Harriers</span>).</p>
+      <UKChartsDisplay season={season}/>
     </div>;
   }
   // If we have stored punditry for historical seasons, show it
   if(seasonData?.punditry&&insights.length===0){
     return<div className="mt-4">
       <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">Autopundit 🗣️</span>{seasonData.punditry}</p>
+      <UKChartsDisplay season={season}/>
     </div>;
   }
   return<div className="mt-4">
     <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">Autopundit 🗣️</span>{insights.map((item,i)=><React.Fragment key={i}>{i>0&&<span className="mx-1.5 text-gray-300">·</span>}{item.textBefore}{item.club&&!item.brothers&&!item.textBefore&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:item.club})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.club} size={12}/></span>{item.club}</span>}{item.textBefore&&item.club&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:item.club})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.club} size={12}/></span>{item.club}</span>}{item.athlete&&<span className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'athlete',athlete:item.athlete})}><span className="inline-block align-middle mr-0.5"><ClubShield club={item.athlete.club} size={12}/></span>{item.athlete.name}</span>}{item.venueName&&!item.brothers&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'race',race:item.race})}>{item.venueName}</span>}{(item.club||item.athlete||item.venueName)&&!item.brothers&&!item.textBefore?' ':''}{item.brothers&&<>{item.text} <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[0].name,club:item.brothers[0].club}})}>{item.brothers[0].name}</span> ({item.brothers[0].pos}) + <span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:item.brothers[1].name,club:item.brothers[1].club}})}>{item.brothers[1].name}</span> ({item.brothers[1].pos}) = {item.brothersTotal} pts</>}{!item.brothers&&item.text}{item.link&&<a href={item.link} target="_blank" rel="noopener noreferrer" className="inline-block align-middle ml-1 text-gray-400 hover:text-[#0077b6]"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a>}{item.linkSeason&&<span className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setSeason(item.linkSeason)}> {item.linkSeason}</span>}.</React.Fragment>)}</p>
+    <UKChartsDisplay season={season}/>
   </div>;
 };
 
