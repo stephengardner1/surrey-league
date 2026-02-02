@@ -2276,18 +2276,21 @@ const SeasonsView=({setView,seasonsData,races,mitchellCupWinners,division})=>{
   // Helper to compute individual rankings from race results
   const computeIndividualRankings=(season,seasonRaces)=>{
     const athleteResults={};
+    const aliases={'a s mohammed':'a mohammed','abdusalaam mohammed':'a mohammed','s chet tati':'s chettati','m lunares':'m linares'};
     seasonRaces.forEach(r=>{
       if(!r.results)return;
       r.results.forEach(res=>{
-        if(!res.pts)return;
-        const key=res.name;
-        if(!athleteResults[key])athleteResults[key]={name:res.name,club:res.club,runs:[],total:0};
-        athleteResults[key].runs.push({match:r.match,pos:res.pos});
+        if(!res.s)return;
+        let key=res.n.toLowerCase();
+        key=aliases[key]||key;
+        if(!athleteResults[key])athleteResults[key]={name:res.n,club:res.c,runs:[],total:0};
+        athleteResults[key].runs.push({match:r.match,score:res.s});
+        athleteResults[key].club=res.c;
       });
     });
     return Object.values(athleteResults)
       .filter(a=>a.runs.length===4)
-      .map(a=>{a.total=a.runs.reduce((sum,r)=>sum+r.pos,0);return a;})
+      .map(a=>{a.total=a.runs.reduce((sum,r)=>sum+r.score,0);return a;})
       .sort((a,b)=>a.total-b.total);
   };
   
