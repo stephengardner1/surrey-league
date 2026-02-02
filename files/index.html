@@ -2329,7 +2329,7 @@ const SeasonsView=({setView,seasonsData,races,mitchellCupWinners,division})=>{
   // Helper to compute individual rankings from race results
   const computeIndividualRankings=(season,seasonRaces)=>{
     const athleteResults={};
-    const aliases={'a s mohammed':'a mohammed','abdusalaam mohammed':'a mohammed','s chet tati':'s chettati','m lunares':'m linares'};
+    const aliases={'a s mohammed':'a mohammed','abdusalaam mohammed':'a mohammed','s chet tati':'s chettati','m lunares':'m linares','d naylor':'donald naylor','dave naylor':'donald naylor'};
     seasonRaces.forEach(r=>{
       if(!r.results)return;
       r.results.forEach(res=>{
