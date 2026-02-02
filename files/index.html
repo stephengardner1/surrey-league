@@ -3070,13 +3070,18 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
               <th className={`text-right ${rightRowPy} px-1 text-xs text-gray-500 uppercase w-10`} title={division==='women'?"Sum of best 3 finishing positions":"Sum of finishing positions across all races"}>Tot</th>
               {[1,2,3,4].slice(0,numRaces).map(n=><th key={n} className={`text-right ${rightRowPy} px-1 text-xs text-gray-300 uppercase w-8`}></th>)}
             </tr></thead>
-            <tbody className="divide-y divide-gray-100">{indRankings.slice(0,5).map((a,i)=>
-              <tr key={a.name} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
-                <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{i+1}</td>
+            <tbody className="divide-y divide-gray-100">{indRankings.slice(0,5).map((a,i)=>{
+              const prevTotal=i>0?indRankings[i-1].total:null;
+              const nextTotal=i<Math.min(indRankings.length-1,4)?indRankings[i+1].total:null;
+              const isTied=a.total===prevTotal||a.total===nextTotal;
+              const tieRank=indRankings.findIndex(e=>e.total===a.total)+1;
+              const rankDisplay=isTied?`=${tieRank}`:String(i+1);
+              return <tr key={a.name} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
+                <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{rankDisplay}</td>
                 <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><ClubShield club={a.club} size={14}/><span className="text-gray-700">{a.name}</span></div></td>
                 <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
                 {a.positions.map((pos,pi)=><td key={pi} className={`${rightRowPy} px-1 text-right text-gray-400 text-xs tabular-nums w-8`}>{pos}</td>)}
-              </tr>
+              </tr>}
             )}</tbody>
           </table>
         </div>;
@@ -3132,13 +3137,20 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
           <th className={`text-right ${rightRowPy} px-1 text-xs text-gray-500 uppercase w-10`} title={division==='women'?"Sum of best 3 finishing positions":"Sum of finishing positions across all races"}>Tot</th>
           {[1,2,3,4].slice(0,numRaces).map(n=><th key={n} className={`text-right ${rightRowPy} px-1 text-xs text-gray-300 uppercase w-8`}></th>)}
         </tr></thead>
-        <tbody className="divide-y divide-gray-100">{eligible.map((a,i)=>
-          <tr key={a.name} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
-            <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{i+1}</td>
+        <tbody className="divide-y divide-gray-100">{eligible.map((a,i)=>{
+          // Check for ties - same total as previous or next
+          const prevTotal=i>0?eligible[i-1].total:null;
+          const nextTotal=i<eligible.length-1?eligible[i+1].total:null;
+          const isTied=a.total===prevTotal||a.total===nextTotal;
+          // Find the first position with this total for "=N" display
+          const tieRank=eligible.findIndex(e=>e.total===a.total)+1;
+          const rankDisplay=isTied?`=${tieRank}`:String(i+1);
+          return <tr key={a.name} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
+            <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{rankDisplay}</td>
             <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><ClubShield club={a.club} size={14}/><span className="text-gray-700">{a.name}</span></div></td>
             <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
             {a.runs.map((r,ri)=><td key={ri} className={`${rightRowPy} px-1 text-right text-gray-400 text-xs tabular-nums w-8`}>{r.pos}</td>)}
-          </tr>
+          </tr>}
         )}</tbody>
       </table>
     </div>;
