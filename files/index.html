@@ -2411,10 +2411,15 @@ const SeasonsView=({setView,seasonsData,races,mitchellCupWinners,division})=>{
   // Render individual winner(s) - handles joint winners from Mitchell Cup data
   const renderIndividual=(ind,isHistorical)=>{
     if(!ind||ind.length===0)return<span className="text-sm text-gray-400">-</span>;
-    // Check if this is historical Mitchell Cup data with joint winners
-    const isJoint=ind[0]?.historical&&ind.length>1;
+    // Check if this is joint winners - either historical flag OR same total for first two
+    const isJointHistorical=ind[0]?.historical&&ind.length>1;
+    const isJointByTotal=ind.length>1&&ind[0]?.total!==undefined&&ind[0].total===ind[1]?.total;
+    const isJoint=isJointHistorical||isJointByTotal;
     if(isJoint){
-      return<div className="flex flex-col gap-0.5">{ind.map((w,i)=><div key={i} className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:w.name,club:w.club}});}}><ClubShield club={w.club} size={14}/><span className="text-sm text-gray-700"><span className="hidden md:inline">{w.name}</span><span className="md:hidden">{getSurname(w.name)}</span></span></div>)}</div>;
+      // Get all entries with the same total as first place
+      const winningTotal=ind[0].total;
+      const jointWinners=winningTotal!==undefined?ind.filter(w=>w.total===winningTotal):ind.filter(w=>w.historical);
+      return<div className="flex flex-col gap-0.5">{jointWinners.map((w,i)=><div key={i} className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:w.name,club:w.club}});}}><ClubShield club={w.club} size={14}/><span className="text-sm text-gray-700"><span className="hidden md:inline">{w.name}</span><span className="md:hidden">{getSurname(w.name)}</span></span></div>)}</div>;
     }
     const w=ind[0];
     return<div className="flex items-center gap-1 md:gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:w.name,club:w.club}});}}><ClubShield club={w.club} size={14}/><span className="text-sm text-gray-700"><span className="hidden md:inline">{w.name}</span><span className="md:hidden">{getSurname(w.name)}</span></span></div>;
