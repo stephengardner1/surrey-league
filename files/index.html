@@ -3830,6 +3830,20 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     });
   }
   
+  // Club code aliases (map variant codes to canonical codes)
+  const clubAliases={
+    'RPR':'REI',  // Reigate Priory
+    'REG':'REI',  // Reigate
+    'PRP':'REI',  // Reigate Priory (typo)
+    'WW':'W/W',   // Wimbledon Windmilers
+    'WWM':'W/W',  // Wimbledon Windmilers
+    'KPH':'K&P',  // Kingston & Polytechnic
+    'WEL':'GUEST', // Wells City -> guest
+  };
+  
+  // Normalize club codes in a value
+  const normalizeClub=(code)=>clubAliases[code]||code;
+
   // Club-specific aliases: for disambiguating known name collisions
   // where the same name at different clubs represents DIFFERENT people.
   // 
@@ -3873,21 +3887,6 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     return null;
   };
 
-  // Club code aliases (map variant codes to canonical codes)
-  const clubAliases={
-    'RPR':'REI',  // Reigate Priory
-    'REG':'REI',  // Reigate
-    'PRP':'REI',  // Reigate Priory (typo)
-    'RPR':'REI',  // Reigate Priory (old code)
-    'WW':'W/W',   // Wimbledon Windmilers
-    'WWM':'W/W',  // Wimbledon Windmilers
-    'KPH':'K&P',  // Kingston & Polytechnic
-    'WEL':'GUEST', // Wells City -> guest
-  };
-  
-  // Normalize club codes in a value
-  const normalizeClub=(code)=>clubAliases[code]||code;
-  
   // Handle special dead heat cases - these races have two winners with their clubs
   const deadHeats={
     '1966/67-4':{winner:'Bob Holt / Gerry North',winners:[{name:'Bob Holt',club:'H/W'},{name:'Gerry North',club:'BEL'}]},
