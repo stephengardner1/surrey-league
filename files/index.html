@@ -3830,6 +3830,49 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     });
   }
   
+  // Club-specific aliases: for disambiguating known name collisions
+  // where the same name at different clubs represents DIFFERENT people.
+  // 
+  // These are auto-generated from data.nameCollisions array.
+  // In data.json, add: "nameCollisions": ["Tom Foster", "John Smith"]
+  // The code will then treat "Tom Foster" at different clubs as different people.
+  const clubSpecificAliases={};
+  
+  // Build club-specific aliases from nameCollisions list
+  if(data.nameCollisions){
+    data.nameCollisions.forEach(name=>{
+      const key=normalizeNameForCompare(name);
+      // Find all clubs this name appears at
+      const clubsForName=new Set();
+      data.races.forEach(race=>{
+        (race.results||[]).forEach(r=>{
+          if(normalizeNameForCompare(r.name)===key || 
+             normalizeNameForCompare(r.name)===normalizeNameForCompare(`${name} (${r.club})`)){
+            clubsForName.add(normalizeClub(r.club));
+          }
+        });
+      });
+      // Create aliases for each club variant
+      clubsForName.forEach(club=>{
+        if(club){
+          clubSpecificAliases[`${key}|${club}`]=`${name} (${club})`;
+          // Also handle if already has club suffix
+          clubSpecificAliases[`${normalizeNameForCompare(`${name} (${club})`)}|${club}`]=`${name} (${club})`;
+        }
+      });
+    });
+  }
+  
+  // Helper to get canonical name considering club (only for disambiguation)
+  const getCanonicalName=(name,club)=>{
+    const key=normalizeNameForCompare(name);
+    const clubKey=`${key}|${club}`;
+    // Only check club-specific alias (for disambiguation)
+    if(clubSpecificAliases[clubKey])return clubSpecificAliases[clubKey];
+    // For general aliases, don't pass through here - let normal flow handle it
+    return null;
+  };
+
   // Club code aliases (map variant codes to canonical codes)
   const clubAliases={
     'RPR':'REI',  // Reigate Priory
@@ -3939,18 +3982,22 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     });
   });
   
-  // Merge duplicate athletes
+  // Merge duplicate athletes (with club-specific alias support)
   const mergedAthletes={};
   data.athletes.forEach(a=>{
     let key=normalizeNameForCompare(a.name);
-    // If this name has an alias, use the canonical name as the key
-    if(nameAliases[key]){
+    // Normalize club code first
+    if(a.club)a.club=normalizeClub(a.club);
+    // Check club-specific alias first, then general alias
+    const clubSpecific=getCanonicalName(a.name,a.club);
+    if(clubSpecific){
+      key=normalizeNameForCompare(clubSpecific);
+    }else if(nameAliases[key]){
       key=normalizeNameForCompare(nameAliases[key]);
     }
-    // Normalize club code
-    if(a.club)a.club=normalizeClub(a.club);
     if(!mergedAthletes[key]){
-      mergedAthletes[key]={...a,name:nameMap[normalizeNameForCompare(a.name)]||a.name};
+      const displayName=clubSpecific||nameMap[normalizeNameForCompare(a.name)]||a.name;
+      mergedAthletes[key]={...a,name:displayName};
     }else{
       // Merge stats
       const m=mergedAthletes[key];
@@ -3971,11 +4018,18 @@ const normalizeData=(data,division='men',liveAliases={})=>{
   });
   data.athletes=Object.values(mergedAthletes);
   
-  // Normalize names in race results
+  // Normalize names in race results (with club-specific alias support)
   data.races.forEach(race=>{
     (race.results||[]).forEach(r=>{
-      const key=normalizeNameForCompare(r.name);
-      if(nameMap[key])r.name=nameMap[key];
+      const club=normalizeClub(r.club);
+      // Check club-specific alias first
+      const clubSpecific=getCanonicalName(r.name,club);
+      if(clubSpecific){
+        r.name=clubSpecific;
+      }else{
+        const key=normalizeNameForCompare(r.name);
+        if(nameMap[key])r.name=nameMap[key];
+      }
     });
   });
   
