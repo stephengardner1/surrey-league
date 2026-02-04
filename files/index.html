@@ -1046,7 +1046,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
         h.push({date:race?.date||hr.season,venue:hr.venue,pos:hr.pos,time:'-',club:hr.club,race,hasFullDate:false,season:hr.season,teamScore:hr.pos===1?'A1':''});
       });
     }
-    return h.sort((a,b)=>{const aKey=a.hasFullDate?a.date:a.season;const bKey=b.hasFullDate?b.date:b.season;return bKey.localeCompare(aKey);});
+    return h.sort((a,b)=>{const aDate=a.hasFullDate?parseDate(a.date):null;const bDate=b.hasFullDate?parseDate(b.date):null;if(aDate&&bDate)return bDate-aDate;if(aDate&&!bDate)return -1;if(!aDate&&bDate)return 1;return b.season.localeCompare(a.season)||(b.race?.match||0)-(a.race?.match||0);});
   },[athleteData?.name,athleteData?.historicalRaces,races,divisionConfig]);
   
   // Compute club GOAT rankings dynamically from race history for each club
