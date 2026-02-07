@@ -2593,7 +2593,8 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     const dominantTeam=Object.keys(teamWins).find(k=>teamWins[k]===maxTeamWins);
     const completedMatches=matches.filter(m=>m.winner).length;
     
-    if(isCurrentSeason){
+    const isSeasonFinished=completedMatches>=4||(seasonData?.historical&&seasonData?.champion);
+    if(isCurrentSeason&&!isSeasonFinished){
       if(maxIndWins>=3&&dominantInd&&!hasAnyoneWonAll4()){
         items.push({text:'could become the first athlete to win all 4 races in a single season',athlete:{name:dominantInd,club:dominantIndClub}});
       }else if(maxIndWins>=3&&dominantInd){
@@ -2689,7 +2690,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         if(ordinal)items.push({text:`was the ${ordinal} turnout on record (${biggestRace.finishers})`,race:biggestRace,venueName:biggestRace.venue});
       }
       
-    }else if(isComplete){
+    }else if(isComplete||(isCurrentSeason&&isSeasonFinished)){
       const champion=standings[0]?.club;
       const marginStats=getMarginStats();
       
