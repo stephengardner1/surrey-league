@@ -227,8 +227,8 @@ const ParsedContent=({content,setView})=>{
       case'text':return<span key={i}>{seg.content}</span>;
       case'bold':return<strong key={i}>{seg.content}</strong>;
       case'link':return<a key={i} href={seg.target} target="_blank" rel="noopener noreferrer" className="text-[#0077b6] hover:underline">{seg.content}</a>;
-      case'athlete':return<span key={i} className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:seg.content,club:seg.target}})}>{seg.content}</span>;
-      case'club':return<span key={i} className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'club',club:seg.target})}>{seg.content}</span>;
+      case'athlete':return<span key={i} className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'athlete',athlete:{name:seg.content,club:seg.target}})}><span className="inline-block align-middle mr-0.5"><ClubShield club={seg.target} size={12}/></span>{seg.content}</span>;
+      case'club':return<span key={i} className="text-[#0077b6] hover:underline cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'club',club:seg.target})}><span className="inline-block align-middle mr-0.5"><ClubShield club={seg.target} size={12}/></span>{seg.content}</span>;
       case'season':return<span key={i} className="text-[#0077b6] hover:underline cursor-pointer" onClick={()=>setView({type:'home',urlSeason:seg.target})}>{seg.content}</span>;
       default:return<span key={i}>{seg.content}</span>;
     }
