@@ -2930,8 +2930,10 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       <UKChartsDisplay season={season}/>
     </div>;
   }
-  // If we have stored punditry for historical seasons, show it
-  if(seasonData?.punditry&&insights.length===0){
+  // If we have stored punditry for historical seasons or finished current season, show it
+  const currentSeason=data.seasons[0];
+  const isCurrentSeasonFinished=season===currentSeason&&(seasonData?.matches?.filter(m=>m.winner)?.length>=4);
+  if(seasonData?.punditry&&(seasonData?.historical||insights.length===0||isCurrentSeasonFinished)){
     return<div className="mt-4">
       <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">Autopundit 🗣️</span>{seasonData.punditry}</p>
       <UKChartsDisplay season={season}/>
