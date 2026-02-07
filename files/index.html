@@ -3668,7 +3668,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
             ...(r.s!=null||r.pts!=null?{pts:r.s??r.pts}:{}),
             ...(r.b_s!=null||r.b!=null||r.b_pts!=null?{b_pts:r.b_s??r.b??r.b_pts}:{}),
             ...(r.x!=null||r.ns!=null?{ns:r.x??r.ns}:{}),
-            ...(r.sc?{secondClaim:true}:{})
+            ...(r.sc||r.secondClaim?{secondClaim:true}:{})
           };
         }
         return r;
