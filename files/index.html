@@ -2935,7 +2935,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
   const isCurrentSeasonFinished=season===currentSeason&&(seasonData?.matches?.filter(m=>m.winner)?.length>=4);
   if(seasonData?.punditry&&(seasonData?.historical||insights.length===0||isCurrentSeasonFinished)){
     return<div className="mt-4">
-      <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">Autopundit 🗣️</span>{seasonData.punditry}</p>
+      <p className="text-xs text-gray-600 leading-relaxed"><span className="text-xs text-gray-500 uppercase mr-2">Autopundit 🗣️</span><ParsedContent content={seasonData.punditry} setView={setView}/></p>
       <UKChartsDisplay season={season}/>
     </div>;
   }
