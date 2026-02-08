@@ -163,11 +163,13 @@ const ALIASES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRPBDTtNa5m
 // [text](@season:2024/25) -> clickable season link
 const ParsedContent=({content,setView})=>{
   if(!content)return null;
+  // Handle array input (legacy format) - join into string
+  const text=Array.isArray(content)?content.join(' · '):String(content);
   
   // Parse the content into segments
-  const parseContent=(text)=>{
+  const parseContent=(input)=>{
     const segments=[];
-    let remaining=text;
+    let remaining=input;
     
     // Regex patterns
     const patterns=[
@@ -220,7 +222,7 @@ const ParsedContent=({content,setView})=>{
     return segments;
   };
   
-  const segments=parseContent(content);
+  const segments=parseContent(text);
   
   return<>{segments.map((seg,i)=>{
     switch(seg.type){
