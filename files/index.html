@@ -1028,8 +1028,10 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
         if(result.club&&race.results){
           const teamSizeA=divisionConfig?.teamSize?.a||10;
           const teamSizeB=divisionConfig?.teamSize?.b||10;
-          const clubRunners=race.results.filter(r=>r.club===result.club);
-          const posInClub=clubRunners.findIndex(r=>namesMatch(r.name,result.name))+1;
+          // Count position among eligible club finishers (excluding non-scorers)
+          // Non-scorers are marked with ns field (normalized from ns, nonScorer, or x)
+          const clubEligible=race.results.filter(r=>r.club===result.club&&!r.ns);
+          const posInClub=clubEligible.findIndex(r=>namesMatch(r.name,result.name))+1;
           if(posInClub>=1&&posInClub<=teamSizeA)teamScore=`A${posInClub}`;
           else if(posInClub>=teamSizeA+1&&posInClub<=teamSizeA+teamSizeB)teamScore=`B${posInClub-teamSizeA}`;
         }
@@ -3672,7 +3674,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
             time:r.t??r.time,
             ...(r.s!=null||r.pts!=null?{pts:r.s??r.pts}:{}),
             ...(r.b_s!=null||r.b!=null||r.b_pts!=null?{b_pts:r.b_s??r.b??r.b_pts}:{}),
-            ...(r.x!=null||r.ns!=null?{ns:r.x??r.ns}:{}),
+            ...(r.x!=null||r.ns!=null||r.nonScorer!=null?{ns:r.x??r.ns??r.nonScorer}:{}),
             ...(r.sc||r.secondClaim?{secondClaim:true}:{})
           };
         }
