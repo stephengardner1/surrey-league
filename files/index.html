@@ -1025,13 +1025,12 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
         
         // Calculate team scoring position
         let teamScore='';
-        if(result.club&&race.results){
+        if(result.club&&race.results&&result.pts){
           const teamSizeA=divisionConfig?.teamSize?.a||10;
           const teamSizeB=divisionConfig?.teamSize?.b||10;
-          // Count position among eligible club finishers (excluding non-scorers)
-          // Non-scorers are marked with ns field (normalized from ns, nonScorer, or x)
-          const clubEligible=race.results.filter(r=>r.club===result.club&&!r.ns);
-          const posInClub=clubEligible.findIndex(r=>namesMatch(r.name,result.name))+1;
+          // Count position among club scorers (those with pts field)
+          const clubScorers=race.results.filter(r=>r.club===result.club&&r.pts);
+          const posInClub=clubScorers.findIndex(r=>namesMatch(r.name,result.name))+1;
           if(posInClub>=1&&posInClub<=teamSizeA)teamScore=`A${posInClub}`;
           else if(posInClub>=teamSizeA+1&&posInClub<=teamSizeA+teamSizeB)teamScore=`B${posInClub-teamSizeA}`;
         }
