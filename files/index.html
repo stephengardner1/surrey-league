@@ -778,7 +778,7 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
     
     {/* Mobile: tabs */}
     <div className="lg:hidden">
-      <div className="flex gap-4 mb-6 border-b border-gray-200">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`pb-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab===t.id?'border-[#0077b6] text-[#0077b6]':'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
+      <div className="flex gap-4 mb-6 border-b border-gray-200">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`pb-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab===t.id?'border-[#0077b6] text-[#0077b6]':'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
       {tab==='a-teams'&&(displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>)}
       {tab==='b-teams'&&!displayTeamScores&&<TeamResultsTable results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>}
       {tab==='b-teams'&&displayTeamScores&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
@@ -795,7 +795,7 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
           {displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} title="A Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
         <div>
-          {!displayTeamScores&&<TeamResultsTableCompact results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
+          {!displayTeamScores&&parseInt(race.season)>=2013&&<TeamResultsTableCompact results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
       </div>
     </div>
