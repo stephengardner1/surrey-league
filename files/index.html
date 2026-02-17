@@ -697,9 +697,9 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
     // Calculate A-team scores from results (same logic as TeamResultsTable)
     const clubScores = {};
     race.results.forEach(r => {
-      if (r.pts != null && !excludedClubs.has(r.club)) {
+      if ((r.pts != null || r.s != null) && !excludedClubs.has(r.club)) {
         if (!clubScores[r.club]) clubScores[r.club] = [];
-        if (clubScores[r.club].length < 10) clubScores[r.club].push(r.pts);
+        if (clubScores[r.club].length < 10) clubScores[r.club].push(r.pts ?? r.s);
       }
     });
     // Sum scores for each club
@@ -780,8 +780,8 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
     <div className="lg:hidden">
       <div className="flex gap-4 mb-6 border-b border-gray-200">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`pb-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab===t.id?'border-[#0077b6] text-[#0077b6]':'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
       {tab==='a-teams'&&(displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTable results={race.results} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>)}
-      {tab==='b-teams'&&!displayTeamScores&&<TeamResultsTable results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>}
-      {tab==='b-teams'&&displayTeamScores&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
+      {tab==='b-teams'&&hasCalculableResults&&<TeamResultsTable results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>}
+      {tab==='b-teams'&&!hasCalculableResults&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
       {tab==='individual'&&<IndividualResultsTable results={race.results} clubFilter={clubFilter} setClubFilter={setClubFilter} setView={setView} clubMvps={clubMvps} individualChampions={individualChampions}/>}
     </div>
     
@@ -795,7 +795,7 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
           {displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} title="A Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
         <div>
-          {!displayTeamScores&&parseInt(race.season)>=2013&&<TeamResultsTableCompact results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
+          {hasCalculableResults&&parseInt(race.season)>=2013&&<TeamResultsTableCompact results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
       </div>
     </div>
@@ -808,7 +808,7 @@ const FixturesView=({setView,races,seasonsData})=>{
   const mostRecentSeason=allSeasons[allSeasons.length-1];
   const getChampion=(season)=>{const sd=seasonsData[season];if(!sd?.standings?.[0])return null;if(season===mostRecentSeason){const raceCount=races.filter(r=>r.season===season&&r.results?.length>0).length;if(raceCount<4)return null;}return sd.standings[0].club;};
   const completeRaces=allFixtures.filter(r=>r.results?.length>=80).length;
-  const partialRaces=allFixtures.filter(r=>r.results?.length>=4&&r.results?.length<100).length;
+  const partialRaces=allFixtures.filter(r=>r.results?.length>=4&&r.results?.length<80).length;
   const winnersOnly=allFixtures.filter(r=>!r.results?.length||r.results?.length<4).length;
   return<div className="max-w-5xl mx-auto px-4 py-8"><div className="mb-4"><h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>Fixtures</h1><p className="text-sm text-gray-500">{allFixtures.length} matches since 1962: <span className="inline-flex items-center gap-1"><span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span></span>{completeRaces} with complete results, <span className="inline-flex items-center gap-1"><span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500"></span></span>{partialRaces} with partial results, <span className="inline-flex items-center gap-1"><span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500"></span></span>{winnersOnly} with winners' data only</p></div><table className="w-full"><tbody>{allFixtures.map((race,i)=>{const show=race.season!==lastSeason;const champ=show?getChampion(race.season):null;lastSeason=race.season;const hasResults=race.results?.length>=4;return<React.Fragment key={`${race.season}-${race.match}`}>{show&&<tr><td colSpan={6} className="pt-6 pb-2"><div className="flex items-center gap-2 text-xs font-semibold text-gray-400 uppercase tracking-wide border-b border-gray-200 pb-1"><span>{race.season}</span>{champ&&<><span className="text-amber-500">🏆</span><ClubShield club={champ} size={14}/><span className="text-gray-600 normal-case font-medium">{champ}</span></>}</div></td></tr>}<tr className="border-b border-gray-50"><td className={`py-1.5 pr-2 text-sm text-gray-500 w-20 ${hasResults?'hover:text-[#0077b6] cursor-pointer':''}`} onClick={()=>hasResults&&setView({type:'race',race})}>{race.date?.length<=3?race.date:formatDateShort(race.date)}</td><td className="py-1.5 px-1 w-3 table-cell"><span className={`inline-block w-1.5 h-1.5 rounded-full ${race.results?.length>=80?'bg-green-500':race.results?.length>=4?'bg-amber-500':'bg-red-500'}`} title={race.results?.length>=80?'Complete results':race.results?.length>=4?'Partial results':'Winners\' data only'}></span></td><td className={`py-1.5 px-2 text-sm text-gray-900 ${hasResults?'hover:text-[#0077b6] cursor-pointer':''}`} onClick={()=>hasResults&&setView({type:'race',race})}>{race.venue}</td><td className="py-1.5 px-1 w-28 text-right text-xs text-gray-500">{race.weather&&<span title={`${race.weather.description}, ${race.weather.temp}°C, ${race.weather.windSpeed}km/h wind`}>{race.weather.icon} {race.weather.temp}° {race.weather.windSpeed}km/h</span>}</td><td className="py-1.5 px-2 w-44">{race.winner&&<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:race.winner.includes('/')?race.winner.split('/')[0].trim():race.winner,club:race.winnerClub}})}><ClubShield club={race.winnerClub} size={14}/><span className="text-sm text-gray-700">{race.winner?.includes('/')?<span className="flex flex-col leading-tight">{race.winner.split('/').map((w,i)=><span key={i}><span className="hidden md:inline">{w.trim()}</span><span className="md:hidden">{w.trim().split(' ').pop()}</span></span>)}</span>:<><span className="hidden md:inline">{race.winner}</span><span className="md:hidden">{race.winner?.split(' ').pop()}</span></>}</span></div>}</td><td className="py-1.5 pl-2 w-24">{race.teamWinner&&<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'club',club:race.teamWinner})}><ClubShield club={race.teamWinner} size={14}/><span className="text-sm font-medium text-gray-900">{race.teamWinner}</span></div>}</td></tr></React.Fragment>;})}</tbody></table></div>;
 };
