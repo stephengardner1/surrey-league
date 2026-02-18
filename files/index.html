@@ -3061,7 +3061,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       <thead><tr className="border-b border-gray-200">
         <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`}>Matches</th>
         <th className={`text-left ${rightRowPy} px-2 text-xs text-gray-500 uppercase`}>Winner</th>
-        <th className={`text-right ${rightRowPy} pl-2 text-xs text-gray-500 uppercase`}>Team</th>
+        <th className={`text-left ${rightRowPy} pl-2 text-xs text-gray-500 uppercase`}>Team</th>
       </tr></thead>
       <tbody className="divide-y divide-gray-100">{matches.map(match=>{
         const race=findRace(match.num);const upcoming=!match.winner;
@@ -3069,7 +3069,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
           <td className={`${rightRowPy} pr-2 text-gray-500 whitespace-nowrap w-14`}>{match.date?.length<=3?match.date:formatDateShort(match.date)}</td>
           <td className={`${rightRowPy} px-2 text-gray-900`}>{match.venue}</td>
           <td className={`${rightRowPy} px-2`}>{upcoming?<span className="text-gray-400 italic">-</span>:<div className="flex items-center gap-1.5"><ClubShield club={match.winnerClub} size={14}/><span className="text-gray-700"><span className="hidden md:inline">{match.winner}</span><span className="md:hidden">{getSurname(match.winner)}</span></span></div>}</td>
-          <td className={`${rightRowPy} pl-2 text-right`}>{!upcoming&&match.teamWinner?<div className="inline-flex items-center gap-1.5"><ClubShield club={match.teamWinner} size={14}/><span className="font-medium">{match.teamWinner}</span></div>:'-'}</td>
+          <td className={`${rightRowPy} pl-2`}>{!upcoming&&match.teamWinner?<div className="inline-flex items-center gap-1.5"><ClubShield club={match.teamWinner} size={14}/><span className="font-medium">{match.teamWinner}</span></div>:'-'}</td>
         </tr>;
       })}</tbody>
     </table>
