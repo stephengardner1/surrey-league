@@ -731,8 +731,17 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
   // Count individual winner's race wins up to and including this race, and total career wins
   // For dead heats, we need to handle multiple winners
   const winnersData=useMemo(()=>{
-    // Check if this is a dead heat with multiple winners
-    const winners = race.winners || (race.winner ? [{name: race.winner, club: race.winnerClub}] : []);
+    // Derive winner from results (first finisher) when available, else fall back to winner field
+    let winners;
+    if(race.results?.length>0){
+      const first=race.results[0];
+      const firstPos=first.pos||first.p;
+      // Check for dead heat at pos 1
+      const deadHeat=race.results.filter(r=>(r.pos||r.p)===firstPos||(r.pos||r.p)==='=1');
+      winners=deadHeat.map(r=>({name:r.name||r.n,club:r.club||r.c}));
+    } else {
+      winners = race.winners || (race.winner ? [{name: race.winner, club: race.winnerClub}] : []);
+    }
     if(winners.length === 0) return [];
     
     return winners.map(w => {
@@ -1120,7 +1129,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     const stats={wins:0,top3:0,top5:0,top10:0,top20:0,top50:0,top100:0,races:raceHistory.length,aScores:0};
     let histWins=0;
     raceHistory.forEach(r=>{
-      if(r.pos===1||r.pos==='=1'||r.pts===1){stats.wins++;if(!r.hasFullDate)histWins++;}
+      if(r.pos===1||r.pos==='=1'){stats.wins++;if(!r.hasFullDate)histWins++;}
       if(r.pos<=3||r.pos==='=1')stats.top3++;
       if(r.pos<=5||r.pos==='=1')stats.top5++;
       if(r.pos<=10||r.pos==='=1')stats.top10++;
@@ -2280,7 +2289,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
         const s=ensureAthlete(r.name,clubCode);
         s.races++;
         updateYears(s,race);
-        if(r.pos===1||r.pos==='=1'||r.pts===1)s.wins++;
+        if(r.pos===1||r.pos==='=1')s.wins++;
         if(r.pos<=3||r.pos==='=1')s.top3++;
         if(r.pos<=5||r.pos==='=1')s.top5++;
         if(r.pos<=10||r.pos==='=1')s.top10++;
@@ -4069,7 +4078,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
       const s=athleteStats[key];
       s.races++;
       s.clubs.add(r.club);
-      if(r.pos===1||r.pos==='=1'||r.pts===1)s.wins++;
+      if(r.pos===1||r.pos==='=1')s.wins++;
       if(r.pos<=3||r.pos==='=1')s.top3++;
       if(r.pos<=5||r.pos==='=1')s.top5++;
       if(r.pos<=10||r.pos==='=1')s.top10++;
@@ -4276,7 +4285,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     // Most wins in a single season
     const seasonWins={};
     data.races.forEach(race=>{
-      if(!race.winner||race.deadHeat)return;
+      if(!race.winner||race.deadHeat||race.winnerClub==='GUEST'||race.winnerClub==='GST')return;
       const key=`${race.winner}|${race.winnerClub}|${race.season}`;
       seasonWins[key]=(seasonWins[key]||0)+1;
     });
@@ -4294,7 +4303,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     }).slice(0,5);
     
     // Consecutive wins (across seasons) - sort by season then match, not by date string
-    const winnersByDate=data.races.filter(r=>r.winner&&!r.deadHeat).sort((a,b)=>a.season.localeCompare(b.season)||a.match-b.match);
+    const winnersByDate=data.races.filter(r=>r.winner&&!r.deadHeat&&r.winnerClub!=='GUEST'&&r.winnerClub!=='GST').sort((a,b)=>a.season.localeCompare(b.season)||a.match-b.match);
     const streaks={};
     let lastWinner=null;
     winnersByDate.forEach(race=>{
