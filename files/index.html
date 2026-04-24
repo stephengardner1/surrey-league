@@ -2900,12 +2900,12 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         
         // First season in Div 1 (in our data)
         if(firstSeason===season){
-          items.push({text:`made their first Div 1 appearance in our records`,club:team.club});
+          items.push({text:`made their first appearance in Division 1`,club:team.club});
         }
-        
-        // Last season in Div 1 (in our data)
+
+        // Last season in Div 1
         if(!nextSeason&&firstSeason!==season){
-          items.push({textBefore:`This is the last season `,club:team.club,text:` appear in Div 1 in our records`});
+          items.push({textBefore:`This was `,club:team.club,text:`'s last season in Division 1`});
         }
       });
     }
