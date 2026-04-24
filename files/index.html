@@ -4013,7 +4013,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
       key=normalizeNameForCompare(nameAliases[key]);
     }
     if(!mergedAthletes[key]){
-      const displayName=clubSpecific||nameMap[normalizeNameForCompare(a.name)]||a.name;
+      const displayName=(clubSpecific&&nameMap[normalizeNameForCompare(clubSpecific)])||clubSpecific||nameMap[normalizeNameForCompare(a.name)]||a.name;
       mergedAthletes[key]={...a,name:displayName};
     }else{
       // Merge stats
@@ -4042,7 +4042,9 @@ const normalizeData=(data,division='men',liveAliases={})=>{
       // Check club-specific alias first
       const clubSpecific=getCanonicalName(r.name,club);
       if(clubSpecific){
-        r.name=clubSpecific;
+        // Check if the club-specific name has a further alias (e.g. "D Hill (THH)" -> "Dave Hill")
+        const csKey=normalizeNameForCompare(clubSpecific);
+        r.name=nameMap[csKey]||clubSpecific;
       }else{
         const key=normalizeNameForCompare(r.name);
         if(nameMap[key])r.name=nameMap[key];
