@@ -4366,7 +4366,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     });
     const biggestTurnouts=turnouts.sort((a,b)=>b.count-a.count).slice(0,5);
     
-    return{mostWinsSeason,mostConsecutiveWins,biggestRaces,mostConsecutiveTitles,biggestTurnouts};
+    return{mostWinsSeason,mostConsecutiveWins,biggestRaces,mostConsecutiveTitles,biggestTurnouts,mostLeagueTitles:data.achievements?.mostLeagueTitles};
   };
   data.achievements=computeAchievements();
   
