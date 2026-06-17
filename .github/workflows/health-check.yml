@@ -1,0 +1,76 @@
+name: Site health check
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Daily at 8am UTC
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check site returns 200
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" "https://slarchive.org")
+          if [ "$status" != "200" ]; then
+            echo "::error::Site returned HTTP $status"
+            exit 1
+          fi
+          echo "Site returned HTTP 200"
+
+      - name: Check data.json is valid JSON
+        run: |
+          curl -s "https://slarchive.org/data.json" > /tmp/data.json
+          if ! python3 -c "import json; json.load(open('/tmp/data.json'))"; then
+            echo "::error::data.json is not valid JSON"
+            exit 1
+          fi
+          echo "data.json is valid JSON ($(wc -c < /tmp/data.json) bytes)"
+
+      - name: Check data-women.json is valid JSON
+        run: |
+          curl -s "https://slarchive.org/data-women.json" > /tmp/data-women.json
+          if ! python3 -c "import json; json.load(open('/tmp/data-women.json'))"; then
+            echo "::error::data-women.json is not valid JSON"
+            exit 1
+          fi
+          echo "data-women.json is valid JSON ($(wc -c < /tmp/data-women.json) bytes)"
+
+      - name: Check CDN dependencies are reachable
+        run: |
+          failed=0
+          for url in \
+            "https://cdn.tailwindcss.com/3.4.17" \
+            "https://unpkg.com/react@18.3.1/umd/react.production.min.js" \
+            "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" \
+            "https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"
+          do
+            status=$(curl -s -o /dev/null -L -w "%{http_code}" "$url")
+            if [ "$status" != "200" ]; then
+              echo "::warning::$url returned HTTP $status"
+              failed=1
+            else
+              echo "OK: $url"
+            fi
+          done
+          if [ "$failed" = "1" ]; then
+            echo "::error::One or more CDN dependencies failed"
+            exit 1
+          fi
+
+      - name: Check for major version bumps on unpinned ranges
+        run: |
+          # Alert if new major versions exist for our dependencies
+          react_latest=$(curl -s "https://registry.npmjs.org/react/latest" | python3 -c "import json,sys; print(json.load(sys.stdin)['version'])")
+          babel_latest=$(curl -s "https://registry.npmjs.org/@babel/standalone/latest" | python3 -c "import json,sys; print(json.load(sys.stdin)['version'])")
+          echo "Current pinned: react@18.3.1, babel@7.29.7"
+          echo "Latest on npm:  react@$react_latest, babel@$babel_latest"
+          # Warn if major version changed
+          react_major=$(echo "$react_latest" | cut -d. -f1)
+          babel_major=$(echo "$babel_latest" | cut -d. -f1)
+          if [ "$react_major" != "18" ]; then
+            echo "::warning::React has a new major version: $react_latest (pinned to 18.x)"
+          fi
+          if [ "$babel_major" != "7" ]; then
+            echo "::warning::Babel has a new major version: $babel_latest (pinned to 7.x)"
+          fi
