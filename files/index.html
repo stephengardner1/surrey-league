@@ -50,7 +50,7 @@ const getNumericPos=(pos)=>{if(typeof pos==='number')return pos;if(typeof pos===
 const normalizeNameForCompare=(name)=>name?.toLowerCase().trim()||'';
 const namesMatch=(a,b)=>normalizeNameForCompare(a)===normalizeNameForCompare(b);
 const getSurname=(name)=>{if(!name)return'';const parts=name.split(' ');return parts.length>1?parts[parts.length-1]:name;};
-const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'},'LCR':{name:'London City Runners'},'ADV':{name:'Advent Runners',defunct:true},'262':{name:'26.2 Road Runners'},'MPA':{name:'Metropolitan Police AC'},'BAC':{name:'British Airways AC',defunct:true},'OME':{name:'Omega RC',defunct:true},'GUEST':{name:'Guest',hidden:true},'N/S':{name:'Non-scorer',hidden:true},'MOR':{name:'Morden AC',defunct:true},'EAS':{name:'Ealing Southall & Middlesex'},'LIN':{name:'Lingfield RC'},'WAV':{name:'Waverley Harriers'}};
+const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'},'LCR':{name:'London City Runners'},'ADV':{name:'Advent Runners',defunct:true},'262':{name:'26.2 Road Runners'},'MPA':{name:'Metropolitan Police AC'},'BAC':{name:'British Airways AC',defunct:true},'OME':{name:'Omega RC',defunct:true},'GUEST':{name:'Guest',hidden:true},'Guest':{name:'Guest',hidden:true},'N/S':{name:'Non-scorer',hidden:true},'?':{name:'Unknown',hidden:true},'':{name:'Unknown',hidden:true},'MOR':{name:'Morden AC',defunct:true},'EAS':{name:'Ealing Southall & Middlesex'},'LIN':{name:'Lingfield RC'},'WAV':{name:'Waverley Harriers'}};
 
 // UK Bestselling Singles and Albums by Year (for seasons ending in that year)
 const UK_CHARTS={
@@ -3690,7 +3690,13 @@ const normalizeData=(data,division='men',liveAliases={})=>{
       });
     }
   });
-  
+
+  // Club code remapping (alternate abbreviations → canonical)
+  const clubRemap={'RPR':'REI'};
+  data.races.forEach(race=>{
+    if(race.results) race.results.forEach(r=>{if(clubRemap[r.club])r.club=clubRemap[r.club];});
+  });
+
   // Venue name mappings
   const venueMap={
     'Croyden':'Croydon',
