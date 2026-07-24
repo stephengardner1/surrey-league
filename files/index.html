@@ -3005,9 +3005,21 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   
   // Use stored standings if: (a) pre-modern era with authoritative data, OR (b) any season with stored standings
   // Only fall back to calculation for modern seasons without stored standings
-  const standings=(isPreModernEra&&hasAuthoritativeStandings)?seasonData.standings:
+  const rawStandings=(isPreModernEra&&hasAuthoritativeStandings)?seasonData.standings:
     (seasonData?.standings?.length>0?seasonData.standings:buildStandingsFromRaces());
-  
+
+  // Enrich authoritative standings with per-match scores from race data when available
+  const standings=rawStandings.map(t=>{
+    if(t.m1!=null)return t;
+    const enriched={...t};
+    seasonRaces.forEach(r=>{
+      if(!r.teamScores)return;
+      const ts=r.teamScores.find(s=>s.club===t.club);
+      if(ts)enriched[`m${r.match}`]=ts.score;
+    });
+    return enriched;
+  });
+
   // Season is complete if all 4 races have >100 results each
   const racesWithResults=seasonRaces.filter(r=>r.results&&r.results.length>100);
   const isCurrentSeason=season===data.seasons[0];
