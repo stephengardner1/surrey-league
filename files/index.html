@@ -1538,7 +1538,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
                   const isGold=isSelected&&p.isChampion;
                   return<circle key={i} cx={p.x} cy={p.y} r={isSelected?3:2} fill={isGold?'#eab308':color} stroke={isGold?'#ca8a04':undefined} strokeWidth={isGold?1:0} opacity={opacity}/>;
                 })}
-                {isSelected&&<text x={points[points.length-1].x+8} y={points[points.length-1].y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
+                {isSelected&&<text x={padL+(plotW/2)} y={padT-8} textAnchor="middle" fontSize="11" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
               </g>;
             })}
           </svg>
@@ -1578,7 +1578,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
               return<g key={code} onMouseEnter={()=>setHoveredClub(code)} onMouseLeave={()=>setHoveredClub(null)} onClick={()=>setTappedClub(tappedClub===code?null:code)} style={{cursor:'pointer'}}>
                 <path d={pathD} fill="none" stroke={color} strokeWidth={isSelected?1.5:1} strokeLinecap="round" strokeLinejoin="round" opacity={opacity}/>
                 {points.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r={isSelected?3:2} fill={color} opacity={opacity}/>)}
-                {isSelected&&<text x={points[points.length-1].x+8} y={points[points.length-1].y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
+                {isSelected&&<text x={padL+(plotW/2)} y={padT-8} textAnchor="middle" fontSize="11" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
               </g>;
             })}
           </svg>
@@ -3284,7 +3284,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
               return<g key={code} onMouseEnter={()=>setHovered(code)} onMouseLeave={()=>setHovered(null)} onClick={()=>setTapped(tapped===code?null:code)} style={{cursor:'pointer'}}>
                 <path d={pathD} fill="none" stroke={color} strokeWidth={isSelected?1.5:1} strokeLinecap="round" strokeLinejoin="round" opacity={opacity}/>
                 {points.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r={isSelected?3:2} fill={color} opacity={opacity}/>)}
-                {isSelected&&<text x={points[points.length-1].x+8} y={points[points.length-1].y+4} fontSize="10" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
+                {isSelected&&<text x={padL+(plotW/2)} y={padT-8} textAnchor="middle" fontSize="11" fill={color} fontWeight="600">{CLUBS[code]?.name||code}</text>}
               </g>;
             })}
           </svg>
