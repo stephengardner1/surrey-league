@@ -3025,7 +3025,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   // Season is complete if all 4 races have >100 results each
   const racesWithResults=seasonRaces.filter(r=>r.results&&r.results.length>100);
   const isCurrentSeason=season===data.seasons[0];
-  const hasCompleteResults=isCurrentSeason?racesWithResults.length===seasonRaces.filter(r=>r.results?.length>0).length:racesWithResults.length===4;
+  const hasCompleteResults=isCurrentSeason?racesWithResults.length>0&&racesWithResults.length===seasonRaces.filter(r=>r.results?.length>0).length:racesWithResults.length===4;
   // Historical if flagged or has only partial data (races with few results)
   const isHistorical=seasonData?.historical||(!hasCompleteResults&&seasonRaces.every(r=>!r.results||r.results.length<=10));
   // Complete if we have full results, or if historical with a champion
