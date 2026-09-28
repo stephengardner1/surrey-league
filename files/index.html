@@ -3144,7 +3144,15 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     }
     const seasonRacesLocal=data.races.filter(r=>r.season===season&&r.results);
     const numRaces=seasonRacesLocal.length;
-    if(numRaces===0)return null;
+    if(numRaces===0)return<div className="mt-3">
+      <table className="w-full text-sm">
+        <thead><tr className="border-b border-gray-200">
+          <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title={division==='women'?"Top 5 athletes with 3+ races, ranked by best 3 positions":"Top 5 athletes who raced in all matches, ranked by sum of positions (lowest is best)"}>{individualLabel}</th>
+          <th className={`text-right ${rightRowPy} px-1 text-xs text-gray-500 uppercase w-10`}>Tot</th>
+        </tr></thead>
+        <tbody><tr><td colSpan="3" className="py-3 text-sm text-gray-400 italic">No races yet</td></tr></tbody>
+      </table>
+    </div>;
     const athleteResults={};
     seasonRacesLocal.forEach(r=>{
       r.results.forEach(res=>{
