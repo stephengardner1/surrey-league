@@ -997,7 +997,7 @@ const PathRenderer=({positions,getY,padding,bestPos,highlightIdx,lineColor})=>{
   </g>;
 };
 
-const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mitchellCupWinners,divisionConfig,athleteNee,cmsContent,division})=>{
+const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mitchellCupWinners,divisionConfig,athleteNee,cmsContent,division,po10Links})=>{
   const[compareInput,setCompareInput]=useState('');
   const[highlightIdx,setHighlightIdx]=useState(null);
   const[compareFocused,setCompareFocused]=useState(false);
@@ -1139,7 +1139,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     return rankings.sort((a,b)=>a.rank-b.rank);
   },[raceHistory,races,athleteData?.name,divisionConfig]);
   
-  const po10Url=useMemo(()=>{if(!athleteData?.name)return null;const parts=athleteData.name.split(' ');if(parts.length<2)return null;const firstname=parts[0];const surname=parts.slice(1).join(' ');return`https://www.thepowerof10.info/athletes/athleteslookup.aspx?surname=${encodeURIComponent(surname)}&firstname=${encodeURIComponent(firstname)}`;},[athleteData?.name]);
+  const po10Url=useMemo(()=>{if(!athleteData?.name)return null;if(po10Links?.[athleteData.name])return po10Links[athleteData.name];const parts=athleteData.name.split(' ');if(parts.length<2)return null;const firstname=parts[0];const surname=parts.slice(1).join(' ');return`https://www.thepowerof10.info/athletes/athleteslookup.aspx?surname=${encodeURIComponent(surname)}&firstname=${encodeURIComponent(firstname)}`;},[athleteData?.name,po10Links]);
   const bestPos=useMemo(()=>raceHistory.length>0?Math.min(...raceHistory.map(r=>getNumericPos(r.pos)).filter(p=>p!=null)):null,[raceHistory]);
   const showStar=bestPos&&bestPos>1;
   
@@ -4676,7 +4676,7 @@ function App(){
       {view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}
       {view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races} mitchellCupWinners={data.mitchellCupWinners} division={division}/>}
       {view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}
-      {view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData} mitchellCupWinners={data.mitchellCupWinners} divisionConfig={divisionConfig} athleteNee={data.athleteNee} cmsContent={cmsContent} division={division}/>}
+      {view.type==='athlete'&&<AthleteDetailView athlete={view.athlete} setView={setView} athletes={data.athletes} races={data.races} clubMvps={data.clubMvps} seasonsData={data.seasonsData} mitchellCupWinners={data.mitchellCupWinners} divisionConfig={divisionConfig} athleteNee={data.athleteNee} cmsContent={cmsContent} division={division} po10Links={data.po10Links}/>}
       {view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}
       {view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData} division={division} cmsContent={cmsContent}/>}
       {view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}
