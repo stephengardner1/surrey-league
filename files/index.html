@@ -3204,7 +3204,8 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       });
     });
     // Women: best 3 of 4, Men: must complete all 4
-    const minRaces=division==='women'?3:numRaces;
+    // But during the season, show results from however many races have happened so far
+    const minRaces=division==='women'?Math.min(3,numRaces):numRaces;
     const eligible=Object.values(athleteResults).filter(a=>a.runs.length>=minRaces).map(a=>{
       a.runs.sort((x,y)=>x.match-y.match);
       if(division==='women'&&a.runs.length>=3){
