@@ -132,18 +132,21 @@ const DIVISIONS={
     name:"Women's Division 1",
     shortName:'Women',
     foundedYear:1979,
-    teamSize:{a:5,b:5},
+    teamSize:{a:7,b:7},
+    historicTeamSize:(season)=>{
+      // From 2026/27: 7 scorers per team (AGM 2026 rule change)
+      // Before 2026/27: 5 scorers per team
+      if(season>='2026/27') return {a:7,b:7};
+      return {a:5,b:5};
+    },
     matchesPerSeason:4,
     relegationSpots:3,
     individualChampionship:'best3of4',
     dataFile:'data-women.json',
     color:'#9333ea',
-    // Women's penalty formula: scoringFinishers + 10
-    // - scoringFinishers = total Div 1 finishers EXCLUDING N/S (non-scorer) runners
-    // - Same penalty applies to both A and B teams
-    // - N/S runners finish the race but don't count for team scoring
-    // - Their positions are skipped when calculating scoring positions
-    // Example: M4 2024/25 had 205 finishers, 1 N/S = 204 scoring, penalty = 214
+    // Women's penalty formula:
+    // From 2026/27: 'published' — university scoring with published penalties stored per race
+    // Before 2026/27: scoringFinishers + 10
     penaltyFormula: 'scoringFinishers+10'
   }
 };
@@ -568,9 +571,11 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers,divisionConfig,ra
     
     // Calculate penalty based on division formula
     let penalty;
-    if(divisionConfig?.penaltyFormula === 'scoringFinishers+10') {
-      // Women's formula: scoringFinishers + 10
-      // scoringFinishers excludes N/S runners
+    if(race?.penalties) {
+      // Published penalties stored on the race (2026/27+ university scoring)
+      penalty = isATeam ? race.penalties.a : race.penalties.b;
+    } else if(divisionConfig?.penaltyFormula === 'scoringFinishers+10') {
+      // Women's formula (pre-2026/27): scoringFinishers + 10
       const scoringFinishers = race?.scoringFinishers || results.filter(r => !r.ns).length;
       penalty = scoringFinishers + 10;
     } else {
@@ -581,7 +586,7 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers,divisionConfig,ra
       const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
       penalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
     }
-    
+
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
       const penalties = missing > 0 ? Array(missing).fill(penalty) : [];
@@ -596,7 +601,7 @@ const TeamResultsTable=({results,startPos=1,count=10,finishers,divisionConfig,ra
   },[results,startPos,count,finishers,divisionConfig,race]);
   
   const penaltyValue = teams.find(t=>t.penalties.length>0)?.penaltyScore;
-  return<div><table className="w-full"><thead className="hidden md:table-header-group"><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="w-8"></th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Points</th><th className="text-left py-2 px-4 text-xs font-semibold text-[#0077b6] uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-100">{teams.map(team=><tr key={team.club} className="hover:bg-gray-50"><td className="py-2 pl-1 pr-0.5 md:px-2 text-sm text-gray-700 tabular-nums">{team.pos}</td><td className="py-2 px-0.5 md:px-1"><ClubShield club={team.club} size={20}/></td><td className="py-2 px-0.5 md:px-2 text-sm font-medium text-gray-900">{team.club}</td><td className="py-2 px-2 text-sm font-bold text-gray-900 text-right tabular-nums">{Number.isInteger(team.points)?team.points:team.points.toFixed(1)}</td><td className="py-2 pl-2 md:px-4">{/* Mobile: 5-col grid, no boxes */}<div className="md:hidden"><div className="grid grid-cols-5 gap-x-1 gap-y-0 w-fit">{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-500 tabular-nums text-right">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="text-xs text-red-400 tabular-nums text-right" title="Penalty score">*</span>)}{!team.complete&&team.penalties.length===0&&<span className="text-xs text-gray-300 italic col-span-5">incomplete</span>}</div></div>{/* Desktop: bordered pills */}<div className="hidden md:flex flex-wrap gap-1.5">{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-500 tabular-nums border border-gray-200 px-1 rounded">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="text-xs text-red-400 tabular-nums border border-red-200 px-1 rounded" title="Penalty score">*</span>)}{!team.complete&&team.penalties.length===0&&<span className="text-xs text-gray-300 italic ml-1">incomplete</span>}</div></td></tr>)}</tbody></table>{penaltyValue&&<p className="text-xs text-gray-400 mt-2">* Penalty = {Number.isInteger(penaltyValue)?penaltyValue:penaltyValue.toFixed(1)} pts</p>}</div>;
+  return<div><table className="w-full"><thead className="hidden md:table-header-group"><tr className="border-b-2 border-[#0077b6] bg-gray-50"><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-12">Pos</th><th className="w-8"></th><th className="text-left py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase">Club</th><th className="text-right py-2 px-2 text-xs font-semibold text-[#0077b6] uppercase w-20">Points</th><th className="text-left py-2 px-4 text-xs font-semibold text-[#0077b6] uppercase">Scores</th></tr></thead><tbody className="divide-y divide-gray-100">{teams.map(team=><tr key={team.club} className="hover:bg-gray-50"><td className="py-2 pl-1 pr-0.5 md:px-2 text-sm text-gray-700 tabular-nums">{team.pos}</td><td className="py-2 px-0.5 md:px-1"><ClubShield club={team.club} size={20}/></td><td className="py-2 px-0.5 md:px-2 text-sm font-medium text-gray-900">{team.club}</td><td className="py-2 px-2 text-sm font-bold text-gray-900 text-right tabular-nums">{Number.isInteger(team.points)?team.points:team.points.toFixed(1)}</td><td className="py-2 pl-2 md:px-4">{/* Mobile: grid, no boxes */}<div className="md:hidden"><div className={`grid gap-x-1 gap-y-0 w-fit ${count<=5?'grid-cols-5':'grid-cols-7'}`}>{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-500 tabular-nums text-right">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="text-xs text-red-400 tabular-nums text-right" title="Penalty score">*</span>)}{!team.complete&&team.penalties.length===0&&<span className={`text-xs text-gray-300 italic ${count<=5?'col-span-5':'col-span-7'}`}>incomplete</span>}</div></div>{/* Desktop: bordered pills */}<div className="hidden md:flex flex-wrap gap-1.5">{team.scores.map((s,i)=><span key={i} className="text-xs text-gray-500 tabular-nums border border-gray-200 px-1 rounded">{s}</span>)}{team.penalties.map((p,i)=><span key={`p${i}`} className="text-xs text-red-400 tabular-nums border border-red-200 px-1 rounded" title="Penalty score">*</span>)}{!team.complete&&team.penalties.length===0&&<span className="text-xs text-gray-300 italic ml-1">incomplete</span>}</div></td></tr>)}</tbody></table>{penaltyValue&&<p className="text-xs text-gray-400 mt-2">* Penalty = {Number.isInteger(penaltyValue)?penaltyValue:penaltyValue.toFixed(1)} pts</p>}</div>;
 };
 
 const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title,divisionConfig,race})=>{
@@ -631,8 +636,11 @@ const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title,divi
     
     // Calculate penalty based on division formula
     let penalty;
-    if(divisionConfig?.penaltyFormula === 'scoringFinishers+10') {
-      // Women's formula: scoringFinishers + 10
+    if(race?.penalties) {
+      // Published penalties stored on the race (2026/27+ university scoring)
+      penalty = isATeam ? race.penalties.a : race.penalties.b;
+    } else if(divisionConfig?.penaltyFormula === 'scoringFinishers+10') {
+      // Women's formula (pre-2026/27): scoringFinishers + 10
       const scoringFinishers = race?.scoringFinishers || results.filter(r => !r.ns).length;
       penalty = scoringFinishers + 10;
     } else {
@@ -642,7 +650,7 @@ const TeamResultsTableCompact=({results,startPos=1,count=10,finishers,title,divi
       const missingPositions = Array.from({length: totalMissing}, (_, i) => totalScorers + 1 + i);
       penalty = totalMissing > 0 ? missingPositions.reduce((a,b) => a+b, 0) / totalMissing : 0;
     }
-    
+
     return Object.entries(clubScores).map(([club,scores])=>{
       const missing = count - scores.length;
       const penalties = missing > 0 ? Array(missing).fill(penalty) : [];
@@ -702,7 +710,7 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
     race.results.forEach(r => {
       if ((r.pts != null || r.s != null) && !excludedClubs.has(r.club)) {
         if (!clubScores[r.club]) clubScores[r.club] = [];
-        if (clubScores[r.club].length < 10) clubScores[r.club].push(r.pts ?? r.s);
+        if (clubScores[r.club].length < effectiveTeamSize.a) clubScores[r.club].push(r.pts ?? r.s);
       }
     });
     // Sum scores for each club
@@ -711,12 +719,12 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
       total: scores.reduce((a, b) => a + b, 0)
     }));
     // Check if all archived scores match calculated scores
-    // Allow for incomplete teams: if club has <10 scorers, calculated total will be less than archived (which includes penalties)
+    // Allow for incomplete teams: if club has fewer scorers, calculated total will be less than archived (which includes penalties)
     return seasonStandingsScores.every(archived => {
       const calc = calculated.find(c => c.club === archived.club);
       if (!calc) return false;
       const scorerCount = clubScores[archived.club]?.length || 0;
-      if (scorerCount < 10 && calc.total < archived.pts) return true; // Incomplete team with penalties
+      if (scorerCount < effectiveTeamSize.a && calc.total < archived.pts) return true; // Incomplete team with penalties
       return Math.abs(calc.total - archived.pts) < 0.5; // Allow for rounding
     });
   }, [hasCalculableResults, seasonStandingsScores, race.results]);
@@ -1038,14 +1046,20 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
         
         // Calculate team scoring position
         let teamScore='';
-        if(result.club&&race.results&&result.pts){
-          const teamSizeA=divisionConfig?.teamSize?.a||10;
-          const teamSizeB=divisionConfig?.teamSize?.b||10;
-          // Count position among club scorers (those with pts field)
-          const clubScorers=race.results.filter(r=>r.club===result.club&&r.pts);
-          const posInClub=clubScorers.findIndex(r=>namesMatch(r.name,result.name))+1;
-          if(posInClub>=1&&posInClub<=teamSizeA)teamScore=`A${posInClub}`;
-          else if(posInClub>=teamSizeA+1&&posInClub<=teamSizeA+teamSizeB)teamScore=`B${posInClub-teamSizeA}`;
+        if(result.club&&race.results){
+          const raceTeamSize=divisionConfig?.historicTeamSize?.(race.season)||divisionConfig?.teamSize||{a:10,b:10};
+          if(result.b_pts!=null){
+            // University scoring (2026/27+): b_pts field means B-team scorer
+            const clubBScorers=race.results.filter(r=>r.club===result.club&&r.b_pts!=null);
+            const posInB=clubBScorers.findIndex(r=>namesMatch(r.name,result.name))+1;
+            if(posInB>=1)teamScore=`B${posInB}`;
+          } else if(result.pts!=null){
+            // A-team scorer: count position among club's A-team scorers
+            const clubScorers=race.results.filter(r=>r.club===result.club&&r.pts!=null&&r.b_pts==null);
+            const posInClub=clubScorers.findIndex(r=>namesMatch(r.name,result.name))+1;
+            if(posInClub>=1&&posInClub<=raceTeamSize.a)teamScore=`A${posInClub}`;
+            else if(posInClub>=raceTeamSize.a+1&&posInClub<=raceTeamSize.a+raceTeamSize.b)teamScore=`B${posInClub-raceTeamSize.a}`;
+          }
         }
         const hasFullDate=race.date&&parseDate(race.date);
         h.push({date:race.date,venue:race.venue,pos:result.pos,pts:result.pts,time:result.time,club:result.club,race,hasFullDate,season:race.season,teamScore});
@@ -1074,14 +1088,14 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     const hiddenClubs=new Set(Object.entries(CLUBS).filter(([k,v])=>v.hidden).map(([k])=>k));
     hiddenClubs.add('G'); // Also exclude 'G' shorthand for guest
     const athleteClubs=[...new Set(raceHistory.map(r=>r.club).filter(c=>c&&!hiddenClubs.has(c)))];
-    const TEAM_SIZE_A=divisionConfig?.teamSize?.a||10;
-    
+
     // For each club, compute all athletes' Value scores and find this athlete's rank
     const rankings=[];
     athleteClubs.forEach(club=>{
       // Compute Value scores for all athletes at this club from race results
       const clubStats={};
       races.forEach(race=>{
+        const raceTeamSize=(divisionConfig?.historicTeamSize?.(race.season)||divisionConfig?.teamSize||{a:10,b:10}).a;
         // Handle races without full results (only have winner info)
         if(!race.results?.length){
           if(race.winners){
@@ -1089,25 +1103,26 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
               if(w.club===club){
                 const key=normalizeNameForCompare(w.name);
                 if(!clubStats[key])clubStats[key]={name:w.name,value:0};
-                clubStats[key].value+=TEAM_SIZE_A; // A1 gets max points
+                clubStats[key].value+=raceTeamSize; // A1 gets max points
               }
             });
           }else if(race.winnerClub===club&&race.winner){
             const key=normalizeNameForCompare(race.winner);
             if(!clubStats[key])clubStats[key]={name:race.winner,value:0};
-            clubStats[key].value+=TEAM_SIZE_A; // A1 gets max points
+            clubStats[key].value+=raceTeamSize; // A1 gets max points
           }
           return;
         }
-        // Count Value scores properly - A1=max pts down to A10/A5=1pt
+        // Count Value scores properly - A1=max pts down to AN=1pt
         race.results.forEach(r=>{
           if(r.club!==club||r.ns)return;
           const key=normalizeNameForCompare(r.name);
           if(!clubStats[key])clubStats[key]={name:r.name,value:0};
-          const clubRunnersInRace=race.results.filter(x=>x.club===club&&!x.ns);
-          const posInClub=clubRunnersInRace.findIndex(x=>namesMatch(x.name,r.name))+1;
-          if(posInClub>=1&&posInClub<=TEAM_SIZE_A){
-            clubStats[key].value+=(TEAM_SIZE_A-posInClub+1); // A1=max, A2=max-1, etc.
+          // For university scoring (b_pts present), only count A-team scorers (those with pts but not b_pts)
+          const clubAScorers=race.results.filter(x=>x.club===club&&x.pts!=null&&x.b_pts==null&&!x.ns);
+          const posInClub=clubAScorers.findIndex(x=>namesMatch(x.name,r.name))+1;
+          if(posInClub>=1&&posInClub<=raceTeamSize){
+            clubStats[key].value+=(raceTeamSize-posInClub+1); // A1=max, A2=max-1, etc.
           }
         });
       });
@@ -2180,7 +2195,7 @@ const ClubsView=({setView,clubAllTime})=>{
 
 const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seasonsData,division,cmsContent})=>{
   const[sort,setSort]=useState('value');const clubData=clubAllTime.find(c=>c.club===clubCode);const clubInfo=CLUBS[clubCode];
-  const TEAM_SIZE_A=division==='women'?5:10;
+  const divisionConfig=DIVISIONS[division];
   const currentSeason=Object.keys(seasonsData||{}).sort().reverse()[0]||'2025/26';
   
   // Helper to get the actual calendar year of a race from season and match
@@ -2257,6 +2272,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
     
     // Go through all races and count stats only when athlete represented this club
     races.forEach(race=>{
+      const raceTeamSize=(divisionConfig?.historicTeamSize?.(race.season)||divisionConfig?.teamSize||{a:10,b:10}).a;
       // Handle races without results (only have winner info)
       if(!race.results?.length){
         // Handle dead heats (multiple winners) - each winner has their own club
@@ -2270,7 +2286,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
               s.top10++;
               s.races++;
               s.aScores++;
-              s.value+=TEAM_SIZE_A; // A1 gets max points
+              s.value+=raceTeamSize; // A1 gets max points
               updateYears(s,race);
             }
           });
@@ -2282,12 +2298,12 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
           s.top10++;
           s.races++;
           s.aScores++;
-          s.value+=TEAM_SIZE_A; // A1 gets max points
+          s.value+=raceTeamSize; // A1 gets max points
           updateYears(s,race);
         }
         return;
       }
-      
+
       race.results.forEach((r,idx)=>{
         if(r.club!==clubCode)return;
         const s=ensureAthlete(r.name,clubCode);
@@ -2302,11 +2318,12 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
         if(r.pos<=100||r.pos==='=1')s.top100++;
         // Count A-team scores - top N finishers for the club (excluding non-scorers)
         if(!r.ns){
-          const clubRunnersInRace=race.results.filter(x=>x.club===clubCode&&!x.ns);
-          const posInClub=clubRunnersInRace.findIndex(x=>namesMatch(x.name,r.name))+1;
-          if(posInClub>=1&&posInClub<=TEAM_SIZE_A){
+          // For university scoring (b_pts present), only count A-team scorers
+          const clubAScorers=race.results.filter(x=>x.club===clubCode&&x.pts!=null&&x.b_pts==null&&!x.ns);
+          const posInClub=clubAScorers.findIndex(x=>namesMatch(x.name,r.name))+1;
+          if(posInClub>=1&&posInClub<=raceTeamSize){
             s.aScores++;
-            s.value+=(TEAM_SIZE_A-posInClub+1); // A1=max points, A2=max-1, etc.
+            s.value+=(raceTeamSize-posInClub+1); // A1=max points, A2=max-1, etc.
           }
         }
       });
@@ -2331,7 +2348,8 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   
   const mvp=clubAthletes[0];
   const allTimeRank=clubAllTime.findIndex(c=>c.club===clubCode)+1;if(!clubInfo)return<div className="max-w-5xl mx-auto px-4 py-8"><p>Club not found</p></div>;
-  const cols=[{f:'value',l:'V',t:TEAM_SIZE_A===5?'Value: 5pts for A1 down to 1pt for A5':'Value: 10pts for A1 down to 1pt for A10'},{f:'aScores',l:'A',t:'A-team scores for this club'},{f:'wins',l:'W',t:'Race wins'},{f:'top3',l:'T3',t:'Top 3 finishes'},{f:'top5',l:'T5',t:'Top 5 finishes'},{f:'top10',l:'T10',t:'Top 10 finishes'},{f:'top20',l:'T20',t:'Top 20 finishes'},{f:'top50',l:'T50',t:'Top 50 finishes'},{f:'top100',l:'T100',t:'Top 100 finishes'},{f:'races',l:'R',t:'Total races'}];
+  const TEAM_SIZE_A=(divisionConfig?.teamSize?.a)||10;
+  const cols=[{f:'value',l:'V',t:TEAM_SIZE_A<=7?`Value: ${TEAM_SIZE_A}pts for A1 down to 1pt for A${TEAM_SIZE_A}`:'Value: 10pts for A1 down to 1pt for A10'},{f:'aScores',l:'A',t:'A-team scores for this club'},{f:'wins',l:'W',t:'Race wins'},{f:'top3',l:'T3',t:'Top 3 finishes'},{f:'top5',l:'T5',t:'Top 5 finishes'},{f:'top10',l:'T10',t:'Top 10 finishes'},{f:'top20',l:'T20',t:'Top 20 finishes'},{f:'top50',l:'T50',t:'Top 50 finishes'},{f:'top100',l:'T100',t:'Top 100 finishes'},{f:'races',l:'R',t:'Total races'}];
   const yearToSeason=(year)=>{const y=parseInt(year);const yy=(y-1).toString().slice(-2);const yy2=y.toString().slice(-2);return `${y-1>=2000?'':'19'}${yy}/${yy2}`;};
   const renderYears=(years)=>years.map((y,i)=><React.Fragment key={y}>{i>0&&<span className="text-gray-400"> · </span>}<span className="cursor-pointer hover:text-[#0077b6] hover:underline" onClick={(e)=>{e.stopPropagation();setView({type:'home',urlSeason:yearToSeason(y)});}}>{y}</span></React.Fragment>);
   // Get CMS bio for this club (falls back to hardcoded desc)
@@ -2368,26 +2386,44 @@ const SeasonsView=({setView,seasonsData,races,mitchellCupWinners,division})=>{
   // Helper to compute B team standings from race results
   const computeBTeamStandings=(season,seasonRaces,numAClubs)=>{
     const clubBScores={};
+    const raceTeamSize=(divisionConfig?.historicTeamSize?.(season)||divisionConfig?.teamSize||{a:10,b:10});
+    const teamA=raceTeamSize.a, teamB=raceTeamSize.b;
     seasonRaces.forEach(r=>{
       if(!r.results)return;
-      const clubScorers={};
-      r.results.forEach(res=>{
-        if(!res.pts||!res.club)return;
-        if(!clubScorers[res.club])clubScorers[res.club]=[];
-        clubScorers[res.club].push(res.pts);
-      });
-      Object.entries(clubScorers).forEach(([club,pts])=>{
-        const bPts=pts.slice(10,20);// B team is scorers 11-20
-        if(bPts.length>0){
+      // For university scoring (2026/27+), B-team scores are in b_pts field
+      const hasUniversityScoring=r.results.some(x=>x.b_pts!=null);
+      if(hasUniversityScoring){
+        const clubBPts={};
+        r.results.forEach(res=>{
+          if(res.b_pts==null||!res.club)return;
+          if(!clubBPts[res.club])clubBPts[res.club]=[];
+          clubBPts[res.club].push(res.b_pts);
+        });
+        Object.entries(clubBPts).forEach(([club,pts])=>{
           if(!clubBScores[club])clubBScores[club]={club,scores:[],total:0};
-          const bScore=bPts.reduce((s,p)=>s+p,0);
-          // B-team penalty: each missing runner scores (numAClubs × 10 + 1)
-          // This matches the A-team penalty formula pattern
-          const missing=10-bPts.length;
-          const penalty=missing>0?missing*(numAClubs*10+1):0;
+          const bScore=pts.reduce((s,p)=>s+p,0);
+          const missing=teamB-pts.length;
+          const penalty=missing>0?missing*(r.penalties?.b||0):0;
           clubBScores[club].scores.push(bScore+penalty);
-        }
-      });
+        });
+      } else {
+        const clubScorers={};
+        r.results.forEach(res=>{
+          if(!res.pts||!res.club)return;
+          if(!clubScorers[res.club])clubScorers[res.club]=[];
+          clubScorers[res.club].push(res.pts);
+        });
+        Object.entries(clubScorers).forEach(([club,pts])=>{
+          const bPts=pts.slice(teamA,teamA+teamB);
+          if(bPts.length>0){
+            if(!clubBScores[club])clubBScores[club]={club,scores:[],total:0};
+            const bScore=bPts.reduce((s,p)=>s+p,0);
+            const missing=teamB-bPts.length;
+            const penalty=missing>0?missing*(numAClubs*teamA+1):0;
+            clubBScores[club].scores.push(bScore+penalty);
+          }
+        });
+      }
     });
     return Object.values(clubBScores)
       .filter(c=>c.scores.length===4)
@@ -3015,7 +3051,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     (seasonData?.standings?.length>0?seasonData.standings:buildStandingsFromRaces());
 
   // Enrich authoritative standings with per-match scores from race data when available
-  const standings=rawStandings.map(t=>{
+  const enrichedStandings=rawStandings.map(t=>{
     if(t.m1!=null)return t;
     const enriched={...t};
     seasonRaces.forEach(r=>{
@@ -3025,6 +3061,12 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     });
     return enriched;
   });
+  // Compute total and pos from available match scores if not already set
+  const standings=enrichedStandings.map(t=>{
+    if(t.total!=null)return t;
+    const total=[1,2,3,4].reduce((sum,n)=>sum+(t[`m${n}`]||0),0);
+    return{...t,total:total||undefined};
+  }).sort((a,b)=>(a.total||Infinity)-(b.total||Infinity)).map((t,i)=>({...t,pos:t.total?i+1:undefined}));
 
   // Season is complete if all 4 races have >100 results each
   const racesWithResults=seasonRaces.filter(r=>r.results&&r.results.length>100);
@@ -3070,7 +3112,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     // Determine which match columns to show
     const matchNums=matches.length>0?matches.map(m=>m.num):[1,2,3,4].filter(n=>standings[0]?.[`m${n}`]!=null);
     return<div>
-    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} pr-1 text-xs text-gray-500 uppercase`} title="Total of a team's scores across all matches">Tot</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-9 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#0077b6]':''}`} title={`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&(season==='2025/26'?isSeasonFinished:isComplete)?'🏆':(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#0077b6]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} pr-1`}><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} pr-1 text-xs text-gray-500 uppercase`} title="Total of a team's scores across all matches">Tot</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-9 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#0077b6]':''}`} title={`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isSeasonFinished?'🏆':(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#0077b6]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} pr-1`}><span className={`tabular-nums ${i===0?'font-bold text-[#0077b6]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {isHistorical&&!hasCompleteResults&&seasonRaces.length>0&&<p className="text-xs text-gray-400 mt-2 italic">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
   </div>;};
   
@@ -4406,11 +4448,12 @@ const normalizeData=(data,division='men',liveAliases={})=>{
   
   // Dynamically compute club MVPs (GOATs) from race data using value score
   const computeClubMvps=()=>{
-    const TEAM_SIZE_A=10;
+    const dc=DIVISIONS[data.division]||DIVISIONS.men;
     const clubAthletes={};
-    
+
     // Go through all races to compute value scores per club
     data.races.forEach(race=>{
+      const raceTeamSize=(dc.historicTeamSize?.(race.season)||dc.teamSize||{a:10,b:10}).a;
       if(!race.results?.length){
         // Handle races without full results (only winner info)
         if(race.winners){
@@ -4419,7 +4462,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
             const key=normalizeNameForCompare(w.name);
             if(!clubAthletes[w.club])clubAthletes[w.club]={};
             if(!clubAthletes[w.club][key])clubAthletes[w.club][key]={name:w.name,value:0,aScores:0,races:0};
-            clubAthletes[w.club][key].value+=TEAM_SIZE_A;
+            clubAthletes[w.club][key].value+=raceTeamSize;
             clubAthletes[w.club][key].aScores++;
             clubAthletes[w.club][key].races++;
           });
@@ -4427,21 +4470,31 @@ const normalizeData=(data,division='men',liveAliases={})=>{
           const key=normalizeNameForCompare(race.winner);
           if(!clubAthletes[race.winnerClub])clubAthletes[race.winnerClub]={};
           if(!clubAthletes[race.winnerClub][key])clubAthletes[race.winnerClub][key]={name:race.winner,value:0,aScores:0,races:0};
-          clubAthletes[race.winnerClub][key].value+=TEAM_SIZE_A;
+          clubAthletes[race.winnerClub][key].value+=raceTeamSize;
           clubAthletes[race.winnerClub][key].aScores++;
           clubAthletes[race.winnerClub][key].races++;
         }
         return;
       }
-      
+
       // Group results by club to determine A-team positions
+      // For university scoring (b_pts present), only count A-team scorers
+      const hasUniversityScoring=race.results.some(r=>r.b_pts!=null);
       const clubResults={};
       race.results.forEach(r=>{
         if(!r.club||r.ns)return;
-        if(!clubResults[r.club])clubResults[r.club]=[];
-        clubResults[r.club].push(r);
+        if(hasUniversityScoring){
+          // Only include A-team scorers (those with pts but not b_pts)
+          if(r.pts!=null&&r.b_pts==null){
+            if(!clubResults[r.club])clubResults[r.club]=[];
+            clubResults[r.club].push(r);
+          }
+        } else {
+          if(!clubResults[r.club])clubResults[r.club]=[];
+          clubResults[r.club].push(r);
+        }
       });
-      
+
       // Assign value to each athlete based on their position within their club
       Object.entries(clubResults).forEach(([club,results])=>{
         if(!clubAthletes[club])clubAthletes[club]={};
@@ -4449,9 +4502,9 @@ const normalizeData=(data,division='men',liveAliases={})=>{
           const key=normalizeNameForCompare(r.name);
           if(!clubAthletes[club][key])clubAthletes[club][key]={name:r.name,value:0,aScores:0,races:0};
           clubAthletes[club][key].races++;
-          if(posInClub<TEAM_SIZE_A){
+          if(posInClub<raceTeamSize){
             clubAthletes[club][key].aScores++;
-            clubAthletes[club][key].value+=(TEAM_SIZE_A-posInClub); // A1=10, A2=9, etc.
+            clubAthletes[club][key].value+=(raceTeamSize-posInClub); // A1=max, A2=max-1, etc.
           }
         });
       });
