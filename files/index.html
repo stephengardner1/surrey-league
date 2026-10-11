@@ -788,7 +788,7 @@ const RaceDetailView=({race,mode,setView,seasonsData,clubMvps,races,individualCh
     }).filter(Boolean);
   },[winnersData]);
   
-  return<div className="max-w-6xl mx-auto px-4 py-8">
+  return<div className="max-w-5xl mx-auto px-4 py-8">
     <div className="flex items-center justify-between mb-4">
       <button onClick={()=>setView({type:'fixtures'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900"><ArrowLeft className="w-4 h-4"/>Fixtures</button>
       <div className="flex items-center gap-2">
@@ -830,7 +830,7 @@ const RaceDetailView=({race,mode,setView,seasonsData,clubMvps,races,individualCh
 const FormGuideFrame=({src})=>{
   const ref=useRef(null);const[h,setH]=useState(1200);
   const onLoad=()=>{try{const doc=ref.current.contentDocument;const fit=()=>setH(doc.documentElement.scrollHeight);fit();new ResizeObserver(fit).observe(doc.body);}catch(e){}};
-  return<iframe ref={ref} src={src+(src.includes('?')?'&':'?')+'embed=1'} onLoad={onLoad} title="Form guide" className="w-full border-0 block" style={{height:h}}/>;
+  return<iframe ref={ref} src={src+(src.includes('?')?'&':'?')+'embed=1'} onLoad={onLoad} title="Form guide" scrolling="no" className="w-full border-0 block" style={{height:h}}/>;
 };
 
 const FixturesView=({setView,races,seasonsData})=>{
