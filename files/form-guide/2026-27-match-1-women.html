@@ -128,6 +128,13 @@ th{z-index:2}
 .pred .bt i{display:block;height:100%;border-radius:5px;background:var(--ink-2)}
 .pred .bt i.win{background:var(--over)}
 .pred .bv{font-family:var(--mono, ui-monospace, monospace);font-size:13px;font-variant-numeric:tabular-nums}
+.fold summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary h2{margin:0}
+.fold .chev{width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-right:4px;flex:none}
+.fold[open] .chev{transform:rotate(-135deg)}
+.fold[open] summary{margin-bottom:6px}
+.fold summary:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:4px}
 .pred summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .pred summary::-webkit-details-marker{display:none}
 .pred summary h2{margin:0}
@@ -195,11 +202,11 @@ html.embed .lede{margin-top:0}
     <div class="panel"><h2>Below their ranking</h2><ol class="mlist" id="fallers"></ol></div>
   </section>
 
-  <section class="panel">
-    <h2>Expected place against actual place</h2>
+  <details class="panel fold" id="chartbox" open>
+    <summary><h2>Expected place against actual place</h2><span class="chev" aria-hidden="true"></span></summary>
     <p class="lensnote" style="margin:4px 0 8px">Each dot is a ranked runner. Dots on the line finished exactly where their form predicted. <span style="color:var(--over);font-weight:600">Above the line</span> beat their ranking; <span style="color:var(--under);font-weight:600">below the line</span> fell short. Tap or hover a dot to see who it is.</p>
     <div class="chartwrap"><svg id="chart" viewBox="0 0 960 520" role="img" aria-label="Scatter of finishing place against expected place"></svg><div class="tip" id="tip" hidden></div></div>
-  </section>
+  </details>
 
   <details class="panel pred">
     <summary><h2>Which was the better predictor?</h2><span class="chev" aria-hidden="true"></span></summary>
@@ -421,6 +428,8 @@ document.getElementById("chips").addEventListener("click",e=>{
   const b=e.target.closest(".chip"); if(!b) return;
   state.band = state.band===b.dataset.band ? "" : b.dataset.band; render();});
 render();
+const chartbox=document.getElementById("chartbox"); if(window.matchMedia("(max-width:560px)").matches) chartbox.open=false;
+chartbox.addEventListener("toggle",()=>{ if(chartbox.open) render(); });
 let rsz; window.addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(render,150);});
 </script>
 
