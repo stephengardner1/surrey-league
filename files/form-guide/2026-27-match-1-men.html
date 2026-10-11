@@ -94,8 +94,8 @@ td.num{white-space:nowrap}
 .fx{margin-left:6px;opacity:.75;font-weight:400}
 #chart circle.sel{stroke:var(--ink);stroke-width:2}
 #chart{width:100%;height:auto;display:block}
-#chart text{fill:var(--muted);font:11px var(--f-body)}
-#chart .axis-title{fill:var(--ink-2);font-size:12px;font-weight:600}
+#chart text{fill:var(--muted);font:12px var(--f-body)}
+#chart .axis-title{fill:var(--ink-2);font-size:13px;font-weight:600}
 #chart .zone{font:italic 13px var(--f-display);}
 .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:6px;max-width:240px;transform:translate(-50%,calc(-100% - 12px))}
 .tip[hidden]{display:none}
@@ -320,7 +320,11 @@ function render(){
 
 function drawChart(data, inClub){
   const svg = document.getElementById("chart");
-  const W=960,H=520,m={l:58,r:20,t:16,b:48};
+  // Draw at the real on-screen width so text and dots stay full size on phones
+  const W=Math.round(svg.parentNode.clientWidth||960), narrow=W<560;
+  const H=Math.round(Math.max(300,Math.min(520,W*(narrow?0.85:0.54))));
+  const m=narrow?{l:52,r:10,t:12,b:42}:{l:58,r:20,t:16,b:48};
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.setAttribute("height",H);
   const pts = data.filter(x=>x.band!=="n");
   const N = Math.max(...pts.map(x=>Math.max(x.e,x.a)));
   const sx = v => m.l + (v-1)/(N-1)*(W-m.l-m.r);
@@ -335,12 +339,12 @@ function drawChart(data, inClub){
   });
   g += `<line x1="${sx(1)}" y1="${sy(1)}" x2="${sx(N)}" y2="${sy(N)}" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 5"/>`;
   g += `<text class="axis-title" x="${(m.l+W-m.r)/2}" y="${H-8}" text-anchor="middle">Actual place among ranked runners</text>`;
-  g += `<text class="axis-title" transform="translate(16 ${(m.t+H-m.b)/2}) rotate(-90)" text-anchor="middle">Expected place from form</text>`;
+  g += `<text class="axis-title" transform="translate(${narrow?12:16} ${(m.t+H-m.b)/2}) rotate(-90)" text-anchor="middle">Expected place from form</text>`;
   const fill = {so:"var(--over)",o:"var(--over-mid)",e:"var(--muted)",u:"var(--under-mid)",su:"var(--under)"};
   const order = ["e","o","u","so","su"];
   pts.slice().sort((a,b)=>order.indexOf(a.band)-order.indexOf(b.band)).forEach(x=>{
     const on = inClub(x) && (!state.band || x.band===state.band);
-    g += `<circle cx="${sx(x.a).toFixed(1)}" cy="${sy(x.e).toFixed(1)}" r="${on?5:3.5}" fill="${fill[x.band]}" stroke="var(--surface)" stroke-width="1.5" opacity="${on?1:.18}" data-i="${data.indexOf(x)}"/>`;
+    g += `<circle cx="${sx(x.a).toFixed(1)}" cy="${sy(x.e).toFixed(1)}" r="${on?(narrow?3.5:5):(narrow?2.5:3.5)}" fill="${fill[x.band]}" stroke="var(--surface)" stroke-width="${narrow?1:1.5}" opacity="${on?1:.18}" data-i="${data.indexOf(x)}"/>`;
   });
   svg.innerHTML = g;
   const tip = document.getElementById("tip");
@@ -377,6 +381,7 @@ document.getElementById("chips").addEventListener("click",e=>{
   const b=e.target.closest(".chip"); if(!b) return;
   state.band = state.band===b.dataset.band ? "" : b.dataset.band; render();});
 render();
+let rsz; window.addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(render,150);});
 </script>
 
 </body>
