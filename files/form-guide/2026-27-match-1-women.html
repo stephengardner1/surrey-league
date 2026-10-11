@@ -127,6 +127,13 @@ th{z-index:2}
 .pred .bt i{display:block;height:100%;border-radius:5px;background:var(--ink-2)}
 .pred .bt i.win{background:var(--over)}
 .pred .bv{font-family:var(--mono, ui-monospace, monospace);font-size:13px;font-variant-numeric:tabular-nums}
+.pred summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pred summary::-webkit-details-marker{display:none}
+.pred summary h2{margin:0}
+.pred .chev{width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-right:4px;flex:none}
+.pred[open] .chev{transform:rotate(-135deg)}
+.pred[open] summary{margin-bottom:6px}
+.pred summary:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:4px}
 .pred p{margin:6px 0 0;font-size:14.5px;line-height:1.5;max-width:68ch}
 .pred .dim{color:var(--muted);font-size:13px}
 
@@ -172,11 +179,10 @@ html.embed .lede{margin-top:0}
 
   <section class="controls" aria-label="Filters">
     <div class="seg" role="group" aria-label="Measure form by">
-      <button id="lens-ladder" aria-pressed="true" data-lens="ladder">National ladder</button>
-      <button id="lens-pb" aria-pressed="false" data-lens="pb">5K / 5000m best</button>
+      <button id="lens-pb" aria-pressed="true" data-lens="pb">5K / 5000m best</button>
+      <button id="lens-ladder" aria-pressed="false" data-lens="ladder">National ladder</button>
     </div>
     <select id="club" aria-label="Club"><option value="">All clubs</option></select>
-    <input type="search" id="q" placeholder="Find a runner" aria-label="Find a runner">
     <label class="tick" for="recent"><input type="checkbox" id="recent"> Only count PBs set since 2023</label>
   </section>
   <p class="lensnote" id="lensnote"></p>
@@ -194,8 +200,8 @@ html.embed .lede{margin-top:0}
     <div class="chartwrap"><svg id="chart" viewBox="0 0 960 520" role="img" aria-label="Scatter of finishing place against expected place"></svg><div class="tip" id="tip" hidden></div></div>
   </section>
 
-  <section class="panel pred">
-    <h2>Which was the better predictor?</h2>
+  <details class="panel pred">
+    <summary><h2>Which was the better predictor?</h2><span class="chev" aria-hidden="true"></span></summary>
     <p class="dim" style="margin-top:2px">How much of today’s women's finishing order each kind of form explains (R²)</p>
     <div class="bars" role="img" aria-label="Share of the finishing order explained by each predictor">
       <span class="bl">5K best (since 2023)</span><span class="bt"><i class="win" style="width:84%"></i></span><span class="bv">84%</span>
@@ -207,7 +213,7 @@ html.embed .lede{margin-top:0}
     <p><strong>Recent 5K times, by a distance.</strong> A runner’s best 5K or 5000m since 2023 explains 84% of the variation in where they finished. Best-ever handicap comes next (62%). Current handicap and the national ladder explain less than half, so the ladder seems to reward how much road racing someone does as well as how fast they are.</p>
     <p>The women stuck closer to form than the men: 5K times explained 84% of their finishing order against 76% in the men's race. The order of predictors was the same in the men's race.</p>
     <p class="dim">R² is the square of the rank correlation between each predictor and finishing place, among runners who have that figure. 100% would mean everyone finished exactly in predicted order. One race each, so treat it as a first look.</p>
-  </section>
+  </details>
 
   <section>
     <div class="tablewrap">
@@ -238,8 +244,8 @@ const LENS = {
   ladder:{key:"l", note:"Expected place comes from each runner’s Power of 10 national ladder position (UK Women). Kitty Shepherd-Cross is 445th, for example."},
   pb:{key:"bs", note:"Expected place comes from each runner’s fastest lifetime 5K (road) or 5000m (track), whichever is quicker."}
 };
-let state = {lens:"ladder", club:"", q:"", band:"", recent:true, sort:"p"};
-try{ const s = JSON.parse(localStorage.getItem("wcfg")||"{}"); if(s.lens in LENS) state.lens=s.lens; }catch(e){}
+let state = {lens:"pb", club:"", q:"", band:"", recent:true, sort:"p"};
+try{ const s = JSON.parse(localStorage.getItem("wcfg2")||"{}"); if(s.lens in LENS) state.lens=s.lens; }catch(e){}
 
 function compute(lens){
   const key = LENS[lens].key;
@@ -347,7 +353,7 @@ function render(){
       <td class="num">${x.e?ord(x.e):'<span class="dim">–</span>'}</td>
       <td class="num">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}${fmtX(x)}</span>`}</td></tr>`;
   }).join("") : `<tr><td colspan="9" class="empty">No runners match these filters.</td></tr>`;
-  try{ localStorage.setItem("wcfg", JSON.stringify({lens:state.lens})); }catch(e){}
+  try{ localStorage.setItem("wcfg2", JSON.stringify({lens:state.lens})); }catch(e){}
 }
 
 function drawChart(data, inClub){
@@ -409,7 +415,7 @@ document.getElementById("sortExp").onclick=()=>{ state.sort = state.sort==="e" ?
 document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{state.lens=b.dataset.lens;render();}));
 sel.addEventListener("change",()=>{state.club=sel.value;render();});
 document.getElementById("recent").addEventListener("change",e=>{state.recent=e.target.checked;render();});
-document.getElementById("q").addEventListener("input",e=>{state.q=e.target.value.trim();render();});
+
 document.getElementById("chips").addEventListener("click",e=>{
   const b=e.target.closest(".chip"); if(!b) return;
   state.band = state.band===b.dataset.band ? "" : b.dataset.band; render();});
