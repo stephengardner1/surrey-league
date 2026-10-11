@@ -60,6 +60,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{ou
 .tick input{accent-color:var(--accent);width:16px;height:16px}
 .tick.off{opacity:.45;cursor:default}
 .old{display:inline-block;margin-left:6px;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border:1px solid var(--rule);border-radius:4px;padding:0 4px}
+.hd{color:var(--muted);font-size:12px;margin-left:6px}
 .hc small{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap}
 td.num{white-space:nowrap}
 .lensnote{font-size:13px;color:var(--muted);max-width:70ch;margin:0}
@@ -303,7 +304,7 @@ function render(){
       <td class="num">${best}</td>
       <td class="num">${r.py ? r.py + (r.py<2023?'<span class="old">old</span>':'') : '<span class="dim">–</span>'}</td>
       <td class="num">${r.hc!=null?(r.hc>0?'+':'')+r.hc:'<span class="dim">–</span>'}</td>
-      <td class="num hc">${r.hb!=null?`${(r.hb>0?'+':'')+r.hb}${r.hd?`<small>${fmtMonth(r.hd)}</small>`:''}`:'<span class="dim">–</span>'}</td>
+      <td class="num hc">${r.hb!=null?`${(r.hb>0?'+':'')+r.hb}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td>
       <td class="num">${x.e?ord(x.e):'<span class="dim">–</span>'}</td>
       <td class="num">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}</span>`}</td></tr>`;
   }).join("") : `<tr><td colspan="11" class="empty">No runners match these filters.</td></tr>`;
