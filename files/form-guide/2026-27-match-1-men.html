@@ -73,7 +73,7 @@ td.num{white-space:nowrap}
 .sw.so{background:var(--over)} .sw.o{background:var(--over-mid)} .sw.e{background:var(--even);border:1px solid var(--rule)}
 .sw.u{background:var(--under-mid)} .sw.su{background:var(--under)} .sw.n{background:var(--none);border:1px dashed var(--muted)}
 
-.movers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.movers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;align-items:start}
 .panel{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;min-width:0}
 .panel h2{margin-bottom:10px}
 .mlist{list-style:none;margin:0;padding:0;display:grid;gap:2px}
@@ -199,8 +199,8 @@ html.embed .lede{margin-top:0}
   <div class="chips" id="chips" role="group" aria-label="Filter by verdict"></div>
 
   <section class="movers">
-    <div class="panel"><h2>Beat their ranking</h2><ol class="mlist" id="risers"></ol></div>
-    <div class="panel"><h2>Below their ranking</h2><ol class="mlist" id="fallers"></ol></div>
+    <details class="panel fold" open><summary><h2>Beat their ranking</h2><span class="chev" aria-hidden="true"></span></summary><ol class="mlist" id="risers"></ol></details>
+    <details class="panel fold" open><summary><h2>Below their ranking</h2><span class="chev" aria-hidden="true"></span></summary><ol class="mlist" id="fallers"></ol></details>
   </section>
 
   <details class="panel fold" id="chartbox" open>
