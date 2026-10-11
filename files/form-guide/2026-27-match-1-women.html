@@ -355,7 +355,7 @@ function render(){
   const sb=document.getElementById("sortExp"); sb.setAttribute("aria-pressed", state.sort==="e"); sb.querySelector(".arr").textContent = state.sort==="e" ? " ▲" : " ↕";
   document.getElementById("tbody").innerHTML = shown.length ? shown.map(x=>{
     const r = x.r;
-    const sp = r.n.indexOf(" "); const short = (sp>0 && !/^unknown/i.test(r.n)) ? r.n[0]+" "+r.n.slice(sp+1) : r.n;
+    const bn = r.n.replace(/\s*\(2C\)\s*$/i,""); const sp = bn.indexOf(" "); const short = (sp>0 && !/^unknown/i.test(bn)) ? bn[0]+" "+bn.slice(sp+1) : bn;
     const nm = `<span class="nfull">${esc(r.n)}</span><span class="nshort">${esc(short)}</span>`;
     const name = r.g ? `<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${nm}</a>` : nm;
     const flags = r.f.map(f=>`<span class="flag">${esc(f)}</span>`).join("");
