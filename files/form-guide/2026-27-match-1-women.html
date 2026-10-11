@@ -99,6 +99,7 @@ td.num{white-space:nowrap}
 #chart .zone{font:italic 13px var(--f-display);}
 .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:6px;max-width:240px;transform:translate(-50%,calc(-100% - 12px))}
 .tip[hidden]{display:none}
+.lensnote[hidden]{display:none}
 .tick[hidden]{display:none!important}
 
 .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);border-radius:10px}
@@ -242,7 +243,7 @@ const BANDS = [
   {k:"u",label:"Behind"},{k:"su",label:"Well behind"},{k:"n",label:"No ranking"}];
 const LENS = {
   ladder:{key:"l", note:"Expected place comes from each runner’s Power of 10 national ladder position (UK Women). Kitty Shepherd-Cross is 445th, for example."},
-  pb:{key:"bs", note:"Expected place comes from each runner’s fastest lifetime 5K (road) or 5000m (track), whichever is quicker."}
+  pb:{key:"bs", note:""}
 };
 let state = {lens:"pb", club:"", q:"", band:"", recent:true, sort:"p"};
 try{ const s = JSON.parse(localStorage.getItem("wcfg2")||"{}"); if(s.lens in LENS) state.lens=s.lens; }catch(e){}
@@ -315,7 +316,7 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 
 function render(){
   const data = compute(state.lens);
-  document.getElementById("lensnote").textContent = LENS[state.lens].note;
+  const ln=document.getElementById("lensnote"); ln.textContent = LENS[state.lens].note; ln.hidden = !LENS[state.lens].note;
   const rc=document.getElementById("recent"); rc.checked = state.recent; rc.parentNode.hidden = state.lens!=="pb";
   document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lens===state.lens));
   const inClub = x => (!state.club || x.r.c===state.club) && (!state.q || x.r.n.toLowerCase().includes(state.q.toLowerCase()));
