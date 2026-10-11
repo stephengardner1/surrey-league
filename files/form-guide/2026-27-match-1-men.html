@@ -99,6 +99,8 @@ td.num{white-space:nowrap}
 #chart .zone{font:italic 13px var(--f-display);}
 .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:6px;max-width:240px;transform:translate(-50%,calc(-100% - 12px))}
 .tip[hidden]{display:none}
+.nshort{display:none}
+@media (max-width:560px){.nfull{display:none}.nshort{display:inline}}
 @media (max-width:560px){.mlist li:nth-child(n+6){display:none}#chips{display:none}}
 .lensnote[hidden]{display:none}
 .tick[hidden]{display:none!important}
@@ -349,7 +351,9 @@ function render(){
   const sb=document.getElementById("sortExp"); sb.setAttribute("aria-pressed", state.sort==="e"); sb.querySelector(".arr").textContent = state.sort==="e" ? " ▲" : " ↕";
   document.getElementById("tbody").innerHTML = shown.length ? shown.map(x=>{
     const r = x.r;
-    const name = r.g ? `<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${esc(r.n)}</a>` : esc(r.n);
+    const sp = r.n.indexOf(" "); const short = (sp>0 && !/^unknown/i.test(r.n)) ? r.n[0]+" "+r.n.slice(sp+1) : r.n;
+    const nm = `<span class="nfull">${esc(r.n)}</span><span class="nshort">${esc(short)}</span>`;
+    const name = r.g ? `<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${nm}</a>` : nm;
     const flags = r.f.map(f=>`<span class="flag">${esc(f)}</span>`).join("");
     const best = r.b ? `${r.b}${r.py?`<span class="hd">${r.py}</span>`:""}` : `<span class="dim">–</span>`;
     return `<tr class="b-${x.band}"><td class="num sc1 pos">${r.p}</td>
