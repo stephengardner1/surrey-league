@@ -109,6 +109,11 @@ tr.b-so td.stripe{background:var(--over)} tr.b-o td.stripe{background:var(--over
 tr.b-e td.stripe{background:var(--even)} tr.b-u td.stripe{background:var(--under-mid)}
 tr.b-su td.stripe{background:var(--under)} tr.b-n td.stripe{background:var(--surface)}
 /* Scrolls inside its own box so the header row and the first three columns can stay pinned */
+/* Position cell carries the verdict colour */
+td.pos{text-align:center;font-weight:600}
+tr.b-so td.pos{background:var(--over);color:#fff} tr.b-o td.pos{background:var(--over-mid);color:var(--ink)}
+tr.b-e td.pos{background:var(--even);color:var(--ink)} tr.b-u td.pos{background:var(--under-mid);color:var(--ink)}
+tr.b-su td.pos{background:var(--under);color:#fff}
 .tablewrap{overflow:auto;max-height:min(78vh,820px)}
 html.embed .tablewrap{max-height:640px}
 table{border-collapse:separate;border-spacing:0}
@@ -117,8 +122,8 @@ th{z-index:2}
 td.sc0,td.sc1,td.sc2{z-index:1}
 th.sc0,th.sc1,th.sc2{z-index:3}
 .sc0{left:0;width:6px;min-width:6px;max-width:6px}
-.sc1{left:6px;width:48px;min-width:48px}
-.sc2{left:54px;min-width:190px;max-width:240px;box-shadow:1px 0 0 var(--rule)}
+.sc1{left:0;width:48px;min-width:48px}
+.sc2{left:48px;min-width:190px;max-width:240px;box-shadow:1px 0 0 var(--rule)}
 .rname{font-weight:500}
 .vest{display:inline-block;vertical-align:-2px;margin-right:6px;line-height:0}
 .rname a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
@@ -133,7 +138,7 @@ footer p{margin:0}
 footer a{color:var(--accent)}
 .home{font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--ink-2);text-decoration:none;justify-self:start}
 .home:hover{color:var(--ink)}
-@media (max-width:520px){.sc1{width:38px;min-width:38px}.sc2{left:44px;min-width:94px;width:94px;max-width:94px;white-space:normal;overflow-wrap:break-word;font-size:13px;line-height:1.3}.sc2 .vest{margin-right:4px}.sc2 .flag{font-size:11px}td.sc1,th.sc1{padding-inline:6px}h2{font-size:19px}.seg button{padding:8px 10px}}
+@media (max-width:520px){.sc1{width:38px;min-width:38px}.sc2{left:38px;min-width:94px;width:94px;max-width:94px;white-space:normal;overflow-wrap:break-word;font-size:13px;line-height:1.3}.sc2 .vest{margin-right:4px}.sc2 .flag{font-size:11px}td.sc1,th.sc1{padding-inline:6px}h2{font-size:19px}.seg button{padding:8px 10px}}
 
 /* Embedded in the site's race page: drop own heading/back link, match the site's light look */
 html.embed body{padding-inline:0;padding-block:0 24px;background:#fff}
@@ -176,7 +181,7 @@ html.embed .lede{margin-top:0}
   <section>
     <div class="tablewrap">
       <table>
-        <thead><tr><th class="sc0" aria-label="Verdict colour"></th><th class="num sc1">Pos</th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">Handicap now</th><th class="num">Best handicap</th><th class="num">Expected</th><th class="num">Vs form</th></tr></thead>
+        <thead><tr><th class="num sc1" aria-label="Position"></th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">Handicap now</th><th class="num">Best handicap</th><th class="num">Expected</th><th class="num">Vs form</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -298,7 +303,7 @@ function render(){
     const name = r.g ? `<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${esc(r.n)}</a>` : esc(r.n);
     const flags = r.f.map(f=>`<span class="flag">${esc(f)}</span>`).join("");
     const best = r.b ? `${r.b}${r.py?`<span class="hd">${r.py}</span>`:""}` : `<span class="dim">–</span>`;
-    return `<tr class="b-${x.band}"><td class="stripe sc0"></td><td class="num sc1">${r.p}</td>
+    return `<tr class="b-${x.band}"><td class="num sc1 pos">${r.p}</td>
       <td class="sc2">${vest(r.c)}<span class="rname">${name}</span>${flags}</td>
       <td class="num">${r.tm}</td><td class="num">${r.l!=null?r.l.toLocaleString("en-GB"):'<span class="dim">–</span>'}</td>
       <td class="num">${best}</td>
@@ -306,7 +311,7 @@ function render(){
       <td class="num hc">${r.hb!=null?`${(r.hb>0?'+':'')+r.hb}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td>
       <td class="num">${x.e?ord(x.e):'<span class="dim">–</span>'}</td>
       <td class="num">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}</span>`}</td></tr>`;
-  }).join("") : `<tr><td colspan="10" class="empty">No runners match these filters.</td></tr>`;
+  }).join("") : `<tr><td colspan="9" class="empty">No runners match these filters.</td></tr>`;
   try{ localStorage.setItem("wcfg", JSON.stringify({lens:state.lens})); }catch(e){}
 }
 
