@@ -45,7 +45,7 @@
  * 
  * Team sizes: Men's league has ALWAYS been 10-man A-teams since 1962.
  */
-const{useState,useMemo,useEffect}=React;
+const{useState,useMemo,useEffect,useRef}=React;
 const getNumericPos=(pos)=>{if(typeof pos==='number')return pos;if(typeof pos==='string')return parseInt(pos.replace('=',''),10);return null;};
 const normalizeNameForCompare=(name)=>name?.toLowerCase().trim()||'';
 const namesMatch=(a,b)=>normalizeNameForCompare(a)===normalizeNameForCompare(b);
@@ -106,6 +106,8 @@ const UK_CHARTS={
 
 
 // Division configurations
+// Bonus analysis pages, keyed division|season|match. Each is a standalone HTML file in this folder.
+const FORM_GUIDES={'men|2026/27|1':'/form-guide/2026-27-match-1-men.html'};
 const DIVISIONS={
   men:{
     id:'men',
@@ -680,7 +682,7 @@ const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps
 };
 
 const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampions,divisionConfig})=>{
-  const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const[statusHover,setStatusHover]=useState(false);if(!race)return null;
+  const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const[statusHover,setStatusHover]=useState(false);const[resultsMode,setResultsMode]=useState('classic');useEffect(()=>{setResultsMode('classic');},[race?.season,race?.match]);if(!race)return null;const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];
   // Use historic team size for older seasons (men's was 8 until 2013/14)
   const effectiveTeamSize=divisionConfig?.historicTeamSize?.(race.season)||divisionConfig?.teamSize||{a:10,b:10};
   const seasonData=seasonsData[race.season];const matchData=seasonData?.matches?.find(m=>m.num===race.match);const teamWinner=matchData?.teamWinner||race.teamWinner||(race.teamScores?.[0]?.club);
@@ -794,8 +796,9 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
         {nextRace?<button onClick={()=>setView({type:'race',race:nextRace})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><span className="hidden sm:inline">{nextRace.venue}</span><span className="sm:hidden">Next</span><ChevronRight className="w-4 h-4"/></button>:<span className="w-16"/>}
       </div>
     </div>
-    <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&parseDate(race.date)?formatDate(race.date):(()=>{const months=['Oct','Nov','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4"><div><div className="flex items-center gap-2"><h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1><div className="relative flex items-center gap-2" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-0 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}{resultsStatus!=='complete'&&<span className="text-xs text-gray-400 hover:text-[#0077b6] cursor-pointer" onClick={()=>setView({type:'submit'})}>Submit more results</span>}</div></div>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span> <span className="text-gray-500">won the match</span></span></p>}{raceWinTexts.map((wt,i)=><p key={i} className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={wt.club} size={16}/><span className="text-gray-500">{wt.text}</span></p>)}</div>{race.weather&&<div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 lg:min-w-[180px]"><span className="text-3xl">{race.weather.icon}</span><div className="flex flex-col"><span className="text-lg font-semibold text-gray-900">{race.weather.temp}°C</span><span className="text-sm text-gray-600">{race.weather.description}</span><span className="text-xs text-gray-500">{race.weather.windSpeed} km/h wind</span></div></div>}</div></div>
+    <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&parseDate(race.date)?formatDate(race.date):(()=>{const months=['Oct','Nov','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4"><div><div className="flex flex-wrap items-center gap-2"><h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>{guideUrl&&<div className="flex items-center bg-gray-100 rounded-lg p-0.5"><button onClick={()=>setResultsMode('classic')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='classic'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Classic results</button><button onClick={()=>setResultsMode('guide')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='guide'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Form guide</button></div>}<div className="relative flex items-center gap-2" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-0 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}{resultsStatus!=='complete'&&<span className="text-xs text-gray-400 hover:text-[#0077b6] cursor-pointer" onClick={()=>setView({type:'submit'})}>Submit more results</span>}</div></div>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span> <span className="text-gray-500">won the match</span></span></p>}{raceWinTexts.map((wt,i)=><p key={i} className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={wt.club} size={16}/><span className="text-gray-500">{wt.text}</span></p>)}</div>{race.weather&&<div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 lg:min-w-[180px]"><span className="text-3xl">{race.weather.icon}</span><div className="flex flex-col"><span className="text-lg font-semibold text-gray-900">{race.weather.temp}°C</span><span className="text-sm text-gray-600">{race.weather.description}</span><span className="text-xs text-gray-500">{race.weather.windSpeed} km/h wind</span></div></div>}</div></div>
     
+    {resultsMode==="guide"&&guideUrl?<FormGuideFrame src={guideUrl}/>:<>
     {/* Mobile: tabs */}
     <div className="lg:hidden">
       <div className="flex gap-4 mb-6 border-b border-gray-200">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`pb-2 text-sm font-medium border-b-2 -mb-px transition-colors ${tab===t.id?'border-[#0077b6] text-[#0077b6]':'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
@@ -819,7 +822,15 @@ const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampio
         </div>
       </div>
     </div>
+    </>}
   </div>;
+};
+
+// Embeds a standalone analysis page (same origin) and keeps the frame as tall as its content.
+const FormGuideFrame=({src})=>{
+  const ref=useRef(null);const[h,setH]=useState(1200);
+  const onLoad=()=>{try{const doc=ref.current.contentDocument;const fit=()=>setH(doc.documentElement.scrollHeight);fit();new ResizeObserver(fit).observe(doc.body);}catch(e){}};
+  return<iframe ref={ref} src={src+(src.includes('?')?'&':'?')+'embed=1'} onLoad={onLoad} title="Form guide" className="w-full border-0 block" style={{height:h}}/>;
 };
 
 const FixturesView=({setView,races,seasonsData})=>{
