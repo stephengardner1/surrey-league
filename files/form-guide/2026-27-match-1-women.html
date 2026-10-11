@@ -196,13 +196,17 @@ html.embed .lede{margin-top:0}
 
   <section class="panel pred">
     <h2>Which was the better predictor?</h2>
-    <div class="bars" role="img" aria-label="How closely the finish followed each kind of form, from 0 to 1">
-      <span class="bl">5K best (since 2023)</span><span class="bt"><i class="win" style="width:92%"></i></span><span class="bv">0.92</span>
-      <span class="bl">National ladder</span><span class="bt"><i style="width:70%"></i></span><span class="bv">0.70</span>
+    <p class="dim" style="margin-top:2px">How much of today’s women's finishing order each kind of form explains (R²)</p>
+    <div class="bars" role="img" aria-label="Share of the finishing order explained by each predictor">
+      <span class="bl">5K best (since 2023)</span><span class="bt"><i class="win" style="width:84%"></i></span><span class="bv">84%</span>
+      <span class="bl">5K best (any year)</span><span class="bt"><i style="width:79%"></i></span><span class="bv">79%</span>
+      <span class="bl">Best handicap</span><span class="bt"><i style="width:62%"></i></span><span class="bv">62%</span>
+      <span class="bl">Handicap now</span><span class="bt"><i style="width:49%"></i></span><span class="bv">49%</span>
+      <span class="bl">National ladder</span><span class="bt"><i style="width:48%"></i></span><span class="bv">48%</span>
     </div>
-    <p><strong>Recent 5K times, by a distance.</strong> Ranked by their best 5K or 5000m since 2023, over half of the women's field finished as expected and the typical runner was 6 places from their predicted spot. Ranked by the national ladder, under a third finished as expected and the typical miss was 33 places.</p>
-    <p>The men's race told the same story (men's 5K score 0.87, ladder 0.69). The ladder seems to reward how much road racing someone does as well as how fast they are, so it is a rougher guide to cross-country form.</p>
-    <p class="dim">Score: how closely the finishing order followed the predicted order (a rank correlation), where 1 means everyone finished exactly in order. One race each, so treat it as a first look.</p>
+    <p><strong>Recent 5K times, by a distance.</strong> A runner’s best 5K or 5000m since 2023 explains 84% of the variation in where they finished. Best-ever handicap comes next (62%). Current handicap and the national ladder explain less than half, so the ladder seems to reward how much road racing someone does as well as how fast they are.</p>
+    <p>The women stuck closer to form than the men: 5K times explained 84% of their finishing order against 76% in the men's race. The order of predictors was the same in the men's race.</p>
+    <p class="dim">R² is the square of the rank correlation between each predictor and finishing place, among runners who have that figure. 100% would mean everyone finished exactly in predicted order. One race each, so treat it as a first look.</p>
   </section>
 
   <section>
