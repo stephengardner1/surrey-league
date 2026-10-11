@@ -7,6 +7,11 @@ on:
     - cron: '0 6 * * *'  # Daily at 6am UTC
   workflow_dispatch:       # Manual trigger
 
+# Only one sync at a time; a newer push cancels an older run still in progress
+concurrency:
+  group: sync-aliases
+  cancel-in-progress: true
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -23,5 +28,11 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add files/data.json
-          git diff --staged --quiet || git commit -m "Sync aliases from Google Sheet"
+          if git diff --staged --quiet; then
+            echo "No alias changes - nothing to push"
+            exit 0
+          fi
+          git commit -m "Sync aliases from Google Sheet"
+          # Pick up anything pushed while this run was working, then push
+          git pull --rebase origin main
           git push
