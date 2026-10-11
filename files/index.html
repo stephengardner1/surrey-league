@@ -681,8 +681,8 @@ const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps
   return<div>{clubFilter&&<div className="mb-4 flex items-center gap-2 text-sm"><span className="text-gray-500">Showing:</span><span className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded"><ClubShield club={clubFilter} size={16}/><span className="font-medium">{CLUBS[clubFilter]?.name||clubFilter}</span><button onClick={()=>setClubFilter(null)} className="text-gray-400 hover:text-gray-600"><X className="w-4 h-4"/></button></span></div>}<table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 text-xs font-semibold text-gray-900 uppercase tracking-wide w-10">Pos</th><th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase w-10">Pts</th><th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase w-16">Club</th><th className="text-left py-1.5 px-2 text-xs text-gray-500 uppercase">Name</th><th className="text-right py-1.5 pl-4 text-xs text-gray-500 uppercase w-16">Time</th></tr></thead><tbody className="divide-y divide-gray-100">{filtered.map((r,i)=><tr key={i} className="hover:bg-blue-50"><td className="py-1.5 text-sm text-gray-700 tabular-nums">{r.pos}</td><td className="py-1.5 px-2 text-sm text-gray-500 tabular-nums">{r.pts||'-'}</td><td className="py-1.5 px-2"><span className="flex items-center gap-1 cursor-pointer" onClick={()=>setClubFilter(r.club)}><ClubShield club={r.club} size={14}/><span className="text-xs text-gray-500">{r.club}</span></span></td><td className="py-1.5 px-2"><span className="text-sm text-gray-900 cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'athlete',athlete:{name:r.name,club:r.club}})}>{r.name}{getChampionStars(r.name)&&<span className="text-xs" title="Has won individual Surrey League title(s)"> {getChampionStars(r.name)}</span>}{isClubGoat(r.name,r.club)&&<span className="text-xs" title={`Is ${CLUBS[r.club]?.name||r.club}'s greatest A-team scorer of all time`}> 🐐</span>}{r.ns&&<span className="text-gray-400 ml-1">(N/S)</span>}{r.secondClaim&&<span className="text-gray-400 ml-1">(2C)</span>}</span></td><td className="py-1.5 pl-4 text-sm text-gray-700 text-right tabular-nums font-mono whitespace-nowrap">{r.time}</td></tr>)}</tbody></table></div>;
 };
 
-const RaceDetailView=({race,setView,seasonsData,clubMvps,races,individualChampions,divisionConfig})=>{
-  const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const[statusHover,setStatusHover]=useState(false);const[resultsMode,setResultsMode]=useState('classic');useEffect(()=>{setResultsMode('classic');},[race?.season,race?.match]);if(!race)return null;const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];
+const RaceDetailView=({race,mode,setView,seasonsData,clubMvps,races,individualChampions,divisionConfig})=>{
+  const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const[statusHover,setStatusHover]=useState(false);const resultsMode=mode==='guide'?'guide':'classic';const setResultsMode=m=>setView({type:'race',race,mode:m==='guide'?'guide':undefined});if(!race)return null;const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];
   // Use historic team size for older seasons (men's was 8 until 2013/14)
   const effectiveTeamSize=divisionConfig?.historicTeamSize?.(race.season)||divisionConfig?.teamSize||{a:10,b:10};
   const seasonData=seasonsData[race.season];const matchData=seasonData?.matches?.find(m=>m.num===race.match);const teamWinner=matchData?.teamWinner||race.teamWinner||(race.teamScores?.[0]?.club);
@@ -3392,7 +3392,7 @@ const parseUrlParams=(athletes)=>{
     case'season':return{type:'home',urlSeason:compactToSeason(param),division};
     case'athlete':return{type:'athlete',athlete:{name:slugToName(param,athletes),slug:param},division};
     case'club':return{type:'club',club:param.toUpperCase().replace('HW','H/W').replace('GG','G&G').replace('CC','C/C').replace('EE','E&E').replace('SD','S&D'),division};
-    case'race':{const[s,m]=param.split('-');return{type:'race',raceKey:{season:compactToSeason(s),match:parseInt(m)},division};}
+    case'race':{const[s,m]=param.split('-');return{type:'race',raceKey:{season:compactToSeason(s),match:parseInt(m)},mode:param.endsWith('/form-guide')?'guide':undefined,division};}
     case'fixtures':return{type:'fixtures',division};
     case'winners':return{type:'seasons',division};
     case'athletes':return{type:'athletes',division};
@@ -3413,7 +3413,7 @@ const updateUrl=(view,division='men')=>{
   else if(view.type==='home'&&division==='women')hash='#women';
   else if(view.type==='athlete'&&view.athlete?.name)hash=prefix+sep+'athlete/'+nameToSlug(view.athlete.name);
   else if(view.type==='club'&&view.club)hash=prefix+sep+'club/'+view.club.toLowerCase().replace('/','').replace('&','');
-  else if(view.type==='race'&&view.race)hash=prefix+sep+'race/'+seasonToCompact(view.race.season)+'-'+view.race.match;
+  else if(view.type==='race'&&view.race)hash=prefix+sep+'race/'+seasonToCompact(view.race.season)+'-'+view.race.match+(view.mode==='guide'?'/form-guide':'');
   else if(view.type==='fixtures')hash=prefix+sep+'fixtures';
   else if(view.type==='seasons')hash=prefix+sep+'winners';
   else if(view.type==='athletes')hash=prefix+sep+'athletes';
@@ -4630,7 +4630,7 @@ function App(){
       if(parsed.division==='men'||!parsed.division){
         if(parsed.raceKey){
           const race=menData.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
-          if(race)setViewState({type:'race',race});else setViewState(parsed);
+          if(race)setViewState({type:'race',race,mode:parsed.mode});else setViewState(parsed);
         }else{setViewState(parsed);}
       }
     }
@@ -4643,7 +4643,7 @@ function App(){
       if(parsed.division==='women'){
         if(parsed.raceKey){
           const race=womenData.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
-          if(race)setViewState({type:'race',race});else setViewState(parsed);
+          if(race)setViewState({type:'race',race,mode:parsed.mode});else setViewState(parsed);
         }else{setViewState(parsed);}
       }
     }
@@ -4655,7 +4655,7 @@ function App(){
       if(parsed.division!==division)setDivisionState(parsed.division||'men');
       if(parsed.raceKey&&data){
         const race=data.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
-        if(race)setViewState({type:'race',race});else setViewState(parsed);
+        if(race)setViewState({type:'race',race,mode:parsed.mode});else setViewState(parsed);
       }else{setViewState(parsed);}
     };
     window.addEventListener('popstate',onPop);
@@ -4668,7 +4668,7 @@ function App(){
       if(parsed.division!==division)setDivisionState(parsed.division||'men');
       if(parsed.raceKey&&data){
         const race=data.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
-        if(race)setViewState({type:'race',race});else setViewState(parsed);
+        if(race)setViewState({type:'race',race,mode:parsed.mode});else setViewState(parsed);
       }else{setViewState(parsed);}
     };
     window.addEventListener('hashchange',onHash);
@@ -4683,7 +4683,7 @@ function App(){
     <Nav setView={setView} division={division} setDivision={setDivision}/>
     <main className="flex-1">
       {view.type==='home'&&<HomeView key={view.urlSeason||'default'} setView={setView} data={data} initialSeason={view.urlSeason} division={division} divisionConfig={divisionConfig}/>}
-      {view.type==='race'&&<RaceDetailView race={view.race} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions} divisionConfig={divisionConfig}/>}
+      {view.type==='race'&&<RaceDetailView race={view.race} mode={view.mode} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions} divisionConfig={divisionConfig}/>}
       {view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}
       {view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races} mitchellCupWinners={data.mitchellCupWinners} division={division}/>}
       {view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}
