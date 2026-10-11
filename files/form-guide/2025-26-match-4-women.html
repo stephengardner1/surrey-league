@@ -229,7 +229,7 @@ html.embed,html.embed body{overflow:hidden}
   <section>
     <div class="tablewrap">
       <table>
-        <thead><tr><th class="num sc1" aria-label="Position"></th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">Handicap</th><th class="num">Best handicap</th><th class="num"><button type="button" class="sortbtn" id="sortExp" aria-pressed="false" title="Order by expected finish">Expected<span class="arr"></span></button></th><th class="num">Vs form</th></tr></thead>
+        <thead><tr><th class="num sc1" aria-label="Position"></th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">5K best</th><th class="num">Best handicap</th><th class="num">Handicap</th><th class="num">Ladder</th><th class="num"><button type="button" class="sortbtn" id="sortExp" aria-pressed="false" title="Order by expected finish">Expected<span class="arr"></span></button></th><th class="num">Vs form</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -361,10 +361,11 @@ function render(){
     const best = bt ? `<span${tip ? ` title="${esc(tip)}"` : ""}${state.recent && r.rnote ? ` class="adj"` : ""}>${bt}${state.recent && r.rnote ? "*" : ""}</span>${by?`<span class="hd">${by}</span>`:""}` : `<span class="dim">–</span>`;
     return `<tr class="b-${x.band}"><td class="num sc1 pos">${r.p}</td>
       <td class="sc2">${vest(r.c)}<span class="rname">${name}</span>${flags}</td>
-      <td class="num">${r.tm}</td><td class="num">${r.l!=null?r.l.toLocaleString("en-GB"):'<span class="dim">–</span>'}</td>
+      <td class="num">${r.tm}</td>
       <td class="num">${best}</td>
-      <td class="num">${r.hc!=null?(r.hc>0?'+':'')+r.hc:'<span class="dim">–</span>'}</td>
       <td class="num hc">${r.hb!=null?`${(r.hb>0?'+':'')+r.hb}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td>
+      <td class="num">${r.hc!=null?(r.hc>0?'+':'')+r.hc:'<span class="dim">–</span>'}</td>
+      <td class="num">${r.l!=null?r.l.toLocaleString("en-GB"):'<span class="dim">–</span>'}</td>
       <td class="num">${x.e?ord(x.e):'<span class="dim">–</span>'}</td>
       <td class="num">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}${fmtX(x)}</span>`}</td></tr>`;
   }).join("") : `<tr><td colspan="9" class="empty">No runners match these filters.</td></tr>`;
