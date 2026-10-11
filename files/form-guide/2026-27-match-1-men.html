@@ -108,6 +108,7 @@ tr.b-so td.stripe{background:var(--over)} tr.b-o td.stripe{background:var(--over
 tr.b-e td.stripe{background:var(--even)} tr.b-u td.stripe{background:var(--under-mid)}
 tr.b-su td.stripe{background:var(--under)} tr.b-n td.stripe{background:transparent}
 .rname{font-weight:500}
+.vest{display:inline-block;vertical-align:-2px;margin-right:6px;line-height:0}
 .rname a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
 .rname a:hover{border-bottom-color:var(--ink)}
 .rmeta{color:var(--muted);font-size:12px;margin-left:6px}
@@ -209,6 +210,48 @@ function compute(lens){
     return {r, e, a, d, lr, band};
   });
 }
+const getClubVestSvg=(club)=>{
+  const p="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
+  const id=`fav-${club}`;
+  const vestSvg={
+    'KEN':`<path d="${p}" fill="#2a4d7a"/><path d="M13 5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 L11 5.5 Z" fill="#dc2626"/>`,
+    'H/W':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="0,0 6,0 20,20 14,20" fill="#c41e3a"/></g>`,
+    'THH':`<path d="${p}" fill="#fff"/><line x1="6" y1="5" x2="14" y2="15" stroke="#1a1a1a" stroke-width="2"/><line x1="14" y1="5" x2="6" y2="15" stroke="#1a1a1a" stroke-width="2"/>`,
+    'BEL':`<path d="${p}" fill="#7A001D"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="20" height="4" fill="#CCAD6A"/></g>`,
+    'HHH':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="0" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="6" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="12" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="18" width="20" height="3" fill="#1a1a1a"/></g>`,
+    'G&G':`<path d="${p}" fill="#228b22"/>`,
+    'SLH':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="13" y="0" width="4" height="20" fill="#800020"/></g>`,
+    'DUL':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="6" width="20" height="2" fill="#1e3a8a"/><rect x="0" y="12" width="20" height="2" fill="#1e3a8a"/></g>`,
+    'HOL':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#fff"/></g>`,
+    'RAN':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#f4c430"/></g>`,
+    'C/C':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="10" width="20" height="10" fill="#1e3a8a"/><rect x="0" y="9" width="20" height="2" fill="#228b22"/></g>`,
+    'WAL':`<path d="${p}" fill="#1a1a1a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="6" width="20" height="2" fill="#f4c430"/><rect x="0" y="8" width="20" height="2" fill="#dc2626"/><rect x="0" y="10" width="20" height="2" fill="#f4c430"/></g>`,
+    'CRO':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="5" width="20" height="2" fill="#1a1a1a"/><rect x="0" y="12" width="20" height="2" fill="#1a1a1a"/></g>`,
+    'WOK':`<path d="${p}" fill="#ff6600"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#32CD32"/></g>`,
+    'E&E':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#f4c430"/></g>`,
+    'FUL':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="0" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="6" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="12" width="20" height="3" fill="#1a1a1a"/><rect x="0" y="18" width="20" height="3" fill="#1a1a1a"/></g>`,
+    'SOC':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#228b22"/><rect x="14" y="0" width="3" height="20" fill="#228b22"/></g>`,
+    'BOX':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#dc2626"/><rect x="14" y="0" width="3" height="20" fill="#dc2626"/></g>`,
+    'BOH':`<path d="${p}" fill="#87CEEB"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#dc2626"/><rect x="14" y="0" width="3" height="20" fill="#dc2626"/></g>`,
+    'AFD':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/></g>`,
+    'SUR':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="20" height="1" fill="#1a1a1a"/><rect x="0" y="8" width="20" height="3" fill="#3b82f6"/><rect x="0" y="11" width="20" height="1" fill="#1a1a1a"/></g>`,
+    'MIT':`<path d="${p}" fill="#2563eb"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="5" width="20" height="1.5" fill="#fff"/><rect x="0" y="8" width="20" height="3" fill="#fff"/><rect x="0" y="12.5" width="20" height="1.5" fill="#fff"/></g>`,
+    'DMV':`<path d="${p}" fill="#A52A2A"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#fff"/><rect x="14" y="0" width="3" height="20" fill="#fff"/></g>`,
+    'REI':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="0,0 6,0 20,14 20,20 14,20 0,6" fill="#87CEEB"/></g>`,
+    'STR':`<path d="${p}" fill="#f4c430"/><text x="10" y="13" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a1a1a">S</text>`,
+    'W4H':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#00CED1"/></g>`,
+    'W/W':`<path d="${p}" fill="#1a1a1a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#dc2626"/></g>`,
+    'K&P':`<path d="${p}" fill="#1E90FF"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="8,0 20,0 20,20 0,20 0,8" fill="#1a1a1a"/><polygon points="0,0 8,0 20,12 20,20 12,20 0,8" fill="#fff"/></g>`,
+    'LCR':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="3" height="20" fill="#f4c430"/><rect x="14" y="0" width="3" height="20" fill="#f4c430"/></g>`,
+    '262':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="4,0 9,0 20,11 20,16" fill="#fff"/><polygon points="0,4 0,9 11,20 16,20" fill="#fff"/><polygon points="8,0 12,0 20,8 20,12" fill="#dc2626"/><polygon points="0,8 0,12 8,20 12,20" fill="#dc2626"/></g>`,
+    'MPA':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="0,6 6,0 10,0 0,10" fill="#1e3a8a"/><polygon points="0,10 10,0 14,0 0,14" fill="#f4c430"/><polygon points="0,14 14,0 18,0 0,18" fill="#1e3a8a"/></g>`,
+    'BAC':`<path d="${p}" fill="#f5f5dc"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><path d="M4 9 Q10 7 16 9 L15 11 Q10 9.5 5 11 Z" fill="#dc2626"/><path d="M15 10 L16 9 L17 10 L16 12 Z" fill="#1e3a8a"/></g>`,
+    'OME':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="2" height="20" fill="#fff"/><rect x="7" y="0" width="2" height="20" fill="#fff"/><rect x="11" y="0" width="2" height="20" fill="#fff"/><rect x="15" y="0" width="2" height="20" fill="#fff"/></g>`
+  };
+  const content=vestSvg[club]||`<path d="${p}" fill="#9ca3af"/>`;
+  return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">${content}<path d="${p}" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
+};
+const vest = c => c ? `<span class="vest" title="${esc(CLUBS[c]||c)}">${getClubVestSvg(c).replace("<svg ","<svg width=\"14\" height=\"14\" aria-hidden=\"true\" ")}</span>` : "";
 const ord = n => n + (n%100>=11&&n%100<=13?"th":({1:"st",2:"nd",3:"rd"}[n%10]||"th"));
 const fmtD = d => d>0 ? "▲ "+d : d<0 ? "▼ "+(-d) : "=";
 const fmtMonth = d => { const [y,m]=d.split("-"); return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m-1]+" "+y; };
@@ -228,7 +271,7 @@ function render(){
 
   // movers (by log ratio so front-runners count, tie-break by places)
   const ranked = data.filter(x=>x.band!=="n" && inClub(x));
-  const li = x => `<li class="b-${x.band}"><span class="pos">${ord(x.r.p)}</span><span class="who">${esc(x.r.n)}<span class="club">${esc(x.r.c)}</span></span><span class="delta">${fmtD(x.d)}</span></li>`;
+  const li = x => `<li class="b-${x.band}"><span class="pos">${ord(x.r.p)}</span><span class="who">${vest(x.r.c)}${esc(x.r.n)}</span><span class="delta">${fmtD(x.d)}</span></li>`;
   const up = ranked.filter(x=>x.d>0).sort((a,b)=>b.lr-a.lr||b.d-a.d).slice(0,8);
   const dn = ranked.filter(x=>x.d<0).sort((a,b)=>a.lr-b.lr||a.d-b.d).slice(0,8);
   document.getElementById("risers").innerHTML = up.map(li).join("") || `<li class="dim">Nobody in this selection.</li>`;
@@ -244,7 +287,7 @@ function render(){
     const flags = r.f.map(f=>`<span class="flag">${esc(f)}</span>`).join("");
     const best = r.b ? `${r.b}` : `<span class="dim">–</span>`;
     return `<tr class="b-${x.band}"><td class="stripe"></td><td class="num">${r.p}</td>
-      <td><span class="rname">${name}</span><span class="rmeta">${esc(r.c)}${r.a?" · "+esc(r.a):""}</span>${flags}</td>
+      <td>${vest(r.c)}<span class="rname">${name}</span>${r.a?`<span class="rmeta">${esc(r.a)}</span>`:""}${flags}</td>
       <td class="num">${r.tm}</td><td class="num">${r.l!=null?r.l.toLocaleString("en-GB"):'<span class="dim">–</span>'}</td>
       <td class="num">${best}</td>
       <td class="num">${r.py ? r.py + (r.py<2023?'<span class="old">old</span>':'') : '<span class="dim">–</span>'}</td>
