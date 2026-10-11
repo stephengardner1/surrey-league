@@ -121,6 +121,15 @@ tr.b-su td.pos{background:var(--under);color:#fff}
 html.embed .tablewrap{max-height:640px}
 table{border-collapse:separate;border-spacing:0}
 th{z-index:2}
+.pred .bars{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:center;margin:12px 0 10px;max-width:560px}
+.pred .bl{font-size:13.5px;color:var(--ink-2)}
+.pred .bt{height:10px;border-radius:5px;background:var(--rule);overflow:hidden}
+.pred .bt i{display:block;height:100%;border-radius:5px;background:var(--ink-2)}
+.pred .bt i.win{background:var(--over)}
+.pred .bv{font-family:var(--mono, ui-monospace, monospace);font-size:13px;font-variant-numeric:tabular-nums}
+.pred p{margin:6px 0 0;font-size:14.5px;line-height:1.5;max-width:68ch}
+.pred .dim{color:var(--muted);font-size:13px}
+
 .sortbtn{all:unset;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit}
 .sortbtn:hover,.sortbtn[aria-pressed="true"]{color:var(--ink)}
 .sortbtn .arr{font-size:10px}
@@ -183,6 +192,17 @@ html.embed .lede{margin-top:0}
     <h2>Expected place against actual place</h2>
     <p class="lensnote" style="margin:4px 0 8px">Each dot is a ranked runner. Dots on the line finished exactly where their form predicted. <span style="color:var(--over);font-weight:600">Above the line</span> beat their ranking; <span style="color:var(--under);font-weight:600">below the line</span> fell short. Tap or hover a dot to see who it is.</p>
     <div class="chartwrap"><svg id="chart" viewBox="0 0 960 520" role="img" aria-label="Scatter of finishing place against expected place"></svg><div class="tip" id="tip" hidden></div></div>
+  </section>
+
+  <section class="panel pred">
+    <h2>Which was the better predictor?</h2>
+    <div class="bars" role="img" aria-label="How closely the finish followed each kind of form, from 0 to 1">
+      <span class="bl">5K best (since 2023)</span><span class="bt"><i class="win" style="width:87%"></i></span><span class="bv">0.87</span>
+      <span class="bl">National ladder</span><span class="bt"><i style="width:69%"></i></span><span class="bv">0.69</span>
+    </div>
+    <p><strong>Recent 5K times, by a distance.</strong> Ranked by their best 5K or 5000m since 2023, half of the men's field finished as expected and the typical runner was 10 places from their predicted spot. Ranked by the national ladder, only a third finished as expected and the typical miss was 35 places.</p>
+    <p>The women's race told the same story (women's 5K score 0.92, ladder 0.70). The ladder seems to reward how much road racing someone does as well as how fast they are, so it is a rougher guide to cross-country form.</p>
+    <p class="dim">Score: how closely the finishing order followed the predicted order (a rank correlation), where 1 means everyone finished exactly in order. One race each, so treat it as a first look.</p>
   </section>
 
   <section>
