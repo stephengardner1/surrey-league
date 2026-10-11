@@ -99,7 +99,7 @@ td.num{white-space:nowrap}
 .tip[hidden]{display:none}
 
 .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);border-radius:10px}
-table{border-collapse:collapse;width:100%;min-width:1060px;font-size:14px}
+table{border-collapse:collapse;width:100%;min-width:980px;font-size:14px}
 th{position:sticky;top:0;background:var(--surface);text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:10px 10px;border-bottom:1px solid var(--rule);white-space:nowrap}
 th.num,td.num{text-align:right}
 td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:baseline}
@@ -176,7 +176,7 @@ html.embed .lede{margin-top:0}
   <section>
     <div class="tablewrap">
       <table>
-        <thead><tr><th class="sc0" aria-label="Verdict colour"></th><th class="num sc1">Pos</th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">PB set</th><th class="num">Handicap now</th><th class="num">Best handicap</th><th class="num">Expected</th><th class="num">Vs form</th></tr></thead>
+        <thead><tr><th class="sc0" aria-label="Verdict colour"></th><th class="num sc1">Pos</th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">Handicap now</th><th class="num">Best handicap</th><th class="num">Expected</th><th class="num">Vs form</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -185,7 +185,7 @@ html.embed .lede{margin-top:0}
   <footer>
     <p><strong>How it works.</strong> Only runners with a ranking are compared. They are put in order by ranking (lower ladder number, or faster 5K/5000m best, comes first) to give an expected place, and in order of today’s finish to give an actual place among the same group. “Vs form” is expected place minus actual place, so +20 means 20 places better than predicted.</p>
     <p><strong>Colour bands</strong> use the ratio of expected to actual place, so moving 20 places matters more near the front than at the back. As expected: within about 20%. Ahead/behind: up to 1.7×. Well ahead/behind: more than 1.7× (and at least 5 places).</p>
-    <p><strong>PB set</strong> is the year of the 5K or 5000m time used as the runner’s best, taken from the yearly bests on their Power of 10 profile; “old” marks anything before 2023. The “Only count PBs set since 2023” switch (it applies to the 5K view, and changing it switches to that view) leaves out runners whose best is older, so stale PBs don’t skew the expected places.</p>
+    <p>The year after each <strong>5K best</strong> is when it was set, taken from the yearly bests on their Power of 10 profile. The “Only count PBs set since 2023” switch (it applies to the 5K view, and changing it switches to that view) leaves out runners whose best is older, so stale PBs don’t skew the expected places.</p>
     <p><strong>Handicap</strong> is Power of 10’s road handicap: now, and the best it has been with the month it was reached. Like golf, lower is better. Power of 10 doesn’t keep a history of ladder positions, so the best handicap is the nearest thing to a runner’s peak ladder standing.</p>
     <p><strong>Sources.</strong> Results from <a href="https://www.surreyleague.org/race/565/">surreyleague.org</a>, provisional on the day. Ladder and best times from <a href="https://www.powerof10.uk/">Power of 10</a>, read 10–11 October 2026. The national ladder is built from road results, so track specialists can look under-ranked on it. Rows marked “check match” were found by name search and their Power of 10 club differs from today’s.</p>
   </footer>
@@ -297,17 +297,16 @@ function render(){
     const r = x.r;
     const name = r.g ? `<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${esc(r.n)}</a>` : esc(r.n);
     const flags = r.f.map(f=>`<span class="flag">${esc(f)}</span>`).join("");
-    const best = r.b ? `${r.b}` : `<span class="dim">–</span>`;
+    const best = r.b ? `${r.b}${r.py?`<span class="hd">${r.py}</span>`:""}` : `<span class="dim">–</span>`;
     return `<tr class="b-${x.band}"><td class="stripe sc0"></td><td class="num sc1">${r.p}</td>
       <td class="sc2">${vest(r.c)}<span class="rname">${name}</span>${flags}</td>
       <td class="num">${r.tm}</td><td class="num">${r.l!=null?r.l.toLocaleString("en-GB"):'<span class="dim">–</span>'}</td>
       <td class="num">${best}</td>
-      <td class="num">${r.py ? r.py + (r.py<2023?'<span class="old">old</span>':'') : '<span class="dim">–</span>'}</td>
       <td class="num">${r.hc!=null?(r.hc>0?'+':'')+r.hc:'<span class="dim">–</span>'}</td>
       <td class="num hc">${r.hb!=null?`${(r.hb>0?'+':'')+r.hb}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td>
       <td class="num">${x.e?ord(x.e):'<span class="dim">–</span>'}</td>
       <td class="num">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}</span>`}</td></tr>`;
-  }).join("") : `<tr><td colspan="11" class="empty">No runners match these filters.</td></tr>`;
+  }).join("") : `<tr><td colspan="10" class="empty">No runners match these filters.</td></tr>`;
   try{ localStorage.setItem("wcfg", JSON.stringify({lens:state.lens})); }catch(e){}
 }
 
