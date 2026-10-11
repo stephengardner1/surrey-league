@@ -106,7 +106,18 @@ tr:last-child td{border-bottom:0}
 td.stripe{padding:0;width:6px}
 tr.b-so td.stripe{background:var(--over)} tr.b-o td.stripe{background:var(--over-mid)}
 tr.b-e td.stripe{background:var(--even)} tr.b-u td.stripe{background:var(--under-mid)}
-tr.b-su td.stripe{background:var(--under)} tr.b-n td.stripe{background:transparent}
+tr.b-su td.stripe{background:var(--under)} tr.b-n td.stripe{background:var(--surface)}
+/* Scrolls inside its own box so the header row and the first three columns can stay pinned */
+.tablewrap{overflow:auto;max-height:min(78vh,820px)}
+html.embed .tablewrap{max-height:640px}
+table{border-collapse:separate;border-spacing:0}
+th{z-index:2}
+.sc0,.sc1,.sc2{position:sticky;background:var(--surface)}
+td.sc0,td.sc1,td.sc2{z-index:1}
+th.sc0,th.sc1,th.sc2{z-index:3}
+.sc0{left:0;width:6px;min-width:6px;max-width:6px}
+.sc1{left:6px;width:48px;min-width:48px}
+.sc2{left:54px;min-width:190px;max-width:240px;box-shadow:1px 0 0 var(--rule)}
 .rname{font-weight:500}
 .vest{display:inline-block;vertical-align:-2px;margin-right:6px;line-height:0}
 .rname a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
@@ -121,7 +132,7 @@ footer p{margin:0}
 footer a{color:var(--accent)}
 .home{font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--ink-2);text-decoration:none;justify-self:start}
 .home:hover{color:var(--ink)}
-@media (max-width:520px){h2{font-size:19px}.seg button{padding:8px 10px}}
+@media (max-width:520px){.sc1{width:38px;min-width:38px}.sc2{left:44px;min-width:140px}td.sc1,th.sc1{padding-inline:6px}h2{font-size:19px}.seg button{padding:8px 10px}}
 
 /* Embedded in the site's race page: drop own heading/back link, match the site's light look */
 html.embed body{padding-inline:0;padding-block:0 24px;background:#fff}
@@ -164,7 +175,7 @@ html.embed .lede{margin-top:0}
   <section>
     <div class="tablewrap">
       <table>
-        <thead><tr><th aria-label="Verdict colour"></th><th class="num">Pos</th><th>Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">PB set</th><th class="num">Handicap now</th><th class="num">Best handicap</th><th class="num">Expected</th><th class="num">Vs form</th></tr></thead>
+        <thead><tr><th class="sc0" aria-label="Verdict colour"></th><th class="num sc1">Pos</th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">PB set</th><th class="num">Handicap now</th><th class="num">Best handicap</th><th class="num">Expected</th><th class="num">Vs form</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -286,8 +297,8 @@ function render(){
     const name = r.g ? `<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${esc(r.n)}</a>` : esc(r.n);
     const flags = r.f.map(f=>`<span class="flag">${esc(f)}</span>`).join("");
     const best = r.b ? `${r.b}` : `<span class="dim">–</span>`;
-    return `<tr class="b-${x.band}"><td class="stripe"></td><td class="num">${r.p}</td>
-      <td>${vest(r.c)}<span class="rname">${name}</span>${r.a?`<span class="rmeta">${esc(r.a)}</span>`:""}${flags}</td>
+    return `<tr class="b-${x.band}"><td class="stripe sc0"></td><td class="num sc1">${r.p}</td>
+      <td class="sc2">${vest(r.c)}<span class="rname">${name}</span>${flags}</td>
       <td class="num">${r.tm}</td><td class="num">${r.l!=null?r.l.toLocaleString("en-GB"):'<span class="dim">–</span>'}</td>
       <td class="num">${best}</td>
       <td class="num">${r.py ? r.py + (r.py<2023?'<span class="old">old</span>':'') : '<span class="dim">–</span>'}</td>
