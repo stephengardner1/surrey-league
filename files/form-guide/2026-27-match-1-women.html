@@ -121,6 +121,10 @@ tr.b-su td.pos{background:var(--under);color:#fff}
 html.embed .tablewrap{max-height:640px}
 table{border-collapse:separate;border-spacing:0}
 th{z-index:2}
+.sortbtn{all:unset;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit}
+.sortbtn:hover,.sortbtn[aria-pressed="true"]{color:var(--ink)}
+.sortbtn .arr{font-size:10px}
+.sortbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .sc0,.sc1,.sc2{position:sticky;background:var(--surface)}
 td.sc0,td.sc1,td.sc2{z-index:1}
 th.sc0,th.sc1,th.sc2{z-index:3}
@@ -184,7 +188,7 @@ html.embed .lede{margin-top:0}
   <section>
     <div class="tablewrap">
       <table>
-        <thead><tr><th class="num sc1" aria-label="Position"></th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">Handicap</th><th class="num">Best handicap</th><th class="num">Expected</th><th class="num">Vs form</th></tr></thead>
+        <thead><tr><th class="num sc1" aria-label="Position"></th><th class="sc2">Runner</th><th class="num">Time</th><th class="num">Ladder</th><th class="num">5K best</th><th class="num">Handicap</th><th class="num">Best handicap</th><th class="num"><button type="button" class="sortbtn" id="sortExp" aria-pressed="false" title="Order by expected finish">Expected<span class="arr"></span></button></th><th class="num">Vs form</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -210,7 +214,7 @@ const LENS = {
   ladder:{key:"l", note:"Expected place comes from each runner’s Power of 10 national ladder position (UK Women). Kitty Shepherd-Cross is 445th, for example."},
   pb:{key:"bs", note:"Expected place comes from each runner’s fastest lifetime 5K (road) or 5000m (track), whichever is quicker."}
 };
-let state = {lens:"ladder", club:"", q:"", band:"", recent:true};
+let state = {lens:"ladder", club:"", q:"", band:"", recent:true, sort:"p"};
 try{ const s = JSON.parse(localStorage.getItem("wcfg")||"{}"); if(s.lens in LENS) state.lens=s.lens; }catch(e){}
 
 function compute(lens){
@@ -303,6 +307,8 @@ function render(){
 
   // table
   const shown = data.filter(x=>inClub(x) && (!state.band || x.band===state.band));
+  if(state.sort==="e") shown.sort((a,b)=>(a.e??1e9)-(b.e??1e9) || a.r.p-b.r.p);
+  const sb=document.getElementById("sortExp"); sb.setAttribute("aria-pressed", state.sort==="e"); sb.querySelector(".arr").textContent = state.sort==="e" ? " ▲" : " ↕";
   document.getElementById("tbody").innerHTML = shown.length ? shown.map(x=>{
     const r = x.r;
     const name = r.g ? `<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${esc(r.n)}</a>` : esc(r.n);
@@ -373,6 +379,7 @@ function drawChart(data, inClub){
 
 // controls
 const sel = document.getElementById("club");
+document.getElementById("sortExp").onclick=()=>{ state.sort = state.sort==="e" ? "p" : "e"; render(); };
 [...new Set(ROWS.map(r=>r.c).filter(Boolean))].sort().forEach(c=>{
   const o=document.createElement("option"); o.value=c; o.textContent=`${CLUBS[c]||c} (${c})`; sel.appendChild(o);});
 document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{state.lens=b.dataset.lens;render();}));
