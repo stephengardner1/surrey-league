@@ -257,7 +257,7 @@ const BANDS = [
   {k:"u",label:"Behind"},{k:"su",label:"Well behind"},{k:"n",label:"No ranking"}];
 const LENS = {
   hc:{key:"hc", note:"Expected place comes from each runner’s Power of 10 road handicap."},
-  pb:{key:"bs", note:"Expected place comes from each runner’s 5K form."}
+  pb:{key:"bs", note:"Expected place comes from each runner’s best 5K in the past two seasons."}
 };
 const TIE = ["l","hb","rbs"];
 const tieCmp = (a,b) => { for(const k of TIE){ const x=a[k], y=b[k]; if(x==null&&y==null) continue; if(x==null) return 1; if(y==null) return -1; if(x!==y) return x-y; } return 0; };
