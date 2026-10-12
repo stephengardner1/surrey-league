@@ -63,7 +63,7 @@ const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name
 
 // Display names: the stored name stays as-is (so different runners stay distinct and searches still work),
 // but this is what visitors see. Exact-name overrides first; otherwise a trailing club tag like " (G&G)" is hidden.
-const DISPLAY_NAMES={'Samuel Gebreselassie':'Sam Gebreselassie'};
+const DISPLAY_NAMES={'Samuel Gebreselassie':'Sam Gebreselassie','Isobel Hodder':'Isabel Hodder'};
 const displayName=n=>{if(typeof n!=='string')return n;if(DISPLAY_NAMES[n])return DISPLAY_NAMES[n];const m=n.match(/^(.+?) \(([A-Z&\/]{2,4})\)$/);return m&&CLUBS[m[2]]?m[1]:n;};
 (()=>{const ce=React.createElement;const fix=x=>{if(typeof x!=='string'||x.length>80)return x;const d=displayName(x);if(d!==x)return d;let y=x;for(const k in DISPLAY_NAMES)if(y.includes(k))y=y.split(k).join(DISPLAY_NAMES[k]);return y;};
 React.createElement=function(t,p,...c){return ce.call(this,t,p,...c.map(fix));};})();
