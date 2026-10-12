@@ -491,7 +491,7 @@
         },
         {
           "pos": 60,
-          "name": "Unknown (BEL)",
+          "name": "Charlotte Griffiths",
           "club": "BEL",
           "time": "26:58"
         },
@@ -525,27 +525,31 @@
         },
         {
           "pos": 65,
-          "name": "Unknown",
-          "time": "27:03"
+          "name": "Molly O'Connor",
+          "club": "KEN",
+          "time": "27:03",
+          "pts": 53
         },
         {
           "pos": 66,
           "name": "Aisling Ahern",
           "club": "KEN",
           "time": "27:03",
-          "pts": 53
+          "pts": 54
         },
         {
           "pos": 67,
-          "name": "Unknown",
-          "time": "27:07"
+          "name": "Jo Vickers",
+          "club": "SLH",
+          "time": "27:07",
+          "pts": 55
         },
         {
           "pos": 68,
           "name": "Claire Oxlade",
           "club": "KEN",
           "time": "27:08",
-          "pts": 54
+          "pts": 56
         },
         {
           "pos": 69,
@@ -558,26 +562,28 @@
           "name": "Nicky Hornzee",
           "club": "STR",
           "time": "27:09",
-          "pts": 55
+          "pts": 57
         },
         {
           "pos": 71,
-          "name": "Unknown",
-          "time": "27:10"
+          "name": "Gina Galbraith",
+          "club": "H/W",
+          "time": "27:10",
+          "pts": 58
         },
         {
           "pos": 72,
           "name": "Laura Ebbs",
           "club": "REI",
           "time": "27:11",
-          "pts": 56
+          "pts": 59
         },
         {
           "pos": 73,
-          "name": "Natalie Haarer",
+          "name": "Aoife Kilpatrick",
           "club": "RAN",
           "time": "27:13",
-          "pts": 57
+          "pts": 60
         },
         {
           "pos": 74,
@@ -616,11 +622,11 @@
           "name": "Emily Fairs",
           "club": "RAN",
           "time": "27:28",
-          "pts": 58
+          "pts": 61
         },
         {
           "pos": 80,
-          "name": "Unknown (HHH)",
+          "name": "Shannon Sinclair",
           "club": "HHH",
           "time": "27:30",
           "b_pts": 13
@@ -630,21 +636,21 @@
           "name": "Abbie Bulbulian",
           "club": "C/C",
           "time": "27:31",
-          "pts": 59
+          "pts": 62
         },
         {
           "pos": 82,
           "name": "Chloe Beckett",
           "club": "THH",
           "time": "27:32",
-          "pts": 60
+          "pts": 63
         },
         {
           "pos": 83,
           "name": "Katie Mooney",
           "club": "SLH",
           "time": "27:36",
-          "pts": 61
+          "pts": 64
         },
         {
           "pos": 84,
@@ -658,7 +664,7 @@
           "name": "Ava McAndie",
           "club": "H/W",
           "time": "27:39",
-          "pts": 62
+          "b_pts": 15
         },
         {
           "pos": 86,
@@ -670,14 +676,14 @@
           "name": "Sue McDonald",
           "club": "SLH",
           "time": "27:42",
-          "pts": 63
+          "pts": 65
         },
         {
           "pos": 88,
           "name": "Olivia Kelly",
           "club": "G&G",
           "time": "27:44",
-          "b_pts": 15
+          "b_pts": 16
         },
         {
           "pos": 89,
@@ -696,14 +702,14 @@
           "name": "Imogen Freeman",
           "club": "WOK",
           "time": "27:48",
-          "pts": 64
+          "pts": 66
         },
         {
           "pos": 92,
           "name": "Eloise Bull",
           "club": "G&G",
           "time": "27:49",
-          "b_pts": 16
+          "b_pts": 17
         },
         {
           "pos": 93,
@@ -716,28 +722,28 @@
           "name": "Natalie Haarer",
           "club": "RAN",
           "time": "27:53",
-          "pts": 65
+          "pts": 67
         },
         {
           "pos": 95,
           "name": "Lucy Chambers",
           "club": "STR",
           "time": "27:54",
-          "pts": 66
+          "pts": 68
         },
         {
           "pos": 96,
           "name": "Katie Good",
           "club": "KEN",
           "time": "27:57",
-          "pts": 67
+          "b_pts": 18
         },
         {
           "pos": 97,
           "name": "Rebecca Schofield",
           "club": "H/W",
           "time": "27:58",
-          "b_pts": 17
+          "b_pts": 19
         },
         {
           "pos": 98,
@@ -756,7 +762,7 @@
           "name": "Samantha Unsworth-white",
           "club": "THH",
           "time": "28:03",
-          "pts": 68,
+          "pts": 69,
           "age": "?"
         },
         {
@@ -770,14 +776,14 @@
           "name": "Kath Taylor",
           "club": "WOK",
           "time": "28:12",
-          "pts": 69
+          "pts": 70
         },
         {
           "pos": 103,
           "name": "Lizzie Clarke",
           "club": "C/C",
           "time": "28:13",
-          "pts": 70
+          "pts": 71
         },
         {
           "pos": 104,
@@ -796,35 +802,35 @@
           "name": "Ellie Freeden",
           "club": "KEN",
           "time": "28:19",
-          "b_pts": 18
+          "b_pts": 20
         },
         {
           "pos": 107,
           "name": "Amedea Kelly-Taglianini",
           "club": "W/W",
           "time": "28:20",
-          "pts": 71
+          "pts": 72
         },
         {
           "pos": 108,
           "name": "Kylara Hassall",
           "club": "WOK",
           "time": "28:22",
-          "pts": 72
+          "pts": 73
         },
         {
           "pos": 109,
           "name": "Ella Barker",
           "club": "C/C",
           "time": "28:23",
-          "pts": 73
+          "pts": 74
         },
         {
           "pos": 110,
-          "name": "Unknown (G&G)",
+          "name": "Lucy Jones (G&G)",
           "club": "G&G",
           "time": "28:24",
-          "b_pts": 19
+          "b_pts": 21
         },
         {
           "pos": 111,
@@ -837,28 +843,28 @@
           "name": "Laura Collier",
           "club": "RAN",
           "time": "28:26",
-          "b_pts": 20
+          "b_pts": 22
         },
         {
           "pos": 113,
           "name": "Lucy Charkin",
           "club": "RAN",
           "time": "28:28",
-          "b_pts": 21
+          "b_pts": 23
         },
         {
           "pos": 114,
           "name": "Lucy Connolly",
           "club": "SLH",
           "time": "28:29",
-          "pts": 74
+          "pts": 75
         },
         {
           "pos": 115,
           "name": "Hayley Cherry",
           "club": "KEN",
           "time": "28:35",
-          "b_pts": 22
+          "b_pts": 24
         },
         {
           "pos": 116,
@@ -871,35 +877,35 @@
           "name": "Claire Altmann",
           "club": "THH",
           "time": "28:41",
-          "b_pts": 23
+          "b_pts": 25
         },
         {
           "pos": 118,
           "name": "Claire Curtin",
           "club": "STR",
           "time": "28:42",
-          "b_pts": 24
+          "b_pts": 26
         },
         {
           "pos": 119,
           "name": "Grace King",
           "club": "H/W",
           "time": "28:45",
-          "b_pts": 25
+          "b_pts": 27
         },
         {
           "pos": 120,
           "name": "Sarah Cogswell",
           "club": "RAN",
           "time": "28:47",
-          "b_pts": 26
+          "b_pts": 28
         },
         {
           "pos": 121,
           "name": "Lucia Tregellis",
           "club": "WOK",
           "time": "28:49",
-          "pts": 75
+          "pts": 76
         },
         {
           "pos": 122,
@@ -912,63 +918,63 @@
           "name": "Clara Pettit",
           "club": "H/W",
           "time": "28:55",
-          "b_pts": 27
+          "b_pts": 29
         },
         {
           "pos": 124,
           "name": "Zoe Birchenough",
           "club": "STR",
           "time": "28:56",
-          "b_pts": 28
+          "b_pts": 30
         },
         {
           "pos": 125,
           "name": "Jo Hargreaves",
           "club": "C/C",
           "time": "28:57",
-          "pts": 76
+          "pts": 77
         },
         {
           "pos": 126,
           "name": "Vicky Boyle",
           "club": "KEN",
           "time": "28:58",
-          "b_pts": 29
+          "b_pts": 31
         },
         {
           "pos": 127,
           "name": "April James-Welsh",
           "club": "SLH",
           "time": "28:59",
-          "pts": 77
+          "b_pts": 32
         },
         {
           "pos": 128,
           "name": "Vikki Filsell",
           "club": "THH",
           "time": "29:02",
-          "b_pts": 30
+          "b_pts": 33
         },
         {
           "pos": 129,
-          "name": "Laura Taylor",
+          "name": "Laura Errington",
           "club": "SLH",
           "time": "29:03",
-          "b_pts": 31
+          "b_pts": 34
         },
         {
           "pos": 130,
           "name": "Wenjia Chen",
           "club": "H/W",
           "time": "29:06",
-          "b_pts": 32
+          "b_pts": 35
         },
         {
           "pos": 131,
           "name": "Izzy White",
           "club": "G&G",
           "time": "29:07",
-          "b_pts": 33
+          "b_pts": 36
         },
         {
           "pos": 132,
@@ -989,21 +995,21 @@
           "name": "Parris Williams",
           "club": "KEN",
           "time": "29:10",
-          "b_pts": 34
+          "b_pts": 37
         },
         {
           "pos": 135,
           "name": "Fiona Park",
           "club": "SLH",
           "time": "29:10",
-          "b_pts": 35
+          "b_pts": 38
         },
         {
           "pos": 136,
           "name": "Amelia Pettitt",
           "club": "KEN",
           "time": "29:12",
-          "b_pts": 36
+          "b_pts": 39
         },
         {
           "pos": 137,
@@ -1017,14 +1023,14 @@
           "name": "Victoria Buck",
           "club": "KEN",
           "time": "29:13",
-          "b_pts": 37
+          "b_pts": 40
         },
         {
           "pos": 139,
           "name": "Samantha Martyn",
           "club": "RAN",
           "time": "29:17",
-          "b_pts": 38
+          "b_pts": 41
         },
         {
           "pos": 140,
@@ -1044,8 +1050,7 @@
           "pos": 142,
           "name": "Nesrin Sabanci",
           "club": "KEN",
-          "time": "29:25",
-          "b_pts": 39
+          "time": "29:25"
         },
         {
           "pos": 143,
@@ -1059,7 +1064,7 @@
           "name": "Hennie Owen",
           "club": "WOK",
           "time": "29:28",
-          "b_pts": 40
+          "b_pts": 42
         },
         {
           "pos": 145,
@@ -1073,28 +1078,28 @@
           "name": "Lauren Chadwick",
           "club": "WOK",
           "time": "29:42",
-          "b_pts": 41
+          "b_pts": 43
         },
         {
           "pos": 147,
           "name": "Katie Hopkins",
           "club": "WOK",
           "time": "29:44",
-          "b_pts": 42
+          "b_pts": 44
         },
         {
           "pos": 148,
-          "name": "Robyn Smith",
+          "name": "Fiona Smith",
           "club": "RAN",
           "time": "29:46",
-          "b_pts": 43
+          "b_pts": 45
         },
         {
           "pos": 149,
           "name": "Holly Govey",
           "club": "C/C",
           "time": "29:46",
-          "b_pts": 44
+          "b_pts": 46
         },
         {
           "pos": 150,
@@ -1108,14 +1113,14 @@
           "name": "Amy Johnson",
           "club": "WOK",
           "time": "29:48",
-          "b_pts": 45
+          "b_pts": 47
         },
         {
           "pos": 152,
           "name": "Vicki Falck",
           "club": "C/C",
           "time": "29:49",
-          "b_pts": 46
+          "b_pts": 48
         },
         {
           "pos": 153,
@@ -1155,28 +1160,28 @@
           "name": "Vinh-Phuong Hoang",
           "club": "C/C",
           "time": "30:00",
-          "b_pts": 47
+          "b_pts": 49
         },
         {
           "pos": 159,
           "name": "Alana Smith",
           "club": "SLH",
           "time": "30:02",
-          "b_pts": 48
+          "b_pts": 50
         },
         {
           "pos": 160,
           "name": "Maria Jovani",
           "club": "RAN",
           "time": "30:03",
-          "b_pts": 49
+          "b_pts": 51
         },
         {
           "pos": 161,
           "name": "Ruth Hutton",
           "club": "SLH",
           "time": "30:05",
-          "b_pts": 50
+          "b_pts": 52
         },
         {
           "pos": 162,
@@ -1190,14 +1195,14 @@
           "name": "Jacqueline White",
           "club": "G&G",
           "time": "30:13",
-          "b_pts": 51
+          "b_pts": 53
         },
         {
           "pos": 164,
           "name": "Freya Billinghurst",
           "club": "THH",
           "time": "30:16",
-          "b_pts": 52
+          "b_pts": 54
         },
         {
           "pos": 165,
@@ -1218,7 +1223,7 @@
           "name": "Clare Fowler",
           "club": "RAN",
           "time": "30:31",
-          "b_pts": 53
+          "b_pts": 55
         },
         {
           "pos": 168,
@@ -1239,7 +1244,7 @@
           "name": "Lizzie Wright",
           "club": "W/W",
           "time": "30:46",
-          "b_pts": 54
+          "b_pts": 56
         },
         {
           "pos": 171,
@@ -1259,7 +1264,7 @@
           "name": "Rohini Keites",
           "club": "WOK",
           "time": "30:49",
-          "b_pts": 55
+          "b_pts": 57
         },
         {
           "pos": 174,
@@ -1292,18 +1297,18 @@
           "name": "Alice Smith",
           "club": "SLH",
           "time": "31:04",
-          "b_pts": 56
+          "b_pts": 58
         },
         {
           "pos": 179,
           "name": "Pam Whitter",
           "club": "STR",
           "time": "31:06",
-          "b_pts": 57
+          "b_pts": 59
         },
         {
           "pos": 180,
-          "name": "Unknown (VAC)",
+          "name": "Lucy Woolhouse",
           "club": "VAC",
           "time": "31:08",
           "pts": 97
@@ -1313,7 +1318,7 @@
           "name": "Georgina Martin",
           "club": "W/W",
           "time": "31:11",
-          "b_pts": 58
+          "b_pts": 60
         },
         {
           "pos": 182,
@@ -1327,28 +1332,27 @@
           "name": "Evangelina Rawling",
           "club": "C/C",
           "time": "31:16",
-          "b_pts": 59
+          "b_pts": 61
         },
         {
           "pos": 184,
           "name": "Karen Bryant",
           "club": "G&G",
           "time": "31:17",
-          "b_pts": 60
+          "b_pts": 62
         },
         {
           "pos": 185,
           "name": "Hayley Rand",
           "club": "SLH",
           "time": "31:17",
-          "b_pts": 61
+          "b_pts": 63
         },
         {
           "pos": 186,
           "name": "Jessica Booth",
           "club": "SLH",
-          "time": "31:26",
-          "b_pts": 62
+          "time": "31:26"
         },
         {
           "pos": 187,
@@ -1362,14 +1366,14 @@
           "name": "Iona Roberts",
           "club": "C/C",
           "time": "31:35",
-          "b_pts": 63
+          "b_pts": 64
         },
         {
           "pos": 189,
           "name": "Izzy Deeley",
           "club": "H/W",
           "time": "31:38",
-          "b_pts": 64
+          "b_pts": 65
         },
         {
           "pos": 190,
@@ -1389,21 +1393,21 @@
           "name": "Catherine Ryder",
           "club": "REI",
           "time": "31:53",
-          "b_pts": 65
+          "b_pts": 66
         },
         {
           "pos": 193,
           "name": "Emma Lepinay",
           "club": "THH",
           "time": "31:55",
-          "b_pts": 66
+          "b_pts": 67
         },
         {
           "pos": 194,
           "name": "Anna Diamantopolous",
           "club": "STR",
           "time": "32:02",
-          "b_pts": 67
+          "b_pts": 68
         },
         {
           "pos": 195,
@@ -1436,7 +1440,7 @@
           "name": "Tash Griffiths",
           "club": "WOK",
           "time": "32:11",
-          "b_pts": 68
+          "b_pts": 69
         },
         {
           "pos": 200,
@@ -1449,21 +1453,21 @@
           "name": "Adrianne Gibbins",
           "club": "HOL",
           "time": "32:22",
-          "b_pts": 69
+          "b_pts": 70
         },
         {
           "pos": 202,
           "name": "Maddie Spellman",
           "club": "C/C",
           "time": "32:25",
-          "b_pts": 70
+          "b_pts": 71
         },
         {
           "pos": 203,
           "name": "Jacqueline Richardson",
           "club": "H/W",
           "time": "32:28",
-          "b_pts": 71
+          "b_pts": 72
         },
         {
           "pos": 204,
@@ -1482,14 +1486,14 @@
           "name": "Michelle Oldham",
           "club": "G&G",
           "time": "32:37",
-          "b_pts": 72
+          "b_pts": 73
         },
         {
           "pos": 207,
           "name": "Katherine Ellis",
           "club": "HOL",
           "time": "32:39",
-          "b_pts": 73
+          "b_pts": 74
         },
         {
           "pos": 208,
@@ -1502,28 +1506,27 @@
           "name": "Ceri Van Wezel",
           "club": "W/W",
           "time": "32:45",
-          "b_pts": 74
+          "b_pts": 75
         },
         {
           "pos": 210,
           "name": "Jessica Davies",
           "club": "THH",
           "time": "32:50",
-          "b_pts": 75
+          "b_pts": 76
         },
         {
           "pos": 211,
           "name": "Rebekah Smith",
           "club": "WOK",
           "time": "32:53",
-          "b_pts": 76
+          "b_pts": 77
         },
         {
           "pos": 212,
           "name": "Sally Woolhouse",
           "club": "H/W",
-          "time": "32:54",
-          "b_pts": 77
+          "time": "32:54"
         },
         {
           "pos": 213,
@@ -1631,7 +1634,7 @@
         },
         {
           "pos": 229,
-          "name": "Olivia Hajialexandrou",
+          "name": "Alex Bridges",
           "club": "W/W",
           "time": "34:04",
           "b_pts": 86
@@ -1786,10 +1789,9 @@
         },
         {
           "pos": 254,
-          "name": "Jessica Pye",
-          "club": "THH",
-          "time": "38:15",
-          "b_pts": 90
+          "name": "Ashleigh Lezard",
+          "club": "STR",
+          "time": "38:15"
         },
         {
           "pos": 255,
@@ -1899,7 +1901,7 @@
       "scoringMethod": "university",
       "penalties": {
         "a": 104.5,
-        "b": 98
+        "b": 97.5
       }
     },
     {
@@ -94187,35 +94189,35 @@
         },
         {
           "club": "KEN",
-          "m1": 272
+          "m1": 261
         },
         {
           "club": "H/W",
-          "m1": 273
+          "m1": 269
         },
         {
           "club": "THH",
-          "m1": 214
+          "m1": 218
         },
         {
           "club": "RAN",
-          "m1": 335
+          "m1": 343
         },
         {
           "club": "C/C",
-          "m1": 482
+          "m1": 488
         },
         {
           "club": "SLH",
-          "m1": 416
+          "m1": 400
         },
         {
           "club": "STR",
-          "m1": 267
+          "m1": 271
         },
         {
           "club": "WOK",
-          "m1": 433
+          "m1": 438
         },
         {
           "club": "HOL",
@@ -94223,7 +94225,7 @@
         },
         {
           "club": "REI",
-          "m1": 602
+          "m1": 605
         },
         {
           "club": "VAC",
@@ -94231,7 +94233,7 @@
         },
         {
           "club": "W/W",
-          "m1": 560
+          "m1": 561
         }
       ],
       "punditry": "[BEL](@club:BEL) are on a three-year title winning streak and will be hoping to make it four in a row. · [VAC](@club:VAC) make their first ever appearance in Division 1. · [REI](@club:REI) bounce straight back after one season in Division 2. · [W/W](@club:W/W) return to the top flight for the first time since [2023/24](@season:2023/24)."
