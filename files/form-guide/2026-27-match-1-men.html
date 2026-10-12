@@ -198,7 +198,6 @@ html.embed,html.embed body{overflow:hidden}
       <button id="lens-ladder" aria-pressed="false" data-lens="ladder">National ladder</button>
     </div>
     <select id="club" aria-label="Club"><option value="">All clubs</option></select>
-    <label class="tick" for="recent"><input type="checkbox" id="recent"> Use most recent 5K form</label>
   </section>
   <p class="lensnote" id="lensnote"></p>
 
@@ -233,7 +232,7 @@ html.embed,html.embed body{overflow:hidden}
   <section>
     <div class="tablewrap">
       <table>
-        <thead><tr><th class="num sc1" aria-label="Position"></th><th class="sc2">Runner</th><th class="num"><button type="button" class="sortbtn" id="sortExp" aria-pressed="false" title="Order by expected finish"><span style="text-transform:none">x</span>POS<span class="arr"></span></button></th><th class="vs">Vs form</th><th class="num">5K best</th><th class="num">Best handicap</th><th class="num">Handicap</th><th class="num">Ladder</th></tr></thead>
+        <thead><tr><th class="num sc1"><button type="button" class="sortbtn" data-sort="p" aria-pressed="false" title="Order by finishing position">#</button></th><th class="sc2"><button type="button" class="sortbtn" data-sort="n" aria-pressed="false" title="Order by name">Runner</button></th><th class="num"><button type="button" class="sortbtn" data-sort="e" aria-pressed="false" title="Order by expected finish"><span style="text-transform:none">x</span>POS</button></th><th class="vs"><button type="button" class="sortbtn" data-sort="d" aria-pressed="false" title="Order by places gained against form">Vs form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="f" aria-pressed="false" title="Order by 5K form">5K form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hb" aria-pressed="false" title="Order by best handicap">Best h’cap</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hc" aria-pressed="false" title="Order by current handicap">H’cap</button></th><th class="num"><button type="button" class="sortbtn" data-sort="l" aria-pressed="false" title="Order by national ladder">Ladder</button></th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -242,7 +241,7 @@ html.embed,html.embed body{overflow:hidden}
   <footer>
     <p><strong>How it works.</strong> Only runners with a ranking are compared. They are put in order by ranking (lower ladder number, or faster 5K/5000m best, comes first) to give an expected place, and in order of today’s finish to give an actual place among the same group. “Vs form” is expected place minus actual place, so ▲20 means 20 places better than predicted. The figure after it (for example 1.6×) is how many times better or worse than predicted that is, which is what sets the colour.</p>
     <p><strong>Colour bands</strong> use the ratio of expected to actual place, so moving 20 places matters more near the front than at the back. As expected: within about 20%. Ahead/behind: up to 1.7×. Well ahead/behind: more than 1.7× (and at least 5 places).</p>
-    <p>The year after each <strong>5K best</strong> is when it was set, taken from the yearly bests on their Power of 10 profile. The “Use most recent 5K form” switch (shown in the 5K view, ticked by default) ranks each runner on their fastest 5K or 5000m in 2025–26. If they haven’t run one in that time, it uses their best since 2023, so runners who have slowed aren’t judged on old times. A 2025–26 time more than 10% slower than their current Power of 10 handicap suggests (say, a jogged parkrun) is treated as a one-off and their best since 2023 is used instead; these are marked *, and hovering shows why. Runners with no 5K since 2023 are left out of this view; untick it to use lifetime bests.</p>
+    <p>The year after each <strong>5K form</strong> time is when it was set, taken from the yearly bests on their Power of 10 profile. <strong>5K form</strong> is each runner’s fastest 5K or 5000m in 2025–26. If they haven’t run one in that time, it uses their best since 2023, so runners who have slowed aren’t judged on old times. A 2025–26 time more than 10% slower than their current Power of 10 handicap suggests (say, a jogged parkrun) is treated as a one-off and their best since 2023 is used instead; these are marked *, and hovering shows why. Runners with no 5K since 2023 are left out of this view.</p>
     <p><strong>Handicap</strong> is Power of 10’s road handicap: now, and the best it has been with the month it was reached. Like golf, lower is better. Power of 10 doesn’t keep a history of ladder positions, so the best handicap is the nearest thing to a runner’s peak ladder standing.</p>
     <p><strong>Sources.</strong> Results from <a href="https://www.surreyleague.org/race/565/">surreyleague.org</a>, provisional on the day. Ladder and best times from <a href="https://www.powerof10.uk/">Power of 10</a>, read 10–11 October 2026. The national ladder is built from road results, so track specialists can look under-ranked on it. Rows marked “check match” were found by name search and their Power of 10 club differs from today’s.</p>
   </footer>
@@ -260,7 +259,8 @@ const LENS = {
   ladder:{key:"l", note:"Expected place comes from each runner’s Power of 10 national ladder position (UK Men). Sam Bramwell is 339th, for example."},
   pb:{key:"bs", note:""}
 };
-let state = {lens:"pb", club:"", q:"", band:"", recent:true, sort:"p"};
+let state = {lens:"pb", club:"", q:"", band:"", recent:true, sort:"p", dir:1};
+const SORTS={p:[x=>x.r.p,1],n:[x=>/^\(?unknown/i.test(x.r.n)?null:x.r.n.toLowerCase(),1],e:[x=>x.e,1],d:[x=>x.band==="n"?null:x.d,-1],f:[x=>x.r.rbs,1],hb:[x=>x.r.hb,1],hc:[x=>x.r.hc,1],l:[x=>x.r.l,1]};
 try{ const s = JSON.parse(localStorage.getItem("wcfg2")||"{}"); if(s.lens in LENS) state.lens=s.lens; }catch(e){}
 
 function compute(lens){
@@ -331,7 +331,6 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 function render(){
   const data = compute(state.lens);
   const ln=document.getElementById("lensnote"); ln.textContent = LENS[state.lens].note; ln.hidden = !LENS[state.lens].note;
-  const rc=document.getElementById("recent"); rc.checked = state.recent; rc.parentNode.hidden = state.lens!=="pb";
   document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lens===state.lens));
   const inClub = x => (!state.club || x.r.c===state.club) && (!state.q || x.r.n.toLowerCase().includes(state.q.toLowerCase()));
 
@@ -352,8 +351,10 @@ function render(){
 
   // table
   const shown = data.filter(x=>inClub(x) && (!state.band || x.band===state.band));
-  if(state.sort==="e") shown.sort((a,b)=>(a.e??1e9)-(b.e??1e9) || a.r.p-b.r.p);
-  const sb=document.getElementById("sortExp"); sb.setAttribute("aria-pressed", state.sort==="e"); sb.querySelector(".arr").textContent = state.sort==="e" ? " ▲" : " ↕";
+  { const k=SORTS[state.sort][0]; shown.sort((a,b)=>{const va=k(a),vb=k(b),na=va==null||va==="",nb=vb==null||vb==="";
+      if(na||nb) return (na-nb)||a.r.p-b.r.p;
+      const c=typeof va==="string"?va.localeCompare(vb):va-vb; return c*state.dir||a.r.p-b.r.p;}); }
+  document.querySelectorAll("thead .sortbtn").forEach(b=>b.setAttribute("aria-pressed", b.dataset.sort===state.sort));
   document.getElementById("tbody").innerHTML = shown.length ? shown.map(x=>{
     const r = x.r;
     const bn = r.n.replace(/\s*\(2C\)\s*$/i,""); const sp = bn.indexOf(" "); const short = (sp>0 && !/^unknown/i.test(bn)) ? bn[0]+" "+bn.slice(sp+1) : bn;
@@ -428,12 +429,12 @@ function drawChart(data, inClub){
 
 // controls
 const sel = document.getElementById("club");
-document.getElementById("sortExp").onclick=()=>{ state.sort = state.sort==="e" ? "p" : "e"; render(); };
+document.querySelector("thead").addEventListener("click",e=>{const b=e.target.closest(".sortbtn"); if(!b) return; const k=b.dataset.sort;
+  if(state.sort===k) state.dir=-state.dir; else {state.sort=k; state.dir=SORTS[k][1];} render();});
 [...new Set(ROWS.map(r=>r.c).filter(Boolean))].sort().forEach(c=>{
   const o=document.createElement("option"); o.value=c; o.textContent=`${CLUBS[c]||c} (${c})`; sel.appendChild(o);});
 document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{state.lens=b.dataset.lens;render();}));
 sel.addEventListener("change",()=>{state.club=sel.value;render();});
-document.getElementById("recent").addEventListener("change",e=>{state.recent=e.target.checked;render();});
 
 document.getElementById("chips").addEventListener("click",e=>{
   const b=e.target.closest(".chip"); if(!b) return;
