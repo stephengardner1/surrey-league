@@ -834,11 +834,13 @@ const RaceDetailView=({race,mode,setView,seasonsData,clubMvps,races,individualCh
         <IndividualResultsTable results={race.results} clubFilter={clubFilter} setClubFilter={setClubFilter} setView={setView} clubMvps={clubMvps} individualChampions={individualChampions} prevPos={prevPos}/>
       </div>
       <div className="border-l border-gray-200 pl-6">
+        <div className="sticky top-16 max-h-[calc(100vh-5rem)] overflow-y-auto pb-4">
         <div className="mb-6">
           {displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams"/>:<TeamResultsTableCompact results={race.results} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} title="A Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
         <div>
           {hasCalculableResults&&parseInt(race.season)>=2013&&<TeamResultsTableCompact results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
+        </div>
         </div>
       </div>
     </div>
