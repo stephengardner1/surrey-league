@@ -1174,7 +1174,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
     return rankings.sort((a,b)=>a.rank-b.rank);
   },[raceHistory,races,athleteData?.name,divisionConfig]);
   
-  const po10Url=useMemo(()=>{if(!athleteData?.name)return null;if(po10Links?.[athleteData.name])return po10Links[athleteData.name];const parts=athleteData.name.split(' ');if(parts.length<2)return null;const firstname=parts[0];const surname=parts.slice(1).join(' ');return`https://www.thepowerof10.info/athletes/athleteslookup.aspx?surname=${encodeURIComponent(surname)}&firstname=${encodeURIComponent(firstname)}`;},[athleteData?.name,po10Links]);
+  const po10Url=useMemo(()=>{if(!athleteData?.name)return null;if(po10Links?.[athleteData.name])return po10Links[athleteData.name];const parts=athleteData.name.replace(/ \([^)]*\)$/,'').split(' ');if(parts.length<2)return null;const firstname=parts[0];const surname=parts.slice(1).join(' ');return`https://www.thepowerof10.info/athletes/athleteslookup.aspx?surname=${encodeURIComponent(surname)}&firstname=${encodeURIComponent(firstname)}`;},[athleteData?.name,po10Links]);
   const bestPos=useMemo(()=>raceHistory.length>0?Math.min(...raceHistory.map(r=>getNumericPos(r.pos)).filter(p=>p!=null)):null,[raceHistory]);
   const showStar=bestPos&&bestPos>1;
   
