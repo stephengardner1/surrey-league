@@ -105,6 +105,7 @@ td.num{white-space:nowrap}
 @media (max-width:560px){.nfull{display:none}.nshort{display:inline}}
 @media (max-width:560px){.mlist li:nth-child(n+6){display:none}#chips{display:none}}
 .lensnote[hidden]{display:none}
+@media (max-width:560px){#lensnote{display:none}}
 .tick[hidden]{display:none!important}
 
 .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);border-radius:10px}
@@ -198,8 +199,8 @@ html.embed,html.embed body{overflow:hidden}
       <button id="lens-hc" aria-pressed="false" data-lens="hc">Road handicap</button>
     </div>
     <select id="club" aria-label="Club"><option value="">All clubs</option></select>
+    <p class="lensnote" id="lensnote"></p>
   </section>
-  <p class="lensnote" id="lensnote"></p>
 
   <div class="chips" id="chips" role="group" aria-label="Filter by verdict"></div>
 
