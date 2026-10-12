@@ -195,7 +195,7 @@ html.embed,html.embed body{overflow:hidden}
   <section class="controls" aria-label="Filters">
     <div class="seg" role="group" aria-label="Measure form by">
       <button id="lens-pb" aria-pressed="true" data-lens="pb">5K form</button>
-      <button id="lens-ladder" aria-pressed="false" data-lens="ladder">National ladder</button>
+      <button id="lens-hc" aria-pressed="false" data-lens="hc">Road handicap</button>
     </div>
     <select id="club" aria-label="Club"><option value="">All clubs</option></select>
   </section>
@@ -221,10 +221,9 @@ html.embed,html.embed body{overflow:hidden}
       <span class="bl">Recent 5K form</span><span class="bt"><i class="win" style="width:84%"></i></span><span class="bv">84%</span>
       <span class="bl">5K best (any year)</span><span class="bt"><i style="width:79%"></i></span><span class="bv">79%</span>
       <span class="bl">Best handicap</span><span class="bt"><i style="width:62%"></i></span><span class="bv">62%</span>
-      <span class="bl">Handicap now</span><span class="bt"><i style="width:49%"></i></span><span class="bv">49%</span>
-      <span class="bl">National ladder</span><span class="bt"><i style="width:48%"></i></span><span class="bv">48%</span>
+      <span class="bl">Handicap now</span><span class="bt"><i style="width:48%"></i></span><span class="bv">48%</span>
     </div>
-    <p><strong>Recent 5K times, by a distance.</strong> A runner’s most recent 5K form (best 5K or 5000m in 2025–26, or since 2023 if they haven’t raced one lately) explains 84% of the variation in where they finished. Best-ever handicap comes next (62%). Current handicap and the national ladder explain less than half, so the ladder seems to reward how much road racing someone does as well as how fast they are.</p>
+    <p><strong>Recent 5K times, by a distance.</strong> A runner’s most recent 5K form (best 5K or 5000m in 2025–26, or since 2023 if they haven’t raced one lately) explains 84% of the variation in where they finished. Best-ever handicap comes next (62%). Current handicap explains less than half. Power of 10’s national ladder isn’t shown separately: it is a ranking of the same handicap, so it adds nothing new.</p>
     <p>The women stuck closer to form than the men: 5K form explained 84% of their finishing order against 74% in the men's race. The order of predictors was the same in the men's race.</p>
     <p class="dim">R² is the square of the rank correlation between each predictor and finishing place, among runners who have that figure. 100% would mean everyone finished exactly in predicted order. One race each, so treat it as a first look.</p>
   </details>
@@ -232,18 +231,18 @@ html.embed,html.embed body{overflow:hidden}
   <section>
     <div class="tablewrap">
       <table>
-        <thead><tr><th class="num sc1"><button type="button" class="sortbtn" data-sort="p" aria-pressed="false" title="Order by finishing position">#</button></th><th class="sc2"><button type="button" class="sortbtn" data-sort="n" aria-pressed="false" title="Order by name">Runner</button></th><th class="num"><button type="button" class="sortbtn" data-sort="e" aria-pressed="false" title="Order by expected finish"><span style="text-transform:none">x</span>POS</button></th><th class="vs"><button type="button" class="sortbtn" data-sort="d" aria-pressed="false" title="Order by places gained against form"><span style="text-transform:none">vs</span> form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="f" aria-pressed="false" title="Order by 5K form">5K form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hb" aria-pressed="false" title="Order by best handicap">Best h’cap</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hc" aria-pressed="false" title="Order by current handicap">H’cap</button></th><th class="num"><button type="button" class="sortbtn" data-sort="l" aria-pressed="false" title="Order by national ladder">Ladder</button></th></tr></thead>
+        <thead><tr><th class="num sc1"><button type="button" class="sortbtn" data-sort="p" aria-pressed="false" title="Order by finishing position">#</button></th><th class="sc2"><button type="button" class="sortbtn" data-sort="n" aria-pressed="false" title="Order by name">Runner</button></th><th class="num"><button type="button" class="sortbtn" data-sort="e" aria-pressed="false" title="Order by expected finish"><span style="text-transform:none">x</span>POS</button></th><th class="vs"><button type="button" class="sortbtn" data-sort="d" aria-pressed="false" title="Order by places gained against form"><span style="text-transform:none">vs</span> form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="f" aria-pressed="false" title="Order by 5K form">5K form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hb" aria-pressed="false" title="Order by best handicap">Best h’cap</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hc" aria-pressed="false" title="Order by current handicap">H’cap</button></th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
   </section>
 
   <footer>
-    <p><strong>How it works.</strong> Only runners with a ranking are compared. They are put in order by ranking (lower ladder number, or faster 5K/5000m best, comes first) to give an expected place, and in order of today’s finish to give an actual place among the same group. “Vs form” is expected place minus actual place, so ▲20 means 20 places better than predicted. The figure after it (for example 1.6×) is how many times better or worse than predicted that is, which is what sets the colour.</p>
+    <p><strong>How it works.</strong> Only runners with a ranking are compared. They are put in order by ranking (faster 5K form, or lower road handicap, comes first) to give an expected place, and in order of today’s finish to give an actual place among the same group. “Vs form” is expected place minus actual place, so ▲20 means 20 places better than predicted. The figure after it (for example 1.6×) is how many times better or worse than predicted that is, which is what sets the colour.</p>
     <p><strong>Colour bands</strong> use the ratio of expected to actual place, so moving 20 places matters more near the front than at the back. As expected: within about 20%. Ahead/behind: up to 1.7×. Well ahead/behind: more than 1.7× (and at least 5 places).</p>
     <p>The year after each <strong>5K form</strong> time is when it was set, taken from the yearly bests on their Power of 10 profile. <strong>5K form</strong> is each runner’s fastest 5K or 5000m in 2025–26. If they haven’t run one in that time, it uses their best since 2023, so runners who have slowed aren’t judged on old times. A 2025–26 time more than 10% slower than their current Power of 10 handicap suggests (say, a jogged parkrun) is treated as a one-off and their best since 2023 is used instead; these are marked *, and hovering shows why. Runners with no 5K since 2023 are left out of this view.</p>
-    <p><strong>Handicap</strong> is Power of 10’s road handicap: now, and the best it has been with the month it was reached. Like golf, lower is better. Power of 10 doesn’t keep a history of ladder positions, so the best handicap is the nearest thing to a runner’s peak ladder standing.</p>
-    <p><strong>Sources.</strong> Results from <a href="https://www.surreyleague.org/">surreyleague.org</a>, provisional on the day. Ladder and best times from <a href="https://www.powerof10.uk/">Power of 10</a>, read 10–11 October 2026. The national ladder is built from road results, so track specialists can look under-ranked on it. Rows marked “check match” were found by name search and their Power of 10 club differs from today’s.</p>
+    <p><strong>Handicap</strong> is Power of 10’s road handicap: now, and the best it has been with the month it was reached. Like golf, lower is better. Runners on the same handicap are separated by their national ladder position, which Power of 10 ranks on the unrounded handicap, so it is more precise than the one decimal place shown.</p>
+    <p><strong>Sources.</strong> Results from <a href="https://www.surreyleague.org/">surreyleague.org</a>, provisional on the day. Handicaps and best times from <a href="https://www.powerof10.uk/">Power of 10</a>, read 10–11 October 2026. Rows marked “check match” were found by name search and their Power of 10 club differs from today’s.</p>
   </footer>
 </div>
 
@@ -256,18 +255,20 @@ const BANDS = [
   {k:"so",label:"Well ahead"},{k:"o",label:"Ahead"},{k:"e",label:"As expected"},
   {k:"u",label:"Behind"},{k:"su",label:"Well behind"},{k:"n",label:"No ranking"}];
 const LENS = {
-  ladder:{key:"l", note:"Expected place comes from each runner’s Power of 10 national ladder position (UK Women). Kitty Shepherd-Cross is 445th, for example."},
+  hc:{key:"hc", note:"Expected place comes from each runner’s Power of 10 road handicap. Runners on the same handicap are separated by their national ladder position, which Power of 10 ranks on the unrounded handicap."},
   pb:{key:"bs", note:""}
 };
+const TIE = ["l","hb","rbs"];
+const tieCmp = (a,b) => { for(const k of TIE){ const x=a[k], y=b[k]; if(x==null&&y==null) continue; if(x==null) return 1; if(y==null) return -1; if(x!==y) return x-y; } return 0; };
 let state = {lens:"pb", club:"", q:"", band:"", recent:true, sort:"p", dir:1};
-const SORTS={p:[x=>x.r.p,1],n:[x=>/^\(?unknown/i.test(x.r.n)?null:x.r.n.toLowerCase(),1],e:[x=>x.e,1],d:[x=>x.band==="n"?null:x.d,-1],f:[x=>x.r.rbs,1],hb:[x=>x.r.hb,1],hc:[x=>x.r.hc,1],l:[x=>x.r.l,1]};
+const SORTS={p:[x=>x.r.p,1],n:[x=>/^\(?unknown/i.test(x.r.n)?null:x.r.n.toLowerCase(),1],e:[x=>x.e,1],d:[x=>x.band==="n"?null:x.d,-1],f:[x=>x.r.rbs,1],hb:[x=>x.r.hb,1],hc:[x=>x.r.hc,1]};
 try{ const s = JSON.parse(localStorage.getItem("wcfg2")||"{}"); if(s.lens in LENS) state.lens=s.lens; }catch(e){}
 
 function compute(lens){
   const key = (lens==="pb" && state.recent) ? "rbs" : LENS[lens].key;
   const ok = r => r[key] != null;
   const ranked = ROWS.filter(ok);
-  const byForm = ranked.slice().sort((a,b)=> a[key]-b[key] || a.p-b.p);
+  const byForm = ranked.slice().sort((a,b)=> a[key]-b[key] || (key==="hc"?tieCmp(a,b):0) || a.n.localeCompare(b.n));
   const exp = new Map(); byForm.forEach((r,i)=>exp.set(r,i+1));
   const byFinish = ranked.slice().sort((a,b)=>a.p-b.p);
   const act = new Map(); byFinish.forEach((r,i)=>act.set(r,i+1));
@@ -354,7 +355,7 @@ function render(){
   const shown = data.filter(x=>inClub(x) && (!state.band || x.band===state.band));
   { const k=SORTS[state.sort][0]; shown.sort((a,b)=>{const va=k(a),vb=k(b),na=va==null||va==="",nb=vb==null||vb==="";
       if(na||nb) return (na-nb)||a.r.p-b.r.p;
-      const c=typeof va==="string"?va.localeCompare(vb):va-vb; return c*state.dir||a.r.p-b.r.p;}); }
+      const c=(typeof va==="string"?va.localeCompare(vb):va-vb)||(state.sort==="hc"?tieCmp(a.r,b.r):0); return c*state.dir||a.r.p-b.r.p;}); }
   document.querySelectorAll("thead .sortbtn").forEach(b=>b.setAttribute("aria-pressed", b.dataset.sort===state.sort));
   document.getElementById("tbody").innerHTML = shown.length ? shown.map(x=>{
     const r = x.r;
@@ -371,9 +372,8 @@ function render(){
       <td class="vs">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}${fmtX(x)}</span>`}</td>
       <td class="num">${best}</td>
       <td class="num hc">${r.hb!=null?`${(r.hb>0?'+':'')+r.hb.toFixed(1)}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td>
-      <td class="num">${r.hc!=null?(r.hc>0?'+':'')+r.hc.toFixed(1):'<span class="dim">–</span>'}</td>
-      <td class="num">${r.l!=null?r.l.toLocaleString("en-GB"):'<span class="dim">–</span>'}</td></tr>`;
-  }).join("") : `<tr><td colspan="8" class="empty">No runners match these filters.</td></tr>`;
+      <td class="num">${r.hc!=null?(r.hc>0?'+':'')+r.hc.toFixed(1):'<span class="dim">–</span>'}</td></tr>`;
+  }).join("") : `<tr><td colspan="7" class="empty">No runners match these filters.</td></tr>`;
   try{ localStorage.setItem("wcfg2", JSON.stringify({lens:state.lens})); }catch(e){}
 }
 
