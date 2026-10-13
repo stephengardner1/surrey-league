@@ -4854,7 +4854,10 @@ function App(){
   const data=division==='women'?womenData:menData;
   const divisionConfig=DIVISIONS[division];
   
-  const setView=(v)=>{setViewState(v);updateUrl(v,division);};
+  // Opening a different page (athlete, club, race, list...) starts at the top, not wherever the last page was scrolled to.
+  // Switching tabs within the same page (e.g. a race's form guide) keeps the scroll position.
+  const viewKey=v=>[v.type,v.athlete?.name,v.club,v.race&&(v.race.season+'-'+v.race.match),v.urlSeason].join('|');
+  const setView=(v)=>{const moved=viewKey(v)!==viewKey(view);setViewState(v);updateUrl(v,division);if(moved)window.scrollTo(0,0);};
   const setDivision=(d)=>{
     setDivisionState(d);
     // Preserve current view type and context where appropriate
@@ -4870,6 +4873,7 @@ function App(){
     }
     setViewState(newView);
     updateUrl(newView, d);
+    window.scrollTo(0,0);
   };
   
   // Load men's data on mount
