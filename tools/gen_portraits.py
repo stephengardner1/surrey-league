@@ -401,7 +401,7 @@ save("shades_on", figure("HOL", skin=3, hair="crop", hair_colour="dark brown", s
 save("brotchie", figure("HHH", skin=1, hair="buzzrecede", hair_colour="light brown", facial="stubble", tattoos=True))
 save("tat_none", figure("HOL", skin=2, hair="crop", hair_colour="mid brown"))
 save("tat_on", figure("HOL", skin=2, hair="crop", hair_colour="mid brown", tattoos=True))
-save("millar", figure("THH", skin=1, hair="shortcurls", hair_colour="mid brown", mud=True, rosy=True))
+save("millar", figure("THH", skin=1, hair="shortcurls", hair_colour="#3A2820", mud=True, rosy=True))
 save("millar_grey", figure("THH", "grey"))
 save("lucy", figure("HHH", skin=1, hair="longloose", hair_colour="#D2B676", brow_colour="#A88C5A"))
 save("alex", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown"))
