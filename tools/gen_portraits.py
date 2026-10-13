@@ -533,3 +533,5 @@ save("charlie-dickinson", figure("BEL", skin=1, hair=None, beanie="#2F3A2C", fro
 save("phil-swinburn", figure("HOL", skin=1, hair="quiff", hair_colour="#3A2620"))
 save("rob-armstrong", figure("DUL", skin=1, hair="crop", hair_colour="#B07A4A", facial="moustache", cap="#1E1E1E"))
 save("ashley-goncalves", figure("HHH", skin=2, hair="quiff", hair_colour="#1C1714", facial="shortbeard"))
+save("eddie-jodrell", figure("BEL", skin=2, hair="crop", hair_colour="#2E211B"))
+save("thomas-gandee", figure("BEL", skin=1, hair="quiff", hair_colour="#B9955E"))
