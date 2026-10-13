@@ -164,7 +164,7 @@
 @media (max-width:520px){.fg .sc1{width:38px;min-width:38px}.fg .sc2{left:38px;min-width:110px;width:110px;max-width:110px;white-space:normal;overflow-wrap:break-word;font-size:13px;line-height:1.3}.fg .sc2 .vest{margin-right:4px}.fg .sc2 .flag{font-size:11px}.fg th.sc2{font-size:11.5px}.fg td.sc1,.fg th.sc1{padding-inline:6px}.fg h2{font-size:19px}.fg .seg button{padding:8px 10px}}
 @media (hover:hover) and (min-width:561px){.fg #tbody tr{transition:opacity .12s}.fg #tbody:hover tr{opacity:.75}.fg #tbody:hover tr:hover{opacity:1}}
 .fg{background:#fff;color:var(--ink);font:15px/1.55 var(--f-body);padding-bottom:24px}
-.fg .vest svg{display:inline;vertical-align:baseline}.fg .wrap{max-width:none}.fg .tablewrap{max-height:640px}.fg button{font:inherit}.fg h2{font-family:var(--f-display)}
+.fg .vest svg{display:inline;vertical-align:baseline}.fg a.p10{color:inherit;text-decoration:none}.fg a.p10:hover{border-bottom:1px solid var(--ink)}.fg .wrap{max-width:none}.fg .tablewrap{max-height:640px}.fg button{font:inherit}.fg h2{font-family:var(--f-display)}
   </style>
   <style id="type-formguide">
     /* TYPE: matches the form guide - Public Sans text, Fraunces headings, IBM Plex Mono numbers */
@@ -969,7 +969,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
     </div>
     <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&parseDate(race.date)?formatDate(race.date):(()=>{const months=['Oct','Nov','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4"><div><div className="flex flex-wrap items-center gap-2"><h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>{guideUrl&&<div className="flex items-center bg-gray-100 rounded-lg p-0.5"><button onClick={()=>setResultsMode('classic')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='classic'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Classic results</button><button onClick={()=>setResultsMode('guide')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='guide'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Form guide</button></div>}<div className="relative flex items-center gap-2" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-0 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}{resultsStatus!=='complete'&&<span className="text-xs text-gray-400 hover:text-[#0077b6] cursor-pointer" onClick={()=>setView({type:'submit'})}>Submit more results</span>}</div></div>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span> <span className="text-gray-500">won the match</span></span></p>}{raceWinTexts.map((wt,i)=><p key={i} className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={wt.club} size={16}/><span className="text-gray-500">{wt.text}</span></p>)}</div>{race.weather&&<div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 lg:min-w-[180px]"><span className="text-3xl">{race.weather.icon}</span><div className="flex flex-col"><span className="text-lg font-semibold text-gray-900">{race.weather.temp}°C</span><span className="text-sm text-gray-600">{race.weather.description}</span><span className="text-xs text-gray-500">{race.weather.windSpeed} km/h wind</span></div></div>}</div></div>
     
-    {resultsMode==="guide"&&guideUrl?<FormGuideNative src={guideUrl}/>:<>
+    {resultsMode==="guide"&&guideUrl?<FormGuideNative src={guideUrl} results={race.results}/>:<>
     {/* Mobile: tabs */}
     <div className="lg:hidden">
       <div className="inline-flex items-center bg-gray-100 rounded-lg p-0.5 mb-6">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${tab===t.id?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
@@ -1006,7 +1006,7 @@ const parseFormGuide=(text)=>{
   const js=[...doc.querySelectorAll('script')].map(s=>s.textContent).join('\n');
   const grab=(re)=>{const m=js.match(re);return m?m[1]:null;};
   const ROWS=JSON.parse(grab(/const ROWS = (\[[\s\S]*?\]);\n/));
-  const fix=grab(/(ROWS\.forEach\(r=>\{r\.n=[^\n]*)/);if(fix)new Function('ROWS',fix)(ROWS);
+  ROWS.forEach(r=>{r.an=r.n.replace(/\s*\(2C\)\s*$/i,'');});const fix=grab(/(ROWS\.forEach\(r=>\{r\.n=[^\n]*)/);if(fix)new Function('ROWS',fix)(ROWS);
   const CLUBS=new Function('return '+grab(/const CLUBS = (\{[^\n]*?\});/))();
   const LENS=new Function('return '+grab(/const LENS = (\{[\s\S]*?\n\});/))();
   const tie=grab(/const TIE = (\[[^\n]*?\]);/);
@@ -1029,7 +1029,7 @@ const initFormGuide=(root,G)=>{
   const ord=n=>n+(n%100>=11&&n%100<=13?"th":({1:"st",2:"nd",3:"rd"}[n%10]||"th"));
   const fmtD=d=>d>0?"▲ "+d:d<0?"▼ "+(-d):"=";
   const fmtX=x=>{if(!x.d)return"";const f=x.d>0?x.e/x.a:x.a/x.e;return`<span class="fx">${f>=10?Math.round(f):f.toFixed(1)}×</span>`;};
-  const sgn=v=>(v>0?'+':'')+v.toFixed(1);
+  const sgn=v=>(v>0?'+':'')+v.toFixed(1);const p10=(r,h)=>r.g?`<a class="p10" href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener" title="Power of 10 profile">${h}</a>`:h;
   function render(){
     const data=compute(state.lens);
     const ln=$("#lensnote");ln.textContent=LENS[state.lens].note;ln.hidden=!LENS[state.lens].note;
@@ -1050,11 +1050,11 @@ const initFormGuide=(root,G)=>{
     $("#tbody").innerHTML=shown.length?shown.map(x=>{const r=x.r;
       const bn=r.n.replace(/\s*\(2C\)\s*$/i,"");const sp=bn.indexOf(" ");const short=(sp>0&&!/^\(?unknown/i.test(bn))?bn[0]+" "+bn.slice(sp+1):bn;
       const nm=`<span class="nfull">${esc(r.n)}</span><span class="nshort">${esc(short)}</span>`;
-      const name=r.g?`<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${nm}</a>`:nm;
+      const name=/^\(?unknown/i.test(r.n)?nm:`<a href="#${G.div||''}athlete/${nameToSlug(r.an)}" title="slarchive profile">${nm}</a>`;
       const flags=r.f.map(f=>`<span class="flag">${esc(f)}</span>`).join("");
       const tip=r.rnote||(r.b&&r.b!==r.rb?`Lifetime best ${r.b} (${r.py})`:"");
-      const best=r.rb?`<span${tip?` title="${esc(tip)}"`:""}${r.rnote?` class="adj"`:""}>${r.rb}${r.rnote?"*":""}</span>${r.rby?`<span class="hd">${r.rby}</span>`:""}`:`<span class="dim">–</span>`;
-      return`<tr class="b-${x.band}"><td class="num sc1 pos">${r.p}</td><td class="sc2">${vest(r.c)}<span class="rname">${name}</span>${flags}</td><td class="num">${x.e?x.e:'<span class="dim">–</span>'}</td><td class="vs">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}${fmtX(x)}</span>`}</td><td class="num">${best}</td><td class="num">${r.hc!=null?sgn(r.hc):'<span class="dim">–</span>'}</td><td class="num hc">${r.hb!=null?`${sgn(r.hb)}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td></tr>`;
+      const best=r.rb?`${p10(r,`<span${tip?` title="${esc(tip)}"`:""}${r.rnote?` class="adj"`:""}>${r.rb}${r.rnote?"*":""}</span>`)}${r.rby?`<span class="hd">${r.rby}</span>`:""}`:`<span class="dim">–</span>`;
+      return`<tr class="b-${x.band}"><td class="num sc1 pos">${r.p}</td><td class="sc2">${vest(r.c)}<span class="rname">${name}</span>${flags}</td><td class="num">${x.e?x.e:'<span class="dim">–</span>'}</td><td class="vs">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}${fmtX(x)}</span>`}</td><td class="num">${best}</td><td class="num">${r.hc!=null?p10(r,sgn(r.hc)):'<span class="dim">–</span>'}</td><td class="num hc">${r.hb!=null?`${p10(r,sgn(r.hb))}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td></tr>`;
     }).join(""):`<tr><td colspan="7" class="empty">No runners match these filters.</td></tr>`;
     try{localStorage.setItem("wcfg2",JSON.stringify({lens:state.lens}));}catch(e){}
   }
@@ -1090,11 +1090,11 @@ const initFormGuide=(root,G)=>{
   let rsz;const onR=()=>{clearTimeout(rsz);rsz=setTimeout(render,150);};window.addEventListener("resize",onR);
   return()=>window.removeEventListener("resize",onR);
 };
-const FormGuideNative=({src})=>{
+const FormGuideNative=({src,results})=>{
   const ref=useRef(null);const[err,setErr]=useState(false);
   useEffect(()=>{let dead=false,cleanup=null;setErr(false);
-    fetch(src).then(r=>r.text()).then(t=>{if(dead||!ref.current)return;const g=parseFormGuide(t);ref.current.innerHTML=g.html;cleanup=initFormGuide(ref.current,g);}).catch(()=>{if(!dead)setErr(true);});
-    return()=>{dead=true;if(cleanup)cleanup();};},[src]);
+    fetch(src).then(r=>r.text()).then(t=>{if(dead||!ref.current)return;const g=parseFormGuide(t);g.div=/-women\./.test(src)?'women/':'';const byPos={};(results||[]).forEach(x=>{const p=x.p??x.pos,n=x.n??x.name;if(p!=null&&n)byPos[p]=n;});g.ROWS.forEach(r=>{if(byPos[r.p])r.an=byPos[r.p];});ref.current.innerHTML=g.html;cleanup=initFormGuide(ref.current,g);}).catch(()=>{if(!dead)setErr(true);});
+    return()=>{dead=true;if(cleanup)cleanup();};},[src,results]);
   return err?<p className="text-sm text-gray-500">The form guide couldn't be loaded. <a className="underline" href={src}>Open it on its own page</a>.</p>:<div className="fg" ref={ref}/>;
 };
 
