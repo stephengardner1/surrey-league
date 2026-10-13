@@ -400,7 +400,7 @@ save("sanderson", figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", 
 save("fyfe", figure("BEL", skin=2, hair="tousled", hair_colour="dark brown", facial="stubble"))
 save("hair_tousled", figure("HOL", skin=2, hair="tousled", hair_colour="mid brown"))
 save("saron", figure("BEL", skin=4, hair="ponytail", hair_colour="black"))
-save("owor", figure("BEL", skin=6, hair="buzz", hair_colour="black", beanie="#5E6266"))
+save("owor", figure("BEL", skin=6, hair=None))
 save("cap_beanie", figure("HOL", skin=2, hair="crop", hair_colour="mid brown", beanie="#5E6266"))
 save("ruby", figure("H/W", skin=1, hair="ponytail", hair_colour="blonde"))
 save("foster", figure("G&G", skin=1, hair="crop", hair_colour="dark brown", facial="stubble"))
