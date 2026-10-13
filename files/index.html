@@ -165,7 +165,7 @@
 @media (max-width:520px){.fg .sc1{width:38px;min-width:38px}.fg .sc2{left:38px;min-width:110px;width:110px;max-width:110px;white-space:normal;overflow-wrap:break-word;font-size:13px;line-height:1.3}.fg .sc2 .vest{margin-right:4px}.fg .sc2 .flag{font-size:11px}.fg th.sc2{font-size:11.5px}.fg td.sc1,.fg th.sc1{padding-inline:6px}.fg h2{font-size:19px}.fg .seg button{padding:8px 10px}}
 
 .fg{background:#fff;color:var(--ink);font:15px/1.55 var(--f-body);padding-bottom:24px}
-.fg .vest svg{display:inline;vertical-align:baseline}.fg a.p10{color:inherit;text-decoration:none}.fg .rname a{border-bottom:0}.fg .mlist .who a{color:inherit;text-decoration:none}.fg .rname{font-weight:400}.fg .rname a,.fg .rname,.fg .mlist .who,.fg .mlist .who a{color:#1d211d}.fg .mlist .who{font-size:14px}@media (max-width:520px){.fg .sc2{font-size:13px}.fg th.sc2{font-size:11.5px}.fg .mlist .who{font-size:13px}}.fg .mlist .who a:hover{color:#1b649e}.fg .pred .bl{font-size:14px;color:var(--ink)}
+.fg .vest svg{display:inline;vertical-align:baseline}.fg a.p10{color:inherit;text-decoration:none}.fg .rname a{border-bottom:0}.fg .mlist .who a{color:inherit;text-decoration:none}.fg .rname{font-weight:400}.fg .rname a,.fg .rname,.fg .mlist .who,.fg .mlist .who a{color:#1d211d}.fg .mlist .who{font-size:14px}@media (max-width:520px){.fg .sc2{font-size:13px}.fg th.sc2{font-size:11.5px}.fg .mlist .who{font-size:13px}}.fg .mlist .who a:hover{color:#1b649e}.fg .mlist .who .face{display:inline-block;width:32px;height:32px;border-radius:50%;overflow:hidden;vertical-align:middle;margin-right:10px;flex:none;background:var(--even)}.fg .mlist .who .face img{display:block;max-width:none;height:auto}.fg .mlist li{align-items:center}.fg .pred .bl{font-size:14px;color:var(--ink)}
 .fg .pred .bv{font-family:var(--f-mono)!important;font-size:13px}
 .fg .pred p{font-size:14px!important;line-height:1.55!important}
 .fg .pred p.dim,.pred .dim{font-size:13px!important}
@@ -1043,6 +1043,12 @@ const initFormGuide=(root,G)=>{
     return ROWS.map(r=>{if(!exp.has(r))return{r,band:"n"};const e=exp.get(r),a=act.get(r),d=e-a,lr=Math.log2(e/a);let band="e";
       if(lr>=.75&&d>=5)band="so";else if(lr>=.25&&d>=3)band="o";else if(lr<=-.75&&d<=-5)band="su";else if(lr<=-.25&&d<=-3)band="u";return{r,e,a,d,lr,band};});};
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  // Movers boxes: a tight head-and-shoulders crop of the runner's portrait (or their club's generic runner), else the vest
+  const FACE=32,CX=22,CY=36,CW=156;const fsc=FACE/CW;
+  const face=r=>{const n=r.an||r.n,c=r.c;const pk=PORTRAITS[normalizeNameForCompare(n).replace(/\s*\([^)]*\)$/,'')];const file=pk&&pk.club===c?pk.file:null;
+    const src=file?`/portraits/athletes/${file}.svg?v=${PORTRAIT_V}`:(c&&PORTRAIT_CLUBS.has(c))?`/portraits/clubs/${c.replace(/\//g,'').replace(/&/g,'and')}.svg?v=${PORTRAIT_V}`:null;
+    if(!src)return vest(c);
+    return`<span class="face${file?'':' gen'}" title="${esc(CLUBS[c]||c)}"><img src="${src}" alt="" loading="lazy" style="width:${(180*fsc).toFixed(1)}px;margin-left:${(-(CX-10)*fsc).toFixed(1)}px;margin-top:${(-(CY-20)*fsc).toFixed(1)}px" onerror="this.parentNode.style.visibility='hidden'"></span>`;};
   const vest=c=>c?`<span class="vest" title="${esc(CLUBS[c]||c)}">${getClubVestSvg(c).replace("<svg ","<svg width=\"14\" height=\"14\" aria-hidden=\"true\" ")}</span>`:"";
   const ord=n=>n+(n%100>=11&&n%100<=13?"th":({1:"st",2:"nd",3:"rd"}[n%10]||"th"));
   const fmtD=d=>d>0?"▲ "+d:d<0?"▼ "+(-d):"=";
@@ -1056,7 +1062,7 @@ const initFormGuide=(root,G)=>{
     const counts={};data.filter(inClub).forEach(x=>counts[x.band]=(counts[x.band]||0)+1);
     $("#chips").innerHTML=BANDS.map(b=>`<button class="chip" data-band="${b.k}" aria-pressed="${state.band===b.k}"><span class="sw ${b.k}"></span>${b.label} <b>${counts[b.k]||0}</b></button>`).join("");
     const ranked=data.filter(x=>x.band!=="n"&&inClub(x));
-    const li=x=>`<li class="b-${x.band}"><span class="pos">${ord(x.r.p)}</span><span class="who">${vest(x.r.c)}${/^\(?unknown/i.test(x.r.n)?esc(x.r.n):`<a href="#${G.div||''}athlete/${nameToSlug(x.r.an)}">${esc(x.r.n)}</a>`}</span><span class="delta">${fmtD(x.d)}${fmtX(x)}</span></li>`;
+    const li=x=>`<li class="b-${x.band}"><span class="pos">${ord(x.r.p)}</span><span class="who">${face(x.r)}${/^\(?unknown/i.test(x.r.n)?esc(x.r.n):`<a href="#${G.div||''}athlete/${nameToSlug(x.r.an)}">${esc(x.r.n)}</a>`}</span><span class="delta">${fmtD(x.d)}${fmtX(x)}</span></li>`;
     const up=ranked.filter(x=>x.d>0).sort((a,b)=>b.lr-a.lr||b.d-a.d).slice(0,8);const dn=ranked.filter(x=>x.d<0).sort((a,b)=>a.lr-b.lr||a.d-b.d).slice(0,8);
     $("#risers").innerHTML=up.map(li).join("")||`<li class="dim">Nobody in this selection.</li>`;
     $("#fallers").innerHTML=dn.map(li).join("")||`<li class="dim">Nobody in this selection.</li>`;
