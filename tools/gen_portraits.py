@@ -658,3 +658,4 @@ save("cameron-reilly", figure("G&G", skin=1, hair="messyfringe", hair_colour="#8
 save("jack-dormer", figure("WOK", skin=1, hair="messyvolume", hair_colour="#86603E"))
 save("lea-adamson", figure("BEL", skin=1, hair="wavytie", hair_colour="#5E3A26", necklace="#D4D4D4"))
 save("max-heyden", figure("BEL", skin=1, hair="shortcurls", hair_colour="#5A3E2B"))
+save("ian-crowe-wright", figure("BEL", skin=1, hair="tousled", hair_colour="#7E5E40"))
