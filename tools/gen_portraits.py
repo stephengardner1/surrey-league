@@ -706,4 +706,4 @@ save("holly-nixon", figure("BEL", skin=1, hair="ponytail", hair_colour="#C9A35F"
 save("sophie-harris", figure("BEL", skin=1, hair="plait", hair_colour="#6B4A32"))
 save("isabel-brinsden", figure("E&E", skin=1, hair="wavytie", hair_colour="#C46A34"))
 save("mimi-corden-lloyd", figure("BEL", skin=2, hair="tightbun", hair_colour="#3A2620", necklace="#C9A646", parting=True))
-save("steph-hewitt", figure("BEL", skin=1, hair="longflow", hair_colour="#5A3A26"))
+save("steph-hewitt", figure("BEL", skin=1, hair="ponytail", hair_colour="#3A2620"))
