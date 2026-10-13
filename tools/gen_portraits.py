@@ -151,7 +151,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                f'<polygon points="100,108 105,136 96,136" fill="{dk}"/>',
                f'<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z" fill="{dk}"/>']
         if gaunt:  # hollow cheeks under the cheekbones
-            hg.append(f'<g fill="{dk}"><path d="M72,115 Q87,119 92,141 Q82,135 73,126 Z"/><path d="M128,115 Q113,119 108,141 Q118,135 127,126 Z"/></g><g fill="{lt}" opacity=".8"><path d="M72,113 Q84,113 92,121 Q82,117 72,116 Z"/><path d="M128,113 Q116,113 108,121 Q118,117 128,116 Z"/></g>')
+            hg.append(f'<g fill="{dk}" opacity=".65"><path d="M74,118 Q86,121 90,139 Q84,131 75,122 Z"/><path d="M126,118 Q114,121 110,139 Q116,131 125,122 Z"/></g><g fill="{lt}" opacity=".6"><path d="M73,115 Q84,115 90,120 Q82,117 73,117 Z"/><path d="M127,115 Q116,115 110,120 Q118,117 127,117 Z"/></g>')
         if facial:
             if facial == "moustache":
                 hg.append(f'<g fill="{hc}">{FACIAL["moustache"]}</g>')
