@@ -192,6 +192,8 @@ html.embed,html.embed body{overflow:hidden}
 @media (min-width:521px){.sc2{width:1%;min-width:210px}.rname{white-space:nowrap}}
 @media (min-width:521px){.tablewrap{width:fit-content;max-width:100%}table{min-width:0}td.num,th.num,td.vs,th.vs{padding-inline:14px}}
 td.pos{background:var(--surface)!important;color:var(--ink)!important}tr.b-so td.pos{box-shadow:inset 4px 0 0 var(--over)}tr.b-o td.pos{box-shadow:inset 4px 0 0 var(--over-mid)}tr.b-e td.pos{box-shadow:inset 4px 0 0 #d1d5db}tr.b-u td.pos{box-shadow:inset 4px 0 0 var(--under-mid)}tr.b-su td.pos{box-shadow:inset 4px 0 0 var(--under)}#tbody tr:hover td.pos{background:#eff6ff!important}
+@media (max-width:520px){.sc2{white-space:nowrap}.sc2 .flag{white-space:normal}.sc2 .rname{display:inline-block;max-width:76px;overflow-x:auto;white-space:nowrap;vertical-align:bottom;scrollbar-width:none;-webkit-overflow-scrolling:touch}.sc2 .rname::-webkit-scrollbar{display:none}}
+@media (max-width:520px){.rname.ovf{-webkit-mask-image:linear-gradient(90deg,#000 75%,transparent);mask-image:linear-gradient(90deg,#000 75%,transparent)}.rname.ovf.end{-webkit-mask-image:none;mask-image:none}}
 </style>
 
 <div class="wrap">
@@ -386,6 +388,7 @@ function render(){
       <td class="num">${r.hc!=null?p10(r,(r.hc>0?'+':'')+r.hc.toFixed(1)):'<span class="dim">–</span>'}</td>
       <td class="num hc">${r.hb!=null?`${p10(r,(r.hb>0?'+':'')+r.hb.toFixed(1))}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td></tr>`;
   }).join("") : `<tr><td colspan="7" class="empty">No runners match these filters.</td></tr>`;
+  document.querySelectorAll(".sc2 .rname").forEach(e=>{if(e.scrollWidth>e.clientWidth+1){e.classList.add("ovf");e.onscroll=()=>e.classList.toggle("end",e.scrollLeft+e.clientWidth>=e.scrollWidth-2);}});
   try{ localStorage.setItem("wcfg3", JSON.stringify({lens:state.lens})); }catch(e){}
 }
 
