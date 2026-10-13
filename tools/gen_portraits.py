@@ -121,6 +121,8 @@ HAIR["slicktail"] = '<path d="M66,104 C62,58 81,37 100,37 C120,37 138,58 134,104
 HAIR_BACK["slicktail"] = '<path d="M122,64 C138,66 146,78 146,90 Q151,98 145,106 Q150,116 141,124 Q138,130 134,128 Q137,120 133,112 Q136,102 131,94 Q130,80 122,72 Z"/>'
 HAIR["shaggyrecede"] = '<path d="M60,128 L57,116 L61,108 L56,98 L60,86 L58,74 L66,60 L72,52 L80,47 L86,38 L92,45 L98,34 L104,43 L112,36 L116,46 L124,49 L134,60 L142,74 L140,86 L144,98 L139,108 L143,116 L140,128 L134,124 L133,100 Q131,76 124,64 Q116,57 110,61 Q104,67 100,67 Q96,67 90,61 Q84,57 76,64 Q69,76 67,100 L66,124 Z"/>'
 HAIR_BACK["shaggyrecede"] = '<path d="M60,90 C58,56 80,40 100,40 C120,40 142,56 140,90 L146,104 L141,114 L147,124 L140,134 L144,144 L130,140 L70,140 L56,144 L60,134 L53,124 L59,114 L54,104 Z"/>'
+HAIR["longloose"] = '<path d="M60,140 C52,66 76,36 100,36 C124,36 148,66 140,140 L134,136 L133,100 Q130,80 118,70 Q108,64 97,60 Q86,70 74,78 Q68,90 67,104 L66,136 Z"/>'
+HAIR_BACK["longloose"] = '<path d="M58,90 C55,52 80,34 100,34 C120,34 145,52 142,90 Q150,120 146,150 Q152,180 144,212 L56,212 Q48,180 54,150 Q50,120 58,90 Z"/>'
 FACIAL = {
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
     "muttonchops": '<path d="M65,98 L70,98 L71,120 Q74,134 84,143 Q86,148 82,151 Q74,151 70,143 Q66,132 65,118 Z"/><path d="M135,98 L130,98 L129,120 Q126,134 116,143 Q114,148 118,151 Q126,151 130,143 Q134,132 135,118 Z"/>',
@@ -335,7 +337,7 @@ save("tat_none", figure("HOL", skin=2, hair="crop", hair_colour="mid brown"))
 save("tat_on", figure("HOL", skin=2, hair="crop", hair_colour="mid brown", tattoos=True))
 save("millar", figure("THH", skin=1, hair="shortcurls", hair_colour="mid brown", mud=True))
 save("millar_grey", figure("THH", "grey"))
-save("lucy", figure("HHH", skin=1, hair="ponytail", hair_colour="blonde"))
+save("lucy", figure("HHH", skin=1, hair="longloose", hair_colour="#D2B676", brow_colour="#A88C5A"))
 save("alex", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown"))
 save("lucy_grey", figure("HHH", "grey"))
 save("josh", figure("BEL", skin=1, hair="topknot", hair_colour="light brown", facial="beard"))
