@@ -19,7 +19,7 @@ KITS = {
     "DUL": ("#dc2626", '<rect x="0" y="7" width="20" height="1.9" fill="#2563eb"/><rect x="0" y="10.1" width="20" height="1.9" fill="#2563eb"/>', "#EDD9D3"),
     "C/C": ("#ffffff", '<rect x="0" y="10" width="20" height="10" fill="#1e3a8a"/><rect x="0" y="9" width="20" height="2" fill="#228b22"/>', "#D6DEE6"),
     "RAN": ("#1e3a8a", '<rect x="0" y="8" width="20" height="3" fill="#f4c430"/>', "#D3DCE8"),
-    "STR": ("#f4c430", '<text x="10" y="13" text-anchor="middle" font-size="9" font-weight="bold" font-family="Helvetica, Arial, sans-serif" fill="#1a1a1a">S</text>', "#F1E6C6"),
+    "STR": ("#E9B83C", '<rect x="0" y="8.2" width="20" height="0.9" fill="#1a1a1a"/><rect x="0" y="9.1" width="20" height="2.2" fill="#2E6B3A"/><rect x="0" y="11.3" width="20" height="0.9" fill="#1a1a1a"/><circle cx="14" cy="4.6" r="1.4" fill="#1a1a1a"/><circle cx="14" cy="4.6" r="0.6" fill="#E9B83C"/>', "#F1E6C6"),
     "WOK": ("#ff6600", '<rect x="0" y="8" width="20" height="3" fill="#32CD32"/>', "#F2DFCF"),
     "FUL": ("#ffffff", "".join(f'<rect x="0" y="{y}" width="20" height="3" fill="#1a1a1a"/>' for y in (0, 6, 12, 18)), "#DFE2E6"),
     "FOT": ("#000000", '<rect x="0" y="0" width="20" height="6" fill="#fff"/><rect x="0" y="6" width="20" height="4" fill="#f4c430"/>', "#E6E3D6"),
@@ -88,29 +88,29 @@ HAIR = {  # in head coordinates
     "quiffrecede": '<path d="M64,100 L63,72 L72,52 L86,38 L104,29 L122,33 L134,48 L137,72 L136,100 L131,80 L128,64 L120,58 L110,63 L100,64 L90,63 L80,58 L72,64 L69,80 Z"/>',
     "quiff": '<path d="M64,100 L63,72 L72,52 L86,38 L104,29 L122,33 L134,48 L137,72 L136,100 L131,78 L126,66 L100,61 L74,68 L69,80 Z"/>',
     "curly": '<path d="M63,100 L61,70 L69,51 L83,39 L100,34 L117,39 L131,51 L139,70 L137,100 L131,80 L124,70 L100,66 L76,70 L69,80 Z"/>',
-    "ponytail": '<path d="M65,104 C62,60 82,42 100,42 C120,42 138,60 135,104 L130,86 L118,70 L101,65 L82,70 L70,86 Z"/>',
+    "ponytail": '<path d="M65,104 C61,58 81,37 100,37 C121,37 139,58 135,104 L130,86 L118,70 L101,65 L82,70 L70,86 Z"/>',
     "tousled": '<path d="M63,102 L59,76 L62,58 L70,46 L79,41 L82,30 L92,33 L99,24 L107,31 L116,26 L121,35 L130,39 L137,51 L141,70 L137,102 L132,82 L124,71 L100,67 L76,71 L68,82 Z"/>',
     "shortcurls": '<path d="M65,100 L62,76 L66,60 L70,52 L76,49 L79,42 L86,41 L90,34 L97,36 L101,30 L107,35 L113,32 L118,38 L125,38 L129,46 L134,50 L138,70 L135,100 L132,84 L127,68 L120,57 L112,63 L104,62 L100,78 L95,62 L86,62 L79,57 L73,68 L68,84 Z"/>',
-    "topknot": '<path d="M65,104 C62,60 82,42 100,42 C120,42 138,60 135,104 L131,84 L118,68 L100,64 L82,68 L69,84 Z"/><ellipse cx="101" cy="32" rx="12" ry="10"/><path d="M93,44 L109,44 L106,38 L96,38 Z"/>',
+    "topknot": '<path d="M65,104 C61,58 81,37 100,37 C121,37 139,58 135,104 L131,84 L118,68 L100,64 L82,68 L69,84 Z"/><ellipse cx="101" cy="32" rx="12" ry="10"/><path d="M93,44 L109,44 L106,38 L96,38 Z"/>',
     "long": '<path d="M64,104 C62,56 82,40 100,40 C118,40 138,56 136,104 L128,78 L104,70 L70,84 Z"/>',
 }
 HAIR_BACK = {
-    "ponytail": '<path d="M126,70 L146,84 L150,130 L142,176 L134,150 L132,110 Z"/>',
+    "ponytail": '<path d="M120,62 C140,64 152,82 152,106 C152,132 146,156 134,178 Q131,184 129,180 C136,158 138,136 135,114 C133,96 130,84 120,72 Z"/>',
     "long": '<path d="M62,92 C58,52 80,34 100,34 C122,34 142,52 138,92 L142,200 L120,204 L80,204 L58,200 Z"/>',
 }
 # long curly hair: curly crown at the front, scalloped curls falling behind the shoulders
 HAIR["longcurls"] = HAIR["bigcurls"]
 HAIR_BACK["longcurls"] = '<path d="M58,90 C54,52 78,30 100,30 C122,30 146,52 142,90 Q150,104 144,118 Q152,132 146,146 Q154,160 146,174 Q152,188 142,200 L120,204 L80,204 L58,200 Q48,188 54,174 Q46,160 54,146 Q48,132 56,118 Q50,104 58,90 Z"/>'
 # women's styles
-HAIR["slick"] = '<path d="M66,104 C63,60 82,43 100,43 C119,43 137,60 134,104 L131,86 L119,68 L101,62 L82,68 L69,86 Z"/>'
+HAIR["slick"] = '<path d="M66,104 C62,58 81,37 100,37 C120,37 138,58 134,104 L131,86 L119,68 L101,62 L82,68 L69,86 Z"/>'
 HAIR["plait"] = HAIR["ponytail"]
 HAIR_BACK["plait"] = "".join(f'<ellipse cx="{136+i*1.6:.1f}" cy="{84+i*12}" rx="{8-i*0.35:.1f}" ry="8"/>' for i in range(9)) + '<path d="M146,186 L156,206 L140,206 Z"/>'
 HAIR["lowbun"] = HAIR["ponytail"]
 HAIR_BACK["lowbun"] = '<ellipse cx="138" cy="108" rx="15" ry="15"/>'
 HAIR["bob"] = '<path d="M60,140 C52,70 74,36 102,36 C130,36 150,70 140,140 L132,142 L132,96 Q126,74 112,68 Q96,80 74,78 Q68,90 68,100 L68,142 Z"/>'
 HAIR_BACK["bob"] = '<path d="M58,90 C56,52 80,34 100,34 C122,34 144,52 142,90 L144,150 L56,150 Z"/>'
-HAIR["wavytie"] = '<path d="M64,104 C60,58 80,40 100,40 C122,40 140,58 136,104 L131,86 Q132,74 124,70 L118,74 L110,66 L100,70 L90,65 L82,72 L76,68 Q68,76 69,86 Z"/>'
-HAIR_BACK["wavytie"] = '<path d="M126,70 Q140,74 146,84 Q154,94 148,106 Q156,118 148,130 Q154,144 144,156 Q146,168 136,174 L134,150 L132,110 Z"/>'
+HAIR["wavytie"] = '<path d="M64,104 C60,57 80,37 100,37 C122,37 140,57 136,104 L131,86 Q132,74 124,70 L118,74 L110,66 L100,70 L90,65 L82,72 L76,68 Q68,76 69,86 Z"/>'
+HAIR_BACK["wavytie"] = '<path d="M120,62 C138,62 150,74 150,88 Q158,100 150,112 Q158,126 149,138 Q154,152 143,162 Q144,174 132,182 Q129,184 129,180 Q136,168 134,154 Q138,140 134,126 Q137,112 132,100 Q130,84 120,72 Z"/>'
 FACIAL = {
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
     "muttonchops": '<path d="M64,92 L75,96 L78,128 Q80,142 76,150 L70,146 Q66,132 64,118 Z"/><path d="M136,92 L125,96 L122,128 Q120,142 124,150 L130,146 Q134,132 136,118 Z"/>',
@@ -189,7 +189,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             if roots and hair == "curtains":
                 hg.append(f'<clipPath id="hr{tag}">{HAIR["curtains"]}</clipPath><path clip-path="url(#hr{tag})" d="M56,84 C52,50 76,28 100,28 C124,28 148,50 144,84 C132,58 116,48 104,52 L101,60 L99,60 L96,52 C84,48 68,58 56,84 Z" fill="{HAIR_COL.get(roots, roots)}"/>')
             if hair == "ponytail":
-                hg.append(f'<path d="M100,44 L101,65" stroke="{dk}" stroke-width="1.5"/>')
+                hg.append(f'<path d="M100,40 L101,65" stroke="{dk}" stroke-width="1.5"/>')
     if custom and glasses:
         hg.append('<g fill="#FFFFFF" fill-opacity=".18" stroke="#9A9DA3" stroke-width="1.6"><rect x="74" y="103" width="22" height="17" rx="5"/><rect x="104" y="103" width="22" height="17" rx="5"/></g>'
                   '<path d="M96,109 Q100,106 104,109 M74,108 L66,106 M126,108 L134,106" fill="none" stroke="#9A9DA3" stroke-width="1.6"/>')
