@@ -158,7 +158,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -259,6 +259,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                 hg.append(f'<path d="M100,40 L101,65" stroke="{dk}" stroke-width="1.5"/>')
             if hair == "curlyup":  # loose curls escaping at the temples
                 hg.append(f'<g stroke="{hc}">{CURLY_WISPS}</g>')
+            if rosy:  # flushed cheeks
+                hg.append('<g fill="#E0505A" opacity=".38"><ellipse cx="80" cy="130" rx="9" ry="6.5"/><ellipse cx="120" cy="130" rx="9" ry="6.5"/></g>')
             if hair == "highpony":  # hair tie where the bunch is gathered on top
                 hg.append('<path d="M89,40 Q100,44 111,40 L110,44.5 Q100,48.5 90,44.5 Z" fill="#000" fill-opacity=".35"/>')
     if custom and glasses:
@@ -399,7 +401,7 @@ save("shades_on", figure("HOL", skin=3, hair="crop", hair_colour="dark brown", s
 save("brotchie", figure("HHH", skin=1, hair="buzzrecede", hair_colour="light brown", facial="stubble", tattoos=True))
 save("tat_none", figure("HOL", skin=2, hair="crop", hair_colour="mid brown"))
 save("tat_on", figure("HOL", skin=2, hair="crop", hair_colour="mid brown", tattoos=True))
-save("millar", figure("THH", skin=1, hair="shortcurls", hair_colour="mid brown", mud=True))
+save("millar", figure("THH", skin=1, hair="shortcurls", hair_colour="mid brown", mud=True, rosy=True))
 save("millar_grey", figure("THH", "grey"))
 save("lucy", figure("HHH", skin=1, hair="longloose", hair_colour="#D2B676", brow_colour="#A88C5A"))
 save("alex", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown"))
