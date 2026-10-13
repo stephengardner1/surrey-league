@@ -155,7 +155,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -252,7 +252,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                 hg.append(f'<path d="M62,83 Q100,61 138,83 L138,96 Q100,74 62,96 Z" fill="{headband}"/><path d="M62,83 Q100,61 138,83 L138,85 Q100,63 62,85 Z" fill="#fff" opacity=".12"/>' if headband_thick else f'<path d="M63,86 Q100,64 137,86 L137,91 Q100,70 63,91 Z" fill="{headband}"/>')
             if roots and hair == "curtains":
                 hg.append(f'<clipPath id="hr{tag}">{HAIR["curtains"]}</clipPath><path clip-path="url(#hr{tag})" d="M56,84 C52,50 76,28 100,28 C124,28 148,50 144,84 C132,58 116,48 104,52 L101,60 L99,60 L96,52 C84,48 68,58 56,84 Z" fill="{HAIR_COL.get(roots, roots)}"/>')
-            if hair in ("ponytail", "halfup"):
+            if hair in ("ponytail", "halfup") or (hair == "tightbun" and parting):
                 hg.append(f'<path d="M100,40 L101,65" stroke="{dk}" stroke-width="1.5"/>')
             if hair == "curlyup":  # loose curls escaping at the temples
                 hg.append(f'<g stroke="{hc}">{CURLY_WISPS}</g>')
@@ -700,3 +700,4 @@ save("samantha-munday", figure("BEL", skin=1, hair="plait", hair_colour="#4A3226
 save("holly-nixon", figure("BEL", skin=1, hair="ponytail", hair_colour="#C9A35F", necklace="#D4D4D4"))
 save("sophie-harris", figure("BEL", skin=1, hair="plait", hair_colour="#6B4A32"))
 save("isabel-brinsden", figure("E&E", skin=1, hair="wavytie", hair_colour="#C46A34"))
+save("mimi-corden-lloyd", figure("BEL", skin=2, hair="tightbun", hair_colour="#3A2620", necklace="#C9A646", parting=True))
