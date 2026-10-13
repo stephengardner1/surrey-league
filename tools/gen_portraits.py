@@ -570,3 +570,23 @@ W439b = [
 ]
 for slug, club, name, kw, alt in W439b:
     save(slug, figure(club, **kw))
+# women's Match 4, Wimbledon Common, Feb 2026 (race 440) plus two men from race 439
+W440 = [
+ ("isobel-hodder","BEL","Isobel Hodder",dict(skin=1,hair="ponytail",hair_colour="#6B4A2E"),"mid brown ponytail"),
+ ("emma-howsham","G&G","Emma Howsham",dict(skin=1,hair="ponytail",hair_colour="#3A2620"),"dark brown ponytail"),
+ ("eilidh-hide","BEL","Eilidh Hide",dict(skin=1,hair="ponytail",hair_colour="#C08850"),"strawberry-blonde ponytail"),
+ ("karen-xiang","BEL","Karen Xiang",dict(skin=2,hair="ponytail",hair_colour="black"),"black ponytail"),
+ ("claire-grima","H/W","Claire Grima",dict(skin=2,hair="wavytie",hair_colour="#8E6643"),"light brown flowing ponytail"),
+ ("emma-gordon","BEL","Emma Gordon",dict(skin=1,hair="ponytail",hair_colour="blonde"),"blonde ponytail"),
+ ("emily-lowery","BEL","Emily Lowery",dict(skin=1,hair="ponytail",hair_colour="#9A7650"),"light brown ponytail"),
+ ("felicity-harrison","BEL","Felicity Harrison",dict(skin=1,hair="ponytail",hair_colour="#8E6643"),"light brown ponytail"),
+ ("alice-martin","HOL","Alice Martin",dict(skin=1,hair="ponytail",hair_colour="#C2A06A"),"blonde ponytail"),
+ ("juliet-hodder","BEL","Juliet Hodder",dict(skin=1,hair="wavytie",hair_colour="#9A7650"),"light brown flowing ponytail"),
+ ("abbie-bulbulian","C/C","Abbie Bulbulian",dict(skin=1,hair="ponytail",hair_colour="#C2A06A"),"blonde ponytail"),
+ ("lara-mangan","BEL","Lara Mangan",dict(skin=1,hair="wavytie",hair_colour="#6B4A2E"),"mid brown flowing ponytail"),
+ ("clare-elms","KEN","Clare Elms",dict(skin=1,hair="slick",hair_colour="#6B4A2E"),"mid brown hair tied back"),
+]
+for slug, club, name, kw, alt in W440:
+    save(slug, figure(club, **kw))
+save("james-nutt", figure("HHH", skin=1, hair="quiff", hair_colour="#5A3E2A"))
+save("colin-high", figure("G&G", skin=1, hair="horseshoe", hair_colour="#8E6643", facial="beard", facial_colour="#8A5A36"))
