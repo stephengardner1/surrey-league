@@ -695,3 +695,4 @@ save("katie-snowden", figure("HHH", skin=1, hair="ponytail", hair_colour="#D2B27
 save("kate-axford", figure("BEL", skin=1, hair="highpony", hair_colour="#D9BC86", necklace="#C9A646"))
 save("sarah-astin", figure("BEL", skin=1, hair="halfup", hair_colour="#3A2620", necklace="#D4D4D4"))
 save("georgie-bruinvels", figure("SLH", skin=1, hair="curlyup", hair_colour="#C2602A"))
+save("jared-martin", figure("THH", skin=1, hair="tousled", hair_colour="#3A2820"))
