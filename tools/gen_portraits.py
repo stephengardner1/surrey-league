@@ -271,3 +271,7 @@ save("edgar", figure("BEL", skin=1, hair="buzzrecede", hair_colour="light brown"
 save("sommerville", figure("BEL", skin=1, hair="croprecede", hair_colour="dark brown"))
 save("mcdowell", figure("H/W", skin=1, hair=None))
 save("coogan", figure("HHH", skin=1, hair="ponytail", hair_colour="blonde"))
+save("hind", figure("KEN", skin=1, hair="quiff", hair_colour="dark brown"))
+save("martin", figure("THH", skin=1, hair="crop", hair_colour="dark brown"))
+save("hind", figure("KEN", skin=1, hair="quiff", hair_colour="dark brown"))
+save("barnes", figure("THH", skin=1, hair="crop", hair_colour="dark brown"))
