@@ -147,7 +147,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2"):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -209,7 +209,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         brow = hc if hair_colour not in ("grey", "blonde", "ginger", "bleached") else {"grey": "#8C8A86", "blonde": "#9A7A45", "ginger": "#A65A2A", "bleached": "#6B4A2E"}[hair_colour]
         if hair in ("buzz","buzzrecede") or hair is None: brow = "#3A2C24" if skin <= 3 else "#1E1714"
         if brow_colour: brow = brow_colour
-        hg += [(f'<g fill="{brow}"><polygon points="74,102 94,95 94,100 75,107"/><polygon points="106,95 126,102 125,107 106,100"/></g><path d="M98,92 L98,99 M102,92 L102,99" stroke="{dk}" stroke-width="1.2" opacity=".7"/>' if frown == "worried" else f'<g fill="{brow}"><polygon points="74,95 94,101 94,106 75,100"/><polygon points="106,101 126,95 125,100 106,106"/></g>' if frown else f'<g fill="{brow}"><polygon points="74,100 94,97 95,102 75,105"/><polygon points="105,97 126,100 125,105 105,102"/></g>'),
+        hg += [(f'<g fill="{brow}"><polygon points="74,102 94,95 94,100 75,107"/><polygon points="106,95 126,102 125,107 106,100"/></g><path d="M98,92 L98,99 M102,92 L102,99" stroke="{dk}" stroke-width="1.2" opacity=".7"/>' if frown == "worried" else f'<g fill="{brow}"><polygon points="74,95 94,101 94,106 75,100"/><polygon points="106,101 126,95 125,100 106,106"/></g>' if frown else f'<g fill="{brow}"><polygon points="74,100 94,97 95,102 75,105"/><polygon points="105,97 126,100 125,105 105,102"/></g>' if not thin_brows else f'<g fill="{brow}"><polygon points="75,101.5 94,98.5 94.5,100.6 75.5,103.2"/><polygon points="106,98.5 125,101.5 124.5,103.2 105.5,100.6"/></g>'),
                (f'<g fill="{_eyewhite(sk)}"><path d="{EYE_L}"/><path d="{EYE_R}"/></g>' if define and 'eyes' in define else '') +
                f'<g clip-path="url(#e{tag})" fill="{ink}"><circle cx="85" cy="111.5" r="3.8"/><circle cx="115" cy="111.5" r="3.8"/></g>'
                f'<g fill="none" stroke="{ink}" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/><path d="M106,112 Q115,105 124,112"/></g>',
@@ -659,5 +659,5 @@ save("jack-dormer", figure("WOK", skin=1, hair="messyvolume", hair_colour="#8660
 save("lea-adamson", figure("BEL", skin=1, hair="wavytie", hair_colour="#5E3A26", necklace="#D4D4D4"))
 save("max-heyden", figure("BEL", skin=1, hair="shortcurls", hair_colour="#5A3E2B"))
 save("ian-crowe-wright", figure("BEL", skin=1, hair="tousled", hair_colour="#7E5E40"))
-save("neil-wilson", figure("BEL", skin=1, hair="tuftrecede", hair_colour="#86664A", necklace="#CFCFCF"))
+save("neil-wilson", figure("BEL", skin=1, hair="tuftrecede", hair_colour="#86664A", necklace="#CFCFCF", thin_brows=True))
 save("lloyd-kempson", figure("BEL", skin=1, hair="quiff", hair_colour="#8A6A48", facial="stubble", facial_colour="#8A6A48", shades=True, shades_col="#1A1A1A", shades_frame="#2A2A2A", necklace="#C9A646"))
