@@ -489,3 +489,6 @@ save("will-cockerell", figure("BEL", skin=2, hair="horseshoe", hair_colour="#D8D
 save("nick-goolab", figure("BEL", skin=3, hair="slicktail", hair_colour="#1C1714", facial="stubble", cleft=True))
 save("arne-dumez", figure("BEL", skin=1, hair="quiff", hair_colour="#8E6643", facial="mostubble"))
 save("geoff-jerwood", figure("HHH", skin=1, hair="shaggyrecede", hair_colour="#CFC3A6", facial="beard", brow_colour="#A8996F", jacket=("#2C3036", "#22262B", None, ("#4E5660", "#626B76")), jacket_marks={"initials": "GJ", "saltire": True}))
+save("alex-lee", figure("HHH", skin=1, hair="tousled", hair_colour="#6B4A2E"))
+save("benedict-whitby", figure("HHH", skin=2, hair="croppeak", hair_colour="#5E534A", temples=True))
+save("falilou-kebe", figure("BEL", skin=6, hair="buzz", hair_colour="black"))
