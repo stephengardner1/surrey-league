@@ -532,7 +532,7 @@ save("john-gilbert", figure("KEN", skin=1, hair="fringe", hair_colour="#5C3D28",
 save("chris-busaileh", figure("KEN", skin=1, hair="croppeak", hair_colour="#A85A30"))
 save("jim-allchin", figure("KEN", skin=1, hair="longstraight", hair_colour="#86593A", headband="#C8323A", facial="stubble"))
 save("finn-johnson", figure("H/W", skin=2, hair="quiffrecede", hair_colour="#3A2620", facial="beard"))
-save("will-cockerell", figure("BEL", skin=1, hair="horseshoe", hair_colour="#8E8478", brow_colour="#6E655C", frown=True))
+save("will-cockerell", figure("BEL", skin=2, hair="horseshoe", hair_colour="#D8D5CF", brow_colour="#6E655C", frown=True))
 save("nick-goolab", figure("BEL", skin=3, hair="slicktail", hair_colour="#1C1714", facial="stubble", cleft=True))
 save("arne-dumez", figure("BEL", skin=1, hair="quiff", hair_colour="#8E6643", facial="mostubble"))
 save("geoff-jerwood", figure("HHH", skin=1, hair="shaggyrecede", hair_colour="#CFC3A6", facial="beard", brow_colour="#A8996F", jacket=("#2C3036", "#22262B", None, ("#4E5660", "#626B76")), jacket_marks={"initials": "GJ", "saltire": True}))
