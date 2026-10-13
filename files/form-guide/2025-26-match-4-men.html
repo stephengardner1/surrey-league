@@ -16,11 +16,11 @@
 <style>
 /* Layout: one reading column — headline, lens controls, verdict chips, risers/fallers pair, scatter, full result table */
 :root{
-  --bg:#f9fafb; --surface:#ffffff; --ink:#111827; --ink-2:#374151; --muted:#6b7280; --rule:#e5e7eb;
+  --bg:#f6f7f4; --surface:#ffffff; --ink:#1d221c; --ink-2:#4b5348; --muted:#687064; --rule:#dfe3dc;
   --accent:#2b3140;            /* slate: UI controls only, kept clear of the green/red verdict colours */
   --over:#1a8a6f; --over-soft:#d6efe4; --over-mid:#8fd0b6;
   --under:#c23a2f; --under-soft:#f8e0dd; --under-mid:#eea59b;
-  --even:#e5e7eb; --none:#f3f4f6;
+  --even:#e9e8e4; --none:#f0f1ee;
   --f-display:"Fraunces",Georgia,"Times New Roman",serif;
   --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -51,9 +51,9 @@ h2{font-size:21px;font-weight:500}
 header{display:grid;gap:6px}
 
 .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.seg{display:inline-flex;align-items:center;gap:0;padding:2px;border-radius:8px;background:var(--seg-bg,#f3f4f6)}
-.seg button{font:inherit;font-size:14px;font-weight:500;border:0;border-radius:6px;background:transparent;color:var(--seg-off,#6b7280);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s}.seg button:hover{color:var(--seg-hover,#374151)}
-.seg button[aria-pressed="true"]{background:var(--seg-on-bg,#fff);color:var(--seg-on,#111827);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.seg{display:inline-flex;align-items:center;gap:0;padding:2px;border-radius:8px;background:var(--seg-bg,#eef0ec)}
+.seg button{font:inherit;font-size:14px;font-weight:500;border:0;border-radius:6px;background:transparent;color:var(--seg-off,#687064);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s}.seg button:hover{color:var(--seg-hover,#3b4239)}
+.seg button[aria-pressed="true"]{background:var(--seg-on-bg,#fff);color:var(--seg-on,#1d221c);box-shadow:0 1px 2px rgba(0,0,0,.05)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg{--seg-bg:color-mix(in srgb,var(--ink) 8%,var(--bg));--seg-off:var(--muted);--seg-hover:var(--ink-2);--seg-on-bg:var(--bg);--seg-on:var(--ink)}}
 :root[data-theme="dark"] .seg{--seg-bg:color-mix(in srgb,var(--ink) 8%,var(--bg));--seg-off:var(--muted);--seg-hover:var(--ink-2);--seg-on-bg:var(--bg);--seg-on:var(--ink)}
 select,input[type=search]{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0}
@@ -188,14 +188,14 @@ html.embed .wrap{max-width:none}
 html.embed,html.embed body{overflow:hidden}
 .rname a{border-bottom:0!important}.rname a:hover,a.p10:hover{color:#0077b6!important;border-bottom:0!important}#tbody tr:hover td:not(.pos){background:#eff6ff}
 .mlist .who a{color:inherit;text-decoration:none}.mlist .who a:hover{color:#0077b6}
-.rname{font-weight:400}.rname a,.rname,.mlist .who,.mlist .who a{color:#111827}.mlist .who{font-size:14px}@media (max-width:520px){.sc2{font-size:13px}th.sc2{font-size:11.5px}.mlist .who{font-size:13px}}
+.rname{font-weight:400}.rname a,.rname,.mlist .who,.mlist .who a{color:#1d221c}.mlist .who{font-size:14px}@media (max-width:520px){.sc2{font-size:13px}th.sc2{font-size:11.5px}.mlist .who{font-size:13px}}
 @media (min-width:521px){.sc2{width:1%;min-width:210px}.rname{white-space:nowrap}}
 @media (min-width:521px){.tablewrap{width:fit-content;max-width:100%}table{min-width:0}td.num,th.num,td.vs,th.vs{padding-inline:14px}}
-td.pos{background:var(--surface)!important;color:var(--ink)!important}tr.b-so td.pos{box-shadow:inset 4px 0 0 var(--over)}tr.b-o td.pos{box-shadow:inset 4px 0 0 var(--over-mid)}tr.b-e td.pos{box-shadow:inset 4px 0 0 #d1d5db}tr.b-u td.pos{box-shadow:inset 4px 0 0 var(--under-mid)}tr.b-su td.pos{box-shadow:inset 4px 0 0 var(--under)}#tbody tr:hover td.pos{background:#eff6ff!important}
+td.pos{background:var(--surface)!important;color:var(--ink)!important}tr.b-so td.pos{box-shadow:inset 4px 0 0 var(--over)}tr.b-o td.pos{box-shadow:inset 4px 0 0 var(--over-mid)}tr.b-e td.pos{box-shadow:inset 4px 0 0 #c9cec5}tr.b-u td.pos{box-shadow:inset 4px 0 0 var(--under-mid)}tr.b-su td.pos{box-shadow:inset 4px 0 0 var(--under)}#tbody tr:hover td.pos{background:#eff6ff!important}
 @media (max-width:520px){.sc2{white-space:nowrap}.sc2 .flag{white-space:normal}.sc2 .rname{display:inline-block;max-width:76px;overflow-x:auto;white-space:nowrap;vertical-align:bottom;scrollbar-width:none;-webkit-overflow-scrolling:touch}.sc2 .rname::-webkit-scrollbar{display:none}}
 @media (max-width:520px){.rname.ovf{-webkit-mask-image:linear-gradient(90deg,#000 75%,transparent);mask-image:linear-gradient(90deg,#000 75%,transparent)}.rname.ovf.end{-webkit-mask-image:none;mask-image:none}}
 @media (max-width:560px){.mlist li:nth-child(5){border-bottom:0}}
-.panel h2,.pred h2,.fold h2{font-family:var(--f-display)!important;font-size:18px!important;font-weight:600!important;text-transform:none;letter-spacing:-.01em;color:#111827}
+.panel h2,.pred h2,.fold h2{font-family:var(--f-display)!important;font-size:18px!important;font-weight:600!important;text-transform:none;letter-spacing:-.01em;color:#1d221c}
 .pred .bl{font-size:14px;color:var(--ink)}
 .pred .bv{font-family:var(--f-mono)!important;font-size:13px}
 .pred p{font-size:14px!important;line-height:1.55!important}
@@ -343,8 +343,8 @@ const getClubVestSvg=(club)=>{
     'BAC':`<path d="${p}" fill="#f5f5dc"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><path d="M4 9 Q10 7 16 9 L15 11 Q10 9.5 5 11 Z" fill="#dc2626"/><path d="M15 10 L16 9 L17 10 L16 12 Z" fill="#1e3a8a"/></g>`,
     'OME':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="0" width="2" height="20" fill="#fff"/><rect x="7" y="0" width="2" height="20" fill="#fff"/><rect x="11" y="0" width="2" height="20" fill="#fff"/><rect x="15" y="0" width="2" height="20" fill="#fff"/></g>`
   };
-  const content=vestSvg[club]||`<path d="${p}" fill="#9ca3af"/>`;
-  return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">${content}<path d="${p}" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
+  const content=vestSvg[club]||`<path d="${p}" fill="#9ba297"/>`;
+  return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">${content}<path d="${p}" fill="none" stroke="#3b4239" stroke-width="0.5"/></svg>`;
 };
 const vest = c => c ? `<span class="vest" title="${esc(CLUBS[c]||c)}">${getClubVestSvg(c).replace("<svg ","<svg width=\"14\" height=\"14\" aria-hidden=\"true\" ")}</span>` : "";
 const ord = n => n + (n%100>=11&&n%100<=13?"th":({1:"st",2:"nd",3:"rd"}[n%10]||"th"));
