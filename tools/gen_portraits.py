@@ -245,13 +245,14 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                   '<circle cx="100" cy="27" r="2.6" fill="#C41E3A"/><circle cx="91" cy="31" r="1.6" fill="#2563EB"/><circle cx="109" cy="31" r="1.6" fill="#2563EB"/></g>')
     o.append(f'<g {SQ}>' + "".join(hg) + '</g>')
     if jacket:  # club manager's quarter-zip top instead of a racing vest
-        jc, jd, crest = jacket
+        jc, jd, crest = jacket[:3]
+        sh1, sh2 = jacket[3] if len(jacket) > 3 else ('#7A1E2A', '#8E2633')
         body = "M88,192 C76,196 66,199 58,205 C46,211 39,221 38,236 L33,330 L167,330 L162,236 C161,221 154,211 142,205 C134,199 124,196 112,192 Z"
         o.append(f'<path d="{body}" fill="{jc}"/>'
                  f'<path d="M112,192 C124,196 134,200 142,205 C154,211 161,221 162,236 L167,330 L138,330 L140,250 Q136,236 128,226 Z" fill="{jd}"/>'
                  f'<path d="M58,232 Q60,262 58,330 M142,232 Q140,262 142,330" stroke="#000" stroke-opacity=".25" stroke-width="1.5" fill="none"/>'
                  # shirt collar showing in the open neck, jacket collar flaps either side
-                 f'<path d="M86,182 L114,182 L100,208 Z" fill="#7A1E2A"/><path d="M86,182 L93,192 L100,186 L107,192 L114,182 L112,178 L100,184 L88,178 Z" fill="#8E2633"/>'
+                 f'<path d="M86,182 L114,182 L100,208 Z" fill="{sh1}"/><path d="M86,182 L93,192 L100,186 L107,192 L114,182 L112,178 L100,184 L88,178 Z" fill="{sh2}"/>'
                  f'<path d="M80,180 Q86,182 91,184 L100,212 L82,200 Z" fill="{jc}"/><path d="M120,180 Q114,182 109,184 L100,212 L118,200 Z" fill="{jd}"/>'
                  f'<path d="M80,180 Q86,182 91,184 L92,188 Q86,186 81,184 Z" fill="#000" opacity=".25"/>'
                  f'<path d="M100,212 L100,330" stroke="#8A8F98" stroke-width="1.6"/><rect x="97.6" y="214" width="4.8" height="9" rx="1.2" fill="#9AA0A8"/>'
@@ -477,3 +478,4 @@ save("finn-johnson", figure("H/W", skin=2, hair="quiffrecede", hair_colour="#3A2
 save("will-cockerell", figure("BEL", skin=2, hair="horseshoe", hair_colour="#D8D5CF", brow_colour="#6E655C"))
 save("nick-goolab", figure("BEL", skin=3, hair="slicktail", hair_colour="#1C1714", facial="stubble", cleft=True))
 save("arne-dumez", figure("BEL", skin=1, hair="quiff", hair_colour="#8E6643", facial="mostubble"))
+save("geoff-jerwood", figure("HHH", skin=2, hair="sweptback", hair_colour="#C2AE86", facial="beard", facial_colour="#D6D0C6", brow_colour="#8C7A5A", jacket=("#2C3036", "#22262B", None, ("#4E5660", "#626B76"))))
