@@ -680,3 +680,4 @@ save("ben-hurley", figure("BEL", skin=1, hair=None, facial="thicktache", facial_
 save("alice-crane", figure("DMV", skin=1, hair="wavytie", hair_colour="#B8935E"))
 save("martina-conner", figure("BEL", skin=1, hair="ponytail", hair_colour="#C2A06A"))
 save("georgie-grgec", figure("HHH", skin=1, hair="wavytie", hair_colour="#5E4230"))
+save("katie-snowden", figure("HHH", skin=1, hair="ponytail", hair_colour="#D2B27A"))
