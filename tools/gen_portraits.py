@@ -619,5 +619,10 @@ W433 += [
  ("harrison-hayman","SLH","Harrison Hayman",dict(skin=1,hair="tousled",hair_colour="#B8703E"),"tousled ginger hair"),
  ("edward-chuck","DUL","Edward Chuck",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="stubble"),"short dark hair, stubble"),
 ]
+W433 += [
+ ("robert-sesemann","KEN","Robert Sesemann",dict(skin=1,hair="tousled",hair_colour="#5A3E2A",facial="littletache"),"tousled brown hair, little moustache"),
+ ("eoin-molloy","BEL","Eoin Molloy",dict(skin=1,hair="crop",hair_colour="#2E211B",necklace="#CFCFCF"),"short dark hair, chain necklace"),
+ ("ollie-garrod","BEL","Ollie Garrod",dict(skin=1,hair="crop",hair_colour="#8E6643",cap="#E8E6E1",glasses=True,facial="stubble"),"white cap, glasses, stubble"),
+]
 for slug, club, name, kw, alt in W433:
     save(slug, figure(club, **kw))
