@@ -674,3 +674,4 @@ save("kevin-quinn", figure("SLH", skin=1, hair="spiky", hair_colour="#3A2620", g
 save("frank-tickner", figure("KEN", skin=1, hair="tousled", hair_colour="#A87A4E", facial="stubble", facial_colour="#B08A5E"))
 save("paul-pollock", figure("KEN", skin=1, hair="messyvolume", hair_colour="#3A2820", gaunt=True))
 save("chris-busaileh-hhh", figure("HHH", skin=1, hair="croppeak", hair_colour="#A85A30"))
+save("james-mcmullan", figure("THH", skin=1, hair="quiff", hair_colour="#7A5638"))
