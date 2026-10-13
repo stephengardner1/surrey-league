@@ -672,3 +672,4 @@ save("ralph-street", figure("RAN", skin=1, hair="tousled", hair_colour="#B57A45"
 save("jon-pepper", figure("RAN", skin=1, hair="messyfringe", hair_colour="#5E4230", gaunt=True))
 save("kevin-quinn", figure("SLH", skin=1, hair="spiky", hair_colour="#3A2620", gaunt=True))
 save("frank-tickner", figure("KEN", skin=1, hair="tousled", hair_colour="#A87A4E", facial="stubble", facial_colour="#B08A5E"))
+save("paul-pollock", figure("KEN", skin=1, hair="messyvolume", hair_colour="#3A2820", gaunt=True))
