@@ -294,3 +294,4 @@ save("mcnally", figure("BEL", skin=1, hair="crop", hair_colour="ginger", facial=
 save("board", figure("HHH", skin=1, hair="bigcurls", hair_colour="black"))
 save("weir", figure("THH", skin=1, hair="croprecede", hair_colour="dark brown"))
 save("chisholm", figure("THH", skin=1, hair="crop", hair_colour="dark brown"))
+save("panchev", figure("H/W", skin=2, hair="tousled", hair_colour="black", shades=True))
