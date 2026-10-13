@@ -260,7 +260,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             if hair == "curlyup":  # loose curls escaping at the temples
                 hg.append(f'<g stroke="{hc}">{CURLY_WISPS}</g>')
             if rosy:  # flushed cheeks
-                hg.append('<g fill="#E0505A" opacity=".38"><ellipse cx="80" cy="130" rx="9" ry="6.5"/><ellipse cx="120" cy="130" rx="9" ry="6.5"/></g>')
+                hg.append('<g fill="#E0505A" opacity=".2"><ellipse cx="80" cy="130" rx="12" ry="8.5"/><ellipse cx="120" cy="130" rx="12" ry="8.5"/></g>')
             if hair == "highpony":  # hair tie where the bunch is gathered on top
                 hg.append('<path d="M89,40 Q100,44 111,40 L110,44.5 Q100,48.5 90,44.5 Z" fill="#000" fill-opacity=".35"/>')
     if custom and glasses:
