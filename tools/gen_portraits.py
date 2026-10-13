@@ -111,6 +111,8 @@ HAIR["bob"] = '<path d="M60,140 C52,70 74,36 102,36 C130,36 150,70 140,140 L132,
 HAIR_BACK["bob"] = '<path d="M58,90 C56,52 80,34 100,34 C122,34 144,52 142,90 L144,150 L56,150 Z"/>'
 HAIR["wavytie"] = '<path d="M64,104 C60,57 80,37 100,37 C122,37 140,57 136,104 L131,86 Q132,74 124,70 L118,74 L110,66 L100,70 L90,65 L82,72 L76,68 Q68,76 69,86 Z"/>'
 HAIR_BACK["wavytie"] = '<path d="M120,62 C138,62 150,74 150,88 Q158,100 150,112 Q158,126 149,138 Q154,152 143,162 Q144,174 132,182 Q129,184 129,180 Q136,168 134,154 Q138,140 134,126 Q137,112 132,100 Q130,84 120,72 Z"/>'
+HAIR["longwavy"] = '<path d="M62,108 C56,60 78,36 100,36 C122,36 144,60 138,108 L132,92 Q128,74 113,66 L100,57 L87,66 Q72,74 68,92 Z"/>'
+HAIR_BACK["longwavy"] = '<path d="M60,90 C56,52 80,34 100,34 C120,34 144,52 140,90 Q148,110 141,128 Q149,146 141,164 Q147,178 135,188 L65,188 Q53,178 59,164 Q51,146 59,128 Q52,110 60,90 Z"/>'
 FACIAL = {
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
     "muttonchops": '<path d="M65,98 L70,98 L71,120 Q74,134 84,143 Q86,148 82,151 Q74,151 70,143 Q66,132 65,118 Z"/><path d="M135,98 L130,98 L129,120 Q126,134 116,143 Q114,148 118,151 Q126,151 130,143 Q134,132 135,118 Z"/>',
@@ -460,3 +462,5 @@ save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22
 save("alex-yee", figure("KEN", skin=2, hair="quiff", hair_colour="#4A3022", medal="gold"))
 save("phil-wicks", figure("BEL", skin=1, hair="tousled", hair_colour="#5A3E2A", gaunt=True, temples=True))
 save("john-gilbert", figure("KEN", skin=1, hair="fringe", hair_colour="#5C3D28", facial="stubble"))
+save("chris-busaileh", figure("KEN", skin=1, hair="buzz", hair_colour="#8A5A36"))
+save("jim-allchin", figure("KEN", skin=1, hair="longwavy", hair_colour="#7A4E30", headband="#C8323A"))
