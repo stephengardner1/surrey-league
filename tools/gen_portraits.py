@@ -202,7 +202,9 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         hg.append('<path d="M66,70 Q100,58 134,70 L132,82 Q118,86 104,80 L100,77 L96,80 Q82,86 68,82 Z" fill="#2B3039"/>'
                   '<path d="M64,68 Q100,55 136,68 L135,72 Q100,60 65,72 Z" fill="#F4F4F2" opacity=".8"/>')
     if custom and scrunchie:
-        hg.append(f'<ellipse cx="128" cy="74" rx="6" ry="8" fill="{scrunchie}"/>')
+        if hair == "topknot":  # ruffled band around the base of the bun
+            hg.append(f'<path d="M89,41 q2,-5 4,0 q2,-5 4,0 q2,-5 4,0 q2,-5 4,0 q2,-5 4,0 q2,-5 4,0 L113,45 q-2,5 -4,0 q-2,5 -4,0 q-2,5 -4,0 q-2,5 -4,0 q-2,5 -4,0 q-2,5 -4,0 Z" fill="{scrunchie}"/>'
+                      f'<path d="M89,43 L113,43" stroke="#000" stroke-opacity=".18" stroke-width="1"/>')
     if custom and beanie:
         hg.append(f'<g fill="{beanie}"><path d="M62,98 C60,52 80,30 100,30 C120,30 140,52 138,98 Z"/></g>'
                   f'<g clip-path="url(#r{tag})" fill="#000" opacity=".15"><path d="M62,98 C60,52 80,30 100,30 C120,30 140,52 138,98 Z"/></g>'
