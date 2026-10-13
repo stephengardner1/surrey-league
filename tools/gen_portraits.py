@@ -101,14 +101,26 @@ HAIR_BACK = {
 # long curly hair: curly crown at the front, scalloped curls falling behind the shoulders
 HAIR["longcurls"] = HAIR["bigcurls"]
 HAIR_BACK["longcurls"] = '<path d="M58,90 C54,52 78,30 100,30 C122,30 146,52 142,90 Q150,104 144,118 Q152,132 146,146 Q154,160 146,174 Q152,188 142,200 L120,204 L80,204 L58,200 Q48,188 54,174 Q46,160 54,146 Q48,132 56,118 Q50,104 58,90 Z"/>'
+# women's styles
+HAIR["slick"] = '<path d="M66,104 C63,60 82,43 100,43 C119,43 137,60 134,104 L131,86 L119,68 L101,62 L82,68 L69,86 Z"/>'
+HAIR["plait"] = HAIR["ponytail"]
+HAIR_BACK["plait"] = "".join(f'<ellipse cx="{136+i*1.6:.1f}" cy="{84+i*12}" rx="{8-i*0.35:.1f}" ry="8"/>' for i in range(9)) + '<path d="M146,186 L156,206 L140,206 Z"/>'
+HAIR["lowbun"] = HAIR["ponytail"]
+HAIR_BACK["lowbun"] = '<ellipse cx="138" cy="108" rx="15" ry="15"/>'
+HAIR["bob"] = '<path d="M60,140 C52,70 74,36 102,36 C130,36 150,70 140,140 L132,142 L132,96 Q126,74 112,68 Q96,80 74,78 Q68,90 68,100 L68,142 Z"/>'
+HAIR_BACK["bob"] = '<path d="M58,90 C56,52 80,34 100,34 C122,34 144,52 142,90 L144,150 L56,150 Z"/>'
+HAIR["wavytie"] = '<path d="M64,104 C60,58 80,40 100,40 C122,40 140,58 136,104 L131,86 Q132,74 124,70 L118,74 L110,66 L100,70 L90,65 L82,72 L76,68 Q68,76 69,86 Z"/>'
+HAIR_BACK["wavytie"] = '<path d="M126,70 Q140,74 146,84 Q154,94 148,106 Q156,118 148,130 Q154,144 144,156 Q146,168 136,174 L134,150 L132,110 Z"/>'
 FACIAL = {
+    "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
+    "muttonchops": '<path d="M64,92 L75,96 L78,128 Q80,142 76,150 L70,146 Q66,132 64,118 Z"/><path d="M136,92 L125,96 L122,128 Q120,142 124,150 L130,146 Q134,132 136,118 Z"/>',
     "goatee": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/><path d="M93,157 Q100,155 107,157 L105,169 Q100,171 95,169 Z"/>',
     "moustache": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/>',
     "beard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z"/>',
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f"):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -182,10 +194,15 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         hg.append('<g fill="#FFFFFF" fill-opacity=".18" stroke="#9A9DA3" stroke-width="1.6"><rect x="74" y="103" width="22" height="17" rx="5"/><rect x="104" y="103" width="22" height="17" rx="5"/></g>'
                   '<path d="M96,109 Q100,106 104,109 M74,108 L66,106 M126,108 L134,106" fill="none" stroke="#9A9DA3" stroke-width="1.6"/>')
     if custom and shades:
-        hg.append('<path d="M66,104 Q100,98 134,104 L131,121 Q118,128 104,120 L100,116 L96,120 Q82,128 69,121 Z" fill="#2B3039"/>'
+        hg.append('<path d="M66,104 Q100,98 134,104 L131,121 Q118,128 104,120 L100,116 L96,120 Q82,128 69,121 Z" fill="' + (shades_col or "#2B3039") + '"/>'
                   '<path d="M72,108 Q84,105 94,108 L92,112 Q82,110 73,112 Z" fill="#8FA3B8" opacity=".55"/>'
                   '<path d="M106,108 Q116,105 128,108 L127,112 Q117,110 107,112 Z" fill="#8FA3B8" opacity=".35"/>'
                   '<path d="M63,101 Q100,94 137,101 L136,106 Q100,99 64,106 Z" fill="#F4F4F2"/>')
+    if custom and shades_up:
+        hg.append('<path d="M66,70 Q100,58 134,70 L132,82 Q118,86 104,80 L100,77 L96,80 Q82,86 68,82 Z" fill="#2B3039"/>'
+                  '<path d="M64,68 Q100,55 136,68 L135,72 Q100,60 65,72 Z" fill="#F4F4F2" opacity=".8"/>')
+    if custom and scrunchie:
+        hg.append(f'<ellipse cx="128" cy="74" rx="6" ry="8" fill="{scrunchie}"/>')
     if custom and beanie:
         hg.append(f'<g fill="{beanie}"><path d="M62,98 C60,52 80,30 100,30 C120,30 140,52 138,98 Z"/></g>'
                   f'<g clip-path="url(#r{tag})" fill="#000" opacity=".15"><path d="M62,98 C60,52 80,30 100,30 C120,30 140,52 138,98 Z"/></g>'
@@ -361,3 +378,52 @@ save("reynolds", figure("BEL", skin=1, hair="buzz", hair_colour="mid brown"))
 save("awilson", figure("DUL", skin=1, hair="quiff", hair_colour="#C98A4E", facial="beard", facial_colour="#B5652E"))
 save("burthem", figure("HHH", skin=1, hair="tousled", hair_colour="dark brown", facial="beard"))
 save("pettitt", figure("KEN", skin=1, hair="croprecede", hair_colour="mid brown", facial="beard", shades=True))
+# Holt brothers (Herc Wimbledon, 1960s-70s)
+save("bob-holt", figure("H/W", skin=1, hair="croprecede", hair_colour="dark brown", facial="muttonchops", gaunt=True))
+save("dave-holt", figure("H/W", skin=1, hair="quiffrecede", hair_colour="dark brown", facial="muttonchops", gaunt=True))
+# women's race, Oct 2026 (race 566)
+LB="#9A6E48"; SB="#B27A4E"; DB="dark brown"
+W = [
+ ("ruby-whyte-wilding","BEL","Ruby Whyte-Wilding",dict(skin=1,hair="plait",hair_colour=SB),"strawberry-blonde plaited hair"),
+ ("sophie-tooley","HHH","Sophie Tooley",dict(skin=2,hair="ponytail",hair_colour="light brown"),"light brown ponytail"),
+ ("catherine-kandie","KEN","Catherine Kandie",dict(skin=6,hair="slick",hair_colour="black"),"black hair slicked back"),
+ ("olivia-stillman","HHH","Olivia Stillman",dict(skin=2,hair="ponytail",hair_colour="#2A1D18"),"near-black ponytail"),
+ ("alex-gandee","BEL","Alex Gandee",dict(skin=1,hair="ponytail",hair_colour=SB),"strawberry-blonde ponytail"),
+ ("billie-mcclosky","BEL","Billie McClosky",dict(skin=1,hair="ponytail",hair_colour=LB),"light brown ponytail"),
+ ("lisa-bailey","STR","Lisa Bailey",dict(skin=2,hair="slick",hair_colour="blonde",scrunchie="#F4C430"),"blonde hair pulled back with a yellow clip"),
+ ("amy-clements","KEN","Amy Clements",dict(skin=1,hair="ponytail",hair_colour=DB),"dark brown ponytail"),
+ ("bethanie-murray","THH","Bethanie Murray",dict(skin=1,hair="wavytie",hair_colour=DB),"dark brown flowing ponytail"),
+ ("evie-warren","G&G","Evie Warren",dict(skin=1,hair="ponytail",hair_colour="#B08A55"),"dark blonde ponytail"),
+ ("lucy-peters","BEL","Lucy Peters",dict(skin=1,hair="wavytie",hair_colour="blonde"),"blonde flowing ponytail"),
+ ("emma-lord","H/W","Emma Lord",dict(skin=1,hair="ponytail",hair_colour="#B9955E"),"dark blonde ponytail"),
+ ("alice-bridger-morales","HHH","Alice Bridger Morales",dict(skin=3,hair="wavytie",hair_colour="black"),"black curly ponytail"),
+ ("emily-bradley","BEL","Emily Bradley",dict(skin=1,hair="lowbun",hair_colour=DB),"dark brown hair tied up"),
+ ("isabelle-pickett","G&G","Isabelle Pickett",dict(skin=1,hair="ponytail",hair_colour="ginger"),"ginger ponytail"),
+ ("felicity-hayward","THH","Felicity Hayward",dict(skin=2,hair="wavytie",hair_colour=DB),"dark brown ponytail"),
+ ("gabriel-reynolds","HHH","Gabriel Reynolds",dict(skin=2,hair="ponytail",hair_colour="#8A6A45"),"light brown ponytail"),
+ ("lara-bromilow","KEN","Lara Bromilow",dict(skin=2,hair="lowbun",hair_colour="black"),"black hair tied low"),
+ ("megan-gildea","HHH","Megan Gildea",dict(skin=1,hair="topknot",hair_colour="blonde",scrunchie="#D9466A"),"blonde bun with pink scrunchie"),
+ ("maeve-kenny","SLH","Maeve Kenny",dict(skin=1,hair="lowbun",hair_colour=DB),"dark brown hair tied back"),
+ ("emilie-arnoux","BEL","Emilie Arnoux",dict(skin=3,hair="slick",hair_colour="blonde",shades=True,shades_col="#E0661E"),"blonde hair slicked back, orange sunglasses"),
+ ("katie-good","KEN","Katie Good",dict(skin=2,hair="ponytail",hair_colour=DB),"dark brown ponytail"),
+ ("ellie-freeden","KEN","Ellie Freeden",dict(skin=1,hair="ponytail",hair_colour="#2A1D18"),"near-black ponytail"),
+ ("alice-smith","SLH","Alice Smith",dict(skin=2,hair="tousled",hair_colour="grey",glasses=True),"short grey hair, glasses"),
+ ("florence-wiggins","THH","Florence Wiggins",dict(skin=1,hair="topknot",hair_colour="mid brown"),"mid brown top knot"),
+ ("alexandra-barbour","BEL","Alexandra Barbour",dict(skin=2,hair="wavytie",hair_colour=DB),"dark brown ponytail"),
+ ("ella-king-powrie","BEL","Ella King Powrie",dict(skin=1,hair="ponytail",hair_colour="blonde"),"blonde ponytail"),
+ ("betsy-griffiths","RAN","Betsy Griffiths",dict(skin=1,hair="plait",hair_colour="mid brown",shades=True,shades_col="#1F5F8B"),"mid brown plait, blue sunglasses"),
+ ("nicola-douglas","STR","Nicola Douglas",dict(skin=2,hair="bob",hair_colour="blonde"),"short blonde bob"),
+ ("georgie-furze","WOK","Georgie Furze",dict(skin=2,hair="wavytie",hair_colour=LB),"light brown flowing ponytail"),
+ ("emma-rowland","BEL","Emma Rowland",dict(skin=3,hair="ponytail",hair_colour="black",shades_up=True),"black ponytail, sunglasses on her head"),
+ ("charlotte-griffiths","BEL","Charlotte Griffiths",dict(skin=1,hair="topknot",hair_colour="mid brown"),"mid brown bun"),
+ ("mary-james","SLH","Mary James",dict(skin=3,hair="topknot",hair_colour=DB),"dark brown curly bun"),
+ ("penny-oliver","BEL","Penny Oliver",dict(skin=1,hair="wavytie",hair_colour=LB),"light brown wavy ponytail"),
+ ("ava-mcandie","H/W","Ava McAndie",dict(skin=1,hair="ponytail",hair_colour=LB),"light brown ponytail"),
+ ("bethan-goddard","BEL","Bethan Goddard",dict(skin=1,hair="plait",hair_colour="mid brown"),"mid brown plait"),
+ ("nikki-sturzaker","HHH","Nikki Sturzaker",dict(skin=3,hair="wavytie",hair_colour=DB,gaunt=True),"dark brown curly ponytail"),
+ ("hannah-english","HHH","Hannah English",dict(skin=1,hair="wavytie",hair_colour="#2A1D18"),"near-black curly ponytail"),
+ ("clara-pettit","H/W","Clara Pettit",dict(skin=1,hair="ponytail",hair_colour="#9E7B50"),"light brown ponytail"),
+]
+for slug, club, name, kw, alt in W:
+    save(slug, figure(club, **kw))
+save("mike-fuller", figure("H/W", skin=1, hair="longcurls", hair_colour="dark brown", facial="mostubble"))
