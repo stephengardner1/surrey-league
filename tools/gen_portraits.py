@@ -140,6 +140,7 @@ FACIAL = {
     "muttonchops": '<path d="M65,98 L70,98 L71,120 Q74,134 84,143 Q86,148 82,151 Q74,151 70,143 Q66,132 65,118 Z"/><path d="M135,98 L130,98 L129,120 Q126,134 116,143 Q114,148 118,151 Q126,151 130,143 Q134,132 135,118 Z"/>',
     "goatee": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/><path d="M93,157 Q100,155 107,157 L105,169 Q100,171 95,169 Z"/>',
     "moustache": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/>',
+    "thicktache": '<path d="M100,137 C108,136 115,138 117,143 L119,151 Q116,151 114,147 C110,145 105,144.5 100,145.5 C95,144.5 90,145 86,147 Q84,151 81,151 L83,143 C85,138 92,136 100,137 Z"/>',
     "beard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z"/>',
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
@@ -228,7 +229,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             hg.append(f'<g fill="{dk}" opacity=".65"><path d="M74,118 Q86,121 90,139 Q84,131 75,122 Z"/><path d="M126,118 Q114,121 110,139 Q116,131 125,122 Z"/></g><g fill="{lt}" opacity=".6"><path d="M73,115 Q84,115 90,120 Q82,117 73,117 Z"/><path d="M127,115 Q116,115 110,120 Q118,117 127,117 Z"/></g>')
         if facial:
             fc = HAIR_COL.get(facial_colour, facial_colour) if facial_colour else hc
-            if facial in ("moustache", "goatee", "littletache"):
+            if facial in ("moustache", "goatee", "littletache", "thicktache"):
                 hg.append(f'<g fill="{fc}">{FACIAL[facial]}</g>')
             else:
                 hg.append(f'<g clip-path="url(#h{tag})" fill="{fc}">{FACIAL[facial]}</g>')
@@ -675,3 +676,4 @@ save("frank-tickner", figure("KEN", skin=1, hair="tousled", hair_colour="#A87A4E
 save("paul-pollock", figure("KEN", skin=1, hair="messyvolume", hair_colour="#3A2820", gaunt=True))
 save("chris-busaileh-hhh", figure("HHH", skin=1, hair="croppeak", hair_colour="#A85A30"))
 save("james-mcmullan", figure("THH", skin=1, hair="quiff", hair_colour="#7A5638"))
+save("ben-hurley", figure("BEL", skin=1, hair=None, facial="thicktache", facial_colour="#5A4030", brow_colour="#5A4030", frown="worried", creases=True))
