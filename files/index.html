@@ -973,14 +973,16 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
   const getOrdinal=(n)=>{const s=['th','st','nd','rd'];const v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);};
   
   // Generate the race win text with proper grammar for each winner
+  const latestSeason=useMemo(()=>(races||[]).reduce((m,r)=>r.season>m?r.season:m,''),[races]);
   const raceWinTexts=useMemo(()=>{
     return winnersData.map(w => {
       if(w.winCount===0) return null;
       const possessive = w.name.endsWith('s') ? `${w.name}'` : `${w.name}'s`;
-      if(w.totalWins===1) return {club: w.club, text: <span><span className="font-medium text-gray-700">{possessive}</span> only win in Div 1</span>};
+      // One win so far: "first" if this is the current season (they may win again), "only" for past seasons
+      if(w.totalWins===1) return {club: w.club, text: <span><span className="font-medium text-gray-700">{possessive}</span> {race.season===latestSeason?'first':'only'} win in Div 1</span>};
       return {club: w.club, text: <span><span className="font-medium text-gray-700">{possessive}</span> {getOrdinal(w.winCount)} of {w.totalWins} wins in Div 1</span>};
     }).filter(Boolean);
-  },[winnersData]);
+  },[winnersData,latestSeason,race.season]);
   
   return<div className="max-w-5xl mx-auto px-4 py-8">
     <div className="flex items-center justify-between mb-4">
