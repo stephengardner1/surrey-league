@@ -165,7 +165,7 @@
 @media (max-width:520px){.fg .sc1{width:38px;min-width:38px}.fg .sc2{left:38px;min-width:110px;width:110px;max-width:110px;white-space:normal;overflow-wrap:break-word;font-size:13px;line-height:1.3}.fg .sc2 .vest{margin-right:4px}.fg .sc2 .flag{font-size:11px}.fg th.sc2{font-size:11.5px}.fg td.sc1,.fg th.sc1{padding-inline:6px}.fg h2{font-size:19px}.fg .seg button{padding:8px 10px}}
 
 .fg{background:#fff;color:var(--ink);font:15px/1.55 var(--f-body);padding-bottom:24px}
-.fg .vest svg{display:inline;vertical-align:baseline}.fg a.p10{color:inherit;text-decoration:none}.fg .rname a{border-bottom:0}.fg .mlist .who a{color:inherit;text-decoration:none}.fg .rname{font-weight:400}.fg .rname a,.fg .rname,.fg .mlist .who,.fg .mlist .who a{color:#1d211d}.fg .mlist .who{font-size:14px}@media (max-width:520px){.fg .sc2{font-size:13px}.fg th.sc2{font-size:11.5px}.fg .mlist .who{font-size:13px}}.fg .mlist .who a:hover{color:#1b649e}.fg .mlist li{align-items:center}.fg .mlist .who{display:flex;align-items:center;align-self:stretch}.fg .mlist .who>a{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fg .mlist .who .face{display:block;width:34px;height:38px;overflow:hidden;flex:none;align-self:flex-end;margin:0 10px -5px 0}.fg .mlist .who .face img{display:block;max-width:none;height:auto}.fg .pred .bl{font-size:14px;color:var(--ink)}
+.fg .vest svg{display:inline;vertical-align:baseline}.fg a.p10{color:inherit;text-decoration:none}.fg .rname a{border-bottom:0}.fg .mlist .who a{color:inherit;text-decoration:none}.fg .rname{font-weight:400}.fg .rname a,.fg .rname,.fg .mlist .who,.fg .mlist .who a{color:#1d211d}.fg .mlist .who{font-size:14px}@media (max-width:520px){.fg .sc2{font-size:13px}.fg th.sc2{font-size:11.5px}.fg .mlist .who{font-size:13px}}.fg .mlist .who a:hover{color:#1b649e}.fg .mlist li{align-items:center}.fg .mlist .who{display:flex;align-items:center;align-self:stretch}.fg .mlist .who>a{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fg .mlist .who .face{display:block;width:40px;height:48px;overflow:hidden;flex:none;align-self:flex-end;margin:-5px 8px -5px -3px}.fg .mlist .who .face img{display:block;max-width:none;height:auto}.fg .mlist .who .club{flex:none;margin-left:8px;font-size:12px;padding-top:2px;color:var(--muted);letter-spacing:.02em}.fg .pred .bl{font-size:14px;color:var(--ink)}
 .fg .pred .bv{font-family:var(--f-mono)!important;font-size:13px}
 .fg .pred p{font-size:14px!important;line-height:1.55!important}
 .fg .pred p.dim,.pred .dim{font-size:13px!important}
@@ -1045,7 +1045,7 @@ const initFormGuide=(root,G)=>{
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   // Movers boxes: a tight head-and-shoulders crop of the runner's portrait (or their club's generic runner), else the vest
   // Movers boxes: the runner's portrait (or their club's generic runner) as a bust standing on the row's rule, background removed; else the vest
-  const BW=34,BH=38,CX=22,CY=36,CW=156;const fsc=BW/CW;
+  const BW=40,BH=48,CX=10,CY=22,CW=180;const fsc=BW/CW;
   const face=r=>{const n=r.an||r.n,c=r.c;const pk=PORTRAITS[normalizeNameForCompare(n).replace(/\s*\([^)]*\)$/,'')];const file=pk&&pk.club===c?pk.file:null;
     const src=file?`/portraits/athletes/${file}.svg?v=${PORTRAIT_V}`:(c&&PORTRAIT_CLUBS.has(c))?`/portraits/clubs/${c.replace(/\//g,'').replace(/&/g,'and')}.svg?v=${PORTRAIT_V}`:null;
     if(!src)return vest(c);
@@ -1063,7 +1063,7 @@ const initFormGuide=(root,G)=>{
     const counts={};data.filter(inClub).forEach(x=>counts[x.band]=(counts[x.band]||0)+1);
     $("#chips").innerHTML=BANDS.map(b=>`<button class="chip" data-band="${b.k}" aria-pressed="${state.band===b.k}"><span class="sw ${b.k}"></span>${b.label} <b>${counts[b.k]||0}</b></button>`).join("");
     const ranked=data.filter(x=>x.band!=="n"&&inClub(x));
-    const li=x=>`<li class="b-${x.band}"><span class="pos">${ord(x.r.p)}</span><span class="who">${face(x.r)}${/^\(?unknown/i.test(x.r.n)?esc(x.r.n):`<a href="#${G.div||''}athlete/${nameToSlug(x.r.an)}">${esc(x.r.n)}</a>`}</span><span class="delta">${fmtD(x.d)}${fmtX(x)}</span></li>`;
+    const li=x=>`<li class="b-${x.band}"><span class="pos">${ord(x.r.p)}</span><span class="who">${face(x.r)}${/^\(?unknown/i.test(x.r.n)?esc(x.r.n):`<a href="#${G.div||''}athlete/${nameToSlug(x.r.an)}">${esc(x.r.n)}</a>`}${x.r.c?`<span class="club" title="${esc(CLUBS[x.r.c]||x.r.c)}">${esc(x.r.c)}</span>`:""}</span><span class="delta">${fmtD(x.d)}${fmtX(x)}</span></li>`;
     const up=ranked.filter(x=>x.d>0).sort((a,b)=>b.lr-a.lr||b.d-a.d).slice(0,8);const dn=ranked.filter(x=>x.d<0).sort((a,b)=>a.lr-b.lr||a.d-b.d).slice(0,8);
     $("#risers").innerHTML=up.map(li).join("")||`<li class="dim">Nobody in this selection.</li>`;
     $("#fallers").innerHTML=dn.map(li).join("")||`<li class="dim">Nobody in this selection.</li>`;
