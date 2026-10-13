@@ -677,3 +677,5 @@ save("paul-pollock", figure("KEN", skin=1, hair="messyvolume", hair_colour="#3A2
 save("chris-busaileh-hhh", figure("HHH", skin=1, hair="croppeak", hair_colour="#A85A30"))
 save("james-mcmullan", figure("THH", skin=1, hair="quiff", hair_colour="#7A5638"))
 save("ben-hurley", figure("BEL", skin=1, hair=None, facial="thicktache", facial_colour="#5A4030", brow_colour="#5A4030", frown="worried", creases=True))
+save("alice-crane", figure("DMV", skin=1, hair="wavytie", hair_colour="#B8935E"))
+save("martina-conner", figure("BEL", skin=1, hair="ponytail", hair_colour="#C2A06A"))
