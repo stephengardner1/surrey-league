@@ -14,12 +14,12 @@ KITS = {
     "BEL": ("#7A001D", '<rect x="0" y="7" width="20" height="4" fill="#CCAD6A"/>', "#EADFC8"),
     "HOL": ("#2a4ea6", '<rect x="0" y="8" width="20" height="3" fill="#fff"/>', "#D3DCE8"),
     "HHH": ("#dc2626", "".join(f'<rect x="0" y="{y}" width="20" height="3" fill="#1a1a1a"/>' for y in (0, 6, 12, 18)), "#EDD9D3"),
-    "G&G": ("#228b22", "", "#D6E6D2"),
+    "G&G": ("#2E9A5A", '<rect x="0" y="5.5" width="4.9" height="14.5" fill="#1a1a1a"/><rect x="15.1" y="5.5" width="4.9" height="14.5" fill="#1a1a1a"/>', "#D6E6D2"),
     "KEN": ("#2a4d7a", '<path d="M13 5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 L11 5.5 Z" fill="#dc2626"/>', "#D3DCE6"),
     "DUL": ("#dc2626", '<rect x="0" y="7" width="20" height="1.9" fill="#2563eb"/><rect x="0" y="10.1" width="20" height="1.9" fill="#2563eb"/>', "#EDD9D3"),
     "C/C": ("#ffffff", '<rect x="0" y="10" width="20" height="10" fill="#1e3a8a"/><rect x="0" y="9" width="20" height="2" fill="#228b22"/>', "#D6DEE6"),
-    "RAN": ("#1E2D5E", '<circle cx="6.3" cy="4.3" r="0.9" fill="#D9A93A"/><rect x="0" y="7.7" width="20" height="1.1" fill="#3B74D1"/><rect x="0" y="8.8" width="20" height="1.4" fill="#F2C14E"/><rect x="0" y="10.2" width="20" height="1.1" fill="#E39A35"/>', "#D3DCE8"),
-    "STR": ("#E9B83C", '<rect x="0" y="8.2" width="20" height="0.9" fill="#1a1a1a"/><rect x="0" y="9.1" width="20" height="2.2" fill="#2E6B3A"/><rect x="0" y="11.3" width="20" height="0.9" fill="#1a1a1a"/><circle cx="14" cy="4.6" r="1.4" fill="#1a1a1a"/><circle cx="14" cy="4.6" r="0.6" fill="#E9B83C"/>', "#F1E6C6"),
+    "RAN": ("#1E2D5E", '<rect x="0" y="7.7" width="20" height="1.1" fill="#3B74D1"/><rect x="0" y="8.8" width="20" height="1.4" fill="#F2C14E"/><rect x="0" y="10.2" width="20" height="1.1" fill="#E39A35"/>', "#D3DCE8"),
+    "STR": ("#E9B83C", '<rect x="0" y="8.2" width="20" height="0.9" fill="#1a1a1a"/><rect x="0" y="9.1" width="20" height="2.2" fill="#2E6B3A"/><rect x="0" y="11.3" width="20" height="0.9" fill="#1a1a1a"/>', "#F1E6C6"),
     "WOK": ("#ff6600", '<rect x="0" y="8" width="20" height="3" fill="#32CD32"/>', "#F2DFCF"),
     "FUL": ("#ffffff", "".join(f'<rect x="0" y="{y}" width="20" height="3" fill="#1a1a1a"/>' for y in (0, 6, 12, 18)), "#DFE2E6"),
     "FOT": ("#000000", '<rect x="0" y="0" width="20" height="6" fill="#fff"/><rect x="0" y="6" width="20" height="4" fill="#f4c430"/>', "#E6E3D6"),
@@ -242,7 +242,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                  f'<path d="M80,180 Q86,182 91,184 L92,188 Q86,186 81,184 Z" fill="#000" opacity=".25"/>'
                  f'<path d="M100,212 L100,330" stroke="#8A8F98" stroke-width="1.6"/><rect x="97.6" y="214" width="4.8" height="9" rx="1.2" fill="#9AA0A8"/>'
                  + (f'<g transform="translate(76,236)"><circle r="10" fill="{crest[0]}"/><circle r="10" fill="none" stroke="{crest[1]}" stroke-width="1.6"/><circle r="6.2" fill="none" stroke="{crest[1]}" stroke-width=".9"/><path d="M-4,3 L-4,-2 L-2,-4 L0,-2 L2,-4 L4,-2 L4,3 Z" fill="{crest[1]}"/></g>' if crest else '')
-                 + '<path d="M120,230 Q125,224 130,230 L128,232 Q125,228 122,232 Z" fill="#E8E8E8"/>')
+                 )
     # kit: the site's own vest icon, scaled into this vest
     if not jacket: o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
              f'<path d="M139,204 Q141,226 143,246 L147,330 L135,330 Z" fill="#000" opacity="{0 if line else .12}"/></g>')
@@ -447,4 +447,4 @@ for slug, club, name, kw, alt in W:
     save(slug, figure(club, **kw))
 save("mike-fuller", figure("H/W", skin=1, hair="longcurls", hair_colour="dark brown", facial="mostubble"))
 save("gerry-north", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown"))
-save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22", facial="stubble", jacket=("#2E3238", "#23262B", ("#C9A65A", "#5A4520"))))
+save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22", facial="stubble", jacket=("#2E3238", "#23262B", None)))
