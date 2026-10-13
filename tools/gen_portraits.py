@@ -326,3 +326,4 @@ save("coppard", figure("BEL", skin=1, hair="shortcurls", hair_colour="mid brown"
 save("tanguy", figure("HHH", skin=1, hair="quiff", hair_colour="dark brown"))
 save("threadgold", figure("BEL", skin=1, hair="crop", hair_colour="#C98A4E", facial="stubble"))
 save("speed", figure("KEN", skin=1, hair="tousled", hair_colour="light brown"))
+save("lethbridge", figure("THH", skin=1, hair="tousled", hair_colour="grey", glasses=True))
