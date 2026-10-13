@@ -696,3 +696,5 @@ save("kate-axford", figure("BEL", skin=1, hair="highpony", hair_colour="#D9BC86"
 save("sarah-astin", figure("BEL", skin=1, hair="halfup", hair_colour="#3A2620", necklace="#D4D4D4"))
 save("georgie-bruinvels", figure("SLH", skin=1, hair="curlyup", hair_colour="#C2602A"))
 save("jared-martin", figure("THH", skin=1, hair="tousled", hair_colour="#3A2820"))
+save("samantha-munday", figure("BEL", skin=1, hair="plait", hair_colour="#4A3226"))
+save("holly-nixon", figure("BEL", skin=1, hair="ponytail", hair_colour="#C9A35F", necklace="#D4D4D4"))
