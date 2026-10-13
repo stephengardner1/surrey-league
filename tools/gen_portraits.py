@@ -641,7 +641,7 @@ W434 = [
  ("iona-cousland","KEN","Iona Cousland",dict(skin=1,hair="ponytail",hair_colour="#3A2620"),"dark brown hair tied back"),
  ("anika-schwarze-chintapatla","THH","Anika Schwarze-Chintapatla",dict(skin=3,hair="wavytie",hair_colour="#1C1714"),"dark wavy ponytail"),
  ("suzy-whatmough","RAN","Suzy Whatmough",dict(skin=1,hair="ponytail",hair_colour="#6B4A2E"),"brown ponytail"),
- ("kristina-popadich","BEL","Kristina Popadich",dict(skin=1,hair="ponytail",hair_colour="#3A2620"),"dark brown ponytail"),
+ ("kristina-popadich","BEL","Kristina Popadich",dict(skin=1,hair="wavytie",hair_colour="#2A1C17"),"long wavy near-black ponytail"),
  ("dillan-quinn","H/W","Dillan Quinn",dict(skin=2,hair="wavytie",hair_colour="#2A1D18"),"dark flowing ponytail"),
 ]
 W434 += [
@@ -656,3 +656,5 @@ save("charlie-wyllie", figure("H/W", skin=1, hair="spiky", hair_colour="#E6D9AE"
 save("george-cotton", figure("WOK", skin=1, hair="tousled", hair_colour="#6E4E33"))
 save("cameron-reilly", figure("G&G", skin=1, hair="messyfringe", hair_colour="#8A6440"))
 save("jack-dormer", figure("WOK", skin=1, hair="messyvolume", hair_colour="#86603E"))
+save("lea-adamson", figure("BEL", skin=1, hair="wavytie", hair_colour="#5E3A26", necklace="#D4D4D4"))
+save("max-heyden", figure("BEL", skin=1, hair="shortcurls", hair_colour="#5A3E2B"))
