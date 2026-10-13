@@ -585,7 +585,7 @@ W439b = [
  ("deron-fagan","HHH","Deron Fagan",dict(skin=6,hair=None,beanie="#3A4B5C"),"navy beanie"),
  ("lee-lintern","G&G","Lee Lintern",dict(skin=1,hair="crop",hair_colour="#4A3426",facial="beard"),"short brown hair, beard"),
  ("ian-acreman","G&G","Ian Acreman",dict(skin=1,hair="crop",hair_colour="grey"),"short grey hair"),
- ("alex-howard","THH","Alex Howard",dict(skin=1,hair="tousled",hair_colour="#2E211B"),"tousled dark brown hair"),
+ ("alex-howard","THH","Alex Howard",dict(skin=1,hair="quiffrecede",hair_colour="#4E3626",gaunt=True),"short swept-back brown hair, receding at the temples"),
  ("james-hancock","BEL","James Hancock",dict(skin=1,hair="crop",hair_colour="#C2A06A",facial="stubble"),"short blond hair, stubble"),
  ("nick-morris","BEL","Nick Morris",dict(skin=1,hair="quiff",hair_colour="#2A1D18"),"short dark hair"),
  ("richard-sun","H/W","Richard Sun",dict(skin=2,hair="crop",hair_colour="#1C1714",shades=True),"short black hair, sunglasses"),
