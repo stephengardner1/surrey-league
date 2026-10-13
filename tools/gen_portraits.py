@@ -147,7 +147,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2"):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -253,7 +253,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         hg.append('<path d="M66,104 Q100,98 134,104 L131,121 Q118,128 104,120 L100,116 L96,120 Q82,128 69,121 Z" fill="' + (shades_col or "#2B3039") + '"/>'
                   '<path d="M72,108 Q84,105 94,108 L92,112 Q82,110 73,112 Z" fill="#8FA3B8" opacity=".55"/>'
                   '<path d="M106,108 Q116,105 128,108 L127,112 Q117,110 107,112 Z" fill="#8FA3B8" opacity=".35"/>'
-                  '<path d="M63,101 Q100,94 137,101 L136,106 Q100,99 64,106 Z" fill="#F4F4F2"/>')
+                  '<path d="M63,101 Q100,94 137,101 L136,106 Q100,99 64,106 Z" fill="' + shades_frame + '"/>')
     if custom and shades_up:
         hg.append('<path d="M66,70 Q100,58 134,70 L132,82 Q118,86 104,80 L100,77 L96,80 Q82,86 68,82 Z" fill="#2B3039"/>'
                   '<path d="M64,68 Q100,55 136,68 L135,72 Q100,60 65,72 Z" fill="#F4F4F2" opacity=".8"/>')
@@ -660,3 +660,4 @@ save("lea-adamson", figure("BEL", skin=1, hair="wavytie", hair_colour="#5E3A26",
 save("max-heyden", figure("BEL", skin=1, hair="shortcurls", hair_colour="#5A3E2B"))
 save("ian-crowe-wright", figure("BEL", skin=1, hair="tousled", hair_colour="#7E5E40"))
 save("neil-wilson", figure("BEL", skin=1, hair="tuftrecede", hair_colour="#86664A", necklace="#CFCFCF"))
+save("lloyd-kempson", figure("BEL", skin=1, hair="quiff", hair_colour="#8A6A48", facial="stubble", facial_colour="#8A6A48", shades=True, shades_col="#1A1A1A", shades_frame="#2A2A2A", necklace="#C9A646"))
