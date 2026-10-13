@@ -108,7 +108,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     st = f' stroke="{INK}" stroke-width="2.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"' if line else ""
     hc = HAIR_COL.get(hair_colour, hair_colour)
     custom = mode == "custom"
-    o = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280">',
+    o = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 20 180 252">',
          f'<defs><clipPath id="v{tag}"><path d="{VEST}"/></clipPath><clipPath id="h{tag}"><path d="{HEAD}"/></clipPath>'
          f'<clipPath id="r{tag}"><rect x="100" y="0" width="100" height="300"/></clipPath>'
          f'<clipPath id="e{tag}"><path d="{EYE_L}"/><path d="{EYE_R}"/></clipPath>'
