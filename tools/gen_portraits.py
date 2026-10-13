@@ -280,7 +280,7 @@ save("ollington", figure("THH", skin=2, hair="crop", hair_colour="dark brown", f
 save("preston", figure("BEL", skin=3, hair="afro", hair_colour="black"))
 print(len(os.listdir("v4")))
 save("wolff", figure("BEL", skin=1, hair="crop", hair_colour="light brown"))
-save("scott", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", facial="beard"))
+save("scott", figure("BEL", skin=2, hair="tousled", hair_colour="dark brown", facial="beard"))
 save("mitchell", figure("BEL", skin=1, hair="quiff", hair_colour="ginger"))
 save("evans", figure("BEL", skin=1, hair="crop", hair_colour="#A8703F"))
 save("roberts", figure("HHH", skin=1, hair="curtains", hair_colour="bleached", roots="mid brown", mud=True))
