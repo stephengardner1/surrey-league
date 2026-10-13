@@ -21,7 +21,7 @@
   --accent:#2b3140;            
   --over:#1a8a6f; --over-soft:#d6efe4; --over-mid:#8fd0b6;
   --under:#c23a2f; --under-soft:#f8e0dd; --under-mid:#eea59b;
-  --even:#e8e8e5; --none:#f0f1ef;
+  --even:#eeefec; --none:#f0f1ef;
   --f-display:"Fraunces",Georgia,"Times New Roman",serif;
   --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;}
@@ -36,7 +36,7 @@
 .fg .mono,.fg td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .fg header{display:grid;gap:6px}
 .fg .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.fg .seg{display:inline-flex;align-items:center;gap:0;padding:2px;border-radius:8px;background:var(--seg-bg,#eeefed)}
+.fg .seg{display:inline-flex;align-items:center;gap:0;padding:2px;border-radius:8px;background:var(--seg-bg,#f3f4f2)}
 .fg .seg button{font:inherit;font-size:14px;font-weight:500;border:0;border-radius:6px;background:transparent;color:var(--seg-off,#686e66);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s}
 .fg .seg button:hover{color:var(--seg-hover,#3c403a)}
 .fg .seg button[aria-pressed="true"]{background:var(--seg-on-bg,#fff);color:var(--seg-on,#1d211d);box-shadow:0 1px 2px rgba(0,0,0,.05)}
@@ -170,7 +170,7 @@
 .fg .pred p.dim,.pred .dim{font-size:13px!important}
 .fg .pred p.dim:last-child{margin-top:12px!important}
 .fg .pred .bars{margin:14px 0 14px!important}
-.fg h2{font-family:var(--f-display)!important;font-size:18px!important;font-weight:600!important;text-transform:none;letter-spacing:-.01em;color:#1d211d}@media (max-width:560px){.fg .mlist li:nth-child(5){border-bottom:0}}@media (max-width:520px){.fg .rname.ovf{-webkit-mask-image:linear-gradient(90deg,#000 75%,transparent);mask-image:linear-gradient(90deg,#000 75%,transparent)}.fg .rname.ovf.end{-webkit-mask-image:none;mask-image:none}}@media (max-width:520px){.fg .sc2{white-space:nowrap}.fg .sc2 .flag{white-space:normal}.fg .sc2 .rname{display:inline-block;max-width:76px;overflow-x:auto;white-space:nowrap;vertical-align:bottom;scrollbar-width:none;-webkit-overflow-scrolling:touch}.fg .sc2 .rname::-webkit-scrollbar{display:none}}.fg td.pos{background:var(--surface)!important;color:var(--ink)!important}.fg tr.b-so td.pos{box-shadow:inset 4px 0 0 var(--over)}.fg tr.b-o td.pos{box-shadow:inset 4px 0 0 var(--over-mid)}.fg tr.b-e td.pos{box-shadow:inset 4px 0 0 #c9ccc7}.fg tr.b-u td.pos{box-shadow:inset 4px 0 0 var(--under-mid)}.fg tr.b-su td.pos{box-shadow:inset 4px 0 0 var(--under)}.fg #tbody tr:hover td.pos{background:#eeefed!important}@media (min-width:521px){.fg .sc2{width:1%;min-width:210px}.fg .rname{white-space:nowrap}}@media (min-width:521px){.fg .tablewrap{width:fit-content;max-width:100%}.fg table{min-width:0}.fg td.num,.fg th.num,.fg td.vs,.fg th.vs{padding-inline:14px}}.fg .rname a:hover,.fg a.p10:hover{color:#0077b6}.fg #tbody tr:hover td:not(.pos){background:#eeefed}.fg .wrap{max-width:none}.fg .tablewrap{max-height:640px}.fg button{font:inherit}.fg h2{font-family:var(--f-display)}
+.fg h2{font-family:var(--f-display)!important;font-size:18px!important;font-weight:600!important;text-transform:none;letter-spacing:-.01em;color:#1d211d}@media (max-width:560px){.fg .mlist li:nth-child(5){border-bottom:0}}@media (max-width:520px){.fg .rname.ovf{-webkit-mask-image:linear-gradient(90deg,#000 75%,transparent);mask-image:linear-gradient(90deg,#000 75%,transparent)}.fg .rname.ovf.end{-webkit-mask-image:none;mask-image:none}}@media (max-width:520px){.fg .sc2{white-space:nowrap}.fg .sc2 .flag{white-space:normal}.fg .sc2 .rname{display:inline-block;max-width:76px;overflow-x:auto;white-space:nowrap;vertical-align:bottom;scrollbar-width:none;-webkit-overflow-scrolling:touch}.fg .sc2 .rname::-webkit-scrollbar{display:none}}.fg td.pos{background:var(--surface)!important;color:var(--ink)!important}.fg tr.b-so td.pos{box-shadow:inset 4px 0 0 var(--over)}.fg tr.b-o td.pos{box-shadow:inset 4px 0 0 var(--over-mid)}.fg tr.b-e td.pos{box-shadow:inset 4px 0 0 #c9ccc7}.fg tr.b-u td.pos{box-shadow:inset 4px 0 0 var(--under-mid)}.fg tr.b-su td.pos{box-shadow:inset 4px 0 0 var(--under)}.fg #tbody tr:hover td.pos{background:#f3f4f2!important}@media (min-width:521px){.fg .sc2{width:1%;min-width:210px}.fg .rname{white-space:nowrap}}@media (min-width:521px){.fg .tablewrap{width:fit-content;max-width:100%}.fg table{min-width:0}.fg td.num,.fg th.num,.fg td.vs,.fg th.vs{padding-inline:14px}}.fg .rname a:hover,.fg a.p10:hover{color:#0077b6}.fg #tbody tr:hover td:not(.pos){background:#f3f4f2}.fg .wrap{max-width:none}.fg .tablewrap{max-height:640px}.fg button{font:inherit}.fg h2{font-family:var(--f-display)}
   </style>
   <style id="type-formguide">
     /* TYPE: matches the form guide - Public Sans text, Fraunces headings, IBM Plex Mono numbers */
@@ -180,7 +180,7 @@
   </style>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <!-- COLOUR: greenish "cross-country" greys replace Tailwind's cool greys (Oct 2026). To revert: delete this script and swap the hexes back. -->
-  <script>tailwind.config={theme:{extend:{colors:{gray:{"50": "#f6f7f5", "100": "#eeefed", "200": "#dfe2dd", "300": "#c9ccc7", "400": "#9ba099", "500": "#686e66", "600": "#4c514a", "700": "#3c403a", "800": "#2b2e2a", "900": "#1d211d", "950": "#121412"}}}}}</script>
+  <script>tailwind.config={theme:{extend:{colors:{gray:{"50": "#f6f7f5", "100": "#f3f4f2", "200": "#dfe2dd", "300": "#c9ccc7", "400": "#9ba099", "500": "#686e66", "600": "#4c514a", "700": "#3c403a", "800": "#2b2e2a", "900": "#1d211d", "950": "#121412"}}}}}</script>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.7/babel.min.js"></script>

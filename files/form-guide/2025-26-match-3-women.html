@@ -20,7 +20,7 @@
   --accent:#2b3140;            /* slate: UI controls only, kept clear of the green/red verdict colours */
   --over:#1a8a6f; --over-soft:#d6efe4; --over-mid:#8fd0b6;
   --under:#c23a2f; --under-soft:#f8e0dd; --under-mid:#eea59b;
-  --even:#e8e8e5; --none:#f0f1ef;
+  --even:#eeefec; --none:#f0f1ef;
   --f-display:"Fraunces",Georgia,"Times New Roman",serif;
   --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -51,7 +51,7 @@ h2{font-size:21px;font-weight:500}
 header{display:grid;gap:6px}
 
 .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.seg{display:inline-flex;align-items:center;gap:0;padding:2px;border-radius:8px;background:var(--seg-bg,#eeefed)}
+.seg{display:inline-flex;align-items:center;gap:0;padding:2px;border-radius:8px;background:var(--seg-bg,#f3f4f2)}
 .seg button{font:inherit;font-size:14px;font-weight:500;border:0;border-radius:6px;background:transparent;color:var(--seg-off,#686e66);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s}.seg button:hover{color:var(--seg-hover,#3c403a)}
 .seg button[aria-pressed="true"]{background:var(--seg-on-bg,#fff);color:var(--seg-on,#1d211d);box-shadow:0 1px 2px rgba(0,0,0,.05)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg{--seg-bg:color-mix(in srgb,var(--ink) 8%,var(--bg));--seg-off:var(--muted);--seg-hover:var(--ink-2);--seg-on-bg:var(--bg);--seg-on:var(--ink)}}
