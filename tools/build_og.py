@@ -16,8 +16,8 @@ for kind in ('athletes', 'clubs'):
 # superstar lookup, read straight from the add(...) lines in index.html so there is one source of truth
 html = open(os.path.join(ROOT, 'index.html')).read()
 m = {}
-for file, club, names in re.findall(r"add\('([a-z0-9\-]+)','([^']+)',((?:'[^']*',?)+)\)", html):
-    for n in re.findall(r"'([^']*)'", names):
+for file, club, names in re.findall(r"add\('([a-z0-9\-]+)','([^']+)',((?:(?:'[^']*'|\"[^\"]*\"),?)+)\)", html):
+    for n in [a or b for a, b in re.findall(r"'([^']*)'|\"([^\"]*)\"", names)]:
         m[n.lower()] = {'file': file, 'club': club}
 json.dump(m, open(os.path.join(P, 'portraits.json'), 'w'), separators=(',', ':'))
 print(len(m), 'names;', len(os.listdir(os.path.join(P, 'og', 'athletes'))), 'athlete images;', len(os.listdir(os.path.join(P, 'og', 'clubs'))), 'club images')

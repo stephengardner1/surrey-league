@@ -633,3 +633,14 @@ W433 += [
 ]
 for slug, club, name, kw, alt in W433:
     save(slug, figure(club, **kw))
+# women's Match 3, Mitcham Common, Jan 2026 (race 434)
+W434 = [
+ ("molly-oconnor","KEN","Molly O'Connor",dict(skin=1,hair="ponytail",hair_colour="#2E211B"),"dark brown ponytail"),
+ ("iona-cousland","KEN","Iona Cousland",dict(skin=1,hair="ponytail",hair_colour="#3A2620"),"dark brown hair tied back"),
+ ("anika-schwarze-chintapatla","THH","Anika Schwarze-Chintapatla",dict(skin=3,hair="wavytie",hair_colour="#1C1714"),"dark wavy ponytail"),
+ ("suzy-whatmough","RAN","Suzy Whatmough",dict(skin=1,hair="ponytail",hair_colour="#6B4A2E"),"brown ponytail"),
+ ("kristina-popadich","BEL","Kristina Popadich",dict(skin=1,hair="ponytail",hair_colour="#3A2620"),"dark brown ponytail"),
+ ("dillan-quinn","H/W","Dillan Quinn",dict(skin=2,hair="wavytie",hair_colour="#2A1D18"),"dark flowing ponytail"),
+]
+for slug, club, name, kw, alt in W434:
+    save(slug, figure(club, **kw))
