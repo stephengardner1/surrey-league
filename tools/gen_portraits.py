@@ -126,6 +126,7 @@ HAIR_BACK["longloose"] = '<path d="M58,90 C55,52 80,34 100,34 C120,34 145,52 142
 HAIR["cropround"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,86 C131,74 126,66 116,63 C108,61 104,63 100,66 C96,63 92,61 84,63 C74,66 69,74 68,86 Z"/>'
 HAIR["croprecederound"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 C131,67 126,57 119,55 C111,54 106,60 100,60 C94,60 89,54 81,55 C74,57 69,67 68,84 Z"/>'
 FACIAL = {
+    "shortbeard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".6"/><path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z" opacity=".7"/>',
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
     "muttonchops": '<path d="M65,98 L70,98 L71,120 Q74,134 84,143 Q86,148 82,151 Q74,151 70,143 Q66,132 65,118 Z"/><path d="M135,98 L130,98 L129,120 Q126,134 116,143 Q114,148 118,151 Q126,151 130,143 Q134,132 135,118 Z"/>',
     "goatee": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/><path d="M93,157 Q100,155 107,157 L105,169 Q100,171 95,169 Z"/>',
@@ -528,3 +529,6 @@ save("benedict-whitby", figure("HHH", skin=2, hair="croppeak", hair_colour="#5E5
 save("falilou-kebe", figure("BEL", skin=6, hair="buzz", hair_colour="black"))
 save("jack-dickson", figure("H/W", skin=1, hair="tousled", hair_colour="#9A7650"))
 save("charlie-dickinson", figure("BEL", skin=1, hair=None, beanie="#2F3A2C", frown="worried", brow_colour="#C9C7C2", creases=True, hood=("#8E8474", "#2A2E26"), puffy=True, jacket=("#55604A", "#434C3A", None, ("#2F3A40", "#3B4850"))))
+save("phil-swinburn", figure("HOL", skin=1, hair="quiff", hair_colour="#3A2620"))
+save("rob-armstrong", figure("DUL", skin=1, hair="crop", hair_colour="#B07A4A", facial="moustache", cap="#1E1E1E"))
+save("ashley-goncalves", figure("HHH", skin=2, hair="quiff", hair_colour="#1C1714", facial="shortbeard"))
