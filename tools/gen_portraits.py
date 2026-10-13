@@ -78,6 +78,7 @@ HAIR = {  # in head coordinates
     "bigcurls": '<path d="M64,104 L57.7,84.4 Q43.0,80.3 55.0,71.2 Q42.5,62.8 56.9,58.0 Q47.8,46.0 63.1,45.9 Q58.4,31.7 73.1,36.3 Q73.2,21.2 85.8,30.1 Q90.8,15.7 100.0,28.0 Q109.2,15.7 114.2,30.1 Q126.8,21.2 126.9,36.3 Q141.6,31.7 136.9,45.9 Q152.2,46.0 143.1,58.0 Q157.5,62.8 145.0,71.2 Q157.0,80.3 142.3,84.4 L136,104 L134,88 Q131,72 122,64 Q112,70 104,63 Q96,70 86,64 Q74,68 69,76 Q66,82 66,88 Z"/>',
     "curlspeak": '<path d="M62,114 L59.6,83.0 Q46.8,78.5 57.0,70.0 Q46.8,61.5 59.6,57.0 Q53.2,45.5 67.1,45.6 Q65.3,32.5 78.5,37.1 Q81.5,24.0 92.5,32.6 Q100.0,21.0 107.5,32.6 Q118.5,24.0 121.5,37.1 Q134.7,32.5 132.9,45.6 Q146.8,45.5 140.4,57.0 Q153.2,61.5 143.0,70.0 Q153.2,78.5 140.4,83.0 L138,114 L134,98 Q132,78 123,66 Q114,60 107,65 L100,74 L93,65 Q86,60 77,66 Q68,78 66,98 Z"/>',
     "horseshoe": '<path d="M64,102 C62,84 63,74 69,66 L74,70 Q70,84 70,102 Z"/><path d="M136,102 C138,84 137,74 131,66 L126,70 Q130,84 130,102 Z"/>',
+    "sweptback": '<path d="M58,118 Q50,92 56,70 C60,46 78,30 98,32 Q108,26 118,32 C136,38 148,60 144,92 Q146,108 142,118 Q137,122 134,116 L133,96 C131,80 126,66 114,60 Q104,56 96,58 Q82,62 74,74 Q69,84 68,98 L67,116 Q62,122 58,118 Z"/><g fill="none" stroke="#000" stroke-opacity=".28" stroke-width="1.6" stroke-linecap="round"><path d="M78,66 Q94,46 122,44"/><path d="M90,58 Q108,42 132,52"/><path d="M118,60 Q132,62 138,80"/></g>',
     "curtains": '<path d="M60,108 C54,62 76,32 100,32 C124,32 146,62 140,108 L136,104 C135,94 132,86 126,80 C116,72 107,70 102,58 L98,58 C93,70 84,72 74,80 C68,86 65,94 64,104 Z"/>',
     "croppeak": '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 Q130,68 122,62 Q114,58 108,64 L100,72 L92,64 Q86,58 78,62 Q70,68 68,84 Z"/>',
     "croprecede": '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 Q131,64 125,56 Q118,48 111,54 Q105,61 100,61 Q95,61 89,54 Q82,48 75,56 Q69,64 68,84 Z"/>',
@@ -338,7 +339,7 @@ save("shaw", figure("HHH", skin=1, hair=None))
 save("tyas", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", facial="stubble"))
 save("austin", figure("HHH", skin=2, hair="crop", hair_colour="mid brown", facial="beard", cap="#A7A9A6"))
 save("ellwood", figure("KEN", skin=1, hair="tousled", hair_colour="mid brown"))
-save("mccawley", figure("BEL", skin=2, hair="quiff", hair_colour="dark brown"))
+save("mccawley", figure("BEL", skin=2, hair="sweptback", hair_colour="dark brown"))
 save("kbarnes", figure("HOL", skin=1, hair="shortcurls", hair_colour="mid brown", facial="moustache"))
 save("mallett", figure("H/W", skin=1, hair="crop", hair_colour="mid brown", facial="stubble"))
 save("hutchins", figure("WOK", skin=1, hair="crop", hair_colour="#B07A4A"))
