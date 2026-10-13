@@ -104,7 +104,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, tag="f"):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, tag="f"):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -167,6 +167,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             hg.append(f'<g fill="{hc}"' + (f' clip-path="url(#c{tag})"' if (cap or beanie) else '') + (' opacity=".6"' if hair in ("buzz","buzzrecede") else '') + f'>{HAIR[hair]}<g clip-path="url(#r{tag})" fill="#000" opacity=".22">{HAIR[hair]}</g></g>')
             if greying:
                 hg.append(f'<clipPath id="hg{tag}">{HAIR[hair]}</clipPath><g clip-path="url(#hg{tag})" fill="none" stroke="#CFCAC2" stroke-width="1.8" stroke-linecap="round" opacity=".9"><path d="M60.4,78.2 q3.4,-4.1 6.8,0"/><path d="M64.8,90.0 q3.1,-3.7 6.2,0"/><path d="M58.6,100.0 q3.1,-3.8 6.3,0"/><path d="M70.4,68.4 q2.8,-3.4 5.6,0"/><path d="M131.2,79.2 q3.2,-3.8 6.4,0"/><path d="M126.7,91.9 q3.5,-4.2 6.9,0"/><path d="M135.0,100.5 q2.7,-3.2 5.3,0"/><path d="M123.5,70.1 q2.6,-3.1 5.1,0"/><path d="M66.2,57.0 q2.5,-3.0 5.1,0"/><path d="M126.5,57.8 q3.3,-4.0 6.7,0"/><path d="M81.1,44.6 q3.0,-3.6 6.0,0"/><path d="M113.9,43.8 q2.8,-3.3 5.6,0"/><path d="M98.7,38.0 q3.3,-4.0 6.7,0"/><path d="M90.1,51.3 q2.7,-3.3 5.5,0"/><path d="M103.9,50.3 q3.3,-3.9 6.5,0"/></g>')
+            if headband:  # thin sports headband across the hairline
+                hg.append(f'<path d="M63,86 Q100,64 137,86 L137,91 Q100,70 63,91 Z" fill="{headband}"/>')
             if roots and hair == "curtains":
                 hg.append(f'<clipPath id="hr{tag}">{HAIR["curtains"]}</clipPath><path clip-path="url(#hr{tag})" d="M56,84 C52,50 76,28 100,28 C124,28 148,50 144,84 C132,58 116,48 104,52 L101,60 L99,60 L96,52 C84,48 68,58 56,84 Z" fill="{HAIR_COL.get(roots, roots)}"/>')
             if hair == "ponytail":
@@ -307,3 +309,4 @@ save("kelly", figure("BEL", skin=1, hair="quiff", hair_colour="light brown", fac
 save("janiaud", figure("BEL", skin=3, hair="quiff", hair_colour="black", facial="stubble"))
 save("renshaw", figure("THH", skin=1, hair="quiffrecede", hair_colour="#C9945A"))
 save("ramm", figure("DUL", skin=1, hair="tousled", hair_colour="mid brown", facial="stubble"))
+save("dyer", figure("BEL", skin=1, hair="tousled", hair_colour="blonde", headband="#1C1C1E"))
