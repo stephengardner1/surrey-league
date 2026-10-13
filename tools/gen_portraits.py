@@ -197,6 +197,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     if custom and cap and cap_back:  # cap worn backwards: crown only, strap opening at the front
         hg.append(f'<g fill="{cap}"><path d="M62,94 C60,54 80,36 100,36 C120,36 140,54 138,94 Q100,82 62,94 Z"/></g>'
                   f'<path d="M93,88 Q100,78 107,88 Q100,86 93,88 Z" fill="{hc}"/>'
+                  + (f'<path d="M64,94 ' + ''.join('q4,8 8,0 ' for _ in range(9)) + f'Q100,83 64,94 Z" fill="{hc}"/>' if hair and hair not in ("buzz", "buzzrecede") else '')
+                  + 
                   f'<g clip-path="url(#r{tag})" fill="#000" opacity=".12"><path d="M62,94 C60,54 80,36 100,36 C120,36 140,54 138,94 Z"/></g>')
     elif custom and cap:
         hg.append(f'<g fill="{cap}"><path d="M63,98 C61,58 80,38 100,38 C120,38 139,58 137,98 Z"/>'
@@ -348,3 +350,11 @@ save("gathercole", figure("THH", skin=1, hair="quiff", hair_colour="mid brown"))
 save("lightfoot", figure("G&G", skin=1, hair="topknot", hair_colour="light brown", glasses=True))
 save("brady", figure("H/W", skin=1, hair="croprecede", hair_colour="ginger"))
 save("stockings", figure("H/W", skin=1, hair="shortcurls", hair_colour="mid brown", facial="beard"))
+save("hobden", figure("H/W", skin=1, hair="shortcurls", hair_colour="ginger", cap="#1C1C1E", cap_back=True))
+save("hewitt", figure("HOL", skin=1, hair="tousled", hair_colour="#B89668"))
+save("nolan", figure("BEL", skin=1, hair="crop", hair_colour="mid brown", facial="moustache"))
+save("lutaya", figure("H/W", skin=6, hair="buzz", hair_colour="black"))
+save("young", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", facial="stubble"))
+save("racle", figure("KEN", skin=1, hair="croprecede", hair_colour="mid brown", facial="beard"))
+save("snow", figure("BEL", skin=1, hair="quiff", hair_colour="blonde"))
+save("reynolds", figure("BEL", skin=1, hair="buzz", hair_colour="mid brown"))
