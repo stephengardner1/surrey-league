@@ -124,6 +124,7 @@ HAIR_BACK["shaggyrecede"] = '<path d="M60,90 C58,56 80,40 100,40 C120,40 142,56 
 HAIR["longloose"] = '<path d="M60,140 C52,66 76,36 100,36 C124,36 148,66 140,140 L134,136 L133,100 Q130,80 118,70 Q108,64 97,60 Q86,70 74,78 Q68,90 67,104 L66,136 Z"/>'
 HAIR_BACK["longloose"] = '<path d="M58,90 C55,52 80,34 100,34 C120,34 145,52 142,90 Q150,120 146,150 Q152,180 144,212 L56,212 Q48,180 54,150 Q50,120 58,90 Z"/>'
 HAIR["cropround"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,86 C131,74 126,66 116,63 C108,61 104,63 100,66 C96,63 92,61 84,63 C74,66 69,74 68,86 Z"/>'
+HAIR["croprecederound"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 C131,67 126,57 119,55 C111,54 106,60 100,60 C94,60 89,54 81,55 C74,57 69,67 68,84 Z"/>'
 FACIAL = {
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
     "muttonchops": '<path d="M65,98 L70,98 L71,120 Q74,134 84,143 Q86,148 82,151 Q74,151 70,143 Q66,132 65,118 Z"/><path d="M135,98 L130,98 L129,120 Q126,134 116,143 Q114,148 118,151 Q126,151 130,143 Q134,132 135,118 Z"/>',
@@ -382,7 +383,7 @@ save("evans", figure("BEL", skin=1, hair="crop", hair_colour="#A8703F"))
 save("roberts", figure("HHH", skin=1, hair="curtains", hair_colour="bleached", roots="mid brown", mud=True))
 save("slemeck", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown", facial="beard", gaunt=True))
 save("edgar", figure("BEL", skin=1, hair="buzzrecede", hair_colour="light brown", facial="moustache", shades=True))
-save("sommerville", figure("BEL", skin=1, hair="croprecede", hair_colour="dark brown"))
+save("sommerville", figure("BEL", skin=1, hair="croprecederound", hair_colour="dark brown"))
 save("mcdowell", figure("H/W", skin=1, hair=None))
 save("coogan", figure("HHH", skin=1, hair="ponytail", hair_colour="blonde"))
 save("hind", figure("KEN", skin=1, hair="quiffrecede", hair_colour="dark brown"))
@@ -502,6 +503,6 @@ save("nick-goolab", figure("BEL", skin=3, hair="slicktail", hair_colour="#1C1714
 save("arne-dumez", figure("BEL", skin=1, hair="quiff", hair_colour="#8E6643", facial="mostubble"))
 save("geoff-jerwood", figure("HHH", skin=1, hair="shaggyrecede", hair_colour="#CFC3A6", facial="beard", brow_colour="#A8996F", jacket=("#2C3036", "#22262B", None, ("#4E5660", "#626B76")), jacket_marks={"initials": "GJ", "saltire": True}))
 save("alex-lee", figure("HHH", skin=1, hair="tousled", hair_colour="#6B4A2E"))
-save("benedict-whitby", figure("HHH", skin=2, hair="cropround", hair_colour="#5E534A", temples=True))
+save("benedict-whitby", figure("HHH", skin=2, hair="croppeak", hair_colour="#5E534A", temples=True))
 save("falilou-kebe", figure("BEL", skin=6, hair="buzz", hair_colour="black"))
 save("jack-dickson", figure("H/W", skin=1, hair="tousled", hair_colour="#9A7650"))
