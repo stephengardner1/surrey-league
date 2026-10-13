@@ -125,6 +125,7 @@ HAIR["longloose"] = '<path d="M60,140 C52,66 76,36 100,36 C124,36 148,66 140,140
 HAIR_BACK["longloose"] = '<path d="M58,90 C55,52 80,34 100,34 C120,34 145,52 142,90 Q150,120 146,150 Q152,180 144,212 L56,212 Q48,180 54,150 Q50,120 58,90 Z"/>'
 HAIR["cropround"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,86 C131,74 126,66 116,63 C108,61 104,63 100,66 C96,63 92,61 84,63 C74,66 69,74 68,86 Z"/>'
 HAIR["croprecederound"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 C131,67 126,57 119,55 C111,54 106,60 100,60 C94,60 89,54 81,55 C74,57 69,67 68,84 Z"/>'
+HAIR["tuftrecede"] = '<path d="M65,100 L62,80 L66,62 L72,50 L80,44 L84,34 L93,38 L99,28 L106,36 L114,31 L119,40 L128,44 L134,56 L138,74 L135,100 L132,84 C131,67 126,57 119,55 C111,54 106,60 100,60 C94,60 89,54 81,55 C74,57 69,67 68,84 Z"/>'
 FACIAL = {
     "shortbeard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".6"/><path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z" opacity=".7"/>',
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
@@ -405,7 +406,7 @@ save("evans", figure("BEL", skin=1, hair="crop", hair_colour="#A8703F"))
 save("roberts", figure("HHH", skin=1, hair="curtains", hair_colour="bleached", roots="mid brown", mud=True))
 save("slemeck", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown", facial="beard", gaunt=True))
 save("edgar", figure("BEL", skin=1, hair="buzzrecede", hair_colour="light brown", facial="moustache", shades=True))
-save("sommerville", figure("BEL", skin=1, hair="croprecederound", hair_colour="dark brown"))
+save("sommerville", figure("BEL", skin=1, hair="tuftrecede", hair_colour="dark brown"))
 save("mcdowell", figure("H/W", skin=1, hair=None))
 save("coogan", figure("HHH", skin=1, hair="ponytail", hair_colour="blonde"))
 save("hind", figure("KEN", skin=1, hair="quiffrecede", hair_colour="dark brown"))
