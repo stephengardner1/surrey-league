@@ -130,6 +130,7 @@ HAIR["messyfringe"] = '<path d="M63,102 L59,76 L62,58 L70,46 L79,41 L82,30 L92,3
 HAIR["wavyback"] = '<path d="M64,108 C60,58 80,38 100,38 C121,38 140,58 136,108 L131,88 Q128,72 117,66 Q108,63 100,64 Q90,63 82,67 Q72,73 69,88 Z"/><path d="M64,96 Q56,104 60,114 Q54,122 60,132 Q56,142 64,148 L68,140 Q64,132 67,124 Q63,116 67,108 Z"/><path d="M136,96 Q144,104 140,114 Q146,122 140,132 Q144,142 136,148 L132,140 Q136,132 133,124 Q137,116 133,108 Z"/>'
 HAIR_BACK["wavyback"] = '<path d="M60,90 C58,54 80,36 100,36 C120,36 142,54 140,90 Q148,104 142,118 Q150,132 140,146 Q144,158 132,160 L68,160 Q56,158 60,146 Q50,132 58,118 Q52,104 60,90 Z"/>'
 HAIR["tightbun"] = HAIR["slick"]
+HAIR["straggly"] = '<path d="M62,104 L60,92 C57,80 58,66 62,56 L58,50 L66,48 C70,40 78,34 86,32 L84,26 L92,29 C97,26 104,25 110,27 L114,22 L117,29 C126,32 134,40 138,50 L144,52 L139,58 C142,68 142,82 139,94 L138,104 L133,88 C131,80 128,74 123,70 L126,82 L118,72 L116,80 L110,68 L104,77 L101,66 L94,75 L92,66 L84,74 L83,68 L76,72 C71,76 68,82 67,90 Z"/><g fill="none" stroke="#000" stroke-opacity=".22" stroke-width="1.3" stroke-linecap="round"><path d="M78,50 Q92,40 108,42"/><path d="M110,44 Q122,46 130,58"/><path d="M70,62 Q76,52 86,48"/></g>'
 HAIR["curlyup"] = '<path d="M64,104 L63.0,80.0 Q57.6,74.0 64.1,69.5 Q60.0,62.4 67.2,59.6 Q64.8,51.8 72.3,50.8 Q71.7,42.8 79.0,43.8 Q80.1,36.0 86.9,38.9 Q89.8,31.8 95.5,36.3 Q100.0,30.3 104.5,36.3 Q110.2,31.8 113.1,38.9 Q119.9,36.0 121.0,43.8 Q128.3,42.8 127.7,50.8 Q135.2,51.8 132.8,59.6 Q140.0,62.4 135.9,69.5 Q142.4,74.0 137.0,80.0 L136,104 L131,84 Q128,72 120,66 Q112,62 106,66 Q100,62 94,66 Q88,62 80,66 Q72,72 69,84 Z"/><circle cx="94" cy="30" r="7"/><circle cx="104" cy="25" r="8"/><circle cx="112" cy="32" r="6.5"/><circle cx="101" cy="34" r="7"/>'
 CURLY_WISPS = '<path d="M66,96 Q60,104 64,112 Q58,118 63,124" fill="none" stroke-width="2.2" stroke-linecap="round"/><path d="M134,96 Q140,104 136,112 Q142,118 137,124" fill="none" stroke-width="2.2" stroke-linecap="round"/>'
 HAIR["halfup"] = HAIR["ponytail"] + '<path d="M93,40 C90,30 96,24 102,25 C109,25 112,32 108,40 Z"/>'
@@ -456,7 +457,7 @@ save("tanguy", figure("HHH", skin=1, hair="quiff", hair_colour="dark brown"))
 save("threadgold", figure("BEL", skin=1, hair="crop", hair_colour="#C98A4E", facial="stubble"))
 save("speed", figure("KEN", skin=1, hair="tousled", hair_colour="light brown"))
 save("lethbridge", figure("THH", skin=1, hair="tousled", hair_colour="grey", glasses=True))
-save("fox", figure("THH", skin=1, hair="quiff", hair_colour="dark brown"))
+save("fox", figure("THH", skin=1, hair="straggly", hair_colour="#3A2820"))
 save("woods", figure("HOL", skin=1, hair="tousled", hair_colour="light brown"))
 save("ryan", figure("BEL", skin=1, hair="fringe", hair_colour="dark brown"))
 save("mccolgan", figure("THH", skin=1, hair="shortcurls", hair_colour="light brown"))
