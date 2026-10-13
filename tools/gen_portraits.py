@@ -466,5 +466,5 @@ save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22
 save("alex-yee", figure("KEN", skin=2, hair="quiff", hair_colour="#4A3022", medal="gold"))
 save("phil-wicks", figure("BEL", skin=1, hair="tousled", hair_colour="#5A3E2A", gaunt=True, temples=True))
 save("john-gilbert", figure("KEN", skin=1, hair="fringe", hair_colour="#5C3D28", facial="stubble"))
-save("chris-busaileh", figure("KEN", skin=1, hair="buzz", hair_colour="ginger"))
+save("chris-busaileh", figure("KEN", skin=1, hair="croppeak", hair_colour="#A85A30"))
 save("jim-allchin", figure("KEN", skin=1, hair="longstraight", hair_colour="#86593A", headband="#C8323A", facial="stubble"))
