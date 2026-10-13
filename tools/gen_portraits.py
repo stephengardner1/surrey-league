@@ -137,7 +137,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -205,6 +205,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                f'<g fill="none" stroke="{ink}" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/><path d="M106,112 Q115,105 124,112"/></g>',
                f'<polygon points="100,108 105,136 96,136" fill="{dk}"/>',
                f'<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z" fill="{dk}"/>']
+        if creases:  # light lines from the nose down past the mouth (age)
+            hg.append(f'<path d="M91,131 Q83,141 86,155 M109,131 Q117,141 114,155" stroke="{dk}" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".75"/>')
         if cleft:  # cleft ('bum') chin
             hg.append(f'<path d="M100,158 Q98.5,163 100,168" stroke="{dk}" stroke-width="2.6" fill="none" stroke-linecap="round"/>')
         if define and 'light' in define:  # soft lighter planes so features read on very dark skin
@@ -525,4 +527,4 @@ save("alex-lee", figure("HHH", skin=1, hair="tousled", hair_colour="#6B4A2E"))
 save("benedict-whitby", figure("HHH", skin=2, hair="croppeak", hair_colour="#5E534A", temples=True))
 save("falilou-kebe", figure("BEL", skin=6, hair="buzz", hair_colour="black"))
 save("jack-dickson", figure("H/W", skin=1, hair="tousled", hair_colour="#9A7650"))
-save("charlie-dickinson", figure("BEL", skin=1, hair=None, beanie="#2F3A2C", frown="worried", brow_colour="#C9C7C2", hood=("#8E8474", "#2A2E26"), puffy=True, jacket=("#55604A", "#434C3A", None, ("#2F3A40", "#3B4850"))))
+save("charlie-dickinson", figure("BEL", skin=1, hair=None, beanie="#2F3A2C", frown="worried", brow_colour="#C9C7C2", creases=True, hood=("#8E8474", "#2A2E26"), puffy=True, jacket=("#55604A", "#434C3A", None, ("#2F3A40", "#3B4850"))))
