@@ -661,3 +661,6 @@ save("max-heyden", figure("BEL", skin=1, hair="shortcurls", hair_colour="#5A3E2B
 save("ian-crowe-wright", figure("BEL", skin=1, hair="tousled", hair_colour="#7E5E40"))
 save("neil-wilson", figure("BEL", skin=1, hair="tuftrecede", hair_colour="#86664A", necklace="#CFCFCF", thin_brows=True))
 save("lloyd-kempson", figure("BEL", skin=1, hair="quiff", hair_colour="#8A6A48", facial="stubble", facial_colour="#8A6A48", shades=True, shades_col="#1A1A1A", shades_frame="#2A2A2A", necklace="#C9A646"))
+save("andy-coley-maud", figure("G&G", skin=1, hair="quiffrecede", hair_colour="#6B4A2E"))
+save("dan-cliffe", figure("H/W", skin=2, hair="messyfringe", hair_colour="#241A16", facial="stubble", facial_colour="#2E2420"))
+save("patrick-mcdougall", figure("BEL", skin=1, hair="croprecederound", hair_colour="#9A9893", gaunt=True, creases=True))
