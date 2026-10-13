@@ -16,6 +16,156 @@
   <!-- TYPE: form-guide fonts site-wide (Oct 2026). To revert: restore the Fraunces-only link below and delete the TYPE style block. -->
   <!-- previous: <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&display=swap" rel="stylesheet"> -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style id="fg-native">
+.fg{--bg:#f6f7f4; --surface:#ffffff; --ink:#1d221c; --ink-2:#4b5348; --muted:#7a8276; --rule:#dfe3dc;
+  --accent:#2b3140;            
+  --over:#1a8a6f; --over-soft:#d6efe4; --over-mid:#8fd0b6;
+  --under:#c23a2f; --under-soft:#f8e0dd; --under-mid:#eea59b;
+  --even:#e9e8e4; --none:#f0f1ee;
+  --f-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;}
+.fg *{box-sizing:border-box}
+.fg .wrap{max-width:1040px;margin:0 auto;display:grid;gap:28px;grid-template-columns:minmax(0,1fr)}
+.fg .wrap>*{min-width:0}
+.fg h1,.fg h2{font-family:var(--f-display);font-weight:700;text-wrap:balance;margin:0;letter-spacing:-.01em}
+.fg h1{font-size:clamp(30px,5vw,46px);line-height:1.05}
+.fg h2{font-size:21px;font-weight:500}
+.fg .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.fg .lede{max-width:64ch;color:var(--ink-2);margin:10px 0 0}
+.fg .mono,.fg td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.fg header{display:grid;gap:6px}
+.fg .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.fg .seg{display:inline-flex;align-items:center;gap:0;padding:2px;border-radius:8px;background:var(--seg-bg,#f3f4f6)}
+.fg .seg button{font:inherit;font-size:14px;font-weight:500;border:0;border-radius:6px;background:transparent;color:var(--seg-off,#6b7280);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s}
+.fg .seg button:hover{color:var(--seg-hover,#374151)}
+.fg .seg button[aria-pressed="true"]{background:var(--seg-on-bg,#fff);color:var(--seg-on,#111827);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.fg select,.fg input[type=search]{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0}
+.fg input[type=search]{flex:1 1 180px}
+.fg button:focus-visible,.fg select:focus-visible,.fg input:focus-visible,.fg a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fg .tick{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-2);cursor:pointer}
+.fg .tick input{accent-color:var(--accent);width:16px;height:16px}
+.fg .tick.off{opacity:.45;cursor:default}
+.fg .old{display:inline-block;margin-left:6px;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border:1px solid var(--rule);border-radius:4px;padding:0 4px}
+.fg .hd{color:var(--muted);font-size:12px;margin-left:6px}
+.fg .hc small{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap}
+.fg td.num{white-space:nowrap}
+.fg .lensnote{font-size:13px;color:var(--muted);max-width:70ch;margin:0}
+.fg .chips{display:flex;flex-wrap:wrap;gap:8px}
+.fg .chip{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:13px;padding:6px 12px 6px 8px;border-radius:999px;border:1px solid var(--rule);background:var(--surface);color:var(--ink);cursor:pointer}
+.fg .chip .sw{width:14px;height:14px;border-radius:4px;flex:none}
+.fg .chip b{font-family:var(--f-mono);font-weight:500}
+.fg .chip[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.fg .sw.so{background:var(--over)}
+.fg .sw.o{background:var(--over-mid)}
+.fg .sw.e{background:var(--even);border:1px solid var(--rule)}
+.fg .sw.u{background:var(--under-mid)}
+.fg .sw.su{background:var(--under)}
+.fg .sw.n{background:var(--none);border:1px dashed var(--muted)}
+.fg .movers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;align-items:start}
+.fg .panel{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;min-width:0}
+.fg .panel h2{margin-bottom:10px}
+.fg .mlist{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.fg .mlist li{display:grid;grid-template-columns:2.6em 1fr auto;gap:10px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--rule)}
+.fg .mlist li:last-child{border-bottom:0}
+.fg .mlist .who{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fg .mlist .club{color:var(--muted);font-size:12px;margin-left:6px}
+.fg .mlist .pos{font-family:var(--f-mono);color:var(--muted);font-size:13px}
+.fg .delta{font-family:var(--f-mono);font-size:13px;font-weight:500;white-space:nowrap;padding:2px 8px;border-radius:6px;color:var(--ink)}
+.fg .b-so .delta,.fg .delta.b-so{background:var(--over);color:#fff}
+.fg .b-o .delta,.fg .delta.b-o{background:var(--over-soft)}
+.fg .b-e .delta,.fg .delta.b-e{background:var(--even)}
+.fg .b-u .delta,.fg .delta.b-u{background:var(--under-soft)}
+.fg .b-su .delta,.fg .delta.b-su{background:var(--under);color:#fff}
+.fg .chartwrap{position:relative}
+.fg .fx{margin-left:6px;opacity:.75;font-weight:400}
+.fg #chart circle.sel{stroke:var(--ink);stroke-width:2}
+.fg #chart{width:100%;height:auto;display:block}
+.fg #chart text{fill:var(--muted);font:12px var(--f-body)}
+.fg #chart .axis-title{fill:var(--ink-2);font-size:13px;font-weight:600}
+.fg #chart .zone{font:italic 13px var(--f-display);}
+.fg .tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:6px;max-width:240px;transform:translate(-50%,calc(-100% - 12px))}
+.fg .tip[hidden]{display:none}
+.fg .nshort{display:none}
+@media (max-width:560px){.fg .nfull{display:none}.fg .nshort{display:inline}}
+@media (max-width:560px){.fg .mlist li:nth-child(n+6){display:none}.fg #chips{display:none}}
+.fg .lensnote[hidden]{display:none}
+@media (max-width:560px){.fg #lensnote{display:none}}
+.fg .tick[hidden]{display:none!important}
+.fg .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);border-radius:10px}
+.fg table{border-collapse:collapse;width:max-content;min-width:100%;font-size:14px}
+.fg th{position:sticky;top:0;background:var(--surface);text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:10px 6px;border-bottom:1px solid var(--rule);white-space:nowrap}
+.fg th.num,.fg td.num{text-align:right}
+.fg th.vs,.fg td.vs{text-align:left;white-space:nowrap}
+.fg td{padding:7px 6px;border-bottom:1px solid var(--rule);vertical-align:baseline}
+.fg tr:last-child td{border-bottom:0}
+.fg td.stripe{padding:0;width:6px}
+.fg tr.b-so td.stripe{background:var(--over)}
+.fg tr.b-o td.stripe{background:var(--over-mid)}
+.fg tr.b-e td.stripe{background:var(--even)}
+.fg tr.b-u td.stripe{background:var(--under-mid)}
+.fg tr.b-su td.stripe{background:var(--under)}
+.fg tr.b-n td.stripe{background:var(--surface)}
+.fg td.pos{text-align:center;font-weight:400}
+.fg tr.b-so td.pos{background:var(--over);color:#fff}
+.fg tr.b-o td.pos{background:var(--over-mid);color:var(--ink)}
+.fg tr.b-e td.pos{background:var(--even);color:var(--ink)}
+.fg tr.b-u td.pos{background:var(--under-mid);color:var(--ink)}
+.fg tr.b-su td.pos{background:var(--under);color:#fff}
+.fg .tablewrap{overflow:auto;max-height:min(78vh,820px)}
+.fg table{border-collapse:separate;border-spacing:0}
+.fg th{z-index:2}
+.fg .pred .bars{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:center;margin:12px 0 10px;max-width:560px}
+.fg .pred .bl{font-size:13.5px;color:var(--ink-2)}
+.fg .pred .bt{height:10px;border-radius:5px;background:var(--rule);overflow:hidden}
+.fg .pred .bt i{display:block;height:100%;border-radius:5px;background:var(--ink-2)}
+.fg .pred .bt i.win{background:var(--over)}
+.fg .pred .bv{font-family:var(--mono, ui-monospace, monospace);font-size:13px;font-variant-numeric:tabular-nums}
+.fg .fold summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fg .fold summary::-webkit-details-marker{display:none}
+.fg .fold summary h2{margin:0}
+.fg .fold .chev{width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-right:4px;flex:none}
+.fg .fold[open] .chev{transform:rotate(-135deg)}
+.fg .fold[open] summary{margin-bottom:6px}
+.fg .fold summary:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:4px}
+.fg .pred summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fg .pred summary::-webkit-details-marker{display:none}
+.fg .pred summary h2{margin:0}
+.fg .pred .chev{width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-right:4px;flex:none}
+.fg .pred[open] .chev{transform:rotate(-135deg)}
+.fg .pred[open] summary{margin-bottom:6px}
+.fg .pred summary:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:4px}
+.fg .pred p{margin:6px 0 0;font-size:14.5px;line-height:1.5;max-width:68ch}
+.fg .pred .dim{color:var(--muted);font-size:13px}
+.fg .sortbtn{all:unset;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit}
+.fg .sortbtn:hover,.fg .sortbtn[aria-pressed="true"]{color:var(--ink)}
+.fg .sortbtn .arr{font-size:10px}
+.fg .sortbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.fg .sc0,.fg .sc1,.fg .sc2{position:sticky;background:var(--surface)}
+.fg td.sc0,.fg td.sc1,.fg td.sc2{z-index:1}
+.fg th.sc0,.fg th.sc1,.fg th.sc2{z-index:3}
+.fg .sc0{left:0;width:6px;min-width:6px;max-width:6px}
+.fg .sc1{left:0;width:48px;min-width:48px}
+.fg .sc2{left:48px;min-width:210px;max-width:260px;box-shadow:1px 0 0 var(--rule)}
+.fg .rname{font-weight:500}
+.fg .vest{display:inline-block;vertical-align:-2px;margin-right:6px;line-height:0}
+.fg .rname a{color:inherit;text-decoration:none;border-bottom:1px solid var(--rule)}
+.fg .rname a:hover{border-bottom-color:var(--ink)}
+.fg .rmeta{color:var(--muted);font-size:12px;margin-left:6px}
+.fg .src{color:var(--muted);font-size:11px;margin-left:4px;font-family:var(--f-body)}
+.fg .flag{display:block;color:var(--muted);font-size:12px}
+.fg .dim{color:var(--muted)}
+.fg .empty{padding:24px;color:var(--muted);text-align:center}
+.fg footer{font-size:13px;color:var(--ink-2);display:grid;gap:8px;max-width:75ch}
+.fg footer p{margin:0}
+.fg footer a{color:var(--accent)}
+.fg .home{font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--ink-2);text-decoration:none;justify-self:start}
+.fg .home:hover{color:var(--ink)}
+@media (max-width:520px){.fg .sc1{width:38px;min-width:38px}.fg .sc2{left:38px;min-width:110px;width:110px;max-width:110px;white-space:normal;overflow-wrap:break-word;font-size:13px;line-height:1.3}.fg .sc2 .vest{margin-right:4px}.fg .sc2 .flag{font-size:11px}.fg td.sc1,.fg th.sc1{padding-inline:6px}.fg h2{font-size:19px}.fg .seg button{padding:8px 10px}}
+@media (hover:hover) and (min-width:561px){.fg #tbody tr{transition:opacity .12s}.fg #tbody:hover tr{opacity:.75}.fg #tbody:hover tr:hover{opacity:1}}
+.fg{background:#fff;color:var(--ink);font:15px/1.55 var(--f-body);padding-bottom:24px}
+.fg .vest svg{display:inline;vertical-align:baseline}.fg .wrap{max-width:none}.fg .tablewrap{max-height:640px}.fg button{font:inherit}.fg h2{font-family:var(--f-display)}
+  </style>
   <style id="type-formguide">
     /* TYPE: matches the form guide - Public Sans text, Fraunces headings, IBM Plex Mono numbers */
     body{font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif!important}
@@ -818,7 +968,7 @@ const RaceDetailView=({race,mode,setView,seasonsData,clubMvps,races,individualCh
     </div>
     <div className="mb-6"><div className="text-sm text-gray-500 mb-1">{race.date&&parseDate(race.date)?formatDate(race.date):(()=>{const months=['Oct','Nov','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=4?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#0077b6]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4"><div><div className="flex flex-wrap items-center gap-2"><h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>{guideUrl&&<div className="flex items-center bg-gray-100 rounded-lg p-0.5"><button onClick={()=>setResultsMode('classic')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='classic'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Classic results</button><button onClick={()=>setResultsMode('guide')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='guide'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Form guide</button></div>}<div className="relative flex items-center gap-2" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-0 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}{resultsStatus!=='complete'&&<span className="text-xs text-gray-400 hover:text-[#0077b6] cursor-pointer" onClick={()=>setView({type:'submit'})}>Submit more results</span>}</div></div>{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.name||teamWinner}</span> <span className="text-gray-500">won the match</span></span></p>}{raceWinTexts.map((wt,i)=><p key={i} className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={wt.club} size={16}/><span className="text-gray-500">{wt.text}</span></p>)}</div>{race.weather&&<div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 lg:min-w-[180px]"><span className="text-3xl">{race.weather.icon}</span><div className="flex flex-col"><span className="text-lg font-semibold text-gray-900">{race.weather.temp}°C</span><span className="text-sm text-gray-600">{race.weather.description}</span><span className="text-xs text-gray-500">{race.weather.windSpeed} km/h wind</span></div></div>}</div></div>
     
-    {resultsMode==="guide"&&guideUrl?<FormGuideFrame src={guideUrl}/>:<>
+    {resultsMode==="guide"&&guideUrl?<FormGuideNative src={guideUrl}/>:<>
     {/* Mobile: tabs */}
     <div className="lg:hidden">
       <div className="inline-flex items-center bg-gray-100 rounded-lg p-0.5 mb-6">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${tab===t.id?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>
@@ -848,12 +998,106 @@ const RaceDetailView=({race,mode,setView,seasonsData,clubMvps,races,individualCh
   </div>;
 };
 
-// Embeds a standalone analysis page (same origin) and keeps the frame as tall as its content.
-const FormGuideFrame=({src})=>{
-  const ref=useRef(null);const[h,setH]=useState(1200);const[ready,setReady]=useState(false);
-  const onLoad=()=>{setReady(true);try{const doc=ref.current.contentDocument;const fit=()=>setH(doc.documentElement.scrollHeight);fit();new ResizeObserver(fit).observe(doc.body);}catch(e){}};
-  return<iframe ref={ref} src={src+(src.includes('?')?'&':'?')+'embed=1'} onLoad={onLoad} title="Form guide" scrolling="no" className="w-full border-0 block" style={{height:h,opacity:ready?1:0,transition:"opacity .15s"}}/>;
+// Native form guide: reads a guide page's data and draws it inside the site (no frame).
+const parseFormGuide=(text)=>{
+  const doc=new DOMParser().parseFromString(text,'text/html');
+  const wrap=doc.querySelector('.wrap');wrap.querySelectorAll('.home,header').forEach(e=>e.remove());
+  const js=[...doc.querySelectorAll('script')].map(s=>s.textContent).join('\n');
+  const grab=(re)=>{const m=js.match(re);return m?m[1]:null;};
+  const ROWS=JSON.parse(grab(/const ROWS = (\[[\s\S]*?\]);\n/));
+  const fix=grab(/(ROWS\.forEach\(r=>\{r\.n=[^\n]*)/);if(fix)new Function('ROWS',fix)(ROWS);
+  const CLUBS=new Function('return '+grab(/const CLUBS = (\{[^\n]*?\});/))();
+  const LENS=new Function('return '+grab(/const LENS = (\{[\s\S]*?\n\});/))();
+  const tie=grab(/const TIE = (\[[^\n]*?\]);/);
+  return{html:wrap.outerHTML,ROWS,CLUBS,LENS,TIE:tie?JSON.parse(tie):[]};
 };
+const initFormGuide=(root,G)=>{
+  const {ROWS,CLUBS,LENS,TIE}=G;const $=s=>root.querySelector(s);const $$=s=>root.querySelectorAll(s);
+  const BANDS=[{k:"so",label:"Well ahead"},{k:"o",label:"Ahead"},{k:"e",label:"As expected"},{k:"u",label:"Behind"},{k:"su",label:"Well behind"},{k:"n",label:"No ranking"}];
+  const tieCmp=(a,b)=>{for(const k of TIE){const x=a[k],y=b[k];if(x==null&&y==null)continue;if(x==null)return 1;if(y==null)return -1;if(x!==y)return x-y;}return 0;};
+  const state={lens:"pb",club:"",band:"",sort:"p",dir:1};
+  const SORTS={p:[x=>x.r.p,1],n:[x=>/^\(?unknown/i.test(x.r.n)?null:x.r.n.toLowerCase(),1],e:[x=>x.e,1],d:[x=>x.band==="n"?null:x.d,-1],f:[x=>x.r.rbs,1],hb:[x=>x.r.hb,1],hc:[x=>x.r.hc,1]};
+  try{const s=JSON.parse(localStorage.getItem("wcfg2")||"{}");if(s.lens in LENS)state.lens=s.lens;}catch(e){}
+  const compute=(lens)=>{const key=lens==="pb"?"rbs":LENS[lens].key;const ranked=ROWS.filter(r=>r[key]!=null);
+    const byForm=ranked.slice().sort((a,b)=>a[key]-b[key]||(key==="hc"?tieCmp(a,b):0)||a.n.localeCompare(b.n));
+    const exp=new Map();byForm.forEach((r,i)=>exp.set(r,i+1));const act=new Map();ranked.slice().sort((a,b)=>a.p-b.p).forEach((r,i)=>act.set(r,i+1));
+    return ROWS.map(r=>{if(!exp.has(r))return{r,band:"n"};const e=exp.get(r),a=act.get(r),d=e-a,lr=Math.log2(e/a);let band="e";
+      if(lr>=.75&&d>=5)band="so";else if(lr>=.25&&d>=3)band="o";else if(lr<=-.75&&d<=-5)band="su";else if(lr<=-.25&&d<=-3)band="u";return{r,e,a,d,lr,band};});};
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const vest=c=>c?`<span class="vest" title="${esc(CLUBS[c]||c)}">${getClubVestSvg(c).replace("<svg ","<svg width=\"14\" height=\"14\" aria-hidden=\"true\" ")}</span>`:"";
+  const ord=n=>n+(n%100>=11&&n%100<=13?"th":({1:"st",2:"nd",3:"rd"}[n%10]||"th"));
+  const fmtD=d=>d>0?"▲ "+d:d<0?"▼ "+(-d):"=";
+  const fmtX=x=>{if(!x.d)return"";const f=x.d>0?x.e/x.a:x.a/x.e;return`<span class="fx">${f>=10?Math.round(f):f.toFixed(1)}×</span>`;};
+  const sgn=v=>(v>0?'+':'')+v.toFixed(1);
+  function render(){
+    const data=compute(state.lens);
+    const ln=$("#lensnote");ln.textContent=LENS[state.lens].note;ln.hidden=!LENS[state.lens].note;
+    $$(".seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lens===state.lens));
+    const inClub=x=>!state.club||x.r.c===state.club;
+    const counts={};data.filter(inClub).forEach(x=>counts[x.band]=(counts[x.band]||0)+1);
+    $("#chips").innerHTML=BANDS.map(b=>`<button class="chip" data-band="${b.k}" aria-pressed="${state.band===b.k}"><span class="sw ${b.k}"></span>${b.label} <b>${counts[b.k]||0}</b></button>`).join("");
+    const ranked=data.filter(x=>x.band!=="n"&&inClub(x));
+    const li=x=>`<li class="b-${x.band}"><span class="pos">${ord(x.r.p)}</span><span class="who">${vest(x.r.c)}${esc(x.r.n)}</span><span class="delta">${fmtD(x.d)}${fmtX(x)}</span></li>`;
+    const up=ranked.filter(x=>x.d>0).sort((a,b)=>b.lr-a.lr||b.d-a.d).slice(0,8);const dn=ranked.filter(x=>x.d<0).sort((a,b)=>a.lr-b.lr||a.d-b.d).slice(0,8);
+    $("#risers").innerHTML=up.map(li).join("")||`<li class="dim">Nobody in this selection.</li>`;
+    $("#fallers").innerHTML=dn.map(li).join("")||`<li class="dim">Nobody in this selection.</li>`;
+    drawChart(data,inClub);
+    const shown=data.filter(x=>inClub(x)&&(!state.band||x.band===state.band));
+    {const k=SORTS[state.sort][0];shown.sort((a,b)=>{const va=k(a),vb=k(b),na=va==null||va==="",nb=vb==null||vb==="";if(na||nb)return(na-nb)||a.r.p-b.r.p;
+      const c=(typeof va==="string"?va.localeCompare(vb):va-vb)||(state.sort==="hc"?tieCmp(a.r,b.r):0);return c*state.dir||a.r.p-b.r.p;});}
+    $$("thead .sortbtn").forEach(b=>b.setAttribute("aria-pressed",b.dataset.sort===state.sort));
+    $("#tbody").innerHTML=shown.length?shown.map(x=>{const r=x.r;
+      const bn=r.n.replace(/\s*\(2C\)\s*$/i,"");const sp=bn.indexOf(" ");const short=(sp>0&&!/^\(?unknown/i.test(bn))?bn[0]+" "+bn.slice(sp+1):bn;
+      const nm=`<span class="nfull">${esc(r.n)}</span><span class="nshort">${esc(short)}</span>`;
+      const name=r.g?`<a href="https://www.powerof10.uk/Home/Athlete/${r.g}" target="_blank" rel="noopener">${nm}</a>`:nm;
+      const flags=r.f.map(f=>`<span class="flag">${esc(f)}</span>`).join("");
+      const tip=r.rnote||(r.b&&r.b!==r.rb?`Lifetime best ${r.b} (${r.py})`:"");
+      const best=r.rb?`<span${tip?` title="${esc(tip)}"`:""}${r.rnote?` class="adj"`:""}>${r.rb}${r.rnote?"*":""}</span>${r.rby?`<span class="hd">${r.rby}</span>`:""}`:`<span class="dim">–</span>`;
+      return`<tr class="b-${x.band}"><td class="num sc1 pos">${r.p}</td><td class="sc2">${vest(r.c)}<span class="rname">${name}</span>${flags}</td><td class="num">${x.e?x.e:'<span class="dim">–</span>'}</td><td class="vs">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}${fmtX(x)}</span>`}</td><td class="num">${best}</td><td class="num">${r.hc!=null?sgn(r.hc):'<span class="dim">–</span>'}</td><td class="num hc">${r.hb!=null?`${sgn(r.hb)}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td></tr>`;
+    }).join(""):`<tr><td colspan="7" class="empty">No runners match these filters.</td></tr>`;
+    try{localStorage.setItem("wcfg2",JSON.stringify({lens:state.lens}));}catch(e){}
+  }
+  function drawChart(data,inClub){
+    const svg=$("#chart");if(!svg)return;const W=Math.round(svg.parentNode.clientWidth||960),narrow=W<560;
+    const H=Math.round(Math.max(300,Math.min(520,W*(narrow?0.85:0.54))));const m=narrow?{l:52,r:10,t:12,b:42}:{l:58,r:20,t:16,b:48};
+    svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.setAttribute("height",H);
+    const pts=data.filter(x=>x.band!=="n");const N=Math.max(...pts.map(x=>Math.max(x.e,x.a)));
+    const sx=v=>m.l+(v-1)/(N-1)*(W-m.l-m.r);const sy=v=>H-m.b-(v-1)/(N-1)*(H-m.t-m.b);
+    let g="";[1,50,100,150,200,250].filter(t=>t<=N).forEach(t=>{
+      g+=`<line x1="${sx(t)}" x2="${sx(t)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--rule)" stroke-width="1"/><line x1="${m.l}" x2="${W-m.r}" y1="${sy(t)}" y2="${sy(t)}" stroke="var(--rule)" stroke-width="1"/><text x="${sx(t)}" y="${H-m.b+18}" text-anchor="middle">${t}</text><text x="${m.l-10}" y="${sy(t)+4}" text-anchor="end">${t}</text>`;});
+    g+=`<line x1="${sx(1)}" y1="${sy(1)}" x2="${sx(N)}" y2="${sy(N)}" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 5"/><text class="axis-title" x="${(m.l+W-m.r)/2}" y="${H-8}" text-anchor="middle">Actual place among ranked runners</text><text class="axis-title" transform="translate(${narrow?12:16} ${(m.t+H-m.b)/2}) rotate(-90)" text-anchor="middle">Expected place from form</text>`;
+    const fill={so:"var(--over)",o:"var(--over-mid)",e:"var(--muted)",u:"var(--under-mid)",su:"var(--under)"};const order=["e","o","u","so","su"];
+    pts.slice().sort((a,b)=>order.indexOf(a.band)-order.indexOf(b.band)).forEach(x=>{const on=inClub(x)&&(!state.band||x.band===state.band);
+      g+=`<circle cx="${sx(x.a).toFixed(1)}" cy="${sy(x.e).toFixed(1)}" r="${on?(narrow?3.5:5):(narrow?2.5:3.5)}" fill="${fill[x.band]}" stroke="var(--surface)" stroke-width="${narrow?1:1.5}" opacity="${on?1:.18}" data-i="${data.indexOf(x)}"/>`;});
+    svg.innerHTML=g;const tip=$("#tip");
+    const nearest=ev=>{let best=null,bd=1e9;for(const c of svg.querySelectorAll("circle")){if(+c.getAttribute("opacity")<0.5)continue;const b=c.getBoundingClientRect(),dx=b.left+b.width/2-ev.clientX,dy=b.top+b.height/2-ev.clientY,d=dx*dx+dy*dy;if(d<bd){bd=d;best=c;}}return bd<=22*22?best:null;};
+    const show=c=>{svg.querySelectorAll("circle.sel").forEach(e=>e.classList.remove("sel"));if(!c){tip.hidden=true;return;}c.classList.add("sel");const x=data[+c.dataset.i],r=x.r;
+      tip.innerHTML=`<strong>${esc(r.n)}</strong> · ${esc(CLUBS[r.c]||r.c)}<br>Finished ${ord(r.p)} overall (${ord(x.a)} of ranked)<br>Expected ${ord(x.e)} · ${fmtD(x.d)} places${x.d?` · ${(x.d>0?x.e/x.a:x.a/x.e).toFixed(1)}×`:""}`;
+      const wrap=svg.parentNode.getBoundingClientRect(),cb=c.getBoundingClientRect();const left=Math.min(Math.max(cb.left+cb.width/2-wrap.left,110),wrap.width-110);
+      tip.style.left=left+"px";tip.style.top=(cb.top-wrap.top)+"px";tip.hidden=false;};
+    let touch=false;svg.onpointerdown=ev=>{touch=ev.pointerType!=="mouse";if(touch)show(nearest(ev));};svg.onpointermove=ev=>{if(ev.pointerType==="mouse")show(nearest(ev));};
+    svg.onclick=ev=>{if(!touch)show(nearest(ev));};svg.onpointerleave=ev=>{if(ev.pointerType==="mouse")show(null);};
+  }
+  const sel=$("#club");
+  [...new Set(ROWS.map(r=>r.c).filter(Boolean))].sort().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=`${CLUBS[c]||c} (${c})`;sel.appendChild(o);});
+  sel.addEventListener("change",()=>{state.club=sel.value;render();});
+  $("thead").addEventListener("click",e=>{const b=e.target.closest(".sortbtn");if(!b)return;const k=b.dataset.sort;if(state.sort===k)state.dir=-state.dir;else{state.sort=k;state.dir=SORTS[k][1];}render();});
+  $$(".seg button").forEach(b=>b.addEventListener("click",()=>{state.lens=b.dataset.lens;render();}));
+  $("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;state.band=state.band===b.dataset.band?"":b.dataset.band;render();});
+  render();
+  const chartbox=$("#chartbox");if(window.matchMedia("(max-width:560px)").matches)chartbox.open=false;chartbox.addEventListener("toggle",()=>{if(chartbox.open)render();});
+  let rsz;const onR=()=>{clearTimeout(rsz);rsz=setTimeout(render,150);};window.addEventListener("resize",onR);
+  return()=>window.removeEventListener("resize",onR);
+};
+const FormGuideNative=({src})=>{
+  const ref=useRef(null);const[err,setErr]=useState(false);
+  useEffect(()=>{let dead=false,cleanup=null;setErr(false);
+    fetch(src).then(r=>r.text()).then(t=>{if(dead||!ref.current)return;const g=parseFormGuide(t);ref.current.innerHTML=g.html;cleanup=initFormGuide(ref.current,g);}).catch(()=>{if(!dead)setErr(true);});
+    return()=>{dead=true;if(cleanup)cleanup();};},[src]);
+  return err?<p className="text-sm text-gray-500">The form guide couldn't be loaded. <a className="underline" href={src}>Open it on its own page</a>.</p>:<div className="fg" ref={ref}/>;
+};
+
+
 
 const FixturesView=({setView,races,seasonsData})=>{
   const allFixtures=useMemo(()=>[...races].sort((a,b)=>{if(a.season!==b.season)return b.season.localeCompare(a.season);return a.match-b.match;}),[races]);let lastSeason=null;
