@@ -21,3 +21,15 @@ for file, club, names in re.findall(r"add\('([a-z0-9\-]+)','([^']+)',((?:'[^']*'
         m[n.lower()] = {'file': file, 'club': club}
 json.dump(m, open(os.path.join(P, 'portraits.json'), 'w'), separators=(',', ':'))
 print(len(m), 'names;', len(os.listdir(os.path.join(P, 'og', 'athletes'))), 'athlete images;', len(os.listdir(os.path.join(P, 'og', 'clubs'))), 'club images')
+
+# cache-busting version for the site's portrait image URLs: a short hash of every portrait file
+import hashlib
+hsh = hashlib.md5()
+for kind in ('athletes', 'clubs'):
+    for f in sorted(os.listdir(os.path.join(P, kind))):
+        if f.endswith('.svg'): hsh.update(f.encode()); hsh.update(open(os.path.join(P, kind, f), 'rb').read())
+v = hsh.hexdigest()[:8]
+html = open(os.path.join(ROOT, 'index.html')).read()
+html2 = re.sub(r"const PORTRAIT_V='[^']*';", f"const PORTRAIT_V='{v}';", html, count=1)
+if html2 != html: open(os.path.join(ROOT, 'index.html'), 'w').write(html2)
+print('portrait version', v)
