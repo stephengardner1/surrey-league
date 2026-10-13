@@ -358,3 +358,5 @@ save("young", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", fa
 save("racle", figure("KEN", skin=1, hair="croprecede", hair_colour="mid brown", facial="beard"))
 save("snow", figure("BEL", skin=1, hair="quiff", hair_colour="blonde"))
 save("reynolds", figure("BEL", skin=1, hair="buzz", hair_colour="mid brown"))
+save("awilson", figure("DUL", skin=1, hair="quiff", hair_colour="#C98A4E", facial="beard", facial_colour="#B5652E"))
+save("burthem", figure("HHH", skin=1, hair="tousled", hair_colour="dark brown", facial="beard"))
