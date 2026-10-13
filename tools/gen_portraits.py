@@ -306,3 +306,4 @@ save("royer", figure("G&G", skin=2, hair="longcurls", hair_colour="black", facia
 save("kelly", figure("BEL", skin=1, hair="quiff", hair_colour="light brown", facial="stubble"))
 save("janiaud", figure("BEL", skin=3, hair="quiff", hair_colour="black", facial="stubble"))
 save("renshaw", figure("THH", skin=1, hair="quiffrecede", hair_colour="#C9945A"))
+save("ramm", figure("DUL", skin=1, hair="tousled", hair_colour="mid brown", facial="stubble"))
