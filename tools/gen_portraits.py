@@ -665,3 +665,4 @@ save("andy-coley-maud", figure("G&G", skin=1, hair="quiffrecede", hair_colour="#
 save("dan-cliffe", figure("H/W", skin=2, hair="messyfringe", hair_colour="#241A16", facial="stubble", facial_colour="#2E2420"))
 save("patrick-mcdougall", figure("BEL", skin=1, hair="horseshoe", hair_colour="#B8B5AF", gaunt=True, creases=True))
 save("callum-stewart", figure("BEL", skin=1, hair="quiff", hair_colour="#2A1E19"))
+save("jamie-parkinson", figure("THH", skin=1, hair="messyfringe", hair_colour="#3A2A22"))
