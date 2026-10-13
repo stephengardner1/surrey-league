@@ -129,6 +129,8 @@ HAIR["tuftrecede"] = '<path d="M65,100 L62,80 L66,62 L72,50 L80,44 L84,34 L93,38
 HAIR["messyfringe"] = '<path d="M63,102 L59,76 L62,58 L70,46 L79,41 L82,30 L92,33 L99,24 L107,31 L116,26 L121,35 L130,39 L137,51 L141,70 L137,102 L132,86 Q129,74 122,72 L116,79 L110,74 L102,81 L96,75 L88,80 L83,73 Q72,76 68,86 Z"/>'
 HAIR["wavyback"] = '<path d="M64,108 C60,58 80,38 100,38 C121,38 140,58 136,108 L131,88 Q128,72 117,66 Q108,63 100,64 Q90,63 82,67 Q72,73 69,88 Z"/><path d="M64,96 Q56,104 60,114 Q54,122 60,132 Q56,142 64,148 L68,140 Q64,132 67,124 Q63,116 67,108 Z"/><path d="M136,96 Q144,104 140,114 Q146,122 140,132 Q144,142 136,148 L132,140 Q136,132 133,124 Q137,116 133,108 Z"/>'
 HAIR_BACK["wavyback"] = '<path d="M60,90 C58,54 80,36 100,36 C120,36 142,54 140,90 Q148,104 142,118 Q150,132 140,146 Q144,158 132,160 L68,160 Q56,158 60,146 Q50,132 58,118 Q52,104 60,90 Z"/>'
+HAIR["tightbun"] = HAIR["slick"]
+HAIR_BACK["tightbun"] = '<ellipse cx="136" cy="96" rx="13" ry="13"/>'
 FACIAL = {
     "littletache": '<path d="M89,142 Q100,138.5 111,142 L110,145 Q100,142 90,145 Z"/>',
     "shortbeard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".6"/><path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z" opacity=".7"/>',
@@ -502,7 +504,7 @@ W = [
  ("ellie-freeden","KEN","Ellie Freeden",dict(skin=1,hair="ponytail",hair_colour="#2A1D18"),"near-black ponytail"),
  ("alice-smith","SLH","Alice Smith",dict(skin=2,hair="tousled",hair_colour="grey",glasses=True),"short grey hair, glasses"),
  ("florence-wiggins","THH","Florence Wiggins",dict(skin=1,hair="topknot",hair_colour="mid brown"),"mid brown top knot"),
- ("alexandra-barbour","BEL","Alexandra Barbour",dict(skin=2,hair="wavytie",hair_colour=DB),"dark brown ponytail"),
+ ("alexandra-barbour","BEL","Alexandra Barbour",dict(skin=2,hair="tightbun",hair_colour="#2A1D18"),"straight dark hair pulled back into a tight bun"),
  ("ella-king-powrie","BEL","Ella King Powrie",dict(skin=1,hair="ponytail",hair_colour="blonde"),"blonde ponytail"),
  ("betsy-griffiths","RAN","Betsy Griffiths",dict(skin=1,hair="plait",hair_colour="mid brown",shades=True,shades_col="#1F5F8B"),"mid brown plait, blue sunglasses"),
  ("nicola-douglas","STR","Nicola Douglas",dict(skin=2,hair="bob",hair_colour="blonde"),"short blonde bob"),
