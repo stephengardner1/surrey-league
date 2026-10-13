@@ -190,12 +190,13 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
              f'<path d="M139,204 Q141,226 143,246 L147,330 L135,330 Z" fill="#000" opacity="{0 if line else .12}"/></g>')
     if stars:
         import math
-        w = 7.2 * stars + 3; x0, y0 = 64, 214
-        g = [f'<rect x="{x0}" y="{y0}" width="{w:.1f}" height="11" rx="1.2" fill="#C8141E" stroke="#E8C35A" stroke-width="1"/>']
+        stars_gold = "#CCAD6A"
+        w = 6.6 * stars + 3; x0, y0 = 62, 225.5
+        g = [f'<rect x="{x0}" y="{y0}" width="{w:.1f}" height="10" rx="1" fill="{primary}" stroke="{stars_gold}" stroke-width="1"/>']
         for i in range(stars):
-            cx, cy, R = x0 + 5.1 + 7.2 * i, y0 + 5.7, 2.9
+            cx, cy, R = x0 + 4.8 + 6.6 * i, y0 + 5.2, 2.7
             pts = " ".join(f"{cx + (R if k % 2 == 0 else R * .42) * math.sin(k * math.pi / 5):.2f},{cy - (R if k % 2 == 0 else R * .42) * math.cos(k * math.pi / 5):.2f}" for k in range(10))
-            g.append(f'<polygon points="{pts}" fill="#E8C35A"/>')
+            g.append(f'<polygon points="{pts}" fill="{stars_gold}"/>')
         o.append(f'<g clip-path="url(#v{tag})">' + "".join(g) + '</g>')
     if mud:
         import random
