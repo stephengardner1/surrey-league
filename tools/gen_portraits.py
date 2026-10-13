@@ -535,3 +535,24 @@ save("rob-armstrong", figure("DUL", skin=1, hair="crop", hair_colour="#B07A4A", 
 save("ashley-goncalves", figure("HHH", skin=2, hair="quiff", hair_colour="#1C1714", facial="shortbeard"))
 save("eddie-jodrell", figure("BEL", skin=2, hair="crop", hair_colour="#2E211B"))
 save("thomas-gandee", figure("BEL", skin=1, hair="quiff", hair_colour="#B9955E"))
+# Wimbledon Common, Feb 2026 (race 439)
+W439 = [
+ ("max-milarvie","DUL","Max Milarvie",dict(skin=1,hair="tousled",hair_colour="#3A2620",facial="stubble"),"tousled dark brown hair, stubble"),
+ ("alex-lennon","BEL","Alex Lennon",dict(skin=1,hair="bigcurls",hair_colour="#3A2620"),"short dark curly hair"),
+ ("james-hoad","THH","James Hoad",dict(skin=1,hair="crop",hair_colour="#6B4A2E"),"short mid brown hair"),
+ ("william-gardner","BEL","William Gardner",dict(skin=1,hair="croppeak",hair_colour="#9A6A44",facial="stubble"),"short gingery hair with a widow peak, stubble"),
+ ("paddy-roddy","THH","Paddy Roddy",dict(skin=1,hair="sweptback",hair_colour="#2E211B",facial="beard",mud=True),"swept-back dark hair, beard, mud-splattered vest"),
+ ("simon-waterhouse","BEL","Simon Waterhouse",dict(skin=1,hair="quiff",hair_colour="#5A3E2A",facial="stubble"),"swept-up brown hair, stubble"),
+ ("conall-whelan","BEL","Conall Whelan",dict(skin=1,hair="tousled",hair_colour="#8E6643"),"tousled light brown hair"),
+ ("simon-williams","BEL","Simon Williams",dict(skin=1,hair="quiff",hair_colour="#6B4A2E"),"swept-up mid brown hair"),
+ ("christian-lee","HOL","Christian Lee",dict(skin=1,hair="quiff",hair_colour="#2E211B"),"short dark brown quiff"),
+ ("sean-cordon","DUL","Sean Cordon",dict(skin=1,hair="crop",hair_colour="grey",glasses=True),"short grey hair, glasses"),
+ ("michael-mccarthy","BEL","Michael McCarthy",dict(skin=1,hair="shortcurls",hair_colour="#2A1D18",facial="stubble"),"dark curly hair, stubble"),
+ ("jeff-cunningham","HHH","Jeff Cunningham",dict(skin=1,hair="croppeak",hair_colour="#6B4A2E"),"short brown hair"),
+ ("sam-peters","H/W","Sam Peters",dict(skin=1,hair="crop",hair_colour="#2A1D18",cap="#3A4250",cap_back=True),"backwards cap, dark hair"),
+ ("ryan-hickey","HHH","Ryan Hickey",dict(skin=1,hair="crop",hair_colour="#2E211B"),"short dark brown hair"),
+ ("ben-scott","BEL","Ben Scott",dict(skin=1,hair="curtains",hair_colour="#6B4A2E",tattoos=True),"floppy centre-parted brown hair, tattooed arms"),
+ ("tom-gifford","BEL","Tom Gifford",dict(skin=1,hair="crop",hair_colour="#8E6643",facial="stubble"),"short light brown hair, stubble"),
+]
+for slug, club, name, kw, alt in W439:
+    save(slug, figure(club, **kw))
