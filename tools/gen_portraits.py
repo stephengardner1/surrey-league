@@ -128,7 +128,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -174,6 +174,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         ink = "#1E1714"
         brow = hc if hair_colour not in ("grey", "blonde", "ginger", "bleached") else {"grey": "#8C8A86", "blonde": "#9A7A45", "ginger": "#A65A2A", "bleached": "#6B4A2E"}[hair_colour]
         if hair in ("buzz","buzzrecede") or hair is None: brow = "#3A2C24" if skin <= 3 else "#1E1714"
+        if brow_colour: brow = brow_colour
         hg += [f'<g fill="{brow}"><polygon points="74,100 94,97 95,102 75,105"/><polygon points="105,97 126,100 125,105 105,102"/></g>',
                f'<g clip-path="url(#e{tag})" fill="{ink}"><circle cx="85" cy="111.5" r="3.8"/><circle cx="115" cy="111.5" r="3.8"/></g>'
                f'<g fill="none" stroke="{ink}" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/><path d="M106,112 Q115,105 124,112"/></g>',
@@ -473,5 +474,5 @@ save("john-gilbert", figure("KEN", skin=1, hair="fringe", hair_colour="#5C3D28",
 save("chris-busaileh", figure("KEN", skin=1, hair="croppeak", hair_colour="#A85A30"))
 save("jim-allchin", figure("KEN", skin=1, hair="longstraight", hair_colour="#86593A", headband="#C8323A", facial="stubble"))
 save("finn-johnson", figure("H/W", skin=2, hair="quiffrecede", hair_colour="#3A2620", facial="beard"))
-save("will-cockerell", figure("BEL", skin=2, hair="buzzrecede", hair_colour="#9A948C"))
+save("will-cockerell", figure("BEL", skin=2, hair="horseshoe", hair_colour="#D8D5CF", brow_colour="#6E655C"))
 save("nick-goolab", figure("BEL", skin=3, hair="slicktail", hair_colour="#1C1714", facial="stubble", cleft=True))
