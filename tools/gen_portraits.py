@@ -120,7 +120,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -223,6 +223,10 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                   f'<path d="M56,97 Q100,82 144,97 Q144,100 142,101 Q100,88 58,101 Q56,100 56,97 Z" fill="#fff" opacity=".35"/>'
                   f'<g clip-path="url(#r{tag})" fill="#000" opacity=".12"><path d="M63,98 C61,58 80,38 100,38 C120,38 139,58 137,98 Z"/></g>'
                   f'<path d="M62,110 Q100,99 138,110 L136,114 Q100,104 64,114 Z" fill="#000" opacity=".28"/>')
+    if custom and crown:  # little gold crown perched at a jaunty angle
+        hg.append('<g transform="translate(0,5) rotate(-8 100 30)"><path d="M84,36 L82,16 L92,26 L100,12 L108,26 L118,16 L116,36 Z" fill="#E2B23A" stroke="#B8862A" stroke-width="1.2" stroke-linejoin="round"/>'
+                  '<rect x="84" y="31" width="32" height="5" fill="#C9962E"/><circle cx="82" cy="15" r="2.4" fill="#E2B23A"/><circle cx="100" cy="11" r="2.6" fill="#E2B23A"/><circle cx="118" cy="15" r="2.4" fill="#E2B23A"/>'
+                  '<circle cx="100" cy="27" r="2.6" fill="#C41E3A"/><circle cx="91" cy="31" r="1.6" fill="#2563EB"/><circle cx="109" cy="31" r="1.6" fill="#2563EB"/></g>')
     o.append(f'<g {SQ}>' + "".join(hg) + '</g>')
     # kit: the site's own vest icon, scaled into this vest
     o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
@@ -334,7 +338,7 @@ save("chisholm", figure("THH", skin=1, hair="croppeak", hair_colour="dark brown"
 save("panchev", figure("H/W", skin=2, hair="tousled", hair_colour="black", shades=True))
 save("royer", figure("G&G", skin=2, hair="longcurls", hair_colour="black", facial="beard"))
 save("kelly", figure("BEL", skin=1, hair="quiff", hair_colour="light brown", facial="stubble"))
-save("janiaud", figure("BEL", skin=3, hair="quiff", hair_colour="black", facial="stubble"))
+save("janiaud", figure("BEL", skin=3, hair="quiff", hair_colour="black", facial="stubble", crown=True))
 save("renshaw", figure("THH", skin=1, hair="quiffrecede", hair_colour="#C9945A"))
 save("ramm", figure("DUL", skin=1, hair="tousled", hair_colour="mid brown", facial="stubble"))
 save("dyer", figure("BEL", skin=1, hair="tousled", hair_colour="blonde", headband="#1C1C1E"))
