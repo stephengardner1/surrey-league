@@ -12,7 +12,7 @@ KIT_MAP = 'transform="matrix(6.2857 0 0 6.5 37.14 193)"'   # site's 20x20 vest i
 # Club kits copied from the site's ClubVest icons (20x20 coordinates)
 KITS = {
     "BEL": ("#7A001D", '<rect x="0" y="7" width="20" height="4" fill="#CCAD6A"/>', "#EADFC8"),
-    "HOL": ("#1e3a8a", '<rect x="0" y="8" width="20" height="3" fill="#fff"/>', "#D3DCE8"),
+    "HOL": ("#2a4ea6", '<rect x="0" y="8" width="20" height="3" fill="#fff"/>', "#D3DCE8"),
     "HHH": ("#dc2626", "".join(f'<rect x="0" y="{y}" width="20" height="3" fill="#1a1a1a"/>' for y in (0, 6, 12, 18)), "#EDD9D3"),
     "G&G": ("#228b22", "", "#D6E6D2"),
     "KEN": ("#2a4d7a", '<path d="M13 5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 L11 5.5 Z" fill="#dc2626"/>', "#D3DCE6"),

@@ -522,7 +522,7 @@ const ClubVest=({club,size=20})=>{
     case'G&G':return<path d={p} fill="#228b22"/>;
     case'SLH':return<><path d={p} fill="#fff"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="13" y="0" width="4" height="20" fill="#800020"/></g></>;
     case'DUL':return<><path d={p} fill="#dc2626"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="7" width="20" height="1.9" fill="#2563eb"/><rect x="0" y="10.1" width="20" height="1.9" fill="#2563eb"/></g></>;
-    case'HOL':return<><path d={p} fill="#1e3a8a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="3" fill="#fff"/></g></>;
+    case'HOL':return<><path d={p} fill="#2a4ea6"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="3" fill="#fff"/></g></>;
     case'RAN':return<><path d={p} fill="#1e3a8a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="3" fill="#f4c430"/></g></>;
     case'C/C':return<><path d={p} fill="#fff"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="10" width="20" height="10" fill="#1e3a8a"/><rect x="0" y="9" width="20" height="2" fill="#228b22"/></g></>;
     case'WAL':return<><path d={p} fill="#1a1a1a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="6" width="20" height="2" fill="#f4c430"/><rect x="0" y="8" width="20" height="2" fill="#dc2626"/><rect x="0" y="10" width="20" height="2" fill="#f4c430"/></g></>;
@@ -589,7 +589,7 @@ const getClubVestSvg=(club)=>{
     'G&G':`<path d="${p}" fill="#228b22"/>`,
     'SLH':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="13" y="0" width="4" height="20" fill="#800020"/></g>`,
     'DUL':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="20" height="1.9" fill="#2563eb"/><rect x="0" y="10.1" width="20" height="1.9" fill="#2563eb"/></g>`,
-    'HOL':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#fff"/></g>`,
+    'HOL':`<path d="${p}" fill="#2a4ea6"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#fff"/></g>`,
     'RAN':`<path d="${p}" fill="#1e3a8a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3" fill="#f4c430"/></g>`,
     'C/C':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="10" width="20" height="10" fill="#1e3a8a"/><rect x="0" y="9" width="20" height="2" fill="#228b22"/></g>`,
     'WAL':`<path d="${p}" fill="#1a1a1a"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="6" width="20" height="2" fill="#f4c430"/><rect x="0" y="8" width="20" height="2" fill="#dc2626"/><rect x="0" y="10" width="20" height="2" fill="#f4c430"/></g>`,
