@@ -476,3 +476,4 @@ save("jim-allchin", figure("KEN", skin=1, hair="longstraight", hair_colour="#865
 save("finn-johnson", figure("H/W", skin=2, hair="quiffrecede", hair_colour="#3A2620", facial="beard"))
 save("will-cockerell", figure("BEL", skin=2, hair="horseshoe", hair_colour="#D8D5CF", brow_colour="#6E655C"))
 save("nick-goolab", figure("BEL", skin=3, hair="slicktail", hair_colour="#1C1714", facial="stubble", cleft=True))
+save("arne-dumez", figure("BEL", skin=1, hair="quiff", hair_colour="#8E6643", facial="mostubble"))
