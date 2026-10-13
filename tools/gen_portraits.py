@@ -99,7 +99,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, tag="f"):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, tag="f"):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -149,6 +149,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                f'<g fill="none" stroke="{ink}" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/><path d="M106,112 Q115,105 124,112"/></g>',
                f'<polygon points="100,108 105,136 96,136" fill="{dk}"/>',
                f'<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z" fill="{dk}"/>']
+        if gaunt:  # hollow cheeks under the cheekbones
+            hg.append(f'<g fill="{dk}"><path d="M72,115 Q87,119 92,141 Q82,135 73,126 Z"/><path d="M128,115 Q113,119 108,141 Q118,135 127,126 Z"/></g><g fill="{lt}" opacity=".8"><path d="M72,113 Q84,113 92,121 Q82,117 72,116 Z"/><path d="M128,113 Q116,113 108,121 Q118,117 128,116 Z"/></g>')
         if facial:
             if facial == "moustache":
                 hg.append(f'<g fill="{hc}">{FACIAL["moustache"]}</g>')
@@ -279,7 +281,7 @@ save("scott", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", fa
 save("mitchell", figure("BEL", skin=1, hair="quiff", hair_colour="ginger"))
 save("evans", figure("BEL", skin=1, hair="crop", hair_colour="#A8703F"))
 save("roberts", figure("HHH", skin=1, hair="curtains", hair_colour="bleached", roots="mid brown", mud=True))
-save("slemeck", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown", facial="beard"))
+save("slemeck", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown", facial="beard", gaunt=True))
 save("edgar", figure("BEL", skin=1, hair="buzzrecede", hair_colour="light brown", facial="moustache", shades=True))
 save("sommerville", figure("BEL", skin=1, hair="croprecede", hair_colour="dark brown"))
 save("mcdowell", figure("H/W", skin=1, hair=None))
