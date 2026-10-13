@@ -75,6 +75,7 @@ EYE_R = "M106,112 Q115,105 124,112 Q115,117 106,112 Z"
 HAIR = {  # in head coordinates
     "buzzrecede": '<path d="M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,80 Q130,66 124,58 Q118,50 112,50 Q106,52 104,58 Q100,62 96,58 Q94,52 88,50 Q82,50 76,58 Q70,66 69,80 Z"/>',
     "buzz": '<path d="M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L130,74 L116,59 L100,56 L84,59 L70,74 Z"/>',
+    "bigcurls": '<path d="M64,104 L57.7,84.4 Q43.0,80.3 55.0,71.2 Q42.5,62.8 56.9,58.0 Q47.8,46.0 63.1,45.9 Q58.4,31.7 73.1,36.3 Q73.2,21.2 85.8,30.1 Q90.8,15.7 100.0,28.0 Q109.2,15.7 114.2,30.1 Q126.8,21.2 126.9,36.3 Q141.6,31.7 136.9,45.9 Q152.2,46.0 143.1,58.0 Q157.5,62.8 145.0,71.2 Q157.0,80.3 142.3,84.4 L136,104 L134,88 Q131,72 122,64 Q112,70 104,63 Q96,70 86,64 Q74,68 69,76 Q66,82 66,88 Z"/>',
     "curtains": '<path d="M60,108 C54,62 76,32 100,32 C124,32 146,62 140,108 L136,104 C135,94 132,86 126,80 C116,72 107,70 102,58 L98,58 C93,70 84,72 74,80 C68,86 65,94 64,104 Z"/>',
     "croprecede": '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 Q131,64 125,56 Q118,48 111,54 Q105,61 100,61 Q95,61 89,54 Q82,48 75,56 Q69,64 68,84 Z"/>',
     "afro": '<path d="M65,100 C61,90 59,76 60,62 C61,38 78,22 100,21 C122,22 139,38 140,62 C141,76 139,90 135,100 L132,84 C126,72 116,66 100,65 C84,66 74,72 68,84 Z"/>',
@@ -98,7 +99,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, tag="f"):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, tag="f"):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -186,6 +187,15 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     # kit: the site's own vest icon, scaled into this vest
     o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
              f'<path d="M139,204 Q141,226 143,246 L147,330 L135,330 Z" fill="#000" opacity="{0 if line else .12}"/></g>')
+    if stars:
+        import math
+        w = 7.2 * stars + 3; x0, y0 = 64, 214
+        g = [f'<rect x="{x0}" y="{y0}" width="{w:.1f}" height="11" rx="1.2" fill="#C8141E" stroke="#E8C35A" stroke-width="1"/>']
+        for i in range(stars):
+            cx, cy, R = x0 + 5.1 + 7.2 * i, y0 + 5.7, 2.9
+            pts = " ".join(f"{cx + (R if k % 2 == 0 else R * .42) * math.sin(k * math.pi / 5):.2f},{cy - (R if k % 2 == 0 else R * .42) * math.cos(k * math.pi / 5):.2f}" for k in range(10))
+            g.append(f'<polygon points="{pts}" fill="#E8C35A"/>')
+        o.append(f'<g clip-path="url(#v{tag})">' + "".join(g) + '</g>')
     if mud:
         import random
         r = random.Random(1060)
@@ -276,3 +286,5 @@ save("hind", figure("KEN", skin=1, hair="quiffrecede", hair_colour="dark brown")
 save("martin", figure("THH", skin=1, hair="crop", hair_colour="dark brown"))
 save("hind", figure("KEN", skin=1, hair="quiffrecede", hair_colour="dark brown"))
 save("barnes", figure("THH", skin=1, hair="crop", hair_colour="dark brown"))
+save("mcnally", figure("BEL", skin=1, hair="crop", hair_colour="ginger", facial="beard", stars=4))
+save("board", figure("HHH", skin=1, hair="bigcurls", hair_colour="black"))
