@@ -130,6 +130,8 @@ HAIR["messyfringe"] = '<path d="M63,102 L59,76 L62,58 L70,46 L79,41 L82,30 L92,3
 HAIR["wavyback"] = '<path d="M64,108 C60,58 80,38 100,38 C121,38 140,58 136,108 L131,88 Q128,72 117,66 Q108,63 100,64 Q90,63 82,67 Q72,73 69,88 Z"/><path d="M64,96 Q56,104 60,114 Q54,122 60,132 Q56,142 64,148 L68,140 Q64,132 67,124 Q63,116 67,108 Z"/><path d="M136,96 Q144,104 140,114 Q146,122 140,132 Q144,142 136,148 L132,140 Q136,132 133,124 Q137,116 133,108 Z"/>'
 HAIR_BACK["wavyback"] = '<path d="M60,90 C58,54 80,36 100,36 C120,36 142,54 140,90 Q148,104 142,118 Q150,132 140,146 Q144,158 132,160 L68,160 Q56,158 60,146 Q50,132 58,118 Q52,104 60,90 Z"/>'
 HAIR["tightbun"] = HAIR["slick"]
+HAIR["halfup"] = HAIR["ponytail"] + '<path d="M93,40 C90,30 96,24 102,25 C109,25 112,32 108,40 Z"/>'
+HAIR_BACK["halfup"] = '<path d="M65,90 C58,108 54,124 57,140 Q51,154 57,168 Q53,178 62,184 L138,184 Q147,178 143,168 Q149,154 143,140 C146,124 142,108 135,90 Z"/>'
 HAIR["highpony"] = HAIR["ponytail"].replace('/>','/>',1) + '<path d="M88,42 C84,34 88,26 94,27 C94,20 102,17 107,22 C113,19 119,26 115,32 C120,36 116,42 112,42 Z"/>'
 HAIR_BACK["highpony"] = '<path d="M96,30 C78,26 60,38 55,62 C50,86 52,112 56,134 C59,150 62,162 58,172 Q66,166 67,152 C68,136 64,116 64,96 C64,72 72,52 92,44 Z"/>'
 HAIR["messyvolume"] = '<path d="M64,104 C62,94 59,88 56,84 C60,82 61,78 60,72 C58,62 60,52 66,46 Q66,34 77,36 Q78,25 90,30 Q95,19 104,27 Q114,19 119,30 Q131,27 129,38 Q139,40 140,50 C143,58 142,66 140,72 C140,78 142,84 145,88 C140,90 137,96 136,104 L132,86 C130,76 126,68 118,62 C112,60 106,62 100,61 C94,62 86,60 80,63 C74,67 70,76 68,86 Z"/><g fill="none" stroke="#000" stroke-opacity=".22" stroke-width="1.4" stroke-linecap="round"><path d="M80,52 Q92,40 106,42"/><path d="M110,40 Q122,42 130,54"/><path d="M68,62 Q72,50 82,44"/></g>'
@@ -247,7 +249,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                 hg.append(f'<path d="M62,83 Q100,61 138,83 L138,96 Q100,74 62,96 Z" fill="{headband}"/><path d="M62,83 Q100,61 138,83 L138,85 Q100,63 62,85 Z" fill="#fff" opacity=".12"/>' if headband_thick else f'<path d="M63,86 Q100,64 137,86 L137,91 Q100,70 63,91 Z" fill="{headband}"/>')
             if roots and hair == "curtains":
                 hg.append(f'<clipPath id="hr{tag}">{HAIR["curtains"]}</clipPath><path clip-path="url(#hr{tag})" d="M56,84 C52,50 76,28 100,28 C124,28 148,50 144,84 C132,58 116,48 104,52 L101,60 L99,60 L96,52 C84,48 68,58 56,84 Z" fill="{HAIR_COL.get(roots, roots)}"/>')
-            if hair == "ponytail":
+            if hair in ("ponytail", "halfup"):
                 hg.append(f'<path d="M100,40 L101,65" stroke="{dk}" stroke-width="1.5"/>')
             if hair == "highpony":  # hair tie where the bunch is gathered on top
                 hg.append('<path d="M89,40 Q100,44 111,40 L110,44.5 Q100,48.5 90,44.5 Z" fill="#000" fill-opacity=".35"/>')
@@ -686,3 +688,4 @@ save("martina-conner", figure("BEL", skin=1, hair="ponytail", hair_colour="#C2A0
 save("georgie-grgec", figure("HHH", skin=1, hair="ponytail", hair_colour="#4A3226"))
 save("katie-snowden", figure("HHH", skin=1, hair="ponytail", hair_colour="#D2B27A"))
 save("kate-axford", figure("BEL", skin=1, hair="highpony", hair_colour="#D9BC86", necklace="#C9A646"))
+save("sarah-astin", figure("BEL", skin=1, hair="halfup", hair_colour="#3A2620", necklace="#D4D4D4"))
