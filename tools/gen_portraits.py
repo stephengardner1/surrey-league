@@ -649,3 +649,4 @@ W434 += [
 for slug, club, name, kw, alt in W434:
     save(slug, figure(club, **kw))
 save("jermaine-mays", figure("SLH", skin=3, hair="crop", hair_colour="black", necklace="#C9A646"))
+save("gary-staines", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#2A1D18"))
