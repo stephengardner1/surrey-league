@@ -95,6 +95,9 @@ HAIR_BACK = {
     "ponytail": '<path d="M126,70 L146,84 L150,130 L142,176 L134,150 L132,110 Z"/>',
     "long": '<path d="M62,92 C58,52 80,34 100,34 C122,34 142,52 138,92 L142,200 L120,204 L80,204 L58,200 Z"/>',
 }
+# long curly hair: curly crown at the front, scalloped curls falling behind the shoulders
+HAIR["longcurls"] = HAIR["bigcurls"]
+HAIR_BACK["longcurls"] = '<path d="M58,90 C54,52 78,30 100,30 C122,30 146,52 142,90 Q150,104 144,118 Q152,132 146,146 Q154,160 146,174 Q152,188 142,200 L120,204 L80,204 L58,200 Q48,188 54,174 Q46,160 54,146 Q48,132 56,118 Q50,104 58,90 Z"/>'
 FACIAL = {
     "moustache": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/>',
     "beard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z"/>',
@@ -299,3 +302,4 @@ save("board", figure("HHH", skin=1, hair="bigcurls", hair_colour="black"))
 save("weir", figure("THH", skin=1, hair="croprecede", hair_colour="dark brown"))
 save("chisholm", figure("THH", skin=1, hair="croppeak", hair_colour="dark brown"))
 save("panchev", figure("H/W", skin=2, hair="tousled", hair_colour="black", shades=True))
+save("royer", figure("G&G", skin=2, hair="longcurls", hair_colour="black", facial="beard"))
