@@ -133,7 +133,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -181,12 +181,18 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         if hair in ("buzz","buzzrecede") or hair is None: brow = "#3A2C24" if skin <= 3 else "#1E1714"
         if brow_colour: brow = brow_colour
         hg += [f'<g fill="{brow}"><polygon points="74,100 94,97 95,102 75,105"/><polygon points="105,97 126,100 125,105 105,102"/></g>',
+               (f'<g fill="#EDE4DA"><path d="{EYE_L}"/><path d="{EYE_R}"/></g>' if define and 'eyes' in define else '') +
                f'<g clip-path="url(#e{tag})" fill="{ink}"><circle cx="85" cy="111.5" r="3.8"/><circle cx="115" cy="111.5" r="3.8"/></g>'
                f'<g fill="none" stroke="{ink}" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/><path d="M106,112 Q115,105 124,112"/></g>',
                f'<polygon points="100,108 105,136 96,136" fill="{dk}"/>',
                f'<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z" fill="{dk}"/>']
         if cleft:  # cleft ('bum') chin
             hg.append(f'<path d="M100,158 Q98.5,163 100,168" stroke="{dk}" stroke-width="2.6" fill="none" stroke-linecap="round"/>')
+        if define and 'light' in define:  # soft lighter planes so features read on very dark skin
+            hl = '#' + ''.join(f'{round(int(lt[i:i+2],16)*0.6+255*0.4):02X}' for i in (1,3,5))
+            hg.append(f'<g fill="{hl}"><path d="M97,106 L103,106 L101.5,130 L98.5,130 Z" opacity=".35"/>'
+                      f'<path d="M70,116 Q80,112 90,118 L84,132 Q76,128 71,124 Z" opacity=".16"/>'
+                      f'<path d="M93,155 Q100,158.5 107,155 Q100,161 93,155 Z" opacity=".4"/></g>')
         if gaunt:  # hollow cheeks under the cheekbones
             hg.append(f'<g fill="{dk}" opacity=".65"><path d="M74,118 Q86,121 90,139 Q84,131 75,122 Z"/><path d="M126,118 Q114,121 110,139 Q116,131 125,122 Z"/></g><g fill="{lt}" opacity=".6"><path d="M73,115 Q84,115 90,120 Q82,117 73,117 Z"/><path d="M127,115 Q116,115 110,120 Q118,117 127,117 Z"/></g>')
         if facial:
@@ -493,3 +499,4 @@ save("geoff-jerwood", figure("HHH", skin=1, hair="shaggyrecede", hair_colour="#C
 save("alex-lee", figure("HHH", skin=1, hair="tousled", hair_colour="#6B4A2E"))
 save("benedict-whitby", figure("HHH", skin=2, hair="cropround", hair_colour="#5E534A", temples=True))
 save("falilou-kebe", figure("BEL", skin=6, hair="buzz", hair_colour="black"))
+save("jack-dickson", figure("H/W", skin=1, hair="tousled", hair_colour="#9A7650"))
