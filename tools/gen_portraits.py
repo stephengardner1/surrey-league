@@ -407,7 +407,7 @@ W = [
  ("olivia-stillman","HHH","Olivia Stillman",dict(skin=2,hair="ponytail",hair_colour="#2A1D18"),"near-black ponytail"),
  ("alex-gandee","BEL","Alex Gandee",dict(skin=1,hair="ponytail",hair_colour=SB),"strawberry-blonde ponytail"),
  ("billie-mcclosky","BEL","Billie McClosky",dict(skin=1,hair="ponytail",hair_colour=LB),"light brown ponytail"),
- ("lisa-bailey","STR","Lisa Bailey",dict(skin=2,hair="slick",hair_colour="blonde",scrunchie="#F4C430"),"blonde hair pulled back with a yellow clip"),
+ ("lisa-bailey","STR","Lisa Bailey",dict(skin=2,hair="slick",hair_colour="blonde"),"blonde hair pulled back"),
  ("amy-clements","KEN","Amy Clements",dict(skin=1,hair="ponytail",hair_colour=DB),"dark brown ponytail"),
  ("bethanie-murray","THH","Bethanie Murray",dict(skin=1,hair="wavytie",hair_colour=DB),"dark brown flowing ponytail"),
  ("evie-warren","G&G","Evie Warren",dict(skin=1,hair="ponytail",hair_colour="#B08A55"),"dark blonde ponytail"),
