@@ -138,6 +138,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     if custom and hair in HAIR_BACK:
         o.append(f'<g {SQ} fill="{hc}">{HAIR_BACK[hair]}<g clip-path="url(#r{tag})" fill="#000" opacity=".22">{HAIR_BACK[hair]}</g></g>')
     # lean body: one shape (open at the neck so outlines stay clean), neck drawn first
+    if medal: o.append('<path d="M84,186 Q100,182 116,186 L121,197 L79,197 Z" fill="#1F468E"/>')
     o.append(f'<rect x="88" y="171" width="24" height="37" fill="{sk}"{st}/>')
     o.append(f'<path d="M88,193 C76,197 66,200 58,206 C46,212 40,222 39,236 L35,330 L50,330 L56,250 Q59,240 64,238 L136,238 Q141,240 144,250 L150,330 L165,330 L161,236 C160,222 154,212 142,206 C134,200 124,197 112,193" fill="{sk}"{st}/>')
     if not line:
@@ -246,14 +247,12 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     # kit: the site's own vest icon, scaled into this vest
     if not jacket: o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
              f'<path d="M139,204 Q141,226 143,246 L147,330 L135,330 Z" fill="#000" opacity="{0 if line else .12}"/></g>')
-    if medal:  # Olympic-style medal on a ribbon round the neck
-        mc = {"gold": ("#E2B23A", "#B8862A", "#F4D27A")}[medal]
-        o.append('<path d="M84,192 L94,250 L100,250 L92,190 Z" fill="#2B5BB8"/><path d="M116,192 L106,250 L100,250 L108,190 Z" fill="#244E9E"/>'
-                 '<path d="M86,193 L95,246 M114,193 L105,246" stroke="#7FA6E8" stroke-width="1"/>'
-                 f'<circle cx="100" cy="266" r="17" fill="{mc[0]}" stroke="{mc[1]}" stroke-width="2"/>'
-                 + "".join(f'<path d="M100,266 L{100+15*__import__("math").cos(a*0.3927):.1f},{266+15*__import__("math").sin(a*0.3927):.1f}" stroke="{mc[1]}" stroke-width=".7" opacity=".55"/>' for a in range(16))
-                 + f'<circle cx="100" cy="266" r="7" fill="{mc[2]}" stroke="{mc[1]}" stroke-width="1"/><path d="M91,258 Q96,253 103,253" stroke="#FFF6D8" stroke-width="2" fill="none" opacity=".7"/>'
-                 '<rect x="94" y="246" width="12" height="5" rx="1.5" fill="#B8862A"/>')
+    if medal:  # medal on a ribbon that loops round the back of the neck
+        mc = {"gold": ("#D9AA3E", "#BE9030")}[medal]
+        o.append('<path d="M79,197 L88,193 L99,252 L92,252 Z" fill="#2B5BB8"/><path d="M121,197 L112,193 L101,252 L108,252 Z" fill="#234C9A"/>'
+                 '<rect x="93" y="248" width="14" height="6" fill="#234C9A"/>'
+                 f'<circle cx="100" cy="268" r="16" fill="{mc[0]}"/>'
+                 f'<path d="M100,252 A16,16 0 0 1 100,284 Z" fill="{mc[1]}"/>')
     if stars:
         import math
         stars_gold = "#CCAD6A"
