@@ -231,7 +231,7 @@ html.embed,html.embed body{overflow:hidden}
   <section>
     <div class="tablewrap">
       <table>
-        <thead><tr><th class="num sc1"><button type="button" class="sortbtn" data-sort="p" aria-pressed="false" title="Order by finishing position">#</button></th><th class="sc2"><button type="button" class="sortbtn" data-sort="n" aria-pressed="false" title="Order by name">Runner</button></th><th class="num"><button type="button" class="sortbtn" data-sort="e" aria-pressed="false" title="Order by expected finish"><span style="text-transform:none">x</span>POS</button></th><th class="vs"><button type="button" class="sortbtn" data-sort="d" aria-pressed="false" title="Order by places gained against form"><span style="text-transform:none">vs</span> form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="f" aria-pressed="false" title="Order by 5K form">5K form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hb" aria-pressed="false" title="Order by best handicap">Best h’cap</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hc" aria-pressed="false" title="Order by current handicap">H’cap</button></th></tr></thead>
+        <thead><tr><th class="num sc1"><button type="button" class="sortbtn" data-sort="p" aria-pressed="false" title="Order by finishing position">#</button></th><th class="sc2"><button type="button" class="sortbtn" data-sort="n" aria-pressed="false" title="Order by name">Runner</button></th><th class="num"><button type="button" class="sortbtn" data-sort="e" aria-pressed="false" title="Order by expected finish"><span style="text-transform:none">x</span>POS</button></th><th class="vs"><button type="button" class="sortbtn" data-sort="d" aria-pressed="false" title="Order by places gained against form"><span style="text-transform:none">vs</span> form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="f" aria-pressed="false" title="Order by 5K form">5K form</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hc" aria-pressed="false" title="Order by current handicap">H’cap</button></th><th class="num"><button type="button" class="sortbtn" data-sort="hb" aria-pressed="false" title="Order by best handicap">Best h’cap</button></th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -371,8 +371,8 @@ function render(){
       <td class="num">${x.e?x.e:'<span class="dim">–</span>'}</td>
       <td class="vs">${x.band==="n"?'<span class="dim">no ranking</span>':`<span class="delta b-${x.band}">${fmtD(x.d)}${fmtX(x)}</span>`}</td>
       <td class="num">${best}</td>
-      <td class="num hc">${r.hb!=null?`${(r.hb>0?'+':'')+r.hb.toFixed(1)}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td>
-      <td class="num">${r.hc!=null?(r.hc>0?'+':'')+r.hc.toFixed(1):'<span class="dim">–</span>'}</td></tr>`;
+      <td class="num">${r.hc!=null?(r.hc>0?'+':'')+r.hc.toFixed(1):'<span class="dim">–</span>'}</td>
+      <td class="num hc">${r.hb!=null?`${(r.hb>0?'+':'')+r.hb.toFixed(1)}${r.hd?`<span class="hd">${r.hd.slice(5,7)}/${r.hd.slice(2,4)}</span>`:''}`:'<span class="dim">–</span>'}</td></tr>`;
   }).join("") : `<tr><td colspan="7" class="empty">No runners match these filters.</td></tr>`;
   try{ localStorage.setItem("wcfg3", JSON.stringify({lens:state.lens})); }catch(e){}
 }
