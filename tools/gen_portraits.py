@@ -652,3 +652,4 @@ for slug, club, name, kw, alt in W434:
 save("jermaine-mays", figure("SLH", skin=3, hair="crop", hair_colour="black", necklace="#C9A646"))
 save("gary-staines", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#2A1D18"))
 save("charlie-wyllie", figure("H/W", skin=1, hair="spiky", hair_colour="#E6D9AE", facial="stubble", facial_colour="#B89A6A", brow_colour="#B89A6A"))
+save("george-cotton", figure("WOK", skin=1, hair="tousled", hair_colour="#6E4E33"))
