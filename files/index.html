@@ -850,9 +850,9 @@ const RaceDetailView=({race,mode,setView,seasonsData,clubMvps,races,individualCh
 
 // Embeds a standalone analysis page (same origin) and keeps the frame as tall as its content.
 const FormGuideFrame=({src})=>{
-  const ref=useRef(null);const[h,setH]=useState(1200);
-  const onLoad=()=>{try{const doc=ref.current.contentDocument;const fit=()=>setH(doc.documentElement.scrollHeight);fit();new ResizeObserver(fit).observe(doc.body);}catch(e){}};
-  return<iframe ref={ref} src={src+(src.includes('?')?'&':'?')+'embed=1'} onLoad={onLoad} title="Form guide" scrolling="no" className="w-full border-0 block" style={{height:h}}/>;
+  const ref=useRef(null);const[h,setH]=useState(1200);const[ready,setReady]=useState(false);
+  const onLoad=()=>{setReady(true);try{const doc=ref.current.contentDocument;const fit=()=>setH(doc.documentElement.scrollHeight);fit();new ResizeObserver(fit).observe(doc.body);}catch(e){}};
+  return<iframe ref={ref} src={src+(src.includes('?')?'&':'?')+'embed=1'} onLoad={onLoad} title="Form guide" scrolling="no" className="w-full border-0 block" style={{height:h,opacity:ready?1:0,transition:"opacity .15s"}}/>;
 };
 
 const FixturesView=({setView,races,seasonsData})=>{
