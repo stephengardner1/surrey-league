@@ -1,7 +1,7 @@
 """Simplified geometric portraits.
 Custom options: skin tone, hair style, hair colour, facial hair. Nothing else.
 Generic runners: 'grey' silhouette or 'outline' — no implied skin tone."""
-import os
+import os, math
 os.makedirs("v4", exist_ok=True)
 
 HEAD = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L132,130 C129,152 116,168 100,170 C84,168 71,152 68,130 Z"
@@ -137,7 +137,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -175,7 +175,19 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                  '<path d="M159,292 L166,288 L166,298 Z"/><path d="M160,312 Q165,306 170,313"/></g>'
                  '<path d="M97,200 L100,197 L103,200 L100,203 Z"/></g>')
     # head
-    hg = [f'<g fill="{sk}"{st}><path d="M66,100 L56,104 L58,124 L68,130 Z"/><path d="M134,100 L144,104 L142,124 L132,130 Z"/>'
+    if hood:  # parka hood with a fur ruff framing the face
+        fur, lining = hood
+        pts = []
+        for i in range(90):
+            a = i * 2 * math.pi / 90
+            r = (67, 61, 64, 59, 66, 62)[i % 6] + 2 * math.sin(i * 1.7)
+            pts.append(f"{100 + r * math.sin(a):.1f},{100 - r * 1.1 * math.cos(a):.1f}")
+        hg_pre = (f'<polygon points="{" ".join(pts)}" fill="{fur}"/>'
+                  f'<polygon points="{" ".join(pts)}" fill="#000" opacity=".18" clip-path="url(#r{tag})"/>'
+                  f'<ellipse cx="100" cy="106" rx="50" ry="60" fill="{lining}"/>')
+    else:
+        hg_pre = ''
+    hg = [hg_pre + f'<g fill="{sk}"{st}><path d="M66,100 L56,104 L58,124 L68,130 Z"/><path d="M134,100 L144,104 L142,124 L132,130 Z"/>'
           f'<path d="{HEAD}"/></g>']
     if not line:
         hg.append(f'<path d="M134,100 L144,104 L142,124 L132,130 Z" fill="{dk}"/>'
@@ -291,7 +303,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                  f'<circle cx="100" cy="268" r="16" fill="{mc[0]}"/>'
                  f'<path d="M100,252 A16,16 0 0 1 100,284 Z" fill="{mc[1]}"/>')
     if stars:
-        import math
+        pass
         stars_gold = "#CCAD6A"
         w = 6.6 * stars + 3; x0, y0 = 62, 225.5
         g = [f'<rect x="{x0}" y="{y0}" width="{w:.1f}" height="10" rx="1" fill="{primary}" stroke="{stars_gold}" stroke-width="1"/>']
@@ -506,3 +518,4 @@ save("alex-lee", figure("HHH", skin=1, hair="tousled", hair_colour="#6B4A2E"))
 save("benedict-whitby", figure("HHH", skin=2, hair="croppeak", hair_colour="#5E534A", temples=True))
 save("falilou-kebe", figure("BEL", skin=6, hair="buzz", hair_colour="black"))
 save("jack-dickson", figure("H/W", skin=1, hair="tousled", hair_colour="#9A7650"))
+save("charlie-dickinson", figure("BEL", skin=1, hair=None, beanie="#2F3A2C", frown=True, gaunt=True, hood=("#8E8474", "#2A2E26"), jacket=("#55604A", "#434C3A", None, ("#2F3A40", "#3B4850"))))
