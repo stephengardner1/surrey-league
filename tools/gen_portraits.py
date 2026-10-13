@@ -669,3 +669,4 @@ save("jamie-parkinson", figure("THH", skin=1, hair="messyfringe", hair_colour="#
 save("phil-sesemann", figure("KEN", skin=2, hair="shortcurls", hair_colour="#2E211B"))
 save("andy-coley-maud-cc", figure("C/C", skin=1, hair="quiffrecede", hair_colour="#6B4A2E"))
 save("ralph-street", figure("RAN", skin=1, hair="tousled", hair_colour="#B57A45", headband="#1A1A1A", headband_thick=True))
+save("jon-pepper", figure("RAN", skin=1, hair="messyfringe", hair_colour="#5E4230", gaunt=True))
