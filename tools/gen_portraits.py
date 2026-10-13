@@ -117,6 +117,8 @@ HAIR["longstraight"] = HAIR["longwavy"]
 HAIR_BACK["longstraight"] = '<path d="M60,90 C56,52 80,34 100,34 C120,34 144,52 140,90 L143,186 L57,186 Z"/>'
 HAIR["longstraight"] = HAIR["longwavy"]
 HAIR_BACK["longstraight"] = '<path d="M60,90 C56,52 80,34 100,34 C120,34 144,52 140,90 L142,188 L58,188 Z"/>'
+HAIR["slicktail"] = HAIR["slick"]
+HAIR_BACK["slicktail"] = '<path d="M122,64 C138,66 146,78 146,92 Q152,100 146,110 Q152,120 145,130 Q149,140 141,150 Q140,158 134,160 Q137,150 134,140 Q138,130 133,120 Q136,108 131,98 Q130,82 122,72 Z"/>'
 FACIAL = {
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
     "muttonchops": '<path d="M65,98 L70,98 L71,120 Q74,134 84,143 Q86,148 82,151 Q74,151 70,143 Q66,132 65,118 Z"/><path d="M135,98 L130,98 L129,120 Q126,134 116,143 Q114,148 118,151 Q126,151 130,143 Q134,132 135,118 Z"/>',
@@ -126,7 +128,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -177,6 +179,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                f'<g fill="none" stroke="{ink}" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/><path d="M106,112 Q115,105 124,112"/></g>',
                f'<polygon points="100,108 105,136 96,136" fill="{dk}"/>',
                f'<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z" fill="{dk}"/>']
+        if cleft:  # cleft ('bum') chin
+            hg.append(f'<path d="M100,158 Q98.5,163 100,168" stroke="{dk}" stroke-width="2.6" fill="none" stroke-linecap="round"/>')
         if gaunt:  # hollow cheeks under the cheekbones
             hg.append(f'<g fill="{dk}" opacity=".65"><path d="M74,118 Q86,121 90,139 Q84,131 75,122 Z"/><path d="M126,118 Q114,121 110,139 Q116,131 125,122 Z"/></g><g fill="{lt}" opacity=".6"><path d="M73,115 Q84,115 90,120 Q82,117 73,117 Z"/><path d="M127,115 Q116,115 110,120 Q118,117 127,117 Z"/></g>')
         if facial:
@@ -470,3 +474,4 @@ save("chris-busaileh", figure("KEN", skin=1, hair="croppeak", hair_colour="#A85A
 save("jim-allchin", figure("KEN", skin=1, hair="longstraight", hair_colour="#86593A", headband="#C8323A", facial="stubble"))
 save("finn-johnson", figure("H/W", skin=2, hair="quiffrecede", hair_colour="#3A2620", facial="beard"))
 save("will-cockerell", figure("BEL", skin=2, hair="buzzrecede", hair_colour="#9A948C"))
+save("nick-goolab", figure("BEL", skin=3, hair="slicktail", hair_colour="#1C1714", facial="stubble", cleft=True))
