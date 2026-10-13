@@ -147,7 +147,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -241,7 +241,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             if temples:  # grey at the temples
                 hg.append(f'<clipPath id="ht{tag}">{HAIR[hair]}</clipPath><g clip-path="url(#ht{tag})" fill="#9C948A" opacity=".8"><path d="M56,80 L73,77 L72,106 L56,106 Z"/><path d="M144,80 L127,77 L128,106 L144,106 Z"/></g>')
             if headband:  # thin sports headband across the hairline
-                hg.append(f'<path d="M63,86 Q100,64 137,86 L137,91 Q100,70 63,91 Z" fill="{headband}"/>')
+                hg.append(f'<path d="M62,83 Q100,61 138,83 L138,96 Q100,74 62,96 Z" fill="{headband}"/><path d="M62,83 Q100,61 138,83 L138,85 Q100,63 62,85 Z" fill="#fff" opacity=".12"/>' if headband_thick else f'<path d="M63,86 Q100,64 137,86 L137,91 Q100,70 63,91 Z" fill="{headband}"/>')
             if roots and hair == "curtains":
                 hg.append(f'<clipPath id="hr{tag}">{HAIR["curtains"]}</clipPath><path clip-path="url(#hr{tag})" d="M56,84 C52,50 76,28 100,28 C124,28 148,50 144,84 C132,58 116,48 104,52 L101,60 L99,60 L96,52 C84,48 68,58 56,84 Z" fill="{HAIR_COL.get(roots, roots)}"/>')
             if hair == "ponytail":
@@ -668,4 +668,4 @@ save("callum-stewart", figure("BEL", skin=1, hair="quiff", hair_colour="#2A1E19"
 save("jamie-parkinson", figure("THH", skin=1, hair="messyfringe", hair_colour="#3A2A22"))
 save("phil-sesemann", figure("KEN", skin=2, hair="shortcurls", hair_colour="#2E211B"))
 save("andy-coley-maud-cc", figure("C/C", skin=1, hair="quiffrecede", hair_colour="#6B4A2E"))
-save("ralph-street", figure("RAN", skin=1, hair="crop", hair_colour="#B57A45", headband="#1A1A1A"))
+save("ralph-street", figure("RAN", skin=1, hair="tousled", hair_colour="#B57A45", headband="#1A1A1A", headband_thick=True))
