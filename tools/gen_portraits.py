@@ -642,5 +642,9 @@ W434 = [
  ("kristina-popadich","BEL","Kristina Popadich",dict(skin=1,hair="ponytail",hair_colour="#3A2620"),"dark brown ponytail"),
  ("dillan-quinn","H/W","Dillan Quinn",dict(skin=2,hair="wavytie",hair_colour="#2A1D18"),"dark flowing ponytail"),
 ]
+W434 += [
+ ("sarah-riceman","BEL","Sarah Riceman",dict(skin=1,hair="slick",hair_colour="#C9A35F"),"blonde hair pulled back"),
+ ("holly-pan","BEL","Holly Pan",dict(skin=2,hair="ponytail",hair_colour="#1C1714"),"black ponytail"),
+]
 for slug, club, name, kw, alt in W434:
     save(slug, figure(club, **kw))
