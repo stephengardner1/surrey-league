@@ -120,7 +120,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -228,8 +228,21 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                   '<rect x="84" y="31" width="32" height="5" fill="#C9962E"/><circle cx="82" cy="15" r="2.4" fill="#E2B23A"/><circle cx="100" cy="11" r="2.6" fill="#E2B23A"/><circle cx="118" cy="15" r="2.4" fill="#E2B23A"/>'
                   '<circle cx="100" cy="27" r="2.6" fill="#C41E3A"/><circle cx="91" cy="31" r="1.6" fill="#2563EB"/><circle cx="109" cy="31" r="1.6" fill="#2563EB"/></g>')
     o.append(f'<g {SQ}>' + "".join(hg) + '</g>')
+    if jacket:  # club manager's quarter-zip top instead of a racing vest
+        jc, jd, crest = jacket
+        body = "M88,192 C76,196 66,199 58,205 C46,211 39,221 38,236 L33,330 L167,330 L162,236 C161,221 154,211 142,205 C134,199 124,196 112,192 Z"
+        o.append(f'<path d="{body}" fill="{jc}"/>'
+                 f'<path d="M112,192 C124,196 134,200 142,205 C154,211 161,221 162,236 L167,330 L138,330 L140,250 Q136,236 128,226 Z" fill="{jd}"/>'
+                 f'<path d="M58,232 Q60,262 58,330 M142,232 Q140,262 142,330" stroke="#000" stroke-opacity=".25" stroke-width="1.5" fill="none"/>'
+                 # shirt collar showing in the open neck, jacket collar flaps either side
+                 f'<path d="M86,182 L114,182 L100,208 Z" fill="#7A1E2A"/><path d="M86,182 L93,192 L100,186 L107,192 L114,182 L112,178 L100,184 L88,178 Z" fill="#8E2633"/>'
+                 f'<path d="M80,180 Q86,182 91,184 L100,212 L82,200 Z" fill="{jc}"/><path d="M120,180 Q114,182 109,184 L100,212 L118,200 Z" fill="{jd}"/>'
+                 f'<path d="M80,180 Q86,182 91,184 L92,188 Q86,186 81,184 Z" fill="#000" opacity=".25"/>'
+                 f'<path d="M100,212 L100,330" stroke="#8A8F98" stroke-width="1.6"/><rect x="97.6" y="214" width="4.8" height="9" rx="1.2" fill="#9AA0A8"/>'
+                 + (f'<g transform="translate(76,236)"><circle r="10" fill="{crest[0]}"/><circle r="10" fill="none" stroke="{crest[1]}" stroke-width="1.6"/><circle r="6.2" fill="none" stroke="{crest[1]}" stroke-width=".9"/><path d="M-4,3 L-4,-2 L-2,-4 L0,-2 L2,-4 L4,-2 L4,3 Z" fill="{crest[1]}"/></g>' if crest else '')
+                 + '<path d="M120,230 Q125,224 130,230 L128,232 Q125,228 122,232 Z" fill="#E8E8E8"/>')
     # kit: the site's own vest icon, scaled into this vest
-    o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
+    if not jacket: o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
              f'<path d="M139,204 Q141,226 143,246 L147,330 L135,330 Z" fill="#000" opacity="{0 if line else .12}"/></g>')
     if stars:
         import math
@@ -432,3 +445,4 @@ for slug, club, name, kw, alt in W:
     save(slug, figure(club, **kw))
 save("mike-fuller", figure("H/W", skin=1, hair="longcurls", hair_colour="dark brown", facial="mostubble"))
 save("gerry-north", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown"))
+save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22", facial="stubble", jacket=("#2E3238", "#23262B", ("#C9A65A", "#5A4520"))))
