@@ -469,3 +469,4 @@ save("john-gilbert", figure("KEN", skin=1, hair="fringe", hair_colour="#5C3D28",
 save("chris-busaileh", figure("KEN", skin=1, hair="croppeak", hair_colour="#A85A30"))
 save("jim-allchin", figure("KEN", skin=1, hair="longstraight", hair_colour="#86593A", headband="#C8323A", facial="stubble"))
 save("finn-johnson", figure("H/W", skin=2, hair="quiffrecede", hair_colour="#3A2620", facial="beard"))
+save("will-cockerell", figure("BEL", skin=2, hair="buzzrecede", hair_colour="#9A948C"))
