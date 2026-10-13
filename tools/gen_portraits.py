@@ -180,9 +180,10 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                   '</g>')
     if custom and cap:
         hg.append(f'<g fill="{cap}"><path d="M63,98 C61,58 80,38 100,38 C120,38 139,58 137,98 Z"/>'
-                  f'<path d="M63,94 Q100,86 137,94 L135,104 Q100,97 65,104 Z"/></g>'
+                  f'<path d="M56,97 Q100,82 144,97 Q146,105 138,110 Q100,99 62,110 Q54,105 56,97 Z"/></g>'
+                  f'<path d="M56,97 Q100,82 144,97 Q144,100 142,101 Q100,88 58,101 Q56,100 56,97 Z" fill="#fff" opacity=".35"/>'
                   f'<g clip-path="url(#r{tag})" fill="#000" opacity=".12"><path d="M63,98 C61,58 80,38 100,38 C120,38 139,58 137,98 Z"/></g>'
-                  f'<path d="M65,104 Q100,97 135,104 L134,107 Q100,101 66,107 Z" fill="#000" opacity=".25"/>')
+                  f'<path d="M62,110 Q100,99 138,110 L136,114 Q100,104 64,114 Z" fill="#000" opacity=".28"/>')
     o.append(f'<g {SQ}>' + "".join(hg) + '</g>')
     # kit: the site's own vest icon, scaled into this vest
     o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
