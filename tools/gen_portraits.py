@@ -312,8 +312,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     if not jacket: o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
              f'<path d="M139,204 Q141,226 143,246 L147,330 L135,330 Z" fill="#000" opacity="{0 if line else .12}"/></g>')
     if necklace:  # thin chain resting on the collarbones
-        o.append(f'<path d="M87,195 Q90,214 100,224 Q110,214 113,195" fill="none" stroke="{necklace}" stroke-width="1.6" stroke-linecap="round"/>'
-                 f'<path d="M87,195 Q90,214 100,224 Q110,214 113,195" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.6" stroke-dasharray="1.2 1.6"/>')
+        o.append(f'<path d="M87,195 C87,216 113,216 113,195" fill="none" stroke="{necklace}" stroke-width="1.6" stroke-linecap="round"/>'
+                 f'<path d="M87,195 C87,216 113,216 113,195" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.6" stroke-dasharray="1.2 1.6"/>')
     if medal:  # medal on a ribbon that loops round the back of the neck
         mc = {"gold": ("#D9AA3E", "#BE9030")}[medal]
         o.append('<path d="M79,197 L88,193 L99,252 L92,252 Z" fill="#2B5BB8"/><path d="M121,197 L112,193 L101,252 L108,252 Z" fill="#234C9A"/>'
