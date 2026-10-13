@@ -205,7 +205,7 @@
         },
         {
           "pos": 19,
-          "name": "Billie McCloskey",
+          "name": "Billie McClosky",
           "club": "BEL",
           "time": "24:38",
           "pts": 19
@@ -2020,7 +2020,7 @@
         },
         {
           "pos": 16,
-          "name": "Billie Mccloskey",
+          "name": "Billie McClosky",
           "club": "BEL",
           "time": "30:46",
           "pts": 16
@@ -5315,7 +5315,7 @@
         },
         {
           "pos": 26,
-          "name": "Billie McCloskey",
+          "name": "Billie McClosky",
           "club": "BEL",
           "time": "21:44",
           "b_pts": 26
@@ -6956,7 +6956,7 @@
         },
         {
           "pos": 25,
-          "name": "Billie McCloskey",
+          "name": "Billie McClosky",
           "club": "BEL",
           "time": "34:02",
           "b_pts": 25,
@@ -94902,7 +94902,6 @@
     "Emma Lord": "https://www.powerof10.uk/Home/Athlete/e873772d-fe49-4786-b1a9-775897437cfe",
     "Gabriel Reynolds": "https://www.powerof10.uk/Home/Athlete/6f2a70ed-a179-477c-b9bd-1d64682dde81",
     "Alice Bridger Morales": "https://www.powerof10.uk/Home/Athlete/b75c4aa3-fbb9-41e7-9d13-306451f42170",
-    "Billie McCloskey": "https://www.powerof10.uk/Home/Athlete/e9f62386-15bb-4a77-9888-8e020a980ff0",
-    "Billie Mccloskey": "https://www.powerof10.uk/Home/Athlete/e9f62386-15bb-4a77-9888-8e020a980ff0"
+    "Billie McClosky": "https://www.powerof10.uk/Home/Athlete/e9f62386-15bb-4a77-9888-8e020a980ff0"
   }
 }
