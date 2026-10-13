@@ -130,6 +130,7 @@ HAIR["messyfringe"] = '<path d="M63,102 L59,76 L62,58 L70,46 L79,41 L82,30 L92,3
 HAIR["wavyback"] = '<path d="M64,108 C60,58 80,38 100,38 C121,38 140,58 136,108 L131,88 Q128,72 117,66 Q108,63 100,64 Q90,63 82,67 Q72,73 69,88 Z"/><path d="M64,96 Q56,104 60,114 Q54,122 60,132 Q56,142 64,148 L68,140 Q64,132 67,124 Q63,116 67,108 Z"/><path d="M136,96 Q144,104 140,114 Q146,122 140,132 Q144,142 136,148 L132,140 Q136,132 133,124 Q137,116 133,108 Z"/>'
 HAIR_BACK["wavyback"] = '<path d="M60,90 C58,54 80,36 100,36 C120,36 142,54 140,90 Q148,104 142,118 Q150,132 140,146 Q144,158 132,160 L68,160 Q56,158 60,146 Q50,132 58,118 Q52,104 60,90 Z"/>'
 FACIAL = {
+    "littletache": '<path d="M89,142 Q100,138.5 111,142 L110,145 Q100,142 90,145 Z"/>',
     "shortbeard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".6"/><path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z" opacity=".7"/>',
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
     "muttonchops": '<path d="M65,98 L70,98 L71,120 Q74,134 84,143 Q86,148 82,151 Q74,151 70,143 Q66,132 65,118 Z"/><path d="M135,98 L130,98 L129,120 Q126,134 116,143 Q114,148 118,151 Q126,151 130,143 Q134,132 135,118 Z"/>',
@@ -142,7 +143,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -223,7 +224,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             hg.append(f'<g fill="{dk}" opacity=".65"><path d="M74,118 Q86,121 90,139 Q84,131 75,122 Z"/><path d="M126,118 Q114,121 110,139 Q116,131 125,122 Z"/></g><g fill="{lt}" opacity=".6"><path d="M73,115 Q84,115 90,120 Q82,117 73,117 Z"/><path d="M127,115 Q116,115 110,120 Q118,117 127,117 Z"/></g>')
         if facial:
             fc = HAIR_COL.get(facial_colour, facial_colour) if facial_colour else hc
-            if facial in ("moustache", "goatee"):
+            if facial in ("moustache", "goatee", "littletache"):
                 hg.append(f'<g fill="{fc}">{FACIAL[facial]}</g>')
             else:
                 hg.append(f'<g clip-path="url(#h{tag})" fill="{fc}">{FACIAL[facial]}</g>')
@@ -310,6 +311,9 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     # kit: the site's own vest icon, scaled into this vest
     if not jacket: o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
              f'<path d="M139,204 Q141,226 143,246 L147,330 L135,330 Z" fill="#000" opacity="{0 if line else .12}"/></g>')
+    if necklace:  # thin chain resting on the collarbones
+        o.append(f'<path d="M87,195 Q90,214 100,224 Q110,214 113,195" fill="none" stroke="{necklace}" stroke-width="1.6" stroke-linecap="round"/>'
+                 f'<path d="M87,195 Q90,214 100,224 Q110,214 113,195" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.6" stroke-dasharray="1.2 1.6"/>')
     if medal:  # medal on a ribbon that loops round the back of the neck
         mc = {"gold": ("#D9AA3E", "#BE9030")}[medal]
         o.append('<path d="M79,197 L88,193 L99,252 L92,252 Z" fill="#2B5BB8"/><path d="M121,197 L112,193 L101,252 L108,252 Z" fill="#234C9A"/>'
@@ -540,7 +544,7 @@ save("eddie-jodrell", figure("BEL", skin=2, hair="crop", hair_colour="#2E211B"))
 save("thomas-gandee", figure("BEL", skin=1, hair="quiff", hair_colour="#B9955E"))
 # Wimbledon Common, Feb 2026 (race 439)
 W439 = [
- ("max-milarvie","DUL","Max Milarvie",dict(skin=1,hair="tousled",hair_colour="#3A2620",facial="stubble"),"tousled dark brown hair, stubble"),
+ ("max-milarvie","DUL","Max Milarvie",dict(skin=1,hair="tuftrecede",hair_colour="#3A2620",facial="littletache"),"slightly receding dark hair, little moustache"),
  ("alex-lennon","BEL","Alex Lennon",dict(skin=1,hair="bigcurls",hair_colour="#3A2620"),"short dark curly hair"),
  ("james-hoad","THH","James Hoad",dict(skin=1,hair="crop",hair_colour="#6B4A2E"),"short mid brown hair"),
  ("william-gardner","BEL","William Gardner",dict(skin=1,hair="croppeak",hair_colour="#9A6A44",facial="stubble"),"short gingery hair with a widow peak, stubble"),
@@ -593,3 +597,22 @@ for slug, club, name, kw, alt in W440:
     save(slug, figure(club, **kw))
 save("james-nutt", figure("HHH", skin=1, hair="quiff", hair_colour="#5A3E2A"))
 save("colin-high", figure("G&G", skin=1, hair="horseshoe", hair_colour="#8E6643", facial="beard", facial_colour="#8A5A36"))
+# Mitcham Common, Jan 2026 (race 433)
+W433 = [
+ ("gavin-eccles","BEL","Gavin Eccles",dict(skin=1,hair="shortcurls",hair_colour="#2E211B"),"short dark wavy hair"),
+ ("nicholas-torry","KEN","Nicholas Torry",dict(skin=1,hair="crop",hair_colour="#8E6643",glasses=True),"short light brown hair, glasses"),
+ ("samuel-dames","KEN","Samuel Dames",dict(skin=1,hair="quiff",hair_colour="#9A7650",facial="beard"),"swept-up light brown hair, beard"),
+ ("tom-lole","BEL","Tom Lole",dict(skin=2,hair="crop",hair_colour="#2A1D18"),"short dark hair"),
+ ("will-marshall","BEL","Will Marshall",dict(skin=1,hair="quiff",hair_colour="#6B4A2E"),"swept-up brown hair"),
+ ("stephen-mcleod","HHH","Stephen McLeod",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="beard"),"short dark hair, beard"),
+ ("rory-orsborn","HHH","Rory Orsborn",dict(skin=1,hair="bigcurls",hair_colour="#2E211B"),"big dark curls"),
+]
+W433 += [
+ ("thomas-dugre","BEL","Thomas Dugre",dict(skin=1,hair="quiff",hair_colour="#6B4A2E",facial="shortbeard"),"swept-up brown hair, trimmed beard"),
+ ("arthur-peel","BEL","Arthur Peel",dict(skin=1,hair="crop",hair_colour="#6B4A2E",necklace="#CFCFCF"),"short brown hair, silver chain necklace"),
+ ("angus-lamb","BEL","Angus Lamb",dict(skin=1,hair="quiff",hair_colour="#8E6643"),"swept-up light brown hair"),
+ ("andrew-warburton","HHH","Andrew Warburton",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="shortbeard"),"short dark hair, trimmed beard"),
+ ("robert-laing","KEN","Robert Laing",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="stubble"),"short dark hair, stubble"),
+]
+for slug, club, name, kw, alt in W433:
+    save(slug, figure(club, **kw))
