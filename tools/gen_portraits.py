@@ -126,6 +126,7 @@ HAIR_BACK["longloose"] = '<path d="M58,90 C55,52 80,34 100,34 C120,34 145,52 142
 HAIR["cropround"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,86 C131,74 126,66 116,63 C108,61 104,63 100,66 C96,63 92,61 84,63 C74,66 69,74 68,86 Z"/>'
 HAIR["croprecederound"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 C131,67 126,57 119,55 C111,54 106,60 100,60 C94,60 89,54 81,55 C74,57 69,67 68,84 Z"/>'
 HAIR["tuftrecede"] = '<path d="M65,100 L62,80 L66,62 L72,50 L80,44 L84,34 L93,38 L99,28 L106,36 L114,31 L119,40 L128,44 L134,56 L138,74 L135,100 L132,84 C131,67 126,57 119,55 C111,54 106,60 100,60 C94,60 89,54 81,55 C74,57 69,67 68,84 Z"/>'
+HAIR["messyfringe"] = '<path d="M63,102 L59,76 L62,58 L70,46 L79,41 L82,30 L92,33 L99,24 L107,31 L116,26 L121,35 L130,39 L137,51 L141,70 L137,102 L132,86 Q129,74 122,72 L116,79 L110,74 L102,81 L96,75 L88,80 L83,73 Q72,76 68,86 Z"/>'
 FACIAL = {
     "shortbeard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".6"/><path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z" opacity=".7"/>',
     "mostubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/><path d="M84,141 L100,137 L116,141 L117,150 L112,147 L100,144 L88,147 L83,150 Z"/>',
@@ -381,7 +382,7 @@ save("hair_topknot", figure("HOL", skin=2, hair="topknot", hair_colour="mid brow
 save("downie", figure("BEL", skin=1, hair="quiff", hair_colour="blonde"))
 save("ogden", figure("SLH", skin=1, hair="crop", hair_colour="dark brown"))
 save("ogden_grey", figure("SLH", "grey"))
-save("mccallum", figure("H/W", skin=1, hair="crop", hair_colour="black"))
+save("mccallum", figure("H/W", skin=1, hair="messyfringe", hair_colour="#3A2620"))
 save("penney", figure("H/W", skin=1, hair="quiff", hair_colour="dark brown"))
 save("dempsey", figure("THH", skin=1, hair="croppeak", hair_colour="blonde"))
 save("hart", figure("BEL", skin=1, hair="tousled", hair_colour="light brown"))
