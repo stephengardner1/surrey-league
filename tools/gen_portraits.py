@@ -79,6 +79,7 @@ HAIR = {  # in head coordinates
     "croprecede": '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 Q131,64 125,56 Q118,48 111,54 Q105,61 100,61 Q95,61 89,54 Q82,48 75,56 Q69,64 68,84 Z"/>',
     "afro": '<path d="M65,100 C61,90 59,76 60,62 C61,38 78,22 100,21 C122,22 139,38 140,62 C141,76 139,90 135,100 L132,84 C126,72 116,66 100,65 C84,66 74,72 68,84 Z"/>',
     "crop": '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,80 L120,66 L100,62 L80,66 L68,80 Z"/>',
+    "quiffrecede": '<path d="M64,100 L63,72 L72,52 L86,38 L104,29 L122,33 L134,48 L137,72 L136,100 L131,80 L128,64 L120,58 L110,63 L100,64 L90,63 L80,58 L72,64 L69,80 Z"/>',
     "quiff": '<path d="M64,100 L63,72 L72,52 L86,38 L104,29 L122,33 L134,48 L137,72 L136,100 L131,78 L126,66 L100,61 L74,68 L69,80 Z"/>',
     "curly": '<path d="M63,100 L61,70 L69,51 L83,39 L100,34 L117,39 L131,51 L139,70 L137,100 L131,80 L124,70 L100,66 L76,70 L69,80 Z"/>',
     "ponytail": '<path d="M65,104 C62,60 82,42 100,42 C120,42 138,60 135,104 L130,86 L118,70 L101,65 L82,70 L70,86 Z"/>',
@@ -271,7 +272,7 @@ save("edgar", figure("BEL", skin=1, hair="buzzrecede", hair_colour="light brown"
 save("sommerville", figure("BEL", skin=1, hair="croprecede", hair_colour="dark brown"))
 save("mcdowell", figure("H/W", skin=1, hair=None))
 save("coogan", figure("HHH", skin=1, hair="ponytail", hair_colour="blonde"))
-save("hind", figure("KEN", skin=1, hair="quiff", hair_colour="dark brown"))
+save("hind", figure("KEN", skin=1, hair="quiffrecede", hair_colour="dark brown"))
 save("martin", figure("THH", skin=1, hair="crop", hair_colour="dark brown"))
-save("hind", figure("KEN", skin=1, hair="quiff", hair_colour="dark brown"))
+save("hind", figure("KEN", skin=1, hair="quiffrecede", hair_colour="dark brown"))
 save("barnes", figure("THH", skin=1, hair="crop", hair_colour="dark brown"))
