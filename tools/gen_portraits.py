@@ -77,6 +77,7 @@ HAIR = {  # in head coordinates
     "buzz": '<path d="M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L130,74 L116,59 L100,56 L84,59 L70,74 Z"/>',
     "bigcurls": '<path d="M64,104 L57.7,84.4 Q43.0,80.3 55.0,71.2 Q42.5,62.8 56.9,58.0 Q47.8,46.0 63.1,45.9 Q58.4,31.7 73.1,36.3 Q73.2,21.2 85.8,30.1 Q90.8,15.7 100.0,28.0 Q109.2,15.7 114.2,30.1 Q126.8,21.2 126.9,36.3 Q141.6,31.7 136.9,45.9 Q152.2,46.0 143.1,58.0 Q157.5,62.8 145.0,71.2 Q157.0,80.3 142.3,84.4 L136,104 L134,88 Q131,72 122,64 Q112,70 104,63 Q96,70 86,64 Q74,68 69,76 Q66,82 66,88 Z"/>',
     "curlspeak": '<path d="M62,114 L59.6,83.0 Q46.8,78.5 57.0,70.0 Q46.8,61.5 59.6,57.0 Q53.2,45.5 67.1,45.6 Q65.3,32.5 78.5,37.1 Q81.5,24.0 92.5,32.6 Q100.0,21.0 107.5,32.6 Q118.5,24.0 121.5,37.1 Q134.7,32.5 132.9,45.6 Q146.8,45.5 140.4,57.0 Q153.2,61.5 143.0,70.0 Q153.2,78.5 140.4,83.0 L138,114 L134,98 Q132,78 123,66 Q114,60 107,65 L100,74 L93,65 Q86,60 77,66 Q68,78 66,98 Z"/>',
+    "horseshoe": '<path d="M64,102 C62,84 63,74 69,66 L74,70 Q70,84 70,102 Z"/><path d="M136,102 C138,84 137,74 131,66 L126,70 Q130,84 130,102 Z"/>',
     "curtains": '<path d="M60,108 C54,62 76,32 100,32 C124,32 146,62 140,108 L136,104 C135,94 132,86 126,80 C116,72 107,70 102,58 L98,58 C93,70 84,72 74,80 C68,86 65,94 64,104 Z"/>',
     "croppeak": '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 Q130,68 122,62 Q114,58 108,64 L100,72 L92,64 Q86,58 78,62 Q70,68 68,84 Z"/>',
     "croprecede": '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 Q131,64 125,56 Q118,48 111,54 Q105,61 100,61 Q95,61 89,54 Q82,48 75,56 Q69,64 68,84 Z"/>',
@@ -99,12 +100,13 @@ HAIR_BACK = {
 HAIR["longcurls"] = HAIR["bigcurls"]
 HAIR_BACK["longcurls"] = '<path d="M58,90 C54,52 78,30 100,30 C122,30 146,52 142,90 Q150,104 144,118 Q152,132 146,146 Q154,160 146,174 Q152,188 142,200 L120,204 L80,204 L58,200 Q48,188 54,174 Q46,160 54,146 Q48,132 56,118 Q50,104 58,90 Z"/>'
 FACIAL = {
+    "goatee": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/><path d="M93,157 Q100,155 107,157 L105,169 Q100,171 95,169 Z"/>',
     "moustache": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/>',
     "beard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z"/>',
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, tag="f"):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f"):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -157,10 +159,11 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         if gaunt:  # hollow cheeks under the cheekbones
             hg.append(f'<g fill="{dk}" opacity=".65"><path d="M74,118 Q86,121 90,139 Q84,131 75,122 Z"/><path d="M126,118 Q114,121 110,139 Q116,131 125,122 Z"/></g><g fill="{lt}" opacity=".6"><path d="M73,115 Q84,115 90,120 Q82,117 73,117 Z"/><path d="M127,115 Q116,115 110,120 Q118,117 127,117 Z"/></g>')
         if facial:
-            if facial == "moustache":
-                hg.append(f'<g fill="{hc}">{FACIAL["moustache"]}</g>')
+            fc = HAIR_COL.get(facial_colour, facial_colour) if facial_colour else hc
+            if facial in ("moustache", "goatee"):
+                hg.append(f'<g fill="{fc}">{FACIAL[facial]}</g>')
             else:
-                hg.append(f'<g clip-path="url(#h{tag})" fill="{hc}">{FACIAL[facial]}</g>')
+                hg.append(f'<g clip-path="url(#h{tag})" fill="{fc}">{FACIAL[facial]}</g>')
                 if facial == "beard":
                     hg.append(f'<path d="M90,149 L110,149 L108,154 L92,154 Z" fill="{dk}"/>')
         if hair in HAIR:
@@ -189,7 +192,11 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                   '<g stroke="#000" stroke-opacity=".22" stroke-width="1.6">' +
                   "".join(f'<line x1="{x}" y1="{83 - abs(x-100)*0.1 + 1}" x2="{x}" y2="{98 - abs(x-100)*0.1}"/>' for x in range(66, 136, 6)) +
                   '</g>')
-    if custom and cap:
+    if custom and cap and cap_back:  # cap worn backwards: crown only, strap opening at the front
+        hg.append(f'<g fill="{cap}"><path d="M62,94 C60,54 80,36 100,36 C120,36 140,54 138,94 Q100,82 62,94 Z"/></g>'
+                  f'<path d="M93,88 Q100,78 107,88 Q100,86 93,88 Z" fill="{hc}"/>'
+                  f'<g clip-path="url(#r{tag})" fill="#000" opacity=".12"><path d="M62,94 C60,54 80,36 100,36 C120,36 140,54 138,94 Z"/></g>')
+    elif custom and cap:
         hg.append(f'<g fill="{cap}"><path d="M63,98 C61,58 80,38 100,38 C120,38 139,58 137,98 Z"/>'
                   f'<path d="M56,97 Q100,82 144,97 Q146,105 138,110 Q100,99 62,110 Q54,105 56,97 Z"/></g>'
                   f'<path d="M56,97 Q100,82 144,97 Q144,100 142,101 Q100,88 58,101 Q56,100 56,97 Z" fill="#fff" opacity=".35"/>'
@@ -312,3 +319,10 @@ save("ramm", figure("DUL", skin=1, hair="tousled", hair_colour="mid brown", faci
 save("dyer", figure("BEL", skin=1, hair="tousled", hair_colour="blonde", headband="#1C1C1E"))
 save("blackwood", figure("DUL", skin=1, hair="quiff", hair_colour="light brown"))
 save("nicoll", figure("H/W", skin=1, hair="bigcurls", hair_colour="ginger"))
+save("ismaili", figure("THH", skin=2, hair="horseshoe", hair_colour="black", facial="goatee"))
+save("hathaway", figure("HHH", skin=1, hair="crop", hair_colour="bleached", facial="moustache", facial_colour="mid brown", cap="#1C1C1E", cap_back=True))
+save("day", figure("KEN", skin=1, hair="crop", hair_colour="ginger", facial="stubble", cap="#1F3550"))
+save("coppard", figure("BEL", skin=1, hair="shortcurls", hair_colour="mid brown", facial="stubble"))
+save("tanguy", figure("HHH", skin=1, hair="quiff", hair_colour="dark brown"))
+save("threadgold", figure("BEL", skin=1, hair="crop", hair_colour="#C98A4E", facial="stubble"))
+save("speed", figure("KEN", skin=1, hair="tousled", hair_colour="light brown"))
