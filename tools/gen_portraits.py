@@ -120,7 +120,7 @@ FACIAL = {
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -246,6 +246,14 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     # kit: the site's own vest icon, scaled into this vest
     if not jacket: o.append(f'<g clip-path="url(#v{tag})"><path d="{VEST}" fill="{primary}"/><g {KIT_MAP}>{extras}</g>'
              f'<path d="M139,204 Q141,226 143,246 L147,330 L135,330 Z" fill="#000" opacity="{0 if line else .12}"/></g>')
+    if medal:  # Olympic-style medal on a ribbon round the neck
+        mc = {"gold": ("#E2B23A", "#B8862A", "#F4D27A")}[medal]
+        o.append('<path d="M84,192 L94,250 L100,250 L92,190 Z" fill="#2B5BB8"/><path d="M116,192 L106,250 L100,250 L108,190 Z" fill="#244E9E"/>'
+                 '<path d="M86,193 L95,246 M114,193 L105,246" stroke="#7FA6E8" stroke-width="1"/>'
+                 f'<circle cx="100" cy="266" r="17" fill="{mc[0]}" stroke="{mc[1]}" stroke-width="2"/>'
+                 + "".join(f'<path d="M100,266 L{100+15*__import__("math").cos(a*0.3927):.1f},{266+15*__import__("math").sin(a*0.3927):.1f}" stroke="{mc[1]}" stroke-width=".7" opacity=".55"/>' for a in range(16))
+                 + f'<circle cx="100" cy="266" r="7" fill="{mc[2]}" stroke="{mc[1]}" stroke-width="1"/><path d="M91,258 Q96,253 103,253" stroke="#FFF6D8" stroke-width="2" fill="none" opacity=".7"/>'
+                 '<rect x="94" y="246" width="12" height="5" rx="1.5" fill="#B8862A"/>')
     if stars:
         import math
         stars_gold = "#CCAD6A"
@@ -448,3 +456,4 @@ for slug, club, name, kw, alt in W:
 save("mike-fuller", figure("H/W", skin=1, hair="longcurls", hair_colour="dark brown", facial="mostubble"))
 save("gerry-north", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown"))
 save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22", facial="stubble", jacket=("#2E3238", "#23262B", None)))
+save("alex-yee", figure("KEN", skin=2, hair="quiff", hair_colour="#4A3022", medal="gold"))
