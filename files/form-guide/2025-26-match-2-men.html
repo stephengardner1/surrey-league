@@ -16,11 +16,11 @@
 <style>
 /* Layout: one reading column — headline, lens controls, verdict chips, risers/fallers pair, scatter, full result table */
 :root{
-  --bg:#f6f7f4; --surface:#ffffff; --ink:#1d221c; --ink-2:#4b5348; --muted:#7a8276; --rule:#dfe3dc;
+  --bg:#f9fafb; --surface:#ffffff; --ink:#111827; --ink-2:#374151; --muted:#6b7280; --rule:#e5e7eb;
   --accent:#2b3140;            /* slate: UI controls only, kept clear of the green/red verdict colours */
   --over:#1a8a6f; --over-soft:#d6efe4; --over-mid:#8fd0b6;
   --under:#c23a2f; --under-soft:#f8e0dd; --under-mid:#eea59b;
-  --even:#e9e8e4; --none:#f0f1ee;
+  --even:#e5e7eb; --none:#f3f4f6;
   --f-display:"Fraunces",Georgia,"Times New Roman",serif;
   --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -195,7 +195,13 @@ td.pos{background:var(--surface)!important;color:var(--ink)!important}tr.b-so td
 @media (max-width:520px){.sc2{white-space:nowrap}.sc2 .flag{white-space:normal}.sc2 .rname{display:inline-block;max-width:76px;overflow-x:auto;white-space:nowrap;vertical-align:bottom;scrollbar-width:none;-webkit-overflow-scrolling:touch}.sc2 .rname::-webkit-scrollbar{display:none}}
 @media (max-width:520px){.rname.ovf{-webkit-mask-image:linear-gradient(90deg,#000 75%,transparent);mask-image:linear-gradient(90deg,#000 75%,transparent)}.rname.ovf.end{-webkit-mask-image:none;mask-image:none}}
 @media (max-width:560px){.mlist li:nth-child(5){border-bottom:0}}
-.panel h2,.pred h2,.fold h2{font-family:var(--f-body)!important;font-size:12px!important;font-weight:700!important;text-transform:uppercase;letter-spacing:.05em;color:#6b7280}
+.panel h2,.pred h2,.fold h2{font-family:var(--f-display)!important;font-size:18px!important;font-weight:700!important;text-transform:none;letter-spacing:-.01em;color:#111827}
+.pred .bl{font-size:14px;color:var(--ink)}
+.pred .bv{font-family:var(--f-mono)!important;font-size:13px}
+.pred p{font-size:14px!important;line-height:1.55!important}
+.pred p.dim,.pred .dim{font-size:13px!important}
+.pred p.dim:last-child{margin-top:12px!important}
+.pred .bars{margin:14px 0 14px!important}
 </style>
 
 <div class="wrap">
