@@ -137,7 +137,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -177,13 +177,14 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     # head
     if hood:  # parka hood with a fur ruff framing the face
         fur, lining = hood
-        pts = []
-        for i in range(90):
-            a = i * 2 * math.pi / 90
-            r = (67, 61, 64, 59, 66, 62)[i % 6] + 2 * math.sin(i * 1.7)
-            pts.append(f"{100 + r * math.sin(a):.1f},{100 - r * 1.1 * math.cos(a):.1f}")
-        hg_pre = (f'<polygon points="{" ".join(pts)}" fill="{fur}"/>'
-                  f'<polygon points="{" ".join(pts)}" fill="#000" opacity=".18" clip-path="url(#r{tag})"/>'
+        N = 30; d = []
+        for i in range(N + 1):
+            a0 = i * 2 * math.pi / N; am = (i - 0.5) * 2 * math.pi / N
+            P = lambda r, a: f"{100 + r * math.sin(a):.1f},{100 - r * 1.1 * math.cos(a):.1f}"
+            d.append(("M" if i == 0 else f"Q{P(68, am)} ") + P(61, a0))
+        fur_path = " ".join(d) + " Z"
+        hg_pre = (f'<path d="{fur_path}" fill="{fur}"/>'
+                  f'<path d="{fur_path}" fill="#000" opacity=".18" clip-path="url(#r{tag})"/>'
                   f'<ellipse cx="100" cy="106" rx="50" ry="60" fill="{lining}"/>')
     else:
         hg_pre = ''
@@ -198,7 +199,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         brow = hc if hair_colour not in ("grey", "blonde", "ginger", "bleached") else {"grey": "#8C8A86", "blonde": "#9A7A45", "ginger": "#A65A2A", "bleached": "#6B4A2E"}[hair_colour]
         if hair in ("buzz","buzzrecede") or hair is None: brow = "#3A2C24" if skin <= 3 else "#1E1714"
         if brow_colour: brow = brow_colour
-        hg += [(f'<g fill="{brow}"><polygon points="74,95 94,101 94,106 75,100"/><polygon points="106,101 126,95 125,100 106,106"/></g>' if frown else f'<g fill="{brow}"><polygon points="74,100 94,97 95,102 75,105"/><polygon points="105,97 126,100 125,105 105,102"/></g>'),
+        hg += [(f'<g fill="{brow}"><polygon points="74,102 94,95 94,100 75,107"/><polygon points="106,95 126,102 125,107 106,100"/></g><path d="M98,92 L98,99 M102,92 L102,99" stroke="{dk}" stroke-width="1.2" opacity=".7"/>' if frown == "worried" else f'<g fill="{brow}"><polygon points="74,95 94,101 94,106 75,100"/><polygon points="106,101 126,95 125,100 106,106"/></g>' if frown else f'<g fill="{brow}"><polygon points="74,100 94,97 95,102 75,105"/><polygon points="105,97 126,100 125,105 105,102"/></g>'),
                (f'<g fill="{_eyewhite(sk)}"><path d="{EYE_L}"/><path d="{EYE_R}"/></g>' if define and 'eyes' in define else '') +
                f'<g clip-path="url(#e{tag})" fill="{ink}"><circle cx="85" cy="111.5" r="3.8"/><circle cx="115" cy="111.5" r="3.8"/></g>'
                f'<g fill="none" stroke="{ink}" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/><path d="M106,112 Q115,105 124,112"/></g>',
@@ -277,6 +278,9 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         jc, jd, crest = jacket[:3]
         sh1, sh2 = jacket[3] if len(jacket) > 3 else ('#7A1E2A', '#8E2633')
         body = "M88,192 C76,196 66,199 58,205 C46,211 39,221 38,236 L33,330 L167,330 L162,236 C161,221 154,211 142,205 C134,199 124,196 112,192 Z"
+        if puffy:  # wider, rounder down parka behind the standard top
+            o.append(f'<path d="M86,190 C70,192 50,198 36,210 C20,224 16,244 18,264 L14,330 L186,330 L182,264 C184,244 180,224 164,210 C150,198 130,192 114,190 Z" fill="{jc}"/>'
+                     f'<path d="M114,190 C130,192 150,198 164,210 C180,224 184,244 182,264 L186,330 L150,330 L152,250 Q146,232 128,222 Z" fill="{jd}"/>')
         o.append(f'<path d="{body}" fill="{jc}"/>'
                  f'<path d="M112,192 C124,196 134,200 142,205 C154,211 161,221 162,236 L167,330 L138,330 L140,250 Q136,236 128,226 Z" fill="{jd}"/>'
                  f'<path d="M58,232 Q60,262 58,330 M142,232 Q140,262 142,330" stroke="#000" stroke-opacity=".25" stroke-width="1.5" fill="none"/>'
@@ -287,6 +291,9 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                  f'<path d="M100,212 L100,330" stroke="#8A8F98" stroke-width="1.6"/><rect x="97.6" y="214" width="4.8" height="9" rx="1.2" fill="#9AA0A8"/>'
                  + (f'<g transform="translate(76,236)"><circle r="10" fill="{crest[0]}"/><circle r="10" fill="none" stroke="{crest[1]}" stroke-width="1.6"/><circle r="6.2" fill="none" stroke="{crest[1]}" stroke-width=".9"/><path d="M-4,3 L-4,-2 L-2,-4 L0,-2 L2,-4 L4,-2 L4,3 Z" fill="{crest[1]}"/></g>' if crest else '')
                  )
+    if jacket and puffy:  # quilted baffles
+        o.append(''.join(f'<path d="M{20+k*2},{y} Q100,{y+7} {180-k*2},{y}" stroke="#000" stroke-opacity=".22" stroke-width="1.6" fill="none"/>' for k, y in ((0, 238), (1, 262), (1, 286), (1, 310)))
+                 + '<path d="M40,214 Q30,240 34,268 M160,214 Q170,240 166,268" stroke="#000" stroke-opacity=".2" stroke-width="1.4" fill="none"/>')
     if jacket and jacket_marks:  # one-off extras on a coach's jacket (initials, club saltire)
         if jacket_marks.get("initials"):
             o.append(f'<text x="76" y="244" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="12" fill="#F2F2F0">{jacket_marks["initials"]}</text>')
@@ -518,4 +525,4 @@ save("alex-lee", figure("HHH", skin=1, hair="tousled", hair_colour="#6B4A2E"))
 save("benedict-whitby", figure("HHH", skin=2, hair="croppeak", hair_colour="#5E534A", temples=True))
 save("falilou-kebe", figure("BEL", skin=6, hair="buzz", hair_colour="black"))
 save("jack-dickson", figure("H/W", skin=1, hair="tousled", hair_colour="#9A7650"))
-save("charlie-dickinson", figure("BEL", skin=1, hair=None, beanie="#2F3A2C", frown=True, gaunt=True, hood=("#8E8474", "#2A2E26"), jacket=("#55604A", "#434C3A", None, ("#2F3A40", "#3B4850"))))
+save("charlie-dickinson", figure("BEL", skin=1, hair=None, beanie="#2F3A2C", frown="worried", brow_colour="#C9C7C2", hood=("#8E8474", "#2A2E26"), puffy=True, jacket=("#55604A", "#434C3A", None, ("#2F3A40", "#3B4850"))))
