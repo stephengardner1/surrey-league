@@ -295,6 +295,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
         if hair == "topknot":  # ruffled band around the base of the bun
             hg.append(f'<path d="M89,41 q2,-5 4,0 q2,-5 4,0 q2,-5 4,0 q2,-5 4,0 q2,-5 4,0 q2,-5 4,0 L113,45 q-2,5 -4,0 q-2,5 -4,0 q-2,5 -4,0 q-2,5 -4,0 q-2,5 -4,0 q-2,5 -4,0 Z" fill="{scrunchie}"/>'
                       f'<path d="M89,43 L113,43" stroke="#000" stroke-opacity=".18" stroke-width="1"/>')
+    if custom and scrunchie and hair == "lowbun":  # band where the low bun meets the head
+        hg.append(f'<path d="M145,97 q4,1.5 0,3 q4,1.5 0,3 q4,1.5 0,3 q4,1.5 0,3 L151,109 q-4,-1.5 0,-3 q-4,-1.5 0,-3 q-4,-1.5 0,-3 q-4,-1.5 0,-3 Z" fill="{scrunchie}"/>')
     if custom and beanie:
         hg.append(f'<g fill="{beanie}"><path d="M62,98 C60,52 80,30 100,30 C120,30 140,52 138,98 Z"/></g>'
                   f'<g clip-path="url(#r{tag})" fill="#000" opacity=".15"><path d="M62,98 C60,52 80,30 100,30 C120,30 140,52 138,98 Z"/></g>'
@@ -796,3 +798,4 @@ save("cameron-dockerill", figure("KEN", skin=1, hair="quiff", hair_colour="#3A28
 save("simon-wurr", figure("THH", skin=1, hair="tuftrecede", hair_colour="#2E211B", greying="sides", gaunt=True))
 save("mike-cummings", figure("HHH", skin=1, hair="buzz", hair_colour="#C8B8A4", gaunt=True))
 save("tom-conlon", figure("HHH", skin=1, hair="croppeak", hair_colour="#3A2E26", greying="sides", gaunt=True, creases=True))
+save("molly-smith", figure("HHH", skin=1, hair="lowbun", hair_colour="#7A5638", scrunchie="#C8202A", thin_brows=True, necklace="#E8E2D8"))
