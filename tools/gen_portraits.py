@@ -4,6 +4,7 @@ Generic runners: 'grey' silhouette or 'outline' — no implied skin tone."""
 import os, math
 os.makedirs("v4", exist_ok=True)
 
+HEAD_NARROW = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,122 C127,146 114,165 100,168 C86,165 73,146 69,122 Z"
 HEAD_SQUARE = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L133,140 C132,156 122,167 109,169 L91,169 C78,167 68,156 67,140 Z"
 HEAD = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L132,130 C129,152 116,168 100,170 C84,168 71,152 68,130 Z"
 SQ = 'transform="translate(0,83) scale(1,0.76) translate(0,-40)"'
@@ -164,7 +165,7 @@ def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
 def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False, sleeves=None, buff=None, jaw=None):
-    head = HEAD_SQUARE if jaw == "square" else HEAD
+    head = HEAD_SQUARE if jaw == "square" else HEAD_NARROW if jaw == "narrow" else HEAD
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -475,7 +476,7 @@ save("royer", figure("G&G", skin=2, hair="longcurls", hair_colour="black", facia
 save("kelly", figure("BEL", skin=1, hair="quiff", hair_colour="light brown", facial="stubble"))
 save("janiaud", figure("BEL", skin=3, hair="quiff", hair_colour="black", facial="stubble", crown=True))
 save("renshaw", figure("THH", skin=1, hair="quiffrecede", hair_colour="#C9945A"))
-save("ramm", figure("DUL", skin=1, hair="tousled", hair_colour="mid brown", facial="stubble"))
+save("ramm", figure("DUL", skin=1, hair="tousled", hair_colour="mid brown", facial="stubble", gaunt=True, jaw="narrow"))
 save("dyer", figure("BEL", skin=1, hair="tousled", hair_colour="blonde", headband="#1C1C1E"))
 save("blackwood", figure("DUL", skin=1, hair="quiff", hair_colour="light brown"))
 save("nicoll", figure("H/W", skin=1, hair="bigcurls", hair_colour="ginger"))
