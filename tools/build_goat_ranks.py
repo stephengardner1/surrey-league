@@ -14,7 +14,9 @@ async () => {
   const out = {clubs: {}};
   for (const c of Object.keys(CLUBS)) out.clubs[c] = CLUBS[c].name || c;
   for (const [div, file] of [['men', 'data.json'], ['women', 'data-women.json']]) {
-    const data = normalizeData(await fetch(file).then(r => r.json()), div, aliases);
+    const raw = await fetch(file).then(r => r.json());
+    const rawCopy = JSON.parse(JSON.stringify(raw));
+    const data = normalizeData(raw, div, aliases);
     const dc = DIVISIONS[div] || DIVISIONS.men;
     const hidden = new Set(Object.entries(CLUBS).filter(([k, v]) => v.hidden).map(([k]) => k)); hidden.add('G');
     const stats = {};  // club -> normalized name -> {name, value}
@@ -42,6 +44,14 @@ async () => {
       Object.values(m).sort((a, b) => b.value - a.value).forEach((a, i) => { (ranks[slug(a.name)] ||= {})[club] = i + 1; });
     }
     for (const [from, to] of Object.entries(aliases)) if (ranks[slug(to)] && !ranks[slug(from)]) ranks[slug(from)] = ranks[slug(to)];
+    // raw spellings in the data file (what the link-preview worker sees) -> the site's merged name
+    const key = r => r.season + '|' + r.match;
+    const norm = {}; for (const r of data.races) norm[key(r)] = r;
+    for (const r of rawCopy.races || []) {
+      const n = norm[key(r)]; const rr = r.results || [];
+      if (!n || !n.results || n.results.length !== rr.length) continue;
+      rr.forEach((x, i) => { const s = slug(x.n || x.name), to = slug(n.results[i].name); if (s !== to && ranks[to] && !ranks[s]) ranks[s] = ranks[to]; });
+    }
     out[div] = ranks;
   }
   return out;

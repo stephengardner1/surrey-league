@@ -743,3 +743,5 @@ save("mike-farmery", figure("THH", skin=1, hair="horseshoe", hair_colour="#6E625
 save("kassa-tadesse", figure("BEL", skin=5, hair="buzzrecede", hair_colour="black", gaunt=True))
 save("paul-freary", figure("BEL", skin=1, hair="wavyback", hair_colour="#A88656", headband="#1A1A1A", shades=True, shades_col="#5A2A26", shades_frame="#2A2A2A", facial="stubble", facial_colour="#8A6A48", necklace="#D4D4D4", gaunt=True))
 save("stephen-sharp", figure("BEL", skin=2, hair="buzzrecede", hair_colour="#6E5A40", gaunt=True, necklace="#1A1A1A"))
+save("mark-miles", figure("BEL", skin=1, hair="tousled", hair_colour="#7E6040"))
+save("kevin-nash", figure("BEL", skin=1, hair="bob", hair_colour="#D8BC7C", brow_colour="#A88A58"))
