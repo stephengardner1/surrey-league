@@ -670,7 +670,7 @@ W433 += [
  ("robert-laing","KEN","Robert Laing",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="stubble"),"short dark hair, stubble"),
 ]
 W433 += [
- ("toby-cooke","H/W","Toby Cooke",dict(skin=1,hair="quiff",hair_colour="#5A3E2A"),"short brown hair"),
+ ("toby-cooke","H/W","Toby Cooke",dict(skin=1,hair="croprecede",hair_colour="#6E5038"),"short receding brown hair"),
  ("harrison-hayman","SLH","Harrison Hayman",dict(skin=1,hair="tousled",hair_colour="#B8703E"),"tousled ginger hair"),
  ("edward-chuck","DUL","Edward Chuck",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="stubble"),"short dark hair, stubble"),
 ]
