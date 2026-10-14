@@ -656,7 +656,6 @@ save("colin-high", figure("G&G", skin=1, hair="horseshoe", hair_colour="#8E6643"
 # Mitcham Common, Jan 2026 (race 433)
 W433 = [
  ("gavin-eccles","BEL","Gavin Eccles",dict(skin=1,hair="shortcurls",hair_colour="#2E211B"),"short dark wavy hair"),
- ("nicholas-torry","KEN","Nicholas Torry",dict(skin=1,hair="crop",hair_colour="#8E6643",glasses=True),"short light brown hair, glasses"),
  ("samuel-dames","KEN","Samuel Dames",dict(skin=1,hair="quiff",hair_colour="#9A7650",facial="beard"),"swept-up light brown hair, beard"),
  ("tom-lole","BEL","Tom Lole",dict(skin=2,hair="crop",hair_colour="#2A1D18"),"short dark hair"),
  ("will-marshall","BEL","Will Marshall",dict(skin=1,hair="quiff",hair_colour="#6B4A2E"),"swept-up brown hair"),
@@ -706,7 +705,7 @@ W433 += [
  ("tom-thornley","HOL","Tom Thornley",dict(skin=1,hair="sweptback",hair_colour="#8E6643"),"swept-back light brown hair"),
 ]
 W433 += [
- ("thomas-renshaw","THH","Thomas Renshaw",dict(skin=1,hair="floppyrecede",hair_colour="#D9B98A"),"floppy, thinning strawberry-blond hair"),
+ ("thomas-renshaw","THH","Thomas Renshaw",dict(skin=1,hair="floppyrecede",hair_colour="#CC8E58"),"floppy, thinning strawberry-blond hair"),
  ("amittai-ben-israel","THH","Amittai Ben-Israel",dict(skin=1,hair="crop",hair_colour="#5A3E2B",gaunt=True),"short brown hair"),
 ]
 for slug, club, name, kw, alt in W433:
