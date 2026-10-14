@@ -684,6 +684,12 @@ W433 += [
  ("ben-clarke","KEN","Ben Clarke",dict(skin=1,hair="tousled",hair_colour="#5A3E2A",facial="littletache"),"wavy brown hair, little moustache"),
  ("benjamin-hilson","HOL","Benjamin Hilson",dict(skin=1,hair="messyfringe",hair_colour="#5A3E2A"),"messy brown fringe"),
 ]
+W433 += [
+ ("christopher-parker","THH","Christopher Parker",dict(skin=1,hair="tousled",hair_colour="#3A2620",rosy=True),"tousled dark brown hair"),
+ ("monty-hudson","BEL","Monty Hudson",dict(skin=1,hair="curtains",hair_colour="#7A5A3E",necklace="#CFCFCF"),"curtained light brown hair, silver chain"),
+ ("dan-wallis-gg","G&G","Dan Wallis",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="stubble"),"short dark hair, stubble"),
+ ("ben-pearce","HOL","Ben Pearce",dict(skin=1,hair="quiff",hair_colour="#3A2620"),"swept-up dark brown hair"),
+]
 for slug, club, name, kw, alt in W433:
     save(slug, figure(club, **kw))
 # women's Match 3, Mitcham Common, Jan 2026 (race 434)
