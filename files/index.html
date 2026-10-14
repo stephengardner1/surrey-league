@@ -2680,9 +2680,9 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   },[clubCode,sort,races]);
   
   const mvp=clubAthletes[0];
-  // busts for the value ranking only: #1 if they have a portrait, all of the top three if all three do
+  // bust for the club's #1 by value only, when they have a portrait
   const _hasP=a=>a&&portraitFile(a.name,clubCode);
-  const clubBustN=sort!=='value'?0:([0,1,2].every(k=>_hasP(clubAthletes[k]))?3:(_hasP(clubAthletes[0])?1:0));
+  const clubBustN=sort==='value'&&_hasP(clubAthletes[0])?1:0;
   const allTimeRank=clubAllTime.findIndex(c=>c.club===clubCode)+1;if(!clubInfo)return<div className="max-w-5xl mx-auto px-4 py-8"><p>Club not found</p></div>;
   const TEAM_SIZE_A=(divisionConfig?.teamSize?.a)||10;
   const cols=[{f:'value',l:'V',t:TEAM_SIZE_A<=7?`Value: ${TEAM_SIZE_A}pts for A1 down to 1pt for A${TEAM_SIZE_A}`:'Value: 10pts for A1 down to 1pt for A10'},{f:'aScores',l:'A',t:'A-team scores for this club'},{f:'wins',l:'W',t:'Race wins'},{f:'top3',l:'T3',t:'Top 3 finishes'},{f:'top5',l:'T5',t:'Top 5 finishes'},{f:'top10',l:'T10',t:'Top 10 finishes'},{f:'top20',l:'T20',t:'Top 20 finishes'},{f:'top50',l:'T50',t:'Top 50 finishes'},{f:'top100',l:'T100',t:'Top 100 finishes'},{f:'races',l:'R',t:'Total races'}];
