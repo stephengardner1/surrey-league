@@ -792,3 +792,4 @@ save("clare-pauzers", figure("HHH", skin=1, hair="wavyback", hair_colour="#7A3A2
 save("james-murray", figure("KEN", skin=1, hair="sweptback", hair_colour="#3A2820", facial="mostubble", facial_colour="#3A2820"))
 save("phil-woodford-smith", figure("KEN", skin=1, hair="slick", hair_colour="#241A15", facial="shortbeard", facial_colour="#1C1410"))
 save("james-ewing", figure("KEN", skin=3, hair="crop", hair_colour="#241A15", gaunt=True))
+save("cameron-dockerill", figure("KEN", skin=1, hair="quiff", hair_colour="#3A2820"))
