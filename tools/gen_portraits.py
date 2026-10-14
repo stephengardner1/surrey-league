@@ -758,3 +758,4 @@ save("jean-paul-wright", figure("BEL", skin=1, hair="quiff", hair_colour="#3A262
 save("mike-hayes", figure("BEL", skin=1, hair="tuftrecede", hair_colour="#B89A6A", gaunt=True))
 save("marcello-bizio", figure("BEL", skin=2, hair="crop", hair_colour="black"))
 save("ollie-foote", figure("BEL", skin=1, hair="crop", hair_colour="#6B4A2E"))
+save("malachi-byansi", figure("BEL", skin=6, hair=None, gaunt=True))
