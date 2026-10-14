@@ -690,6 +690,20 @@ W433 += [
  ("dan-wallis-gg","G&G","Dan Wallis",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="stubble"),"short dark hair, stubble"),
  ("ben-pearce","HOL","Ben Pearce",dict(skin=1,hair="quiff",hair_colour="#3A2620"),"swept-up dark brown hair"),
 ]
+W433 += [
+ ("jacob-brockmann","THH","Jacob Brockmann",dict(skin=1,hair="crop",hair_colour="#6B4A2E"),"short brown hair"),
+ ("alex-gutteridge","HHH","Alex Gutteridge",dict(skin=1,hair="quiff",hair_colour="#2A1D18",facial="beard"),"swept-up dark hair, full beard"),
+ ("tom-davies","H/W","Tom Davies",dict(skin=2,hair="crop",hair_colour="#2A1D18",cap="#F2F1EC"),"white cap"),
+ ("matt-wood","HHH","Matt Wood",dict(skin=1,hair="quiff",hair_colour="#5A3E2B"),"swept-up brown hair"),
+ ("isaac-parker","KEN","Isaac Parker",dict(skin=1,hair="crop",hair_colour="#8E6643"),"short light brown hair"),
+ ("tom-omahoney","HHH","Tom O'Mahoney",dict(skin=1,hair="fringe",hair_colour="#5A3E2B"),"brown fringe"),
+ ("ed-brewer","G&G","Ed Brewer",dict(skin=1,hair="tousled",hair_colour="#4A3426",facial="shortbeard",facial_colour="#4A3426"),"tousled brown hair, short beard"),
+ ("james-bartram","THH","James Bartram",dict(skin=1,hair="shortcurls",hair_colour="ginger"),"short ginger curls"),
+ ("charlie-pickett","G&G","Charlie Pickett",dict(skin=1,hair="crop",hair_colour="#8E6643"),"short light brown hair"),
+ ("harry-guttridge","C/C","Harry Guttridge",dict(skin=1,hair="quiff",hair_colour="#3A2620",necklace="#CFCFCF"),"swept-up dark hair, silver chain"),
+ ("alex-harris","KEN","Alex Harris",dict(skin=1,hair="croprecede",hair_colour="#3A2620",facial="stubble",gaunt=True,creases=True),"receding dark hair, stubble"),
+ ("tom-thornley","HOL","Tom Thornley",dict(skin=1,hair="sweptback",hair_colour="#8E6643"),"swept-back light brown hair"),
+]
 for slug, club, name, kw, alt in W433:
     save(slug, figure(club, **kw))
 # women's Match 3, Mitcham Common, Jan 2026 (race 434)
