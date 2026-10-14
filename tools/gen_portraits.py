@@ -131,6 +131,7 @@ HAIR["messyfringe"] = '<path d="M63,102 L59,76 L62,58 L70,46 L79,41 L82,30 L92,3
 HAIR["wavyback"] = '<path d="M64,108 C60,58 80,38 100,38 C121,38 140,58 136,108 L131,88 Q128,72 117,66 Q108,63 100,64 Q90,63 82,67 Q72,73 69,88 Z"/><path d="M64,96 Q56,104 60,114 Q54,122 60,132 Q56,142 64,148 L68,140 Q64,132 67,124 Q63,116 67,108 Z"/><path d="M136,96 Q144,104 140,114 Q146,122 140,132 Q144,142 136,148 L132,140 Q136,132 133,124 Q137,116 133,108 Z"/>'
 HAIR_BACK["wavyback"] = '<path d="M60,90 C58,54 80,36 100,36 C120,36 142,54 140,90 Q148,104 142,118 Q150,132 140,146 Q144,158 132,160 L68,160 Q56,158 60,146 Q50,132 58,118 Q52,104 60,90 Z"/>'
 HAIR["tightbun"] = HAIR["slick"]
+HAIR["shaggyhorseshoe"] = '<path d="M66,104 L60,98 L62,90 L56,84 L61,78 L59,70 L66,63 L74,61 L78,67 Q72,80 71,104 Z"/><path d="M134,104 L140,98 L138,90 L144,84 L139,78 L141,70 L134,63 L126,61 L122,67 Q128,80 129,104 Z"/><path d="M88,46 Q94,41 101,43 Q108,40 113,45 Q106,44 100,46 Q94,45 88,46 Z" opacity=".55"/>'
 HAIR["seventies"] = '<path d="M64,104 Q56,100 58,90 Q52,80 58,70 Q56,56 68,50 Q68,30 84,28 Q92,18 103,22 Q115,16 124,26 Q137,32 140,46 Q151,53 146,66 Q152,78 144,88 Q146,100 136,104 L133,92 C131,82 126,74 118,70 Q110,75 100,72 Q88,77 80,70 Q72,76 68,86 Z"/><g fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.4" stroke-linecap="round"><path d="M72,50 Q88,40 108,44"/><path d="M114,46 Q130,52 138,68"/></g>'
 HAIR_BACK["seventies"] = '<path d="M62,82 Q52,88 55,100 Q48,110 54,120 Q48,130 56,138 Q54,148 64,150 Q72,154 78,148 L86,146 L86,130 L114,130 L114,146 L122,148 Q128,154 136,150 Q146,148 144,138 Q152,130 146,120 Q152,110 145,100 Q148,88 138,82 Z"/>'
 HAIR["longflow"] = HAIR["longstraight"]
@@ -281,8 +282,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             if hair == "highpony":  # hair tie where the bunch is gathered on top
                 hg.append('<path d="M89,40 Q100,44 111,40 L110,44.5 Q100,48.5 90,44.5 Z" fill="#000" fill-opacity=".35"/>')
     if custom and glasses:
-        gw = "2.2" if glasses_col != "#9A9DA3" else "1.6"
-        lens = '<circle cx="85" cy="111" r="10"/><circle cx="115" cy="111" r="10"/>' if glasses == "round" else '<rect x="74" y="103" width="22" height="17" rx="5"/><rect x="104" y="103" width="22" height="17" rx="5"/>'
+        gw = "4.2" if glasses == "square" else "2.2" if glasses_col != "#9A9DA3" else "1.6"
+        lens = '<circle cx="85" cy="111" r="10"/><circle cx="115" cy="111" r="10"/>' if glasses == "round" else ('<rect x="73" y="102" width="24" height="17" rx="1.5"/><rect x="103" y="102" width="24" height="17" rx="1.5"/>' if glasses == "square" else '<rect x="74" y="103" width="22" height="17" rx="5"/><rect x="104" y="103" width="22" height="17" rx="5"/>')
         hg.append(f'<g fill="#FFFFFF" fill-opacity=".18" stroke="{glasses_col}" stroke-width="{gw}">{lens}</g>'
                   f'<path d="M96,109 Q100,106 104,109 M74,108 L66,106 M126,108 L134,106" fill="none" stroke="{glasses_col}" stroke-width="{gw}"/>')
     if custom and shades:
@@ -516,8 +517,8 @@ save("awilson", figure("DUL", skin=1, hair="quiff", hair_colour="#C98A4E", facia
 save("burthem", figure("HHH", skin=1, hair="tousled", hair_colour="dark brown", facial="beard"))
 save("pettitt", figure("KEN", skin=1, hair="croprecede", hair_colour="mid brown", facial="beard", shades=True))
 # Holt brothers (Herc Wimbledon, 1960s-70s)
-save("bob-holt", figure("H/W", skin=1, hair="croprecede", hair_colour="dark brown", facial="muttonchops", gaunt=True))
-save("dave-holt", figure("H/W", skin=1, hair="quiffrecede", hair_colour="dark brown", facial="muttonchops", gaunt=True))
+save("bob-holt", figure("H/W", skin=1, hair="shaggyhorseshoe", hair_colour="dark brown", facial="muttonchops", gaunt=True))
+save("dave-holt", figure("H/W", skin=1, hair="shaggyhorseshoe", hair_colour="dark brown", facial="muttonchops", gaunt=True, glasses="square", glasses_col="#141414"))
 # women's race, Oct 2026 (race 566)
 LB="#9A6E48"; SB="#B27A4E"; DB="dark brown"
 W = [
