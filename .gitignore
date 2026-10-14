@@ -1,2 +1,7 @@
 node_modules/
 .wrangler/
+.DS_Store
+files/*-backup-*
+files/index (*.html
+files/index.fixed.html
+index (*.html
