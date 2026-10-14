@@ -718,3 +718,4 @@ save("bernie-ford", figure("AFD", skin=1, hair="seventies", hair_colour="#1E1714
 save("dave-taylor", figure("HHH", skin=2, hair="croprecede", hair_colour="#5A3E2B", gaunt=True))
 save("ben-reynolds", figure("THH", skin=1, hair="buzzrecede", hair_colour="#6B5A4A", gaunt=True))
 save("tom-jervis", figure("H/W", skin=1, hair="quiff", hair_colour="#E3C98A", facial="stubble", facial_colour="#C9A060", brow_colour="#C9A060", rosy=True))
+save("nick-torry", figure("KEN", skin=1, hair="croprecede", hair_colour="#6B4A2E", glasses=True, gaunt=True))
