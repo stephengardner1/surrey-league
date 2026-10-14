@@ -728,3 +728,4 @@ save("nick-torry", figure("KEN", skin=1, hair="croprecede", hair_colour="#6B4A2E
 save("john-bicourt", figure("BEL", skin=1, hair="seventies", hair_colour="#4A3022", facial="muttonchops", facial_colour="#4A3022"))
 save("tony-harran", figure("HHH", skin=1, hair="tuftrecede", hair_colour="#4A3426", gaunt=True, creases=True))
 save("robert-elphick", figure("KEN", skin=1, hair="tousled", hair_colour="#3A2820"))
+save("david-ogden", figure("SLH", skin=1, hair="horseshoe", hair_colour="#A89880", gaunt=True, creases=True, brow_colour="#8A7A66"))
