@@ -1133,6 +1133,8 @@ const WinnerBust=({winners,onOpen})=>{const hit=useMemo(()=>{for(const w of winn
   return<div className="flex-none cursor-pointer" title={onOpen?`${hit.w.name}: athlete profile`:undefined} onClick={onOpen?()=>onOpen(hit.w):undefined} style={{width:W,height:H,marginLeft:lg?-16:-12,marginRight:lg?-4:-11,clipPath:'inset(-60px 0 0 0)'}}>{u&&<img src={u} alt="" style={{display:'block',maxWidth:'none',width:180*sc,height:'auto'}}/>}</div>;};
 const MobileWinnerBust=({w,onOpen,anchor})=>{const file=portraitFile(w.name,w.club);const[H,setH]=useState(72);useEffect(()=>{const el=anchor&&anchor.current;if(!el)return;const f=()=>setH(el.offsetTop+el.offsetHeight);f();const ro=new ResizeObserver(f);ro.observe(el);return()=>ro.disconnect();},[anchor]);const W=Math.round(H*5/6),IW=Math.round(W*1.28);if(!file)return null;return<div className="lg:hidden absolute left-0 top-0 cursor-pointer rounded-md" title={`${w.name}: athlete profile`} onClick={()=>onOpen&&onOpen(w)} style={{width:W,height:H,overflow:'hidden'}}><img src={`/portraits/athletes/${file}.svg?v=${PORTRAIT_V}`} alt="" style={{display:'block',maxWidth:'none',width:IW,height:'auto',marginLeft:-(IW-W)/2,marginTop:-Math.round(IW*0.02)}}/></div>;};
 const ListBust=({name,club})=>{const file=portraitFile(name,club);const[u,setU]=useState(null);useEffect(()=>{setU(null);if(!file)return;let d=false;loadBust(`/portraits/athletes/${file}.svg?v=${PORTRAIT_V}`).then(x=>{if(!d)setU(x);}).catch(()=>{});return()=>{d=true;};},[file]);return<span className="flex-none self-end" style={{display:'block',width:40,height:48,overflow:'visible',clipPath:'inset(-40px 0 0 0)',margin:'-5px 0 -6px -3px'}}>{u&&<img src={u} alt="" style={{display:'block',maxWidth:'none',width:40,height:'auto'}}/>}</span>;};
+// Mitchell Cup winner: their bust when we have a portrait, otherwise the club vest
+const WinnerMark=({name,club,show})=>show&&portraitFile(name,club)?<ListBust name={name} club={club}/>:<ClubShield club={club} size={14}/>;
 // Portrait with its background rectangle stripped, cached as a blob URL (used for the busts in the form-guide movers boxes)
 const BUSTS={};const loadBust=src=>BUSTS[src]||(BUSTS[src]=fetch(src).then(r=>{if(!r.ok)throw 0;return r.text();}).then(t=>URL.createObjectURL(new Blob([t.replace(/<rect width="200" height="280"[^>]*\/>/,'')],{type:'image/svg+xml'}))));
 const FormGuideNative=({src,results})=>{
@@ -3486,7 +3488,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
               const rankDisplay=isTied?`=${tieRank}`:String(i+1);
               return <tr key={a.name} className="hover:bg-gray-100 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
                 <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{rankDisplay}</td>
-                <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><ClubShield club={a.club} size={14}/><span className="text-gray-700">{a.name}</span></div></td>
+                <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={tieRank===1}/><span className="text-gray-700">{a.name}</span></div></td>
                 <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
                 {a.positions.map((pos,pi)=><td key={pi} className={`${rightRowPy} px-1 text-right text-gray-400 text-xs tabular-nums w-8`}>{pos}</td>)}
               </tr>}
@@ -3506,7 +3508,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
           <tbody className="divide-y divide-gray-100">
             {mitchellWinners.map((w,i)=><tr key={i} className="hover:bg-gray-100 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:w.name,club:w.club}})}>
               <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{isJoint?'=':(i+1)}</td>
-              <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><ClubShield club={w.club} size={14}/><span className="text-gray-700">{w.name}</span></div></td>
+              <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={w.name} club={w.club} show={true}/><span className="text-gray-700">{w.name}</span></div></td>
               <td className={`${rightRowPy} px-1 text-right text-gray-400 text-xs`}></td>
             </tr>)}
           </tbody>
@@ -3564,7 +3566,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
           const rankDisplay=isTied?`=${tieRank}`:String(i+1);
           return <tr key={a.name} className="hover:bg-gray-100 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
             <td className={`${rightRowPy} pr-2 text-gray-400 w-6`}>{rankDisplay}</td>
-            <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><ClubShield club={a.club} size={14}/><span className="text-gray-700">{a.name}</span></div></td>
+            <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={tieRank===1&&numRaces>=4}/><span className="text-gray-700">{a.name}</span></div></td>
             <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
             {a.runs.map((r,ri)=><td key={ri} className={`${rightRowPy} px-1 text-right text-gray-400 text-xs tabular-nums w-8`}>{r.pos}</td>)}
           </tr>}
