@@ -278,7 +278,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                 hg.append('<path d="M89,40 Q100,44 111,40 L110,44.5 Q100,48.5 90,44.5 Z" fill="#000" fill-opacity=".35"/>')
     if custom and glasses:
         gw = "2.2" if glasses_col != "#9A9DA3" else "1.6"
-        hg.append(f'<g fill="#FFFFFF" fill-opacity=".18" stroke="{glasses_col}" stroke-width="{gw}"><rect x="74" y="103" width="22" height="17" rx="5"/><rect x="104" y="103" width="22" height="17" rx="5"/></g>'
+        lens = '<circle cx="85" cy="111" r="10"/><circle cx="115" cy="111" r="10"/>' if glasses == "round" else '<rect x="74" y="103" width="22" height="17" rx="5"/><rect x="104" y="103" width="22" height="17" rx="5"/>'
+        hg.append(f'<g fill="#FFFFFF" fill-opacity=".18" stroke="{glasses_col}" stroke-width="{gw}">{lens}</g>'
                   f'<path d="M96,109 Q100,106 104,109 M74,108 L66,106 M126,108 L134,106" fill="none" stroke="{glasses_col}" stroke-width="{gw}"/>')
     if custom and shades:
         hg.append('<path d="M66,104 Q100,98 134,104 L131,121 Q118,128 104,120 L100,116 L96,120 Q82,128 69,121 Z" fill="' + (shades_col or "#2B3039") + '"/>'
@@ -773,5 +774,6 @@ save("john-bromley", figure("BEL", skin=1, hair="croprecede", hair_colour="#9A8A
 save("don-maclean", figure("BEL", skin=1, hair="shortcurls", hair_colour="#2E211B"))
 save("chris-greenwood", figure("KEN", skin=1, hair=None, facial="shortbeard", facial_colour="#4A3E36", brow_colour="#3A2E26", gaunt=True))
 save("dame-dibaba", figure("KEN", skin=4, hair="shortcurls", hair_colour="black", facial="shortbeard", facial_colour="#1C1714", gaunt=True))
-save("nick-acfield", figure("KEN", skin=1, hair="shortcurls", hair_colour="#7A5A3A", glasses=True, glasses_col="#3A2E26"))
+save("nick-acfield", figure("KEN", skin=1, hair="shortcurls", hair_colour="#7A5A3A", glasses="round", glasses_col="#3A2E26"))
 save("olly-buck", figure("KEN", skin=1, hair="messyfringe", hair_colour="#3A2A20", mud=True))
+save("max-nicholls", figure("KEN", skin=2, hair="messyvolume", hair_colour="#2E211B"))
