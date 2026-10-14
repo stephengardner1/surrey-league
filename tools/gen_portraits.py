@@ -710,3 +710,5 @@ save("isabel-brinsden", figure("E&E", skin=1, hair="wavytie", hair_colour="#C46A
 save("mimi-corden-lloyd", figure("BEL", skin=2, hair="tightbun", hair_colour="#3A2620", necklace="#C9A646", parting=True))
 save("steph-hewitt", figure("BEL", skin=1, hair="ponytail", hair_colour="#3A2620"))
 save("david-bowers", figure("BEL", skin=1, hair="buzzrecede", hair_colour="#C98A55", facial="stubble", facial_colour="#B8703E", brow_colour="#B8804E"))
+save("stuart-major", figure("SLH", skin=1, hair="quiff", hair_colour="#8A6440"))
+save("stuart-major-thh", figure("THH", skin=1, hair="quiff", hair_colour="#8A6440"))
