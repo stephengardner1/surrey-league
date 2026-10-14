@@ -795,3 +795,4 @@ save("james-ewing", figure("KEN", skin=3, hair="crop", hair_colour="#241A15", ga
 save("cameron-dockerill", figure("KEN", skin=1, hair="quiff", hair_colour="#3A2820"))
 save("simon-wurr", figure("THH", skin=1, hair="tuftrecede", hair_colour="#2E211B", greying="sides", gaunt=True))
 save("mike-cummings", figure("HHH", skin=1, hair="buzz", hair_colour="#C8B8A4", gaunt=True))
+save("tom-conlon", figure("HHH", skin=1, hair="croppeak", hair_colour="#3A2E26", greying="sides", gaunt=True, creases=True))
