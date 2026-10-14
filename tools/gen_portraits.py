@@ -264,7 +264,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             if rosy:  # flushed cheeks
                 hg.append('<g fill="#E0505A" opacity=".2"><ellipse cx="80" cy="130" rx="12" ry="8.5"/><ellipse cx="120" cy="130" rx="12" ry="8.5"/></g>')
             if sideburns:  # long 70s sideburns down the cheeks
-                hg.append(f'<g fill="{hc}"><path d="M70,104 Q73,103 75,104 L75,118 Q80,122 80,132 Q79,142 74,146 Q70,140 70,128 Z"/><path d="M130,104 Q127,103 125,104 L125,118 Q120,122 120,132 Q121,142 126,146 Q130,140 130,128 Z"/></g>')
+                hg.append(f'<g fill="{hc}"><path d="M64,92 L73,94 L74,114 L81,124 L82,134 L69,146 Q66,138 65,126 Z"/><path d="M136,92 L127,94 L126,114 L119,124 L118,134 L131,146 Q134,138 135,126 Z"/></g>')
             if hair == "highpony":  # hair tie where the bunch is gathered on top
                 hg.append('<path d="M89,40 Q100,44 111,40 L110,44.5 Q100,48.5 90,44.5 Z" fill="#000" fill-opacity=".35"/>')
     if custom and glasses:
