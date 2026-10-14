@@ -160,7 +160,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False, sleeves=None, buff=None):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -188,6 +188,12 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                  f'<path d="M58,206 C46,212 40,222 39,236 L40,246 C42,231 47,219 60,211 Z" fill="{lt}" opacity=".6"/>'
                  f'<polygon points="100,171 112,171 112,200 106,200"/>'
                  f'<path d="M88,179 L112,179 L112,189 Q100,192 88,189 Z"/></g>')
+    if custom and sleeves:  # long-sleeved top under the vest (crew neck shows at the collar)
+        o.append(f'<path d="M88,193 C76,197 66,200 58,206 C46,212 40,222 39,236 L35,330 L50,330 L56,250 Q59,240 64,238 L136,238 Q141,240 144,250 L150,330 L165,330 L161,236 C160,222 154,212 142,206 C134,200 124,197 112,193 Q100,197 88,193 Z" fill="{sleeves}"/>'
+                 '<path d="M112,193 C124,197 134,200 142,206 C154,212 160,222 161,236 L165,330 L150,330 L144,250 Q141,240 136,238 L120,238 Z" fill="#000" opacity=".16"/>')
+    if custom and buff:  # snood / buff round the neck
+        o.append(f'<path d="M87,180 Q100,185 113,180 L113,199 Q100,203 87,199 Z" fill="{buff}"/><path d="M100,182 L113,180 L113,199 Q107,201 100,201 Z" fill="#000" opacity=".16"/>'
+                 '<path d="M88,187 Q100,191 112,187" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1.2"/>')
     if custom and tattoos:
         t = '#3A4350'
         o.append(f'<g fill="none" stroke="{t}" stroke-width="1.3" stroke-linecap="round" opacity=".75">'
@@ -730,3 +736,6 @@ save("tony-harran", figure("HHH", skin=1, hair="tuftrecede", hair_colour="#4A342
 save("robert-elphick", figure("KEN", skin=1, hair="tousled", hair_colour="#3A2820"))
 save("david-ogden", figure("SLH", skin=1, hair="horseshoe", hair_colour="#A89880", gaunt=True, creases=True, brow_colour="#8A7A66"))
 save("simon-coombes", figure("HHH", skin=1, hair="croppeak", hair_colour="#7A6A58", greying=True, gaunt=True))
+save("tom-south", figure("DUL", skin=1, hair="crop", hair_colour="#8A6E52", greying=True, gaunt=True, buff="#C8202A"))
+save("peter-giles", figure("H/W", skin=1, hair="slick", hair_colour="#BDB8AE", facial="goatee", facial_colour="#A8A39A", brow_colour="#8C8780", gaunt=True, creases=True, sleeves="#D8262E"))
+save("peter-giles-thh", figure("THH", skin=1, hair="slick", hair_colour="#BDB8AE", facial="goatee", facial_colour="#A8A39A", brow_colour="#8C8780", gaunt=True, creases=True, sleeves="#D8262E"))
