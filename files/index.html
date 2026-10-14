@@ -225,8 +225,21 @@ const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name
 // but this is what visitors see. Exact-name overrides first; otherwise a trailing club tag like " (G&G)" is hidden.
 const DISPLAY_NAMES={'Samuel Gebreselassie':'Sam Gebreselassie','Isobel Hodder':'Isabel Hodder','Gabriel Reynolds':'Gaby Reynolds'};
 const displayName=n=>{if(typeof n!=='string')return n;if(DISPLAY_NAMES[n])return DISPLAY_NAMES[n];const m=n.match(/^(.+?) \(([A-Z&\/]{2,4})\)$/);return m&&CLUBS[m[2]]?m[1]:n;};
-(()=>{const ce=React.createElement;const fix=x=>{if(typeof x!=='string'||x.length>80)return x;const d=displayName(x);if(d!==x)return d;let y=x;for(const k in DISPLAY_NAMES)if(y.includes(k))y=y.split(k).join(DISPLAY_NAMES[k]);return y;};
-React.createElement=function(t,p,...c){return ce.call(this,t,p,...c.map(fix));};})();
+// Patched createElement: display-name fixes + accessibility (keyboard support for clickable elements)
+(()=>{const ce=React.createElement;
+const fix=x=>{if(typeof x!=='string'||x.length>80)return x;const d=displayName(x);if(d!==x)return d;let y=x;for(const k in DISPLAY_NAMES)if(y.includes(k))y=y.split(k).join(DISPLAY_NAMES[k]);return y;};
+const interactive=new Set(['button','a','input','select','textarea']);
+React.createElement=function(t,p,...c){
+  // Add keyboard activation to clickable non-interactive elements
+  if(p?.onClick&&typeof t==='string'&&!interactive.has(t)&&typeof p.className==='string'&&p.className.includes('cursor-pointer')){
+    const origClick=p.onClick;
+    p={...p};
+    if(p.tabIndex==null)p.tabIndex=0;
+    if(!p.role)p.role='link';
+    if(!p.onKeyDown)p.onKeyDown=e=>{if(e.key==='Enter'){e.preventDefault();origClick(e);}};
+  }
+  return ce.call(this,t,p,...c.map(fix));
+};})();
 
 // UK Bestselling Singles and Albums by Year (for seasons ending in that year)
 const UK_CHARTS={
@@ -698,7 +711,7 @@ const DivisionToggle=({division,setDivision})=>{
   </div>;
 };
 
-const Nav=({setView,division,setDivision})=><><div className="md:hidden bg-white"><div className="max-w-5xl mx-auto px-4 py-3"><span className="font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium 🏆</span><span className="text-xs text-gray-500 ml-2 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span></div></div><nav className="border-b border-gray-200 bg-white sticky top-0 z-50"><div className="max-w-5xl mx-auto px-2 md:px-4 flex items-center justify-between h-12"><div className="flex items-center gap-3"><span className="hidden md:inline font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium 🏆</span><span className="hidden md:inline text-xs text-gray-500 ml-1 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span><div className="hidden md:block w-4"></div><DivisionToggle division={division} setDivision={setDivision}/></div><div className="flex gap-0.5 md:gap-1 text-xs md:text-sm"><button onClick={()=>setView({type:'home'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Tables</button><button onClick={()=>setView({type:'fixtures'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50"><span className="md:hidden">Races</span><span className="hidden md:inline">Fixtures</span></button><button onClick={()=>setView({type:'seasons'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50"><span className="md:hidden">Wins</span><span className="hidden md:inline">Winners</span></button><button onClick={()=>setView({type:'athletes'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Athletes</button><button onClick={()=>setView({type:'clubs'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Clubs</button></div></div></nav></>;
+const Nav=({setView,division,setDivision})=><header><div className="md:hidden bg-white"><div className="max-w-5xl mx-auto px-4 py-3"><span className="font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium 🏆</span><span className="text-xs text-gray-500 ml-2 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span></div></div><nav className="border-b border-gray-200 bg-white sticky top-0 z-50"><div className="max-w-5xl mx-auto px-2 md:px-4 flex items-center justify-between h-12"><div className="flex items-center gap-3"><span className="hidden md:inline font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium 🏆</span><span className="hidden md:inline text-xs text-gray-500 ml-1 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span><div className="hidden md:block w-4"></div><DivisionToggle division={division} setDivision={setDivision}/></div><div className="flex gap-0.5 md:gap-1 text-xs md:text-sm"><button onClick={()=>setView({type:'home'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Tables</button><button onClick={()=>setView({type:'fixtures'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50"><span className="md:hidden">Races</span><span className="hidden md:inline">Fixtures</span></button><button onClick={()=>setView({type:'seasons'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50"><span className="md:hidden">Wins</span><span className="hidden md:inline">Winners</span></button><button onClick={()=>setView({type:'athletes'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Athletes</button><button onClick={()=>setView({type:'clubs'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Clubs</button></div></div></nav></header>;
 
 const SeasonSelector=({season,setSeason,seasons})=>{
   const[showDropdown,setShowDropdown]=useState(false);
@@ -4938,8 +4951,9 @@ function App(){
   if(!data)return<div className="loading"><LoadingVests/></div>;
   
   return<div className="min-h-screen bg-white flex flex-col">
+    <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:rounded">Skip to content</a>
     <Nav setView={setView} division={division} setDivision={setDivision}/>
-    <main className="flex-1">
+    <main id="main-content" className="flex-1">
       {view.type==='home'&&<HomeView key={view.urlSeason||'default'} setView={setView} data={data} initialSeason={view.urlSeason} division={division} divisionConfig={divisionConfig}/>}
       {view.type==='race'&&<RaceDetailView race={view.race} mode={view.mode} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions} divisionConfig={divisionConfig}/>}
       {view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}
