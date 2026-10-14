@@ -693,7 +693,7 @@ save("george-cotton", figure("WOK", skin=1, hair="tousled", hair_colour="#6E4E33
 save("cameron-reilly", figure("G&G", skin=1, hair="messyfringe", hair_colour="#8A6440"))
 save("jack-dormer", figure("WOK", skin=1, hair="messyvolume", hair_colour="#86603E"))
 save("lea-adamson", figure("BEL", skin=1, hair="wavytie", hair_colour="#5E3A26", necklace="#D4D4D4"))
-save("max-heyden", figure("BEL", skin=1, hair="shortcurls", hair_colour="#5A3E2B"))
+save("max-heyden", figure("BEL", skin=1, hair="quiff", hair_colour="#7A5A3E"))
 save("ian-crowe-wright", figure("BEL", skin=1, hair="tousled", hair_colour="#7E5E40"))
 save("neil-wilson", figure("BEL", skin=1, hair="tuftrecede", hair_colour="#86664A", necklace="#CFCFCF", thin_brows=True))
 save("lloyd-kempson", figure("BEL", skin=1, hair="quiff", hair_colour="#8A6A48", facial="stubble", facial_colour="#8A6A48", shades=True, shades_col="#1A1A1A", shades_frame="#2A2A2A", necklace="#C9A646"))
