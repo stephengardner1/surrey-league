@@ -453,7 +453,7 @@ save("scott", figure("BEL", skin=2, hair="tousled", hair_colour="dark brown", fa
 save("mitchell", figure("BEL", skin=1, hair="quiff", hair_colour="ginger"))
 save("evans", figure("BEL", skin=1, hair="crop", hair_colour="#A8703F"))
 save("roberts", figure("HHH", skin=1, hair="messyvolume", hair_colour="#F1E7BE", brow_colour="#3A2A20", thin_brows=True, mud=True))
-save("slemeck", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown", facial="beard", gaunt=True))
+save("slemeck", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown", facial="stubble", gaunt=True))
 save("edgar", figure("BEL", skin=1, hair="buzzrecede", hair_colour="light brown", facial="moustache", shades=True))
 save("sommerville", figure("BEL", skin=1, hair="tuftrecede", hair_colour="dark brown"))
 save("mcdowell", figure("H/W", skin=1, hair=None))
