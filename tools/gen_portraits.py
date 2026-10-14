@@ -780,3 +780,4 @@ save("nick-acfield", figure("KEN", skin=1, hair="shortcurls", hair_colour="#7A5A
 save("olly-buck", figure("KEN", skin=1, hair="messyfringe", hair_colour="#3A2A20", mud=True))
 save("max-nicholls", figure("KEN", skin=2, hair="messyvolume", hair_colour="#2E211B"))
 save("nic-lukies", figure("BEL", skin=1, hair="wavyback", hair_colour="#B5602E", facial="moustache", facial_colour="#A0542A", brow_colour="#A0542A"))
+save("jon-pepper-slh", figure("SLH", skin=1, hair="messyfringe", hair_colour="#5E4230", gaunt=True))
