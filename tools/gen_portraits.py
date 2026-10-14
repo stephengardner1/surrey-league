@@ -741,3 +741,5 @@ save("peter-giles", figure("H/W", skin=1, hair="slick", hair_colour="#BDB8AE", f
 save("peter-giles-thh", figure("THH", skin=1, hair="slick", hair_colour="#BDB8AE", facial="goatee", facial_colour="#A8A39A", brow_colour="#8C8780", gaunt=True, creases=True, sleeves="#D8262E"))
 save("mike-farmery", figure("THH", skin=1, hair="horseshoe", hair_colour="#6E6254", glasses=True, brow_colour="#6E6254", gaunt=True, creases=True))
 save("kassa-tadesse", figure("BEL", skin=5, hair="buzzrecede", hair_colour="black", gaunt=True))
+save("paul-freary", figure("BEL", skin=1, hair="wavyback", hair_colour="#A88656", headband="#1A1A1A", shades=True, shades_col="#5A2A26", shades_frame="#2A2A2A", facial="stubble", facial_colour="#8A6A48", necklace="#D4D4D4", gaunt=True))
+save("stephen-sharp", figure("BEL", skin=2, hair="buzzrecede", hair_colour="#6E5A40", gaunt=True, necklace="#1A1A1A"))
