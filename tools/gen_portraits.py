@@ -783,3 +783,4 @@ save("nic-lukies", figure("BEL", skin=1, hair="wavyback", hair_colour="#B5602E",
 save("jon-pepper-slh", figure("SLH", skin=1, hair="messyfringe", hair_colour="#5E4230", gaunt=True))
 save("lewis-lloyd", figure("HHH", skin=1, hair="buzz", hair_colour="#D8BE8A", brow_colour="#C4A876", gaunt=True))
 save("vic-maughan", figure("HHH", skin=3, hair="buzzrecede", hair_colour="#4A423C", gaunt=True, creases=True))
+save("lucy-macalister", figure("THH", skin=1, hair="ponytail", hair_colour="#6B4A2E", shades=True, shades_col="#2A2E3A", shades_frame="#D0507A", gaunt=True))
