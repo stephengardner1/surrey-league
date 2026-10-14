@@ -799,4 +799,4 @@ save("simon-wurr", figure("THH", skin=1, hair="tuftrecede", hair_colour="#2E211B
 save("mike-cummings", figure("HHH", skin=1, hair="buzz", hair_colour="#C8B8A4", gaunt=True))
 save("tom-conlon", figure("HHH", skin=1, hair="croppeak", hair_colour="#3A2E26", greying="sides", gaunt=True, creases=True))
 save("molly-smith", figure("HHH", skin=1, hair="lowbun", hair_colour="#7A5638", scrunchie="#C8202A", thin_brows=True, necklace="#E8E2D8"))
-save("arlo-ludewick", figure("HHH", skin=1, hair="tousled", hair_colour="#7A5236", medal="gold"))
+save("arlo-ludewick", figure("HHH", skin=1, hair="tousled", hair_colour="#7A5236"))
