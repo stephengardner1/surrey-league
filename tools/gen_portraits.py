@@ -731,6 +731,13 @@ W434 += [
  ("sarah-palmer-ran","RAN","Sarah Palmer",dict(skin=1,hair="ponytail",hair_colour="#7A5A3E",sleeves="#1C1C1E"),"brown ponytail, black long-sleeve top"),
  ("elinor-skinner","KEN","Elinor Skinner",dict(skin=1,hair="ponytail",hair_colour="#5A3E2B",gaunt=True),"brown hair tied back"),
 ]
+W434 += [
+ ("sarah-holt","STR","Sarah Holt",dict(skin=1,hair="ponytail",hair_colour="#2E211B",gaunt=True),"dark hair tied back"),
+ ("serena-carter","THH","Serena Carter",dict(skin=1,hair="topknot",hair_colour="#D9BE85"),"blonde top knot"),
+ ("abbey-brooke","BEL","Abbey Brooke",dict(skin=1,hair="ponytail",hair_colour="#C9A35F"),"blonde ponytail"),
+ ("becky-briggs","BEL","Becky Briggs",dict(skin=1,hair="ponytail",hair_colour="#E6D6AC"),"platinum blonde ponytail"),
+ ("maddie-mastrolonardo","BEL","Maddie Mastrolonardo",dict(skin=1,hair="wavytie",hair_colour="#2A1D18",necklace="#C9A646"),"dark wavy ponytail, gold necklace"),
+]
 for slug, club, name, kw, alt in W434:
     save(slug, figure(club, **kw))
 save("jermaine-mays", figure("SLH", skin=3, hair="crop", hair_colour="black", necklace="#C9A646"))
