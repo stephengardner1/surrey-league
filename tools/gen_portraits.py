@@ -258,8 +258,10 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                     hg.append(f'<path d="M90,149 L110,149 L108,154 L92,154 Z" fill="{dk}"/>')
         if hair in HAIR:
             hg.append(f'<g fill="{hc}"' + (f' clip-path="url(#c{tag})"' if (cap or beanie) else '') + (' opacity=".6"' if hair in ("buzz","buzzrecede") else '') + f'>{HAIR[hair]}<g clip-path="url(#r{tag})" fill="#000" opacity=".22">{HAIR[hair]}</g></g>')
-            if greying:
+            if greying is True:
                 hg.append(f'<clipPath id="hg{tag}">{HAIR[hair]}</clipPath><g clip-path="url(#hg{tag})" fill="none" stroke="#CFCAC2" stroke-width="1.8" stroke-linecap="round" opacity=".9"><path d="M60.4,78.2 q3.4,-4.1 6.8,0"/><path d="M64.8,90.0 q3.1,-3.7 6.2,0"/><path d="M58.6,100.0 q3.1,-3.8 6.3,0"/><path d="M70.4,68.4 q2.8,-3.4 5.6,0"/><path d="M131.2,79.2 q3.2,-3.8 6.4,0"/><path d="M126.7,91.9 q3.5,-4.2 6.9,0"/><path d="M135.0,100.5 q2.7,-3.2 5.3,0"/><path d="M123.5,70.1 q2.6,-3.1 5.1,0"/><path d="M66.2,57.0 q2.5,-3.0 5.1,0"/><path d="M126.5,57.8 q3.3,-4.0 6.7,0"/><path d="M81.1,44.6 q3.0,-3.6 6.0,0"/><path d="M113.9,43.8 q2.8,-3.3 5.6,0"/><path d="M98.7,38.0 q3.3,-4.0 6.7,0"/><path d="M90.1,51.3 q2.7,-3.3 5.5,0"/><path d="M103.9,50.3 q3.3,-3.9 6.5,0"/></g>')
+            if greying == "sides":  # flat grey on the sides below the crown, geometric two-tone
+                hg.append(f'<clipPath id="hs{tag}">{HAIR[hair]}</clipPath><g clip-path="url(#hs{tag})"><path d="M40,72 L76,62 L80,120 L40,120 Z" fill="#B9B3AA"/><path d="M160,72 L124,62 L120,120 L160,120 Z" fill="#A49E96"/></g>')
             if temples:  # grey at the temples
                 hg.append(f'<clipPath id="ht{tag}">{HAIR[hair]}</clipPath><g clip-path="url(#ht{tag})" fill="#9C948A" opacity=".8"><path d="M56,80 L73,77 L72,106 L56,106 Z"/><path d="M144,80 L127,77 L128,106 L144,106 Z"/></g>')
             if headband:  # thin sports headband across the hairline
@@ -439,7 +441,7 @@ save("cap_beanie", figure("HOL", skin=2, hair="crop", hair_colour="mid brown", b
 save("ruby", figure("H/W", skin=1, hair="ponytail", hair_colour="blonde"))
 save("foster", figure("G&G", skin=1, hair="crop", hair_colour="dark brown", facial="stubble"))
 save("hair_shortcurls", figure("HOL", skin=2, hair="shortcurls", hair_colour="mid brown"))
-save("tennyson", figure("G&G", skin=1, hair="curlspeak", hair_colour="mid brown", greying=True, glasses=True))
+save("tennyson", figure("G&G", skin=1, hair="curlspeak", hair_colour="mid brown", greying="sides", glasses=True))
 save("glasses_on", figure("HOL", skin=3, hair="crop", hair_colour="dark brown", glasses=True))
 save("ollington", figure("THH", skin=2, hair="crop", hair_colour="dark brown", facial="beard"))
 save("preston", figure("BEL", skin=3, hair="afro", hair_colour="black"))
@@ -736,8 +738,8 @@ save("john-bicourt", figure("BEL", skin=1, hair="seventies", hair_colour="#4A302
 save("tony-harran", figure("HHH", skin=1, hair="tuftrecede", hair_colour="#4A3426", gaunt=True, creases=True))
 save("robert-elphick", figure("KEN", skin=1, hair="tousled", hair_colour="#3A2820"))
 save("david-ogden", figure("SLH", skin=1, hair="horseshoe", hair_colour="#A89880", gaunt=True, creases=True, brow_colour="#8A7A66"))
-save("simon-coombes", figure("HHH", skin=1, hair="croppeak", hair_colour="#7A6A58", greying=True, gaunt=True))
-save("tom-south", figure("DUL", skin=1, hair="crop", hair_colour="#8A6E52", greying=True, gaunt=True))
+save("simon-coombes", figure("HHH", skin=1, hair="croppeak", hair_colour="#7A6A58", greying="sides", gaunt=True))
+save("tom-south", figure("DUL", skin=1, hair="crop", hair_colour="#8A6E52", greying="sides", gaunt=True))
 save("peter-giles", figure("H/W", skin=1, hair="slick", hair_colour="#BDB8AE", facial="goatee", facial_colour="#A8A39A", brow_colour="#8C8780", gaunt=True, creases=True, sleeves="#D8262E"))
 save("peter-giles-thh", figure("THH", skin=1, hair="slick", hair_colour="#BDB8AE", facial="goatee", facial_colour="#A8A39A", brow_colour="#8C8780", gaunt=True, creases=True, sleeves="#D8262E"))
 save("mike-farmery", figure("THH", skin=1, hair="horseshoe", hair_colour="#6E6254", glasses=True, brow_colour="#6E6254", gaunt=True, creases=True))
