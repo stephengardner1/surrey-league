@@ -762,3 +762,7 @@ save("malachi-byansi", figure("BEL", skin=6, hair=None, gaunt=True))
 save("russell-dessaix-chin", figure("BEL", skin=3, hair="longcurls", hair_colour="#1E1714", headband="#F2F2F0", headband_thick=True, gaunt=True))
 save("james-kelly", figure("BEL", skin=1, hair="crop", hair_colour="#3A2A20", gaunt=True))
 save("alan-black", figure("BEL", skin=1, hair="sweptback", hair_colour="#5A4030", gaunt=True))
+# 1979 Surrey youths road relay winners
+save("david-north", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2E211B"))
+save("mark-waller", figure("BEL", skin=1, hair="shortcurls", hair_colour="#2E211B", glasses=True))
+save("john-gladwin", figure("BEL", skin=1, hair="fringe", hair_colour="#6B4A2E"))
