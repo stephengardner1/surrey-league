@@ -160,7 +160,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -197,6 +197,9 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                  '<circle cx="162" cy="272" r="5"/><path d="M162,267 L162,277 M157,272 L167,272"/>'
                  '<path d="M159,292 L166,288 L166,298 Z"/><path d="M160,312 Q165,306 170,313"/></g>'
                  '<path d="M97,200 L100,197 L103,200 L100,203 Z"/></g>')
+    if custom and armband:  # heart-rate armband on the upper arm (viewer's left)
+        o.append('<path d="M38.1,258.5 L56,261.5 L55.4,270.5 L37.7,267.5 Z" fill="#6A7078"/><path d="M38.1,258.5 L56,261.5 L55.9,263.3 L38,260.3 Z" fill="#8A9098"/>'
+                 '<rect x="40" y="260" width="7" height="7.5" rx="1.8" transform="rotate(10 43.5 264)" fill="#25282C"/>')
     # head
     if hood:  # parka hood with a fur ruff framing the face
         fur, lining = hood
@@ -452,7 +455,7 @@ save("mcnally", figure("BEL", skin=1, hair="crop", hair_colour="ginger", facial=
 save("board", figure("HHH", skin=1, hair="bigcurls", hair_colour="black"))
 save("weir", figure("THH", skin=1, hair="croprecede", hair_colour="dark brown"))
 save("chisholm", figure("THH", skin=1, hair="croppeak", hair_colour="dark brown"))
-save("panchev", figure("H/W", skin=2, hair="tousled", hair_colour="black", shades=True))
+save("panchev", figure("H/W", skin=2, hair="tousled", hair_colour="black", shades=True, armband=True))
 save("royer", figure("G&G", skin=2, hair="longcurls", hair_colour="black", facial="beard"))
 save("kelly", figure("BEL", skin=1, hair="quiff", hair_colour="light brown", facial="stubble"))
 save("janiaud", figure("BEL", skin=3, hair="quiff", hair_colour="black", facial="stubble", crown=True))
