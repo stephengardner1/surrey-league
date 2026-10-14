@@ -788,3 +788,4 @@ save("john-foss", figure("SLH", skin=1, hair="croprecede", hair_colour="#CFC9BE"
 save("david-symons", figure("THH", skin=1, hair="croppeak", hair_colour="#4A3628", gaunt=True, creases=True))
 save("steve-smythe", figure("DUL", skin=2, hair="croprecede", hair_colour="#3A2E26", shades=True, shades_col="#1E2228", shades_frame="#2A2A2A", gaunt=True))
 save("steve-smythe-hhh", figure("HHH", skin=2, hair="croprecede", hair_colour="#3A2E26", shades=True, shades_col="#1E2228", shades_frame="#2A2A2A", gaunt=True))
+save("clare-pauzers", figure("HHH", skin=1, hair="wavyback", hair_colour="#7A3A24", thin_brows=True, gaunt=True))
