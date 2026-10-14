@@ -3683,7 +3683,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   </div>;
 };
 
-const Footer=({setView})=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-400">Vibecoded by Steve. Work in progress. Now <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'quiz'})}>quiz this</span>. <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'chartroom'})}>📊</span><br/><span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit more results</span> · <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>Origin story</span></footer>;
+const Footer=({setView})=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-400">Vibecoded by Steve. Work in progress. <span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'chartroom'})}>📊</span><br/><span className="cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>Origin story</span></footer>;
 
 // Hash-based routing utilities
 const seasonToCompact=(s)=>s?s.replace('/','').slice(-4):''; // "2013/14" -> "1314"
