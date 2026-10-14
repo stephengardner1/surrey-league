@@ -777,3 +777,4 @@ save("dame-dibaba", figure("KEN", skin=4, hair="shortcurls", hair_colour="black"
 save("nick-acfield", figure("KEN", skin=1, hair="shortcurls", hair_colour="#7A5A3A", glasses="round", glasses_col="#3A2E26"))
 save("olly-buck", figure("KEN", skin=1, hair="messyfringe", hair_colour="#3A2A20", mud=True))
 save("max-nicholls", figure("KEN", skin=2, hair="messyvolume", hair_colour="#2E211B"))
+save("nic-lukies", figure("BEL", skin=1, hair="wavyback", hair_colour="#B5602E", facial="moustache", facial_colour="#A0542A", brow_colour="#A0542A"))
