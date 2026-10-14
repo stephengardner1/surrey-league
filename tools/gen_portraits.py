@@ -766,3 +766,8 @@ save("alan-black", figure("BEL", skin=1, hair="sweptback", hair_colour="#5A4030"
 save("david-north", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2E211B"))
 save("mark-waller", figure("BEL", skin=1, hair="shortcurls", hair_colour="#2E211B", glasses=True))
 save("john-gladwin", figure("BEL", skin=1, hair="fringe", hair_colour="#6B4A2E"))
+# 1965 Belgrave club 10, Wimbledon Common
+save("chris-keavey", figure("BEL", skin=1, hair="sweptback", hair_colour="#2A1E18"))
+save("john-moore", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15", facial="moustache", facial_colour="#241A15"))
+save("john-bromley", figure("BEL", skin=1, hair="croprecede", hair_colour="#9A8A74", gaunt=True, creases=True))
+save("don-maclean", figure("BEL", skin=1, hair="shortcurls", hair_colour="#2E211B"))
