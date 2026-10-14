@@ -753,6 +753,18 @@ W427 = [  # Beckenham Place, Nov 2025 (men)
  ("thomas-gardner","BEL","Thomas Gardner",dict(skin=1,hair="tousled",hair_colour="#6B4A2E",necklace="#CFCFCF"),"messy brown hair, silver chain"),
  ("brian-wilder","HHH","Brian Wilder",dict(skin=2,hair="crop",hair_colour="#3A3330",greying="sides",facial="stubble",facial_colour="#8C8780",gaunt=True,creases=True),"short greying hair, grey stubble"),
 ]
+W427 += [
+ ("george-jackson","HHH","George Jackson",dict(skin=1,hair="croprecede",hair_colour="#3A2620",gaunt=True),"receding dark hair"),
+ ("james-roberts","BEL","James Roberts",dict(skin=1,hair="crop",hair_colour="#6B4A2E",gaunt=True),"short brown hair"),
+ ("ed-gibson","DUL","Ed Gibson",dict(skin=1,hair="tousled",hair_colour="#6B4A2E"),"tousled brown hair"),
+ ("jack-harrison","SLH","Jack Harrison",dict(skin=1,hair="crop",hair_colour="#7A5A3E"),"short brown hair"),
+ ("matthew-varley","BEL","Matthew Varley",dict(skin=1,hair="quiff",hair_colour="#C9A35F"),"swept-up blond hair"),
+ ("eddie-rolls","C/C","Eddie Rolls",dict(skin=1,hair="crop",hair_colour="#2E211B"),"short dark hair"),
+ ("phil-sanders","KEN","Phil Sanders",dict(skin=1,hair="crop",hair_colour="#B8B5AF",brow_colour="#8C8780",gaunt=True,creases=True),"short grey hair"),
+ ("jon-phillips","DUL","Jon Phillips",dict(skin=1,hair="shortcurls",hair_colour="#5A3E2B",gaunt=True),"short wavy brown hair"),
+ ("noah-fernandez","H/W","Noah Fernandez",dict(skin=2,hair="longcurls",hair_colour="#1C1714"),"long dark curls"),
+ ("paul-calver","HHH","Paul Calver",dict(skin=1,hair="crop",hair_colour="#A9A7A3",facial="stubble",facial_colour="#8C8780",brow_colour="#6E655C",creases=True),"short grey hair, grey stubble"),
+]
 for slug, club, name, kw, alt in W427:
     save(slug, figure(club, **kw))
 for slug, club, name, kw, alt in W434:
