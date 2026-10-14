@@ -4,6 +4,7 @@ Generic runners: 'grey' silhouette or 'outline' — no implied skin tone."""
 import os, math
 os.makedirs("v4", exist_ok=True)
 
+HEAD_SQUARE = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L133,140 C132,156 122,167 109,169 L91,169 C78,167 68,156 67,140 Z"
 HEAD = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L132,130 C129,152 116,168 100,170 C84,168 71,152 68,130 Z"
 SQ = 'transform="translate(0,83) scale(1,0.76) translate(0,-40)"'
 VEST = "M53,330 L57,246 Q59,226 61,204 C66,200 73,197 80,195.5 Q100,240 120,195.5 C127,197 134,200 139,204 Q141,226 143,246 L147,330 Z"
@@ -160,7 +161,8 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False, sleeves=None, buff=None):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False, sleeves=None, buff=None, jaw=None):
+    head = HEAD_SQUARE if jaw == "square" else HEAD
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -172,7 +174,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     hc = HAIR_COL.get(hair_colour, hair_colour)
     custom = mode == "custom"
     o = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 20 180 252">',
-         f'<defs><clipPath id="v{tag}"><path d="{VEST}"/></clipPath><clipPath id="h{tag}"><path d="{HEAD}"/></clipPath>'
+         f'<defs><clipPath id="v{tag}"><path d="{VEST}"/></clipPath><clipPath id="h{tag}"><path d="{head}"/></clipPath>'
          f'<clipPath id="r{tag}"><rect x="100" y="0" width="100" height="300"/></clipPath>'
          f'<clipPath id="e{tag}"><path d="{EYE_L}"/><path d="{EYE_R}"/></clipPath>'
          f'<clipPath id="c{tag}"><rect x="0" y="92" width="200" height="300"/></clipPath></defs>',
@@ -221,7 +223,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
     else:
         hg_pre = ''
     hg = [hg_pre + f'<g fill="{sk}"{st}><path d="M66,100 L56,104 L58,124 L68,130 Z"/><path d="M134,100 L144,104 L142,124 L132,130 Z"/>'
-          f'<path d="{HEAD}"/></g>']
+          f'<path d="{head}"/></g>']
     if not line:
         hg.append(f'<path d="M134,100 L144,104 L142,124 L132,130 Z" fill="{dk}"/>'
                   f'<g clip-path="url(#h{tag})"><polygon points="112,40 140,40 140,180 100,180 100,170 118,150 124,118 120,92" fill="{dk}"/>'
@@ -562,6 +564,15 @@ W = [
 for slug, club, name, kw, alt in W:
     save(slug, figure(club, **kw))
 save("mike-fuller", figure("H/W", skin=1, hair="longcurls", hair_colour="dark brown", facial="mostubble"))
+# 1967 Southern 12-stage winning team (Herc Wimbledon)
+save("mike-beevor", figure("H/W", skin=1, hair="sweptback", hair_colour="dark brown"))
+save("john-day", figure("H/W", skin=1, hair="fringe", hair_colour="dark brown"))
+save("john-sullivan", figure("H/W", skin=1, hair="croprecede", hair_colour="mid brown", gaunt=True))
+save("barry-collins", figure("H/W", skin=1, hair="sweptback", hair_colour="mid brown", facial="moustache", gaunt=True))
+save("bob-rayman", figure("H/W", skin=1, hair="tousled", hair_colour="dark brown"))
+save("pete-mulholland", figure("H/W", skin=1, hair="quiff", hair_colour="light brown"))
+save("charlie-eastaugh", figure("H/W", skin=1, hair="crop", hair_colour="light brown", cap="#F2F1EC", jaw="square"))
+save("oli-carrington", figure("H/W", skin=1, hair="tousled", hair_colour="mid brown", facial="shortbeard", facial_colour="mid brown"))
 save("gerry-north", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown"))
 save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22", facial="stubble", jacket=("#2E3238", "#23262B", None)))
 save("alex-yee", figure("KEN", skin=2, hair="quiff", hair_colour="#4A3022", medal="gold"))
