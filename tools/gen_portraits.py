@@ -773,3 +773,5 @@ save("john-bromley", figure("BEL", skin=1, hair="croprecede", hair_colour="#9A8A
 save("don-maclean", figure("BEL", skin=1, hair="shortcurls", hair_colour="#2E211B"))
 save("chris-greenwood", figure("KEN", skin=1, hair=None, facial="shortbeard", facial_colour="#4A3E36", brow_colour="#3A2E26", gaunt=True))
 save("dame-dibaba", figure("KEN", skin=4, hair="shortcurls", hair_colour="black", facial="shortbeard", facial_colour="#1C1714", gaunt=True))
+save("nick-acfield", figure("KEN", skin=1, hair="shortcurls", hair_colour="#7A5A3A", glasses=True, glasses_col="#3A2E26"))
+save("olly-buck", figure("KEN", skin=1, hair="messyfringe", hair_colour="#3A2A20", mud=True))
