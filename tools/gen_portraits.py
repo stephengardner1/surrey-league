@@ -490,7 +490,7 @@ save("green", figure("HOL", skin=1, hair="crop", hair_colour="dark brown", facia
 save("pearce", figure("BEL", skin=1, hair="tousled", hair_colour="black"))
 save("shaw", figure("HHH", skin=1, hair=None))
 save("tyas", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", facial="stubble"))
-save("austin", figure("HHH", skin=2, hair="crop", hair_colour="mid brown", facial="beard", cap="#A7A9A6"))
+save("austin", figure("HHH", skin=1, hair="slick", hair_colour="#2E211B", facial="shortbeard", facial_colour="#5A3A26", brow_colour="#3A2A20"))
 save("ellwood", figure("KEN", skin=1, hair="tousled", hair_colour="mid brown"))
 save("mccawley", figure("BEL", skin=2, hair="sweptback", hair_colour="dark brown"))
 save("kbarnes", figure("HOL", skin=1, hair="shortcurls", hair_colour="mid brown", facial="moustache"))
