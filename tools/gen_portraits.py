@@ -727,3 +727,4 @@ save("tom-jervis", figure("H/W", skin=1, hair="quiff", hair_colour="#E3C98A", fa
 save("nick-torry", figure("KEN", skin=1, hair="croprecede", hair_colour="#6B4A2E", glasses=True, glasses_col="#1E1E22", gaunt=True))
 save("john-bicourt", figure("BEL", skin=1, hair="seventies", hair_colour="#4A3022", facial="muttonchops", facial_colour="#4A3022"))
 save("tony-harran", figure("HHH", skin=1, hair="tuftrecede", hair_colour="#4A3426", gaunt=True, creases=True))
+save("robert-elphick", figure("KEN", skin=1, hair="tousled", hair_colour="#3A2820"))
