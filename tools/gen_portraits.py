@@ -759,7 +759,7 @@ W427 += [
  ("ed-gibson","DUL","Ed Gibson",dict(skin=1,hair="tousled",hair_colour="#6B4A2E"),"tousled brown hair"),
  ("jack-harrison","SLH","Jack Harrison",dict(skin=1,hair="crop",hair_colour="#7A5A3E"),"short brown hair"),
  ("matthew-varley","BEL","Matthew Varley",dict(skin=1,hair="quiff",hair_colour="#C9A35F"),"swept-up blond hair"),
- ("eddie-rolls","C/C","Eddie Rolls",dict(skin=1,hair="crop",hair_colour="#2E211B"),"short dark hair"),
+ ("eddie-rolls","C/C","Eddie Rolls",dict(skin=1,hair="crop",hair_colour="#2E211B",facial="stubble"),"short dark hair, stubble"),
  ("phil-sanders","KEN","Phil Sanders",dict(skin=1,hair="crop",hair_colour="#B8B5AF",brow_colour="#8C8780",gaunt=True,creases=True),"short grey hair"),
  ("jon-phillips","DUL","Jon Phillips",dict(skin=1,hair="shortcurls",hair_colour="#5A3E2B",gaunt=True),"short wavy brown hair"),
  ("noah-fernandez","H/W","Noah Fernandez",dict(skin=2,hair="longcurls",hair_colour="#1C1714"),"long dark curls"),
