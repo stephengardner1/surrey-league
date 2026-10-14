@@ -744,6 +744,17 @@ W434 += [
  ("natalie-beadle","BEL","Natalie Beadle",dict(skin=1,hair="ponytail",hair_colour="#D2B57E",necklace="#C9A646"),"blonde ponytail, gold necklace"),
  ("pamela-mchutchon","STR","Pamela McHutchon",dict(skin=1,hair="tousled",hair_colour="#DCD8D0",brow_colour="#A8A39A",necklace="#C9A646",gaunt=True,creases=True),"short white hair"),
 ]
+W427 = [  # Beckenham Place, Nov 2025 (men)
+ ("max-bloor","DUL","Max Bloor",dict(skin=1,hair="sweptback",hair_colour="#B8915E",necklace="#6E655C"),"swept strawberry-blond hair, pendant"),
+ ("john-foxall","HHH","John Foxall",dict(skin=1,hair="crop",hair_colour="#2A1D18",facial="beard"),"short dark hair, full beard"),
+ ("robin-boon","G&G","Robin Boon",dict(skin=1,hair="crop",hair_colour="#B8B5AF",brow_colour="#8C8780",gaunt=True,creases=True),"short grey hair"),
+ ("joe-english","KEN","Joe English",dict(skin=1,hair="tousled",hair_colour="#8E6643"),"tousled light brown hair"),
+ ("sebastian-anthony","G&G","Sebastian Anthony",dict(skin=1,hair="quiff",hair_colour="#2E211B",facial="stubble"),"full dark hair, stubble"),
+ ("thomas-gardner","BEL","Thomas Gardner",dict(skin=1,hair="tousled",hair_colour="#6B4A2E",necklace="#CFCFCF"),"messy brown hair, silver chain"),
+ ("brian-wilder","HHH","Brian Wilder",dict(skin=2,hair="crop",hair_colour="#3A3330",greying="sides",facial="stubble",facial_colour="#8C8780",gaunt=True,creases=True),"short greying hair, grey stubble"),
+]
+for slug, club, name, kw, alt in W427:
+    save(slug, figure(club, **kw))
 for slug, club, name, kw, alt in W434:
     save(slug, figure(club, **kw))
 save("jermaine-mays", figure("SLH", skin=3, hair="crop", hair_colour="black", necklace="#C9A646"))
