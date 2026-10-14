@@ -715,3 +715,4 @@ save("david-bowers", figure("BEL", skin=1, hair="buzzrecede", hair_colour="#C98A
 save("stuart-major", figure("SLH", skin=1, hair="quiff", hair_colour="#8A6440"))
 save("stuart-major-thh", figure("THH", skin=1, hair="quiff", hair_colour="#8A6440"))
 save("bernie-ford", figure("AFD", skin=1, hair="seventies", hair_colour="#1E1714", facial="thicktache", facial_colour="#1E1714"))
+save("dave-taylor", figure("HHH", skin=2, hair="croprecede", hair_colour="#5A3E2B", gaunt=True))
