@@ -745,3 +745,4 @@ save("paul-freary", figure("BEL", skin=1, hair="wavyback", hair_colour="#A88656"
 save("stephen-sharp", figure("BEL", skin=2, hair="buzzrecede", hair_colour="#6E5A40", gaunt=True, necklace="#1A1A1A"))
 save("mark-miles", figure("BEL", skin=1, hair="tousled", hair_colour="#7E6040"))
 save("kevin-nash", figure("BEL", skin=1, hair="bob", hair_colour="#D8BC7C", brow_colour="#A88A58"))
+save("tim-watson", figure("BEL", skin=1, hair="croppeak", hair_colour="#8E6E4A", gaunt=True))
