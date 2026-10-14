@@ -33,3 +33,7 @@ html = open(os.path.join(ROOT, 'index.html')).read()
 html2 = re.sub(r"const PORTRAIT_V='[^']*';", f"const PORTRAIT_V='{v}';", html, count=1)
 if html2 != html: open(os.path.join(ROOT, 'index.html'), 'w').write(html2)
 print('portrait version', v)
+
+# club GOAT ranks for the link-preview description
+import subprocess, sys
+subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'build_goat_ranks.py')], check=False)

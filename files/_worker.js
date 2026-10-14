@@ -2,7 +2,8 @@
 // Everything is served as normal static files, except athlete pages
 // (/athlete/<slug> and /women/athlete/<slug>). For those it serves the normal
 // site but rewrites the page title and the link-preview (Open Graph) tags, so a
-// link pasted into WhatsApp or social shows "<name> | Surrey League compendium"
+// link pasted into WhatsApp or social shows "<name> | Surrey League compendium",
+// a line with their club GOAT rank,
 // and the athlete's portrait (or the grey runner in their club vest).
 // If anything goes wrong it falls back to the plain site, never an error page.
 
@@ -57,7 +58,12 @@ async function athletePage(request, env, url, women, slug) {
     if (p && p.club === club) image = `/portraits/og/athletes/${p.file}.png`;
     else if (club && await exists(env, origin, `/portraits/og/clubs/${clubFile(club)}.png`)) image = `/portraits/og/clubs/${clubFile(club)}.png`;
     const title = `${name} | ${SITE_TITLE}`;
-    const desc = `Surrey League cross country career of ${name}`;
+    let desc = `Surrey League cross country career of ${name}`;
+    try {  // "…, the #3🐐 of Belgrave Harriers." from goat-ranks.json (built by tools/build_goat_ranks.py)
+      const g = await json(env, origin, '/goat-ranks.json');
+      const rank = (g[women ? 'women' : 'men'][slug] || {})[club];
+      if (rank) desc += `, the #${rank}🐐 of ${g.clubs[club] || club}.`;
+    } catch (e) {}
     const pageUrl = `${SITE}${women ? '/women' : ''}/athlete/${slug}`;
     const setContent = v => ({ element(el) { el.setAttribute('content', v); } });
     let rw = new HTMLRewriter()
