@@ -160,7 +160,7 @@ FACIAL = {
 def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
-def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False):
+def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3"):
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -266,8 +266,9 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             if hair == "highpony":  # hair tie where the bunch is gathered on top
                 hg.append('<path d="M89,40 Q100,44 111,40 L110,44.5 Q100,48.5 90,44.5 Z" fill="#000" fill-opacity=".35"/>')
     if custom and glasses:
-        hg.append('<g fill="#FFFFFF" fill-opacity=".18" stroke="#9A9DA3" stroke-width="1.6"><rect x="74" y="103" width="22" height="17" rx="5"/><rect x="104" y="103" width="22" height="17" rx="5"/></g>'
-                  '<path d="M96,109 Q100,106 104,109 M74,108 L66,106 M126,108 L134,106" fill="none" stroke="#9A9DA3" stroke-width="1.6"/>')
+        gw = "2.2" if glasses_col != "#9A9DA3" else "1.6"
+        hg.append(f'<g fill="#FFFFFF" fill-opacity=".18" stroke="{glasses_col}" stroke-width="{gw}"><rect x="74" y="103" width="22" height="17" rx="5"/><rect x="104" y="103" width="22" height="17" rx="5"/></g>'
+                  f'<path d="M96,109 Q100,106 104,109 M74,108 L66,106 M126,108 L134,106" fill="none" stroke="{glasses_col}" stroke-width="{gw}"/>')
     if custom and shades:
         hg.append('<path d="M66,104 Q100,98 134,104 L131,121 Q118,128 104,120 L100,116 L96,120 Q82,128 69,121 Z" fill="' + (shades_col or "#2B3039") + '"/>'
                   '<path d="M72,108 Q84,105 94,108 L92,112 Q82,110 73,112 Z" fill="#8FA3B8" opacity=".55"/>'
@@ -718,4 +719,4 @@ save("bernie-ford", figure("AFD", skin=1, hair="seventies", hair_colour="#1E1714
 save("dave-taylor", figure("HHH", skin=2, hair="croprecede", hair_colour="#5A3E2B", gaunt=True))
 save("ben-reynolds", figure("THH", skin=1, hair="buzzrecede", hair_colour="#6B5A4A", gaunt=True))
 save("tom-jervis", figure("H/W", skin=1, hair="quiff", hair_colour="#E3C98A", facial="stubble", facial_colour="#C9A060", brow_colour="#C9A060", rosy=True))
-save("nick-torry", figure("KEN", skin=1, hair="croprecede", hair_colour="#6B4A2E", glasses=True, gaunt=True))
+save("nick-torry", figure("KEN", skin=1, hair="croprecede", hair_colour="#6B4A2E", glasses=True, glasses_col="#1E1E22", gaunt=True))
