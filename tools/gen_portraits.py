@@ -573,6 +573,7 @@ save("bob-rayman", figure("H/W", skin=1, hair="tousled", hair_colour="dark brown
 save("pete-mulholland", figure("H/W", skin=1, hair="quiff", hair_colour="light brown"))
 save("charlie-eastaugh", figure("H/W", skin=1, hair="crop", hair_colour="light brown", cap="#F2F1EC", jaw="square"))
 save("oli-carrington", figure("H/W", skin=1, hair="tousled", hair_colour="mid brown", facial="shortbeard", facial_colour="mid brown"))
+save("jonathan-cornish", figure("H/W", skin=1, hair="tousled", hair_colour="dark brown"))
 save("gerry-north", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown"))
 save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22", facial="stubble", jacket=("#2E3238", "#23262B", None)))
 save("alex-yee", figure("KEN", skin=2, hair="quiff", hair_colour="#4A3022", medal="gold"))
