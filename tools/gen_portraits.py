@@ -736,7 +736,7 @@ save("tony-harran", figure("HHH", skin=1, hair="tuftrecede", hair_colour="#4A342
 save("robert-elphick", figure("KEN", skin=1, hair="tousled", hair_colour="#3A2820"))
 save("david-ogden", figure("SLH", skin=1, hair="horseshoe", hair_colour="#A89880", gaunt=True, creases=True, brow_colour="#8A7A66"))
 save("simon-coombes", figure("HHH", skin=1, hair="croppeak", hair_colour="#7A6A58", greying=True, gaunt=True))
-save("tom-south", figure("DUL", skin=1, hair="crop", hair_colour="#8A6E52", greying=True, gaunt=True, buff="#C8202A"))
+save("tom-south", figure("DUL", skin=1, hair="crop", hair_colour="#8A6E52", greying=True, gaunt=True))
 save("peter-giles", figure("H/W", skin=1, hair="slick", hair_colour="#BDB8AE", facial="goatee", facial_colour="#A8A39A", brow_colour="#8C8780", gaunt=True, creases=True, sleeves="#D8262E"))
 save("peter-giles-thh", figure("THH", skin=1, hair="slick", hair_colour="#BDB8AE", facial="goatee", facial_colour="#A8A39A", brow_colour="#8C8780", gaunt=True, creases=True, sleeves="#D8262E"))
 save("mike-farmery", figure("THH", skin=1, hair="horseshoe", hair_colour="#6E6254", glasses=True, brow_colour="#6E6254", gaunt=True, creases=True))
