@@ -132,6 +132,7 @@ HAIR["wavyback"] = '<path d="M64,108 C60,58 80,38 100,38 C121,38 140,58 136,108 
 HAIR_BACK["wavyback"] = '<path d="M60,90 C58,54 80,36 100,36 C120,36 142,54 140,90 Q148,104 142,118 Q150,132 140,146 Q144,158 132,160 L68,160 Q56,158 60,146 Q50,132 58,118 Q52,104 60,90 Z"/>'
 HAIR["tightbun"] = HAIR["slick"]
 HAIR["shaggyhorseshoe"] = '<path d="M66,104 L60,98 L62,90 L56,84 L61,78 L59,70 L66,63 L74,61 L78,67 Q72,80 71,104 Z"/><path d="M134,104 L140,98 L138,90 L144,84 L139,78 L141,70 L134,63 L126,61 L122,67 Q128,80 129,104 Z"/><path d="M88,46 Q94,41 101,43 Q108,40 113,45 Q106,44 100,46 Q94,45 88,46 Z" opacity=".55"/>'
+HAIR["floppyrecede"] = '<path d="M64,100 C61,80 62,62 70,52 C78,42 90,37 100,37 C112,37 124,42 131,52 C138,62 139,80 136,100 L133,84 C132,74 129,64 123,57 Q119,63 113,62 Q107,72 92,84 Q95,74 94,64 Q86,60 78,57 C72,64 68,74 67,84 Z" opacity=".92"/><g fill="none" stroke="#000" stroke-opacity=".22" stroke-width="1.3" stroke-linecap="round"><path d="M100,44 Q104,58 96,76"/><path d="M110,46 Q110,60 102,72"/><path d="M90,46 Q86,52 82,56"/></g>'
 HAIR["seventies"] = '<path d="M64,104 Q56,100 58,90 Q52,80 58,70 Q56,56 68,50 Q68,30 84,28 Q92,18 103,22 Q115,16 124,26 Q137,32 140,46 Q151,53 146,66 Q152,78 144,88 Q146,100 136,104 L133,92 C131,82 126,74 118,70 Q110,75 100,72 Q88,77 80,70 Q72,76 68,86 Z"/><g fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.4" stroke-linecap="round"><path d="M72,50 Q88,40 108,44"/><path d="M114,46 Q130,52 138,68"/></g>'
 HAIR_BACK["seventies"] = '<path d="M62,82 Q52,88 55,100 Q48,110 54,120 Q48,130 56,138 Q54,148 64,150 Q72,154 78,148 L86,146 L86,130 L114,130 L114,146 L122,148 Q128,154 136,150 Q146,148 144,138 Q152,130 146,120 Q152,110 145,100 Q148,88 138,82 Z"/>'
 HAIR["longflow"] = HAIR["longstraight"]
@@ -705,7 +706,7 @@ W433 += [
  ("tom-thornley","HOL","Tom Thornley",dict(skin=1,hair="sweptback",hair_colour="#8E6643"),"swept-back light brown hair"),
 ]
 W433 += [
- ("thomas-renshaw","THH","Thomas Renshaw",dict(skin=1,hair="sweptback",hair_colour="#D9B98A"),"swept-back strawberry-blond hair"),
+ ("thomas-renshaw","THH","Thomas Renshaw",dict(skin=1,hair="floppyrecede",hair_colour="#D9B98A"),"floppy, thinning strawberry-blond hair"),
  ("amittai-ben-israel","THH","Amittai Ben-Israel",dict(skin=1,hair="crop",hair_colour="#5A3E2B",gaunt=True),"short brown hair"),
 ]
 for slug, club, name, kw, alt in W433:
