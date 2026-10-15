@@ -936,7 +936,7 @@ save("john-mather", figure("BEL", skin=1, hair="croprecede", hair_colour="light 
 save("jon-hobbs", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15"))
 save("justin-chaston", figure("BEL", skin=2, hair="messyvolume", hair_colour="#3A2A20", gaunt=True))  # Steve: a bit more hair
 save("matt-chaston", figure("BEL", skin=1, hair="messyvolume", hair_colour="#7A4528", rosy=True))
-save("mark-anderson", figure("BEL", skin=1, hair="crop", hair_colour="dark brown", jaw="square"))
+save("mark-anderson", figure("BEL", skin=1, hair="croprecederound", hair_colour="dark brown", jaw="square"))  # Steve chose option 4
 
 # Belgravian archive photos, batch 4 (Oct 2026). B/w photos except Kimaiyo and Dent (colour).
 save("martin-lake", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown", jaw="square"))
