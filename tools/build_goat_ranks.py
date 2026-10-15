@@ -9,7 +9,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'files')
 JS = r"""
 async () => {
   const csv = await fetch(ALIASES_URL).then(r => r.text()).catch(() => '');
-  const aliases = {...BUILTIN_ALIASES, ...(csv ? parseAliases(csv) : {})};
+  const aliases = {...BUILTIN_ALIASES, ...(csv ? parseAliases(csv) : {}), ...(typeof OVERRIDE_ALIASES!=='undefined'?OVERRIDE_ALIASES:{})};
   const slug = n => (n || '').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   const out = {clubs: {}};
   for (const c of Object.keys(CLUBS)) out.clubs[c] = CLUBS[c].name || c;
