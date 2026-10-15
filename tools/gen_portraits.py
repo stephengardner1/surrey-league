@@ -897,6 +897,7 @@ save("julia-bleasdale", figure("THH", skin=1, hair="ponytail", hair_colour="#A88
 save("elizabeth-apsley", figure("THH", skin=1, hair="long", hair_colour="#D8BC86"))  # long straight fair hair swept back
 save("dorchie-cockerell", figure("THH", skin=1, hair="longstraight", hair_colour="#5A4030"))  # nee Lee; long straight brown hair
 save("chrissie-wellington", figure("BEL", skin=2, hair="longcurls", hair_colour="#C9A060"))  # 4x Ironman world champion; long blonde curls
+save("alex-bruce-littlewood", figure("H/W", skin=1, hair="quiff", hair_colour="#7A5232"))  # short light-brown hair pushed up
 save("john-foss", figure("SLH", skin=1, hair="croprecede", hair_colour="#CFC9BE", brow_colour="#9A948A", gaunt=True, creases=True))
 save("david-symons", figure("THH", skin=1, hair="croppeak", hair_colour="#4A3628", gaunt=True, creases=True))
 save("steve-smythe", figure("DUL", skin=2, hair="croprecede", hair_colour="#3A2E26", shades=True, shades_col="#1E2228", shades_frame="#2A2A2A", gaunt=True))
