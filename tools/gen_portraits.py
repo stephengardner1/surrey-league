@@ -1045,6 +1045,47 @@ B12 = [
 for slug, kit, kw in B12:
     save(slug, figure(kit, **kw))
 
+# Batch 13 (Oct 2026): top Surrey League athletes from the Kent AC, Thames Hare & Hounds and Herne Hill club websites.
+B13 = [
+ ("teresa-murphy", "KEN", dict(skin=1, hair="ponytail", hair_colour="#E3C77F", headband="#F2D21B")),
+ ("isabel-bradley", "KEN", dict(skin=1, hair="ponytail", hair_colour="#4A3020")),
+ ("peter-lighting", "KEN", dict(skin=1, hair="crop", hair_colour="#9C7A55", shades=True, jaw="narrow")),
+ ("joe-hartley", "KEN", dict(skin=1, hair="tousled", hair_colour="#8A6440", jaw="narrow")),
+ ("neil-phillips", "KEN", dict(skin=1, hair="crop", hair_colour="ginger", facial="stubble", facial_colour="#C47A3A", jaw="narrow")),
+ ("sarah-hanley", "KEN", dict(skin=1, hair="ponytail", hair_colour="#6E4A30")),
+ ("ben-harding", "KEN", dict(skin=1, hair="crop", hair_colour="#3A2A20", jaw="narrow")),
+ ("jonathan-tipper", "KEN", dict(skin=1, hair="tousled", hair_colour="#4A3424", facial="stubble", jaw="narrow", creases=True)),
+ ("victoria-buck", "KEN", dict(skin=1, hair="ponytail", hair_colour="#6B4A33")),
+ ("alexa-parker", "KEN", dict(skin=1, hair="lowbun", hair_colour="#7A5A3C")),
+ ("caoimhe-nic-fhogartaigh", "KEN", dict(skin=1, hair="bob", hair_colour="#E2C98A")),
+ ("jerry-watson", "THH", dict(skin=1, hair="crop", hair_colour="#E6E4DE", facial="beard", facial_colour="#E6E4DE", glasses=True, creases=True)),  # drawn from 2026 photos (white hair)
+ ("martin-shore", "THH", dict(skin=1, hair="crop", hair_colour="#8A7055", greying="sides")),
+ ("ian-harkness", "THH", dict(skin=1, hair="croprecede", hair_colour="#B08E5E", facial="shortbeard", facial_colour="#B9B3A8", greying="sides", creases=True)),
+ ("james-mcmullan", "THH", dict(skin=1, hair="quiff", hair_colour="#4A3424", facial="stubble")),  # redraw from Runner's World photo
+ ("ruby-woolfe", "THH", dict(skin=1, hair="highpony", hair_colour="#5A3E2A")),
+ ("victoria-barthelmess", "THH", dict(skin=1, hair="ponytail", hair_colour="#9A7448")),
+ ("lauren-major", "THH", dict(skin=1, hair="ponytail", hair_colour="#A68458")),
+ ("elizabeth-stavreski", "THH", dict(skin=2, hair="ponytail", hair_colour="#2A1E18")),
+ ("natalie-seymour", "THH", dict(skin=1, hair="ponytail", hair_colour="#D9BC7E")),
+ ("katy-hedgethorne", "THH", dict(skin=1, hair="bob", hair_colour="#A0522D")),
+ ("gordon-pearce", "THH", dict(skin=1, hair="spiky", hair_colour="#3A2A20")),
+ ("nick-altmann", "THH", dict(skin=1, hair=None, facial="stubble", facial_colour="#7A6A5A")),
+ ("rebekah-edgar", "THH", dict(skin=1, hair="ponytail", hair_colour="#6B4A33")),
+ ("keith-newton", "HHH", dict(skin=1, hair="tousled", hair_colour="#8A6440")),
+ ("ben-paviour", "HHH", dict(skin=1, hair="floppyrecede", hair_colour="#7A5A3C", facial="stubble")),
+ ("sarah-grover", "HHH", dict(skin=1, hair="ponytail", hair_colour="#8A6440")),
+ ("julia-wedmore", "HHH", dict(skin=1, hair="ponytail", hair_colour="#A07E54")),
+ ("grace-leyland", "HHH", dict(skin=1, hair="ponytail", hair_colour="#2E2018")),
+ ("fiona-de-mauny", "HHH", dict(skin=1, hair="ponytail", hair_colour="#8A6440", jaw="narrow")),
+ ("chloe-tighe", "HHH", dict(skin=1, hair="topknot", hair_colour="#5A3E2A")),
+ ("cathy-ansell", "HHH", dict(skin=1, hair="ponytail", hair_colour="#3A2A20")),
+ ("stacey-ward", "HHH", dict(skin=1, hair="ponytail", hair_colour="#D4B47A")),
+ ("natasha-lodge", "HHH", dict(skin=1, hair="ponytail", hair_colour="#A0603A")),
+ ("ella-newton", "HHH", dict(skin=1, hair="longloose", hair_colour="#C8A46E")),
+]
+for slug, kit, kw in B13:
+    save(slug, figure(kit, **kw))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
