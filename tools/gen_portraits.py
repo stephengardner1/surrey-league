@@ -1025,6 +1025,23 @@ save("yacin-yusuf", figure("BEL", skin=6, hair="buzz", hair_colour="black", gaun
 # Jon Solly (Herne Hill Harriers), photo from Steve, Oct 2026: short textured dark brown hair, short sides, prominent ears, longish face
 save("jon-solly", figure("HHH", skin=1, hair="shortcurls", hair_colour="dark brown", jaw="narrow"))
 
+# Batch 12 (Oct 2026): Hercules Wimbledon history pages, The Belgravian and Alan Mead's galleries.
+# Black-and-white photos: hair colour inferred from tone (dark -> dark brown).
+B12 = [
+ ("mike-fuller", "H/W", dict(skin=1, hair="longcurls", hair_colour="dark brown", facial="thicktache")),  # redraw from 1975 colour photo
+ ("rory-mcmahon", "H/W", dict(skin=1, hair="crop", hair_colour="#D9B56E", facial="stubble", facial_colour="#B8935A")),
+ ("gina-galbraith", "H/W", dict(skin=1, hair="ponytail", hair_colour="#6B4A32")),
+ ("lisa-thomas", "VAC", dict(skin=1, hair="ponytail", hair_colour="#9C5B3A")),  # most recent club VAC 2026/27
+ ("lisa-thomas-hw", "H/W", dict(skin=1, hair="ponytail", hair_colour="#9C5B3A")),
+ ("ray-odonoghue", "HHH", dict(skin=1, hair="quiffrecede", hair_colour="dark brown", jaw="narrow", creases=True)),  # b/w guess
+ ("dave-beard", "H/W", dict(skin=1, hair="croprecede", hair_colour="dark brown", gaunt=True, jaw="narrow")),  # b/w guess
+ ("pete-carton", "BEL", dict(skin=1, hair="shaggyrecede", hair_colour="dark brown")),  # b/w guess
+ ("dick-piotrowski", "BEL", dict(skin=1, hair="tousled", hair_colour="dark brown")),  # b/w guess
+ ("chris-moss", "BEL", dict(skin=1, hair="messyfringe", hair_colour="#9A7550", jaw="square")),  # redraw from colour photo
+]
+for slug, kit, kw in B12:
+    save(slug, figure(kit, **kw))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
