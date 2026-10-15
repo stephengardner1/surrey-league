@@ -788,6 +788,9 @@ W96 = [  # Belgrave 1996-97 club magazine
 ]
 for slug, club, name, kw, alt in W96:
     save(slug, figure(club, **kw))
+W427 += [
+ ("brandon-dewar","HHH","Brandon Dewar",dict(skin=1,hair="tousled",hair_colour="#5A3E2B",facial="stubble",facial_colour="#5A3E2B",gaunt=True),"tousled brown hair, stubble"),
+]
 for slug, club, name, kw, alt in W427:
     save(slug, figure(club, **kw))
 for slug, club, name, kw, alt in W434:
@@ -1142,6 +1145,11 @@ def export_site(site_dir="/home/claude/surrey-league/files/portraits/athletes", 
     import shutil
     os.makedirs(out, exist_ok=True)
     live = {f[:-4] for f in os.listdir(site_dir) if f.endswith(".svg")} if os.path.isdir(site_dir) else set()
+    # also every slug registered on the site (add('slug',...) in index.html), so new portraits export too
+    idx = os.path.join(os.path.dirname(os.path.dirname(site_dir)), "index.html")
+    if os.path.exists(idx):
+        import re as _re
+        live |= set(_re.findall(r"add\('([a-z0-9-]+)',", open(idx).read()))
     for slug in sorted(live | set(SITE_NAMES)):
         src = f"v4/{SITE_NAMES.get(slug, slug)}.svg"
         if os.path.exists(src):
