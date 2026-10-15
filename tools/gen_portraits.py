@@ -948,6 +948,16 @@ save("don-faircloth", figure("CRO", skin=1, hair="croprecede", hair_colour="#2E2
 save("john-kimaiyo", figure("BEL", skin=6, hair="buzz", hair_colour="black", gaunt=True))
 save("martin-dent", figure("BEL", skin=1, hair="buzz", hair_colour="light brown"))
 
+# Belgravian archive photos, batch 5 (Oct 2026): Belgrave women, colour photos from Alan Mead's galleries and The Belgravian.
+save("catherine-bryson", figure("BEL", skin=1, hair="messyvolume", hair_colour="#E6D29A", brow_colour="#B89A62", rosy=True))
+save("gabby-collison", figure("BEL", skin=1, hair="lowbun", hair_colour="#241A15", gaunt=True))
+save("jodie-favell", figure("BEL", skin=1, hair="topknot", hair_colour="#D9BC78", brow_colour="#A88C5A", rosy=True))
+save("louise-cooper", figure("BEL", skin=1, hair="ponytail", hair_colour="#B8955A", brow_colour="#8E6E45", gaunt=True))
+save("sarah-murphy", figure("BEL", skin=1, hair="ponytail", hair_colour="#2E211B"))
+save("tilly-heaton", figure("C/C", skin=1, hair="ponytail", hair_colour="#241A15", gaunt=True))
+save("tilly-heaton-bel", figure("BEL", skin=1, hair="ponytail", hair_colour="#241A15", gaunt=True))
+save("vicky-clarke", figure("BEL", skin=1, hair="ponytail", hair_colour="#9A6A3A", brow_colour="#7A5236"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
