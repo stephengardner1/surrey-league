@@ -216,6 +216,8 @@
 const{useState,useMemo,useEffect,useRef}=React;
 const getNumericPos=(pos)=>{if(typeof pos==='number')return pos;if(typeof pos==='string')return parseInt(pos.replace('=',''),10);return null;};
 const normalizeNameForCompare=(name)=>name?.toLowerCase().trim()||'';
+// Placeholder names for runners whose name wasn't recorded ("unknown athlete", "[Unknown]", "?", "? No. 86 ?"). They keep their place in results but never get an athlete profile or a club ranking.
+const isUnknownAthlete=(name)=>{const n=(name||'').trim();return !n||/^[\[(]?unknown\b/i.test(n)||/^\?/.test(n);};
 const namesMatch=(a,b)=>normalizeNameForCompare(a)===normalizeNameForCompare(b);
 const ordPos=n=>{const v=n%100;return n+(v>=11&&v<=13?'th':['th','st','nd','rd'][n%10]||'th');};
 const getSurname=(name)=>{if(!name)return'';const parts=name.split(' ');return parts.length>1?parts[parts.length-1]:name;};
@@ -804,7 +806,7 @@ const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps
   const filtered=clubFilter?results.filter(r=>r.club===clubFilter):results;
   const isClubGoat=(name,club)=>{const mvps=clubMvps?.[club];return mvps&&namesMatch(mvps[0]?.name,name);};
   const getChampionStars=(name)=>{const count=individualChampions?.[normalizeNameForCompare(name)]||0;return count>0?'⭐'.repeat(Math.min(count,2)):'';};
-  return<div>{clubFilter&&<div className="mb-4 flex items-center gap-2 text-sm"><span className="text-gray-500">Showing:</span><span className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded"><ClubShield club={clubFilter} size={16}/><span className="font-medium">{CLUBS[clubFilter]?.name||clubFilter}</span><button onClick={()=>setClubFilter(null)} className="text-gray-500 hover:text-gray-600"><X className="w-4 h-4"/></button></span></div>}<table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 text-xs font-semibold text-gray-900 uppercase tracking-wide w-8 md:w-10">Pos</th><th className="text-left py-1.5 px-1 md:px-2 text-xs text-gray-500 uppercase w-8 md:w-10">Pts</th><th className="text-left py-1.5 px-1 md:px-2 text-xs text-gray-500 uppercase w-14 md:w-16">Club</th><th className="text-left py-1.5 px-1 md:px-2 text-xs text-gray-500 uppercase">Name</th><th className="text-right py-1.5 pl-1 md:pl-4 text-xs text-gray-500 uppercase w-14 md:w-16">Time</th></tr></thead><tbody className="divide-y divide-gray-100">{filtered.map((r,i)=><tr key={i} className="hover:bg-gray-100"><td className="py-1.5 text-sm text-gray-700 tabular-nums">{r.pos}</td><td className="py-1.5 px-1 md:px-2 text-sm text-gray-500 tabular-nums">{r.pts||'-'}</td><td className="py-1.5 px-1 md:px-2"><span className="flex items-center gap-1 cursor-pointer" onClick={()=>setClubFilter(r.club)}><ClubShield club={r.club} size={14}/><span className="text-xs text-gray-500">{r.club}</span></span></td><td className="py-1.5 px-1 md:px-2"><span className="text-[13px] min-[521px]:text-sm text-gray-900 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'athlete',athlete:{name:r.name,club:r.club}})}>{r.name}{getChampionStars(r.name)&&<span className="text-xs" title="Has won individual Surrey League title(s)"> {getChampionStars(r.name)}</span>}{isClubGoat(r.name,r.club)&&<span className="text-xs" title={`Is ${CLUBS[r.club]?.name||r.club}'s greatest A-team scorer of all time`}> 🐐</span>}{r.ns&&<span className="text-gray-500 ml-1">(N/S)</span>}{r.secondClaim&&<span className="text-gray-500 ml-1">(2C)</span>}{(()=>{if(!prevPos)return null;const pv=prevPos[normalizeNameForCompare(r.name)];const now=parseInt(r.pos);if(!now)return null;if(!pv){if(/^unknown/i.test(r.name||''))return null;return<span className="ml-1.5 align-middle opacity-60 text-sm leading-none text-[#1b649e]" title="First Div 1 race on record" aria-label="First Div 1 race on record">✦</span>;}const d=pv.pos-now;const tip=`Last race: ${ordPos(pv.pos)} at ${pv.venue} (${pv.when})`;return<span className={`ml-1.5 align-middle opacity-50 ${d>0?'text-[10px] text-green-600':d<0?'text-[10px] text-red-600':'text-xs font-semibold text-gray-500'}`} title={tip} aria-label={tip}>{d>0?'▲':d<0?'▼':'='}</span>;})()}</span></td><td className="py-1.5 pl-1 md:pl-4 text-sm text-gray-700 text-right tabular-nums font-mono whitespace-nowrap">{r.time}</td></tr>)}</tbody></table></div>;
+  return<div>{clubFilter&&<div className="mb-4 flex items-center gap-2 text-sm"><span className="text-gray-500">Showing:</span><span className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded"><ClubShield club={clubFilter} size={16}/><span className="font-medium">{CLUBS[clubFilter]?.name||clubFilter}</span><button onClick={()=>setClubFilter(null)} className="text-gray-500 hover:text-gray-600"><X className="w-4 h-4"/></button></span></div>}<table className="w-full"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 text-xs font-semibold text-gray-900 uppercase tracking-wide w-8 md:w-10">Pos</th><th className="text-left py-1.5 px-1 md:px-2 text-xs text-gray-500 uppercase w-8 md:w-10">Pts</th><th className="text-left py-1.5 px-1 md:px-2 text-xs text-gray-500 uppercase w-14 md:w-16">Club</th><th className="text-left py-1.5 px-1 md:px-2 text-xs text-gray-500 uppercase">Name</th><th className="text-right py-1.5 pl-1 md:pl-4 text-xs text-gray-500 uppercase w-14 md:w-16">Time</th></tr></thead><tbody className="divide-y divide-gray-100">{filtered.map((r,i)=><tr key={i} className="hover:bg-gray-100"><td className="py-1.5 text-sm text-gray-700 tabular-nums">{r.pos}</td><td className="py-1.5 px-1 md:px-2 text-sm text-gray-500 tabular-nums">{r.pts||'-'}</td><td className="py-1.5 px-1 md:px-2"><span className="flex items-center gap-1 cursor-pointer" onClick={()=>setClubFilter(r.club)}><ClubShield club={r.club} size={14}/><span className="text-xs text-gray-500">{r.club}</span></span></td><td className="py-1.5 px-1 md:px-2">{isUnknownAthlete(r.name)?<span className="text-[13px] min-[521px]:text-sm text-gray-400 italic" title="Name not recorded">{/^(\[?unknown\]?|unknown athlete)$/i.test((r.name||'').trim())?'Unknown':r.name}</span>:<span className="text-[13px] min-[521px]:text-sm text-gray-900 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'athlete',athlete:{name:r.name,club:r.club}})}>{r.name}{getChampionStars(r.name)&&<span className="text-xs" title="Has won individual Surrey League title(s)"> {getChampionStars(r.name)}</span>}{isClubGoat(r.name,r.club)&&<span className="text-xs" title={`Is ${CLUBS[r.club]?.name||r.club}'s greatest A-team scorer of all time`}> 🐐</span>}{r.ns&&<span className="text-gray-500 ml-1">(N/S)</span>}{r.secondClaim&&<span className="text-gray-500 ml-1">(2C)</span>}{(()=>{if(!prevPos)return null;const pv=prevPos[normalizeNameForCompare(r.name)];const now=parseInt(r.pos);if(!now)return null;if(!pv){if(/^unknown/i.test(r.name||''))return null;return<span className="ml-1.5 align-middle opacity-60 text-sm leading-none text-[#1b649e]" title="First Div 1 race on record" aria-label="First Div 1 race on record">✦</span>;}const d=pv.pos-now;const tip=`Last race: ${ordPos(pv.pos)} at ${pv.venue} (${pv.when})`;return<span className={`ml-1.5 align-middle opacity-50 ${d>0?'text-[10px] text-green-600':d<0?'text-[10px] text-red-600':'text-xs font-semibold text-gray-500'}`} title={tip} aria-label={tip}>{d>0?'▲':d<0?'▼':'='}</span>;})()}</span>}</td><td className="py-1.5 pl-1 md:pl-4 text-sm text-gray-700 text-right tabular-nums font-mono whitespace-nowrap">{r.time}</td></tr>)}</tbody></table></div>;
 };
 
 const RaceDetailView=(props)=>props.race?<RaceDetailInner {...props}/>:null;
@@ -1386,7 +1388,7 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
         }
         // Count Value scores properly - A1=max pts down to AN=1pt
         race.results.forEach(r=>{
-          if(r.club!==club||r.ns)return;
+          if(r.club!==club||r.ns||isUnknownAthlete(r.name))return;
           const key=normalizeNameForCompare(r.name);
           if(!clubStats[key])clubStats[key]={name:r.name,value:0};
           // For university scoring (b_pts present), only count A-team scorers (those with pts but not b_pts)
@@ -3656,7 +3658,7 @@ const parseUrlParams=(athletes)=>{
   const param=rest.join('/');
   switch(route){
     case'season':return{type:'home',urlSeason:compactToSeason(param),division};
-    case'athlete':return{type:'athlete',athlete:{name:slugToName(param,athletes),slug:param},division};
+    case'athlete':{const nm=slugToName(param,athletes);if(isUnknownAthlete(nm))return{type:'athletes',division};return{type:'athlete',athlete:{name:nm,slug:param},division};}
     case'club':return{type:'club',club:param.toUpperCase().replace('HW','H/W').replace('GG','G&G').replace('CC','C/C').replace('EE','E&E').replace('SD','S&D'),division};
     case'race':{const[s,m]=param.split('-');return{type:'race',raceKey:{season:compactToSeason(s),match:parseInt(m)},mode:param.endsWith('/form-guide')?'guide':undefined,division};}
     case'fixtures':return{type:'fixtures',division};
@@ -4425,7 +4427,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
   const athleteStats={};
   data.races.forEach(race=>{
     (race.results||[]).forEach(r=>{
-      if(!r.name)return;
+      if(!r.name||isUnknownAthlete(r.name))return;
       const key=normalizeNameForCompare(r.name);
       if(!athleteStats[key]){
         athleteStats[key]={name:r.name,club:r.club,wins:0,top3:0,top5:0,top10:0,top20:0,top50:0,top100:0,races:0,aScores:0,clubs:new Set()};
@@ -4501,6 +4503,8 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     delete s.lastKey;delete s.lastClub;
     data.athletes.push(s);
   });
+  // Unnamed runners are not athletes
+  data.athletes=data.athletes.filter(a=>!isUnknownAthlete(a.name));
 
   // Ensure clubAllTime is an array (may be empty object in women's data)
   if(!Array.isArray(data.clubAllTime)){
@@ -4794,7 +4798,7 @@ const normalizeData=(data,division='men',liveAliases={})=>{
     // Convert to sorted arrays per club
     const mvps={};
     Object.entries(clubAthletes).forEach(([club,athletes])=>{
-      const sorted=Object.values(athletes).sort((a,b)=>b.value-a.value||b.aScores-a.aScores||b.races-a.races);
+      const sorted=Object.values(athletes).filter(a=>!isUnknownAthlete(a.name)).sort((a,b)=>b.value-a.value||b.aScores-a.aScores||b.races-a.races);
       mvps[club]=sorted.slice(0,3).map((a,i)=>({...a,mvpRank:i+1}));
     });
     return mvps;
@@ -4837,7 +4841,7 @@ function App(){
   // Opening a different page (athlete, club, race, list...) starts at the top, not wherever the last page was scrolled to.
   // Switching tabs within the same page (e.g. a race's form guide) keeps the scroll position.
   const viewKey=v=>[v.type,v.athlete?.name,v.club,v.race&&(v.race.season+'-'+v.race.match),v.urlSeason].join('|');
-  const setView=(v)=>{const moved=viewKey(v)!==viewKey(view);setViewState(v);updateUrl(v,division);if(moved)window.scrollTo(0,0);};
+  const setView=(v)=>{if(v?.type==='athlete'&&isUnknownAthlete(v.athlete?.name))return;const moved=viewKey(v)!==viewKey(view);setViewState(v);updateUrl(v,division);if(moved)window.scrollTo(0,0);};
   const setDivision=(d)=>{
     setDivisionState(d);
     // Preserve current view type and context where appropriate

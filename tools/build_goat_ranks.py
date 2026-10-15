@@ -20,7 +20,7 @@ async () => {
     const dc = DIVISIONS[div] || DIVISIONS.men;
     const hidden = new Set(Object.entries(CLUBS).filter(([k, v]) => v.hidden).map(([k]) => k)); hidden.add('G');
     const stats = {};  // club -> normalized name -> {name, value}
-    const add = (club, name, v) => { const k = normalizeNameForCompare(name); (stats[club] ||= {}); (stats[club][k] ||= {name, value: 0}); stats[club][k].value += v; };
+    const add = (club, name, v) => { if (isUnknownAthlete(name)) return; const k = normalizeNameForCompare(name); (stats[club] ||= {}); (stats[club][k] ||= {name, value: 0}); stats[club][k].value += v; };
     for (const race of data.races) {
       const ts = (dc.historicTeamSize?.(race.season) || dc.teamSize || {a: 10, b: 10}).a;
       if (!race.results?.length) {
