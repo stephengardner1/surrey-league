@@ -592,12 +592,13 @@ const makeBlinker=t=>t.replace('viewBox="10 20 180 252"','viewBox="-15 -8 230 28
 const LoadingBlink=()=>{
   const pool=useMemo(()=>{const files=[...new Set(Object.values(PORTRAITS).map(v=>v.file))];const fav=['bob-holt','bernie-ford','lionel-mann',...LOADER_FAVOURITES].filter(f=>files.includes(f));
     const order=Math.random()<.7?fav.sort(()=>Math.random()-.5).concat(files.sort(()=>Math.random()-.5)):files.sort(()=>Math.random()-.5);return order.slice(0,8);},[]);
-  const[u,setU]=useState(null);
+  const[u,setU]=useState(null),[file,setFile]=useState(null);
+  const initials=useMemo(()=>{if(!file)return'';const k=Object.keys(PORTRAITS).find(n=>PORTRAITS[n].file===file);if(!k)return'';const w=k.split(/\s+/).filter(Boolean);return((w[0]||'')[0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase();},[file]);
   useEffect(()=>{let dead=false;(async()=>{for(const f of pool){try{const r=await fetch(`/portraits/athletes/${f}.svg?v=${PORTRAIT_V}`);if(!r.ok)continue;const t=await r.text();
       if(t.includes('M66,104 Q100,98 134,104'))continue;  // sunglasses hide the blink
-      if(!dead)setU(URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})));return;}catch(e){}}})();return()=>{dead=true;};},[pool]);
+      if(!dead){setU(URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})));setFile(f);}return;}catch(e){}}})();return()=>{dead=true;};},[pool]);
   const W=150;
-  return<div aria-label="Loading" role="status" style={{width:W,height:W*280/230,borderRadius:12,overflow:'hidden'}}>{u&&<img src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto'}}/>}</div>;
+  return<div aria-label="Loading" role="status" style={{position:'relative',width:W,height:W*280/230,borderRadius:12,overflow:'hidden'}}>{u&&initials&&<span style={{position:'absolute',top:9,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:22,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{initials}</span>}{u&&<img src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto'}}/>}</div>;
 };
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
 const Loader=()=>LOADER_STYLE==='blink'?<LoadingBlink/>:<LoadingVests/>;
