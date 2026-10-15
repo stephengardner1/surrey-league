@@ -3707,7 +3707,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   </div>;
 };
 
-const Footer=()=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-500"><a href="#athlete/steve-gardner" onClick={()=>{window.scrollTo(0,0);setTimeout(()=>window.scrollTo(0,0),60);}} className="underline decoration-gray-300 underline-offset-[3px] hover:text-gray-700 hover:decoration-gray-500"><span style={{fontFamily:'Fraunces,Georgia,serif',fontWeight:600}}>Surrey League Compendium</span> by Steve</a></footer>;
+const Footer=({setView})=><footer className="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-500"><a href="/athlete/steve-gardner" onClick={e=>{e.preventDefault();history.pushState(null,'','/athlete/steve-gardner');window.dispatchEvent(new PopStateEvent('popstate'));window.scrollTo(0,0);}} className="underline decoration-gray-300 underline-offset-[3px] hover:text-gray-700 hover:decoration-gray-500"><span style={{fontFamily:'Fraunces,Georgia,serif',fontWeight:600}}>Surrey League Compendium</span> by Steve</a></footer>;
 
 // Hash-based routing utilities
 const seasonToCompact=(s)=>s?s.replace('/','').slice(-4):''; // "2013/14" -> "1314"
