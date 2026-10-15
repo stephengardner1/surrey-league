@@ -934,7 +934,7 @@ save("charlie-dickinson", figure("BEL", skin=1, hair="quiffrecede", hair_colour=
 save("dave-beaver", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", gaunt=True))
 save("john-mather", figure("BEL", skin=1, hair="croprecede", hair_colour="light brown", rosy=True))
 save("jon-hobbs", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15"))
-save("justin-chaston", figure("BEL", skin=2, hair="shortcurls", hair_colour="#3A2A20", gaunt=True))
+save("justin-chaston", figure("BEL", skin=2, hair="messyvolume", hair_colour="#3A2A20", gaunt=True))  # Steve: a bit more hair
 save("matt-chaston", figure("BEL", skin=1, hair="messyvolume", hair_colour="#7A4528", rosy=True))
 save("mark-anderson", figure("BEL", skin=1, hair="crop", hair_colour="dark brown", jaw="square"))
 
