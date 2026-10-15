@@ -780,6 +780,7 @@ W96 = [  # Belgrave 1996-97 club magazine
  ("gerry-adams","BEL","Gerry Adams",dict(skin=1,hair="shortcurls",hair_colour="#C08A50"),"wavy strawberry-blond hair"),
  ("mike-nouch","BEL","Mike Nouch",dict(skin=1,hair="quiffrecede",hair_colour="#2A1D18",creases=True),"receding dark hair"),
  ("darren-mead","BEL","Darren Mead",dict(skin=1,hair="crop",hair_colour="#5A3E2B"),"short brown hair"),
+ ("james-estall","BEL","James Estall",dict(skin=1,hair="crop",hair_colour="#6B4A2E",gaunt=True),"short brown hair, lean face"),
 ]
 for slug, club, name, kw, alt in W96:
     save(slug, figure(club, **kw))
