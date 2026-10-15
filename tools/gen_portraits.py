@@ -1022,6 +1022,9 @@ save("mike-hayes", figure("BEL", skin=1, hair="shaggyrecede", hair_colour="#B89A
 save("richard-ashe", figure("BEL", skin=1, hair="spiky", hair_colour="#241A15", jaw="square"))
 save("yacin-yusuf", figure("BEL", skin=6, hair="buzz", hair_colour="black", gaunt=True, jaw="narrow"))
 
+# Jon Solly (Herne Hill Harriers), photo from Steve, Oct 2026: short textured dark brown hair, short sides, prominent ears, longish face
+save("jon-solly", figure("HHH", skin=1, hair="shortcurls", hair_colour="dark brown", jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
