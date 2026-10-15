@@ -582,7 +582,7 @@ const ClubShield=ClubVest;
 // Loading animation with founding club vests
 // Loader favourites: striking-looking runners who turn up far more often in the loading animations
 const LOADER_FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister','georgie-grgec','claire-grima','georgie-bruinvels'];
-// Alternative loader: a single portrait that blinks. Preview with ?loader=blink
+// Default loader: a single portrait card that blinks and glances, then drops away wiping the page into view
 const BLINK_CSS='<style>.bk{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 4s .3s infinite}.bc{opacity:0;animation:bc 4s .3s infinite}.pp{animation:pp 4s .3s infinite cubic-bezier(.45,0,.25,1)}@keyframes bk{0%,4.5%,100%{transform:scaleY(1)}1.8%,2.7%{transform:scaleY(0)}}@keyframes bc{0%,1.3%,3.3%,100%{opacity:0}1.8%,2.7%{opacity:1}}@keyframes pp{0%,24%{transform:translateX(0)}31%,68%{transform:translateX(3.6px)}76%,100%{transform:translateX(0)}}</style>';
 const makeBlinker=t=>t.replace('viewBox="10 20 180 252"','viewBox="-15 -8 230 330"').replace(/<rect width="200" height="280"[^>]*\/>/,'')
   .replace(/<g (fill="#[0-9A-Fa-f]{6}")><path d="M76,112 Q85,105 94,112 Q85,117/,'<g class="bk" $1><path d="M76,112 Q85,105 94,112 Q85,117')
@@ -623,7 +623,7 @@ const LoadingBlink=({exiting,onDone})=>{
   </div></>;
 };
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
-const Loader=()=>LOADER_STYLE==='blink'?<LoadingBlink/>:<LoadingVests/>;
+const Loader=()=>LOADER_STYLE==='carousel'?<LoadingVests/>:<LoadingBlink/>;  // blinking card is the default; ?loader=carousel shows the portrait carousel
 const LoadingVests=()=>{
   // Loading carousel: a random line-up of athlete portraits gliding sideways, biggest in the centre.
   // No club appears twice within any four consecutive faces (including across the loop join).
@@ -5032,7 +5032,7 @@ function App(){
   if(!data)return<div className="loading"><Loader/></div>;
   
   return<div className="min-h-screen bg-white flex flex-col">
-    {LOADER_STYLE==='blink'&&blinkExit&&<div aria-hidden="true" style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}><LoadingBlink exiting onDone={()=>setBlinkExit(false)}/></div>}
+    {LOADER_STYLE!=='carousel'&&blinkExit&&<div aria-hidden="true" style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}><LoadingBlink exiting onDone={()=>setBlinkExit(false)}/></div>}
     <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:rounded">Skip to content</a>
     <Nav setView={setView} division={division} setDivision={setDivision}/>
     <main id="main-content" className="flex-1">
