@@ -979,6 +979,17 @@ save("charlie-walker", figure("BEL", skin=1, hair="quiff", hair_colour="#2E211B"
 save("john-dear", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", glasses="square", glasses_col="#1E1E1E"))
 save("michael-baker", figure("BEL", skin=1, hair="tousled", hair_colour="#2E211B"))
 
+# Belgravian archive photos, batch 8 (Oct 2026): 1970s, black-and-white photos (hair colour inferred).
+save("pat-oconnor", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2E211B", gaunt=True))
+save("colin-pearson", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15", jaw="square"))
+save("jim-rimmer", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#2E211B", gaunt=True, jaw="narrow"))
+save("john-stow", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", gaunt=True))
+save("fred-paget", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#241A15", gaunt=True))
+save("bill-weller", figure("BEL", skin=1, hair="crop", hair_colour="light brown", facial="moustache", facial_colour="#6B4A2E", gaunt=True))
+save("bill-weller-wal", figure("WAL", skin=1, hair="crop", hair_colour="light brown", facial="moustache", facial_colour="#6B4A2E", gaunt=True))
+save("doug-maughan", figure("BEL", skin=1, hair="crop", hair_colour="mid brown"))
+save("john-roberts", figure("SLH", skin=1, hair="quiffrecede", hair_colour="#2E211B", gaunt=True))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
