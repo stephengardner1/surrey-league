@@ -1102,6 +1102,18 @@ B14 = [
 for slug, kit, kw in B14:
     save(slug, figure(kit, **kw))
 
+# Batch 15 (Oct 2026): Athletics Weekly 24 Mar 1984 (final Surrey League race 1983/84, photo Bill Laws) and AW 2001 feature (Mike Boyle).
+# B/w photos: hair colour inferred from tone (dark -> dark brown).
+B15 = [
+ ("paul-magner", "E&E", dict(skin=1, hair="tousled", hair_colour="#3A2A20", jaw="narrow")),
+ ("gary-ribbons", "BOX", dict(skin=1, hair="messyvolume", hair_colour="#3A2A20")),  # most recent club Boxhill Racers (1987-2002)
+ ("gary-ribbons-ee", "E&E", dict(skin=1, hair="messyvolume", hair_colour="#3A2A20")),
+ ("dave-glassborow", "HHH", dict(skin=1, hair="shortcurls", hair_colour="#3A2A20", jaw="narrow")),
+ ("mike-boyle", "HHH", dict(skin=1, hair="horseshoe", hair_colour="#3A2A20", jaw="narrow")),  # from 2001 colour photos
+]
+for slug, kit, kw in B15:
+    save(slug, figure(kit, **kw))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
