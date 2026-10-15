@@ -591,7 +591,7 @@ const LoadingVests=()=>{
     const fixed={0:Math.random()<.5?'bob-holt':'bernie-ford',2:'lionel-mann'};Object.keys(fixed).forEach(k=>{if(!clubOf[fixed[k]])delete fixed[k];});
     const fixedFiles=Object.values(fixed);
     // favourites: striking-looking runners who turn up far more often (weighted shuffle)
-    const FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister'];
+    const FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister','georgie-grgec','claire-grima','georgie-bruinvels'];
     const wshuffle=a=>a.map(f=>[Math.random()**(1/(FAVOURITES.includes(f)?40:1)),f]).sort((x,y)=>y[0]-x[0]).map(x=>x[1]);
     for(let tries=0;tries<60;tries++){const pools=[wshuffle(men.filter(f=>!fixedFiles.includes(f))),wshuffle(women.filter(f=>!fixedFiles.includes(f)))],out=[];
       for(let k=0;k<N;k++){if(fixed[k]){out.push(fixed[k]);continue;}const pool=pools[k%2];  // man, woman, man, woman...
@@ -600,22 +600,22 @@ const LoadingVests=()=>{
         const i=pool.findIndex(f=>!near.includes(clubOf[f]));if(i<0)break;out.push(pool.splice(i,1)[0]);}
       if(out.length===N)return out;}
     return shuffle(men.concat(women)).slice(0,N);},[]);
-  const[urls,setUrls]=useState(null);
-  useEffect(()=>{let dead=false;Promise.all(picks.map(f=>loadBust(`/portraits/athletes/${f}.svg?v=${PORTRAIT_V}`).catch(()=>null))).then(us=>{if(!dead)setUrls(us);});return()=>{dead=true;};},[picks]);
+  const[urls,setUrls]=useState({});
+  useEffect(()=>{let dead=false;picks.forEach((f,j)=>loadBust(`/portraits/athletes/${f}.svg?v=${PORTRAIT_V}`).then(u=>{if(!dead)setUrls(m=>({...m,[j]:u}));}).catch(()=>{}));return()=>{dead=true;};},[picks]);
   const refs=useRef([]);
   const SP=60,BIG=92;
-  useEffect(()=>{if(!urls)return;let raf;const t0=performance.now();
+  useEffect(()=>{let raf;const t0=performance.now();
     // steady drift with a gentle surge: speed swings between ~0.35x and ~1.65x but never stops
-    const V=1/1100,W=2*Math.PI/1100,A=0.65;
+    const V=1/340,W=2*Math.PI/340,A=0.55;
     const tick=now=>{const t=now-t0,pos=V*t-(A*V/W)*Math.sin(W*t);
       refs.current.forEach((el,j)=>{if(!el)return;let d=((j-pos)%N+N)%N;if(d>N/2)d-=N;const a=Math.abs(d);
         if(a>2.8){el.style.opacity=0;return;}
         const sc=1-0.62*Math.min(a/2.5,1)**1.3,op=a<1.8?1:Math.max(0,1-(a-1.8)/0.95);
         el.style.opacity=op;el.style.zIndex=100-Math.round(a*10);el.style.transform=`translate3d(${d*SP*(1+0.06*Math.min(a,2))}px,0,0) scale(${sc})`;});
       raf=requestAnimationFrame(tick);};
-    raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[urls]);
-  return<div aria-label="Loading" role="status" style={{position:'relative',width:Math.min(360,typeof window!=='undefined'?window.innerWidth-32:360),height:BIG*1.02,overflow:'hidden',WebkitMaskImage:'linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)',maskImage:'linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)'}}>
-    {urls&&urls.map((u,j)=>u&&<div key={j} ref={el=>refs.current[j]=el} style={{position:'absolute',left:'50%',bottom:0,width:BIG,height:BIG*1.02,marginLeft:-BIG/2,overflow:'hidden',transformOrigin:'50% 100%',opacity:0,willChange:'transform,opacity'}}><img src={u} alt="" style={{display:'block',width:BIG,maxWidth:'none',height:'auto'}}/></div>)}
+    raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[]);
+  return<div aria-label="Loading" role="status" style={{position:'relative',width:Math.min(360,typeof window!=='undefined'?window.innerWidth-32:360),height:BIG*1.22,overflow:'hidden',WebkitMaskImage:'linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)',maskImage:'linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)'}}>
+    {picks.map((f,j)=>urls[j]&&<div key={j} ref={el=>refs.current[j]=el} style={{position:'absolute',left:'50%',bottom:0,width:BIG,height:BIG*1.22,marginLeft:-BIG/2,overflow:'hidden',transformOrigin:'50% 100%',opacity:0,willChange:'transform,opacity'}}><img src={urls[j]} alt="" style={{display:'block',width:BIG,maxWidth:'none',height:'auto'}}/></div>)}
   </div>;
 };
 
