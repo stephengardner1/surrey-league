@@ -1114,6 +1114,9 @@ B15 = [
 for slug, kit, kw in B15:
     save(slug, figure(kit, **kw))
 
+# Tim Eglen (Aldershot, Farnham & District), photo from Steve, Oct 2026: short sandy-brown hair greying at the sides, lean lined face, clean-shaven
+save("tim-eglen", figure("AFD", skin=1, hair="crop", hair_colour="#9C8566", greying="sides", jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
