@@ -34,6 +34,40 @@ html2 = re.sub(r"const PORTRAIT_V='[^']*';", f"const PORTRAIT_V='{v}';", html, c
 if html2 != html: open(os.path.join(ROOT, 'index.html'), 'w').write(html2)
 print('portrait version', v)
 
+# which portraits are women (for the loading carousel's man/woman alternation), from the results files
+from collections import Counter
+def names_in(path, key):
+    d = json.load(open(os.path.join(ROOT, path))); c = Counter()
+    def walk(o):
+        if isinstance(o, dict):
+            if isinstance(o.get(key), str): c[o[key].lower()] += 1
+            for k, v in o.items():
+                if k in ('athleteAliases', 'nameAliases') and isinstance(v, dict):
+                    for a, b in v.items():
+                        c[a.lower()] += 1
+                        for x in (b if isinstance(b, list) else [b]):
+                            if isinstance(x, str): c[x.lower()] += 1
+                else: walk(v)
+        elif isinstance(o, list):
+            for v in o: walk(v)
+    walk(d); return c
+men, women = names_in('data.json', 'n'), names_in('data-women.json', 'name')
+files = {}
+for file, club, names in re.findall(r"add\('([a-z0-9\-]+)','([^']+)',((?:(?:'[^']*'|\"[^\"]*\"),?)+)\)", html):
+    ns = [(a or b).lower() for a, b in re.findall(r"'([^']*)'|\"([^\"]*)\"", names)]
+    w, mm = sum(women[n] for n in ns), sum(men[n] for n in ns)
+    files.setdefault(file, [0, 0]); files[file][0] += w; files[file][1] += mm
+wf = sorted(f for f, (w, mm) in files.items() if w > mm)
+mf = sorted(f for f, (w, mm) in files.items() if mm >= w and mm > 0)
+html = open(os.path.join(ROOT, 'index.html')).read()
+line = "const PORTRAIT_WOMEN='" + ','.join(wf) + "';const PORTRAIT_MEN='" + ','.join(mf) + "';"
+if 'const PORTRAIT_WOMEN=' in html:
+    html2 = re.sub(r"const PORTRAIT_WOMEN='[^']*';const PORTRAIT_MEN='[^']*';", line, html, count=1)
+else:
+    html2 = html.replace(f"const PORTRAIT_V='{v}';", f"const PORTRAIT_V='{v}';" + line, 1)
+if html2 != html: open(os.path.join(ROOT, 'index.html'), 'w').write(html2)
+print(len(wf), 'women,', len(mf), 'men portraits;', len(files) - len(wf) - len(mf), 'unplaced')
+
 # club GOAT ranks for the link-preview description
 import subprocess, sys
 subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'build_goat_ranks.py')], check=False)
