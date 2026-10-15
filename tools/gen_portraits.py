@@ -958,6 +958,17 @@ save("tilly-heaton", figure("C/C", skin=1, hair="ponytail", hair_colour="#241A15
 save("tilly-heaton-bel", figure("BEL", skin=1, hair="ponytail", hair_colour="#241A15", gaunt=True))
 save("vicky-clarke", figure("BEL", skin=1, hair="ponytail", hair_colour="#9A6A3A", brow_colour="#7A5236"))
 
+# Belgravian archive photos, batch 6 (Oct 2026): redraws from colour photos in Alan Mead's galleries
+# (later saves replace the earlier versions of these portraits above).
+save("david-anderson", figure("BEL", skin=1, hair="spiky", hair_colour="#2E211B", jaw="square"))
+save("james-kelly", figure("BEL", skin=1, hair="tuftrecede", hair_colour="#3A2A20", gaunt=True))
+save("john-gladwin", figure("BEL", skin=1, hair="spiky", hair_colour="#8E6643", brow_colour="#6B4A2E"))
+save("kevin-nash", figure("BEL", skin=1, hair="curtains", hair_colour="#D8BC7C", brow_colour="#A88A58", gaunt=True))
+save("mark-miles", figure("BEL", skin=1, hair="messyfringe", hair_colour="#7E6040", jaw="square"))
+save("ollie-foote", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2E211B", gaunt=True))
+save("spencer-barden", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#9A8A78", brow_colour="#6E5E4C", gaunt=True))
+save("will-cockerell", figure("BEL", skin=1, hair="horseshoe", hair_colour="#4A3A2E", gaunt=True))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
