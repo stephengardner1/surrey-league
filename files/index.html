@@ -602,21 +602,23 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const files=[...new Se
 const LoadingBlink=({exiting,onDone})=>{
   const[pick,setPick]=useState(BLINK_DONE);
   useEffect(()=>{let dead=false;getBlinkPick().then(p=>{if(!dead)setPick(p);});return()=>{dead=true;};},[]);
-  const card=useRef(null),fig=useRef(null);
+  const card=useRef(null),fig=useRef(null),cover=useRef(null);
   // exit: the card drops off the bottom of the screen and fades; the runner follows a beat behind
   useEffect(()=>{if(!exiting)return;if(!pick||!pick.u||!card.current){onDone&&onDone();return;}
     let raf;const t0=performance.now(),DUR=620,LAG=90,ch=card.current.offsetHeight,reach=window.innerHeight/2-ch/2,dist=window.innerHeight/2+ch/2+24;
+    // white panel hanging from the card: the page is only uncovered once the card has passed (a wipe)
+    if(cover.current){const r=card.current.getBoundingClientRect();cover.current.style.top=(r.top+12)+'px';cover.current.style.display='block';}
     const d=t=>{const x=Math.min(Math.max(t/DUR,0),1);return dist*x*x*x;};
-    const tick=now=>{const t=now-t0;if(card.current){card.current.style.transform=`translate3d(0,${d(t)}px,0)`;card.current.style.opacity=String(1-Math.min(Math.max((d(t)-reach)/(dist-reach),0),1));  // only fades once it reaches the bottom of the screen
+    const tick=now=>{const t=now-t0;if(cover.current)cover.current.style.transform=`translate3d(0,${d(t)}px,0)`;if(card.current){card.current.style.transform=`translate3d(0,${d(t)}px,0)`;card.current.style.opacity=String(1-Math.min(Math.max((d(t)-reach)/(dist-reach),0),1));  // only fades once it reaches the bottom of the screen
 }
       if(fig.current)fig.current.style.transform=`translate3d(0,${Math.max(d(t-LAG)-d(t),-W*44/230)}px,0)`;  // lag capped so the body never lifts clear of the card's bottom edge
       if(t<DUR+LAG)raf=requestAnimationFrame(tick);else onDone&&onDone();};
     raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[exiting,pick]);
   const W=150,u=pick&&pick.u;
-  return<div ref={card} aria-label="Loading" role="status" style={{position:'relative',width:W,height:W*280/230,borderRadius:12,overflow:'hidden',background:u?pick.bg:'transparent',willChange:'transform,opacity'}}>
+  return<>{exiting&&<div ref={cover} style={{display:'none',position:'fixed',left:0,right:0,top:0,height:'110vh',background:'#fff',willChange:'transform'}}/>}<div ref={card} aria-label="Loading" role="status" style={{position:'relative',width:W,height:W*280/230,borderRadius:12,overflow:'hidden',background:u?pick.bg:'transparent',willChange:'transform,opacity'}}>
     {u&&pick.initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{pick.initials}</span>}
     {u&&<img ref={fig} src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto',willChange:'transform'}}/>}
-  </div>;
+  </div></>;
 };
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
 const Loader=()=>LOADER_STYLE==='blink'?<LoadingBlink/>:<LoadingVests/>;
