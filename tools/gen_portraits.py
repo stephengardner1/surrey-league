@@ -1090,6 +1090,18 @@ B13 = [
 for slug, kit, kw in B13:
     save(slug, figure(kit, **kw))
 
+# Batch 14 (Oct 2026): Aldershot greats, photos from the Athletics Weekly archive. B/w photos: hair colour inferred from tone (mid-brown preferred).
+B14 = [
+ ("mick-woods", "AFD", dict(skin=1, hair="tousled", hair_colour="#5A4030", greying="sides")),  # from 2014 colour photo
+ ("eddie-herridge", "AFD", dict(skin=1, hair="crop", hair_colour="#2E2018", jaw="narrow")),
+ ("richard-partridge", "AFD", dict(skin=1, hair="croprecederound", hair_colour="#8A6A48")),
+ ("bob-lunnon", "AFD", dict(skin=1, hair="tousled", hair_colour="#7A5A3C", facial="moustache")),
+ ("robin-hudson", "AFD", dict(skin=1, hair="shortcurls", hair_colour="#2E2018")),
+ ("john-kendall", "AFD", dict(skin=1, hair="fringe", hair_colour="#8A6A48", jaw="narrow")),
+]
+for slug, kit, kw in B14:
+    save(slug, figure(kit, **kw))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
