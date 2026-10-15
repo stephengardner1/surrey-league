@@ -895,6 +895,7 @@ save("vic-maughan", figure("HHH", skin=3, hair="buzzrecede", hair_colour="#4A423
 save("lucy-macalister", figure("THH", skin=1, hair="ponytail", hair_colour="#6B4A2E", shades=True, shades_col="#2A2E3A", shades_frame="#D0507A", gaunt=True))
 save("julia-bleasdale", figure("THH", skin=1, hair="ponytail", hair_colour="#A8875A", gaunt=True))  # 2012 Olympian, scraped-back dark blonde ponytail
 save("elizabeth-apsley", figure("THH", skin=1, hair="long", hair_colour="#D8BC86"))  # long straight fair hair swept back
+save("dorchie-cockerell", figure("THH", skin=1, hair="longstraight", hair_colour="#5A4030"))  # nee Lee; long straight brown hair
 save("john-foss", figure("SLH", skin=1, hair="croprecede", hair_colour="#CFC9BE", brow_colour="#9A948A", gaunt=True, creases=True))
 save("david-symons", figure("THH", skin=1, hair="croppeak", hair_colour="#4A3628", gaunt=True, creases=True))
 save("steve-smythe", figure("DUL", skin=2, hair="croprecede", hair_colour="#3A2E26", shades=True, shades_col="#1E2228", shades_frame="#2A2A2A", gaunt=True))
