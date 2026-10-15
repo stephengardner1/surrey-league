@@ -158,6 +158,7 @@ FACIAL = {
     "moustache": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/>',
     "thicktache": '<path d="M100,137 C108,136 115,138 117,143 L119,151 Q116,151 114,147 C110,145 105,144.5 100,145.5 C95,144.5 90,145 86,147 Q84,151 81,151 L83,143 C85,138 92,136 100,137 Z"/>',
     "beard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z"/>',
+    "bushybeard": '<path d="M64,106 L74,122 L84,146 L116,146 L126,122 L136,106 L136,180 L64,180 Z"/>',
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
 
@@ -261,6 +262,9 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                 hg.append(f'<g clip-path="url(#h{tag})" fill="{fc}">{FACIAL[facial]}</g>')
                 if facial == "beard":
                     hg.append(f'<path d="M90,149 L110,149 L108,154 L92,154 Z" fill="{dk}"/>')
+                if facial == "bushybeard":  # full, bushy beard that spills past the jawline
+                    hg.append(f'<path d="M64,118 L60,140 Q66,168 84,180 Q100,188 116,180 Q134,168 140,140 L136,118 L128,128 L118,146 L82,146 L72,128 Z" fill="{fc}"/>'
+                              f'<path d="M88,149 L112,149 L109,155 L91,155 Z" fill="{dk}"/>')
         if hair in HAIR:
             hg.append(f'<g fill="{hc}"' + (f' clip-path="url(#c{tag})"' if (cap or beanie) else '') + (' opacity=".6"' if hair in ("buzz","buzzrecede") else '') + f'>{HAIR[hair]}<g clip-path="url(#r{tag})" fill="#000" opacity=".22">{HAIR[hair]}</g></g>')
             if greying is True:
@@ -911,8 +915,18 @@ save("brian-gorman", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2A1
 save("charlie-dabbs", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15", glasses="square", glasses_col="#1E1E1E"))
 save("charlie-manning", figure("BEL", skin=1, hair="quiffrecede", hair_colour="mid brown", gaunt=True, creases=True))
 save("john-davies", figure("BEL", skin=1, hair="messyvolume", hair_colour="#1F1612", gaunt=True))
-save("lionel-mann", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", facial="beard"))
+save("lionel-mann", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", facial="bushybeard"))
 save("pat-newell", figure("BEL", skin=1, hair="croprecede", hair_colour="light brown", rosy=True))
+
+# Belgravian archive photos, batch 2 (Oct 2026). Hair colour inferred from black-and-white photos.
+save("tony-fairclough", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", gaunt=True))
+save("trevor-hart", figure("BEL", skin=1, hair="shortcurls", hair_colour="dark brown", jaw="square"))
+save("ron-linstead", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15", gaunt=True, jaw="narrow"))
+save("john-baker", figure("BEL", skin=1, hair="horseshoe", hair_colour="#BBA98C", brow_colour="#9A8A70", gaunt=True, creases=True))
+save("simon-holmes", figure("BEL", skin=1, hair="seventies", hair_colour="dark brown"))
+save("mike-kortenray", figure("H/W", skin=1, hair="shaggyrecede", hair_colour="light brown", facial="beard", facial_colour="#8E6643"))
+save("geoff-biscoe", figure("MIT", skin=1, hair="quiff", hair_colour="dark brown"))
+save("john-lee", figure("CRO", skin=1, hair="long", hair_colour="#241A15", gaunt=True))
 
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
