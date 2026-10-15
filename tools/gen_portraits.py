@@ -969,6 +969,16 @@ save("ollie-foote", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2E21
 save("spencer-barden", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#9A8A78", brow_colour="#6E5E4C", gaunt=True))
 save("will-cockerell", figure("BEL", skin=1, hair="horseshoe", hair_colour="#4A3A2E", gaunt=True))
 
+# Belgravian archive photos, batch 7 (Oct 2026): 1960s Belgrave, black-and-white photos (hair colour inferred).
+save("gerry-north", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2E211B", jaw="square", creases=True))
+save("geoff-north", figure("BEL", skin=1, hair="quiff", hair_colour="#2E211B"))
+save("laurie-ohara", figure("BEL", skin=1, hair="messyvolume", hair_colour="#A88458", brow_colour="#7A5E3E"))
+save("chris-steer", figure("BEL", skin=1, hair="messyvolume", hair_colour="dark brown", jaw="square"))
+save("barry-sawyer", figure("BEL", skin=1, hair="croprecede", hair_colour="dark brown"))
+save("charlie-walker", figure("BEL", skin=1, hair="quiff", hair_colour="#2E211B", jaw="narrow"))
+save("john-dear", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", glasses="square", glasses_col="#1E1E1E"))
+save("michael-baker", figure("BEL", skin=1, hair="tousled", hair_colour="#2E211B"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
