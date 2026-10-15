@@ -580,6 +580,27 @@ const ClubVest=({club,size=20})=>{
 const ClubShield=ClubVest;
 
 // Loading animation with founding club vests
+// Loader favourites: striking-looking runners who turn up far more often in the loading animations
+const LOADER_FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister','georgie-grgec','claire-grima','georgie-bruinvels'];
+// Alternative loader: a single portrait that blinks. Preview with ?loader=blink
+const BLINK_CSS='<style>.bk,.bl{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 3.4s .35s infinite}.bl{animation-name:bl}.bl path{vector-effect:non-scaling-stroke}@keyframes bk{0%,5.5%,100%{transform:scaleY(1)}2.2%,3.2%{transform:scaleY(0)}}@keyframes bl{0%,5.5%,100%{transform:scaleY(1)}2.2%,3.2%{transform:scaleY(-.38)}}</style>';
+const makeBlinker=t=>t.replace(/<rect width="200" height="280"[^>]*\/>/,'')
+  .replace(/<g (fill="#[0-9A-Fa-f]{6}")><path d="M76,112 Q85,105 94,112 Q85,117/,'<g class="bk" $1><path d="M76,112 Q85,105 94,112 Q85,117')
+  .replace(/<g clip-path="url\(#ef\)"/g,'<g class="bk" clip-path="url(#ef)"')
+  .replace(/<g (fill="none" stroke="#[0-9A-Fa-f]{6}" stroke-width="1.8" stroke-linecap="round")><path d="M76,112 Q85,105 94,112"\/>/,'<g class="bl" $1><path d="M76,112 Q85,105 94,112"/>')
+  .replace('</svg>',BLINK_CSS+'</svg>');
+const LoadingBlink=()=>{
+  const pool=useMemo(()=>{const files=[...new Set(Object.values(PORTRAITS).map(v=>v.file))];const fav=['bob-holt','bernie-ford','lionel-mann',...LOADER_FAVOURITES].filter(f=>files.includes(f));
+    const order=Math.random()<.7?fav.sort(()=>Math.random()-.5).concat(files.sort(()=>Math.random()-.5)):files.sort(()=>Math.random()-.5);return order.slice(0,8);},[]);
+  const[u,setU]=useState(null);
+  useEffect(()=>{let dead=false;(async()=>{for(const f of pool){try{const r=await fetch(`/portraits/athletes/${f}.svg?v=${PORTRAIT_V}`);if(!r.ok)continue;const t=await r.text();
+      if(t.includes('M66,104 Q100,98 134,104'))continue;  // sunglasses hide the blink
+      if(!dead)setU(URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})));return;}catch(e){}}})();return()=>{dead=true;};},[pool]);
+  const W=84;
+  return<div aria-label="Loading" role="status" style={{width:W,height:W*1.22,overflow:'hidden'}}>{u&&<img src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto'}}/>}</div>;
+};
+const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
+const Loader=()=>LOADER_STYLE==='blink'?<LoadingBlink/>:<LoadingVests/>;
 const LoadingVests=()=>{
   // Loading carousel: a random line-up of athlete portraits gliding sideways, biggest in the centre.
   // No club appears twice within any four consecutive faces (including across the loop join).
@@ -591,7 +612,7 @@ const LoadingVests=()=>{
     const fixed={0:Math.random()<.5?'bob-holt':'bernie-ford',2:'lionel-mann'};Object.keys(fixed).forEach(k=>{if(!clubOf[fixed[k]])delete fixed[k];});
     const fixedFiles=Object.values(fixed);
     // favourites: striking-looking runners who turn up far more often (weighted shuffle)
-    const FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister','georgie-grgec','claire-grima','georgie-bruinvels'];
+    const FAVOURITES=LOADER_FAVOURITES;
     const wshuffle=a=>a.map(f=>[Math.random()**(1/(FAVOURITES.includes(f)?40:1)),f]).sort((x,y)=>y[0]-x[0]).map(x=>x[1]);
     for(let tries=0;tries<60;tries++){const pools=[wshuffle(men.filter(f=>!fixedFiles.includes(f))),wshuffle(women.filter(f=>!fixedFiles.includes(f)))],out=[];
       for(let k=0;k<N;k++){if(fixed[k]){out.push(fixed[k]);continue;}const pool=pools[k%2];  // man, woman, man, woman...
@@ -4982,9 +5003,9 @@ function App(){
     return()=>window.removeEventListener('hashchange',onHash);
   },[data,division]);
   
-  if(loading)return<div className="loading"><LoadingVests/></div>;
+  if(loading)return<div className="loading"><Loader/></div>;
   if(error)return<div className="loading text-red-500">Error: {error}</div>;
-  if(!data)return<div className="loading"><LoadingVests/></div>;
+  if(!data)return<div className="loading"><Loader/></div>;
   
   return<div className="min-h-screen bg-white flex flex-col">
     <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:rounded">Skip to content</a>
