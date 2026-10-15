@@ -583,11 +583,11 @@ const ClubShield=ClubVest;
 // Loader favourites: striking-looking runners who turn up far more often in the loading animations
 const LOADER_FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister','georgie-grgec','claire-grima','georgie-bruinvels'];
 // Alternative loader: a single portrait that blinks. Preview with ?loader=blink
-const BLINK_CSS='<style>.bk,.bl{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 3.4s .35s infinite}.bl{animation-name:bl}.bl path{vector-effect:non-scaling-stroke}@keyframes bk{0%,5.5%,100%{transform:scaleY(1)}2.2%,3.2%{transform:scaleY(0)}}@keyframes bl{0%,5.5%,100%{transform:scaleY(1)}2.2%,3.2%{transform:scaleY(-.38)}}</style>';
+const BLINK_CSS='<style>.bk{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 3.4s .35s infinite}.bc{opacity:0;animation:bc 3.4s .35s infinite}@keyframes bk{0%,5.5%,100%{transform:scaleY(1)}2.2%,3.2%{transform:scaleY(0)}}@keyframes bc{0%,1.6%,3.8%,100%{opacity:0}2.2%,3.2%{opacity:1}}</style>';
 const makeBlinker=t=>t.replace(/<rect width="200" height="280"[^>]*\/>/,'')
   .replace(/<g (fill="#[0-9A-Fa-f]{6}")><path d="M76,112 Q85,105 94,112 Q85,117/,'<g class="bk" $1><path d="M76,112 Q85,105 94,112 Q85,117')
   .replace(/<g clip-path="url\(#ef\)"/g,'<g class="bk" clip-path="url(#ef)"')
-  .replace(/<g (fill="none" stroke="#[0-9A-Fa-f]{6}" stroke-width="1.8" stroke-linecap="round")><path d="M76,112 Q85,105 94,112"\/>/,'<g class="bl" $1><path d="M76,112 Q85,105 94,112"/>')
+  .replace(/<g fill="none" stroke="(#[0-9A-Fa-f]{6})" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"\/>((?:(?!<\/g>).)*)<\/g>/,(m,c,rest)=>'<g class="bk" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/>'+rest+'</g><g class="bc" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="M76,112.5 Q85,116.5 94,112.5"/><path d="M106,112.5 Q115,116.5 124,112.5"/></g>')
   .replace('</svg>',BLINK_CSS+'</svg>');
 const LoadingBlink=()=>{
   const pool=useMemo(()=>{const files=[...new Set(Object.values(PORTRAITS).map(v=>v.file))];const fav=['bob-holt','bernie-ford','lionel-mann',...LOADER_FAVOURITES].filter(f=>files.includes(f));
