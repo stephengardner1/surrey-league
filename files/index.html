@@ -587,9 +587,16 @@ const LoadingVests=()=>{
   const picks=useMemo(()=>{const clubOf={};Object.values(PORTRAITS).forEach(v=>{if(!clubOf[v.file])clubOf[v.file]=v.club;});
     const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
     const men=PORTRAIT_MEN.split(',').filter(f=>clubOf[f]),women=PORTRAIT_WOMEN.split(',').filter(f=>clubOf[f]);
-    for(let tries=0;tries<60;tries++){const pools=[shuffle(men.slice()),shuffle(women.slice())],out=[];
-      for(let k=0;k<N;k++){const pool=pools[k%2];  // man, woman, man, woman...
-        const near=out.slice(Math.max(0,k-GAP+1)).concat(k>=N-GAP+1?out.slice(0,k-(N-GAP)):[]).map(f=>clubOf[f]);
+    // always open on a vintage face: Bob Holt or Bernie Ford in the centre, Lionel Mann two along
+    const fixed={0:Math.random()<.5?'bob-holt':'bernie-ford',2:'lionel-mann'};Object.keys(fixed).forEach(k=>{if(!clubOf[fixed[k]])delete fixed[k];});
+    const fixedFiles=Object.values(fixed);
+    // favourites: striking-looking runners who turn up far more often (weighted shuffle)
+    const FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister'];
+    const wshuffle=a=>a.map(f=>[Math.random()**(1/(FAVOURITES.includes(f)?40:1)),f]).sort((x,y)=>y[0]-x[0]).map(x=>x[1]);
+    for(let tries=0;tries<60;tries++){const pools=[wshuffle(men.filter(f=>!fixedFiles.includes(f))),wshuffle(women.filter(f=>!fixedFiles.includes(f)))],out=[];
+      for(let k=0;k<N;k++){if(fixed[k]){out.push(fixed[k]);continue;}const pool=pools[k%2];  // man, woman, man, woman...
+        const ahead=[];for(let j=1;j<GAP;j++)if(fixed[k+j])ahead.push(fixed[k+j]);
+        const near=out.slice(Math.max(0,k-GAP+1)).concat(k>=N-GAP+1?out.slice(0,k-(N-GAP)):[]).concat(ahead).map(f=>clubOf[f]);
         const i=pool.findIndex(f=>!near.includes(clubOf[f]));if(i<0)break;out.push(pool.splice(i,1)[0]);}
       if(out.length===N)return out;}
     return shuffle(men.concat(women)).slice(0,N);},[]);
