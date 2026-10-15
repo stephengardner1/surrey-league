@@ -902,6 +902,18 @@ save("molly-smith", figure("HHH", skin=1, hair="lowbun", hair_colour="#7A5638", 
 save("arlo-ludewick", figure("HHH", skin=1, hair="tousled", hair_colour="#7A5236"))
 
 
+
+# Belgravian archive photos, batch 1 (Oct 2026): 1960s-70s Belgrave runners from The Belgravian.
+# Hair colour inferred from black-and-white photos (tone only) - revise if anyone remembers otherwise.
+save("adrian-major", figure("BEL", skin=1, hair="shortcurls", hair_colour="dark brown", gaunt=True))
+save("bill-kerr", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown", gaunt=True, jaw="narrow"))
+save("brian-gorman", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2A1E18"))
+save("charlie-dabbs", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15", glasses="square", glasses_col="#1E1E1E"))
+save("charlie-manning", figure("BEL", skin=1, hair="quiffrecede", hair_colour="mid brown", gaunt=True, creases=True))
+save("john-davies", figure("BEL", skin=1, hair="messyvolume", hair_colour="#1F1612", gaunt=True))
+save("lionel-mann", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", facial="beard"))
+save("pat-newell", figure("BEL", skin=1, hair="croprecede", hair_colour="light brown", rosy=True))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
