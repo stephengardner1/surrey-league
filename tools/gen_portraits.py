@@ -1120,6 +1120,10 @@ save("tim-eglen", figure("AFD", skin=1, hair="crop", hair_colour="#9C8566", grey
 # Tim Eglen redraw: no greying (Steve, Oct 2026)
 save("tim-eglen", figure("AFD", skin=1, hair="crop", hair_colour="#9C8566", jaw="narrow"))
 
+# Nick Bester (Holland Sports; earlier Herne Hill 2018/19), photo from Steve, Oct 2026: brown hair, short sides, swept-up quiff, lean face, clean-shaven
+save("nick-bester", figure("HOL", skin=1, hair="quiff", hair_colour="#7A5A3C", jaw="narrow"))
+save("nick-bester-hhh", figure("HHH", skin=1, hair="quiff", hair_colour="#7A5A3C", jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
