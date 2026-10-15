@@ -766,6 +766,9 @@ W427 += [
  ("noah-fernandez","H/W","Noah Fernandez",dict(skin=2,hair="longcurls",hair_colour="#1C1714"),"long dark curls"),
  ("paul-calver","HHH","Paul Calver",dict(skin=1,hair="crop",hair_colour="#A9A7A3",facial="stubble",facial_colour="#8C8780",brow_colour="#6E655C",creases=True),"short grey hair, grey stubble"),
 ]
+W427 += [
+ ("jordan-weaver","KEN","Jordan Weaver",dict(skin=3,hair=None,facial="shortbeard",facial_colour="#6E3E24",brow_colour="#3A2620"),"shaved head, short reddish beard"),
+]
 for slug, club, name, kw, alt in W427:
     save(slug, figure(club, **kw))
 for slug, club, name, kw, alt in W434:
