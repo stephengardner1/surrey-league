@@ -1000,6 +1000,18 @@ save("kevin-sturman", figure("BEL", skin=1, hair="messyvolume", hair_colour="#B8
 save("stuart-paton", figure("BEL", skin=1, hair="sweptback", hair_colour="#2E211B", gaunt=True))
 save("andy-paton", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#2E211B", gaunt=True))
 
+# Jaw shapes (Steve, Oct 2026): three options - "round" (the default HEAD), "square" and "narrow".
+# Belgravian archive / Alan Mead gallery photos, batch 10 (Oct 2026): mostly colour photos.
+save("adam-leane", figure("BEL", skin=1, hair="crop", hair_colour="#3A2620", jaw="round"))
+save("alan-mead", figure("BEL", skin=1, hair=None, facial="stubble", facial_colour="#B9B3AA", glasses=True, jaw="round", creases=True))
+save("charles-herrington", figure("BEL", skin=1, hair="crop", hair_colour="#3A2620", cap="#F2F1EC", jaw="round"))
+save("clive-shippen", figure("BEL", skin=1, hair="floppyrecede", hair_colour="#3A2A20", gaunt=True, jaw="narrow"))
+save("neil-speaight", figure("BEL", skin=1, hair="messyfringe", hair_colour="#3A2620", jaw="square"))
+save("knut-hegvold", figure("H/W", skin=1, hair="spiky", hair_colour="#4A3428", gaunt=True, jaw="narrow"))
+save("knut-hegvold-bel", figure("BEL", skin=1, hair="spiky", hair_colour="#4A3428", gaunt=True, jaw="narrow"))
+save("clive-gilby", figure("BEL", skin=1, hair="croppeak", hair_colour="#3A2620", gaunt=True, jaw="narrow"))
+save("gary-staines", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", gaunt=True, jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
