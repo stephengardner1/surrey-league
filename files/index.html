@@ -598,7 +598,7 @@ const LoadingBlink=()=>{
       if(t.includes('M66,104 Q100,98 134,104'))continue;  // sunglasses hide the blink
       if(!dead){setU(URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})));setFile(f);}return;}catch(e){}}})();return()=>{dead=true;};},[pool]);
   const W=150;
-  return<div aria-label="Loading" role="status" style={{position:'relative',width:W,height:W*280/230,borderRadius:12,overflow:'hidden'}}>{u&&initials&&<span style={{position:'absolute',top:9,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:22,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{initials}</span>}{u&&<img src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto'}}/>}</div>;
+  return<div aria-label="Loading" role="status" style={{position:'relative',width:W,height:W*280/230,borderRadius:12,overflow:'hidden'}}>{u&&initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{initials}</span>}{u&&<img src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto'}}/>}</div>;
 };
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
 const Loader=()=>LOADER_STYLE==='blink'?<LoadingBlink/>:<LoadingVests/>;
