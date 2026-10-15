@@ -584,21 +584,38 @@ const ClubShield=ClubVest;
 const LOADER_FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister','georgie-grgec','claire-grima','georgie-bruinvels'];
 // Alternative loader: a single portrait that blinks. Preview with ?loader=blink
 const BLINK_CSS='<style>.bk{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 4s .3s infinite}.bc{opacity:0;animation:bc 4s .3s infinite}.pp{animation:pp 4s .3s infinite cubic-bezier(.45,0,.25,1)}@keyframes bk{0%,4.5%,100%{transform:scaleY(1)}1.8%,2.7%{transform:scaleY(0)}}@keyframes bc{0%,1.3%,3.3%,100%{opacity:0}1.8%,2.7%{opacity:1}}@keyframes pp{0%,24%{transform:translateX(0)}31%,68%{transform:translateX(3.6px)}76%,100%{transform:translateX(0)}}</style>';
-const makeBlinker=t=>t.replace('viewBox="10 20 180 252"','viewBox="-15 -8 230 280"').replace(/<rect width="200" height="280"/,'<rect x="-60" y="-40" width="320" height="400"')
+const makeBlinker=t=>t.replace('viewBox="10 20 180 252"','viewBox="-15 -8 230 330"').replace(/<rect width="200" height="280"[^>]*\/>/,'')
   .replace(/<g (fill="#[0-9A-Fa-f]{6}")><path d="M76,112 Q85,105 94,112 Q85,117/,'<g class="bk" $1><path d="M76,112 Q85,105 94,112 Q85,117')
   .replace(/<g clip-path="url\(#ef\)"([^>]*)>((?:(?!<\/g>).)*)<\/g>/g,(m,at,inner)=>'<g class="bk" clip-path="url(#ef)"'+at+'>'+inner.replace(/<circle /g,'<circle class="pp" ')+'</g>')
   .replace(/<g fill="none" stroke="(#[0-9A-Fa-f]{6})" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"\/>((?:(?!<\/g>).)*)<\/g>/,(m,c,rest)=>'<g class="bk" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/>'+rest+'</g><g class="bc" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="M76,112.5 Q85,116.5 94,112.5"/><path d="M106,112.5 Q115,116.5 124,112.5"/></g>')
   .replace('</svg>',BLINK_CSS+'</svg>');
-const LoadingBlink=()=>{
-  const pool=useMemo(()=>{const files=[...new Set(Object.values(PORTRAITS).map(v=>v.file))];const fav=['bob-holt','bernie-ford','lionel-mann',...LOADER_FAVOURITES].filter(f=>files.includes(f));
-    const order=Math.random()<.7?fav.sort(()=>Math.random()-.5).concat(files.sort(()=>Math.random()-.5)):files.sort(()=>Math.random()-.5);return order.slice(0,8);},[]);
-  const[u,setU]=useState(null),[file,setFile]=useState(null);
-  const initials=useMemo(()=>{if(!file)return'';const k=Object.keys(PORTRAITS).find(n=>PORTRAITS[n].file===file);if(!k)return'';const w=k.split(/\s+/).filter(Boolean);return((w[0]||'')[0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase();},[file]);
-  useEffect(()=>{let dead=false;(async()=>{for(const f of pool){try{const r=await fetch(`/portraits/athletes/${f}.svg?v=${PORTRAIT_V}`);if(!r.ok)continue;const t=await r.text();
-      if(t.includes('M66,104 Q100,98 134,104'))continue;  // sunglasses hide the blink
-      if(!dead){setU(URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})));setFile(f);}return;}catch(e){}}})();return()=>{dead=true;};},[pool]);
-  const W=150;
-  return<div aria-label="Loading" role="status" style={{position:'relative',width:W,height:W*280/230,borderRadius:12,overflow:'hidden'}}>{u&&initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{initials}</span>}{u&&<img src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto'}}/>}</div>;
+// The blink loader's runner is picked once per visit, so the card that slides away is the same one that was loading
+let BLINK_PICK=null,BLINK_DONE=null;
+const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const files=[...new Set(Object.values(PORTRAITS).map(v=>v.file))];const fav=['bob-holt','bernie-ford','lionel-mann',...LOADER_FAVOURITES].filter(f=>files.includes(f));
+  const order=(Math.random()<.7?fav.sort(()=>Math.random()-.5).concat(files.sort(()=>Math.random()-.5)):files.sort(()=>Math.random()-.5)).slice(0,8);
+  for(const f of order){try{const r=await fetch(`/portraits/athletes/${f}.svg?v=${PORTRAIT_V}`);if(!r.ok)continue;const t=await r.text();
+    if(t.includes('M66,104 Q100,98 134,104'))continue;  // sunglasses hide the blink
+    const bg=(t.match(/<rect width="200" height="280" fill="(#[0-9A-Fa-f]{3,6})"/)||[])[1]||'#E6EAE4';
+    const k=Object.keys(PORTRAITS).find(n=>PORTRAITS[n].file===f)||'';const w=k.split(/\s+/).filter(Boolean);
+    return(BLINK_DONE={u:URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})),bg,initials:((w[0]||'')[0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase()});}catch(e){}}
+  return(BLINK_DONE={});})());
+const LoadingBlink=({exiting,onDone})=>{
+  const[pick,setPick]=useState(BLINK_DONE);
+  useEffect(()=>{let dead=false;getBlinkPick().then(p=>{if(!dead)setPick(p);});return()=>{dead=true;};},[]);
+  const card=useRef(null),fig=useRef(null);
+  // exit: the card drops off the bottom of the screen and fades; the runner follows a beat behind
+  useEffect(()=>{if(!exiting)return;if(!pick||!pick.u||!card.current){onDone&&onDone();return;}
+    let raf;const t0=performance.now(),DUR=620,LAG=90,dist=window.innerHeight/2+260;
+    const d=t=>{const x=Math.min(Math.max(t/DUR,0),1);return dist*x*x*x;};
+    const tick=now=>{const t=now-t0;if(card.current){card.current.style.transform=`translate3d(0,${d(t)}px,0)`;card.current.style.opacity=String(1-Math.min(t/DUR,1)**1.6);}
+      if(fig.current)fig.current.style.transform=`translate3d(0,${d(t-LAG)-d(t)}px,0)`;
+      if(t<DUR+LAG)raf=requestAnimationFrame(tick);else onDone&&onDone();};
+    raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[exiting,pick]);
+  const W=150,u=pick&&pick.u;
+  return<div ref={card} aria-label="Loading" role="status" style={{position:'relative',width:W,height:W*280/230,borderRadius:12,overflow:'hidden',background:u?pick.bg:'transparent',willChange:'transform,opacity'}}>
+    {u&&pick.initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{pick.initials}</span>}
+    {u&&<img ref={fig} src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto',willChange:'transform'}}/>}
+  </div>;
 };
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
 const Loader=()=>LOADER_STYLE==='blink'?<LoadingBlink/>:<LoadingVests/>;
@@ -5004,11 +5021,13 @@ function App(){
     return()=>window.removeEventListener('hashchange',onHash);
   },[data,division]);
   
+  const[blinkExit,setBlinkExit]=useState(true);
   if(loading)return<div className="loading"><Loader/></div>;
   if(error)return<div className="loading text-red-500">Error: {error}</div>;
   if(!data)return<div className="loading"><Loader/></div>;
   
   return<div className="min-h-screen bg-white flex flex-col">
+    {LOADER_STYLE==='blink'&&blinkExit&&<div aria-hidden="true" style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}><LoadingBlink exiting onDone={()=>setBlinkExit(false)}/></div>}
     <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:rounded">Skip to content</a>
     <Nav setView={setView} division={division} setDivision={setDivision}/>
     <main id="main-content" className="flex-1">
