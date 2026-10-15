@@ -770,6 +770,19 @@ W427 += [
 W427 += [
  ("jordan-weaver","KEN","Jordan Weaver",dict(skin=3,hair=None,facial="shortbeard",facial_colour="#6E3E24",brow_colour="#3A2620"),"shaved head, short reddish beard"),
 ]
+W96 = [  # Belgrave 1996-97 club magazine
+ ("junior-galley","BEL","Junior Galley",dict(skin=4,hair="buzz",hair_colour="#141110",facial="stubble"),"close-cropped hair"),
+ ("tony-binda","BEL","Tony Binda",dict(skin=3,hair="crop",hair_colour="#141110",facial="thicktache",gaunt=True),"black hair, moustache"),
+ ("phil-carstairs","BEL","Phil Carstairs",dict(skin=1,hair="croprecede",hair_colour="#B89A6A",brow_colour="#9A7A55"),"receding fair hair"),
+ ("clive-gilby","BEL","Clive Gilby",dict(skin=1,hair="crop",hair_colour="#3A2620",gaunt=True),"short dark hair"),
+ ("roger-alsop","HHH","Roger Alsop",dict(skin=1,hair="croprecede",hair_colour="#B5652E",brow_colour="#9A5A2E"),"receding ginger hair"),
+ ("roger-alsop-bel","BEL","Roger Alsop",dict(skin=1,hair="croprecede",hair_colour="#B5652E",brow_colour="#9A5A2E"),"receding ginger hair"),
+ ("gerry-adams","BEL","Gerry Adams",dict(skin=1,hair="shortcurls",hair_colour="#C08A50"),"wavy strawberry-blond hair"),
+ ("mike-nouch","BEL","Mike Nouch",dict(skin=1,hair="quiffrecede",hair_colour="#2A1D18",creases=True),"receding dark hair"),
+ ("darren-mead","BEL","Darren Mead",dict(skin=1,hair="crop",hair_colour="#5A3E2B"),"short brown hair"),
+]
+for slug, club, name, kw, alt in W96:
+    save(slug, figure(club, **kw))
 for slug, club, name, kw, alt in W427:
     save(slug, figure(club, **kw))
 for slug, club, name, kw, alt in W434:
