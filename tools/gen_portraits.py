@@ -990,6 +990,16 @@ save("bill-weller-wal", figure("WAL", skin=1, hair="crop", hair_colour="light br
 save("doug-maughan", figure("BEL", skin=1, hair="crop", hair_colour="mid brown"))
 save("john-roberts", figure("SLH", skin=1, hair="quiffrecede", hair_colour="#2E211B", gaunt=True))
 
+# Belgravian archive photos, batch 9 (Oct 2026): black-and-white photos (hair colour inferred).
+save("norman-stairs", figure("BEL", skin=1, hair="quiffrecede", hair_colour="mid brown", gaunt=True))
+save("jack-hampshire", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15", glasses="square", glasses_col="#1E1E1E", gaunt=True))
+save("ranjit-bhatia", figure("BEL", skin=4, hair="crop", hair_colour="black", facial="littletache", gaunt=True))
+save("graham-macky", figure("BEL", skin=1, hair="seventies", hair_colour="dark brown", facial="beard"))
+save("frank-ward", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", facial="thicktache"))
+save("kevin-sturman", figure("BEL", skin=1, hair="messyvolume", hair_colour="#B8955A", brow_colour="#8E6E45", jaw="square"))
+save("stuart-paton", figure("BEL", skin=1, hair="sweptback", hair_colour="#2E211B", gaunt=True))
+save("andy-paton", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#2E211B", gaunt=True))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
