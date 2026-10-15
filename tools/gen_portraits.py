@@ -900,3 +900,110 @@ save("mike-cummings", figure("HHH", skin=1, hair="buzz", hair_colour="#C8B8A4", 
 save("tom-conlon", figure("HHH", skin=1, hair="croppeak", hair_colour="#3A2E26", greying="sides", gaunt=True, creases=True))
 save("molly-smith", figure("HHH", skin=1, hair="lowbun", hair_colour="#7A5638", scrunchie="#C8202A", thin_brows=True, necklace="#E8E2D8"))
 save("arlo-ludewick", figure("HHH", skin=1, hair="tousled", hair_colour="#7A5236"))
+
+
+# ---- Site export -------------------------------------------------------------
+# Every live portrait, written to site/<slug>.svg under the exact file name the
+# site uses (files/portraits/athletes/). Most portraits are saved under their
+# site slug already; older ones were saved under short working names, mapped here.
+SITE_NAMES = {
+ "aaron-wilson": "awilson",
+ "adrien-royer": "royer",
+ "alex-janiaud": "janiaud",
+ "alex-milne": "alex",
+ "andrew-green": "green",
+ "andrew-penney": "penney",
+ "andy-fyfe": "fyfe",
+ "andy-weir": "weir",
+ "anisse-ismaili": "ismaili",
+ "barnaby-day": "day",
+ "ben-racle": "racle",
+ "caleb-hathaway": "hathaway",
+ "chris-threadgold": "threadgold",
+ "conall-mcnally": "mcnally",
+ "dan-pettitt": "pettitt",
+ "daniel-shaw": "shaw",
+ "daniel-wolff": "wolff",
+ "dylan-evans": "evans",
+ "ed-mallett": "mallett",
+ "eoin-brady": "brady",
+ "ethan-mccolgan": "mccolgan",
+ "findlay-dyer": "dyer",
+ "fintan-pearce": "pearce",
+ "fred-slemeck": "slemeck",
+ "freddie-hessian": "freddie",
+ "george-gathercole": "gathercole",
+ "george-ogden": "ogden",
+ "henry-hart": "conall-whelan",
+ "hugo-hewitt": "hewitt",
+ "ian-ellwood": "ellwood",
+ "indy-barnes": "barnes",
+ "isaac-lutaya": "lutaya",
+ "jack-brotchie": "brotchie",
+ "jack-hobden": "hobden",
+ "jack-kavanagh": "jack",
+ "jack-millar": "millar",
+ "jack-ramm": "ramm",
+ "jack-woods": "woods",
+ "james-blackwood": "blackwood",
+ "james-preston": "preston",
+ "james-stockings": "stockings",
+ "jamie-crowe": "jamie",
+ "jeremy-dempsey": "dempsey",
+ "john-hutchins": "hutchins",
+ "john-lethbridge": "lethbridge",
+ "john-sanderson": "sanderson",
+ "jonathan-collier": "collier",
+ "jonny-scott": "scott",
+ "josh-mitchell": "mitchell",
+ "josh-snow": "downie",
+ "josh-trigwell": "josh",
+ "kieran-barnes": "kbarnes",
+ "kitty-shepherd-cross": "kitty",
+ "larry-ryan": "ryan",
+ "liam-burthem": "burthem",
+ "lucy-jones": "lucy",
+ "mack-downie": "downie",
+ "margaret-coogan": "coogan",
+ "mark-tennyson": "tennyson",
+ "mathew-speed": "joe-english",
+ "matthew-edgar": "edgar",
+ "morgan-roberts": "roberts",
+ "neil-chisholm": "chisholm",
+ "nick-lightfoot": "lightfoot",
+ "oliver-fox": "fox",
+ "oliver-reynolds": "reynolds",
+ "oliver-young": "young",
+ "owen-hind": "hind",
+ "pancho-panchev": "panchev",
+ "paskar-owor": "owor",
+ "rian-mccawley": "mccawley",
+ "richard-mcdowell": "mcdowell",
+ "richard-ollington": "ollington",
+ "rob-kelly": "kelly",
+ "ronan-tanguy": "tanguy",
+ "rowan-board": "board",
+ "ruby-carter": "ruby",
+ "sam-bramwell": "sam",
+ "sam-gebreselassie": "samg",
+ "sam-sommerville": "sommerville",
+ "sam-tyas": "young",
+ "saron-haileselase": "saron",
+ "simon-coppard": "coppard",
+ "sonny-nicoll": "nicoll",
+ "stuart-mccallum": "mccallum",
+ "suzie-harvey": "suzie",
+ "tom-austin": "austin",
+ "tom-foster": "foster",
+ "zach-nolan": "nolan"
+}
+def export_site(site_dir="/home/claude/surrey-league/files/portraits/athletes", out="site"):
+    """Copy every generated portrait that the site uses into out/, named as on the site."""
+    import shutil
+    os.makedirs(out, exist_ok=True)
+    live = {f[:-4] for f in os.listdir(site_dir) if f.endswith(".svg")} if os.path.isdir(site_dir) else set()
+    for slug in sorted(live | set(SITE_NAMES)):
+        src = f"v4/{SITE_NAMES.get(slug, slug)}.svg"
+        if os.path.exists(src):
+            shutil.copy(src, f"{out}/{slug}.svg")
+export_site()
