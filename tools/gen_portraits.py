@@ -1012,6 +1012,16 @@ save("knut-hegvold-bel", figure("BEL", skin=1, hair="spiky", hair_colour="#4A342
 save("clive-gilby", figure("BEL", skin=1, hair="croppeak", hair_colour="#3A2620", gaunt=True, jaw="narrow"))
 save("gary-staines", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", gaunt=True, jaw="narrow"))
 
+# Belgravian archive / Alan Mead gallery photos, batch 11 (Oct 2026). B/w except Hayes and Ashe (colour).
+save("bob-smith", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2E211B", jaw="round"))
+save("catherine-eastham", figure("BEL", skin=1, hair="lowbun", hair_colour="#B8955A", brow_colour="#8E6E45", jaw="round"))
+save("don-anderson", figure("BEL", skin=1, hair="quiff", hair_colour="#2E211B", jaw="round"))
+save("karen-fenner", figure("W/W", skin=1, hair="tightbun", hair_colour="#3A2620", jaw="round"))
+save("marco-mazzotta", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15", gaunt=True, jaw="narrow"))
+save("mike-hayes", figure("BEL", skin=1, hair="shaggyrecede", hair_colour="#B89A6A", brow_colour="#8E7550", gaunt=True, jaw="narrow"))
+save("richard-ashe", figure("BEL", skin=1, hair="spiky", hair_colour="#241A15", jaw="square"))
+save("yacin-yusuf", figure("BEL", skin=6, hair="buzz", hair_colour="black", gaunt=True, jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
