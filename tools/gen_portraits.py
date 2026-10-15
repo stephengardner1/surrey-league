@@ -928,6 +928,16 @@ save("mike-kortenray", figure("H/W", skin=1, hair="shaggyrecede", hair_colour="l
 save("geoff-biscoe", figure("MIT", skin=1, hair="quiff", hair_colour="dark brown"))
 save("john-lee", figure("CRO", skin=1, hair="long", hair_colour="#241A15", gaunt=True))
 
+# Belgravian archive photos, batch 3 (Oct 2026). B/w photos except the Chastons (colour).
+save("andy-north", figure("BEL", skin=1, hair="messyvolume", hair_colour="#B8955A", brow_colour="#8E6E45"))
+save("charlie-dickinson", figure("BEL", skin=1, hair="quiffrecede", hair_colour="#3A2A20", gaunt=True, creases=True))
+save("dave-beaver", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", gaunt=True))
+save("john-mather", figure("BEL", skin=1, hair="croprecede", hair_colour="light brown", rosy=True))
+save("jon-hobbs", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15"))
+save("justin-chaston", figure("BEL", skin=2, hair="shortcurls", hair_colour="#3A2A20", gaunt=True))
+save("matt-chaston", figure("BEL", skin=1, hair="messyvolume", hair_colour="#7A4528", rosy=True))
+save("mark-anderson", figure("BEL", skin=1, hair="crop", hair_colour="dark brown", jaw="square"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
