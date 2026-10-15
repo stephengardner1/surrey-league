@@ -605,10 +605,11 @@ const LoadingBlink=({exiting,onDone})=>{
   const card=useRef(null),fig=useRef(null);
   // exit: the card drops off the bottom of the screen and fades; the runner follows a beat behind
   useEffect(()=>{if(!exiting)return;if(!pick||!pick.u||!card.current){onDone&&onDone();return;}
-    let raf;const t0=performance.now(),DUR=620,LAG=90,dist=window.innerHeight/2+260;
+    let raf;const t0=performance.now(),DUR=620,LAG=90,ch=card.current.offsetHeight,reach=window.innerHeight/2-ch/2,dist=window.innerHeight/2+ch/2+24;
     const d=t=>{const x=Math.min(Math.max(t/DUR,0),1);return dist*x*x*x;};
-    const tick=now=>{const t=now-t0;if(card.current){card.current.style.transform=`translate3d(0,${d(t)}px,0)`;card.current.style.opacity=String(1-Math.min(t/DUR,1)**1.6);}
-      if(fig.current)fig.current.style.transform=`translate3d(0,${d(t-LAG)-d(t)}px,0)`;
+    const tick=now=>{const t=now-t0;if(card.current){card.current.style.transform=`translate3d(0,${d(t)}px,0)`;card.current.style.opacity=String(1-Math.min(Math.max((d(t)-reach)/(dist-reach),0),1));  // only fades once it reaches the bottom of the screen
+}
+      if(fig.current)fig.current.style.transform=`translate3d(0,${Math.max(d(t-LAG)-d(t),-W*44/230)}px,0)`;  // lag capped so the body never lifts clear of the card's bottom edge
       if(t<DUR+LAG)raf=requestAnimationFrame(tick);else onDone&&onDone();};
     raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[exiting,pick]);
   const W=150,u=pick&&pick.u;
