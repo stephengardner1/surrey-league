@@ -1124,6 +1124,10 @@ save("tim-eglen", figure("AFD", skin=1, hair="crop", hair_colour="#9C8566", jaw=
 save("nick-bester", figure("HOL", skin=1, hair="quiff", hair_colour="#7A5A3C", jaw="narrow"))
 save("nick-bester-hhh", figure("HHH", skin=1, hair="quiff", hair_colour="#7A5A3C", jaw="narrow"))
 
+# Nick Bester redraw: thicker chin (Steve, Oct 2026)
+save("nick-bester", figure("HOL", skin=1, hair="quiff", hair_colour="#7A5A3C", jaw="square"))
+save("nick-bester-hhh", figure("HHH", skin=1, hair="quiff", hair_colour="#7A5A3C", jaw="square"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
