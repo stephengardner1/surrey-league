@@ -1362,7 +1362,16 @@ def eyes(svg, shape=None, spacing=0):
     svg = svg.replace(f'd="{_EL0}"', f'd="{el}"').replace(f'd="{_ER0}"', f'd="{er}"')
     svg = svg.replace(f'd="{_LL0}"', f'd="{ll}"').replace(f'd="{_LR0}"', f'd="{lr}"')
     svg = svg.replace('<circle cx="85" cy="111.5"', f'<circle cx="{85-spacing:g}" cy="111.5"').replace('<circle cx="115" cy="111.5"', f'<circle cx="{115+spacing:g}" cy="111.5"')
+    # hooded: draw the hood crease as its own, finer line (the lash line keeps the normal weight)
+    if " M" in ll:
+        (lash_l, crease_l), (lash_r, crease_r) = ll.split(" M", 1), lr.split(" M", 1)
+        m = _re_e.search(r'<g fill="none" stroke="(#[0-9A-Fa-f]{6})" stroke-width="1\.8" stroke-linecap="round"><path d="' + _re_e.escape(ll) + r'"/><path d="' + _re_e.escape(lr) + r'"/></g>', svg)
+        if m:
+            col = m.group(1)
+            svg = (svg[:m.start()] + f'<g fill="none" stroke="{col}" stroke-width="1.8" stroke-linecap="round"><path d="{lash_l}"/><path d="{lash_r}"/></g>'
+                   + f'<g fill="none" stroke="{col}" stroke-width="{HOOD_W}" stroke-linecap="round"><path d="M{crease_l}"/><path d="M{crease_r}"/></g>' + svg[m.end():])
     return svg
+HOOD_W = 1.0  # hood crease line weight
 
 # ---- Batch 20 (Oct 2026): shortlist Draws, Kent AC and Herne Hill club-archive photos ----
 save("adele-prince", figure("KEN", skin=1, hair="bob", hair_colour="#5A3A28", jaw="narrow"))
