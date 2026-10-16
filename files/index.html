@@ -618,27 +618,55 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const files=[...new Se
     const k=(f===df&&dk)||Object.keys(PORTRAITS).find(n=>PORTRAITS[n].file===f)||'';const w=k.split(/\s+/).filter(Boolean);
     return(BLINK_DONE={u:URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})),bg,initials:((w[0]||'')[0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase()});}catch(e){}}
   return(BLINK_DONE={});})());
+/* Sticker dog-ear and peel: the corner fold is a line across the bottom-right corner at distance p (px, measured along the diagonal).
+   The card keeps the part above the line; the part below is reflected over the line and drawn as the paler back of the sticker. */
+const PEEL_EXIT=(()=>{try{return new URLSearchParams(location.search).get('exit')==='peel';}catch(e){return false;}})();
+const PEEL_REST=7;
+const peelShape=(W,H,p)=>{const k=Math.SQRT1_2,s=(x,y)=>-(x-W)*k-(y-H)*k-p,R=[[0,0],[W,0],[W,H],[0,H]];
+  const cut=keep=>{const o=[];for(let i=0;i<4;i++){const a=R[i],b=R[(i+1)%4],sa=s(a[0],a[1]),sb=s(b[0],b[1]),ia=keep?sa>=0:sa<0,ib=keep?sb>=0:sb<0;if(ia)o.push(a);if(ia!==ib){const t=sa/(sa-sb);o.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);}}return o;};
+  const flip=cut(false).map(([x,y])=>{const q=2*s(x,y);return[x+q*k,y+q*k];});
+  const f0=[W-p*k,H-p*k],f1=[W-2*p*k,H-2*p*k];
+  return{keep:cut(true),flip,g:[f0,f1]};};
 const LoadingBlink=({exiting,onDone})=>{
   const[pick,setPick]=useState(BLINK_DONE);
   useEffect(()=>{let dead=false;getBlinkPick().then(p=>{if(!dead)setPick(p);});return()=>{dead=true;};},[]);
-  const card=useRef(null),fig=useRef(null),cover=useRef(null);
-  // exit: the card drops off the bottom of the screen and fades; the runner follows a beat behind
+  const card=useRef(null),fig=useRef(null),cover=useRef(null),stk=useRef(null),flap=useRef(null),flapG=useRef(null),grad=useRef(null);
+  const W=150,H=W*280/230,u=pick&&pick.u;
+  const peel=p=>{const{keep,flip,g}=peelShape(W,H,p);
+    if(stk.current)stk.current.style.clipPath=keep.length>2?`polygon(${keep.map(([x,y])=>`${x.toFixed(1)}px ${y.toFixed(1)}px`).join(',')})`:'polygon(0 0,0 0,0 0)';
+    if(flap.current)flap.current.setAttribute('points',flip.length>2?flip.map(([x,y])=>`${x.toFixed(1)},${y.toFixed(1)}`).join(' '):'0,0 0,0 0,0');
+    if(grad.current){grad.current.setAttribute('x1',g[0][0]);grad.current.setAttribute('y1',g[0][1]);grad.current.setAttribute('x2',g[1][0]);grad.current.setAttribute('y2',g[1][1]);}};
+  React.useLayoutEffect(()=>{if(u)peel(PEEL_REST);},[u]);
   useEffect(()=>{if(!exiting)return;if(!pick||!pick.u||!card.current){onDone&&onDone();return;}
-    let raf;const t0=performance.now(),DUR=620,LAG=90,ch=card.current.offsetHeight,reach=window.innerHeight/2-ch/2,dist=window.innerHeight/2+ch/2+24;
-    // white panel hanging from the card: the page is only uncovered once the card has passed (a wipe)
+    let raf;const t0=performance.now();
+    if(PEEL_EXIT){
+      /* peel: the dog-ear lifts and the fold sweeps across the card, then the peeled sticker flicks away and the page fades up */
+      const DUR=760,FLY=300,FADE=260,PMAX=(W+H)*Math.SQRT1_2+4;
+      const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+      const tick=now=>{const t=now-t0,x=Math.min(t/DUR,1);peel(PEEL_REST+(PMAX-PEEL_REST)*ease(x));
+        const f=Math.min(Math.max((t-DUR*.82)/FLY,0),1);
+        if(flapG.current){flapG.current.style.transform=`translate(${-70*f*f}px,${-90*f*f}px) rotate(${-14*f}deg)`;flapG.current.style.opacity=String(1-f);}
+        if(cover.current)cover.current.style.opacity=String(1-Math.min(Math.max((t-DUR*.9)/FADE,0),1));
+        if(t<DUR*.9+Math.max(FLY,FADE))raf=requestAnimationFrame(tick);else onDone&&onDone();};
+      raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);}
+    /* slide: the card drops off the bottom of the screen and fades; the runner follows a beat behind */
+    const DUR=620,LAG=90,ch=card.current.offsetHeight,reach=window.innerHeight/2-ch/2,dist=window.innerHeight/2+ch/2+24;
+    /* white panel hanging from the card: the page is only uncovered once the card has passed (a wipe) */
     const top0=card.current.getBoundingClientRect().top+12;
-    // the panel starts covering the whole screen; its top edge sweeps down and catches up with the card as it falls
     const edge=t=>(top0+d(t))*Math.min(1,d(t)/Math.max(reach,1));
     const d=t=>{const x=Math.min(Math.max(t/DUR,0),1);return dist*x*x*x;};
-    const tick=now=>{const t=now-t0;if(cover.current)cover.current.style.transform=`translate3d(0,${edge(t)}px,0)`;if(card.current){card.current.style.transform=`translate3d(0,${d(t)}px,0)`;card.current.style.opacity=String(1-Math.min(Math.max((d(t)-reach)/(dist-reach),0),1));  // only fades once it reaches the bottom of the screen
-}
-      if(fig.current)fig.current.style.transform=`translate3d(0,${Math.max(d(t-LAG)-d(t),-W*44/230)}px,0)`;  // lag capped so the body never lifts clear of the card's bottom edge
+    const tick=now=>{const t=now-t0;if(cover.current)cover.current.style.transform=`translate3d(0,${edge(t)}px,0)`;if(card.current){card.current.style.transform=`translate3d(0,${d(t)}px,0)`;card.current.style.opacity=String(1-Math.min(Math.max((d(t)-reach)/(dist-reach),0),1));}
+      if(fig.current)fig.current.style.transform=`translate3d(0,${Math.max(d(t-LAG)-d(t),-W*44/230)}px,0)`;
       if(t<DUR+LAG)raf=requestAnimationFrame(tick);else onDone&&onDone();};
     raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[exiting,pick]);
-  const W=150,u=pick&&pick.u;
-  return<>{exiting&&<div ref={cover} style={{position:'fixed',left:0,right:0,top:-140,height:'calc(110vh + 140px)',background:'linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.55) 70px,#fff 140px)',willChange:'transform'}}/>}<div ref={card} aria-label="Loading" role="status" style={{position:'relative',width:W,height:W*280/230,borderRadius:12,overflow:'hidden',background:u?pick.bg:'transparent',willChange:'transform,opacity'}}>
+  const coverStyle=PEEL_EXIT?{position:'fixed',inset:0,background:'#fff',willChange:'opacity'}:{position:'fixed',left:0,right:0,top:-140,height:'calc(110vh + 140px)',background:'linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.55) 70px,#fff 140px)',willChange:'transform'};
+  return<>{exiting&&<div ref={cover} style={coverStyle}/>}<div ref={card} aria-label="Loading" role="status" style={{position:'relative',width:W,height:H,willChange:'transform,opacity'}}>
+    <div ref={stk} style={{position:'absolute',inset:0,borderRadius:12,overflow:'hidden',background:u?pick.bg:'transparent'}}>
     {u&&pick.initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{pick.initials}</span>}
     {u&&<img ref={fig} src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto',willChange:'transform'}}/>}
+    </div>
+    {u&&<svg width={W} height={H} style={{position:'absolute',left:0,top:0,overflow:'visible',pointerEvents:'none'}}><defs><linearGradient id="peelg" ref={grad} gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#D8D3C9"/><stop offset=".45" stopColor="#F1EDE5"/><stop offset="1" stopColor="#FCFBF8"/></linearGradient></defs>
+      <g ref={flapG} style={{transformBox:'view-box',transformOrigin:`${W}px ${H}px`}}><polygon ref={flap} points="0,0 0,0 0,0" fill="url(#peelg)" stroke="#F1EDE5" strokeWidth="1.5" strokeLinejoin="round" style={{filter:'drop-shadow(-1px -1px 1.5px rgba(0,0,0,.22))'}}/></g></svg>}
   </div></>;
 };
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
