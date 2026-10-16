@@ -600,11 +600,20 @@ const makeBlinker=t=>blinkEyes(t.replace('viewBox="10 20 180 252"','viewBox="-15
 const PROFILE_BLINK_CSS='<style>.bk{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 4s .3s infinite}.bc{opacity:0;animation:bc 4s .3s infinite}@keyframes bk{0%,4.5%,100%{transform:scaleY(1)}1.8%,2.7%{transform:scaleY(0)}}@keyframes bc{0%,1.3%,3.3%,100%{opacity:0}1.8%,2.7%{opacity:1}}.dog{transform:translateY(70px);animation:dog 4s .3s infinite}@keyframes dog{0%,72%{transform:translateY(70px);animation-timing-function:cubic-bezier(.2,1.6,.4,1)}78%,90%{transform:translateY(0);animation-timing-function:cubic-bezier(.6,0,.9,.5)}95%,100%{transform:translateY(70px)}}@media (prefers-reduced-motion:reduce){.bk,.bc,.dog{animation:none}}</style>';
 /* runners with a dog on their profile roll their eyes just after the dog pops up (pupils sweep up, hold there, then drift back down) */
 const DOG_ROLL_CSS='<style>.pp{transform-box:view-box;animation:roll 4s .3s infinite}@keyframes roll{0%,79%,93%,100%{transform:translate(0,0)}80.5%{transform:translate(-1.6px,-2.4px)}82%,89.5%{transform:translate(0,-3.6px)}91%{transform:translate(1.4px,-2.2px)}}@media (prefers-reduced-motion:reduce){.pp{animation:none}}</style>';
-const makeProfileBlinker=t=>{const dog=t.includes('class="dog"');const o=blinkEyes(t,dog);
+/* runners who wink on their profile instead of blinking: their left eye (the viewer's right) closes and holds for a moment */
+const PROFILE_WINKS=new Set(['larry-ryan']);
+const WINK_CSS='<style>.wk{animation:wk 4s .3s infinite}.wc{opacity:0;animation:wc 4s .3s infinite}@keyframes wk{0%,1.5%,11%,100%{opacity:1}2.5%,10%{opacity:0}}@keyframes wc{0%,1.5%,11%,100%{opacity:0}2.5%,10%{opacity:1}}@media (prefers-reduced-motion:reduce){.wk,.wc{animation:none}.wc{opacity:0}}</style>';
+const winkEyes=t=>{let xr=null;
+  let o=t.replace(/(<g fill="#[0-9A-Fa-f]{6}"><path d="M[67]\d(?:\.\d+)?,1\d\d(?:\.\d+)? Q[^"]*"\/>)<path /,'$1<path class="wk" ');
+  o=o.replace(/(<g clip-path="url\(#ef\)"[^>]*>(?:(?!<\/g>).)*?<circle [^>]*\/>(?:(?!<\/g>).)*?)<circle /,'$1<circle class="wk" ');
+  o=o.replace(/<g fill="none" stroke="(#[0-9A-Fa-f]{6})" stroke-width="1.8" stroke-linecap="round"><path d="(M[67][^"]*)"\/><path d="M(\d+(?:\.\d+)?)([^"]*)"\/>/,(m,c,lp,x,rest)=>{xr=parseFloat(x);
+    return '<g fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="'+lp+'"/><path class="wk" d="M'+x+rest+'"/><path class="wc" d="M'+xr+',112.5 Q'+(xr+9)+',116.5 '+(xr+18)+',112.5"/>';});
+  return xr===null?null:o.replace('</svg>',WINK_CSS+'</svg>');};
+const makeProfileBlinker=(t,wink)=>{if(wink){const w=winkEyes(t);if(w)return w;}const dog=t.includes('class="dog"');const o=blinkEyes(t,dog);
   return o===t&&!dog?null:o.replace('</svg>',PROFILE_BLINK_CSS+(dog?DOG_ROLL_CSS:'')+'</svg>');};
 const useBlinkSrc=(src,on)=>{const[u,setU]=useState(null);useEffect(()=>{setU(null);if(!on||!src)return;
   try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;}catch(e){}
-  let url=null,live=true;fetch(src).then(r=>r.ok?r.text():null).then(t=>{if(!live||!t||t.includes('M66,104 Q100,98 134,104'))return;const b=makeProfileBlinker(t);if(!b)return;url=URL.createObjectURL(new Blob([b],{type:'image/svg+xml'}));setU(url);}).catch(()=>{});
+  let url=null,live=true;fetch(src).then(r=>r.ok?r.text():null).then(t=>{if(!live||!t||t.includes('M66,104 Q100,98 134,104'))return;const b=makeProfileBlinker(t,PROFILE_WINKS.has((src.match(/athletes\/([^\/?]+)\.svg/)||[])[1]));if(!b)return;url=URL.createObjectURL(new Blob([b],{type:'image/svg+xml'}));setU(url);}).catch(()=>{});
   return()=>{live=false;if(url)URL.revokeObjectURL(url);};},[src,on]);return u;};
 // The blink loader's runner is picked once per visit, so the card that slides away is the same one that was loading
 let BLINK_PICK=null,BLINK_DONE=null;
