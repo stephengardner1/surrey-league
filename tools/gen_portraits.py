@@ -470,9 +470,6 @@ save("mccallum", figure("H/W", skin=1, hair="messyfringe", hair_colour="#3A2620"
 save("penney", figure("H/W", skin=1, hair="quiff", hair_colour="dark brown"))
 save("dempsey", figure("THH", skin=1, hair="croppeak", hair_colour="blonde"))
 save("hart", figure("BEL", skin=1, hair="tousled", hair_colour="light brown"))
-save("sanderson", figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble"))
-# profile-page-only version: his dog sits inside the athlete-page crop; the site animates it popping up at the end of the blink loop
-save("sanderson_dog", with_dog(figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble"), cx=158, cy=214, s=1.2))
 save("fyfe", figure("BEL", skin=2, hair="tousled", hair_colour="dark brown", facial="stubble"))
 save("hair_tousled", figure("HOL", skin=2, hair="tousled", hair_colour="mid brown"))
 save("saron", figure("BEL", skin=4, hair="ponytail", hair_colour="black"))
@@ -1507,4 +1504,9 @@ def export_site(site_dir="/home/claude/surrey-league/files/portraits/athletes", 
         src = f"v4/{SITE_NAMES.get(slug, slug)}.svg"
         if os.path.exists(src):
             shutil.copy(src, f"{out}/{slug}.svg")
+# John Sanderson, redrawn Oct 2026: hooded eyes, square jaw, light stubble, current dark quiff
+save("sanderson", eyes(figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble", facial_colour="#8A6A50", jaw="square"), "hooded"))
+# profile-page-only version: his dog sits inside the athlete-page crop; the site animates it popping up at the end of the blink loop
+save("sanderson_dog", with_dog(eyes(figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble", facial_colour="#8A6A50", jaw="square"), "hooded"), cx=158, cy=214, s=1.2))
+
 export_site()
