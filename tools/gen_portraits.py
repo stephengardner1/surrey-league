@@ -6,6 +6,7 @@ os.makedirs("v4", exist_ok=True)
 
 HEAD_NARROW = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,122 C127,146 114,165 100,168 C86,165 73,146 69,122 Z"
 HEAD_SQUARE = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L133,140 C132,156 122,167 109,169 L91,169 C78,167 68,156 67,140 Z"
+HEAD_BROADCHIN = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,122 C128,140 122,154 115,161 Q108,167 100,167 Q92,167 85,161 C78,154 72,140 69,122 Z"  # narrow face with a broad, flattish chin (Georgie Grgec)
 HEAD = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L132,130 C129,152 116,168 100,170 C84,168 71,152 68,130 Z"
 SQ = 'transform="translate(0,83) scale(1,0.76) translate(0,-40)"'
 VEST = "M53,330 L57,246 Q59,226 61,204 C66,200 73,197 80,195.5 Q100,240 120,195.5 C127,197 134,200 139,204 Q141,226 143,246 L147,330 Z"
@@ -170,7 +171,7 @@ def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
 def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False, sleeves=None, buff=None, jaw=None):
-    head = HEAD_SQUARE if jaw == "square" else HEAD_NARROW if jaw == "narrow" else HEAD
+    head = HEAD_SQUARE if jaw == "square" else HEAD_NARROW if jaw == "narrow" else HEAD_BROADCHIN if jaw == "broadchin" else HEAD
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -906,7 +907,6 @@ save("james-mcmullan", figure("THH", skin=1, hair="quiff", hair_colour="#7A5638"
 save("ben-hurley", figure("BEL", skin=1, hair=None, facial="thicktache", facial_colour="#5A4030", brow_colour="#5A4030", frown="worried", creases=True))
 save("alice-crane", figure("DMV", skin=1, hair="wavytie", hair_colour="#B8935E"))
 save("martina-conner", figure("BEL", skin=1, hair="ponytail", hair_colour="#C2A06A"))
-save("georgie-grgec", figure("HHH", skin=1, hair="ponytail", hair_colour="#4A3226"))
 save("katie-snowden", figure("HHH", skin=1, hair="ponytail", hair_colour="#D2B27A"))
 save("kate-axford", figure("BEL", skin=1, hair="highpony", hair_colour="#D9BC86", necklace="#C9A646"))
 save("sarah-astin", figure("BEL", skin=1, hair="halfup", hair_colour="#3A2620", necklace="#D4D4D4"))
@@ -1222,11 +1222,11 @@ save("robert-norville", figure("BEL", skin=5, hair="shortcurls", hair_colour="#1
 
 # ---- Chin dimple (Oct 2026): a softer, smaller mark than cleft=True (bum chin) ----
 import re as _re_d
-def dimple(svg):
-    """Add a small chin dimple under the mouth (use for a slight chin dent; cleft=True is the full bum chin)."""
+def dimple(svg, up=False):
+    """Add a small chin dimple under the mouth (use for a slight chin dent; cleft=True is the full bum chin). up=True draws it as ^ instead of v."""
     m = _re_d.search(r'<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z" fill="(#[0-9A-Fa-f]{6})"/>', svg)
     if not m: return svg
-    mark = (f'<path d="M98,163.5 Q100,166 102,163.5" stroke="{m.group(1)}" stroke-width="1.7" fill="none" '
+    mark = (f'<path d="{'M98,163.2 Q100,160.8 102,163.2' if up else 'M98,163.5 Q100,166 102,163.5'}" stroke="{m.group(1)}" stroke-width="1.7" fill="none" '
             f'stroke-linecap="round" opacity=".8"/>')
     return svg[:m.end()] + mark + svg[m.end():]
 
@@ -1381,6 +1381,7 @@ EYE_SHAPES = {  # name: (left eye, right eye, left lid line, right lid line)
     "hooded": ("M76,112 Q85,108.5 94,112 Q85,117 76,112 Z", "M106,112 Q115,108.5 124,112 Q115,117 106,112 Z", "M75,111 Q85,107.5 95,112 M76,107.5 Q85,103.5 94,107", "M105,112 Q115,107.5 125,111 M106,107 Q115,103.5 124,107.5"),
     "smallhooded": ("M78.5,112 Q85,109.5 91.5,112 Q85,115.5 78.5,112 Z", "M108.5,112 Q115,109.5 121.5,112 Q115,115.5 108.5,112 Z", "M78,111.5 Q85,108.5 92,112 M78.5,108 Q85,105.5 91.5,107.5", "M108,112 Q115,108.5 122,111.5 M108.5,107.5 Q115,105.5 121.5,108"),
     "small": ("M78.5,112 Q85,109.5 91.5,112 Q85,115.5 78.5,112 Z", "M108.5,112 Q115,109.5 121.5,112 Q115,115.5 108.5,112 Z", "M78,111.5 Q85,108.5 92,112", "M108,112 Q115,108.5 122,111.5"),
+    "almond": ("M75,110.5 Q85,104 94.5,111.8 Q85,116.8 75,110.5 Z", "M105.5,111.8 Q115,104 125,110.5 Q115,116.8 105.5,111.8 Z", "M75,110.5 Q85,104 94.5,111.8", "M105.5,111.8 Q115,104 125,110.5"),
     "downturned": ("M75,115 Q85,105 94,112 Q85,118 75,115 Z", "M106,112 Q115,105 125,115 Q115,118 106,112 Z", "M75,115 Q85,105 94,112", "M106,112 Q115,105 125,115"),
     "upturned": ("M75,109 Q85,104 94,112 Q85,116 75,109 Z", "M106,112 Q115,104 125,109 Q115,116 106,112 Z", "M75,109 Q85,104 94,112", "M106,112 Q115,104 125,109"),
 }
@@ -1660,4 +1661,7 @@ save("millar", brows(eyes(figure("THH", skin=1, hair="shortcurls", hair_colour="
 PAUL_KW = dict(skin=1, hair="tousled", hair_colour="#C9C5BE", brow_colour="#8C857C", glasses="round", glasses_col="#3A3D42", creases=True, rosy=True, jaw="square")
 save("paul-sanderson", figure("G&G", **PAUL_KW))
 save("paul-sanderson-wok", figure("WOK", **PAUL_KW))
+# Georgie Grgec, redrawn Oct 2026: narrow face with a broad chin and a slight ^ dimple, almond eyes set close under softly arched brows
+# that taper to the temples, dark wavy ponytail, light tan, small gold hoops
+save("georgie-grgec", earrings(brows(archbrows(eyes(dimple(figure("HHH", skin=2, hair="wavytie", hair_colour="#3A2A22", jaw="broadchin"), up=True), "almond")), 0, 0, 2)))
 export_site()
