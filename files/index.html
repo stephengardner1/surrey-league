@@ -665,8 +665,7 @@ const LoadingBlink=({exiting,onDone})=>{
     {u&&pick.initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{pick.initials}</span>}
     {u&&<img ref={fig} src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto',willChange:'transform'}}/>}
     </div>
-    {u&&<svg width={W} height={H} style={{position:'absolute',left:0,top:0,overflow:'visible',pointerEvents:'none'}}><defs><linearGradient id="peelg" ref={grad} gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#D8D3C9"/><stop offset=".45" stopColor="#F1EDE5"/><stop offset="1" stopColor="#FCFBF8"/></linearGradient></defs>
-      <g ref={flapG} style={{transformBox:'view-box',transformOrigin:`${W}px ${H}px`}}><polygon ref={flap} points="0,0 0,0 0,0" fill="url(#peelg)" stroke="#F1EDE5" strokeWidth="1.5" strokeLinejoin="round" style={{filter:'drop-shadow(-1px -1px 1.5px rgba(0,0,0,.22))'}}/></g></svg>}
+    {u&&<svg width={W} height={H} style={{position:'absolute',left:0,top:0,overflow:'visible',pointerEvents:'none'}}><g ref={flapG} style={{transformBox:'view-box',transformOrigin:`${W}px ${H}px`}}><polygon ref={flap} points="0,0 0,0 0,0" fill="#F1EDE5" stroke="#F1EDE5" strokeWidth="1.5" strokeLinejoin="round"/></g></svg>}
   </div></>;
 };
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
