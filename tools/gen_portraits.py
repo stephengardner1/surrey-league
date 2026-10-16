@@ -1656,4 +1656,8 @@ def curl_marks(svg): return svg.replace('</svg>', ''.join(f'<path d="M{x-3},{y+1
 save("sam", curl_marks(dimple(brows(eyes(figure("HHH", skin=1, hair="tightcurls", hair_colour="#D29655", brow_colour="#B98352", rosy=True, jaw="square", thin_brows=True), "small"), 0, 0, 6)).replace('r="3.8"', 'r="3.2"')))
 # Jack Millar, redrawn Oct 2026: dark short curls, narrow face, bum chin, small slightly close-set eyes with thin brows sitting low, flushed, mud spatter on his vest
 save("millar", brows(eyes(figure("THH", skin=1, hair="shortcurls", hair_colour="#2E211B", rosy=True, jaw="narrow", cleft=True, thin_brows=True, mud=True), "small", -1.5), 0, -1.5, 4).replace('r="3.8"', 'r="3.2"'))
+# Paul Sanderson (G&G, John's dad), Oct 2026: tousled grey hair, round dark glasses, smile lines, ruddy, square jaw; also ran for Woking in the 1980s
+PAUL_KW = dict(skin=1, hair="tousled", hair_colour="#C9C5BE", brow_colour="#8C857C", glasses="round", glasses_col="#3A3D42", creases=True, rosy=True, jaw="square")
+save("paul-sanderson", figure("G&G", **PAUL_KW))
+save("paul-sanderson-wok", figure("WOK", **PAUL_KW))
 export_site()
