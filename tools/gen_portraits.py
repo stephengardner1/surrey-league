@@ -1285,6 +1285,11 @@ save("mallett", figure("H/W", skin=1, hair="crop", hair_colour="#E6D29A", brow_c
 # George Mallett redraw (Oct 2026): swept-up quiff, very pale blond, as in the club photos
 save("george-mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#E6D29A", brow_colour="#A88A55"))
 
+# Mallett swap (Oct 2026): Steve says George has dark hair, so the blond runner in the H/W photos is Ed
+# ("George Mallet (top)" in the caption is the dark-haired runner behind)
+save("mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#E6D29A", brow_colour="#A88A55"))
+save("george-mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#2E211B", jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
