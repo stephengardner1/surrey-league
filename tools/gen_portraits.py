@@ -502,7 +502,6 @@ for c in HAIR_COL: save(f"col_{c.replace(' ', '-')}", figure("HOL", skin=2, hair
 save("kitty_grey", figure("BEL", "grey")); save("jack_grey", figure("HOL", "grey"))
 save("kitty", figure("BEL", skin=2, hair="ponytail", hair_colour="dark brown"))
 save("jack", figure("HOL", skin=1, hair="quiff", hair_colour="light brown"))
-save("sam", figure("HHH", skin=1, hair="curly", hair_colour="ginger"))
 save("suzie", figure("G&G", skin=1, hair="ponytail", hair_colour="auburn"))
 save("sam_grey", figure("HHH", "grey")); save("suzie_grey", figure("G&G", "grey"))
 save("col_ginger", figure("HOL", skin=2, hair="quiff", hair_colour="ginger"))
@@ -1649,4 +1648,10 @@ def skinmud(svg, seed=7):
 # Mimi Corden-Lloyd, redrawn Oct 2026: narrow face, dark slicked-back hair with centre parting in a bun, brows tapering to the temples,
 # gold hoops through the earlobes with pearl drops, gold chain, a little cross-country mud on the arms
 save("mimi-corden-lloyd", skinmud(earrings(archbrows(figure("BEL", skin=2, hair="tightbun", hair_colour="#241A15", necklace="#C9A646", parting=True, jaw="narrow")), pearl=True)))
+# Tight curls (Oct 2026, first used for Sam Bramwell): a close crop edged with small round curls, with a few curl marks on top
+import math as _mt
+HAIR["tightcurls"] = HAIR["cropround"] + "".join(f'<circle cx="{100+35*_mt.cos(_mt.radians(195-i*15)):.1f}" cy="{72-34*_mt.sin(_mt.radians(195-i*15)):.1f}" r="5.6"/>' for i in range(15)) + "".join(f'<circle cx="{x}" cy="{y}" r="5"/>' for x, y in [(86,50),(100,46),(114,50),(78,62),(122,62),(92,58),(108,58)])
+def curl_marks(svg): return svg.replace('</svg>', ''.join(f'<path d="M{x-3},{y+1} q3,-4 6,0" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1.2"/>' for x, y in [(84,48),(98,44),(112,48),(76,60),(124,60),(90,56),(106,55)]) + '</svg>', 1)
+# Sam Bramwell, redrawn Oct 2026: tight strawberry-blond curls, squarer jaw, chin dimple, small eyes set right under light brows, flushed
+save("sam", curl_marks(dimple(brows(eyes(figure("HHH", skin=1, hair="tightcurls", hair_colour="#D29655", brow_colour="#B98352", rosy=True, jaw="square", thin_brows=True), "smallhooded"), 0, 0, 4)).replace('r="3.8"', 'r="3.2"')))
 export_site()
