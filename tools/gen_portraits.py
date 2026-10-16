@@ -667,7 +667,7 @@ save("charlie-eastaugh", figure("H/W", skin=1, hair="crop", hair_colour="light b
 save("oli-carrington", figure("H/W", skin=1, hair="tousled", hair_colour="mid brown", facial="shortbeard", facial_colour="mid brown"))
 save("jonathan-cornish", figure("H/W", skin=1, hair="tousled", hair_colour="#6E5A44"))
 save("gerry-north", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown"))
-save("alex-yee", figure("KEN", skin=2, hair="quiff", hair_colour="#4A3022", medal="gold"))
+# Alex Yee: redrawn Oct 2026, see near the end of the file
 save("phil-wicks", figure("BEL", skin=1, hair="tousled", hair_colour="#5A3E2A", gaunt=True, temples=True))
 save("john-gilbert", figure("KEN", skin=1, hair="fringe", hair_colour="#5C3D28", facial="stubble"))
 save("chris-busaileh", figure("KEN", skin=1, hair="croppeak", hair_colour="#A85A30"))
@@ -1700,4 +1700,20 @@ save("sam-haughian", dimple(brows(eyes(figure("BOH", skin=2, hair="tousled", hai
 # Ross Braden (KEN), Oct 2026: dark brown floppy hair receding at the temples, narrow lean face, flushed,
 # strong dark brows over lightly hooded eyes, clean-shaven
 save("ross-braden", brows(eyes(figure("KEN", skin=1, hair="floppyrecede", hair_colour="#3A2A20", brow_colour="#2E211A", rosy=True, jaw="narrow", gaunt=True), "hooded"), 0, 0, 3))
+# ---- Thin arched brows and a lopsided mouth (Oct 2026, first used for Alex Yee) ----
+def thinarchbrows(svg):
+    """Thin arched brows, set lower at the inner ends than the outer (replaces the brow pair, keeping its height)."""
+    m = _rb.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon points="[0-9.]+,[0-9.]+ [0-9.]+,([0-9.]+) [^"]+"/><polygon points="[^"]+"/></g>', svg)
+    if not m: return svg
+    dy = float(m.group(2)) - 100
+    L = [(73.5,101.2),(80,99.4),(87,100.2),(94.5,102.6),(94.5,104.8),(87,102.5),(80,101.7),(74.2,102.5)]
+    f = lambda pts: " ".join(f"{x:g},{y+dy:g}" for x, y in pts)
+    return svg[:m.start()] + f'<g fill="{m.group(1)}"><polygon points="{f(L)}"/><polygon points="{f([(200-x, y) for x, y in L])}"/></g>' + svg[m.end():]
+def lopsided(svg, side="left"):
+    """A slightly wider mouth lifted at one corner (left = the viewer's left)."""
+    a = "M86.5,148 L100,147.6 L113.5,151.2 Q100,157.8 86.5,148 Z" if side == "left" else "M86.5,151.2 L100,147.6 L113.5,148 Q100,157.8 86.5,151.2 Z"
+    return svg.replace('<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z"', f'<path d="{a}"', 1)
+# Alex Yee (KEN, Olympic triathlon champion), redrawn Oct 2026: swept-up dark quiff with faded sides, narrow face with high cheekbones,
+# narrow eyes under thin arched brows that dip at the inner ends, mouth lifted on one side, gold medal
+save("alex-yee", lopsided(thinarchbrows(brows(eyes(figure("KEN", skin=2, hair="quiff", temples=True, hair_colour="#3E2A1F", brow_colour="#2A1D16", medal="gold", jaw="narrow", gaunt=True), "narrow"), 0, 0, 3)), "left"))
 export_site()
