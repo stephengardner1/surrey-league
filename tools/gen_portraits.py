@@ -1667,4 +1667,6 @@ save("georgie-grgec", earrings(brows(archbrows(eyes(dimple(figure("HHH", skin=2,
 save("jack", figure("HOL", skin=1, hair="quiff", hair_colour="#C08A55", brow_colour="#A87A4E", rosy=True, jaw="narrow", thin_brows=True, facial="stubble", facial_colour="#C9A07A"))
 # Mel Wilkins (BEL), Oct 2026: light-brown ponytail, narrow face, light brows, fine silver chain
 save("mel-wilkins", figure("BEL", skin=1, hair="ponytail", hair_colour="#6E5038", brow_colour="#7E6248", jaw="narrow", thin_brows=True, necklace="#CFCFCF"))
+# Zoe Doyle (BEL), Oct 2026: dark-blonde ponytail, narrow face with defined cheekbones, almond eyes, fine gold chain
+save("zoe-doyle", eyes(figure("BEL", skin=1, hair="ponytail", hair_colour="#C9A86E", brow_colour="#8E7048", jaw="narrow", gaunt=True, necklace="#C9A646"), "almond"))
 export_site()
