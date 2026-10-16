@@ -470,7 +470,7 @@ save("mccallum", figure("H/W", skin=1, hair="messyfringe", hair_colour="#3A2620"
 save("penney", figure("H/W", skin=1, hair="quiff", hair_colour="dark brown"))
 save("dempsey", figure("THH", skin=1, hair="croppeak", hair_colour="blonde"))
 save("hart", figure("BEL", skin=1, hair="tousled", hair_colour="light brown"))
-save("sanderson", with_dog(figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble"), cx=160, cy=246, s=1.25))  # one-off: his dog
+save("sanderson", with_dog(figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble"), cx=158, cy=214, s=1.2))  # one-off: his dog, placed inside the athlete-page crop
 save("fyfe", figure("BEL", skin=2, hair="tousled", hair_colour="dark brown", facial="stubble"))
 save("hair_tousled", figure("HOL", skin=2, hair="tousled", hair_colour="mid brown"))
 save("saron", figure("BEL", skin=4, hair="ponytail", hair_colour="black"))
