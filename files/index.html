@@ -640,14 +640,13 @@ const LoadingBlink=({exiting,onDone})=>{
   useEffect(()=>{if(!exiting)return;if(!pick||!pick.u||!card.current){onDone&&onDone();return;}
     let raf;const t0=performance.now();
     if(PEEL_EXIT){
-      /* peel: the dog-ear lifts and the fold sweeps across the card, then the peeled sticker flicks away and the page fades up */
-      const DUR=760,FLY=300,FADE=260,PMAX=(W+H)*Math.SQRT1_2+4;
-      const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
-      const tick=now=>{const t=now-t0,x=Math.min(t/DUR,1);peel(PEEL_REST+(PMAX-PEEL_REST)*ease(x));
-        const f=Math.min(Math.max((t-DUR*.82)/FLY,0),1);
-        if(flapG.current){flapG.current.style.transform=`translate(${-70*f*f}px,${-90*f*f}px) rotate(${-14*f}deg)`;flapG.current.style.opacity=String(1-f);}
-        if(cover.current)cover.current.style.opacity=String(1-Math.min(Math.max((t-DUR*.9)/FADE,0),1));
-        if(t<DUR*.9+Math.max(FLY,FADE))raf=requestAnimationFrame(tick);else onDone&&onDone();};
+      /* peel: the dog-ear lifts and the fold sweeps across the card, picking up speed; once the fold reaches the middle the sticker has folded right over itself, so it is gone at that point and the page fades up */
+      const DUR=480,FADE=220,PMAX=(W+H)*Math.SQRT1_2/2;
+      const ease=x=>x*x;
+      const tick=now=>{const t=now-t0,x=Math.min(t/DUR,1);
+        if(x<1)peel(PEEL_REST+(PMAX-PEEL_REST)*ease(x));else if(card.current)card.current.style.visibility='hidden';
+        if(cover.current)cover.current.style.opacity=String(1-Math.min(Math.max((t-DUR)/FADE,0),1));
+        if(t<DUR+FADE)raf=requestAnimationFrame(tick);else onDone&&onDone();};
       raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);}
     /* slide: the card drops off the bottom of the screen and fades; the runner follows a beat behind */
     const DUR=620,LAG=90,ch=card.current.offsetHeight,reach=window.innerHeight/2-ch/2,dist=window.innerHeight/2+ch/2+24;
