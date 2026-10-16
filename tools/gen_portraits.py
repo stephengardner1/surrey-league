@@ -1133,6 +1133,12 @@ save("nick-bester-hhh", figure("HHH", skin=1, hair="quiff", hair_colour="#7A5A3C
 save("nick-bester", figure("HOL", skin=1, hair="quiff", hair_colour="#7A5A3C", jaw="square"))
 save("nick-bester-hhh", figure("HHH", skin=1, hair="quiff", hair_colour="#7A5A3C", jaw="square"))
 
+# New facial style "boxgoatee" (Oct 2026, for Rob Norville): moustache joined to a full chin beard that runs along the jaw, cheeks clear
+FACIAL["boxgoatee"] = ('<path d="M86,141 L100,138 L114,141 L116,146 L100,143.5 L84,146 Z"/>'
+                       '<path d="M84,146 L88,153 L112,153 L116,146 L121,158 Q118,175 100,182 Q82,175 79,158 Z"/>')
+# Rob Norville (Belgrave), belgraveharriers.com photo, Oct 2026: short tight dark curls, boxgoatee
+save("robert-norville", figure("BEL", skin=5, hair="shortcurls", hair_colour="#1E1612", facial="boxgoatee", facial_colour="#1E1612"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
