@@ -683,7 +683,7 @@ W439b = [
  ("lee-lintern","G&G","Lee Lintern",dict(skin=1,hair="crop",hair_colour="#4A3426",facial="beard"),"short brown hair, beard"),
  ("ian-acreman","G&G","Ian Acreman",dict(skin=1,hair="crop",hair_colour="grey"),"short grey hair"),
  ("alex-howard","THH","Alex Howard",dict(skin=1,hair="quiffrecede",hair_colour="#4E3626",gaunt=True),"short swept-back brown hair, receding at the temples"),
- ("james-hancock","BEL","James Hancock",dict(skin=1,hair="crop",hair_colour="#C2A06A",facial="stubble"),"short blond hair, stubble"),
+ ("james-hancock","BEL","James Hancock",dict(skin=1,hair="tuftrecede",hair_colour="#CFA864",rosy=True),"tufty blond hair, slight recede"),  # face finished below (eyes closer, warm brows)
  ("nick-morris","BEL","Nick Morris",dict(skin=1,hair="quiff",hair_colour="#2A1D18"),"short dark hair"),
  ("richard-sun","H/W","Richard Sun",dict(skin=2,hair="crop",hair_colour="#1C1714",shades=True),"short black hair, sunglasses"),
  ("jonathan-cocker","G&G","Jonathan Cocker",dict(skin=1,hair="crop",hair_colour="#6B4A2E",facial="moustache"),"short brown hair, moustache"),
@@ -1529,6 +1529,26 @@ def export_site(site_dir="/home/claude/surrey-league/files/portraits/athletes", 
         src = f"v4/{SITE_NAMES.get(slug, slug)}.svg"
         if os.path.exists(src):
             shutil.copy(src, f"{out}/{slug}.svg")
+# ---- Brow tilt (Oct 2026): lift the inner ends for a warm, open look; follow eye spacing ----
+import re as _re_b
+def brows(svg, lift=0, spacing=0):
+    """lift > 0 raises the inner ends of both brows (warm/upturned); spacing matches eyes() (- = closer)."""
+    m = _re_b.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon points="([^"]+)"/><polygon points="([^"]+)"/></g>', svg)
+    if not m: return svg
+    def pts(s): return [tuple(float(v) for v in p.split(",")) for p in s.split()]
+    def fmt(ps): return " ".join(f"{x:g},{y:g}" for x, y in ps)
+    L, R = pts(m.group(2)), pts(m.group(3))
+    lx = max(x for x, _ in L); rx = min(x for x, _ in R)
+    L = [(x - spacing, y - (lift if x >= lx - 2 else 0)) for x, y in L]
+    R = [(x + spacing, y - (lift if x <= rx + 2 else 0)) for x, y in R]
+    new = f'<g fill="{m.group(1)}"><polygon points="{fmt(L)}"/><polygon points="{fmt(R)}"/></g>'
+    return svg[:m.start()] + new + svg[m.end():]
+
+# James Hancock, redrawn Oct 2026: tufty receding blond hair, round jaw, eyes set closer, warm upturned brows
+_HANCOCK_KW = next(t[3] for v in list(globals().values()) if isinstance(v, list) and v and isinstance(v[0], tuple) and len(v[0]) == 5 for t in v if t[0] == "james-hancock")
+HANCOCK_FACE = lambda svg: brows(eyes(svg, None, -2), 2.5, -2)
+save("james-hancock", HANCOCK_FACE(figure("BEL", **_HANCOCK_KW)))
+
 # John Sanderson, redrawn Oct 2026: hooded eyes, square jaw, light stubble, current dark quiff
 save("sanderson", eyes(figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble", facial_colour="#8A6A50", jaw="square"), "hooded"))
 # profile-page-only version: his dog sits inside the athlete-page crop; the site animates it popping up at the end of the blink loop
@@ -1544,7 +1564,9 @@ def _batch_kw(slug):
                 if t[0] == slug: return t[1], t[3]
 for _slug in ("penny-oliver", "james-hancock"):
     _club, _kw = _batch_kw(_slug)
-    save(f"{_slug}-dog", with_spaniel(figure(_club, **_kw), cx=154, cy=203, s=1.4))
+    _fig = figure(_club, **_kw)
+    if _slug == "james-hancock": _fig = HANCOCK_FACE(_fig)
+    save(f"{_slug}-dog", with_spaniel(_fig, cx=154, cy=203, s=1.4))
 SITE_NAMES["penny-oliver-dog"] = "penny-oliver-dog"
 SITE_NAMES["james-hancock-dog"] = "james-hancock-dog"
 export_site()
