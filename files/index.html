@@ -620,7 +620,7 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const files=[...new Se
   return(BLINK_DONE={});})());
 /* Sticker dog-ear and peel: the corner fold is a line across the bottom-right corner at distance p (px, measured along the diagonal).
    The card keeps the part above the line; the part below is reflected over the line and drawn as the paler back of the sticker. */
-const PEEL_EXIT=(()=>{try{return new URLSearchParams(location.search).get('exit')==='peel';}catch(e){return false;}})();
+const PEEL_EXIT=(()=>{try{return new URLSearchParams(location.search).get('exit')!=='slide';}catch(e){return true;}})();/* peel is the default exit; ?exit=slide brings back the old drop-and-wipe */
 const PEEL_REST=7;
 const halfTint=c=>{let x=(c||'#E6EAE4').replace('#','');if(x.length===3)x=x.split('').map(v=>v+v).join('');const n=parseInt(x,16);return'#'+[16,8,0].map(s=>Math.round(((n>>s)&255)/2+127.5).toString(16).padStart(2,'0')).join('');};/* underside of the sticker: the card colour mixed half with white */
 const peelShape=(W,H,p)=>{const k=Math.SQRT1_2,s=(x,y)=>-(x-W)*k-(y-H)*k-p,R=[[0,0],[W,0],[W,H],[0,H]];
