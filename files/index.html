@@ -644,7 +644,8 @@ const LoadingBlink=({exiting,onDone})=>{
       /* peel: the dog-ear lifts and the fold sweeps across the card, picking up speed; once the fold reaches the middle the sticker has folded right over itself, so it is gone at that point and the page fades up */
       const DUR=480,FADE=220,PMAX=(W+H)*Math.SQRT1_2/2;
       const ease=x=>x*x;
-      const tick=now=>{const t=now-t0,x=Math.min(t/DUR,1);
+      let s0=null;  /* timed from the first frame actually drawn, so a busy first frame can't make the fold jump ahead */
+      const tick=now=>{if(s0===null)s0=now;const t=now-s0,x=Math.min(t/DUR,1);
         if(x<1)peel(PEEL_REST+(PMAX-PEEL_REST)*ease(x));else if(card.current)card.current.style.visibility='hidden';
         if(cover.current)cover.current.style.opacity=String(1-Math.min(Math.max((t-DUR)/FADE,0),1));
         if(t<DUR+FADE)raf=requestAnimationFrame(tick);else onDone&&onDone();};
@@ -5104,7 +5105,10 @@ function App(){
 }
 /* The blinking loader card lives in its own layer (outside App) so it is never swapped out between loading and the peel: no judder at the hand-over */
 const BlinkOverlay=()=>{const[exiting,setExiting]=useState(false),[gone,setGone]=useState(false);
-  useEffect(()=>{const go=()=>setExiting(true);if(window.__slLoaded)go();window.addEventListener('sl-loaded',go);return()=>window.removeEventListener('sl-loaded',go);},[]);
+  useEffect(()=>{
+    /* wait until the page has finished its big first draw and frames are coming smoothly again (3 quick frames in a row, or 900ms at most) before peeling */
+    const go=()=>{const start=performance.now();let last=start,calm=0;const wait=now=>{calm=(now-last<24)?calm+1:0;last=now;if(calm>=3||now-start>900)setExiting(true);else requestAnimationFrame(wait);};requestAnimationFrame(wait);};
+    if(window.__slLoaded)go();window.addEventListener('sl-loaded',go);return()=>window.removeEventListener('sl-loaded',go);},[]);
   if(gone)return null;
   return<div aria-hidden={exiting?'true':undefined} style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:exiting?'none':'auto',background:exiting?'transparent':'#fff'}}><LoadingBlink exiting={exiting} onDone={()=>setGone(true)}/></div>;};
 if(LOADER_STYLE!=='carousel'){const el=document.createElement('div');document.body.appendChild(el);ReactDOM.createRoot(el).render(<BlinkOverlay/>);}
