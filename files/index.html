@@ -616,7 +616,7 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const files=[...new Se
     if(f!==df&&t.includes('M66,104 Q100,98 134,104'))continue;  // sunglasses hide the blink
     const bg=(t.match(/<rect width="200" height="280" fill="(#[0-9A-Fa-f]{3,6})"/)||[])[1]||'#E6EAE4';
     const k=(f===df&&dk)||Object.keys(PORTRAITS).find(n=>PORTRAITS[n].file===f)||'';const w=k.split(/\s+/).filter(Boolean);
-    return(BLINK_DONE={u:URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})),bg,initials:((w[0]||'')[0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase()});}catch(e){}}
+    return(BLINK_DONE={u:URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})),bg,initials:((w[0]||'')[0]+(w.length>1?w[w.length-1].split('-').filter(Boolean).map(x=>x[0]).join('-'):'')).toUpperCase()});}catch(e){}}
   return(BLINK_DONE={});})());
 /* Sticker dog-ear and peel: the corner fold is a line across the bottom-right corner at distance p (px, measured along the diagonal).
    The card keeps the part above the line; the part below is reflected over the line and drawn as the paler back of the sticker. */
