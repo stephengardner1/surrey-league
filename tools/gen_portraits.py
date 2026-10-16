@@ -1665,4 +1665,6 @@ save("paul-sanderson-wok", figure("WOK", **PAUL_KW))
 save("georgie-grgec", earrings(brows(archbrows(eyes(dimple(figure("HHH", skin=2, hair="wavytie", hair_colour="#3A2A22", jaw="broadchin"), up=True), "almond")), 0, 0, 2)))
 # Jack Kavanagh, redrawn Oct 2026: strawberry-blond quiff, light ginger stubble, narrow face, light brows, flushed
 save("jack", figure("HOL", skin=1, hair="quiff", hair_colour="#C08A55", brow_colour="#A87A4E", rosy=True, jaw="narrow", thin_brows=True, facial="stubble", facial_colour="#C9A07A"))
+# Mel Wilkins (BEL), Oct 2026: light-brown ponytail, narrow face, light brows, fine silver chain
+save("mel-wilkins", figure("BEL", skin=1, hair="ponytail", hair_colour="#6E5038", brow_colour="#7E6248", jaw="narrow", thin_brows=True, necklace="#CFCFCF"))
 export_site()
