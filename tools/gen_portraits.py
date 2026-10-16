@@ -900,6 +900,7 @@ save("chrissie-wellington", figure("BEL", skin=2, hair="longcurls", hair_colour=
 save("alex-bruce-littlewood", figure("H/W", skin=1, hair="quiff", hair_colour="#7A5232"))  # short light-brown hair pushed up
 save("simon-rayner", figure("BOX", skin=2, hair="buzzrecede", hair_colour="#6B5A4A", gaunt=True, shades=True, shades_col="#5A2A3A", shades_frame="#2A2A2A"))  # latest SL club Boxers (1995-97); cropped receding hair, sports shades
 save("simon-rayner-hw", figure("H/W", skin=2, hair="buzzrecede", hair_colour="#6B5A4A", gaunt=True, shades=True, shades_col="#5A2A3A", shades_frame="#2A2A2A"))  # Hercules Wimbledon years, 1989-95
+save("luke-caldwell", figure("DMV", skin=1, hair="messyvolume", hair_colour="#2E2018", facial="stubble", facial_colour="#3A2A20", gaunt=True))  # dark messy hair, stubble, lean
 save("john-foss", figure("SLH", skin=1, hair="croprecede", hair_colour="#CFC9BE", brow_colour="#9A948A", gaunt=True, creases=True))
 save("david-symons", figure("THH", skin=1, hair="croppeak", hair_colour="#4A3628", gaunt=True, creases=True))
 save("steve-smythe", figure("DUL", skin=2, hair="croprecede", hair_colour="#3A2E26", shades=True, shades_col="#1E2228", shades_frame="#2A2A2A", gaunt=True))
