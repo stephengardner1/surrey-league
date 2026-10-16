@@ -121,6 +121,9 @@ HAIR["longstraight"] = HAIR["longwavy"]
 HAIR_BACK["longstraight"] = '<path d="M60,90 C56,52 80,34 100,34 C120,34 144,52 140,90 L142,188 L58,188 Z"/>'
 HAIR["slicktail"] = '<path d="M66,104 C62,58 81,37 100,37 C120,37 138,58 134,104 L131,86 Q129,70 117,62 Q108,62 101,67 Q94,62 85,62 Q71,70 69,86 Z"/>'
 HAIR_BACK["slicktail"] = '<path d="M122,64 C138,66 146,78 146,90 Q151,98 145,106 Q150,116 141,124 Q138,130 134,128 Q137,120 133,112 Q136,102 131,94 Q130,80 122,72 Z"/>'
+# man bun: hair swept straight back (topknot hairline) into a bun centred at the back of the head
+HAIR["manbun"] = HAIR["topknot"].split("/>")[0] + "/>"
+HAIR_BACK["manbun"] = '<ellipse cx="100" cy="39" rx="13" ry="9"/>'
 HAIR["shaggyrecede"] = '<path d="M60,128 L57,116 L61,108 L56,98 L60,86 L58,74 L66,60 L72,52 L80,47 L86,38 L92,45 L98,34 L104,43 L112,36 L116,46 L124,49 L134,60 L142,74 L140,86 L144,98 L139,108 L143,116 L140,128 L134,124 L133,100 Q131,76 124,64 Q116,57 110,61 Q104,67 100,67 Q96,67 90,61 Q84,57 76,64 Q69,76 67,100 L66,124 Z"/>'
 HAIR_BACK["shaggyrecede"] = '<path d="M60,90 C58,56 80,40 100,40 C120,40 142,56 140,90 L146,104 L141,114 L147,124 L140,134 L144,144 L130,140 L70,140 L56,144 L60,134 L53,124 L59,114 L54,104 Z"/>'
 HAIR["longloose"] = '<path d="M60,140 C52,66 76,36 100,36 C124,36 148,66 140,140 L134,136 L133,100 Q130,80 118,70 Q108,64 97,60 Q86,70 74,78 Q68,90 67,104 L66,136 Z"/>'
@@ -158,6 +161,7 @@ FACIAL = {
     "moustache": '<path d="M86,141 L100,138 L114,141 L113,146 L100,143.5 L87,146 Z"/>',
     "thicktache": '<path d="M100,137 C108,136 115,138 117,143 L119,151 Q116,151 114,147 C110,145 105,144.5 100,145.5 C95,144.5 90,145 86,147 Q84,151 81,151 L83,143 C85,138 92,136 100,137 Z"/>',
     "beard": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z"/>',
+    "bigbeard": '<path d="M64,106 L74,122 L84,146 L116,146 L126,122 L136,106 L136,180 L64,180 Z"/>',
     "bushybeard": '<path d="M64,106 L74,122 L84,146 L116,146 L126,122 L136,106 L136,180 L64,180 Z"/>',
     "stubble": '<path d="M66,112 L74,124 L84,146 L116,146 L126,124 L134,112 L134,180 L66,180 Z" opacity=".32"/>',
 }
@@ -262,6 +266,9 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                 hg.append(f'<g clip-path="url(#h{tag})" fill="{fc}">{FACIAL[facial]}</g>')
                 if facial == "beard":
                     hg.append(f'<path d="M90,149 L110,149 L108,154 L92,154 Z" fill="{dk}"/>')
+                if facial == "bigbeard":  # big full beard with moustache: sideburns run up into the hair, hugs a thin face, thickest at the chin
+                    hg.append(f'<path d="M66,92 L71,94 L72,116 Q76,132 85,141 L115,141 Q124,132 128,116 L129,94 L134,92 L135,116 L135,132 Q134,152 126,166 Q118,179 108,184 L104,187 L100,185 L96,187 L92,184 Q82,179 74,166 Q66,152 65,132 L65,116 Z" fill="{fc}"/>'
+                              f'<path d="M91,150 Q100,147 109,150 L107,155 Q100,157 93,155 Z" fill="{dk}"/>')
                 if facial == "bushybeard":  # full, bushy beard that spills past the jawline
                     hg.append(f'<path d="M64,118 L60,140 Q66,168 84,180 Q100,188 116,180 Q134,168 140,140 L136,118 L128,128 L118,146 L82,146 L72,128 Z" fill="{fc}"/>'
                               f'<path d="M88,149 L112,149 L109,155 L91,155 Z" fill="{dk}"/>')
@@ -448,6 +455,34 @@ def spaniel(cx=158, cy=214, s=1.2, fur="#1B1B1D", plane="#2A2A2E", sheen="#3C3C4
     e(1,12.5,2.6,3.2,"#E58A95")
     return '<g class="dog">'+''.join(out)+'</g>'
 def with_spaniel(svg, **kw): return svg.replace('</svg>', spaniel(**kw)+'</svg>', 1)
+
+# Angus Butler's dog Max: scruffy black cockapoo with a navy speckled bandana
+def cockapoo(cx=154, cy=203, s=1.4, fur="#1E1C1B", plane="#2C2927", sheen="#3E3A37", band="#2E3F5C", fleck="#E8DCC4"):
+    """Scruffy black cockapoo peeking up from the bottom edge: shaggy curly ears, fringe over the eyes, speckled bandana (flat geometric, house style)."""
+    P=lambda x,y:(cx+x*s,cy+y*s)
+    out=[]
+    def c(x,y,r,col): X,Y=P(x,y); out.append(f'<circle cx="{X:.1f}" cy="{Y:.1f}" r="{r*s:.1f}" fill="{col}"/>')
+    def e(x,y,rx,ry,col,rot=0): X,Y=P(x,y); out.append(f'<ellipse cx="{X:.1f}" cy="{Y:.1f}" rx="{rx*s:.1f}" ry="{ry*s:.1f}" fill="{col}" transform="rotate({rot} {X:.1f} {Y:.1f})"/>')
+    def poly(pts,col): out.append('<path d="M'+' L'.join(f'{P(x,y)[0]:.1f},{P(x,y)[1]:.1f}' for x,y in pts)+f' Z" fill="{col}"/>')
+    X0,Y0=P(-13,8); out.append(f'<rect x="{X0:.1f}" y="{Y0:.1f}" width="{26*s:.1f}" height="{40*s:.1f}" fill="{fur}"/>')
+    # shaggy curly ears hanging either side
+    for side in (-1,1):
+        for (x,y,r) in [(14,-2,5.5),(16,5,6),(15,12,5.5),(17,18,4.8),(13,21,4.2)]: c(side*x,y,r,fur)
+        c(side*15,6,2.6,plane); c(side*16,15,2.2,plane)
+    # shaggy head
+    for (x,y,r) in [(0,0,12.5),(-8,-7,7),(0,-11,7.5),(8,-7,7),(-11,1,5.5),(11,1,5.5)]: c(x,y,r,fur)
+    poly([(-13,-6),(-10,-15),(-6,-10),(-3,-18),(1,-12),(5,-17),(7,-10),(11,-14),(13,-5)],fur)
+    c(-4,-12,2.6,sheen); c(5,-10,2.2,sheen)
+    # muzzle, with fringe falling over the eyes
+    e(0,7,8.5,6.5,plane)
+    for x in (-5.5,5.5): c(x,0,1.7,"#5A3A22"); c(x,0,0.9,"#0C0A09")
+    poly([(-11,-5),(-7,-1),(-4,-5),(0,-1),(4,-5),(7,-1),(11,-5),(9,-9),(-9,-9)],fur)
+    e(0,4.5,2.9,2.1,"#0A0909")
+    # speckled navy bandana tied at the neck
+    poly([(-15,13),(15,13),(13,18),(0,30),(-13,18)],band)
+    for (x,y,r) in [(-9,16,.9),(-4,19,.7),(2,16,.8),(7,19,.9),(10,15,.6),(-2,24,.8),(4,25,.6),(-6,15,.5),(0,20,.6)]: c(x,y,r,fleck)
+    return '<g class="dog">'+''.join(out)+'</g>'
+def with_cockapoo(svg, **kw): return svg.replace('</svg>', cockapoo(**kw)+'</svg>', 1)
 
 
 
@@ -1347,6 +1382,7 @@ EYE_SHAPES = {  # name: (left eye, right eye, left lid line, right lid line)
     "wide": ("M76,112 Q85,102 94,112 Q85,119.5 76,112 Z", "M106,112 Q115,102 124,112 Q115,119.5 106,112 Z", "M76,112 Q85,102 94,112", "M106,112 Q115,102 124,112"),
     "narrow": ("M76,112 Q85,108 94,112 Q85,114.5 76,112 Z", "M106,112 Q115,108 124,112 Q115,114.5 106,112 Z", "M76,112 Q85,108 94,112", "M106,112 Q115,108 124,112"),
     "hooded": ("M76,112 Q85,108.5 94,112 Q85,117 76,112 Z", "M106,112 Q115,108.5 124,112 Q115,117 106,112 Z", "M75,111 Q85,107.5 95,112 M76,107.5 Q85,103.5 94,107", "M105,112 Q115,107.5 125,111 M106,107 Q115,103.5 124,107.5"),
+    "smallhooded": ("M78.5,112 Q85,109.5 91.5,112 Q85,115.5 78.5,112 Z", "M108.5,112 Q115,109.5 121.5,112 Q115,115.5 108.5,112 Z", "M78,111.5 Q85,108.5 92,112 M78.5,108 Q85,105.5 91.5,107.5", "M108,112 Q115,108.5 122,111.5 M108.5,107.5 Q115,105.5 121.5,108"),
     "downturned": ("M75,115 Q85,105 94,112 Q85,118 75,115 Z", "M106,112 Q115,105 125,115 Q115,118 106,112 Z", "M75,115 Q85,105 94,112", "M106,112 Q115,105 125,115"),
     "upturned": ("M75,109 Q85,104 94,112 Q85,116 75,109 Z", "M106,112 Q115,104 125,109 Q115,116 106,112 Z", "M75,109 Q85,104 94,112", "M106,112 Q115,104 125,109"),
 }
@@ -1379,7 +1415,6 @@ save("alison-thomson", figure("KEN", skin=1, hair="ponytail", hair_colour="dark 
 save("andrea-barber", figure("KEN", skin=1, hair="longstraight", hair_colour="blonde"))
 save("andrew-perfect", figure("HHH", skin=1, hair="quiff", hair_colour="grey", gaunt=True, jaw="narrow", creases=True))
 save("andrew-simms", figure("HHH", skin=1, hair="croprecede", hair_colour="light brown", facial="stubble", facial_colour="#9A8468", creases=True))
-save("angus-butler", figure("HHH", skin=1, hair="messyvolume", hair_colour="#1E1612", facial="beard", facial_colour="#1E1612"))
 save("annabel-hobday", figure("HHH", skin=1, hair="tightbun", hair_colour="light brown"))
 save("annabelle-hadlow", figure("KEN", skin=1, hair="slick", hair_colour="#8A7A68", creases=True, gaunt=True))
 save("ben-millar", figure("HHH", skin=1, hair="buzzrecede", hair_colour="light brown", jaw="square", creases=True))
@@ -1538,16 +1573,16 @@ def export_site(site_dir="/home/claude/surrey-league/files/portraits/athletes", 
             shutil.copy(src, f"{out}/{slug}.svg")
 # ---- Brow tilt (Oct 2026): lift the inner ends for a warm, open look; follow eye spacing ----
 import re as _re_b
-def brows(svg, lift=0, spacing=0):
-    """lift > 0 raises the inner ends of both brows (warm/upturned); spacing matches eyes() (- = closer)."""
+def brows(svg, lift=0, spacing=0, drop=0):
+    """lift > 0 raises the inner ends of both brows (warm/upturned); spacing matches eyes() (- = closer); drop > 0 lowers both brows (eyes set right under them)."""
     m = _re_b.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon points="([^"]+)"/><polygon points="([^"]+)"/></g>', svg)
     if not m: return svg
     def pts(s): return [tuple(float(v) for v in p.split(",")) for p in s.split()]
     def fmt(ps): return " ".join(f"{x:g},{y:g}" for x, y in ps)
     L, R = pts(m.group(2)), pts(m.group(3))
     lx = max(x for x, _ in L); rx = min(x for x, _ in R)
-    L = [(x - spacing, y - (lift if x >= lx - 2 else 0)) for x, y in L]
-    R = [(x + spacing, y - (lift if x <= rx + 2 else 0)) for x, y in R]
+    L = [(x - spacing, y + drop - (lift if x >= lx - 2 else 0)) for x, y in L]
+    R = [(x + spacing, y + drop - (lift if x <= rx + 2 else 0)) for x, y in R]
     new = f'<g fill="{m.group(1)}"><polygon points="{fmt(L)}"/><polygon points="{fmt(R)}"/></g>'
     return svg[:m.start()] + new + svg[m.end():]
 
@@ -1580,4 +1615,10 @@ SITE_NAMES["james-hancock-dog"] = "james-hancock-dog"
 save("lionel-mann", eyes(figure("BEL", skin=1, hair="shaggyrecede", hair_colour="dark brown", facial="bushybeard", greying="sides"), "downturned"))
 # Steve Gardner, redrawn Oct 2026: neat mid-brown quiff, light stubble, eyes slightly closer, rosy, dark half-zip
 save("steve-gardner", eyes(figure("BEL", skin=1, hair="quiff", hair_colour="#5E4430", facial="stubble", facial_colour="#7A5E48", rosy=True, jacket=("#2E3238", "#23262B", None)), None, -1))
+# Angus Butler, redrawn Oct 2026: hair swept back into a bun at the back, big full beard and moustache hugging a thin face,
+# small wide-set lightly hooded eyes right under the brows; his dog Max (black cockapoo) pops up on his profile page
+ANGUS = lambda: brows(eyes(figure("HHH", skin=1, hair="manbun", hair_colour="#3B2A1F", facial="bigbeard", facial_colour="#3B2A1F", jaw="narrow"), "smallhooded", 3), 0, 3, 4).replace('r="3.8"', 'r="3.2"')
+save("angus-butler", ANGUS())
+save("angus-butler-dog", with_cockapoo(ANGUS(), cy=188))
+SITE_NAMES["angus-butler-dog"] = "angus-butler-dog"
 export_site()
