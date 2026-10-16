@@ -1462,6 +1462,10 @@ save("mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#5A3E2B", facia
 # Huw Lobb (THH), Oct 2026: Steve sent Man v Horse 2004 and Helsinki 2005 photos. Short receding brown hair, lean narrow face
 save("huw-lobb", figure("THH", skin=1, hair="croppeak", hair_colour="#6B4A2E", gaunt=True, jaw="narrow"))
 
+# Huw Lobb redraw (Oct 2026): Steve - mouth lines rather than cheekbones; high but straight hairline
+HAIR["crophigh"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 C131,66 127,58.5 120,57 Q100,55.5 80,57 C73,58.5 69,66 68,84 Z"/>'
+save("huw-lobb", figure("THH", skin=1, hair="crophigh", hair_colour="#6B4A2E", creases=True, jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
