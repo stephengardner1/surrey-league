@@ -1381,6 +1381,7 @@ EYE_SHAPES = {  # name: (left eye, right eye, left lid line, right lid line)
     "narrow": ("M76,112 Q85,108 94,112 Q85,114.5 76,112 Z", "M106,112 Q115,108 124,112 Q115,114.5 106,112 Z", "M76,112 Q85,108 94,112", "M106,112 Q115,108 124,112"),
     "hooded": ("M76,112 Q85,108.5 94,112 Q85,117 76,112 Z", "M106,112 Q115,108.5 124,112 Q115,117 106,112 Z", "M75,111 Q85,107.5 95,112 M76,107.5 Q85,103.5 94,107", "M105,112 Q115,107.5 125,111 M106,107 Q115,103.5 124,107.5"),
     "smallhooded": ("M78.5,112 Q85,109.5 91.5,112 Q85,115.5 78.5,112 Z", "M108.5,112 Q115,109.5 121.5,112 Q115,115.5 108.5,112 Z", "M78,111.5 Q85,108.5 92,112 M78.5,108 Q85,105.5 91.5,107.5", "M108,112 Q115,108.5 122,111.5 M108.5,107.5 Q115,105.5 121.5,108"),
+    "small": ("M78.5,112 Q85,109.5 91.5,112 Q85,115.5 78.5,112 Z", "M108.5,112 Q115,109.5 121.5,112 Q115,115.5 108.5,112 Z", "M78,111.5 Q85,108.5 92,112", "M108,112 Q115,108.5 122,111.5"),
     "downturned": ("M75,115 Q85,105 94,112 Q85,118 75,115 Z", "M106,112 Q115,105 125,115 Q115,118 106,112 Z", "M75,115 Q85,105 94,112", "M106,112 Q115,105 125,115"),
     "upturned": ("M75,109 Q85,104 94,112 Q85,116 75,109 Z", "M106,112 Q115,104 125,109 Q115,116 106,112 Z", "M75,109 Q85,104 94,112", "M106,112 Q115,104 125,109"),
 }
@@ -1652,6 +1653,6 @@ save("mimi-corden-lloyd", skinmud(earrings(archbrows(figure("BEL", skin=2, hair=
 import math as _mt
 HAIR["tightcurls"] = HAIR["cropround"] + "".join(f'<circle cx="{100+35*_mt.cos(_mt.radians(195-i*15)):.1f}" cy="{72-34*_mt.sin(_mt.radians(195-i*15)):.1f}" r="5.6"/>' for i in range(15)) + "".join(f'<circle cx="{x}" cy="{y}" r="5"/>' for x, y in [(86,50),(100,46),(114,50),(78,62),(122,62),(92,58),(108,58)])
 def curl_marks(svg): return svg.replace('</svg>', ''.join(f'<path d="M{x-3},{y+1} q3,-4 6,0" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1.2"/>' for x, y in [(84,48),(98,44),(112,48),(76,60),(124,60),(90,56),(106,55)]) + '</svg>', 1)
-# Sam Bramwell, redrawn Oct 2026: tight strawberry-blond curls, squarer jaw, chin dimple, small eyes set right under light brows, flushed
-save("sam", curl_marks(dimple(brows(eyes(figure("HHH", skin=1, hair="tightcurls", hair_colour="#D29655", brow_colour="#B98352", rosy=True, jaw="square", thin_brows=True), "smallhooded"), 0, 0, 4)).replace('r="3.8"', 'r="3.2"')))
+# Sam Bramwell, redrawn Oct 2026: tight strawberry-blond curls, squarer jaw, chin dimple, small eyes with light brows sitting low on them (no hood), flushed
+save("sam", curl_marks(dimple(brows(eyes(figure("HHH", skin=1, hair="tightcurls", hair_colour="#D29655", brow_colour="#B98352", rosy=True, jaw="square", thin_brows=True), "small"), 0, 0, 6)).replace('r="3.8"', 'r="3.2"')))
 export_site()
