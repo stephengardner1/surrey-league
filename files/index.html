@@ -5109,8 +5109,10 @@ const BlinkOverlay=()=>{const[exiting,setExiting]=useState(false),[gone,setGone]
     /* wait until the page has finished its big first draw and frames are coming smoothly again (3 quick frames in a row, or 900ms at most) before peeling */
     const go=()=>{const start=performance.now();let last=start,calm=0;const wait=now=>{calm=(now-last<24)?calm+1:0;last=now;if(calm>=3||now-start>900)setExiting(true);else requestAnimationFrame(wait);};requestAnimationFrame(wait);};
     if(window.__slLoaded)go();window.addEventListener('sl-loaded',go);return()=>window.removeEventListener('sl-loaded',go);},[]);
+  /* the card's spot is fixed in pixels when it first appears, so the page's scrollbar (or a phone's address bar) arriving behind it can't nudge it */
+  const at=useMemo(()=>({left:Math.round((window.innerWidth-150)/2),top:Math.round((window.innerHeight-150*280/230)/2)}),[]);
   if(gone)return null;
-  return<div aria-hidden={exiting?'true':undefined} style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:exiting?'none':'auto',background:exiting?'transparent':'#fff'}}><LoadingBlink exiting={exiting} onDone={()=>setGone(true)}/></div>;};
+  return<div aria-hidden={exiting?'true':undefined} style={{position:'fixed',inset:0,zIndex:200,pointerEvents:exiting?'none':'auto',background:exiting?'transparent':'#fff'}}><div style={{position:'fixed',left:at.left,top:at.top}}><LoadingBlink exiting={exiting} onDone={()=>setGone(true)}/></div></div>;};
 if(LOADER_STYLE!=='carousel'){const el=document.createElement('div');document.body.appendChild(el);ReactDOM.createRoot(el).render(<BlinkOverlay/>);}
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
