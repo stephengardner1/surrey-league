@@ -1621,4 +1621,6 @@ ANGUS = lambda: brows(eyes(figure("HHH", skin=1, hair="manbun", hair_colour="#3B
 save("angus-butler", ANGUS())
 save("angus-butler-dog", with_cockapoo(ANGUS(), cy=188))
 SITE_NAMES["angus-butler-dog"] = "angus-butler-dog"
+# Tish Jones (BEL), Oct 2026: wavy light-brown ponytail, narrow lean face, flushed cheeks (no visor, no shades)
+save("tish-jones", figure("BEL", skin=1, hair="wavytie", hair_colour="#9A7048", jaw="narrow", gaunt=True, rosy=True))
 export_site()
