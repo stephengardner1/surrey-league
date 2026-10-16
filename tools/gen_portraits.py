@@ -978,7 +978,6 @@ save("brian-gorman", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2A1
 save("charlie-dabbs", figure("BEL", skin=1, hair="quiff", hair_colour="#241A15", glasses="square", glasses_col="#1E1E1E"))
 save("charlie-manning", figure("BEL", skin=1, hair="quiffrecede", hair_colour="mid brown", gaunt=True, creases=True))
 save("john-davies", figure("BEL", skin=1, hair="messyvolume", hair_colour="#1F1612", gaunt=True))
-save("lionel-mann", figure("BEL", skin=1, hair="tousled", hair_colour="dark brown", facial="bushybeard"))
 save("pat-newell", figure("BEL", skin=1, hair="croprecede", hair_colour="light brown", rosy=True))
 
 # Belgravian archive photos, batch 2 (Oct 2026). Hair colour inferred from black-and-white photos.
@@ -1578,4 +1577,6 @@ for _slug in ("penny-oliver", "james-hancock"):
     save(f"{_slug}-dog", with_spaniel(_fig, cx=154, cy=203, s=1.4))
 SITE_NAMES["penny-oliver-dog"] = "penny-oliver-dog"
 SITE_NAMES["james-hancock-dog"] = "james-hancock-dog"
+# Lionel Mann, redrawn Oct 2026: shaggy receding hair greying at the sides, bushy beard, downturned eyes
+save("lionel-mann", eyes(figure("BEL", skin=1, hair="shaggyrecede", hair_colour="dark brown", facial="bushybeard", greying="sides"), "downturned"))
 export_site()
