@@ -7,6 +7,7 @@ os.makedirs("v4", exist_ok=True)
 HEAD_NARROW = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,122 C127,146 114,165 100,168 C86,165 73,146 69,122 Z"
 HEAD_SQUARE = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L133,140 C132,156 122,167 109,169 L91,169 C78,167 68,156 67,140 Z"
 HEAD_BROADCHIN = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,122 C128,140 122,154 115,161 Q108,167 100,167 Q92,167 85,161 C78,154 72,140 69,122 Z"  # narrow face with a broad, flattish chin (Georgie Grgec)
+HEAD_WIDEPOINT = "M67,96 C64,58 80,40 100,40 C120,40 136,58 133,96 L137,124 L136.5,138 Q136,141 133.5,143.5 L112,165 Q106,170 100,170 Q94,170 88,165 L66.5,143.5 Q64,141 63.5,138 L63,124 Z"  # wide, square-cornered jaw tapering to a pointed chin (Larry Ryan)
 HEAD = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L132,130 C129,152 116,168 100,170 C84,168 71,152 68,130 Z"
 SQ = 'transform="translate(0,83) scale(1,0.76) translate(0,-40)"'
 VEST = "M53,330 L57,246 Q59,226 61,204 C66,200 73,197 80,195.5 Q100,240 120,195.5 C127,197 134,200 139,204 Q141,226 143,246 L147,330 Z"
@@ -171,7 +172,7 @@ def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
 def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False, sleeves=None, buff=None, jaw=None):
-    head = HEAD_SQUARE if jaw == "square" else HEAD_NARROW if jaw == "narrow" else HEAD_BROADCHIN if jaw == "broadchin" else HEAD
+    head = HEAD_SQUARE if jaw == "square" else HEAD_NARROW if jaw == "narrow" else HEAD_BROADCHIN if jaw == "broadchin" else HEAD_WIDEPOINT if jaw == "widepoint" else HEAD
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -1716,4 +1717,15 @@ def lopsided(svg, side="left"):
 # Alex Yee (KEN, Olympic triathlon champion), redrawn Oct 2026: swept-up dark quiff with faded sides, narrow face with high cheekbones,
 # narrow eyes under thin arched brows that dip at the inner ends, mouth lifted on one side, gold medal
 save("alex-yee", lopsided(thinarchbrows(brows(eyes(figure("KEN", skin=2, hair="quiff", temples=True, hair_colour="#3E2A1F", brow_colour="#2A1D16", medal="gold", jaw="narrow", gaunt=True), "narrow"), 0, 0, 3)), "left"))
+# ---- Flat fringe, big sideways quiff and a full goatee (Oct 2026, Sam Charlton / Larry Ryan / Ben Coughlan) ----
+HAIR["flatfringe"] = '<path d="M66,100 C62,58 80,38 100,38 C120,38 138,58 134,100 L132.5,84 Q131,79 126,77.5 L116,77.5 L114,73.5 L112,77.5 L99,77.5 L97,73 L95,77.5 L86,77.5 L84,74 L82,77.5 L74,77.5 Q69,79 67.5,84 Z"/>'
+HAIR["sidepart"] = '<path d="M63,102 C59,64 68,46 80,39 C88,24 112,17 130,25 C143,31 147,44 141,56 C143,70 140,86 136,102 L133,85 C131,73 124,65 112,63 C100,61 90,63 81,60 C74,66 69,76 67,89 Z"/><path d="M81,60 Q79,50 82,41" fill="none" stroke="#000" stroke-opacity=".32" stroke-width="1.6" stroke-linecap="round"/><g fill="none" stroke="#000" stroke-opacity=".17" stroke-width="1.3" stroke-linecap="round"><path d="M88,44 Q110,28 134,36"/><path d="M90,54 Q114,41 138,49"/></g>'
+FACIAL["fullgoatee"] = '<path fill-rule="evenodd" d="M85.5,141 L100,138 L114.5,141 L112.5,151 L109.5,162 L106,169.5 Q100,171.5 94,169.5 L90.5,162 L87.5,151 Z M91.5,146.5 L108.5,146.5 L106.5,157.5 Q100,160.5 93.5,157.5 Z"/>'
+# Sam Charlton (BEL), redrawn Oct 2026: dark brown hair, very short sides and a short fringe cut flat across the forehead, pointy chin, full goatee
+save("sam-charlton", brows(figure("BEL", skin=1, hair="flatfringe", hair_colour="#3A2A20", brow_colour="#2A1D16", facial="fullgoatee", facial_colour="#3A2A20", jaw="narrow"), 0, 0, 1))
+# Larry Ryan (BEL), redrawn Oct 2026: big mid-brown quiff swept sideways with the parting on the other side, thick arched brows,
+# eyes slightly far apart, wide square-cornered jaw to a pointed chin, cheek lines, silver chain
+save("ryan", archbrows(eyes(figure("BEL", skin=1, hair="sidepart", hair_colour="#5A4030", brow_colour="#4A3426", jaw="widepoint", gaunt=True, necklace="#D4D4D4"), None, 2)))
+# Ben Coughlan (BEL), Oct 2026: short dark auburn curls, long thin face with a strong chin, high cheekbones, thin warm brows, open eyes
+save("ben-coughlan", curl_marks(brows(eyes(figure("BEL", skin=1, hair="tightcurls", hair_colour="#5E3322", brow_colour="#4A2A1C", thin_brows=True, jaw="broadchin", gaunt=True), None, 1), 1.5, 1)))
 export_site()
