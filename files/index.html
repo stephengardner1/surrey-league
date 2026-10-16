@@ -634,7 +634,7 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const all=[...new Set(
     const bg=(t.match(/<rect width="200" height="280" fill="(#[0-9A-Fa-f]{3,6})"/)||[])[1]||'#E6EAE4';
     const k=(f===df&&dk)||Object.keys(PORTRAITS).find(n=>PORTRAITS[n].file===f)||'';const w=k.split(/\s+/).filter(Boolean);
     const vest=(t.match(/<path d="M53,330[^"]*" fill="(#[0-9A-Fa-f]{6})"/)||[])[1];const nm=k.split(/\s+/).filter(Boolean);
-    return(BLINK_DONE={u:URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})),bg,surname:(nm[nm.length-1]||'').replace(/(^|[-'])([a-z])/g,(m,a,b)=>a+b.toUpperCase()),nameCol:posterInk(bg,vest),initials:((w[0]||'')[0]+(w.length>1?w[w.length-1].split('-').filter(Boolean).map(x=>x[0]).join('-'):'')).toUpperCase()});}catch(e){}}
+    return(BLINK_DONE={u:URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})),bg,surname:(nm[nm.length-1]||'').replace(/(^|[-'])([a-z])/g,(m,a,b)=>a+b.toUpperCase()),nameCol:posterInk(bg,vest,(PORTRAITS[k]||Object.values(PORTRAITS).find(v=>v.file===f)||{}).club),initials:((w[0]||'')[0]+(w.length>1?w[w.length-1].split('-').filter(Boolean).map(x=>x[0]).join('-'):'')).toUpperCase()});}catch(e){}}
   return(BLINK_DONE={});})());
 /* Sticker dog-ear and peel: the corner fold is a line across the bottom-right corner at distance p (px, measured along the diagonal).
    The card keeps the part above the line; the part below is reflected over the line and drawn as the paler back of the sticker. */
@@ -646,7 +646,9 @@ const POSTER_CARD=(()=>{try{return new URLSearchParams(location.search).get('car
 /* double-barrelled surnames go on two lines; the hyphen stays with the shorter part */
 const posterLines=s=>{const i=s.indexOf('-');if(i<0)return[s];const a=s.slice(0,i),b=s.slice(i+1);return a.length<b.length?[a+'-',b]:[a,'-'+b];};
 const POSTER_OPT=(()=>{try{const q=new URLSearchParams(location.search);const w=parseInt(q.get('w'),10);return{w:[300,400,500,600,700,800,900].includes(w)?w:900,title:q.get('case')==='title'};}catch(e){return{w:900,title:false};}})();/* ?w=500 … 900, ?case=title */
-const posterInk=(bg,vest)=>{const rgb=c=>{c=(c||'#888888').replace('#','');if(c.length===3)c=c.split('').map(v=>v+v).join('');const n=parseInt(c,16);return[(n>>16)&255,(n>>8)&255,n&255];};
+/* clubs whose poster name takes the kit's accent colour rather than its main colour (Belgrave: the gold band, not the claret) */
+const POSTER_ACCENT={BEL:'#A88A4E'};
+const posterInk=(bg,vest,club)=>{if(club&&POSTER_ACCENT[club])return POSTER_ACCENT[club];const rgb=c=>{c=(c||'#888888').replace('#','');if(c.length===3)c=c.split('').map(v=>v+v).join('');const n=parseInt(c,16);return[(n>>16)&255,(n>>8)&255,n&255];};
   const b=rgb(bg),v=vest?rgb(vest):null,lum=v?(0.2126*v[0]+0.7152*v[1]+0.0722*v[2])/255:1;
   const out=(v&&lum<0.8)?b.map((x,i)=>x*0.4+v[i]*0.6):b.map(x=>x*0.62);
   return'#'+out.map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');};
