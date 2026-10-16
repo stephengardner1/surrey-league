@@ -918,7 +918,6 @@ save("samantha-munday", figure("BEL", skin=1, hair="plait", hair_colour="#4A3226
 save("holly-nixon", figure("BEL", skin=1, hair="ponytail", hair_colour="#C9A35F", necklace="#D4D4D4"))
 save("sophie-harris", figure("BEL", skin=1, hair="plait", hair_colour="#6B4A32"))
 save("isabel-brinsden", figure("E&E", skin=1, hair="wavytie", hair_colour="#C46A34"))
-save("mimi-corden-lloyd", figure("BEL", skin=2, hair="tightbun", hair_colour="#3A2620", necklace="#C9A646", parting=True))
 save("steph-hewitt", figure("BEL", skin=1, hair="ponytail", hair_colour="#3A2620"))
 save("david-bowers", figure("BEL", skin=1, hair="buzzrecede", hair_colour="#C98A55", facial="stubble", facial_colour="#B8703E", brow_colour="#B8804E"))
 save("stuart-major", figure("SLH", skin=1, hair="quiff", hair_colour="#8A6440"))
@@ -1623,4 +1622,31 @@ save("angus-butler-dog", with_cockapoo(ANGUS(), cy=188))
 SITE_NAMES["angus-butler-dog"] = "angus-butler-dog"
 # Tish Jones (BEL), Oct 2026: wavy light-brown ponytail, narrow lean face, flushed cheeks (no visor, no shades)
 save("tish-jones", figure("BEL", skin=1, hair="wavytie", hair_colour="#9A7048", jaw="narrow", gaunt=True, rosy=True))
+# ---- Brow, earring and light-mud helpers (Oct 2026, first used for Mimi Corden-Lloyd) ----
+import re as _rm
+def archbrows(svg, col=None, lift=0):
+    """Fuller, softly arched brows set low over the eyes (replaces the default brow pair)."""
+    m=_rm.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon points="74,100 94,97 95,102 75,105"/><polygon points="105,97 126,100 125,105 105,102"/></g>', svg)
+    if not m: return svg
+    c=col or m.group(1)
+    L=f"95,99.8 88,{98.3-lift} 80,99.6 72.5,104.6 80,102.4 88,102.1 95,103.9"
+    R=f"105,99.8 112,{98.3-lift} 120,99.6 127.5,104.6 120,102.4 112,102.1 105,103.9"
+    return svg[:m.start()]+f'<g fill="{c}"><polygon points="{L}"/><polygon points="{R}"/></g>'+svg[m.end():]
+def earrings(svg, col="#C9A646", pearl=False):
+    """Small gold huggie hoops on both ear lobes (optional pearl drop)."""
+    e=f'<g fill="none" stroke="{col}" stroke-width="1.5"><circle cx="61" cy="111" r="2.6"/><circle cx="139" cy="111" r="2.6"/></g>'
+    if pearl: e+='<g fill="#F2EEE6"><circle cx="61" cy="116.4" r="1.9"/><circle cx="139" cy="116.4" r="1.9"/></g>'
+    return svg.replace('</svg>', e+'</svg>', 1)
+def skinmud(svg, seed=7):
+    """Light cross-country mud: a few flecks and streaks on the arms and the vest (none on the face or neck)."""
+    import random
+    r=random.Random(seed); o=[]
+    for (x0,x1,y0,y1,n) in [(34,60,206,330,9),(140,166,206,330,9),(74,126,216,330,12)]:
+        for _ in range(n):
+            x=r.uniform(x0,x1); y=r.uniform(y0,y1); rx=r.uniform(.6,1.8); o.append(f'<ellipse cx="{x:.1f}" cy="{y:.1f}" rx="{rx:.1f}" ry="{rx*r.uniform(.7,1.3):.1f}"/>')
+    o.append('<path d="M46,214 q3,6 2,13 q-3,-6 -2,-13 Z"/><path d="M153,222 q-2,7 0,14 q2,-8 0,-14 Z"/>')
+    return svg.replace('</svg>', '<g fill="#5E4330" opacity=".7">'+''.join(o)+'</g></svg>', 1)
+# Mimi Corden-Lloyd, redrawn Oct 2026: narrow face, dark slicked-back hair with centre parting in a bun, brows tapering to the temples,
+# gold hoops through the earlobes with pearl drops, gold chain, a little cross-country mud on the arms
+save("mimi-corden-lloyd", skinmud(earrings(archbrows(figure("BEL", skin=2, hair="tightbun", hair_colour="#241A15", necklace="#C9A646", parting=True, jaw="narrow")), pearl=True)))
 export_site()
