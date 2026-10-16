@@ -605,7 +605,10 @@ const useBlinkSrc=(src,on)=>{const[u,setU]=useState(null);useEffect(()=>{setU(nu
   return()=>{live=false;if(url)URL.revokeObjectURL(url);};},[src,on]);return u;};
 // The blink loader's runner is picked once per visit, so the card that slides away is the same one that was loading
 let BLINK_PICK=null,BLINK_DONE=null;
-const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const files=[...new Set(Object.values(PORTRAITS).map(v=>v.file))];const fav=['bob-holt','bernie-ford','lionel-mann',...LOADER_FAVOURITES].filter(f=>files.includes(f));
+const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const all=[...new Set(Object.values(PORTRAITS).map(v=>v.file))];
+  /* on the women's side of the site the loader only ever shows women */
+  const onW=(()=>{try{return /(^|[\/#])women(\/|$)/.test(location.hash)||/^\/women(\/|$)/.test(location.pathname);}catch(e){return false;}})();
+  const wset=new Set(PORTRAIT_WOMEN.split(','));const files=onW?all.filter(f=>wset.has(f)):all;const fav=['bob-holt','bernie-ford','lionel-mann',...LOADER_FAVOURITES].filter(f=>files.includes(f));
   const rnd=(Math.random()<.7?fav.sort(()=>Math.random()-.5).concat(files.sort(()=>Math.random()-.5)):files.sort(()=>Math.random()-.5)).slice(0,8);
   /* opened straight onto an athlete page (/athlete/<slug>, /women/athlete/<slug> or an old #athlete link): that athlete is the loader if they have a portrait */
   const ds=(()=>{try{const m=(location.pathname+' '+location.hash).match(/(?:^|[\/#])(?:women\/)?athlete\/([^\/?#\s]+)/i);return m?decodeURIComponent(m[1]).toLowerCase():null;}catch(e){return null;}})();
