@@ -677,8 +677,8 @@ const LoadingBlink=({exiting,onDone})=>{
     let raf;const t0=performance.now();
     if(PEEL_EXIT){
       /* peel: the dog-ear lifts and the fold sweeps across the card, picking up speed; once the fold reaches the middle the sticker has folded right over itself, so it is gone at that point and the page fades up */
-      const DUR=480,FADE=220,PMAX=(W+H)*Math.SQRT1_2/2;
-      const ease=x=>x*x;
+      const DUR=560,FADE=220,PMAX=(W+H)*Math.SQRT1_2/2;
+      const ease=x=>x+.8*Math.sin(2*Math.PI*x)/(2*Math.PI);  /* quick yoink, a slight slow in the middle, then a final yoink */
       let s0=null;  /* timed from the first frame actually drawn, so a busy first frame can't make the fold jump ahead */
       const tick=now=>{if(s0===null)s0=now;const t=now-s0,x=Math.min(t/DUR,1);
         if(x<1)peel(PEEL_REST+(PMAX-PEEL_REST)*ease(x));else if(card.current)card.current.style.visibility='hidden';
