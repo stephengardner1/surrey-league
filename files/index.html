@@ -622,6 +622,7 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const files=[...new Se
    The card keeps the part above the line; the part below is reflected over the line and drawn as the paler back of the sticker. */
 const PEEL_EXIT=(()=>{try{return new URLSearchParams(location.search).get('exit')==='peel';}catch(e){return false;}})();
 const PEEL_REST=7;
+const halfTint=c=>{let x=(c||'#E6EAE4').replace('#','');if(x.length===3)x=x.split('').map(v=>v+v).join('');const n=parseInt(x,16);return'#'+[16,8,0].map(s=>Math.round(((n>>s)&255)/2+127.5).toString(16).padStart(2,'0')).join('');};/* underside of the sticker: the card colour mixed half with white */
 const peelShape=(W,H,p)=>{const k=Math.SQRT1_2,s=(x,y)=>-(x-W)*k-(y-H)*k-p,R=[[0,0],[W,0],[W,H],[0,H]];
   const cut=keep=>{const o=[];for(let i=0;i<4;i++){const a=R[i],b=R[(i+1)%4],sa=s(a[0],a[1]),sb=s(b[0],b[1]),ia=keep?sa>=0:sa<0,ib=keep?sb>=0:sb<0;if(ia)o.push(a);if(ia!==ib){const t=sa/(sa-sb);o.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]);}}return o;};
   const flip=cut(false).map(([x,y])=>{const q=2*s(x,y);return[x+q*k,y+q*k];});
@@ -664,7 +665,7 @@ const LoadingBlink=({exiting,onDone})=>{
     {u&&pick.initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{pick.initials}</span>}
     {u&&<img ref={fig} src={u} alt="" style={{display:'block',width:W,maxWidth:'none',height:'auto',willChange:'transform'}}/>}
     </div>
-    {u&&<svg width={W} height={H} style={{position:'absolute',left:0,top:0,overflow:'visible',pointerEvents:'none'}}><g ref={flapG} style={{transformBox:'view-box',transformOrigin:`${W}px ${H}px`}}><polygon ref={flap} points="0,0 0,0 0,0" fill="#F1EDE5" stroke="#F1EDE5" strokeWidth="1.5" strokeLinejoin="round"/></g></svg>}
+    {u&&<svg width={W} height={H} style={{position:'absolute',left:0,top:0,overflow:'visible',pointerEvents:'none'}}><g ref={flapG} style={{transformBox:'view-box',transformOrigin:`${W}px ${H}px`}}><polygon ref={flap} points="0,0 0,0 0,0" fill={halfTint(pick.bg)} stroke={halfTint(pick.bg)} strokeWidth="1.5" strokeLinejoin="round"/></g></svg>}
   </div></>;
 };
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
