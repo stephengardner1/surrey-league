@@ -618,6 +618,9 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const all=[...new Set(
   /* a results page: the highest-placed finisher with a portrait (looked up in race-tops.json, built by tools/build_og.py) */
   const rm=!df&&loc.match(/(?:^|[\/#])(women\/)?race\/(\d{4}-\d+)/i);
   if(rm){try{const r=await fetch(`/portraits/race-tops.json?v=${PORTRAIT_V}`);if(r.ok){const t=await r.json();const f=t[(rm[1]?'w/':'m/')+rm[2]];if(f&&files.includes(f))df=f;}}catch(e){}}
+  /* a season page: one of that season's three most prominent portrait runners, men or women to match the page */
+  const sm=!df&&loc.match(/(?:^|[\/#])(women\/)?season\/(\d{4})/i);
+  if(sm){try{const r=await fetch(`/portraits/race-tops.json?v=${PORTRAIT_V}`);if(r.ok){const t=await r.json();const l=(t[(sm[1]?'w/s/':'m/s/')+sm[2]]||[]).filter(f=>files.includes(f));if(l.length)df=l[Math.floor(Math.random()*l.length)];}}catch(e){}}
   /* a club page: a portrait from that club, of the right gender (favourites first) */
   const cm=!df&&loc.match(/(?:^|[\/#])(women\/)?club\/([a-z0-9]+)/i);
   if(cm){const want=cm[2].toLowerCase(),sex=new Set((cm[1]?PORTRAIT_WOMEN:PORTRAIT_MEN).split(','));

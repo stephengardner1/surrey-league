@@ -94,6 +94,7 @@ def _pfile(name, club):
         if b: return b[0]
     return None
 tops = {}
+seasons = {}
 for path, pre, nk, ck, pk in (('data.json', 'm', 'n', 'c', 'p'), ('data-women.json', 'w', 'name', 'club', 'pos')):
     for r in _json.load(open(os.path.join(ROOT, path)))['races']:
         code = (r.get('season') or '').replace('/', '')[-4:] + '-' + str(r.get('match'))
@@ -103,6 +104,16 @@ for path, pre, nk, ck, pk in (('data.json', 'm', 'n', 'c', 'p'), ('data-women.js
         for x in sorted(r.get('results') or [], key=_pos):
             f = _pfile(x.get(nk) or '', x.get(ck) or '')
             if f: tops[pre + '/' + code] = f; break
+        # season pages: the season's most prominent portrait runners (points for every top-60 finish, summed over the season)
+        sc = (r.get('season') or '').replace('/', '')[-4:]
+        pts = seasons.setdefault(pre + '/s/' + sc, {})
+        for x in r.get('results') or []:
+            p_ = _pos(x)
+            if p_ <= 60:
+                f = _pfile(x.get(nk) or '', x.get(ck) or '')
+                if f: pts[f] = pts.get(f, 0) + 61 - p_
+for k, pts in seasons.items():
+    if pts: tops[k] = [f for f, _ in sorted(pts.items(), key=lambda kv: -kv[1])[:3]]
 _json.dump(tops, open(os.path.join(P, 'race-tops.json'), 'w'), separators=(',', ':'), sort_keys=True)
 print(len(tops), 'races with a portrait finisher')
 
