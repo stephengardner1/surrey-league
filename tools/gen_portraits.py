@@ -1682,4 +1682,6 @@ def roundbrows(svg):
     return svg[:m.start()] + f'<g fill="{m.group(1)}"><polygon points="{L}"/><polygon points="{R}"/></g>' + svg[m.end():]
 # Amelia Pettitt (KEN), Oct 2026: dark-blonde hair in a thick long plait, narrow face, almond eyes, rounded light brows, flushed
 save("amelia-pettitt", roundbrows(eyes(figure("KEN", skin=1, hair="thickplait", hair_colour="#B89565", brow_colour="#9A7A52", jaw="narrow", thin_brows=True, rosy=True), "almond")))
+# Ellen Weir (THH), Oct 2026: brown plaited ponytail, darker brows, rosy, fine gold chain, small gold hoops
+save("ellen-weir", earrings(figure("THH", skin=1, hair="plait", hair_colour="#6B4A32", brow_colour="#4E3626", rosy=True, necklace="#C9A646")))
 export_site()
