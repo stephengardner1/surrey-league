@@ -667,8 +667,8 @@ const LoadingBlink=({exiting,onDone})=>{
     if(grad.current){grad.current.setAttribute('x1',g[0][0]);grad.current.setAttribute('y1',g[0][1]);grad.current.setAttribute('x2',g[1][0]);grad.current.setAttribute('y2',g[1][1]);}};
   React.useLayoutEffect(()=>{if(u)peel(PEEL_REST);},[u]);
   useEffect(()=>{if(!POSTER_CARD||!u)return;let live=true;const fit=()=>{const box=card.current;if(!live||!box)return;let top=9;
-      /* each line is sized to run edge to edge (capped so short names don't swamp the face); a second line sits straight under the first */
-      [...box.querySelectorAll('[data-pl]')].forEach(el=>{el.style.fontSize='40px';const w=el.getBoundingClientRect().width||1;const fs=Math.min(40,40*(W-14)/w);el.style.fontSize=fs.toFixed(2)+'px';el.style.top=top.toFixed(1)+'px';top+=fs*(POSTER_OPT.title?0.86:0.78);el.style.visibility='visible';});};
+      /* each line is sized to run edge to edge (capped so short names don't swamp the face); a second line sits straight under the first. The runner sits a little lower on poster cards to leave room for the name */
+      [...box.querySelectorAll('[data-pl]')].forEach(el=>{el.style.fontSize='40px';const w=el.getBoundingClientRect().width||1;const fs=Math.min(52,40*(W-14)/w);el.style.fontSize=fs.toFixed(2)+'px';el.style.top=top.toFixed(1)+'px';top+=fs*(POSTER_OPT.title?0.86:0.78);el.style.visibility='visible';});};
     (document.fonts&&document.fonts.load?document.fonts.load(POSTER_OPT.w+' 40px Fraunces'):Promise.resolve()).then(fit,fit);return()=>{live=false;};},[u]);
   useEffect(()=>{if(!exiting)return;if(!pick||!pick.u||!card.current){onDone&&onDone();return;}
     let raf;const t0=performance.now();
@@ -697,7 +697,7 @@ const LoadingBlink=({exiting,onDone})=>{
     <div ref={stk} style={{position:'absolute',inset:0,borderRadius:12,overflow:'hidden',background:u?pick.bg:'transparent'}}>
     {u&&!POSTER_CARD&&pick.initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{pick.initials}</span>}
     {u&&POSTER_CARD&&pick.surname&&posterLines(POSTER_OPT.title?pick.surname:pick.surname.toUpperCase()).map((ln,i)=><span key={i} data-pl={i} style={{position:'absolute',top:9,left:'50%',transform:'translateX(-50%)',zIndex:0,whiteSpace:'nowrap',fontFamily:'Fraunces,Georgia,serif',fontWeight:POSTER_OPT.w,fontVariationSettings:'"opsz" 144',fontSize:20,lineHeight:.8,color:pick.nameCol,visibility:'hidden'}}>{ln}</span>)}
-    {u&&<img ref={fig} src={u} alt="" style={{display:'block',position:'relative',zIndex:1,width:W,maxWidth:'none',height:'auto',marginTop:POSTER_CARD?-8:0,willChange:'transform'}}/>}
+    {u&&<img ref={fig} src={u} alt="" style={{display:'block',position:'relative',zIndex:1,width:W,maxWidth:'none',height:'auto',marginTop:POSTER_CARD?2:0,willChange:'transform'}}/>}
     </div>
     {u&&<svg width={W} height={H} style={{position:'absolute',left:0,top:0,overflow:'visible',pointerEvents:'none'}}><g ref={flapG} style={{transformBox:'view-box',transformOrigin:`${W}px ${H}px`}}><polygon ref={flap} points="0,0 0,0 0,0" fill={halfTint(pick.bg)} stroke={halfTint(pick.bg)} strokeWidth="1.5" strokeLinejoin="round"/></g></svg>}
   </div></>;
