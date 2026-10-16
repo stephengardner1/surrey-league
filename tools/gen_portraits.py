@@ -1724,8 +1724,8 @@ FACIAL["fullgoatee"] = '<path fill-rule="evenodd" d="M85.5,141 L100,138 L114.5,1
 # Sam Charlton (BEL), redrawn Oct 2026: dark brown hair, very short sides and a short fringe cut flat across the forehead, pointy chin, full goatee
 save("sam-charlton", brows(figure("BEL", skin=1, hair="flatfringe", hair_colour="#3A2A20", brow_colour="#2A1D16", facial="fullgoatee", facial_colour="#3A2A20", jaw="narrow"), 0, 0, 1))
 # Larry Ryan (BEL), redrawn Oct 2026: big mid-brown quiff swept sideways with the parting on the other side, thick arched brows,
-# eyes slightly far apart, wide square-cornered jaw to a pointed chin, cheek lines, silver chain
-save("ryan", archbrows(eyes(figure("BEL", skin=1, hair="sidepart", hair_colour="#5A4030", brow_colour="#4A3426", jaw="widepoint", gaunt=True, necklace="#D4D4D4"), None, 2)))
+# eyes slightly far apart, wide square-cornered jaw to a pointed chin, smile lines from nose to mouth, silver chain
+save("ryan", archbrows(eyes(figure("BEL", skin=1, hair="sidepart", hair_colour="#5A4030", brow_colour="#4A3426", jaw="widepoint", creases=True, necklace="#D4D4D4"), None, 2)))
 # Ben Coughlan (BEL), Oct 2026: short dark auburn curls, long thin face with a strong chin, high cheekbones, thin warm brows, open eyes
 save("ben-coughlan", curl_marks(brows(eyes(figure("BEL", skin=1, hair="tightcurls", hair_colour="#5E3322", brow_colour="#4A2A1C", thin_brows=True, jaw="broadchin", gaunt=True), None, 1), 1.5, 1)))
 export_site()
