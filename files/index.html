@@ -668,8 +668,9 @@ const LoadingBlink=({exiting,onDone})=>{
     {u&&<svg width={W} height={H} style={{position:'absolute',left:0,top:0,overflow:'visible',pointerEvents:'none'}}><g ref={flapG} style={{transformBox:'view-box',transformOrigin:`${W}px ${H}px`}}><polygon ref={flap} points="0,0 0,0 0,0" fill={halfTint(pick.bg)} stroke={halfTint(pick.bg)} strokeWidth="1.5" strokeLinejoin="round"/></g></svg>}
   </div></>;
 };
+const LoadedSignal=()=>{useEffect(()=>{if(!window.__slLoaded){window.__slLoaded=true;window.dispatchEvent(new Event('sl-loaded'));}},[]);return null;};
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
-const Loader=()=>LOADER_STYLE==='carousel'?<LoadingVests/>:<LoadingBlink/>;  // blinking card is the default; ?loader=carousel shows the portrait carousel
+const Loader=()=>LOADER_STYLE==='carousel'?<LoadingVests/>:null;  // blinking card is the default; ?loader=carousel shows the portrait carousel
 const LoadingVests=()=>{
   // Loading carousel: a random line-up of athlete portraits gliding sideways, biggest in the centre.
   // No club appears twice within any four consecutive faces (including across the loop join).
@@ -5073,7 +5074,7 @@ function App(){
   if(!data)return<div className="loading"><Loader/></div>;
   
   return<div className="min-h-screen bg-white flex flex-col">
-    {LOADER_STYLE!=='carousel'&&blinkExit&&<div aria-hidden="true" style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}><LoadingBlink exiting onDone={()=>setBlinkExit(false)}/></div>}
+    <LoadedSignal/>
     <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:rounded">Skip to content</a>
     <Nav setView={setView} division={division} setDivision={setDivision}/>
     <main id="main-content" className="flex-1">
@@ -5094,6 +5095,12 @@ function App(){
     <Footer setView={setView}/>
   </div>;
 }
+/* The blinking loader card lives in its own layer (outside App) so it is never swapped out between loading and the peel: no judder at the hand-over */
+const BlinkOverlay=()=>{const[exiting,setExiting]=useState(false),[gone,setGone]=useState(false);
+  useEffect(()=>{const go=()=>setExiting(true);if(window.__slLoaded)go();window.addEventListener('sl-loaded',go);return()=>window.removeEventListener('sl-loaded',go);},[]);
+  if(gone)return null;
+  return<div aria-hidden={exiting?'true':undefined} style={{position:'fixed',inset:0,zIndex:200,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:exiting?'none':'auto',background:exiting?'transparent':'#fff'}}><LoadingBlink exiting={exiting} onDone={()=>setGone(true)}/></div>;};
+if(LOADER_STYLE!=='carousel'){const el=document.createElement('div');document.body.appendChild(el);ReactDOM.createRoot(el).render(<BlinkOverlay/>);}
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 <!-- Cloudflare Web Analytics (cookieless) -->
