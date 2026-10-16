@@ -3774,7 +3774,7 @@ const AthleteInput=({value,onChange,onSelect,athletes,placeholder})=>{
   const suggestions=inputVal.length>=2?athletes.filter(a=>a.name.toLowerCase().includes(inputVal.toLowerCase())).slice(0,8):[];
   useEffect(()=>{setInputVal(value?.name||'');},[value]);
   return<div className="relative flex-1">
-    <input type="text" value={inputVal} onChange={e=>{setInputVal(e.target.value);onChange(null);}} onFocus={()=>setFocused(true)} onBlur={()=>setTimeout(()=>setFocused(false),200)} placeholder={placeholder} className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b649e] focus:border-transparent"/>
+    <input type="text" value={inputVal} onChange={e=>{setInputVal(e.target.value);onChange(null);}} onFocus={()=>setFocused(true)} onBlur={()=>setTimeout(()=>setFocused(false),200)} placeholder={placeholder} className="w-full px-3 py-2 text-sm md:text-base text-gray-900 border border-gray-200 rounded-md placeholder-gray-300 focus:outline-none focus:border-[#1b649e]"/>
     {focused&&suggestions.length>0&&<div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-64 overflow-y-auto">
       {suggestions.map((a,i)=><div key={i} className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center gap-2" onClick={()=>{onSelect(a);setInputVal(a.name);setFocused(false);}}>
         <ClubShield club={a.club} size={16}/><span className="text-sm text-gray-900">{a.name}</span><span className="text-xs text-gray-500">{CLUBS[a.club]?.name||a.club}</span>
@@ -3831,46 +3831,38 @@ const H2HView=({athletes,races,setView,prefill})=>{
     const n2=typeof val2==='string'&&val2.startsWith('#')?parseInt(val2.slice(1)):parseFloat(val2);
     const w1=better==='lower'?n1<n2:n1>n2;
     const w2=better==='lower'?n2<n1:n2>n1;
-    const color1=w1?'text-green-600':w2?'text-red-500':'text-gray-600';
-    const color2=w2?'text-green-600':w1?'text-red-500':'text-gray-600';
-    return<tr className="border-b border-gray-100">
-      <td className={`py-3 px-4 text-right text-lg font-semibold ${color1} ${onClick1?'cursor-pointer hover:underline':''}`} onClick={onClick1}>{val1}</td>
-      <td className="py-3 px-4 text-center text-sm text-gray-500 bg-gray-50">{label}</td>
-      <td className={`py-3 px-4 text-left text-lg font-semibold ${color2} ${onClick2?'cursor-pointer hover:underline':''}`} onClick={onClick2}>{val2}</td>
+    const color1=w1?'text-[#1b649e] font-semibold':'text-gray-700';
+    const color2=w2?'text-[#1b649e] font-semibold':'text-gray-700';
+    return<tr>
+      <td className={`py-2 pr-3 text-right text-base tabular-nums ${color1} ${onClick1?'cursor-pointer hover:underline':''}`} onClick={onClick1}>{val1}</td>
+      <td className="py-2 px-2 text-center text-[11px] md:text-xs text-gray-500 uppercase tracking-wide whitespace-nowrap">{label}</td>
+      <td className={`py-2 pl-3 text-left text-base tabular-nums ${color2} ${onClick2?'cursor-pointer hover:underline':''}`} onClick={onClick2}>{val2}</td>
     </tr>;
   };
   
   return<div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-3xl">
     <h1 className="text-2xl font-bold text-gray-900 mb-6">Head to Head</h1>
     
-    <div className="flex gap-4 mb-8">
+    <div className="flex items-center gap-3 mb-8">
       <AthleteInput value={athlete1} onChange={setAthlete1} onSelect={setAthlete1} athletes={athletes.filter(a=>!a.historical)} placeholder="Search athlete..."/>
-      <div className="flex items-center text-gray-500 font-semibold">vs</div>
+      <div className="text-xs text-gray-500 uppercase tracking-wide">vs</div>
       <AthleteInput value={athlete2} onChange={setAthlete2} onSelect={setAthlete2} athletes={athletes.filter(a=>!a.historical)} placeholder="Search athlete..."/>
     </div>
     
     {stats1&&stats2&&h2h&&<div>
-      <div className="mb-6 text-center">
-        <div className="flex items-center justify-center gap-4 mb-2">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:athlete1})}>
-            <ClubShield club={stats1.club} size={24}/>
-            <span className="text-lg font-semibold text-gray-900 hover:text-[#1b649e]">{stats1.name}</span>
-          </div>
-          <span className="text-2xl font-bold text-gray-500">vs</span>
-          <div className="flex items-center gap-2 cursor-pointer" onClick={()=>setView({type:'athlete',athlete:athlete2})}>
-            <span className="text-lg font-semibold text-gray-900 hover:text-[#1b649e]">{stats2.name}</span>
-            <ClubShield club={stats2.club} size={24}/>
-          </div>
-        </div>
-        <p className="text-sm text-gray-500">{h2h.total} shared races</p>
-      </div>
-      
-      <table className="w-full mb-8">
-        <tbody>
-          <tr className="border-b-2 border-gray-200">
-            <td className={`py-4 px-4 text-right text-3xl font-bold ${h2h.wins1>h2h.wins2?'text-green-600':h2h.wins1<h2h.wins2?'text-red-500':'text-gray-600'}`}>{h2h.wins1}</td>
-            <td className="py-4 px-4 text-center text-sm text-gray-500 bg-gray-50 uppercase">H2H Wins</td>
-            <td className={`py-4 px-4 text-left text-3xl font-bold ${h2h.wins2>h2h.wins1?'text-green-600':h2h.wins2<h2h.wins1?'text-red-500':'text-gray-600'}`}>{h2h.wins2}</td>
+      <table className="w-full max-w-md mx-auto mb-10 table-fixed">
+        <colgroup><col/><col className="w-28 md:w-40"/><col/></colgroup>
+        <tbody className="divide-y divide-gray-100">
+          <tr className="!border-0">
+            <td className="pb-3 align-bottom"><div className="flex justify-end cursor-pointer" title={stats1.name} onClick={()=>setView({type:'athlete',athlete:athlete1})}><AthletePortrait key={stats1.name} name={stats1.name} club={stats1.club} w={104}/></div></td>
+            <td className="pb-3 align-bottom text-center text-[11px] md:text-xs text-gray-500 uppercase tracking-wide">{h2h.total} shared<br/>races</td>
+            <td className="pb-3 align-bottom"><div className="flex justify-start cursor-pointer" title={stats2.name} onClick={()=>setView({type:'athlete',athlete:athlete2})}><AthletePortrait key={stats2.name} name={stats2.name} club={stats2.club} w={104}/></div></td>
+          </tr>
+          <tr className="!border-t !border-gray-200">
+            <td className={`py-3 pr-3 text-right text-3xl tabular-nums ${h2h.wins1>h2h.wins2?'text-[#1b649e] font-semibold':'text-gray-700'}`}>{h2h.wins1}</td>
+            <td className="py-3 px-2 text-center text-[11px] md:text-xs font-semibold text-gray-900 uppercase tracking-wide whitespace-nowrap">H2H wins</td>
+            <td className={`py-3 pl-3 text-left text-3xl tabular-nums ${h2h.wins2>h2h.wins1?'text-[#1b649e] font-semibold':'text-gray-700'}`}>{h2h.wins2}</td>
           </tr>
           <StatRow label="A-Team Scores" val1={stats1.aScores||0} val2={stats2.aScores||0} better="higher"/>
           <StatRow label="Avg Finish" val1={(stats1.avgPos||0).toFixed(1)} val2={(stats2.avgPos||0).toFixed(1)} better="lower"/>
@@ -3881,27 +3873,27 @@ const H2HView=({athletes,races,setView,prefill})=>{
       </table>
       
       {h2h.sharedRaces.length>0&&<div>
-        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3 pb-2 border-b border-gray-200">Race by Race</h2>
         <table className="w-full">
           <thead><tr className="border-b border-gray-200">
-            <th className="text-left py-2 text-xs text-gray-500 uppercase">Race</th>
-            <th className="text-right py-2 px-2 text-xs text-gray-500 uppercase w-16">{stats1.name.split(' ')[0]}</th>
-            <th className="text-right py-2 px-2 text-xs text-gray-500 uppercase w-16">{stats2.name.split(' ')[0]}</th>
+            <th className="text-left py-2"><h2 className="text-xs font-semibold text-gray-900 uppercase tracking-wide">Race by race</h2></th>
+            <th className="text-right py-2 px-2 text-xs text-gray-500 uppercase w-20 font-normal">{stats1.name.split(' ')[0]}</th>
+            <th className="text-right py-2 pl-2 text-xs text-gray-500 uppercase w-20 font-normal">{stats2.name.split(' ')[0]}</th>
           </tr></thead>
           <tbody className="divide-y divide-gray-100">
-            {h2h.sharedRaces.slice().reverse().map((sr,i)=><tr key={i} className="hover:bg-gray-50 cursor-pointer" onClick={()=>setView({type:'race',race:sr.race})}>
-              <td className="py-2 text-sm text-gray-700">{formatDate(sr.race.date)} · {sr.race.venue}</td>
-              <td className={`py-2 px-2 text-sm text-right font-medium ${sr.pos1<sr.pos2?'text-green-600':sr.pos1>sr.pos2?'text-red-500':'text-gray-600'}`}>{sr.pos1}</td>
-              <td className={`py-2 px-2 text-sm text-right font-medium ${sr.pos2<sr.pos1?'text-green-600':sr.pos2>sr.pos1?'text-red-500':'text-gray-600'}`}>{sr.pos2}</td>
+            {h2h.sharedRaces.slice().reverse().map((sr,i)=><tr key={i} className="hover:bg-blue-50 cursor-pointer" onClick={()=>setView({type:'race',race:sr.race})}>
+              <td className="py-2 text-sm"><span className="text-gray-500 inline-block w-16">{(()=>{const d=parseDate(sr.race.date);return d&&!isNaN(d)?d.toLocaleDateString('en-GB',{month:'short'})+" '"+String(d.getFullYear()).slice(2):formatDate(sr.race.date);})()}</span><span className="text-gray-900">{sr.race.venue}</span></td>
+              <td className={`py-2 px-2 text-sm text-right tabular-nums ${sr.pos1<sr.pos2?'text-[#1b649e] font-semibold':'text-gray-500'}`}>{sr.pos1}</td>
+              <td className={`py-2 pl-2 text-sm text-right tabular-nums ${sr.pos2<sr.pos1?'text-[#1b649e] font-semibold':'text-gray-500'}`}>{sr.pos2}</td>
             </tr>)}
           </tbody>
         </table>
       </div>}
     </div>}
     
-    {(!athlete1||!athlete2)&&<div className="text-center py-12 text-gray-500">
-      <p>Select two athletes to compare</p>
+    {(!athlete1||!athlete2)&&<div className="py-12 text-sm text-gray-500">
+      <p>Pick two athletes to compare</p>
     </div>}
+    </div>
   </div>;
 };
 
