@@ -1687,4 +1687,7 @@ save("ellen-weir", earrings(figure("THH", skin=1, hair="plait", hair_colour="#6B
 # Sam Haughian (BOH), Oct 2026: dark tousled hair, squarer jaw with a small chin dimple, lean cheeks, dark stubble,
 # strong straight brows sitting low on slightly downturned eyes, silver chain
 save("sam-haughian", dimple(brows(eyes(figure("BOH", skin=2, hair="tousled", hair_colour="#2A1E18", brow_colour="#221812", facial="stubble", facial_colour="#3A2C24", necklace="#D4D4D4", jaw="square", gaunt=True), "downturned"), 0, 0, 4)))
+# Ross Braden (KEN), Oct 2026: dark brown floppy hair receding at the temples, narrow lean face, flushed,
+# strong dark brows over lightly hooded eyes, clean-shaven
+save("ross-braden", brows(eyes(figure("KEN", skin=1, hair="floppyrecede", hair_colour="#3A2A20", brow_colour="#2E211A", rosy=True, jaw="narrow", gaunt=True), "hooded"), 0, 0, 3))
 export_site()
