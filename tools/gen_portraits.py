@@ -634,7 +634,6 @@ save("charlie-eastaugh", figure("H/W", skin=1, hair="crop", hair_colour="light b
 save("oli-carrington", figure("H/W", skin=1, hair="tousled", hair_colour="mid brown", facial="shortbeard", facial_colour="mid brown"))
 save("jonathan-cornish", figure("H/W", skin=1, hair="tousled", hair_colour="#6E5A44"))
 save("gerry-north", figure("BEL", skin=1, hair="quiff", hair_colour="dark brown"))
-save("steve-gardner", figure("BEL", skin=1, hair="tousled", hair_colour="#3A2A22", facial="stubble", jacket=("#2E3238", "#23262B", None)))
 save("alex-yee", figure("KEN", skin=2, hair="quiff", hair_colour="#4A3022", medal="gold"))
 save("phil-wicks", figure("BEL", skin=1, hair="tousled", hair_colour="#5A3E2A", gaunt=True, temples=True))
 save("john-gilbert", figure("KEN", skin=1, hair="fringe", hair_colour="#5C3D28", facial="stubble"))
@@ -1579,4 +1578,6 @@ SITE_NAMES["penny-oliver-dog"] = "penny-oliver-dog"
 SITE_NAMES["james-hancock-dog"] = "james-hancock-dog"
 # Lionel Mann, redrawn Oct 2026: shaggy receding hair greying at the sides, bushy beard, downturned eyes
 save("lionel-mann", eyes(figure("BEL", skin=1, hair="shaggyrecede", hair_colour="dark brown", facial="bushybeard", greying="sides"), "downturned"))
+# Steve Gardner, redrawn Oct 2026: neat mid-brown quiff, light stubble, eyes slightly closer, rosy, dark half-zip
+save("steve-gardner", eyes(figure("BEL", skin=1, hair="quiff", hair_colour="#5E4430", facial="stubble", facial_colour="#7A5E48", rosy=True, jacket=("#2E3238", "#23262B", None)), None, -1))
 export_site()
