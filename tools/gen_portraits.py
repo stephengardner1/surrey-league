@@ -289,8 +289,8 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                 hg.append(f'<path d="M100,40 L101,65" stroke="{dk}" stroke-width="1.5"/>')
             if hair == "curlyup":  # loose curls escaping at the temples
                 hg.append(f'<g stroke="{hc}">{CURLY_WISPS}</g>')
-            if rosy:  # flushed cheeks
-                hg.append('<g fill="#E0505A" opacity=".2"><ellipse cx="80" cy="130" rx="12" ry="8.5"/><ellipse cx="120" cy="130" rx="12" ry="8.5"/></g>')
+            if rosy:  # flushed cheeks (halved Oct 2026)
+                hg.append('<g fill="#E0505A" opacity=".1"><ellipse cx="80" cy="130" rx="12" ry="8.5"/><ellipse cx="120" cy="130" rx="12" ry="8.5"/></g>')
             if sideburns:  # long 70s sideburns down the cheeks
                 hg.append(f'<g fill="{hc}"><path d="M64,92 L73,94 L74,114 L81,124 L82,134 L69,146 Q66,138 65,126 Z"/><path d="M136,92 L127,94 L126,114 L119,124 L118,134 L131,146 Q134,138 135,126 Z"/></g>')
             if hair == "highpony":  # hair tie where the bunch is gathered on top
@@ -502,7 +502,6 @@ for c in HAIR_COL: save(f"col_{c.replace(' ', '-')}", figure("HOL", skin=2, hair
 # winners
 save("kitty_grey", figure("BEL", "grey")); save("jack_grey", figure("HOL", "grey"))
 save("kitty", figure("BEL", skin=2, hair="ponytail", hair_colour="dark brown"))
-save("jack", figure("HOL", skin=1, hair="quiff", hair_colour="light brown"))
 save("suzie", figure("G&G", skin=1, hair="ponytail", hair_colour="auburn"))
 save("sam_grey", figure("HHH", "grey")); save("suzie_grey", figure("G&G", "grey"))
 save("col_ginger", figure("HOL", skin=2, hair="quiff", hair_colour="ginger"))
@@ -1664,4 +1663,6 @@ save("paul-sanderson-wok", figure("WOK", **PAUL_KW))
 # Georgie Grgec, redrawn Oct 2026: narrow face with a broad chin and a slight ^ dimple, almond eyes set close under softly arched brows
 # that taper to the temples, dark wavy ponytail, light tan, small gold hoops
 save("georgie-grgec", earrings(brows(archbrows(eyes(dimple(figure("HHH", skin=2, hair="wavytie", hair_colour="#3A2A22", jaw="broadchin"), up=True), "almond")), 0, 0, 2)))
+# Jack Kavanagh, redrawn Oct 2026: strawberry-blond quiff, light ginger stubble, narrow face, light brows, flushed
+save("jack", figure("HOL", skin=1, hair="quiff", hair_colour="#C08A55", brow_colour="#A87A4E", rosy=True, jaw="narrow", thin_brows=True, facial="stubble", facial_colour="#C9A07A"))
 export_site()
