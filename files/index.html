@@ -641,16 +641,16 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const all=[...new Set(
 const PEEL_EXIT=(()=>{try{return new URLSearchParams(location.search).get('exit')!=='slide';}catch(e){return true;}})();/* peel is the default exit; ?exit=slide brings back the old drop-and-wipe */
 const PEEL_REST=7;
 /* poster card test (?card=poster): surname in heavy Fraunces across the top, the runner's head overlapping it;
-   the name is the card colour taken 60% of the way to the main vest colour (a darkened card colour when the vest is white or pale) */
+   the name is the card colour taken 45% of the way to the main vest colour (a darkened card colour when the vest is white or pale) */
 const POSTER_CARD=(()=>{try{return new URLSearchParams(location.search).get('card')==='poster';}catch(e){return false;}})();
 /* double-barrelled surnames go on two lines; the hyphen stays with the shorter part */
 const posterLines=s=>{const i=s.indexOf('-');if(i<0)return[s];const a=s.slice(0,i),b=s.slice(i+1);return a.length<b.length?[a+'-',b]:[a,'-'+b];};
 const POSTER_OPT=(()=>{try{const q=new URLSearchParams(location.search);const w=parseInt(q.get('w'),10);return{w:[300,400,500,600,700,800,900].includes(w)?w:600,title:q.get('case')!=='caps'};}catch(e){return{w:600,title:true};}})();/* default: title case, weight 600 (as the profile-page name); ?w=300 … 900 and ?case=caps to compare */
 /* clubs whose poster name takes the kit's accent colour rather than its main colour (Belgrave: the gold band, not the claret) */
-const POSTER_ACCENT={BEL:'#A88A4E'};
+const POSTER_ACCENT={BEL:'#BC9F64'};
 const posterInk=(bg,vest,club)=>{if(club&&POSTER_ACCENT[club])return POSTER_ACCENT[club];const rgb=c=>{c=(c||'#888888').replace('#','');if(c.length===3)c=c.split('').map(v=>v+v).join('');const n=parseInt(c,16);return[(n>>16)&255,(n>>8)&255,n&255];};
   const b=rgb(bg),v=vest?rgb(vest):null,lum=v?(0.2126*v[0]+0.7152*v[1]+0.0722*v[2])/255:1;
-  const out=(v&&lum<0.8)?b.map((x,i)=>x*0.4+v[i]*0.6):b.map(x=>x*0.62);
+  const out=(v&&lum<0.8)?b.map((x,i)=>x*0.55+v[i]*0.45):b.map(x=>x*0.72);
   return'#'+out.map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');};
 const halfTint=c=>{let x=(c||'#E6EAE4').replace('#','');if(x.length===3)x=x.split('').map(v=>v+v).join('');const n=parseInt(x,16);return'#'+[16,8,0].map(s=>Math.round(((n>>s)&255)/2+127.5).toString(16).padStart(2,'0')).join('');};/* underside of the sticker: the card colour mixed half with white */
 const peelShape=(W,H,p)=>{const k=Math.SQRT1_2,s=(x,y)=>-(x-W)*k-(y-H)*k-p,R=[[0,0],[W,0],[W,H],[0,H]];
