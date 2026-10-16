@@ -221,7 +221,7 @@ const isUnknownAthlete=(name)=>{const n=(name||'').trim();return !n||/^[\[(]?unk
 const namesMatch=(a,b)=>normalizeNameForCompare(a)===normalizeNameForCompare(b);
 const ordPos=n=>{const v=n%100;return n+(v>=11&&v<=13?'th':['th','st','nd','rd'][n%10]||'th');};
 const getSurname=(name)=>{if(!name)return'';const parts=name.split(' ');return parts.length>1?parts[parts.length-1]:name;};
-const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District',short:'Aldershot'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'},'LCR':{name:'London City Runners'},'ADV':{name:'Advent Runners',defunct:true},'262':{name:'26.2 Road Runners'},'MPA':{name:'Metropolitan Police AC'},'BAC':{name:'British Airways AC',defunct:true},'OME':{name:'Omega RC',defunct:true},'GUEST':{name:'Guest',hidden:true},'Guest':{name:'Guest',hidden:true},'N/S':{name:'Non-scorer',hidden:true},'?':{name:'Unknown',hidden:true},'':{name:'Unknown',hidden:true},'MOR':{name:'Morden AC',defunct:true},'EAS':{name:'Ealing Southall & Middlesex'},'LIN':{name:'Lingfield RC'},'WAV':{name:'Waverley Harriers'},'VAC':{name:'Veterans AC'}};
+const CLUBS={'BEL':{name:'Belgrave Harriers'},'KEN':{name:'Kent AC'},'THH':{name:'Thames Hare & Hounds'},'HHH':{name:'Herne Hill Harriers'},'H/W':{name:'Hercules Wimbledon'},'SLH':{name:'South London Harriers'},'G&G':{name:'Guildford & Godalming'},'RAN':{name:'Ranelagh Harriers'},'C/C':{name:'Clapham Chasers'},'DUL':{name:'Dulwich Runners'},'HOL':{name:'Holland Sports'},'WAL':{name:'Walton AC'},'CRO':{name:'Croydon Harriers'},'WOK':{name:'Woking AC'},'E&E':{name:'Epsom & Ewell'},'FUL':{name:'Fulham RC'},'SOC':{name:'Striders of Croydon'},'BOX':{name:'Boxhill Racers'},'BOH':{name:'Borough of Hounslow'},'AFD':{name:'Aldershot Farnham & District',short:'Aldershot'},'SUR':{name:'Surrey AC',desc:'Founding member 1962. Men\'s section later merged into Belgrave.'},'MIT':{name:'Mitcham AC',desc:'Founding member 1962. Later merged with Sutton & Cheam to form Sutton & District AC.'},'REI':{name:'Reigate Priory AC'},'DMV':{name:'Dorking & Mole Valley'},'STR':{name:'Stragglers Running Club'},'W4H':{name:'West 4 Harriers'},'W/W':{name:'Wimbledon Windmilers'},'K&P':{name:'Kingston & Polytechnic'},'S&D':{name:'Sutton & District'},'SEL':{name:'Selsonia Ladies AC',defunct:true},'DWN':{name:'Downland',defunct:true},'FOT':{name:'Ful-On Tri'},'LCR':{name:'London City Runners'},'ADV':{name:'Advent Runners',defunct:true},'262':{name:'26.2 Road Runners'},'MPA':{name:'Metropolitan Police AC'},'BAC':{name:'British Airways AC',defunct:true},'OME':{name:'Omega RC',defunct:true},'GUEST':{name:'Guest',hidden:true},'Guest':{name:'Guest',hidden:true},'N/S':{name:'Non-scorer',hidden:true},'?':{name:'Unknown',hidden:true},'':{name:'Unknown',hidden:true},'MOR':{name:'Morden AC',defunct:true},'EAS':{name:'Epsom Allsorts'},'SUT':{name:'Sutton Runners'},'ELM':{name:'Elmbridge Road Runners'},'RUN':{name:'Runnymede Runners'},'EOB':{name:'Epsom Oddballs'},'LIN':{name:'Lingfield RC'},'WAV':{name:'Waverley Harriers'},'VAC':{name:'Veterans AC'}};
 
 // Display names: the stored name stays as-is (so different runners stay distinct and searches still work),
 // but this is what visitors see. Exact-name overrides first; otherwise a trailing club tag like " (G&G)" is hidden.
@@ -1004,7 +1004,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
     // Derive winner from results (first finisher) when available, else fall back to winner field
     let winners;
     if(race.results?.length>0){
-      const first=race.results[0];
+      const first=race.results.find(r=>!r.ns&&(r.pos||r.p))||race.results[0];
       const firstPos=first.pos||first.p;
       // Check for dead heat at pos 1
       const deadHeat=race.results.filter(r=>(r.pos||r.p)===firstPos||(r.pos||r.p)==='=1');
@@ -3299,7 +3299,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       }
       
       // Final day relegation escape (not for 2022/23 which only relegated one team)
-      if(season!=='2022/23'&&standings.length>=9){
+      if(season!=='2022/23'&&standings.length>=9&&standings.every(x=>x.m1!=null&&x.m2!=null&&x.m3!=null)){
         const afterM3=standings.map(t=>({
           club:t.club,
           totalM3:(t.m1||0)+(t.m2||0)+(t.m3||0),
@@ -3316,6 +3316,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
             const otherEscapes=Object.entries(allSeasonsData).filter(([s,sd])=>{
               if(s>=season||s==='2022/23'||!sd.standings||sd.standings.length<9)return false;
               if(sd.standings[0].m4===null||sd.standings[0].m4===undefined)return false;
+              if(!sd.standings.every(x=>x.m1!=null&&x.m2!=null&&x.m3!=null))return false;
               const numTeams=sd.standings.length;
               const rz=[numTeams-1,numTeams];
               const after=sd.standings.map(x=>({
@@ -3331,19 +3332,25 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
         });
       }
       
-      // First/last appearances
+      // First/last appearances – only claim these when the neighbouring season has a full table,
+      // otherwise a gap in our records looks like a debut or a farewell
+      const _sl=Object.keys(allSeasonsData||{}).filter(s=>!allSeasonsData[s]?.cancelled).sort();
+      const _i=_sl.indexOf(season);
+      const _full=s=>!!s&&(allSeasonsData[s]?.standings||[]).length>=8;
+      const prevFull=_i>0&&_full(_sl[_i-1]);
+      const nextFull=_i>=0&&_i<_sl.length-1&&_full(_sl[_i+1]);
       standings.forEach(team=>{
         if(items.length>=5)return;
         const firstSeason=findFirstInDiv1(team.club);
         const nextSeason=findNextInDiv1(team.club);
         
         // First season in Div 1 (in our data)
-        if(firstSeason===season){
+        if(firstSeason===season&&prevFull){
           items.push({text:`made their first appearance in Division 1`,club:team.club});
         }
 
         // Last season in Div 1
-        if(!nextSeason&&firstSeason!==season){
+        if(!nextSeason&&firstSeason!==season&&nextFull){
           items.push({textBefore:`This was `,club:team.club,text:`'s last season in Division 1`});
         }
       });
