@@ -398,6 +398,33 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
 
 def save(name, svg): open(f"v4/{name}.svg", "w").write(svg)
 
+# One-off extra: John Sanderson's curly brown poodle peeking up into the bottom-right of his card
+def poodle(cx=166, cy=246, s=1.0, fur="#6E4326", dark="#55321C", light="#835333"):
+    """Curly brown poodle head peeking up from the bottom edge (flat geometric, house style)."""
+    P=lambda x,y:(cx+x*s,cy+y*s)
+    out=[]
+    def c(x,y,r,col): X,Y=P(x,y); out.append(f'<circle cx="{X:.1f}" cy="{Y:.1f}" r="{r*s:.1f}" fill="{col}"/>')
+    # neck/body block running off the bottom
+    X0,Y0=P(-13,8); out.append(f'<rect x="{X0:.1f}" y="{Y0:.1f}" width="{26*s:.1f}" height="{40*s:.1f}" fill="{fur}"/>')
+    # ears: curly clusters hanging either side
+    for side in (-1,1):
+        for (x,y,r) in [(15,-2,6),(16,5,6),(15,12,5.5),(17,18,5)]:
+            c(side*x,y,r,dark)
+    # head: cluster of curls
+    for (x,y,r) in [(0,0,13),(-8,-8,7),(0,-12,7.5),(8,-8,7),(-10,1,6),(10,1,6),(-5,-14,5),(5,-14,5)]:
+        c(x,y,r,fur)
+    # light catch on the topknot
+    c(-3,-13,3.2,light); c(4,-9,2.6,light)
+    # muzzle
+    c(0,8,6.5,light)
+    # eyes peeking through the fur
+    c(-5,0,1.5,"#1E1714"); c(5,0,1.5,"#1E1714")
+    # nose
+    X,Y=P(0,5); out.append(f'<ellipse cx="{X:.1f}" cy="{Y:.1f}" rx="{2.6*s:.1f}" ry="{2*s:.1f}" fill="#2A1A12"/>')
+    return '<g class="dog">'+''.join(out)+'</g>'
+def with_dog(svg, **kw): return svg.replace('</svg>', poodle(**kw)+'</svg>', 1)
+
+
 # generic runners
 for k in KITS:
     slug = k.replace("/", "")
@@ -443,7 +470,7 @@ save("mccallum", figure("H/W", skin=1, hair="messyfringe", hair_colour="#3A2620"
 save("penney", figure("H/W", skin=1, hair="quiff", hair_colour="dark brown"))
 save("dempsey", figure("THH", skin=1, hair="croppeak", hair_colour="blonde"))
 save("hart", figure("BEL", skin=1, hair="tousled", hair_colour="light brown"))
-save("sanderson", figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble"))
+save("sanderson", with_dog(figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble"), cx=160, cy=246, s=1.25))  # one-off: his dog
 save("fyfe", figure("BEL", skin=2, hair="tousled", hair_colour="dark brown", facial="stubble"))
 save("hair_tousled", figure("HOL", skin=2, hair="tousled", hair_colour="mid brown"))
 save("saron", figure("BEL", skin=4, hair="ponytail", hair_colour="black"))
