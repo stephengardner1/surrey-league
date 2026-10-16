@@ -2716,7 +2716,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   const allTimeRank=clubAllTime.findIndex(c=>c.club===clubCode)+1;if(!clubInfo)return<div className="max-w-5xl mx-auto px-4 py-8"><p>Club not found</p></div>;
   const TEAM_SIZE_A=(divisionConfig?.teamSize?.a)||10;
   const cols=[{f:'value',l:'V',t:TEAM_SIZE_A<=7?`Value: ${TEAM_SIZE_A}pts for A1 down to 1pt for A${TEAM_SIZE_A}`:'Value: 10pts for A1 down to 1pt for A10'},{f:'aScores',l:'A',t:'A-team scores for this club'},{f:'wins',l:'W',t:'Race wins'},{f:'top3',l:'T3',t:'Top 3 finishes'},{f:'top5',l:'T5',t:'Top 5 finishes'},{f:'top10',l:'T10',t:'Top 10 finishes'},{f:'top20',l:'T20',t:'Top 20 finishes'},{f:'top50',l:'T50',t:'Top 50 finishes'},{f:'top100',l:'T100',t:'Top 100 finishes'},{f:'races',l:'R',t:'Total races'}];
-  const yearToSeason=(year)=>{const y=parseInt(year);const yy=(y-1).toString().slice(-2);const yy2=y.toString().slice(-2);return `${y-1>=2000?'':'19'}${yy}/${yy2}`;};
+  const yearToSeason=(year)=>{const y=parseInt(year);return `${y-1}/${String(y).slice(-2)}`;};  // 2023 -> 2022/23, 2000 -> 1999/00
   const renderYears=(years)=>years.map((y,i)=><React.Fragment key={y}>{i>0&&<span className="text-gray-500"> · </span>}<span className="cursor-pointer hover:text-[#1b649e] hover:underline" onClick={(e)=>{e.stopPropagation();setView({type:'home',urlSeason:yearToSeason(y)});}}>{y}</span></React.Fragment>);
   // Get CMS bio for this club (falls back to hardcoded desc)
   const clubBio=getCmsContent(cmsContent,'club_bio',clubCode,division);
