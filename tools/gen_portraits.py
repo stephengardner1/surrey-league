@@ -1684,4 +1684,7 @@ def roundbrows(svg):
 save("amelia-pettitt", roundbrows(eyes(figure("KEN", skin=1, hair="thickplait", hair_colour="#B89565", brow_colour="#9A7A52", jaw="narrow", thin_brows=True, rosy=True), "almond")))
 # Ellen Weir (THH), Oct 2026: brown plaited ponytail, darker brows, rosy, fine gold chain, small gold hoops
 save("ellen-weir", earrings(figure("THH", skin=1, hair="plait", hair_colour="#6B4A32", brow_colour="#4E3626", rosy=True, necklace="#C9A646")))
+# Sam Haughian (BOH), Oct 2026: dark tousled hair, squarer jaw with a small chin dimple, lean cheeks, dark stubble,
+# strong straight brows sitting low on slightly downturned eyes, silver chain
+save("sam-haughian", dimple(brows(eyes(figure("BOH", skin=2, hair="tousled", hair_colour="#2A1E18", brow_colour="#221812", facial="stubble", facial_colour="#3A2C24", necklace="#D4D4D4", jaw="square", gaunt=True), "downturned"), 0, 0, 4)))
 export_site()
