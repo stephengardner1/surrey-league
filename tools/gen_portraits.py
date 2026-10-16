@@ -1466,6 +1466,9 @@ save("huw-lobb", figure("THH", skin=1, hair="croppeak", hair_colour="#6B4A2E", g
 HAIR["crophigh"] = '<path d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L132,84 C131,66 127,58.5 120,57 Q100,55.5 80,57 C73,58.5 69,66 68,84 Z"/>'
 save("huw-lobb", figure("THH", skin=1, hair="crophigh", hair_colour="#6B4A2E", creases=True, jaw="narrow"))
 
+# Wayne Oxborough (THH), Oct 2026: The Belgravian, March 1998, photo (h) "Jim Estall (66) tracks Wayne Oxborough". Dark hair, dark stubble, lean
+save("wayne-oxborough", figure("THH", skin=1, hair="messyfringe", hair_colour="#2E211B", facial="stubble", facial_colour="#2E211B", gaunt=True, jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
