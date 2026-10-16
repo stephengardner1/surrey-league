@@ -1290,6 +1290,84 @@ save("george-mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#E6D29A"
 save("mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#E6D29A", brow_colour="#A88A55"))
 save("george-mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#2E211B", jaw="narrow"))
 
+# ---- Eye shapes and spacing (Oct 2026). Steve approved: wide, narrow, hooded, downturned, upturned; spacing on test ----
+import re as _re_e
+_EL0 = "M76,112 Q85,105 94,112 Q85,117 76,112 Z"; _ER0 = "M106,112 Q115,105 124,112 Q115,117 106,112 Z"
+_LL0 = "M76,112 Q85,105 94,112"; _LR0 = "M106,112 Q115,105 124,112"
+EYE_SHAPES = {  # name: (left eye, right eye, left lid line, right lid line)
+    "wide": ("M76,112 Q85,102 94,112 Q85,119.5 76,112 Z", "M106,112 Q115,102 124,112 Q115,119.5 106,112 Z", "M76,112 Q85,102 94,112", "M106,112 Q115,102 124,112"),
+    "narrow": ("M76,112 Q85,108 94,112 Q85,114.5 76,112 Z", "M106,112 Q115,108 124,112 Q115,114.5 106,112 Z", "M76,112 Q85,108 94,112", "M106,112 Q115,108 124,112"),
+    "hooded": ("M76,112 Q85,108.5 94,112 Q85,117 76,112 Z", "M106,112 Q115,108.5 124,112 Q115,117 106,112 Z", "M75,111 Q85,107.5 95,112 M76,107.5 Q85,103.5 94,107", "M105,112 Q115,107.5 125,111 M106,107 Q115,103.5 124,107.5"),
+    "downturned": ("M75,115 Q85,105 94,112 Q85,118 75,115 Z", "M106,112 Q115,105 125,115 Q115,118 106,112 Z", "M75,115 Q85,105 94,112", "M106,112 Q115,105 125,115"),
+    "upturned": ("M75,109 Q85,104 94,112 Q85,116 75,109 Z", "M106,112 Q115,104 125,109 Q115,116 106,112 Z", "M75,109 Q85,104 94,112", "M106,112 Q115,104 125,109"),
+}
+def _shift_x(d, dx):
+    return _re_e.sub(r'(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)', lambda m: f"{float(m.group(1))+dx:g},{m.group(2)}", d)
+def eyes(svg, shape=None, spacing=0):
+    """Change eye shape (EYE_SHAPES key) and/or spacing (+ = further apart, - = closer; each eye moves this many units)."""
+    el, er, ll, lr = EYE_SHAPES[shape] if shape else (_EL0, _ER0, _LL0, _LR0)
+    el, ll = _shift_x(el, -spacing), _shift_x(ll, -spacing)
+    er, lr = _shift_x(er, spacing), _shift_x(lr, spacing)
+    svg = svg.replace(f'd="{_EL0}"', f'd="{el}"').replace(f'd="{_ER0}"', f'd="{er}"')
+    svg = svg.replace(f'd="{_LL0}"', f'd="{ll}"').replace(f'd="{_LR0}"', f'd="{lr}"')
+    svg = svg.replace('<circle cx="85" cy="111.5"', f'<circle cx="{85-spacing:g}" cy="111.5"').replace('<circle cx="115" cy="111.5"', f'<circle cx="{115+spacing:g}" cy="111.5"')
+    return svg
+
+# ---- Batch 20 (Oct 2026): shortlist Draws, Kent AC and Herne Hill club-archive photos ----
+save("adele-prince", figure("KEN", skin=1, hair="bob", hair_colour="#5A3A28", jaw="narrow"))
+save("alex-morales", figure("KEN", skin=2, hair="quiff", hair_colour="#241A15", jaw="square"))
+save("alexander-marks", figure("HHH", skin=1, hair="crop", hair_colour="#B07A45", facial="stubble", facial_colour="#B07A45"))
+save("alison-thomson", figure("KEN", skin=1, hair="ponytail", hair_colour="dark brown", jaw="narrow"))
+save("andrea-barber", figure("KEN", skin=1, hair="longstraight", hair_colour="blonde"))
+save("andrew-perfect", figure("HHH", skin=1, hair="quiff", hair_colour="grey", gaunt=True, jaw="narrow", creases=True))
+save("andrew-simms", figure("HHH", skin=1, hair="croprecede", hair_colour="light brown", facial="stubble", facial_colour="#9A8468", creases=True))
+save("angus-butler", figure("HHH", skin=1, hair="messyvolume", hair_colour="#1E1612", facial="beard", facial_colour="#1E1612"))
+save("annabel-hobday", figure("HHH", skin=1, hair="tightbun", hair_colour="light brown"))
+save("annabelle-hadlow", figure("KEN", skin=1, hair="slick", hair_colour="#8A7A68", creases=True, gaunt=True))
+save("ben-millar", figure("HHH", skin=1, hair="buzzrecede", hair_colour="light brown", jaw="square", creases=True))
+save("che-compton", figure("KEN", skin=1, hair="crop", hair_colour="grey", creases=True, jaw="square"))
+save("duncan-rimmer", figure("HHH", skin=1, hair="messyfringe", hair_colour="#9A6A3A", jaw="square"))
+save("eliza-grant", figure("KEN", skin=1, hair="bob", hair_colour="dark brown"))
+save("ellie-brown", figure("KEN", skin=1, hair="messyvolume", hair_colour="grey", creases=True))
+save("genevieve-blanch", figure("KEN", skin=1, hair="ponytail", hair_colour="light brown", jaw="narrow"))
+save("glen-keegan", figure("HHH", skin=1, hair=None, jaw="square", frown=True))
+save("jake-simmonds", figure("KEN", skin=1, hair="messyfringe", hair_colour="dark brown", glasses=True, glasses_col="#1E1E1E", facial="stubble", facial_colour="#3A2620"))
+save("james-bowler", figure("KEN", skin=1, hair="crop", hair_colour="light brown"))
+save("james-ward", figure("HHH", skin=1, hair="crop", hair_colour="dark brown", jaw="square", creases=True))
+save("jennifer-smith", figure("KEN", skin=1, hair="ponytail", hair_colour="light brown", jaw="narrow"))
+save("jonathan-ratcliffe", figure("HHH", skin=1, hair="croprecede", hair_colour="dark brown", jaw="narrow"))
+save("jules-gevers", figure("KEN", skin=1, hair="croprecede", hair_colour="mid brown", jaw="narrow", creases=True))
+save("karina-box", figure("KEN", skin=1, hair="ponytail", hair_colour="dark brown", shades=True, shades_col="#3A1E22", shades_frame="#3A1E22"))
+save("kate-williams", figure("KEN", skin=1, hair="messyfringe", hair_colour="grey", creases=True))
+save("kathy-sharpe", figure("KEN", skin=1, hair="ponytail", hair_colour="dark brown"))
+save("kieran-white", figure("H/W", skin=1, hair="crop", hair_colour="dark brown", jaw="narrow"))
+save("laura-miles", figure("HHH", skin=1, hair="ponytail", hair_colour="mid brown"))
+save("lawrence-avery", figure("KEN", skin=1, hair="messyvolume", hair_colour="#9A6A3A", jaw="square"))
+save("lily-newton", figure("HHH", skin=1, hair="longstraight", hair_colour="blonde"))
+save("lydia-blackmore", figure("KEN", skin=1, hair="ponytail", hair_colour="light brown"))
+save("marcelo-fortes", figure("HHH", skin=2, hair="buzzrecede", hair_colour="#2E211B", facial="shortbeard", facial_colour="#2E211B"))
+save("matthew-thomas", figure("KEN", skin=1, hair="messyvolume", hair_colour="#1E1612", shades=True, shades_col="#C0392B"))
+save("nicky-hayes", figure("KEN", skin=1, hair="messyfringe", hair_colour="grey", glasses=True, glasses_col="#3A3A3A", creases=True))
+save("nicola-cartlidge", figure("KEN", skin=1, hair="ponytail", hair_colour="mid brown", gaunt=True, jaw="narrow"))
+save("raj-paranandi", figure("HHH", skin=3, hair="quiff", hair_colour="black"))
+save("richard-giles", figure("KEN", skin=1, hair="crop", hair_colour="dark brown", facial="shortbeard", facial_colour="#2E211B"))
+save("robert-peacock", figure("HHH", skin=1, hair="quiffrecede", hair_colour="mid brown", jaw="narrow"))
+save("rowan-crichton", figure("KEN", skin=1, hair="messyfringe", hair_colour="dark brown", jaw="square"))
+save("sally-urquhart", figure("KEN", skin=1, hair="ponytail", hair_colour="light brown", jaw="narrow"))
+save("samuel-wilcock", figure("KEN", skin=1, hair="crop", hair_colour="dark brown", cap="#1E2A44", jaw="square", creases=True))
+save("sarah-young", figure("KEN", skin=1, hair="bob", hair_colour="blonde", creases=True))
+save("stuart-beaney", figure("KEN", skin=1, hair="crop", hair_colour="mid brown", facial="beard", facial_colour="#5A3E28", glasses=True, glasses_col="#1E1E1E"))
+save("suze-spalding", figure("KEN", skin=1, hair="ponytail", hair_colour="dark brown", gaunt=True, jaw="narrow"))
+save("tim-alexander", figure("KEN", skin=1, hair=None, jaw="square"))
+save("tim-lawrence", figure("KEN", skin=1, hair="crop", hair_colour="dark brown", jaw="narrow"))
+save("valdis-pauzers", figure("HHH", skin=1, hair="messyvolume", hair_colour="grey", gaunt=True, creases=True, jaw="narrow"))
+save("vic-cartwright", figure("KEN", skin=1, hair="messyfringe", hair_colour="dark brown", glasses=True, glasses_col="#3A3A3A"))
+save("zuzana-nemeckova", figure("KEN", skin=1, hair="slicktail", hair_colour="#2E211B", jaw="narrow"))
+
+# Mallett, final (Oct 2026): Steve sent a photo of both - George (bib 159) blond quiff, Ed (bib 160) dark brown hair and short beard
+save("george-mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#E6D29A", brow_colour="#A88A55"))
+save("mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#5A3E2B", facial="shortbeard", facial_colour="#3A2A20", jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
