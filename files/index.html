@@ -856,6 +856,22 @@ const DivisionToggle=({division,setDivision})=>{
 
 const Nav=({setView,division,setDivision})=><header className="max-md:contents"><div className="md:hidden bg-white"><div className="max-w-5xl mx-auto px-4 py-3"><span className="font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium 🏆</span><span className="text-xs text-gray-500 ml-2 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span></div></div><nav className="border-b border-gray-200 bg-white sticky top-0 z-50"><div className="max-w-5xl mx-auto px-2 md:px-4 flex items-center justify-between h-12"><div className="flex items-center gap-3"><span className="hidden md:inline font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium 🏆</span><span className="hidden md:inline text-xs text-gray-500 ml-1 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span><div className="hidden md:block w-4"></div><DivisionToggle division={division} setDivision={setDivision}/></div><div className="flex gap-0.5 md:gap-1 text-xs md:text-sm"><button onClick={()=>setView({type:'home'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Tables</button><button onClick={()=>setView({type:'fixtures'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50"><span className="md:hidden">Races</span><span className="hidden md:inline">Fixtures</span></button><button onClick={()=>setView({type:'seasons'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50"><span className="md:hidden">Wins</span><span className="hidden md:inline">Winners</span></button><button onClick={()=>setView({type:'athletes'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Athletes</button><button onClick={()=>setView({type:'clubs'})} className="px-1.5 md:px-3 py-1.5 rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50">Clubs</button></div></div></nav></header>;
 
+// Left/right arrow keys and horizontal swipes step to the previous/next item (seasons on the tables page, fixtures on a race page)
+const usePrevNextNav=(onPrev,onNext)=>{const ref=React.useRef({});ref.current={onPrev,onNext};
+  React.useEffect(()=>{
+    const typing=el=>el&&(el.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
+    const onKey=e=>{if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||e.shiftKey||typing(document.activeElement))return;
+      if(e.key==='ArrowLeft'&&ref.current.onPrev){e.preventDefault();ref.current.onPrev();}else if(e.key==='ArrowRight'&&ref.current.onNext){e.preventDefault();ref.current.onNext();}};
+    // Ignore swipes that start in a sideways-scrolling table, or at the screen edge (the browser's own back gesture)
+    const scrollsX=el=>{for(;el&&el!==document.body;el=el.parentElement){const o=getComputedStyle(el).overflowX;if((o==='auto'||o==='scroll')&&el.scrollWidth>el.clientWidth+2)return true;}return false;};
+    let t=null;
+    const onStart=e=>{if(e.touches.length!==1){t=null;return;}const p=e.touches[0];if(p.clientX<30||p.clientX>window.innerWidth-30||scrollsX(e.target)||typing(e.target)){t=null;return;}t={x:p.clientX,y:p.clientY,at:Date.now()};};
+    const onEnd=e=>{if(!t)return;const p=e.changedTouches[0],dx=p.clientX-t.x,dy=p.clientY-t.y,dt=Date.now()-t.at;t=null;
+      if(dt>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2)return;
+      if(dx<0&&ref.current.onNext)ref.current.onNext();else if(dx>0&&ref.current.onPrev)ref.current.onPrev();};
+    window.addEventListener('keydown',onKey);window.addEventListener('touchstart',onStart,{passive:true});window.addEventListener('touchend',onEnd,{passive:true});
+    return()=>{window.removeEventListener('keydown',onKey);window.removeEventListener('touchstart',onStart);window.removeEventListener('touchend',onEnd);};
+  },[]);};
 const SeasonSelector=({season,setSeason,seasons})=>{
   const[showDropdown,setShowDropdown]=useState(false);
   const idx=seasons.indexOf(season);
@@ -867,6 +883,7 @@ const SeasonSelector=({season,setSeason,seasons})=>{
     return()=>document.removeEventListener('mousedown',handleClick);
   },[]);
   
+  usePrevNextNav(idx<seasons.length-1?()=>setSeason(seasons[idx+1]):null,idx>0?()=>setSeason(seasons[idx-1]):null);
   return<div className="flex items-center gap-2 relative" ref={dropdownRef}>
     <button onClick={()=>idx<seasons.length-1&&setSeason(seasons[seasons.length-1])} className={`text-xs ${idx<seasons.length-1?'text-gray-500 hover:text-gray-900':'text-gray-300 cursor-default'}`}>Earliest</button>
     <div className="flex items-center">
@@ -1014,6 +1031,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
   const currentIdx=sortedRaces.findIndex(r=>r.season===race.season&&r.match===race.match);
   const prevRace=currentIdx>0?sortedRaces[currentIdx-1]:null;
   const nextRace=currentIdx<sortedRaces.length-1?sortedRaces[currentIdx+1]:null;
+  usePrevNextNav(prevRace?()=>setView({type:'race',race:prevRace}):null,nextRace?()=>setView({type:'race',race:nextRace}):null);
   
   // Count individual winner's race wins up to and including this race, and total career wins
   // For dead heats, we need to handle multiple winners
