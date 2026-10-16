@@ -1669,4 +1669,17 @@ save("jack", figure("HOL", skin=1, hair="quiff", hair_colour="#C08A55", brow_col
 save("mel-wilkins", figure("BEL", skin=1, hair="ponytail", hair_colour="#6E5038", brow_colour="#7E6248", jaw="narrow", thin_brows=True, necklace="#CFCFCF"))
 # Zoe Doyle (BEL), Oct 2026: dark-blonde ponytail, narrow face with defined cheekbones, almond eyes, fine gold chain
 save("zoe-doyle", eyes(figure("BEL", skin=1, hair="ponytail", hair_colour="#C9A86E", brow_colour="#8E7048", jaw="narrow", gaunt=True, necklace="#C9A646"), "almond"))
+# Thick long plait and rounded brows (Oct 2026, first used for Amelia Pettitt)
+import re as _rb
+HAIR["thickplait"] = HAIR["ponytail"]
+HAIR_BACK["thickplait"] = "".join(f'<ellipse cx="{137+i*1.8:.1f}" cy="{86+i*13}" rx="{10.5-i*0.45:.1f}" ry="9.5"/>' for i in range(9)) + '<path d="M148,190 L160,212 L140,212 Z"/>'
+def roundbrows(svg):
+    """Softly rounded, arched brows (replaces the brow pair)."""
+    m = _rb.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon points="[^"]+"/><polygon points="[^"]+"/></g>', svg)
+    if not m: return svg
+    L = "74.5,105 77.5,101 83,98.6 89,98.6 94.5,101.4 94.2,103.6 89,101.6 83.2,101.6 78.2,103.6 75.6,106.6"
+    R = " ".join(f"{200-float(p.split(',')[0]):g},{p.split(',')[1]}" for p in L.split())
+    return svg[:m.start()] + f'<g fill="{m.group(1)}"><polygon points="{L}"/><polygon points="{R}"/></g>' + svg[m.end():]
+# Amelia Pettitt (KEN), Oct 2026: dark-blonde hair in a thick long plait, narrow face, almond eyes, rounded light brows, flushed
+save("amelia-pettitt", roundbrows(eyes(figure("KEN", skin=1, hair="thickplait", hair_colour="#B89565", brow_colour="#9A7A52", jaw="narrow", thin_brows=True, rosy=True), "almond")))
 export_site()
