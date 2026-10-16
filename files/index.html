@@ -606,11 +606,16 @@ const useBlinkSrc=(src,on)=>{const[u,setU]=useState(null);useEffect(()=>{setU(nu
 // The blink loader's runner is picked once per visit, so the card that slides away is the same one that was loading
 let BLINK_PICK=null,BLINK_DONE=null;
 const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const files=[...new Set(Object.values(PORTRAITS).map(v=>v.file))];const fav=['bob-holt','bernie-ford','lionel-mann',...LOADER_FAVOURITES].filter(f=>files.includes(f));
-  const order=(Math.random()<.7?fav.sort(()=>Math.random()-.5).concat(files.sort(()=>Math.random()-.5)):files.sort(()=>Math.random()-.5)).slice(0,8);
+  const rnd=(Math.random()<.7?fav.sort(()=>Math.random()-.5).concat(files.sort(()=>Math.random()-.5)):files.sort(()=>Math.random()-.5)).slice(0,8);
+  /* opened straight onto an athlete page (/athlete/<slug>, /women/athlete/<slug> or an old #athlete link): that athlete is the loader if they have a portrait */
+  const ds=(()=>{try{const m=(location.pathname+' '+location.hash).match(/(?:^|[\/#])(?:women\/)?athlete\/([^\/?#\s]+)/i);return m?decodeURIComponent(m[1]).toLowerCase():null;}catch(e){return null;}})();
+  const sl=n=>n.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  const dk=ds?Object.keys(PORTRAITS).find(n=>!n.includes('@')&&sl(n)===ds):null;const df=dk?PORTRAITS[dk].file:(ds&&files.includes(ds)?ds:null);
+  const order=df?[df,...rnd.filter(f=>f!==df)]:rnd;
   for(const f of order){try{const r=await fetch(`/portraits/athletes/${f}.svg?v=${PORTRAIT_V}`);if(!r.ok)continue;const t=await r.text();
-    if(t.includes('M66,104 Q100,98 134,104'))continue;  // sunglasses hide the blink
+    if(f!==df&&t.includes('M66,104 Q100,98 134,104'))continue;  // sunglasses hide the blink
     const bg=(t.match(/<rect width="200" height="280" fill="(#[0-9A-Fa-f]{3,6})"/)||[])[1]||'#E6EAE4';
-    const k=Object.keys(PORTRAITS).find(n=>PORTRAITS[n].file===f)||'';const w=k.split(/\s+/).filter(Boolean);
+    const k=(f===df&&dk)||Object.keys(PORTRAITS).find(n=>PORTRAITS[n].file===f)||'';const w=k.split(/\s+/).filter(Boolean);
     return(BLINK_DONE={u:URL.createObjectURL(new Blob([makeBlinker(t)],{type:'image/svg+xml'})),bg,initials:((w[0]||'')[0]+(w.length>1?w[w.length-1][0]:'')).toUpperCase()});}catch(e){}}
   return(BLINK_DONE={});})());
 const LoadingBlink=({exiting,onDone})=>{
