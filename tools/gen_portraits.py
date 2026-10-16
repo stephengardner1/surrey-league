@@ -424,6 +424,32 @@ def poodle(cx=166, cy=246, s=1.0, fur="#6E4326", dark="#55321C", light="#835333"
     return '<g class="dog">'+''.join(out)+'</g>'
 def with_dog(svg, **kw): return svg.replace('</svg>', poodle(**kw)+'</svg>', 1)
 
+# Penny Oliver and James Hancock's black cocker spaniel (same dog in both profile portraits)
+def spaniel(cx=158, cy=214, s=1.2, fur="#1B1B1D", plane="#2A2A2E", sheen="#3C3C42"):
+    """Black cocker spaniel peeking up from the bottom edge: long wavy ears, amber eyes, tongue out (flat geometric, house style)."""
+    P=lambda x,y:(cx+x*s,cy+y*s)
+    out=[]
+    def c(x,y,r,col): X,Y=P(x,y); out.append(f'<circle cx="{X:.1f}" cy="{Y:.1f}" r="{r*s:.1f}" fill="{col}"/>')
+    def e(x,y,rx,ry,col,rot=0): X,Y=P(x,y); out.append(f'<ellipse cx="{X:.1f}" cy="{Y:.1f}" rx="{rx*s:.1f}" ry="{ry*s:.1f}" fill="{col}" transform="rotate({rot} {X:.1f} {Y:.1f})"/>')
+    X0,Y0=P(-12,8); out.append(f'<rect x="{X0:.1f}" y="{Y0:.1f}" width="{24*s:.1f}" height="{40*s:.1f}" fill="{fur}"/>')
+    # long wavy ears hanging either side
+    for side in (-1,1):
+        e(side*13,8,6.5,13,fur,side*-8)
+        for (x,y,r) in [(14,18,4.2),(11,21,3.8),(16,14,3.6)]: c(side*x,y,r,fur)
+        e(side*13,6,2.2,8,plane,side*-8)  # wave sheen down each ear
+    # domed head and muzzle
+    c(0,-3,12,fur)
+    e(0,-11,6,3,sheen)  # sheen on the crown
+    e(0,7,8,6.5,plane)  # muzzle
+    # amber eyes
+    for x in (-5,5): c(x,-1,2.1,"#B8792C"); c(x,-1,1.1,"#140E0A")
+    # nose and tongue
+    e(0,4.2,2.8,2.1,"#0C0C0D")
+    e(1,12.5,2.6,3.2,"#E58A95")
+    return '<g class="dog">'+''.join(out)+'</g>'
+def with_spaniel(svg, **kw): return svg.replace('</svg>', spaniel(**kw)+'</svg>', 1)
+
+
 
 # generic runners
 for k in KITS:
@@ -1510,4 +1536,15 @@ save("sanderson_dog", with_dog(eyes(figure("G&G", skin=1, hair="quiff", hair_col
 
 # Richard Ollington, redrawn Oct 2026: short dark curls, light stubble, rounded jaw, warm upturned eyes
 save("ollington", eyes(figure("THH", skin=2, hair="shortcurls", hair_colour="#241A15", facial="stubble", facial_colour="#4A3A30"), "upturned"))
+# profile-page-only dog versions for Penny Oliver and James Hancock (their shared spaniel), built from their batch settings
+def _batch_kw(slug):
+    for v in list(globals().values()):
+        if isinstance(v, list) and v and isinstance(v[0], tuple) and len(v[0]) == 5:
+            for t in v:
+                if t[0] == slug: return t[1], t[3]
+for _slug in ("penny-oliver", "james-hancock"):
+    _club, _kw = _batch_kw(_slug)
+    save(f"{_slug}-dog", with_spaniel(figure(_club, **_kw), cx=154, cy=203, s=1.4))
+SITE_NAMES["penny-oliver-dog"] = "penny-oliver-dog"
+SITE_NAMES["james-hancock-dog"] = "james-hancock-dog"
 export_site()
