@@ -68,6 +68,44 @@ else:
 if html2 != html: open(os.path.join(ROOT, 'index.html'), 'w').write(html2)
 print(len(wf), 'women,', len(mf), 'men portraits;', len(files) - len(wf) - len(mf), 'unplaced')
 
+# results pages: the highest-placed finisher in each race who has a portrait, so the loader can show them when a race link is opened
+import json as _json
+def _aliases(src):
+    out = {}
+    for name in ('BUILTIN_ALIASES', 'OVERRIDE_ALIASES'):
+        m = re.search(name + r"=\{(.*?)\};", src, re.S)
+        if m:
+            for a, b in re.findall(r"'((?:[^'\\]|\\.)*)':'((?:[^'\\]|\\.)*)'", m.group(1)):
+                out[a.replace("\\'", "'").lower()] = b.replace("\\'", "'")
+    return out
+html = open(os.path.join(ROOT, 'index.html')).read()
+AL = _aliases(html)
+PM = {}
+for file, club, names in re.findall(r"add\('([a-z0-9\-]+)','([^']+)',((?:(?:'[^']*'|\"[^\"]*\"),?)+)\)", html):
+    for n in [a or b for a, b in re.findall(r"'([^']*)'|\"([^\"]*)\"", names)]:
+        k = n.lower()
+        if k in PM and PM[k][1] != club: PM[k + '@' + club] = (file, club)
+        elif k not in PM: PM[k] = (file, club)
+def _pfile(name, club):
+    for k in dict.fromkeys([name.lower(), AL.get(name.lower(), name).lower()]):
+        a = PM.get(k)
+        if a and a[1] == club: return a[0]
+        b = PM.get(k + '@' + club)
+        if b: return b[0]
+    return None
+tops = {}
+for path, pre, nk, ck, pk in (('data.json', 'm', 'n', 'c', 'p'), ('data-women.json', 'w', 'name', 'club', 'pos')):
+    for r in _json.load(open(os.path.join(ROOT, path)))['races']:
+        code = (r.get('season') or '').replace('/', '')[-4:] + '-' + str(r.get('match'))
+        def _pos(x):
+            try: return int(str(x.get(pk)).strip())
+            except Exception: return 9999
+        for x in sorted(r.get('results') or [], key=_pos):
+            f = _pfile(x.get(nk) or '', x.get(ck) or '')
+            if f: tops[pre + '/' + code] = f; break
+_json.dump(tops, open(os.path.join(P, 'race-tops.json'), 'w'), separators=(',', ':'), sort_keys=True)
+print(len(tops), 'races with a portrait finisher')
+
 # club GOAT ranks for the link-preview description
 import subprocess, sys
 subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'build_goat_ranks.py')], check=False)
