@@ -480,7 +480,6 @@ save("foster", figure("G&G", skin=1, hair="crop", hair_colour="dark brown", faci
 save("hair_shortcurls", figure("HOL", skin=2, hair="shortcurls", hair_colour="mid brown"))
 save("tennyson", figure("G&G", skin=1, hair="curlspeak", hair_colour="mid brown", greying="sides", glasses=True))
 save("glasses_on", figure("HOL", skin=3, hair="crop", hair_colour="dark brown", glasses=True))
-save("ollington", figure("THH", skin=2, hair="crop", hair_colour="dark brown", facial="beard"))
 save("preston", figure("BEL", skin=3, hair="afro", hair_colour="black"))
 print(len(os.listdir("v4")))
 save("wolff", figure("BEL", skin=1, hair="crop", hair_colour="light brown"))
@@ -1509,4 +1508,6 @@ save("sanderson", eyes(figure("G&G", skin=1, hair="quiff", hair_colour="dark bro
 # profile-page-only version: his dog sits inside the athlete-page crop; the site animates it popping up at the end of the blink loop
 save("sanderson_dog", with_dog(eyes(figure("G&G", skin=1, hair="quiff", hair_colour="dark brown", facial="stubble", facial_colour="#8A6A50", jaw="square"), "hooded"), cx=158, cy=214, s=1.2))
 
+# Richard Ollington, redrawn Oct 2026: short dark curls, light stubble, rounded jaw, warm upturned eyes
+save("ollington", eyes(figure("THH", skin=2, hair="shortcurls", hair_colour="#241A15", facial="stubble", facial_colour="#4A3A30"), "upturned"))
 export_site()
