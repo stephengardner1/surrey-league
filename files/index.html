@@ -584,17 +584,20 @@ const ClubShield=ClubVest;
 const LOADER_FAVOURITES=['jack-hobden','jack-brotchie','saron-haileselase','dame-dibaba','nick-goolab','alex-yee','geoff-jerwood','lucy-macalister','georgie-grgec','claire-grima','georgie-bruinvels'];
 // Default loader: a single portrait card that blinks and glances, then drops away wiping the page into view
 const BLINK_CSS='<style>.bk{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 4s .3s infinite}.bc{opacity:0;animation:bc 4s .3s infinite}.pp{animation:pp 4s .3s infinite cubic-bezier(.45,0,.25,1)}@keyframes bk{0%,4.5%,100%{transform:scaleY(1)}1.8%,2.7%{transform:scaleY(0)}}@keyframes bc{0%,1.3%,3.3%,100%{opacity:0}1.8%,2.7%{opacity:1}}@keyframes pp{0%,24%{transform:translateX(0)}31%,68%{transform:translateX(3.6px)}76%,100%{transform:translateX(0)}}</style>';
-const makeBlinker=t=>t.replace('viewBox="10 20 180 252"','viewBox="-15 -8 230 330"').replace(/<rect width="200" height="280"[^>]*\/>/,'')
-  .replace(/<g (fill="#[0-9A-Fa-f]{6}")><path d="M76,112 Q85,105 94,112 Q85,117/,'<g class="bk" $1><path d="M76,112 Q85,105 94,112 Q85,117')
-  .replace(/<g clip-path="url\(#ef\)"([^>]*)>((?:(?!<\/g>).)*)<\/g>/g,(m,at,inner)=>'<g class="bk" clip-path="url(#ef)"'+at+'>'+inner.replace(/<circle /g,'<circle class="pp" ')+'</g>')
-  .replace(/<g fill="none" stroke="(#[0-9A-Fa-f]{6})" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"\/>((?:(?!<\/g>).)*)<\/g>/,(m,c,rest)=>'<g class="bk" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/>'+rest+'</g><g class="bc" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="M76,112.5 Q85,116.5 94,112.5"/><path d="M106,112.5 Q115,116.5 124,112.5"/></g>')
+// Marks a portrait's eyes for blinking: whites, pupils and lash line get class "bk" (pupils also "pp" when glancing),
+// and a thin closed-lid curve (class "bc") is added under each eye. Works for every eye shape and spacing.
+const blinkEyes=(t,glance)=>t
+  .replace(/<g (fill="#[0-9A-Fa-f]{6}")><path d="(M[67]\d(?:\.\d+)?,1\d\d(?:\.\d+)? Q)/,'<g class="bk" $1><path d="$2')
+  .replace(/<g clip-path="url\(#ef\)"([^>]*)>((?:(?!<\/g>).)*)<\/g>/g,(m,at,inner)=>'<g class="bk" clip-path="url(#ef)"'+at+'>'+(glance?inner.replace(/<circle /g,'<circle class="pp" '):inner)+'</g>')
+  .replace(/<g fill="none" stroke="(#[0-9A-Fa-f]{6})" stroke-width="1.8" stroke-linecap="round"><path d="(M[67][^"]*)"\/>((?:(?!<\/g>).)*)<\/g>/,(m,c,lp,rest)=>{
+    const xl=parseFloat(lp.slice(1)),mr=rest.match(/d="M(\d+(?:\.\d+)?)/),xr=mr?parseFloat(mr[1]):xl+30;
+    const L=x=>`M${x},112.5 Q${x+9},116.5 ${x+18},112.5`;
+    return '<g class="bk" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="'+lp+'"/>'+rest+'</g><g class="bc" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="'+L(xl)+'"/><path d="'+L(xr)+'"/></g>';});
+const makeBlinker=t=>blinkEyes(t.replace('viewBox="10 20 180 252"','viewBox="-15 -8 230 330"').replace(/<rect width="200" height="280"[^>]*\/>/,''),true)
   .replace('</svg>',BLINK_CSS+'</svg>');
 // Profile portraits: the loader's intermittent blink only (no glance); framing and background unchanged
 const PROFILE_BLINK_CSS='<style>.bk{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 4s .3s infinite}.bc{opacity:0;animation:bc 4s .3s infinite}@keyframes bk{0%,4.5%,100%{transform:scaleY(1)}1.8%,2.7%{transform:scaleY(0)}}@keyframes bc{0%,1.3%,3.3%,100%{opacity:0}1.8%,2.7%{opacity:1}}.dog{transform:translateY(70px);animation:dog 4s .3s infinite}@keyframes dog{0%,72%{transform:translateY(70px);animation-timing-function:cubic-bezier(.2,1.6,.4,1)}78%,90%{transform:translateY(0);animation-timing-function:cubic-bezier(.6,0,.9,.5)}95%,100%{transform:translateY(70px)}}@media (prefers-reduced-motion:reduce){.bk,.bc,.dog{animation:none}}</style>';
-const makeProfileBlinker=t=>{const o=t
-  .replace(/<g (fill="#[0-9A-Fa-f]{6}")><path d="M76,112 Q85,105 94,112 Q85,117/,'<g class="bk" $1><path d="M76,112 Q85,105 94,112 Q85,117')
-  .replace(/<g clip-path="url\(#ef\)"([^>]*)>/g,'<g class="bk" clip-path="url(#ef)"$1>')
-  .replace(/<g fill="none" stroke="(#[0-9A-Fa-f]{6})" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"\/>((?:(?!<\/g>).)*)<\/g>/,(m,c,rest)=>'<g class="bk" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="M76,112 Q85,105 94,112"/>'+rest+'</g><g class="bc" fill="none" stroke="'+c+'" stroke-width="1.8" stroke-linecap="round"><path d="M76,112.5 Q85,116.5 94,112.5"/><path d="M106,112.5 Q115,116.5 124,112.5"/></g>');
+const makeProfileBlinker=t=>{const o=blinkEyes(t,false);
   return o===t&&!t.includes('class="dog"')?null:o.replace('</svg>',PROFILE_BLINK_CSS+'</svg>');};
 const useBlinkSrc=(src,on)=>{const[u,setU]=useState(null);useEffect(()=>{setU(null);if(!on||!src)return;
   try{if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;}catch(e){}
