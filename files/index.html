@@ -990,7 +990,9 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
   
   // Only show calculated breakdown if totals match archived scores
   // If they don't match, fall back to archived scores only (safer)
-  const displayTeamScores = (hasCalculableResults && calculatedScoresMatch) ? null : (seasonStandingsScores?.length > 0 ? seasonStandingsScores : (race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||(race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score})))));
+  // Race's own printed team list (archive sources) - preferred when it lists more teams than the season table's match column
+  const raceTeamList = race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score}));
+  const displayTeamScores = (hasCalculableResults && calculatedScoresMatch) ? null : ((seasonStandingsScores?.length > 0 && !(raceTeamList?.length > seasonStandingsScores.length)) ? seasonStandingsScores : (raceTeamList || seasonStandingsScores));
   
   // Find prev/next races
   const sortedRaces=useMemo(()=>[...races].filter(r=>r.results?.length>0).sort((a,b)=>{if(a.season!==b.season)return a.season.localeCompare(b.season);return a.match-b.match;}),[races]);
