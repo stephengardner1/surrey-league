@@ -1,7 +1,7 @@
 """Simplified geometric portraits.
 Custom options: skin tone, hair style, hair colour, facial hair. Nothing else.
 Generic runners: 'grey' silhouette or 'outline' — no implied skin tone."""
-import os, math
+import os, math, re
 os.makedirs("v4", exist_ok=True)
 
 HEAD_NARROW = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,122 C127,146 114,165 100,168 C86,165 73,146 69,122 Z"
@@ -1728,4 +1728,21 @@ save("sam-charlton", brows(figure("BEL", skin=1, hair="flatfringe", hair_colour=
 save("ryan", archbrows(eyes(figure("BEL", skin=1, hair="sidepart", hair_colour="#5A4030", brow_colour="#4A3426", jaw="widepoint", creases=True, necklace="#D4D4D4"), None, 2)))
 # Ben Coughlan (BEL), Oct 2026: short dark auburn curls, long thin face with a strong chin, high cheekbones, thin warm brows, open eyes
 save("ben-coughlan", curl_marks(brows(eyes(figure("BEL", skin=1, hair="tightcurls", hair_colour="#5E3322", brow_colour="#4A2A1C", thin_brows=True, jaw="broadchin", gaunt=True), None, 1), 1.5, 1)))
+# ---- Thick swept hair, single hoop, cheek dimples, wide smile (Oct 2026, first used for Eoin Molloy) ----
+HAIR["thickswept"] = '<path d="M64,100 C59,62 70,40 88,32 C104,25 127,27 139,41 C147,52 145,70 138,85 L136,100 L133,87 C131,77 126,71 120,69 L117,75 L112,67 C104,66 96,68 90,72 L86,66 C80,70 74,75 70,83 L67,91 Z"/><g fill="none" stroke="#000" stroke-opacity=".2" stroke-width="1.3" stroke-linecap="round"><path d="M80,48 Q102,34 128,40"/><path d="M78,60 Q102,46 134,54"/><path d="M96,64 Q114,56 132,66"/></g>'
+def hoop(svg, col="#CFCFCF", side="right"):
+    """One small hoop earring through the lobe (right = the viewer's right)."""
+    cx = 139 if side == "right" else 61
+    return svg.replace('</svg>', f'<circle cx="{cx}" cy="111" r="2.6" fill="none" stroke="{col}" stroke-width="1.5"/></svg>', 1)
+def widesmile(svg):
+    """A wider, open smile."""
+    return svg.replace('<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z"', '<path d="M85.5,149.5 L100,147.5 L114.5,149.5 Q100,160 85.5,149.5 Z"', 1)
+def cheekdimples(svg, col="#000"):
+    """Little smile dimples just outside the corners of the mouth (call after widesmile, or on the standard mouth)."""
+    d = '<g fill="none" stroke="' + col + '" stroke-opacity=".18" stroke-width="1.4" stroke-linecap="round"><path d="M82,145.5 Q80,150 82,155"/><path d="M118,145.5 Q120,150 118,155"/></g>'
+    m = re.search(r'<path d="M8[5-9][^"]*Q100,1[56]\d[^"]*Z" fill="[^"]*"/>', svg)
+    return svg[:m.end()] + d + svg[m.end():] if m else svg
+# Eoin Molloy (BEL), redrawn Oct 2026: thick dark brown hair swept up and across, black headband, squarer jaw, almond eyes under
+# straight dark brows, rosy cheeks, wide smile with cheek dimples, fine silver chain, small silver hoop in one ear
+save("eoin-molloy", hoop(cheekdimples(widesmile(brows(eyes(figure("BEL", skin=1, hair="thickswept", hair_colour="#3B2A20", brow_colour="#2A1D16", headband="#1A1A1A", necklace="#CFCFCF", rosy=True, jaw="square"), "almond"), 0, 0, 3)))))
 export_site()
