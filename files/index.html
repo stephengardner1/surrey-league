@@ -597,8 +597,8 @@ const makeBlinker=t=>blinkEyes(t.replace('viewBox="10 20 180 252"','viewBox="-15
   .replace('</svg>',BLINK_CSS+'</svg>');
 // Profile portraits: the loader's intermittent blink only (no glance); framing and background unchanged
 const PROFILE_BLINK_CSS='<style>.bk{transform-box:view-box;transform-origin:100px 112.5px;animation:bk 4s .3s infinite}.bc{opacity:0;animation:bc 4s .3s infinite}@keyframes bk{0%,4.5%,100%{transform:scaleY(1)}1.8%,2.7%{transform:scaleY(0)}}@keyframes bc{0%,1.3%,3.3%,100%{opacity:0}1.8%,2.7%{opacity:1}}.dog{transform:translateY(70px);animation:dog 4s .3s infinite}@keyframes dog{0%,72%{transform:translateY(70px);animation-timing-function:cubic-bezier(.2,1.6,.4,1)}78%,90%{transform:translateY(0);animation-timing-function:cubic-bezier(.6,0,.9,.5)}95%,100%{transform:translateY(70px)}}@media (prefers-reduced-motion:reduce){.bk,.bc,.dog{animation:none}}</style>';
-/* runners with a dog on their profile roll their eyes just after the dog pops up (pupils sweep up and over, then settle) */
-const DOG_ROLL_CSS='<style>.pp{transform-box:view-box;animation:roll 4s .3s infinite}@keyframes roll{0%,79%,92%,100%{transform:translate(0,0)}81%{transform:translate(-2.2px,-1.6px)}83.5%{transform:translate(-1.2px,-3.4px)}86%{transform:translate(1.2px,-3.4px)}88.5%{transform:translate(2.2px,-1.6px)}}@media (prefers-reduced-motion:reduce){.pp{animation:none}}</style>';
+/* runners with a dog on their profile roll their eyes just after the dog pops up (pupils sweep up, hold there, then drift back down) */
+const DOG_ROLL_CSS='<style>.pp{transform-box:view-box;animation:roll 4s .3s infinite}@keyframes roll{0%,79%,93%,100%{transform:translate(0,0)}80.5%{transform:translate(-1.6px,-2.4px)}82%,89.5%{transform:translate(0,-3.6px)}91%{transform:translate(1.4px,-2.2px)}}@media (prefers-reduced-motion:reduce){.pp{animation:none}}</style>';
 const makeProfileBlinker=t=>{const dog=t.includes('class="dog"');const o=blinkEyes(t,dog);
   return o===t&&!dog?null:o.replace('</svg>',PROFILE_BLINK_CSS+(dog?DOG_ROLL_CSS:'')+'</svg>');};
 const useBlinkSrc=(src,on)=>{const[u,setU]=useState(null);useEffect(()=>{setU(null);if(!on||!src)return;
