@@ -516,7 +516,6 @@ save("shades_on", figure("HOL", skin=3, hair="crop", hair_colour="dark brown", s
 save("brotchie", figure("HHH", skin=1, hair="buzzrecede", hair_colour="light brown", facial="stubble", tattoos=True))
 save("tat_none", figure("HOL", skin=2, hair="crop", hair_colour="mid brown"))
 save("tat_on", figure("HOL", skin=2, hair="crop", hair_colour="mid brown", tattoos=True))
-save("millar", figure("THH", skin=1, hair="shortcurls", hair_colour="#3A2820", mud=True, rosy=True))
 save("millar_grey", figure("THH", "grey"))
 save("lucy", figure("HHH", skin=1, hair="longloose", hair_colour="#D2B676", brow_colour="#A88C5A"))
 save("alex", figure("H/W", skin=1, hair="quiff", hair_colour="mid brown"))
@@ -1655,4 +1654,6 @@ HAIR["tightcurls"] = HAIR["cropround"] + "".join(f'<circle cx="{100+35*_mt.cos(_
 def curl_marks(svg): return svg.replace('</svg>', ''.join(f'<path d="M{x-3},{y+1} q3,-4 6,0" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1.2"/>' for x, y in [(84,48),(98,44),(112,48),(76,60),(124,60),(90,56),(106,55)]) + '</svg>', 1)
 # Sam Bramwell, redrawn Oct 2026: tight strawberry-blond curls, squarer jaw, chin dimple, small eyes with light brows sitting low on them (no hood), flushed
 save("sam", curl_marks(dimple(brows(eyes(figure("HHH", skin=1, hair="tightcurls", hair_colour="#D29655", brow_colour="#B98352", rosy=True, jaw="square", thin_brows=True), "small"), 0, 0, 6)).replace('r="3.8"', 'r="3.2"')))
+# Jack Millar, redrawn Oct 2026: dark short curls, narrow face, bum chin, small slightly close-set eyes with thin brows sitting low, flushed
+save("millar", brows(eyes(figure("THH", skin=1, hair="shortcurls", hair_colour="#2E211B", rosy=True, jaw="narrow", cleft=True, thin_brows=True), "small", -1.5), 0, -1.5, 4).replace('r="3.8"', 'r="3.2"'))
 export_site()
