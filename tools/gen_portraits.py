@@ -1459,6 +1459,9 @@ save("zuzana-nemeckova", figure("KEN", skin=1, hair="slicktail", hair_colour="#2
 save("george-mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#E6D29A", brow_colour="#A88A55"))
 save("mallett", figure("H/W", skin=1, hair="quiff", hair_colour="#5A3E2B", facial="shortbeard", facial_colour="#3A2A20", jaw="narrow"))
 
+# Huw Lobb (THH), Oct 2026: Steve sent Man v Horse 2004 and Helsinki 2005 photos. Short receding brown hair, lean narrow face
+save("huw-lobb", figure("THH", skin=1, hair="croppeak", hair_colour="#6B4A2E", gaunt=True, jaw="narrow"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
