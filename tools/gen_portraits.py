@@ -1279,6 +1279,9 @@ save("heather-statham-cc", figure("C/C", skin=1, hair="ponytail", hair_colour="l
 save("steph-mccall-cc", figure("C/C", skin=1, hair="ponytail", hair_colour="light brown"))
 save("steph-mccall-slh", figure("SLH", skin=1, hair="ponytail", hair_colour="light brown"))
 
+# Ed Mallett redraw (Oct 2026): Steve says very blonde hair
+save("mallett", figure("H/W", skin=1, hair="crop", hair_colour="#E6D29A", brow_colour="#A88A55", facial="stubble", facial_colour="#C9AE78"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
