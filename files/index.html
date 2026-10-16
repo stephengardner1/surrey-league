@@ -645,7 +645,7 @@ const PEEL_REST=7;
 const POSTER_CARD=(()=>{try{return new URLSearchParams(location.search).get('card')==='poster';}catch(e){return false;}})();
 /* double-barrelled surnames go on two lines; the hyphen stays with the shorter part */
 const posterLines=s=>{const i=s.indexOf('-');if(i<0)return[s];const a=s.slice(0,i),b=s.slice(i+1);return a.length<b.length?[a+'-',b]:[a,'-'+b];};
-const POSTER_OPT=(()=>{try{const q=new URLSearchParams(location.search);const w=parseInt(q.get('w'),10);return{w:[300,400,500,600,700,800,900].includes(w)?w:900,title:q.get('case')==='title'};}catch(e){return{w:900,title:false};}})();/* ?w=500 … 900, ?case=title */
+const POSTER_OPT=(()=>{try{const q=new URLSearchParams(location.search);const w=parseInt(q.get('w'),10);return{w:[300,400,500,600,700,800,900].includes(w)?w:600,title:q.get('case')!=='caps'};}catch(e){return{w:600,title:true};}})();/* default: title case, weight 600 (as the profile-page name); ?w=300 … 900 and ?case=caps to compare */
 /* clubs whose poster name takes the kit's accent colour rather than its main colour (Belgrave: the gold band, not the claret) */
 const POSTER_ACCENT={BEL:'#A88A4E'};
 const posterInk=(bg,vest,club)=>{if(club&&POSTER_ACCENT[club])return POSTER_ACCENT[club];const rgb=c=>{c=(c||'#888888').replace('#','');if(c.length===3)c=c.split('').map(v=>v+v).join('');const n=parseInt(c,16);return[(n>>16)&255,(n>>8)&255,n&255];};
