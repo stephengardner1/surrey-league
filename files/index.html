@@ -658,9 +658,14 @@ const posterLines=s=>{const i=s.indexOf('-');if(i<0)return[s];const a=s.slice(0,
 const POSTER_OPT=(()=>{try{const q=new URLSearchParams(location.search);const w=parseInt(q.get('w'),10);return{w:[300,400,500,600,700,800,900].includes(w)?w:600,title:q.get('case')!=='caps'};}catch(e){return{w:600,title:true};}})();/* default: title case, weight 600 (as the profile-page name); ?w=300 … 900 and ?case=caps to compare */
 /* clubs whose poster name takes the kit's accent colour rather than its main colour (Belgrave: the gold band, not the claret) */
 const POSTER_ACCENT={BEL:'#BC9F64'};
-const posterInk=(bg,vest,club)=>{if(club&&POSTER_ACCENT[club])return POSTER_ACCENT[club];const rgb=c=>{c=(c||'#888888').replace('#','');if(c.length===3)c=c.split('').map(v=>v+v).join('');const n=parseInt(c,16);return[(n>>16)&255,(n>>8)&255,n&255];};
+/* poster name colour: the card colour mixed with the kit colour (or Belgrave's gold) for a tonal look, then darkened in the same hue only if it falls below 2:1 contrast with the card (about Jack Kavanagh's level; Oct 2026) */
+const POSTER_MIN_CONTRAST=2;
+const posterInk=(bg,vest,club)=>{const rgb=c=>{c=(c||'#888888').replace('#','');if(c.length===3)c=c.split('').map(v=>v+v).join('');const n=parseInt(c,16);return[(n>>16)&255,(n>>8)&255,n&255];};
   const b=rgb(bg),v=vest?rgb(vest):null,lum=v?(0.2126*v[0]+0.7152*v[1]+0.0722*v[2])/255:1;
-  const out=(v&&lum<0.8)?b.map((x,i)=>x*0.55+v[i]*0.45):b.map(x=>x*0.72);
+  const base=club&&POSTER_ACCENT[club]?rgb(POSTER_ACCENT[club]):((v&&lum<0.8)?b.map((x,i)=>x*0.55+v[i]*0.45):b.map(x=>x*0.72));
+  const L=c=>{const f=x=>{x/=255;return x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4);};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2]);};
+  const lb=L(b),cr=c=>{const l=L(c);return(Math.max(l,lb)+.05)/(Math.min(l,lb)+.05);};
+  let out=base;for(let k=1;k>0.05&&cr(out)<POSTER_MIN_CONTRAST;k-=0.01)out=base.map(x=>x*k);
   return'#'+out.map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');};
 const halfTint=c=>{let x=(c||'#E6EAE4').replace('#','');if(x.length===3)x=x.split('').map(v=>v+v).join('');const n=parseInt(x,16);return'#'+[16,8,0].map(s=>Math.round(((n>>s)&255)/2+127.5).toString(16).padStart(2,'0')).join('');};/* underside of the sticker: the card colour mixed half with white */
 const peelShape=(W,H,p)=>{const k=Math.SQRT1_2,s=(x,y)=>-(x-W)*k-(y-H)*k-p,R=[[0,0],[W,0],[W,H],[0,H]];
