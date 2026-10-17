@@ -1892,4 +1892,12 @@ def warmshade(svg, col="#8A5A2A", op=".3"):
 # Morgan Roberts (HHH), redrawn Oct 2026: bleached messy hair swept up into spikes, tight above the ears and poking out low behind them,
 # long pale face, dark straight brows set low over small deep-set eyes, defined cheekbones, long nose, fine silver chain
 save("roberts", warmshade(napeflicks(cheekbones(sockets(nose(angledbrows(brows(eyes(figure("HHH", skin=1, hair="spikyup", hair_colour="#F3DA9C", brow_colour="#4A3628", necklace="#D4D4D4", jaw="long"), "small", 0.5), 0, 0.5, 4), 0.6), 1.05, 1.2), depth=1.6), depth=1.3), "#F3DA9C")))
+# ---- Even brow thickening (Oct 2026, first used for Dom Nolan) ----
+import re as _rt
+def thickbrows(svg, w=0.9):
+    """Thicken the current brow pair evenly (outlines the brow shapes in their own colour)."""
+    return _rt.sub(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon', lambda m: f'<g fill="{m.group(1)}" stroke="{m.group(1)}" stroke-width="{w}" stroke-linejoin="round"><polygon', svg, count=1)
+# Dom Nolan (CRO), Oct 2026: thick black hair swept up and across with volume on top, long narrow face, high cheekbones,
+# small hooded almond-set eyes under slightly thick straight dark brows, light olive skin
+save("dom-nolan", thickbrows(cheekbones(nose(angledbrows(brows(eyes(figure("CRO", skin=2, hair="thickswept", hair_colour="#1A1412", brow_colour="#15100E", jaw="narrow"), "smallhooded", 0.5), 0, 0.5, 3), 0.8), 1.0, 1.15), skin=2, depth=1.0), 0.8))
 export_site()
