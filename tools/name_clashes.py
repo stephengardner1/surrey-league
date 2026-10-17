@@ -49,7 +49,7 @@ for r in d['races']:
 
 rows = []
 for (club, sur, ini), forms in G.items():
-    if club_f and club.lower() != club_f or sur_f and sur.lower() != sur_f:
+    if club_f and (club or "").lower() != club_f or sur_f and sur.lower() != sur_f:
         continue
     groups = []
     for f in (f for f in forms if len(f) > 1):
@@ -81,7 +81,7 @@ if '--initials' in args:
             e[0].add(rid); e[1].add(int(r['season'][:4]))
     out = []
     for (club, sur), ini in S.items():
-        if club_f and club.lower() != club_f:
+        if club_f and (club or "").lower() != club_f:
             continue
         for a in ini:
             for b in ini:
