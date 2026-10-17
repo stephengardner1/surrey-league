@@ -1801,4 +1801,7 @@ def nose(svg, width=1.0, length=1.0):
 # Paskar Owor (BEL), redrawn Oct 2026: very close crop, almost bald on top, round head, very dark skin, eyes set a little wide under
 # thin rounded brows sitting low, smile lines from nose to mouth, broad nose
 save("owor", nose(roundbrows(brows(eyes(figure("BEL", skin=6, hair="closebald", hair_colour="#1A1412", brow_colour="#0E0B0A", creases=True), None, 1.5), 0, 1.5, 4)), 2.2))
+# Ethan McColgan (THH), redrawn Oct 2026: thick wavy golden-brown hair swept up with volume, long narrow face, small deep-set eyes
+# under thin light-brown brows sitting low, high cheekbones, long narrow nose, flushed
+save("mccolgan", nose(brows(eyes(figure("THH", skin=1, hair="messyvolume", hair_colour="#8E6A44", brow_colour="#7A5A3C", thin_brows=True, jaw="narrow", gaunt=True, rosy=True), "small"), 0, 0, 4).replace('r="3.8"', 'r="3.2"'), 0.9, 1.1))
 export_site()
