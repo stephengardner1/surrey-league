@@ -10468,5 +10468,131 @@
   ],
   "evidence": "county champs: Simon Wilson (Box ?hill) 2001-2001; no 'Steve' in any source; never in the same race",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "Ian Edmunds"
+  ],
+  "to": "Ian Edmonds",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "surname spelling: county champs spell Edmonds (Reigate) 4 times, never Edmunds; 5 results as Edmonds",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "Ian Skintley"
+  ],
+  "to": "Ian Skingley",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "surname spelling: county champs spell Skingley (Reigate) 5 times, never Skintley; 11 results as Skingley",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "Steve McIntyre"
+  ],
+  "to": "Stewart McIntyre",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "county champs: Stewart McIntyre (Reigate) 1997-2011; no 'Steve' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "Peter Patrick"
+  ],
+  "to": "Paddy Patrick",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs: Paddy Patrick (Reigate) 2001-2012; no 'Peter' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "Paul Patrick"
+  ],
+  "to": "Paddy Patrick",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs: Paddy Patrick (Reigate) 2001-2012; no 'Paul' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "Mark Woodman"
+  ],
+  "to": "Malcolm Woodman",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs: Malcolm Woodman (Reigate) 1998-2001; no 'Mark' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "Neal Hamilton"
+  ],
+  "to": "Neil Hamilton",
+  "seasons": [
+   "2010/11",
+   "2010/11"
+  ],
+  "evidence": "county champs: Neil Hamilton (Reigate) 2010-2012; no 'Neal' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "REI",
+  "from": [
+   "Susan Darnell"
+  ],
+  "to": "Susan Carnell",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "surname spelling: county champs spell Carnell (Reigate) 7 times, never Darnell; 17 results as Carnell",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "REI",
+  "from": [
+   "Gaelle Delas"
+  ],
+  "to": "Gaelle Delmas",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "surname spelling: county champs spell Delmas (Reigate) 1 times, never Delas; 3 results as Delmas",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
