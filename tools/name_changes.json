@@ -6621,5 +6621,1035 @@
   ],
   "evidence": "Athletics Weekly 22 Oct 2003: '10 J Jackson (AFD, M40) 27:01' and 'James Jackson, who again turned out for an Aldershot outfit... 10th'. Held under THH by mistake - club left unchanged and flagged to Steve",
   "approved": "Steve, 17 Oct 2026 (names session puzzle answer)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "N Rezin"
+  ],
+  "to": "M Rezin",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "evidence": "misread initial: one-off 'N Rezin' inside the M Rezin run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "G Campbell"
+  ],
+  "to": "C Campbell",
+  "seasons": [
+   "1975/76",
+   "1975/76"
+  ],
+  "evidence": "misread initial: one-off 'G Campbell' inside the C Campbell run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "G Jones"
+  ],
+  "to": "C Jones",
+  "seasons": [
+   "1975/76",
+   "1988/89"
+  ],
+  "evidence": "misread initial: one-off 'G Jones' inside the C Jones run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "N Jones"
+  ],
+  "to": "M Jones",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "misread initial: one-off 'N Jones' inside the M Jones run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "R Lewis"
+  ],
+  "to": "P Lewis",
+  "seasons": [
+   "1993/94",
+   "1993/94"
+  ],
+  "evidence": "misread initial: one-off 'R Lewis' inside the P Lewis run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "N Edwards"
+  ],
+  "to": "M Edwards",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "evidence": "misread initial: one-off 'N Edwards' inside the M Edwards run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "B Davies"
+  ],
+  "to": "Rhodri Davies",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "misread initial: one-off 'B Davies' inside the Rhodri Davies run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "J Schofield"
+  ],
+  "to": "S Schofield",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "misread initial: one-off 'J Schofield' inside the S Schofield run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "G Luckett"
+  ],
+  "to": "S Luckett",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "misread initial: one-off 'G Luckett' inside the S Luckett run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "R Whitlock"
+  ],
+  "to": "P Whitlock",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "misread initial: one-off 'R Whitlock' inside the P Whitlock run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "K Britton"
+  ],
+  "to": "R Britton",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "misread initial: one-off 'K Britton' inside the R Britton run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "S Watson"
+  ],
+  "to": "J Watson",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "misread initial: one-off 'S Watson' inside the J Watson run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "G Cheeseman"
+  ],
+  "to": "C Cheeseman",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "evidence": "misread initial: one-off 'G Cheeseman' inside the C Cheeseman run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "P Weston"
+  ],
+  "to": "R Weston",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "misread initial: one-off 'P Weston' inside the R Weston run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "J Trotter"
+  ],
+  "to": "I Trotter",
+  "seasons": [
+   "1991/92",
+   "1992/93"
+  ],
+  "evidence": "misread initial: one-off 'J Trotter' inside the I Trotter run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "R Spacey"
+  ],
+  "to": "K Spacie",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "misread initial: one-off 'R Spacey' inside the K Spacie run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "N Bostelmann"
+  ],
+  "to": "M Bostelmann",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "misread initial: one-off 'N Bostelmann' inside the M Bostelmann run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "K O'Donoghue"
+  ],
+  "to": "R O'Donoghue",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "evidence": "misread initial: one-off 'K O'Donoghue' inside the R O'Donoghue run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Harris"
+  ],
+  "to": "M Harris",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "evidence": "misread initial: one-off 'N Harris' inside the M Harris run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "C O'Sullivan"
+  ],
+  "to": "E O'Sullivan",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "evidence": "misread initial: one-off 'C O'Sullivan' inside the E O'Sullivan run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "R Parrish"
+  ],
+  "to": "P Parrish",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "evidence": "misread initial: one-off 'R Parrish' inside the P Parrish run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "M Luxford"
+  ],
+  "to": "N Luxford",
+  "seasons": [
+   "1981/82",
+   "1981/82"
+  ],
+  "evidence": "misread initial: one-off 'M Luxford' inside the N Luxford run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Vaudin"
+  ],
+  "to": "M Vaudin",
+  "seasons": [
+   "1985/86",
+   "1985/86"
+  ],
+  "evidence": "misread initial: one-off 'N Vaudin' inside the M Vaudin run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "I Singh"
+  ],
+  "to": "J Singh",
+  "seasons": [
+   "1985/86",
+   "1985/86"
+  ],
+  "evidence": "misread initial: one-off 'I Singh' inside the J Singh run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "J Bosley"
+  ],
+  "to": "S Bosley",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "misread initial: one-off 'J Bosley' inside the S Bosley run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "C Wright"
+  ],
+  "to": "G Wright",
+  "seasons": [
+   "1993/94",
+   "1993/94"
+  ],
+  "evidence": "misread initial: one-off 'C Wright' inside the G Wright run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "K Simpson"
+  ],
+  "to": "R Simpson",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "evidence": "misread initial: one-off 'K Simpson' inside the R Simpson run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "B Healey"
+  ],
+  "to": "R Healey",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "misread initial: one-off 'B Healey' inside the R Healey run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "O Wilson"
+  ],
+  "to": "D Wilson",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "misread initial: one-off 'O Wilson' inside the D Wilson run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Carroll"
+  ],
+  "to": "M Carroll",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "misread initial: one-off 'N Carroll' inside the M Carroll run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "I Ridley"
+  ],
+  "to": "T Ridley",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "misread initial: one-off 'I Ridley' inside the T Ridley run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Winter"
+  ],
+  "to": "M Winter",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "misread initial: one-off 'N Winter' inside the M Winter run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "R Burton"
+  ],
+  "to": "P Burton",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "misread initial: one-off 'R Burton' inside the P Burton run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Leggett"
+  ],
+  "to": "M Leggett",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "misread initial: one-off 'N Leggett' inside the M Leggett run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "R Paviour"
+  ],
+  "to": "Ben Paviour",
+  "seasons": [
+   "2005/06",
+   "2005/06"
+  ],
+  "evidence": "misread initial: one-off 'R Paviour' inside the Ben Paviour run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Jan Tivey"
+  ],
+  "to": "Ian Tivey",
+  "seasons": [
+   "2007/08",
+   "2008/09"
+  ],
+  "evidence": "misread initial: one-off 'Jan Tivey' inside the Ian Tivey run at the same club, never in the same race",
+  "approved": "Steve, 17 Oct 2026: approved group A (misread initial inside a regular run, never in the same race)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "P Donnery"
+  ],
+  "to": "P Donnelly",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "evidence": "transcription garble of Donnelly, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "S Earnshaw",
+   "S Ranshaw"
+  ],
+  "to": "Steve Barnshaw",
+  "seasons": [
+   "1992/93",
+   "1995/96"
+  ],
+  "evidence": "transcription garble of Barnshaw, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "J Harries",
+   "J Henries",
+   "J Hercies",
+   "J Herris"
+  ],
+  "to": "J Herries",
+  "seasons": [
+   "1994/95",
+   "1998/99"
+  ],
+  "evidence": "transcription garble of Herries, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "D Rowllins"
+  ],
+  "to": "D Rollins",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "transcription garble of Rollins, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "M Carlse"
+  ],
+  "to": "M Carlisle",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "transcription garble of Carlisle, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "N Batson"
+  ],
+  "to": "N Bateson",
+  "seasons": [
+   "1997/98",
+   "1997/98"
+  ],
+  "evidence": "transcription garble of Bateson, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "R Ebbett"
+  ],
+  "to": "R Ebbutt",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "transcription garble of Ebbutt, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "R Holner"
+  ],
+  "to": "R Horner",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "evidence": "transcription garble of Horner, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "C Yanni",
+   "C Yianna"
+  ],
+  "to": "C Yianni",
+  "seasons": [
+   "1992/93",
+   "1993/94"
+  ],
+  "evidence": "transcription garble of Yianni, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "N Blanney"
+  ],
+  "to": "N Blayney",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "evidence": "transcription garble of Blayney, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "A Baskell"
+  ],
+  "to": "A Gaskell",
+  "seasons": [
+   "1998/99",
+   "1998/99"
+  ],
+  "evidence": "transcription garble of Gaskell, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "A Lenney"
+  ],
+  "to": "A Leaney",
+  "seasons": [
+   "1992/93",
+   "1992/93"
+  ],
+  "evidence": "transcription garble of Leaney, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Rob Boyer"
+  ],
+  "to": "Rob Bowyer",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "transcription garble of Bowyer, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Simon Malden",
+   "Simon Moulden"
+  ],
+  "to": "Simon Molden",
+  "seasons": [
+   "2009/10",
+   "2009/10"
+  ],
+  "evidence": "transcription garble of Molden, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "F Dudridge"
+  ],
+  "to": "F Dudbridge",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "transcription garble of Dudbridge, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "I Harknesss"
+  ],
+  "to": "I Harkness",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "transcription garble of Harkness, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Ian Harness"
+  ],
+  "to": "Ian Harkness",
+  "seasons": [
+   "2005/06",
+   "2005/06"
+  ],
+  "evidence": "transcription garble of Harkness, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "L Cherington"
+  ],
+  "to": "L Cherrington",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "transcription garble of Cherrington, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Mike Putter"
+  ],
+  "to": "Mike Potter",
+  "seasons": [
+   "2010/11",
+   "2010/11"
+  ],
+  "evidence": "transcription garble of Potter, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "E Mallogh"
+  ],
+  "to": "E Malloch",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "transcription garble of Malloch, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "G Cori-Wright"
+  ],
+  "to": "G Cory-Wright",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "transcription garble of Cory-Wright, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "M Normington",
+   "Mark Normington"
+  ],
+  "to": "M Norminton",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "transcription garble of Norminton, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "A Brayne",
+   "A McBrayne"
+  ],
+  "to": "A MacBrayne",
+  "seasons": [
+   "1974/75",
+   "1985/86"
+  ],
+  "evidence": "transcription garble of MacBrayne, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Beight"
+  ],
+  "to": "N Bright",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "transcription garble of Bright, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Hoskings"
+  ],
+  "to": "N Hosking",
+  "seasons": [
+   "1998/99",
+   "1998/99"
+  ],
+  "evidence": "transcription garble of Hosking, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Swaston"
+  ],
+  "to": "N Swatton",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "transcription garble of Swatton, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "E Cotten"
+  ],
+  "to": "E Cotton",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "evidence": "transcription garble of Cotton, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "J Ateyo"
+  ],
+  "to": "J Atyeo",
+  "seasons": [
+   "2003/04",
+   "2003/04"
+  ],
+  "evidence": "transcription garble of Atyeo, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "S Donnaghy"
+  ],
+  "to": "S Donaghy",
+  "seasons": [
+   "1996/97",
+   "1996/97"
+  ],
+  "evidence": "transcription garble of Donaghy, inside the runner's run at the same club",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Dave Fagan"
+  ],
+  "to": "Deron Fagan",
+  "seasons": [
+   "2001/02",
+   "2007/08"
+  ],
+  "evidence": "one-off first name inside Deron Fagan's run; no source for it",
+  "approved": "Steve, 17 Oct 2026: approved group C (one-off first name joined to the runner's usual name)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "John Zaple"
+  ],
+  "to": "Jim Zaple",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "one-off first name inside Jim Zaple's run; no source for it",
+  "approved": "Steve, 17 Oct 2026: approved group C (one-off first name joined to the runner's usual name)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Mike Norminton"
+  ],
+  "to": "Matt Norminton",
+  "seasons": [
+   "2005/06",
+   "2005/06"
+  ],
+  "evidence": "one-off first name inside Matt Norminton's run; no source for it",
+  "approved": "Steve, 17 Oct 2026: approved group C (one-off first name joined to the runner's usual name)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Andy Wray"
+  ],
+  "to": "Alan Wray",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "one-off first name inside Alan Wray's run; no source for it",
+  "approved": "Steve, 17 Oct 2026: approved group C (one-off first name joined to the runner's usual name)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Tony Flynn"
+  ],
+  "to": "Tommy Flynn",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "one-off first name inside Tommy Flynn's run; no source for it",
+  "approved": "Steve, 17 Oct 2026: approved group C (one-off first name joined to the runner's usual name)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Alan Lynch"
+  ],
+  "to": "Andy Lynch",
+  "seasons": [
+   "2001/02",
+   "2002/03"
+  ],
+  "evidence": "one-off first name inside Andy Lynch's run; no source for it",
+  "approved": "Steve, 17 Oct 2026: approved group C (one-off first name joined to the runner's usual name)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Ian Tibey"
+  ],
+  "to": "Ian Tivey",
+  "seasons": [
+   "2010/11",
+   "2010/11"
+  ],
+  "evidence": "transcription garble of Tivey, inside Ian Tivey's run",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Bob Greed"
+  ],
+  "to": "Bob Creed",
+  "seasons": [
+   "2003/04",
+   "2003/04"
+  ],
+  "evidence": "transcription garble of Creed, inside Bob Creed's run",
+  "approved": "Steve, 17 Oct 2026: approved group B (surname garble inside a runner's run)"
  }
 ]
