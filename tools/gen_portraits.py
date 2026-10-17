@@ -1745,4 +1745,7 @@ def cheekdimples(svg, col="#000"):
 # Eoin Molloy (BEL), redrawn Oct 2026: thick dark brown hair swept up and across, black headband, squarer jaw, almond eyes under
 # straight dark brows, rosy cheeks, wide smile with cheek dimples, fine silver chain, small silver hoop in one ear
 save("eoin-molloy", hoop(cheekdimples(widesmile(brows(eyes(figure("BEL", skin=1, hair="thickswept", hair_colour="#3B2A20", brow_colour="#2A1D16", headband="#1A1A1A", necklace="#CFCFCF", rosy=True, jaw="square"), "almond"), 0, 0, 3)))))
+# Tom Higgs (SLH), Oct 2026: short tufty strawberry-blond hair receding at the corners, trimmed ginger beard on a long face,
+# light ginger brows, small pale eyes, thin dark rectangular glasses, flushed
+save("tom-higgs", brows(eyes(figure("SLH", skin=1, hair="tuftrecede", hair_colour="#C99A62", brow_colour="#B48552", facial="shortbeard", facial_colour="#B8733E", glasses=True, glasses_col="#2E3136", jaw="narrow", rosy=True), "small"), 0, 0, 2).replace('r="3.8"', 'r="3.2"'))
 export_site()
