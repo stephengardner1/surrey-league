@@ -1104,7 +1104,9 @@ save("neil-speaight", figure("BEL", skin=1, hair="messyfringe", hair_colour="#3A
 save("knut-hegvold", figure("H/W", skin=1, hair="spiky", hair_colour="#4A3428", gaunt=True, jaw="narrow"))
 save("knut-hegvold-bel", figure("BEL", skin=1, hair="spiky", hair_colour="#4A3428", gaunt=True, jaw="narrow"))
 save("clive-gilby", figure("BEL", skin=1, hair="croppeak", hair_colour="#3A2620", gaunt=True, jaw="narrow"))
-save("gary-staines", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", gaunt=True, jaw="narrow"))
+# Gary Staines: main portrait in his most recent club (South London Harriers, 2000-02); Belgrave version for his earlier years
+save("gary-staines", figure("SLH", skin=1, hair="messyvolume", hair_colour="#241A15", gaunt=True, jaw="narrow"))
+save("gary-staines-bel", figure("BEL", skin=1, hair="messyvolume", hair_colour="#241A15", gaunt=True, jaw="narrow"))
 
 # Belgravian archive / Alan Mead gallery photos, batch 11 (Oct 2026). B/w except Hayes and Ashe (colour).
 save("bob-smith", figure("BEL", skin=1, hair="messyvolume", hair_colour="#2E211B", jaw="round"))
