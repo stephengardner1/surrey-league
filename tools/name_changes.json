@@ -1155,5 +1155,19 @@
   "seasons": null,
   "evidence": "",
   "approved": "Steve, 2026"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "John Jackson"
+  ],
+  "to": "Jon Jackson",
+  "seasons": [
+   "1975/76",
+   "1979/80"
+  ],
+  "evidence": "The Belgravian: 'Jon A. Jackson' new member B190 p8; 'Jon Jackson' B192",
+  "approved": "Steve, Oct 2026"
  }
 ]
