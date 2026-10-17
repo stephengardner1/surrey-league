@@ -10328,5 +10328,145 @@
   ],
   "evidence": "surname spelling: county champs spell Statter (Croydon (H|AC|Harr)) 2 times, never Statder; 10 results as Statter",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "A Reilley"
+  ],
+  "to": "A Reilly",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "surname spelling: county champs spell Reilly (Box ?hill) 6 times, never Reilley; 18 results as Reilly",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "I Lamplaugh"
+  ],
+  "to": "I Lamplough",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "surname spelling: county champs spell Lamplough (Box ?hill) 8 times, never Lamplaugh; 31 results as Lamplough",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "I Lanplough"
+  ],
+  "to": "I Lamplough",
+  "seasons": [
+   "1993/94",
+   "1993/94"
+  ],
+  "evidence": "surname spelling: county champs spell Lamplough (Box ?hill) 8 times, never Lanplough; 31 results as Lamplough",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "T Bignall"
+  ],
+  "to": "T Bignell",
+  "seasons": [
+   "1990/91",
+   "1990/91"
+  ],
+  "evidence": "surname spelling: county champs spell Bignell (Box ?hill) 3 times, never Bignall; 5 results as Bignell",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "T Grossman"
+  ],
+  "to": "T Crossman",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "surname spelling: county champs spell Crossman (Box ?hill) 2 times, never Grossman; 7 results as Crossman",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "R McDonall"
+  ],
+  "to": "R McDonnell",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "surname spelling: county champs spell McDonnell (Box ?hill) 1 times, never McDonall; 4 results as McDonnell",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "R Twaddle"
+  ],
+  "to": "R Tweddle",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "surname spelling: county champs spell Tweddle (Box ?hill) 10 times, never Twaddle; 11 results as Tweddle",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "R Tweedle"
+  ],
+  "to": "R Tweddle",
+  "seasons": [
+   "1989/90",
+   "1990/91"
+  ],
+  "evidence": "surname spelling: county champs spell Tweddle (Box ?hill) 10 times, never Tweedle; 11 results as Tweddle",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "Richard Tweedle"
+  ],
+  "to": "Richard Tweddle",
+  "seasons": [
+   "2003/04",
+   "2003/04"
+  ],
+  "evidence": "surname spelling: county champs spell Tweddle (Box ?hill) 10 times, never Tweedle; 11 results as Tweddle",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "Steve Wilson"
+  ],
+  "to": "Simon Wilson",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs: Simon Wilson (Box ?hill) 2001-2001; no 'Steve' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
