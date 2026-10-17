@@ -660,15 +660,17 @@ const POSTER_OPT=(()=>{try{const q=new URLSearchParams(location.search);const w=
 const POSTER_ACCENT={BEL:'#BC9F64'};
 /* poster name colour: the card colour mixed with the kit colour (or Belgrave's gold) for a tonal look, then darkened in the same hue only if it falls below 2:1 contrast with the card (about Jack Kavanagh's level; Oct 2026) */
 const POSTER_MIN_CONTRAST=2;
+/* yellow kits read stronger at the same contrast, so they get a softer minimum (Steve, Oct 2026) */
+const POSTER_MIN_BY_CLUB={'H/W':1.5,'BOX':1.5,'STR':1.5};
 const posterInk=(bg,vest,club)=>{const rgb=c=>{c=(c||'#888888').replace('#','');if(c.length===3)c=c.split('').map(v=>v+v).join('');const n=parseInt(c,16);return[(n>>16)&255,(n>>8)&255,n&255];};
   const b=rgb(bg),v=vest?rgb(vest):null,lum=v?(0.2126*v[0]+0.7152*v[1]+0.0722*v[2])/255:1;
   const base=club&&POSTER_ACCENT[club]?rgb(POSTER_ACCENT[club]):((v&&lum<0.8)?b.map((x,i)=>x*0.55+v[i]*0.45):b.map(x=>x*0.72));
   const L=c=>{const f=x=>{x/=255;return x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4);};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2]);};
-  const lb=L(b),cr=c=>{const l=L(c);return(Math.max(l,lb)+.05)/(Math.min(l,lb)+.05);};
+  const lb=L(b),cr=c=>{const l=L(c);return(Math.max(l,lb)+.05)/(Math.min(l,lb)+.05);},MIN=(club&&POSTER_MIN_BY_CLUB[club])||POSTER_MIN_CONTRAST;
   /* deepen by lowering lightness at the same hue and saturation, so a yellow becomes a rich gold rather than khaki */
   const toHsl=([r,g,b2])=>{r/=255;g/=255;b2/=255;const mx=Math.max(r,g,b2),mn=Math.min(r,g,b2),l=(mx+mn)/2;let h=0,sat=0;if(mx!==mn){const d=mx-mn;sat=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?(g-b2)/d+(g<b2?6:0):mx===g?(b2-r)/d+2:(r-g)/d+4;h/=6;}return[h,sat,l];};
   const fromHsl=(h,sat,l)=>{if(!sat)return[l*255,l*255,l*255];const q=l<.5?l*(1+sat):l+sat-l*sat,pp=2*l-q,f=t=>{t=(t+1)%1;return t<1/6?pp+(q-pp)*6*t:t<1/2?q:t<2/3?pp+(q-pp)*(2/3-t)*6:pp;};return[f(h+1/3)*255,f(h)*255,f(h-1/3)*255];};
-  let out=base;if(cr(out)<POSTER_MIN_CONTRAST){const[h,sat,l0]=toHsl(base);for(let l=l0;l>0.05&&cr(out)<POSTER_MIN_CONTRAST;l-=0.005)out=fromHsl(h,sat,l);}
+  let out=base;if(cr(out)<MIN){const[h,sat,l0]=toHsl(base);for(let l=l0;l>0.05&&cr(out)<MIN;l-=0.005)out=fromHsl(h,sat,l);}
   return'#'+out.map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');};
 const halfTint=c=>{let x=(c||'#E6EAE4').replace('#','');if(x.length===3)x=x.split('').map(v=>v+v).join('');const n=parseInt(x,16);return'#'+[16,8,0].map(s=>Math.round(((n>>s)&255)/2+127.5).toString(16).padStart(2,'0')).join('');};/* underside of the sticker: the card colour mixed half with white */
 const peelShape=(W,H,p)=>{const k=Math.SQRT1_2,s=(x,y)=>-(x-W)*k-(y-H)*k-p,R=[[0,0],[W,0],[W,H],[0,H]];
