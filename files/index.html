@@ -716,7 +716,8 @@ const LoadingBlink=({exiting,onDone,card:given,scale})=>{
 };
 /* Athlete profile: tapping the portrait opens that runner's loader card (same size, poster name, blink and glance); it only peels away on a second tap (or Esc) */
 /* the expanded card shows the runner's dog where they have one (never the loader): the dog pops up and the runner rolls their eyes, as on the profile */
-const CARD_DOG_CSS='<style>.dog{transform:translateY(70px);animation:dog 4s .3s infinite}@keyframes dog{0%,72%{transform:translateY(70px);animation-timing-function:cubic-bezier(.2,1.6,.4,1)}78%,90%{transform:translateY(0);animation-timing-function:cubic-bezier(.6,0,.9,.5)}95%,100%{transform:translateY(70px)}}@media (prefers-reduced-motion:reduce){.dog{animation:none}}</style>';
+/* the card shows the drawing down to y≈269 but the profile portrait is cropped at y≈231.5, so the dog's whole movement is shifted down by the difference: hidden fully below the card edge at rest, and showing exactly as much dog as the profile does when up */
+const CARD_DOG_CSS='<style>.dog{transform:translateY(107.5px);animation:dog 4s .3s infinite}@keyframes dog{0%,72%{transform:translateY(107.5px);animation-timing-function:cubic-bezier(.2,1.6,.4,1)}78%,90%{transform:translateY(35.5px);animation-timing-function:cubic-bezier(.6,0,.9,.5)}95%,100%{transform:translateY(107.5px)}}@media (prefers-reduced-motion:reduce){.dog{animation:none}}</style>';
 const makeCardFor=async(file,name,club)=>{const dogged=PROFILE_DOGS.has(file);let r=await fetch(`/portraits/athletes/${file}${dogged?'-dog':''}.svg?v=${PORTRAIT_V}`);if(!r.ok&&dogged)r=await fetch(`/portraits/athletes/${file}.svg?v=${PORTRAIT_V}`);if(!r.ok)return null;const t=await r.text();
   const bg=(t.match(/<rect width="200" height="280" fill="(#[0-9A-Fa-f]{3,6})"/)||[])[1]||'#E6EAE4';const vest=(t.match(/<path d="M53,330[^"]*" fill="(#[0-9A-Fa-f]{6})"/)||[])[1];
   const nm=(name||'').replace(/\s*\([^)]*\)$/,'').split(/\s+/).filter(Boolean);
