@@ -625,7 +625,8 @@ const getBlinkPick=()=>BLINK_PICK||(BLINK_PICK=(async()=>{const all=[...new Set(
   /* opened straight onto an athlete page (/athlete/<slug>, /women/athlete/<slug> or an old #athlete link): that athlete is the loader if they have a portrait */
   const ds=(()=>{try{const m=(location.pathname+' '+location.hash).match(/(?:^|[\/#])(?:women\/)?athlete\/([^\/?#\s]+)/i);return m?decodeURIComponent(m[1]).toLowerCase():null;}catch(e){return null;}})();
   const sl=n=>n.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
-  const dk=ds?Object.keys(PORTRAITS).find(n=>!n.includes('@')&&sl(n)===ds):null;let df=dk?PORTRAITS[dk].file:(ds&&files.includes(ds)?ds:null);
+  /* runners who share a name have the club in their address (tom-foster-gg = Tom Foster (G&G)), so also match name + club */
+  const dk=ds?(Object.keys(PORTRAITS).find(n=>!n.includes('@')&&sl(n)===ds)||Object.keys(PORTRAITS).find(n=>sl(n.split('@')[0]+' '+PORTRAITS[n].club)===ds)):null;let df=dk?PORTRAITS[dk].file:(ds&&files.includes(ds)?ds:null);
   const loc=(()=>{try{return location.pathname+' '+location.hash;}catch(e){return '';}})();
   /* a results page: the highest-placed finisher with a portrait (looked up in race-tops.json, built by tools/build_og.py) */
   const rm=!df&&loc.match(/(?:^|[\/#])(women\/)?race\/(\d{4}-\d+)/i);
