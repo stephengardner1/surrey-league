@@ -1834,4 +1834,23 @@ HAIR["pompback"] = ('<path d="M66,96 C63,84 61,76 62,68 Q55,58 63,49 Q70,40 82,3
 GARY = lambda kit: nose(taperbrows(brows(eyes(figure(kit, skin=1, hair="pompback", hair_colour="#231A16", brow_colour="#1E1714", creases=True, gaunt=True, jaw="square"), None, -0.5), 0, -0.5, 3.5), 1.8), 1.0, 1.15)
 save("gary-staines", GARY("SLH"))
 save("gary-staines-bel", GARY("BEL"))
+HAIR["quiffslim"] = '<path d="M66.5,100 L66.3,85 L67,75 L68.8,66 L71.4,58.5 L74.8,52 L79,46.5 L86,38 L104,29 L122,33 L129.5,43.5 L131.6,55 L132.8,65 L133.5,75 L133.7,85 L133.5,100 L130,80 L125,67 L100,61 L75,68 L70,80 Z"/>'  # short quiff hugging a long, narrow head: no gap at the temples (Dylan Evans)
+# ---- Angled brows and high cheekbones (Oct 2026, first used for Dylan Evans) ----
+def angledbrows(svg, peak=1.4):
+    """Straight, solid brows with thick inner heads that run level, then angle down at the outer third to a short tail (keeps the brow height)."""
+    m = _rq.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon points="[0-9.]+,[0-9.]+ [0-9.]+,([0-9.]+) [^"]+"/><polygon points="[^"]+"/></g>', svg)
+    if not m: return svg
+    dy = float(m.group(2)) - 100
+    L = [(95,99.4),(86,98.8),(80,98.4-peak),(75.5,100.2),(72.4,103.4),(76,102.6),(80.4,101.6-peak*.6),(86,102.4),(95.2,104.4)]
+    f = lambda pts: " ".join(f"{x:g},{y+dy:g}" for x, y in pts)
+    return svg[:m.start()] + f'<g fill="{m.group(1)}"><polygon points="{f(L)}"/><polygon points="{f([(200-x, y) for x, y in L])}"/></g>' + svg[m.end():]
+def cheekbones(svg, skin=1, tag="f", depth=1.0):
+    """High, prominent cheekbones: a sharp-edged hollow under each cheekbone, angling from below the ear towards the mouth corner,
+    with a fine light edge along the bone (use instead of gaunt=True)."""
+    sk, dk, lt = SKIN[skin]
+    return _after_lids(svg, f'<g clip-path="url(#h{tag})"><g fill="{dk}" opacity="{.7*depth:.2f}"><path d="M66,125 L84,123.5 Q87,124 87.5,127 L90,143 Q81,131 66,131 Z"/><path d="M134,125 L116,123.5 Q113,124 112.5,127 L110,143 Q119,131 134,131 Z"/></g>'
+        f'<g fill="{lt}" opacity=".55"><path d="M66,121.5 L84,121 Q87,121.5 87.5,124 Q85,123 84,123.5 L66,125 Z"/><path d="M134,121.5 L116,121 Q113,121.5 112.5,124 Q115,123 116,123.5 L134,125 Z"/></g></g>')
+# Dylan Evans (BEL), redrawn Oct 2026: short light-brown quiff fitted to a long narrow head (full hairline, no recede),
+# prominent high cheekbones, solid straight brows angling down at the outer ends, long straight nose
+save("evans", cheekbones(nose(angledbrows(brows(eyes(figure("BEL", skin=1, hair="quiffslim", hair_colour="#8A5E3A", brow_colour="#7A5236", jaw="long")), 0, 0, 2)), 0.9, 1.15)))
 export_site()
