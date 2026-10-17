@@ -49,7 +49,7 @@ _MORE = {
     "AFD": ("#dc2626", '<rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/>'),
     "SUR": ("#ffffff", '<rect x="0" y="7" width="20" height="1" fill="#1a1a1a"/><rect x="0" y="8" width="20" height="3" fill="#3b82f6"/><rect x="0" y="11" width="20" height="1" fill="#1a1a1a"/>'),
     "MIT": ("#2563eb", '<rect x="0" y="5" width="20" height="1.5" fill="#fff"/><rect x="0" y="8" width="20" height="3" fill="#fff"/><rect x="0" y="12.5" width="20" height="1.5" fill="#fff"/>'),
-    "DMV": ("#B82A5E", _sides("#A9C8E8")),  # raspberry with pale sky-blue side panels (matched to 2020s club photos)
+    "DMV": ("#C42F6A", '<rect x="3" y="8" width="1" height="12" fill="#BCD3EC"/><rect x="4" y="8" width="1" height="12" fill="#fff"/><rect x="16" y="8" width="1" height="12" fill="#BCD3EC"/><rect x="15" y="8" width="1" height="12" fill="#fff"/>'),  # cerise, with equal pale-blue and white side panels from below the armpit (Oct 2026, Luke Caldwell photo)
     "W4H": ("#f4c430", '<rect x="0" y="8" width="20" height="4" fill="#00CED1"/>'),
     "K&P": ("#1E90FF", '<polygon points="8,0 20,0 20,20 0,20 0,8" fill="#1a1a1a"/><polygon points="0,0 8,0 20,12 20,20 12,20 0,8" fill="#fff"/>'),
     "S&D": ("#1e3a8a", '<rect x="0" y="8" width="20" height="3" fill="#f4c430"/>'),
