@@ -1823,4 +1823,15 @@ def eyebags(svg, col="#000"):
 # sweeping right to left; brows close to the eyes, tilting up towards the middle; smallish open eyes with a hint of bags; long nose;
 # wide smile with smile lines; light stubble
 save("slemeck", eyebags(nose(widesmile(taperbrows(brows(eyes(figure("H/W", skin=1, hair="tuftsweep", hair_colour="#7E5E40", brow_colour="#6E5440", facial="stubble", facial_colour="#8A6A52", jaw="long", creases=True), "small"), 0, 0, 6), -1.6)), 0.9, 1.1)))
+# ---- Thick hair from a side parting going two ways (Oct 2026, first used for Gary Staines) ----
+HAIR["pompback"] = ('<path d="M66,96 C63,84 61,76 62,68 Q55,58 63,49 Q70,40 82,37 C96,23 124,21 136,35 C144,46 141,66 135,96 L132,84 C130,74 124,66 118,64 Q108,60 98,62 Q90,62 84,63 Q76,66 71,74 L68,86 Z"/>'
+    '<path d="M82.5,63 Q81,51 82.5,38" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="1.5" stroke-linecap="round"/>'
+    '<g fill="none" stroke="#fff" stroke-opacity=".13" stroke-width="1.4" stroke-linecap="round"><path d="M81,46 Q70,46 62,55"/><path d="M81,55 Q71,57 65,66"/>'
+    '<path d="M88,57 Q100,39 128,35"/><path d="M95,62 Q110,47 134,45"/><path d="M107,63 Q121,55 135,58"/></g>')  # thick hair from a side parting: a little goes down one side, the rest sweeps up and back across the head (Gary Staines)
+# Gary Staines, redrawn Oct 2026: thick near-black hair from a side parting (some shoots out to one side, the rest sweeps up and back),
+# long face with a strong square jaw, deep-set eyes under heavy, low, knitted brows, long nose, deep nose-to-mouth lines, lean cheeks.
+# Main version in South London Harriers kit (his last Surrey League club), plus his Belgrave years.
+GARY = lambda kit: nose(taperbrows(brows(eyes(figure(kit, skin=1, hair="pompback", hair_colour="#231A16", brow_colour="#1E1714", creases=True, gaunt=True, jaw="square"), None, -0.5), 0, -0.5, 3.5), 1.8), 1.0, 1.15)
+save("gary-staines", GARY("SLH"))
+save("gary-staines-bel", GARY("BEL"))
 export_site()
