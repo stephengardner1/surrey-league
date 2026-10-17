@@ -10244,5 +10244,89 @@
   ],
   "evidence": "spelling: county champs print Lindsey Annable (Dulwich) 2002-2011",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Paul Lovall"
+  ],
+  "to": "Paul Lovell",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "surname spelling: county champs spell Lovell (Croydon (H|AC|Harr)) 2 times, never Lovall; 4 results as Lovell",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "D Bettes"
+  ],
+  "to": "D Betts",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "evidence": "surname spelling: county champs spell Betts (Croydon (H|AC|Harr)) 9 times, never Bettes; 9 results as Betts",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "D Yedell"
+  ],
+  "to": "D Yeoell",
+  "seasons": [
+   "1976/77",
+   "1976/77"
+  ],
+  "evidence": "surname spelling: county champs spell Yeoell (Croydon (H|AC|Harr)) 1 times, never Yedell; 3 results as Yeoell",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "J Pillow"
+  ],
+  "to": "J Dillow",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "surname spelling: county champs spell Dillow (Croydon (H|AC|Harr)) 23 times, never Pillow; 15 results as Dillow",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "K Crook"
+  ],
+  "to": "K Crooke",
+  "seasons": [
+   "1981/82",
+   "1981/82"
+  ],
+  "evidence": "surname spelling: county champs spell Crooke (Croydon (H|AC|Harr)) 33 times, never Crook; 23 results as Crooke",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "I Statder"
+  ],
+  "to": "I Statter",
+  "seasons": [
+   "1985/86",
+   "1985/86"
+  ],
+  "evidence": "surname spelling: county champs spell Statter (Croydon (H|AC|Harr)) 2 times, never Statder; 10 results as Statter",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
