@@ -10888,5 +10888,33 @@
   ],
   "evidence": "surname spelling: county champs spell Foote (West 4) 1 times, never Foot; 9 results as Foote",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "C/C",
+  "from": [
+   "Acuian Savery"
+  ],
+  "to": "Adrian Savery",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "county champs: Adrian Savery (Clapham) 2010-2010; no 'Acuian' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "C/C",
+  "from": [
+   "Mellissa Galea"
+  ],
+  "to": "Melissa Galea",
+  "seasons": [
+   "2009/10",
+   "2009/10"
+  ],
+  "evidence": "county champs: Melissa Galea (Clapham) 2011-2011; no 'Mellissa' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
