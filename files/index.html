@@ -668,7 +668,7 @@ const peelShape=(W,H,p)=>{const k=Math.SQRT1_2,s=(x,y)=>-(x-W)*k-(y-H)*k-p,R=[[0
   const flip=cut(false).map(([x,y])=>{const q=2*s(x,y);return[x+q*k,y+q*k];});
   const f0=[W-p*k,H-p*k],f1=[W-2*p*k,H-2*p*k];
   return{keep:cut(true),flip,g:[f0,f1]};};
-const LoadingBlink=({exiting,onDone,card:given})=>{
+const LoadingBlink=({exiting,onDone,card:given,scale})=>{
   const[pick,setPick]=useState(given||BLINK_DONE);
   useEffect(()=>{if(given)return;let dead=false;getBlinkPick().then(p=>{if(!dead)setPick(p);});return()=>{dead=true;};},[]);
   const nameEl=useRef(null),card=useRef(null),fig=useRef(null),cover=useRef(null),stk=useRef(null),flap=useRef(null),flapG=useRef(null),grad=useRef(null);
@@ -680,7 +680,7 @@ const LoadingBlink=({exiting,onDone,card:given})=>{
   React.useLayoutEffect(()=>{if(u)peel(PEEL_REST);},[u]);
   useEffect(()=>{if(!POSTER_CARD||!u)return;let live=true;const fit=()=>{const box=card.current;if(!live||!box)return;let top=9;
       /* each line is sized to run edge to edge (capped so short names don't swamp the face); a second line sits straight under the first. The runner sits a little lower on poster cards to leave room for the name */
-      [...box.querySelectorAll('[data-pl]')].forEach(el=>{el.style.fontSize='40px';const w=el.getBoundingClientRect().width||1;const fs=Math.min(52,40*(W-14)/w);el.style.fontSize=fs.toFixed(2)+'px';el.style.top=top.toFixed(1)+'px';top+=fs*(POSTER_OPT.title?0.86:0.78);el.style.opacity='1';});};
+      [...box.querySelectorAll('[data-pl]')].forEach(el=>{el.style.fontSize='40px';const w=(el.getBoundingClientRect().width||1)/(scale||1);const fs=Math.min(52,40*(W-14)/w);el.style.fontSize=fs.toFixed(2)+'px';el.style.top=top.toFixed(1)+'px';top+=fs*(POSTER_OPT.title?0.86:0.78);el.style.opacity='1';});};
     (document.fonts&&document.fonts.load?document.fonts.load(POSTER_OPT.w+' 40px Fraunces'):Promise.resolve()).then(fit,fit);return()=>{live=false;};},[u]);
   useEffect(()=>{if(!exiting)return;if(!pick||!pick.u||!card.current){onDone&&onDone();return;}
     let raf;const t0=performance.now();
@@ -705,7 +705,7 @@ const LoadingBlink=({exiting,onDone,card:given})=>{
       if(t<DUR+LAG)raf=requestAnimationFrame(tick);else onDone&&onDone();};
     raf=requestAnimationFrame(tick);return()=>cancelAnimationFrame(raf);},[exiting,pick]);
   const coverStyle=PEEL_EXIT?{position:'fixed',inset:0,background:'#fff',willChange:'opacity'}:{position:'fixed',left:0,right:0,top:-140,height:'calc(110vh + 140px)',background:'linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.55) 70px,#fff 140px)',willChange:'transform'};
-  return<>{exiting&&<div ref={cover} style={coverStyle}/>}<div ref={card} aria-label="Loading" role="status" style={{position:'relative',width:W,height:H,willChange:'transform,opacity'}}>
+  return<>{exiting&&<div ref={cover} style={coverStyle}/>}<div ref={card} aria-label="Loading" role="status" style={{position:'relative',width:W,height:H,...(scale&&scale!==1?{transform:`scale(${scale})`,transformOrigin:'0 0'}:{willChange:'transform,opacity'})}}>
     <div ref={stk} style={{position:'absolute',inset:0,borderRadius:12,overflow:'hidden',background:u?pick.bg:'transparent'}}>
     {u&&!POSTER_CARD&&pick.initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{pick.initials}</span>}
     {u&&POSTER_CARD&&pick.surname&&posterLines(POSTER_OPT.title?pick.surname:pick.surname.toUpperCase()).map((ln,i)=><span key={i} data-pl={i} style={{position:'absolute',top:9,left:'50%',transform:'translateX(-50%)',zIndex:0,whiteSpace:'nowrap',fontFamily:'Fraunces,Georgia,serif',fontWeight:POSTER_OPT.w,fontVariationSettings:'"opsz" 36',fontSize:20,lineHeight:.8,color:pick.nameCol,opacity:0}}>{ln}</span>)}
@@ -725,10 +725,12 @@ const PortraitCardOverlay=({file,name,club,onClose})=>{const[card,setCard]=useSt
     return()=>{live=false;if(made)URL.revokeObjectURL(made.u);};},[file]);
   const close=()=>{if(card&&!exiting)setExiting(true);};
   useEffect(()=>{const k=e=>{if(e.key==='Escape'||e.key==='Enter'||e.key===' '){e.preventDefault();close();}};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k);});
-  const at={left:Math.round((window.innerWidth-150)/2),top:Math.round((window.innerHeight-150*280/230)/2)};
+  const vw=window.innerWidth,vh=window.innerHeight,H0=150*280/230;
+  const k=vw>=768?Math.max(1,Math.min(vh*0.5/H0,(vw*0.8)/150)):1;  // desktop: half the screen height
+  const at={left:Math.round((vw-150*k)/2),top:Math.round((vh-H0*k)/2)};
   if(!card)return null;
   return<div role="dialog" aria-label={`Portrait of ${name}`} onClick={close} style={{position:'fixed',inset:0,zIndex:200,cursor:'pointer',background:exiting?'transparent':'#fff',opacity:exiting||shown?1:0,transition:exiting?'none':'opacity .18s ease-out'}}>
-    <div style={{position:'fixed',left:at.left,top:at.top,transform:exiting||shown?'none':'scale(.92)',transition:exiting?'none':'transform .22s cubic-bezier(.2,.8,.3,1)'}}><LoadingBlink card={card} exiting={exiting} onDone={onClose}/></div></div>;};
+    <div style={{position:'fixed',left:at.left,top:at.top,transform:exiting||shown?'none':'scale(.92)',transition:exiting?'none':'transform .22s cubic-bezier(.2,.8,.3,1)'}}><LoadingBlink card={card} scale={k} exiting={exiting} onDone={onClose}/></div></div>;};
 const LoadedSignal=()=>{useEffect(()=>{if(!window.__slLoaded){window.__slLoaded=true;window.dispatchEvent(new Event('sl-loaded'));}},[]);return null;};
 const LOADER_STYLE=(()=>{try{return new URLSearchParams(location.search).get('loader');}catch(e){return null;}})();
 const Loader=()=>LOADER_STYLE==='carousel'?<LoadingVests/>:null;  // blinking card is the default; ?loader=carousel shows the portrait carousel
