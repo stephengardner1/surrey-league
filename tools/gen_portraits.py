@@ -1792,4 +1792,13 @@ def thinsideburns(svg, col):
 # Ollie Garrod (BEL), redrawn Oct 2026: very short light ginger-brown hair, balding with a small island at the front of the crown,
 # heavy-topped rectangular glasses, thin sideburns, ginger moustache and chin beard around the mouth only, thin light brows, long narrow face
 save("ollie-garrod", thinsideburns(browglasses(eyes(figure("BEL", skin=1, hair="fuzzbald", hair_colour="#A87A55", brow_colour="#9C7250", thin_brows=True, jaw="narrow", rosy=True, facial="fullgoatee", facial_colour="#B07A50"), None)), "#A87A55"))
+# ---- Very close crop, abstract nose width (Oct 2026, first used for Paskar Owor) ----
+HAIR["closebald"] = HAIR["fuzzbald"].split("/>")[0] + "/>"   # very close crop: a fine rim over an almost bald top joining short sides
+def nose(svg, width=1.0, length=1.0):
+    """House-style triangle nose, resized only (no nostrils or shading): width scales the base, length moves the tip down."""
+    w = 4.5 * width; y = 108 + 28 * length
+    return svg.replace('points="100,108 105,136 96,136"', f'points="100,108 {100+w:g},{y:g} {100-w:g},{y:g}"', 1)
+# Paskar Owor (BEL), redrawn Oct 2026: very close crop, almost bald on top, round head, very dark skin, eyes set a little wide under
+# thin rounded brows sitting low, smile lines from nose to mouth, broad nose
+save("owor", nose(roundbrows(brows(eyes(figure("BEL", skin=6, hair="closebald", hair_colour="#1A1412", brow_colour="#0E0B0A", creases=True), None, 1.5), 0, 1.5, 4)), 2.2))
 export_site()
