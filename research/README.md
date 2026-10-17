@@ -51,3 +51,5 @@ All Surrey County XC Championships results 1961/62-2012/13 (downloaded 17 Oct 20
 ## Most useful free source for initials → full names
 Surrey County XC Championships results from 1962/63, with full names and clubs:
 https://www.surreyathletics.uk/crosscountry/index.php (athlete pages: /database/profile.php?N=…&G=M).
+- Oct 2026 (Jackson puzzle): AW winter issues Oct 1979-Apr 1987 (207 issues from `winter-1974-1987.txt`) and The Belgravian
+  B199-B212 (1979-88) searched for Jackson. Findings in `clubs/afd/findings.jsonl`. Not stored.
