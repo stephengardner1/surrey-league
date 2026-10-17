@@ -10944,5 +10944,117 @@
   ],
   "evidence": "surname spelling: county champs spell Beauvais (OME) 15 times, never Beavais; 4 results as Beauvais",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "W/W",
+  "from": [
+   "Mike Banfy"
+  ],
+  "to": "Mike Banfi",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "surname spelling: county champs spell Banfi (Windmiler) 9 times, never Banfy; 3 results as Banfi",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "W/W",
+  "from": [
+   "P McEchinney"
+  ],
+  "to": "P McElhinney",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "surname spelling: county champs spell McElhinney (Windmiler) 1 times, never McEchinney; 3 results as McElhinney",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "W/W",
+  "from": [
+   "Caroline Farrari"
+  ],
+  "to": "Caroline Ferrari",
+  "seasons": [
+   "2008/09",
+   "2008/09"
+  ],
+  "evidence": "surname spelling: county champs spell Ferrari (Windmiler) 1 times, never Farrari; 9 results as Ferrari",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "W/W",
+  "from": [
+   "Caroiline Ferrari"
+  ],
+  "to": "Caroline Ferrari",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "spelling: county champs print Caroline Ferrari (Windmiler) 2010-2010",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "W/W",
+  "from": [
+   "Clare Mullinger"
+  ],
+  "to": "Claire Mullinger",
+  "seasons": [
+   "2010/11",
+   "2011/12"
+  ],
+  "evidence": "county champs: Claire Mullinger (Windmiler) 2008-2008; no 'Clare' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "W/W",
+  "from": [
+   "Bernadetee Maher"
+  ],
+  "to": "Bernadette Maher",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "spelling: county champs print Bernadette Maher (Windmiler) 2011-2011",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "W/W",
+  "from": [
+   "Alison Young"
+  ],
+  "to": "Alyson Young",
+  "seasons": [
+   "2009/10",
+   "2009/10"
+  ],
+  "evidence": "county champs: Alyson Young (Windmiler) 2010-2010; no 'Alison' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "W/W",
+  "from": [
+   "Clare Morgan"
+  ],
+  "to": "Claire Morgan",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "county champs: Claire Morgan (Windmiler) 2006-2007; no 'Clare' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
