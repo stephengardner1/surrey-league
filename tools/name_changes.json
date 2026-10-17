@@ -10916,5 +10916,33 @@
   ],
   "evidence": "county champs: Melissa Galea (Clapham) 2011-2011; no 'Mellissa' in any source; never in the same race",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "OME",
+  "from": [
+   "M Wain"
+  ],
+  "to": "M Waine",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "surname spelling: county champs spell Waine (OME) 10 times, never Wain; 5 results as Waine",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "OME",
+  "from": [
+   "C Beavais"
+  ],
+  "to": "C Beauvais",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "surname spelling: county champs spell Beauvais (OME) 15 times, never Beavais; 4 results as Beauvais",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
