@@ -24,6 +24,11 @@ Every approved name change is logged in `tools/name_changes.json` (who changed, 
 - Aliases are global (not per club), so only alias distinctive spellings; ordinary names that could belong to
   someone at another club stay as club-scoped renames in the log.
 
+## One-off club corrections
+- 2003/04 match 1 (men), 10th, James Jackson 27:01: club THH -> AFD (Steve approved, 17 Oct 2026).
+  Athletics Weekly 22 Oct 2003 prints "10 J Jackson (AFD, M40) 27:01". The published team scores
+  (Thames 208, Aldershot 321) only add up with him counted for Aldershot.
+
 ## Sources already searched
 See `research/README.md`: The Belgravian, club archives, Surrey County XC champs 1961-2013 (`research/county-champs/`),
 and Athletics Weekly winter issues (1998-2005 Oct-Feb text searched again in Oct 2026 for Aldershot names).
