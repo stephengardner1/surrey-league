@@ -733,7 +733,8 @@ const makeCardFor=async(file,name,club)=>{const dogged=PROFILE_DOGS.has(file);le
   const bg=(t.match(/<rect width="200" height="280" fill="(#[0-9A-Fa-f]{3,6})"/)||[])[1]||'#E6EAE4';const vest=(t.match(/<path d="M53,330[^"]*" fill="(#[0-9A-Fa-f]{6})"/)||[])[1];
   const nm=(name||'').replace(/\s*\([^)]*\)$/,'').split(/\s+/).filter(Boolean);
   const svg=t.includes('class="dog"')?makeBlinker(t).replace('</svg>',CARD_DOG_CSS+DOG_ROLL_CSS+'</svg>'):makeBlinker(t);
-  return{u:URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})),bg,surname:(nm[nm.length-1]||'').replace(/(^|[-'])([a-z])/g,(m,a,b)=>a+b.toUpperCase()),nameCol:posterInk(bg,vest,club),
+  const still=t.replace('viewBox="10 20 180 252"','viewBox="-15 -8 230 330"').replace(/<rect width="200" height="280"[^>]*\/>/,'').replace('</svg>','<style>.dog{display:none}</style></svg>');  /* saved images: eyes straight ahead, no glance or blink, dog tucked away */
+  return{u:URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})),still:URL.createObjectURL(new Blob([still],{type:'image/svg+xml'})),bg,surname:(nm[nm.length-1]||'').replace(/(^|[-'])([a-z])/g,(m,a,b)=>a+b.toUpperCase()),nameCol:posterInk(bg,vest,club),
     initials:((nm[0]||'')[0]+(nm.length>1?nm[nm.length-1].split('-').filter(Boolean).map(x=>x[0]).join('-'):'')).toUpperCase()};};
 /* Save the sticker for Instagram: a still of the profile card (dog-ear resting) on a tonal backdrop, as a 4:5 post or a 9:16 story (Oct 2026) */
 const SHARE_FORMATS={post:{w:1080,h:1350,cw:700,label:'Instagram post'},story:{w:1080,h:1920,cw:820,label:'Instagram story'}};
@@ -742,7 +743,7 @@ const stickerPng=async(card,fmt)=>{const F=SHARE_FORMATS[fmt],W=150,H=W*280/230,
   const cv=document.createElement('canvas');cv.width=F.w;cv.height=F.h;const ctx=cv.getContext('2d');
   ctx.fillStyle=shade(card.bg,0.9);ctx.fillRect(0,0,F.w,F.h);
   const ox=(F.w-W*s)/2,oy=(F.h-H*s)/2-(fmt==='story'?40:30);
-  const img=new Image();img.decoding='sync';await new Promise((ok,no)=>{img.onload=ok;img.onerror=no;img.src=card.u;});
+  const img=new Image();img.decoding='sync';await new Promise((ok,no)=>{img.onload=ok;img.onerror=no;img.src=card.still||card.u;});
   try{await document.fonts.load(POSTER_OPT.w+' 40px Fraunces');await document.fonts.load('600 16px "Public Sans"');}catch(e){}
   ctx.save();ctx.translate(ox,oy);ctx.scale(s,s);
   const{keep,flip}=peelShape(W,H,PEEL_REST);const r=12;
@@ -764,7 +765,7 @@ const saveSticker=async(card,fmt,name)=>{const blob=await stickerPng(card,fmt);i
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);};
 const PortraitCardOverlay=({file,name,club,onClose})=>{const[card,setCard]=useState(null),[exiting,setExiting]=useState(false),[shown,setShown]=useState(false);
   useEffect(()=>{let live=true,made=null;makeCardFor(file,name,club).then(c=>{if(!live){if(c)URL.revokeObjectURL(c.u);return;}if(!c){onClose();return;}made=c;setCard(c);requestAnimationFrame(()=>requestAnimationFrame(()=>setShown(true)));}).catch(()=>onClose());
-    return()=>{live=false;if(made)URL.revokeObjectURL(made.u);};},[file]);
+    return()=>{live=false;if(made){URL.revokeObjectURL(made.u);if(made.still)URL.revokeObjectURL(made.still);}};},[file]);
   const close=()=>{if(card&&!exiting)setExiting(true);};
   useEffect(()=>{const k=e=>{if(e.key==='Escape'||e.key==='Enter'||e.key===' '){e.preventDefault();close();}};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k);});
   const vw=window.innerWidth,vh=window.innerHeight,H0=150*280/230;
