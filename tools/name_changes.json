@@ -11154,5 +11154,61 @@
   ],
   "evidence": "county champs: Isabelle Kita (Striders) 2007-2007; no 'Isobel' in any source; never in the same race",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Mathew Jones"
+  ],
+  "to": "Matthew Jones",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "county champs: Matthew Jones (Thames) 2011-2011; no 'Mathew' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "David Talbot"
+  ],
+  "to": "Darren Talbot",
+  "seasons": [
+   "2005/06",
+   "2005/06"
+  ],
+  "evidence": "county champs: Darren Talbot (Thames) 2005-2005; no 'David' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Dave Talbot"
+  ],
+  "to": "Darren Talbot",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs: Darren Talbot (Thames) 2005-2005; no 'Dave' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "THH",
+  "from": [
+   "Vicki Filsell"
+  ],
+  "to": "Vikki Filsell",
+  "seasons": [
+   "2005/06",
+   "2012/13"
+  ],
+  "evidence": "county champs: Vikki Filsell (Thames) 2006-2012; no 'Vicki' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
