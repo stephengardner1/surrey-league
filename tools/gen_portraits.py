@@ -8,6 +8,7 @@ HEAD_NARROW = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,122 C127,14
 HEAD_SQUARE = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L133,140 C132,156 122,167 109,169 L91,169 C78,167 68,156 67,140 Z"
 HEAD_BROADCHIN = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L131,122 C128,140 122,154 115,161 Q108,167 100,167 Q92,167 85,161 C78,154 72,140 69,122 Z"  # narrow face with a broad, flattish chin (Georgie Grgec)
 HEAD_WIDEPOINT = "M67,96 C64,58 80,40 100,40 C120,40 136,58 133,96 L137,124 L136.5,138 Q136,141 133.5,143.5 L112,165 Q106,170 100,170 Q94,170 88,165 L66.5,143.5 Q64,141 63.5,138 L63,124 Z"  # wide, square-cornered jaw tapering to a pointed chin (Larry Ryan)
+HEAD_LONG = "M68,96 C66,58 81,40 100,40 C119,40 134,58 132,96 L129.5,124 C127,146 119,163 108,169 L92,169 C81,163 73,146 70.5,124 Z"  # long, thin, almost rectangular face (Fred Slemeck)
 HEAD = "M66,96 C64,58 80,40 100,40 C120,40 136,58 134,96 L132,130 C129,152 116,168 100,170 C84,168 71,152 68,130 Z"
 SQ = 'transform="translate(0,83) scale(1,0.76) translate(0,-40)"'
 VEST = "M53,330 L57,246 Q59,226 61,204 C66,200 73,197 80,195.5 Q100,240 120,195.5 C127,197 134,200 139,204 Q141,226 143,246 L147,330 Z"
@@ -172,7 +173,7 @@ def _eyewhite(sk):  # an off-white, tinted towards the skin so it never glares
     return '#' + ''.join(f'{round(int(sk[i:i+2],16)*0.3+0xE8*0.7):02X}' for i in (1,3,5))
 
 def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", facial=None, cap=None, shades=False, tattoos=False, beanie=None, mud=False, glasses=False, roots=None, stars=0, gaunt=False, greying=False, headband=None, cap_back=False, facial_colour=None, tag="f", shades_col=None, shades_up=False, scrunchie=None, crown=False, jacket=None, medal=None, temples=False, cleft=False, brow_colour=None, jacket_marks=None, define=None, frown=False, hood=None, puffy=False, creases=False, necklace=None, shades_frame="#F4F4F2", thin_brows=False, headband_thick=False, parting=False, rosy=False, glasses_col="#9A9DA3", sideburns=False, armband=False, sleeves=None, buff=None, jaw=None):
-    head = HEAD_SQUARE if jaw == "square" else HEAD_NARROW if jaw == "narrow" else HEAD_BROADCHIN if jaw == "broadchin" else HEAD_WIDEPOINT if jaw == "widepoint" else HEAD
+    head = HEAD_SQUARE if jaw == "square" else HEAD_NARROW if jaw == "narrow" else HEAD_BROADCHIN if jaw == "broadchin" else HEAD_WIDEPOINT if jaw == "widepoint" else HEAD_LONG if jaw == "long" else HEAD
     primary, extras, ground = KITS[kit]
     line = mode == "outline"
     if mode == "custom": sk, dk, lt = SKIN[skin]
@@ -1804,4 +1805,14 @@ save("owor", nose(roundbrows(brows(eyes(figure("BEL", skin=6, hair="closebald", 
 # Ethan McColgan (THH), redrawn Oct 2026: thick wavy golden-brown hair swept up with volume, long narrow face, small deep-set eyes
 # under thin light-brown brows sitting low, high cheekbones, long narrow nose, flushed
 save("mccolgan", nose(brows(eyes(figure("THH", skin=1, hair="messyvolume", hair_colour="#8E6A44", brow_colour="#7A5A3C", thin_brows=True, jaw="narrow", gaunt=True, rosy=True), "small"), 0, 0, 4).replace('r="3.8"', 'r="3.2"'), 0.9, 1.1))
+# ---- Long face, short tufty side-swept hair, eye bags (Oct 2026, first used for Fred Slemeck) ----
+HAIR["tuftsweep"] = ('<path d="M134,98 C138,76 137,58 129,47 L131,38 L120,40 L116,30 L106,34 L98,24 L90,31 L78,27 L76,37 L64,39 L68,48 L58,56 L64,62 C62,74 63,86 66,98 L68,86 C70,76 74,70 82,68 L88,74 L94,66 L102,72 L108,66 L115,72 Q125,74 130,82 L133,90 Z"/>'
+    '<g fill="none" stroke="#000" stroke-opacity=".2" stroke-width="1.3" stroke-linecap="round"><path d="M120,62 Q100,46 70,46"/><path d="M112,52 Q95,38 76,36"/></g>')  # short, tufty hair lifting off the forehead and sweeping to one side, short sides
+def eyebags(svg, col="#000"):
+    """A faint hint of a bag just under each eye."""
+    return _after_lids(svg, f'<g fill="none" stroke="{col}" stroke-opacity=".16" stroke-width="1.2" stroke-linecap="round"><path d="M77,117.2 Q83.5,120 90,117.2"/><path d="M110,117.2 Q116.5,120 123,117.2"/></g>')
+# Fred Slemeck (H/W), redrawn Oct 2026: long, thin, almost rectangular face; short tufty mid-brown hair lifting off the forehead and
+# sweeping right to left; brows close to the eyes, tilting up towards the middle; smallish open eyes with a hint of bags; long nose;
+# wide smile with smile lines; light stubble
+save("slemeck", eyebags(nose(widesmile(taperbrows(brows(eyes(figure("H/W", skin=1, hair="tuftsweep", hair_colour="#7E5E40", brow_colour="#6E5440", facial="stubble", facial_colour="#8A6A52", jaw="long", creases=True), "small"), 0, 0, 6), -1.6)), 0.9, 1.1)))
 export_site()
