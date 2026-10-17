@@ -10762,5 +10762,117 @@
   ],
   "evidence": "surname spelling: county champs spell Edmonds (Metropolitan|Met\\.? Police) 3 times, never Edmunds; 3 results as Edmonds",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "DMV",
+  "from": [
+   "Rob McCaffery"
+  ],
+  "to": "Rob McCaffrey",
+  "seasons": [
+   "2008/09",
+   "2008/09"
+  ],
+  "evidence": "surname spelling: county champs spell McCaffrey (Dorking) 3 times, never McCaffery; 3 results as McCaffrey",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "DMV",
+  "from": [
+   "Rob McCaffery"
+  ],
+  "to": "Rob Mccaffrey",
+  "seasons": [
+   "2008/09",
+   "2008/09"
+  ],
+  "evidence": "surname spelling: county champs spell Mccaffrey (Dorking) 3 times, never McCaffery; 3 results as Mccaffrey",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "DMV",
+  "from": [
+   "Bruce Harold"
+  ],
+  "to": "Bruce Harrold",
+  "seasons": [
+   "2008/09",
+   "2008/09"
+  ],
+  "evidence": "surname spelling: county champs spell Harrold (Dorking) 5 times, never Harold; 9 results as Harrold",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "DMV",
+  "from": [
+   "Evan Erskin Thomas"
+  ],
+  "to": "Evan Erskine-Thomas",
+  "seasons": [
+   "2008/09",
+   "2008/09"
+  ],
+  "evidence": "surname spelling: county champs spell Erskine-Thomas (Dorking) 6 times, never Erskin Thomas; 3 results as Erskine-Thomas",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "DMV",
+  "from": [
+   "Stuart Kemp"
+  ],
+  "to": "Steve Kemp",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "county champs: Steve Kemp (Dorking) 2005-2011; no 'Stuart' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "DMV",
+  "from": [
+   "Graem Mackay"
+  ],
+  "to": "Graeme Mackay",
+  "seasons": [
+   "2008/09",
+   "2008/09"
+  ],
+  "evidence": "spelling: county champs print Graham Mackay (Dorking) 2006-2011",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "DMV",
+  "from": [
+   "Karen Marshal"
+  ],
+  "to": "Karen Marshall",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "surname spelling: county champs spell Marshall (Dorking) 4 times, never Marshal; 5 results as Marshall",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "DMV",
+  "from": [
+   "Susanne Wood"
+  ],
+  "to": "Suzanne Wood",
+  "seasons": [
+   "2008/09",
+   "2009/10"
+  ],
+  "evidence": "county champs: Suzanne Wood (Dorking) 2007-2007; no 'Susanne' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
