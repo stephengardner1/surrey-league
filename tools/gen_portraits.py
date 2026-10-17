@@ -1901,4 +1901,7 @@ def thickbrows(svg, w=0.9):
 # Dom Nolan (CRO), Oct 2026: thick black hair swept up and across with volume on top, long narrow face, high cheekbones,
 # small hooded almond-set eyes under slightly thick straight dark brows, light olive skin
 save("dom-nolan", thickbrows(cheekbones(nose(angledbrows(brows(eyes(figure("CRO", skin=2, hair="thickswept", hair_colour="#1A1412", brow_colour="#15100E", jaw="narrow"), "smallhooded", 0.5), 0, 0.5, 3), 0.8), 1.0, 1.15), skin=2, depth=1.0), 0.8))
+# Martin Duff (AFD, 1986-92), Oct 2026: bald on top with short sandy-grey sides, ruddy, thin wire-rimmed glasses, square jaw,
+# hooded eyes looking down, large nose, lines from nose to mouth
+save("martin-duff", nose(brows(eyes(figure("AFD", skin=1, hair="horseshoe", hair_colour="#B59C82", brow_colour="#A08670", glasses=True, glasses_col="#A9A49A", rosy=True, creases=True, jaw="square"), "hooded"), 0, 0, 2), 1.15, 1.2))
 export_site()
