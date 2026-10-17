@@ -1748,4 +1748,28 @@ save("eoin-molloy", hoop(cheekdimples(widesmile(brows(eyes(figure("BEL", skin=1,
 # Tom Higgs (SLH), Oct 2026: short tufty strawberry-blond hair receding at the corners, trimmed ginger beard on a long face,
 # light ginger brows, small pale eyes, thin dark rectangular glasses, flushed
 save("tom-higgs", brows(eyes(figure("SLH", skin=1, hair="tuftrecede", hair_colour="#C99A62", brow_colour="#B48552", facial="shortbeard", facial_colour="#B8733E", glasses=True, glasses_col="#2E3136", jaw="narrow", rosy=True), "small"), 0, 0, 2).replace('r="3.8"', 'r="3.2"'))
+# ---- Hair slides, tapering brows and an abstract mouth-size control (Oct 2026, first used for Emma Gordon) ----
+import re as _rq
+def hairclips(svg, col="#B8BCC2"):
+    """Two small metal hair slides, one each side of the parting."""
+    return svg.replace('</svg>', f'<g fill="{col}" transform="translate(0,-40)"><rect x="-1.4" y="-6" width="2.8" height="12" rx="1.2" transform="translate(79,107) rotate(28)"/><rect x="-1.4" y="-6" width="2.8" height="12" rx="1.2" transform="translate(122,105) rotate(-28)"/></g></svg>', 1)
+def taperbrows(svg, rise=1.6):
+    """Brows with thick inner heads that rise gently outwards, then taper to a thin tail that dips slightly (keeps the brow height)."""
+    m = _rq.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon points="[0-9.]+,[0-9.]+ [0-9.]+,([0-9.]+) [^"]+"/><polygon points="[^"]+"/></g>', svg)
+    if not m: return svg
+    dy = float(m.group(2)) - 100
+    L = [(95,99.6),(88,98.6-rise*.5),(81,98.2-rise),(76.2,99.4-rise*.6),(72.6,102.8),(76.5,102.4-rise*.3),(81,102.6-rise*.6),(88,103.4-rise*.3),(95.2,104.8)]
+    f = lambda pts: " ".join(f"{x:g},{y+dy:g}" for x, y in pts)
+    return svg[:m.start()] + f'<g fill="{m.group(1)}"><polygon points="{f(L)}"/><polygon points="{f([(200-x, y) for x, y in L])}"/></g>' + svg[m.end():]
+def mouth(svg, width=1.0, full=1.0):
+    """House-style mouth (one flat shape, skin-toned), resized only: width scales it sideways, full deepens the lower lip."""
+    m = _rq.search(r'<path d="M89,151 L100,148 L111,151 Q100,158 89,151 Z" fill="([^"]*)"/>', svg)
+    if not m: return svg
+    x0, x1 = 100 - 11 * width, 100 + 11 * width
+    d = f"M{x0:g},151 L100,148 L{x1:g},151 Q100,{151 + 7 * full:g} {x0:g},151 Z"
+    return svg[:m.start()] + f'<path d="{d}" fill="{m.group(1)}"/>' + svg[m.end():]
+# Emma Gordon (BEL), redrawn Oct 2026: soft rounded jaw, small eyes set a little wide, mid-brown brows sitting low with thick heads
+# tapering to the temples, dark-blonde hair sleeked back from a centre parting with silver slides into a ponytail, small gold hoops,
+# a slightly wider, fuller mouth, flushed
+save("emma-gordon", mouth(taperbrows(hairclips(earrings(brows(eyes(figure("BEL", skin=1, hair="ponytail", hair_colour="#9A7B58", brow_colour="#6B4E3A", rosy=True), "small", 1.5), 0, 1.5, 4).replace('r="3.8"', 'r="3.2"')))), 1.1, 1.3))
 export_site()
