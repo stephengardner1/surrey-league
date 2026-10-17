@@ -1471,6 +1471,9 @@ save("huw-lobb", figure("THH", skin=1, hair="crophigh", hair_colour="#6B4A2E", c
 # Wayne Oxborough (THH), Oct 2026: The Belgravian, March 1998, photo (h) "Jim Estall (66) tracks Wayne Oxborough". Dark hair, dark stubble, lean
 save("wayne-oxborough", figure("THH", skin=1, hair="messyfringe", hair_colour="#2E211B", facial="stubble", facial_colour="#2E211B", gaunt=True, jaw="narrow"))
 
+# Simon Fairbrother (BOX), Oct 2026: from AAA Champs 1994 / KP Games 1995 photos (reference only). Sandy swept-back hair, broad jaw
+save("simon-fairbrother", figure("BOX", skin=1, hair="spiky", hair_colour="#C08A50", brow_colour="#8E6E45", jaw="square"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
