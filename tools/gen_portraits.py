@@ -233,11 +233,11 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
                   f'<ellipse cx="100" cy="106" rx="50" ry="60" fill="{lining}"/>')
     else:
         hg_pre = ''
-    hg = [hg_pre + f'<g fill="{sk}"{st}><path d="M66,100 L56,104 L58,124 L68,130 Z"/><path d="M134,100 L144,104 L142,124 L132,130 Z"/>'
-          f'<path d="{head}"/></g>']
+    hg = [hg_pre + f'<g fill="{sk}"{st}><path d="M72,100 L56,104 L58,124 L74,132 Z"/><path d="M128,100 L144,104 L142,124 L126,132 Z"/>'
+          + ('' if line else f'<path d="M128,100 L144,104 L142,124 L126,132 Z" fill="{dk}"/>') +
+          f'<path d="{head}"/></g>']  # ears tuck under the face, so narrow faces don't show a gap (Oct 2026)
     if not line:
-        hg.append(f'<path d="M134,100 L144,104 L142,124 L132,130 Z" fill="{dk}"/>'
-                  f'<g clip-path="url(#h{tag})"><polygon points="112,40 140,40 140,180 100,180 100,170 118,150 124,118 120,92" fill="{dk}"/>'
+        hg.append(f'<g clip-path="url(#h{tag})"><polygon points="112,40 140,40 140,180 100,180 100,170 118,150 124,118 120,92" fill="{dk}"/>'
                   f'<polygon points="60,40 100,40 90,68 60,82" fill="{lt}" opacity=".7"/></g>')
     if custom:
         ink = "#1E1714"
@@ -256,11 +256,11 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             hg.append(f'<path d="M100,158 Q98.5,163 100,168" stroke="{dk}" stroke-width="2.6" fill="none" stroke-linecap="round"/>')
         if define and 'light' in define:  # soft lighter planes so features read on very dark skin
             hl = '#' + ''.join(f'{round(int(lt[i:i+2],16)*0.6+255*0.4):02X}' for i in (1,3,5))
-            hg.append(f'<g fill="{hl}"><path d="M97,106 L103,106 L101.5,130 L98.5,130 Z" opacity=".35"/>'
+            hg.append(f'<g fill="{hl}" clip-path="url(#h{tag})"><path d="M97,106 L103,106 L101.5,130 L98.5,130 Z" opacity=".35"/>'
                       f'<path d="M70,116 Q80,112 90,118 L84,132 Q76,128 71,124 Z" opacity=".16"/>'
                       f'<path d="M93,155 Q100,158.5 107,155 Q100,161 93,155 Z" opacity=".4"/></g>')
         if gaunt:  # hollow cheeks under the cheekbones
-            hg.append(f'<g fill="{dk}" opacity=".65"><path d="M74,118 Q86,121 90,139 Q84,131 75,122 Z"/><path d="M126,118 Q114,121 110,139 Q116,131 125,122 Z"/></g><g fill="{lt}" opacity=".6"><path d="M73,115 Q84,115 90,120 Q82,117 73,117 Z"/><path d="M127,115 Q116,115 110,120 Q118,117 127,117 Z"/></g>')
+            hg.append(f'<g clip-path="url(#h{tag})"><g fill="{dk}" opacity=".65"><path d="M74,118 Q86,121 90,139 Q84,131 75,122 Z"/><path d="M126,118 Q114,121 110,139 Q116,131 125,122 Z"/></g><g fill="{lt}" opacity=".6"><path d="M73,115 Q84,115 90,120 Q82,117 73,117 Z"/><path d="M127,115 Q116,115 110,120 Q118,117 127,117 Z"/></g></g>')
         if facial:
             fc = HAIR_COL.get(facial_colour, facial_colour) if facial_colour else hc
             if facial in ("moustache", "goatee", "littletache", "thicktache"):
@@ -292,7 +292,7 @@ def figure(kit, mode="custom", skin=1, hair="crop", hair_colour="dark brown", fa
             if hair == "curlyup":  # loose curls escaping at the temples
                 hg.append(f'<g stroke="{hc}">{CURLY_WISPS}</g>')
             if rosy:  # flushed cheeks (halved Oct 2026)
-                hg.append('<g fill="#E0505A" opacity=".1"><ellipse cx="80" cy="130" rx="12" ry="8.5"/><ellipse cx="120" cy="130" rx="12" ry="8.5"/></g>')
+                hg.append(f'<g fill="#E0505A" opacity=".1" clip-path="url(#h{tag})"><ellipse cx="80" cy="130" rx="12" ry="8.5"/><ellipse cx="120" cy="130" rx="12" ry="8.5"/></g>')
             if sideburns:  # long 70s sideburns down the cheeks
                 hg.append(f'<g fill="{hc}"><path d="M64,92 L73,94 L74,114 L81,124 L82,134 L69,146 Q66,138 65,126 Z"/><path d="M136,92 L127,94 L126,114 L119,124 L118,134 L131,146 Q134,138 135,126 Z"/></g>')
             if hair == "highpony":  # hair tie where the bunch is gathered on top
