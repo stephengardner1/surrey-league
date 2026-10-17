@@ -1,0 +1,19 @@
+{
+ "names": {
+  "L Presland": "Les Presland",
+  "M Lake": "Martin Lake",
+  "W Kerr": "Bill Kerr",
+  "J Mather": "John Mather",
+  "Jon Mather": "John Mather",
+  "G Collison": "Gabby Collison",
+  "Gabrielle Collison": "Gabby Collison",
+  "Jodie Favell": "Jodie Albrow"
+ },
+ "notes": [
+  "Steve, 15 Oct 08:58: L Presland is Les Presland",
+  "Steve 10:15: W Kerr is Bill Kerr",
+  "Steve 10:16: Martin Lake is M Lake (all of them) - drop magazine 'Mike Lake' renames",
+  "Steve 10:15: M Andersons separated (done in commit)",
+  "Steve 12:29: John Mather (not Jon); Gabby Collison (not Gabrielle); Jodie Favell = Jodie Albrow"
+ ]
+}
