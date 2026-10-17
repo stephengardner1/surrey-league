@@ -4658,5 +4658,311 @@
   ],
   "evidence": "one-off 'Paul' inside Phil Carstairs's 1994-2018 run (confirmed by The Belgravian; surreyleague.org 2013/14 'Philip Carstairs'); only Carstairs at the club",
   "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "T Eglen",
+   "T Eglan",
+   "T Eglin",
+   "T Eslen",
+   "T Eylen"
+  ],
+  "to": "Tim Eglen",
+  "seasons": null,
+  "evidence": "Steve approved AFD7 (Tim Eglen, Surrey County champs 1974-80, SM to 1996/97); Eglan/Eglin/Eslen/Eylen are transcription garbles of the same run",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "D Eglen"
+  ],
+  "to": "Dave Eglen",
+  "seasons": null,
+  "evidence": "Surrey County XC champs: Dave/David Eglen (Aldershot) 1974-79, Tim's brother per AFD7; only D Eglen at the club",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "S Clawte",
+   "S Crante",
+   "S Cante"
+  ],
+  "to": "S Crawte",
+  "seasons": [
+   "1991/92",
+   "1994/95"
+  ],
+  "evidence": "garbles of S Crawte (40 results 1974-92; county champs S Crawte, Aldershot 1970-80s)",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "J Vatts"
+  ],
+  "to": "John Watts",
+  "seasons": [
+   "1990/91",
+   "1990/91"
+  ],
+  "evidence": "garble of John Watts (38 results 1974-99; Steve approved AFD4, county champs)",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "T Hassal"
+  ],
+  "to": "Tim Hassall",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "evidence": "Tim Hassall (Steve approved AFD3; county champs T Hassall 1976-79)",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "T Pullin"
+  ],
+  "to": "T Pullen",
+  "seasons": [
+   "1985/86",
+   "1985/86"
+  ],
+  "evidence": "county champs: T Pullen (Aldershot) 1978-83; T Pullen in our 1983-85 results",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "M Rexzin"
+  ],
+  "to": "M Rezin",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "county champs spell M Rezin (Aldershot); M Rezin 8 results 1976-95",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "P Resin"
+  ],
+  "to": "P Rezin",
+  "seasons": [
+   "1974/75",
+   "1975/76"
+  ],
+  "evidence": "county champs: P Rezin (Aldershot) 1972-74; P Rezin in our 1975-81 results",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "R Yemans",
+   "R Yoemans"
+  ],
+  "to": "Roland Yeomans",
+  "seasons": null,
+  "evidence": "Roland Yeomans (Steve approved AFD6; county champs R Yeomans 1975-89)",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Tim Bodford"
+  ],
+  "to": "Tim Bedford",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs: Tim Bedford (Aldershot) 2001-05",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "J Plummer"
+  ],
+  "to": "J Plimmer",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "county champs 1990: J Plimmer (Aldershot); J Plimmer 1989-92 in our results",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "A Briton",
+   "A Brittain"
+  ],
+  "to": "A Britton",
+  "seasons": [
+   "1982/83",
+   "1983/84"
+  ],
+  "evidence": "county champs 1986: A Britton (Aldershot); A Britton in our 1982/83 and 1986/87 results",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "R Bachlor"
+  ],
+  "to": "Richard Batchelor",
+  "seasons": [
+   "1993/94",
+   "1993/94"
+  ],
+  "evidence": "Richard Batchelor (Steve approved AFD15, English National XC) - 26 results from 1993/94",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "K Gaven"
+  ],
+  "to": "K Gavin",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "Kevin Gavin (Steve approved note AFD16, National XC); K Gavin 20 results 1986-2000",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "J Kendell"
+  ],
+  "to": "John Kendall",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "John Kendall (Steve approved AFD13, National XC 1995-96); placed like his other results",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "M Caudwell",
+   "M Caldwell"
+  ],
+  "to": "Martin Couldwell",
+  "seasons": [
+   "1983/84",
+   "1987/88"
+  ],
+  "evidence": "Martin Couldwell (Steve approved AFD55, Athletics Weekly); positions match his run (8th, 10th, 74th)",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "R Kenney",
+   "B Keeney"
+  ],
+  "to": "Ray Keeney",
+  "seasons": null,
+  "evidence": "Ray Keeney (Steve approved AFD58, Athletics Weekly); one-off garbles inside his 1981-99 run",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "J Barnshaw"
+  ],
+  "to": "Steve Barnshaw",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "misread S/J inside Steve Barnshaw's run (Steve approved AFD30, Athletics Weekly); never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "P Hudson"
+  ],
+  "to": "Robin Hudson",
+  "seasons": [
+   "1997/98",
+   "1997/98"
+  ],
+  "evidence": "misread R/P inside Robin Hudson's run 1987-2005 (Steve approved AFD41); never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "R Wilson"
+  ],
+  "to": "Paul Wilson",
+  "seasons": [
+   "1993/94",
+   "1993/94"
+  ],
+  "evidence": "misread P/R inside Paul Wilson's run 1992-2002 (Steve approved AFD20); never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "T Logan"
+  ],
+  "to": "Ian Logan",
+  "seasons": [
+   "1990/91",
+   "1992/93"
+  ],
+  "evidence": "misread I/T inside Ian Logan's run (Steve approved AFD1; county champs Ian Logan every year to 1991/92); never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "J Sackson"
+  ],
+  "to": "J Jackson",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "misread J/S: J Jackson of Aldershot (identity of J Jackson itself still an open puzzle); inside 1986/87-1999/00, so the existing approved entry then makes it James Jackson",
+  "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
  }
 ]
