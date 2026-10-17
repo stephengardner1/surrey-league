@@ -2,6 +2,8 @@
 
 Each entry: {"sex": "men"|"women", "club": "BEL", "from": ["P Buckley"], "to": "Padraic Buckley",
              "seasons": ["1986/87","1999/00"] or null, "evidence": "...", "approved": "..."}
+Optional "races": [["1997/98", 1, 56], ...] limits a change to those exact results (season, match, position),
+for when two real people share one raw name in a season.
 
 Renames the raw result names (club-scoped, optionally season-scoped) AND the stored summary
 sections (seasonsData, achievements, athletes ...). Positions, times and scores are untouched.
@@ -31,23 +33,35 @@ def in_range(rng, season, span=None):
     return False
 
 
-def walk(o, rows, hits, season=None):
+def race_ok(r, season, match, pos):
+    """Entries with "races": [[season, match, pos], ...] rename only those exact results (and the
+    race winner line when pos is 1). Used when two real people share a raw name in one season."""
+    if not r.get('races'):
+        return True
+    return match is not None and pos is not None and [season, match, str(pos)] in [[a, b, str(c)] for a, b, c in r['races']]
+
+
+def walk(o, rows, hits, season=None, match=None):
     if isinstance(o, dict):
         if isinstance(o.get('season'), str):
             season = o['season']
+        if isinstance(o.get('match'), int) and 'results' in o:
+            match = o['match']
         for nk, ck in (('n', 'c'), ('name', 'club'), ('winner', 'winnerClub')):
             if nk in o and ck in o:
+                pos = 1 if nk == 'winner' else o.get('p', o.get('pos'))
                 for r in rows:
-                    if o[ck] == r['club'] and o[nk] in r['from'] and in_range(r['seasons'], season, o.get('span')):
+                    if o[ck] == r['club'] and o[nk] in r['from'] and in_range(r['seasons'], season, o.get('span')) \
+                            and race_ok(r, season, match, pos):
                         hits[(r['club'], o[nk], r['to'])] += 1
                         if not DRY:
                             o[nk] = r['to']
                         break
         for k, v in o.items():
-            walk(v, rows, hits, k if re.fullmatch(r'\d{4}/\d{2}', k) else season)
+            walk(v, rows, hits, k if re.fullmatch(r'\d{4}/\d{2}', k) else season, match)
     elif isinstance(o, list):
         for v in o:
-            walk(v, rows, hits, season)
+            walk(v, rows, hits, season, match)
 
 
 for sex, fn in FILES.items():
