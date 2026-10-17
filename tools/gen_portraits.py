@@ -1875,4 +1875,21 @@ HAIR["quifflow"] = '<path d="M64,100 L63,72 L72,52 L86,38 L104,29 L122,33 L134,4
 # Tom Foster (G&G), redrawn Oct 2026: short dark textured quiff with a slight recede and greying sides, long lean face, high cheekbones,
 # short dark stubble, heavy straight brows set low over deep-set eyes, long straight nose
 save("foster", cheekbones(sockets(nose(angledbrows(brows(eyes(figure("G&G", skin=1, hair="quifflow", hair_colour="#2A2220", brow_colour="#221A16", facial="stubble", facial_colour="#2E2724", greying="sides", jaw="long"), None, 0), 0, 0, 4), 1.2), 0.95, 1.2), depth=1.2), depth=1.0))
+# ---- Spiky top with tight sides, hair poking out behind the ears, warm shading for bleached hair (Oct 2026, first used for Morgan Roberts) ----
+HAIR["spikyup"] = '<path d="M64.5,101 L61,92 L60.5,80 L58,70 L62,63 L58.5,53 L68,50 L69,39 L79,41 L83,30 L93,35 L101,24 L108,33 L118,27 L121,38 L131,36 L131,47 L141.5,53 L138,63 L142,70 L139.5,80 L139,92 L135.5,101 L132.5,90 C132,84 131,80 129,77 Q126,69 118,67 L110,69 L100,66.5 L90,69 L82,67 Q74,69 71,77 C69,80 68,84 67.5,90 Z"/>'  # messy spiky top swept up, sides kept tight above the ears (Morgan Roberts)
+FACIAL["goateestubble"] = '<path fill-rule="evenodd" opacity=".2" d="M84,141 L100,137.5 L116,141 L114,152 L111,163 L107,171 Q100,173.5 93,171 L89,163 L86,152 Z M91,146.5 L109,146.5 L107,157.5 Q100,160.5 93,157.5 Z"/>'  # stubble round the mouth and on the chin only (Morgan Roberts)
+def napeflicks(svg, col):
+    """Hair poking out low at the back of the head, below and behind the ears (drawn behind the head and ears)."""
+    g = '<g transform="translate(0,83) scale(1,0.76) translate(0,-40)">'
+    f = (f'<g fill="{col}"><path d="M72,104 L64,112 L60,128 L54,146 L62,140 L63,152 L69,140 L73,146 L74,128 Z"/>'
+         f'<path d="M128,104 L136,112 L140,128 L146,146 L138,140 L137,152 L131,140 L127,146 L126,128 Z"/></g>'
+         f'<g clip-path="url(#rf)" fill="#000" opacity=".22"><path d="M128,104 L136,112 L140,128 L146,146 L138,140 L137,152 L131,140 L127,146 L126,128 Z"/></g>')
+    i = svg.find(g)
+    return svg[:i+len(g)] + f + svg[i+len(g):] if i >= 0 else svg
+def warmshade(svg, col="#8A5A2A", op=".3"):
+    """Shade the far side of light (blond/bleached) hair with a warm brown instead of grey, so it doesn't turn khaki."""
+    return svg.replace('fill="#000" opacity=".22">', f'fill="{col}" opacity="{op}">')
+# Morgan Roberts (HHH), redrawn Oct 2026: bleached messy hair swept up into spikes, tight above the ears and poking out low behind them,
+# long pale face, dark straight brows set low over small deep-set eyes, defined cheekbones, long nose, fine silver chain
+save("roberts", warmshade(napeflicks(cheekbones(sockets(nose(angledbrows(brows(eyes(figure("HHH", skin=1, hair="spikyup", hair_colour="#F3DA9C", brow_colour="#4A3628", necklace="#D4D4D4", jaw="long"), "small", 0.5), 0, 0.5, 4), 0.6), 1.05, 1.2), depth=1.6), depth=1.3), "#F3DA9C")))
 export_site()
