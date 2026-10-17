@@ -1871,4 +1871,8 @@ def chindef(svg, skin=1, tag="f"):
 # Alex Howard (THH), redrawn Oct 2026: very dark hair, bushy ragged sides over the ears, thinning floppy top with a deep temple recede,
 # long face with a squarish jaw and long strong chin, definition under the mouth, full curved brows over deep-set eyes, high cheekbones, long nose
 save("alex-howard", chindef(longchin(cheekbones(sockets(nose(archbrows(eyes(figure("THH", skin=1, hair="floppythin", hair_colour="#2A1D17", brow_colour="#1E1612", jaw="broadchin"), None, -0.5)), 1.0, 1.25), depth=1.4), depth=1.3))))
+HAIR["quifflow"] = '<path d="M64,100 L63,72 L72,52 L86,38 L104,29 L122,33 L134,48 L137,72 L136,100 L131.5,84 L129.5,73 L122,68 L111,71 L100,71.5 L89,71 L78,68 L70.5,73 L68.5,84 Z"/>'  # short textured quiff with only a slight recede and a lower forehead (Tom Foster)
+# Tom Foster (G&G), redrawn Oct 2026: short dark textured quiff with a slight recede and greying sides, long lean face, high cheekbones,
+# short dark stubble, heavy straight brows set low over deep-set eyes, long straight nose
+save("foster", cheekbones(sockets(nose(angledbrows(brows(eyes(figure("G&G", skin=1, hair="quifflow", hair_colour="#2A2220", brow_colour="#221A16", facial="stubble", facial_colour="#2E2724", greying="sides", jaw="long"), None, 0), 0, 0, 4), 1.2), 0.95, 1.2), depth=1.2), depth=1.0))
 export_site()
