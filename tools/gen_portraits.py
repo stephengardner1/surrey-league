@@ -42,7 +42,7 @@ def _sides(c): return f'<rect x="3" y="0" width="3" height="20" fill="{c}"/><rec
 _MORE = {
     "HER": ("#1e3a8a", '<rect x="0" y="8" width="20" height="3" fill="#dc2626"/>'),
     "WAL": ("#1a1a1a", '<rect x="0" y="6" width="20" height="2" fill="#f4c430"/><rect x="0" y="8" width="20" height="2" fill="#dc2626"/><rect x="0" y="10" width="20" height="2" fill="#f4c430"/>'),
-    "CRO": ("#ffffff", '<rect x="0" y="5" width="20" height="2" fill="#1a1a1a"/><rect x="0" y="12" width="20" height="2" fill="#1a1a1a"/>'),
+    "CRO": ("#ffffff", '<rect x="0" y="5" width="20" height="2" fill="#1a1a1a"/><rect x="0" y="8.5" width="20" height="2" fill="#1a1a1a"/>'),
     "E&E": ("#dc2626", '<rect x="0" y="8" width="20" height="3" fill="#f4c430"/>'),
     "SOC": ("#f4c430", _sides("#228b22")),
     "BOX": ("#f4c430", _sides("#dc2626")),
