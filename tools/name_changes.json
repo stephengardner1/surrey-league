@@ -4490,5 +4490,173 @@
   ],
   "evidence": "The Belgravian B230 p52: 92 M.Webb 35:18 (initial M, not J) (magazine result list, same race and place)",
   "approved": "Steve, 17 Oct 2026 (approved group B: magazine result list fixes)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "J Rainer"
+  ],
+  "to": "John Rayner",
+  "seasons": [
+   "1980/81",
+   "1980/81"
+  ],
+  "evidence": "John Rayner ran the other 3 matches of 1980/81 (confirmed by The Belgravian); county champs spell Rayner",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "D Clark"
+  ],
+  "to": "D Clack",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "D Clack ran matches 3-4 of 1986/87 inside Derek Clack's 1982-98 run; county champs list Clack, no Clark at Belgrave",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "A Paynter"
+  ],
+  "to": "A Painter",
+  "seasons": [
+   "1985/86",
+   "1985/86"
+  ],
+  "evidence": "Alan Painter 1978-98 (confirmed by The Belgravian); county champs spell Painter 7 times, never Paynter",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "Terry O'Neil"
+  ],
+  "to": "Terry O'Neill",
+  "seasons": [
+   "2010/11",
+   "2010/11"
+  ],
+  "evidence": "Terry O'Neill 26 results 2003-25; county champs spell O'Neill",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "T St Ledger"
+  ],
+  "to": "T St Leger",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs 2004: T St Leger (Belgrave); The Belgravian prints 'St Leger' in his later matches",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "C Mallet"
+  ],
+  "to": "C Mallett",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "evidence": "county champs spell C Mallett (Belgrave) twice; C Mallett also in our 1983/84 results",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "D Hollinsworth"
+  ],
+  "to": "D Hollingworth",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "evidence": "D Hollingworth ran 4 other matches 1983-85; county champs and The Belgravian spell Hollingworth",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "L Morriss"
+  ],
+  "to": "L Morris",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "evidence": "L Morris ran 1980-85 (Les Morris before); The Belgravian always Morris",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "L McClean"
+  ],
+  "to": "L McLean",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "evidence": "L McLean 1986/87 and Larry McLean (The Belgravian) - spelt McLean",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "J Myddleton"
+  ],
+  "to": "J Middleton",
+  "seasons": [
+   "1975/76",
+   "1975/76"
+  ],
+  "evidence": "The Belgravian prints J.Middleton in 1975/76",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "J Budarkewicz"
+  ],
+  "to": "J Budarkiewicz",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "The Belgravian new-members list: Joseph Budarkiewicz; J Budarkiewicz in our other 1986/87 results",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "Paul Carstairs"
+  ],
+  "to": "Phil Carstairs",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "one-off 'Paul' inside Phil Carstairs's 1994-2018 run (confirmed by The Belgravian; surreyleague.org 2013/14 'Philip Carstairs'); only Carstairs at the club",
+  "approved": "Names session, 17 Oct 2026: typo, common spelling confirmed by an outside source"
  }
 ]
