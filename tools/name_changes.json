@@ -11210,5 +11210,47 @@
   ],
   "evidence": "county champs: Vikki Filsell (Thames) 2006-2012; no 'Vicki' in any source; never in the same race",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Dan Chappel"
+  ],
+  "to": "Dan Chappell",
+  "seasons": [
+   "2003/04",
+   "2003/04"
+  ],
+  "evidence": "surname spelling: county champs spell Chappell (Herne Hill) 5 times, never Chappel; 19 results as Chappell",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "A Garoffall"
+  ],
+  "to": "A Garofall",
+  "seasons": [
+   "1990/91",
+   "1990/91"
+  ],
+  "evidence": "surname spelling: county champs spell Garofall (Herne Hill) 4 times, never Garoffall; 10 results as Garofall",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Nick Chapman"
+  ],
+  "to": "Neil Chapman",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs: Neil Chapman (Herne Hill) 2002-2002; no 'Nick' in any source; never in the same race",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
