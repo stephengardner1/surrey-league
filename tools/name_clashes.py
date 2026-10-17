@@ -5,7 +5,12 @@ Older AI transcription sometimes turned an initial ("M Sharp") into an invented 
 appear that are NOT simple nickname pairs (Andy/Andrew), with how often each form appears.
 A rare full name beside a common initial is the classic sign of an invented name.
 
+Second check, --initials: handwritten initials that are easily misread (T/J, R/P, O/D ...).
+Lists club + surname pairs where two confusable initials appear, never in the same race,
+in overlapping or neighbouring seasons. The rarer one is often a misread of the other.
+
 Usage: python3 tools/name_clashes.py [--all] [--club BEL] [--surname Sharp]
+       python3 tools/name_clashes.py --initials [--club BEL]
 """
 import json, re, sys, collections, os
 
@@ -27,6 +32,7 @@ def same(a, b):
     return a == b or any(a in s and b in s for s in NICK)
 
 
+CONFUSABLE = [set(p) for p in "TJ IJ IT IL JL RP RK RB PB PF OD OQ DQ CG CE EF FT GS HN HK MN MW NW UV UW AH SJ".split()]
 args = sys.argv[1:]
 opt = lambda k: args[args.index(k) + 1].lower() if k in args else None
 club_f, sur_f = opt('--club'), opt('--surname')
@@ -59,3 +65,36 @@ print(len(rows), 'groups to look at\n')
 for total, club, sur, ini, forms in rows:
     print(f'{club} {sur} ({ini}.)  ' + ',  '.join(
         f'{f} x{len(v)} [{v[0].split()[0]}–{v[-1].split()[0]}]' for f, v in sorted(forms.items(), key=lambda kv: -len(kv[1]))))
+
+
+if '--initials' in args:
+    S = collections.defaultdict(lambda: collections.defaultdict(lambda: [set(), set()]))
+    for r in d['races']:
+        if r['season'] >= '2013/14':
+            continue
+        rid = (r['season'], r['match'])
+        for x in r['results'] or []:
+            p = re.sub(r'\s*\(\d\)$', '', x['n'].strip()).split()
+            if len(p) < 2:
+                continue
+            e = S[(x['c'], p[-1])][p[0][0].upper()]
+            e[0].add(rid); e[1].add(int(r['season'][:4]))
+    out = []
+    for (club, sur), ini in S.items():
+        if club_f and club.lower() != club_f:
+            continue
+        for a in ini:
+            for b in ini:
+                if a >= b or {a, b} not in CONFUSABLE:
+                    continue
+                (ra, ya), (rb, yb) = ini[a], ini[b]
+                if ra & rb:
+                    continue  # ran in the same race: two different people
+                if min(abs(i - j) for i in ya for j in yb) > 1:
+                    continue  # years apart: probably different people
+                rare, common = (a, b) if len(ra) <= len(rb) else (b, a)
+                out.append((len(ini[common][0]), club, sur, rare, len(ini[rare][0]), common, sorted(ini[rare][1])))
+    out.sort(reverse=True)
+    print('\n--- confusable initials:', len(out), 'pairs ---')
+    for n, club, sur, rare, nr, common, yrs in out:
+        print(f'{club} {sur}:  {rare}. x{nr} ({", ".join(map(str, yrs))})  vs  {common}. x{n}')
