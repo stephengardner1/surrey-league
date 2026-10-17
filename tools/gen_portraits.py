@@ -1853,4 +1853,22 @@ def cheekbones(svg, skin=1, tag="f", depth=1.0):
 # Dylan Evans (BEL), redrawn Oct 2026: short light-brown quiff fitted to a long narrow head (full hairline, no recede),
 # prominent high cheekbones, solid straight brows angling down at the outer ends, long straight nose
 save("evans", cheekbones(nose(angledbrows(brows(eyes(figure("BEL", skin=1, hair="quiffslim", hair_colour="#8A5E3A", brow_colour="#7A5236", jaw="long")), 0, 0, 2)), 0.9, 1.15)))
+# ---- Bushy sides with a thinning floppy top, deep-set eyes, long strong chin (Oct 2026, first used for Alex Howard) ----
+HAIR["floppythin"] = ('<path fill-rule="evenodd" d="M64,106 L58,102 L60,95 L56,88 L59,80 L57,72 L62,64 L66,56 C68,46 80,35 100,34 C120,34 132,46 134,56 L138,64 L143,72 L141,80 L144,88 L140,95 L142,102 L136,106 L133,90 C132,78 130,68 126,62 Q123,54 116,52 Q110,56 103,61 Q95,66 86,66.5 Q91,62 91.5,57 Q86,52.5 80,54 Q75,58 73,64 C70,70 68,80 67,90 Z'
+    ' M92,48 Q101,47 109,51 Q101,49.5 92,50 Z M99,43 Q107,42.5 113,46 Q106,45 99,44.6 Z"/>')  # bushy ragged sides over the ears, thinning floppy top with a deep temple recede and scalp showing through (Alex Howard)
+def sockets(svg, skin=1, tag="f", depth=1.0):
+    """Deep-set eyes: soft shadow in each eye socket between the brow and the upper lid."""
+    sk, dk, lt = SKIN[skin]
+    return _after_lids(svg, f'<g clip-path="url(#h{tag})" fill="#4A2E22" opacity="{.16*depth:.2f}"><path d="M74,106 Q85,100 96,104 Q97,108 94.5,110 Q85,104.5 76,111 Q73.5,109 74,106 Z"/><path d="M126,106 Q115,100 104,104 Q103,108 105.5,110 Q115,104.5 124,111 Q126.5,109 126,106 Z"/></g>')
+HEAD_LONGCHIN = "M68,96 C66,58 81,40 100,40 C119,40 134,58 132,96 L130,124 L128.5,149 Q127.5,159 120.5,167.5 Q112.5,176 100,176 Q87.5,176 79.5,167.5 Q72.5,159 71.5,149 L70,124 Z"  # long face, squarish jaw and a long, strong, broad chin (Alex Howard)
+def longchin(svg):
+    """Swap the broad-chin head (jaw="broadchin") for a longer face with a longer, stronger chin."""
+    return svg.replace(HEAD_BROADCHIN, HEAD_LONGCHIN)
+def chindef(svg, skin=1, tag="f"):
+    """Definition under the mouth: a soft shadow in the dip between lower lip and chin."""
+    sk, dk, lt = SKIN[skin]
+    return _after_lids(svg, f'<path d="M92.5,161 Q100,158.6 107.5,161 Q100,164.6 92.5,161 Z" fill="{dk}"/>')
+# Alex Howard (THH), redrawn Oct 2026: very dark hair, bushy ragged sides over the ears, thinning floppy top with a deep temple recede,
+# long face with a squarish jaw and long strong chin, definition under the mouth, full curved brows over deep-set eyes, high cheekbones, long nose
+save("alex-howard", chindef(longchin(cheekbones(sockets(nose(archbrows(eyes(figure("THH", skin=1, hair="floppythin", hair_colour="#2A1D17", brow_colour="#1E1612", jaw="broadchin"), None, -0.5)), 1.0, 1.25), depth=1.4), depth=1.3))))
 export_site()
