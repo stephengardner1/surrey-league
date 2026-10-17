@@ -10594,5 +10594,75 @@
   ],
   "evidence": "surname spelling: county champs spell Delmas (Reigate) 1 times, never Delas; 3 results as Delmas",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "STR",
+  "from": [
+   "S Gandham"
+  ],
+  "to": "S Sandham",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "surname spelling: county champs spell Sandham (Stragglers) 1 times, never Gandham; 10 results as Sandham",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "STR",
+  "from": [
+   "Mark Patinson"
+  ],
+  "to": "Mark Pattinson",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "evidence": "surname spelling: county champs spell Pattinson (Stragglers) 1 times, never Patinson; 7 results as Pattinson",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "STR",
+  "from": [
+   "Sonia Bandiera"
+  ],
+  "to": "Sonia Bandeira",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "surname spelling: county champs spell Bandeira (Stragglers) 1 times, never Bandiera; 3 results as Bandeira",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "STR",
+  "from": [
+   "Sonia Baniera"
+  ],
+  "to": "Sonia Bandeira",
+  "seasons": [
+   "2009/10",
+   "2009/10"
+  ],
+  "evidence": "surname spelling: county champs spell Bandeira (Stragglers) 1 times, never Baniera; 3 results as Bandeira",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "women",
+  "club": "STR",
+  "from": [
+   "Emma Dadlant"
+  ],
+  "to": "Emma Dadlani",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "surname spelling: county champs spell Dadlani (Stragglers) 1 times, never Dadlant; 4 results as Dadlani",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
  }
 ]
