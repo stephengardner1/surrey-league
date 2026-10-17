@@ -6531,5 +6531,95 @@
   "seasons": null,
   "evidence": "Athletics Weekly 23 Feb 2000 marathon list '2:28:44 Paul Harwood (AFD)'; AW also prints P Harwood (AFD) in 2000 and 2002 race results; only P Harwood at the club (open puzzle in the skill)",
   "approved": "Names session, 17 Oct 2026: high confidence (Athletics Weekly)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Neil Haynes",
+   "N Haynes"
+  ],
+  "to": "Nick Haynes",
+  "seasons": null,
+  "evidence": "Surrey County XC champs 1999: Nick Haynes (Aldershot); AW prints N Haynes (AFD, M40) 1999-2000; Neil unsupported",
+  "approved": "Steve, 17 Oct 2026 (names session puzzle answer)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Steve Sheard",
+   "Simon Sheard"
+  ],
+  "to": "S Sheard",
+  "seasons": null,
+  "evidence": "no source gives a first name (AW 2002: S Sheard (AFD, M40)); invented names revert to the initial",
+  "approved": "Steve, 17 Oct 2026 (names session puzzle answer)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "D McCarthy"
+  ],
+  "to": "Dan McCarthy",
+  "seasons": null,
+  "evidence": "joined to the 2003/04 'Dan McCarthy'; AW prints D McCarthy (AFD, U20) 1999-2003",
+  "approved": "Steve, 17 Oct 2026 (names session puzzle answer)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "M Cartailler",
+   "Mark Cartailler",
+   "CARTAILLER",
+   "Mathias Cartailler",
+   "Matthias Cartallier"
+  ],
+  "to": "Matthias Cartailler",
+  "seasons": null,
+  "evidence": "Matthias Cartailler runs for Guildford from 2021 (surreyleague.org); AW 2003-04 prints M Cartailler (AFD)",
+  "approved": "Steve, 17 Oct 2026 (names session puzzle answer)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "M Lake"
+  ],
+  "to": "Martin Lake",
+  "seasons": [
+   "1980/81",
+   "1991/92"
+  ],
+  "evidence": "county champs: M Lake (Belgrave) 1983-90 and Martin Lake 1989; site already aliased M Lake to Martin Lake",
+  "approved": "Steve, 17 Oct 2026 (names session puzzle answer)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "Eddie Thorp",
+   "E Thorp"
+  ],
+  "to": "Eddie Thorpe",
+  "seasons": null,
+  "evidence": "county champs print E Thorpe (Belgrave) 1974, 1977, 1981-84 (Thorp only 1975-76)",
+  "approved": "Steve, 17 Oct 2026 (names session puzzle answer)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "James Jackson (2)"
+  ],
+  "to": "James Jackson",
+  "seasons": [
+   "2003/04",
+   "2003/04"
+  ],
+  "evidence": "Athletics Weekly 22 Oct 2003: '10 J Jackson (AFD, M40) 27:01' and 'James Jackson, who again turned out for an Aldershot outfit... 10th'. Held under THH by mistake - club left unchanged and flagged to Steve",
+  "approved": "Steve, 17 Oct 2026 (names session puzzle answer)"
  }
 ]
