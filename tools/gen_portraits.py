@@ -1772,4 +1772,24 @@ def mouth(svg, width=1.0, full=1.0):
 # tapering to the temples, dark-blonde hair sleeked back from a centre parting with silver slides into a ponytail, small gold hoops,
 # a slightly wider, fuller mouth, flushed
 save("emma-gordon", mouth(taperbrows(hairclips(earrings(brows(eyes(figure("BEL", skin=1, hair="ponytail", hair_colour="#9A7B58", brow_colour="#6B4E3A", rosy=True), "small", 1.5), 0, 1.5, 4).replace('r="3.8"', 'r="3.2"')))), 1.1, 1.3))
+# ---- Two-tone balding fuzz, heavy-topped glasses, thin sideburns (Oct 2026, first used for Ollie Garrod) ----
+import re as _rg
+HAIR["fuzzbald"] = ('<path opacity=".9" d="M65,102 C62,58 82,39 100,39 C118,39 138,58 135,102 L131,102 C131,86 129.5,74 126,66 C120,52 110,42 100,42 C90,42 80,52 74,66 C70.5,74 69,86 69,102 Z"/>'
+    '<path opacity=".45" d="M87,44.5 Q100,40.5 113,44.5 Q109,55.5 100,56.5 Q91,55.5 87,44.5 Z"/>')  # very short sides continuing finely over a bald top, joined to a lighter island at the front of the crown
+def _after_lids(svg, extra):
+    """Insert extra shapes right after the eyelid lines, so they share the eyes' coordinates (the face is squashed vertically)."""
+    m = _rg.search(r'<g fill="none" stroke="#[0-9A-Fa-f]{6}" stroke-width="1.8" stroke-linecap="round"><path d="M[67][^"]*"/>(?:(?!</g>).)*</g>', svg)
+    return svg[:m.end()] + extra + svg[m.end():] if m else svg
+def browglasses(svg, col="#2E2622"):
+    """Soft rectangular glasses, wider than tall, with a heavy top rim and fine lower rims."""
+    lens = lambda x: f'<path d="M{x},101 L{x+28},101 L{x+27},118 Q{x+26.5},123 {x+21},123 L{x+6},123 Q{x+1},123 {x+0.5},118 Z"/>'
+    return _after_lids(svg, f'<g fill="none" stroke="{col}" stroke-width="1.1" stroke-linejoin="round">{lens(68.5)}{lens(103.5)}</g>'
+        f'<g fill="none" stroke="{col}" stroke-width="3" stroke-linecap="round"><path d="M68.5,101.5 L96.5,101.5"/><path d="M103.5,101.5 L131.5,101.5"/><path d="M96.5,102.5 Q100,100.5 103.5,102.5" stroke-width="2"/>'
+        f'<path d="M68.5,102 L62.5,101" stroke-width="2"/><path d="M131.5,102 L137.5,101" stroke-width="2"/></g>')
+def thinsideburns(svg, col):
+    """Thin, short sideburns in front of the ears."""
+    return _after_lids(svg, f'<g fill="{col}"><path d="M64.6,90 L68,90 L68.4,110 L66,110 Z"/><path d="M135.4,90 L132,90 L131.6,110 L134,110 Z"/></g>')
+# Ollie Garrod (BEL), redrawn Oct 2026: very short light ginger-brown hair, balding with a small island at the front of the crown,
+# heavy-topped rectangular glasses, thin sideburns, ginger moustache and chin beard around the mouth only, thin light brows, long narrow face
+save("ollie-garrod", thinsideburns(browglasses(eyes(figure("BEL", skin=1, hair="fuzzbald", hair_colour="#A87A55", brow_colour="#9C7250", thin_brows=True, jaw="narrow", rosy=True, facial="fullgoatee", facial_colour="#B07A50"), None)), "#A87A55"))
 export_site()
