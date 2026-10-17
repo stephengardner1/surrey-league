@@ -4964,5 +4964,20 @@
   ],
   "evidence": "misread J/S: J Jackson of Aldershot (identity of J Jackson itself still an open puzzle); inside 1986/87-1999/00, so the existing approved entry then makes it James Jackson",
   "approved": "Names session, 17 Oct 2026: high confidence (outside source or a run Steve approved)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "J Jackson",
+   "John Jackson"
+  ],
+  "to": "James Jackson",
+  "seasons": [
+   "2000/01",
+   "2004/05"
+  ],
+  "evidence": "Athletics Weekly: 18 Oct 2000 (2000/01 m1) 'led by James Jackson'; 22 Oct 2003 (2003/04 m1) 'James Jackson, who again turned out for an Aldershot outfit... 10th', listed '10 J Jackson (AFD, M40) 27:01'; 11 Feb 2004 '22 J Jackson (AFD, M40) 29:40' (our 2003/04 m4); 16 Feb 2005 '38 J Jackson (AFD, M40) 32:24' (our 'John Jackson' 2004/05 m4, 32:24). No John Jackson of AFD in any source.",
+  "approved": "Names session, 17 Oct 2026: high confidence (Athletics Weekly race reports)"
  }
 ]
