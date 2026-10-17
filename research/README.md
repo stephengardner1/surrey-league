@@ -5,8 +5,14 @@ has to trawl them again. Steve's decisions on each finding live in two review pa
 - **Belgravian Findings**: https://claude.ai/artifact/C7xh59MUnrQYAb8XgN5m64
 - **Club Archive Findings**: https://claude.ai/artifact/NEQhEHUfaFVcRtpu6WiZyj
 
-Read those (ArtifactData) for what Steve approved or rejected. As of 17 Oct 2026, about 2,201 Belgravian
-changes are approved but **not yet applied**. Apply them only when Steve says "go".
+Read those (ArtifactData) for what Steve approved or rejected.
+
+**Status of the Belgravian changes (17 Oct 2026): applied.** The keys of every applied item are in
+`belgravian/applied-2026-10-17.json`. Applied: 1,199 high-confidence name changes, 773 missing results
+(non-scoring, at free positions only), 534 times, 157 dates/venues/finisher counts, and 13 initials upgraded to
+full names. Items skipped were already done, already present one place apart (printing difference), or had
+changed since. **Still to do:** `belgravian/medium-confidence-names.json` holds 341 medium-confidence name
+changes. They're for the names session to cross-check against other sources before bringing the strong ones to Steve.
 
 Full texts of the magazines are NOT kept here (this repo is public, and they're copyright).
 Re-download them from the URL lists and convert them with `pdftotext -layout`.

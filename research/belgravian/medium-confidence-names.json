@@ -1,0 +1,6140 @@
+[
+{
+"op": "rename",
+"file": "men",
+"season": "1962/63",
+"match": 2,
+"pos": 20,
+"club": "BEL",
+"from": "Badby",
+"to": "J Bradley",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B149",
+"page": 26,
+"evidence": "20. J. Bradley ... This was Bradley s first outing and his 20th place just behind Sawyer and Fairclough"
+},
+"_key": "n1-N2"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1962/63",
+"match": 4,
+"pos": 8,
+"club": "WAL",
+"from": "R Winchester",
+"to": "G Winchester",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B149",
+"page": 28,
+"evidence": "8. G. Winchester (Walton)......34:45"
+},
+"_key": "n1-N4"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1962/63",
+"match": 4,
+"pos": 33,
+"club": "BEL",
+"from": "P Binns",
+"to": "Paul Binns",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B149",
+"page": 4,
+"evidence": "Paul Binns, still a junior, is not yet as advanced as Bradley"
+},
+"_key": "n1-N5"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1963/64",
+"match": 4,
+"pos": 3,
+"club": "MIT",
+"from": "Harris",
+"to": "A Harris",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B153",
+"page": 9,
+"evidence": "3. A. Harris (Mitcham)"
+},
+"_key": "n1-N6"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1964/65",
+"match": 4,
+"pos": 1,
+"club": "MIT",
+"from": "Bengt Nadje",
+"to": "Bengt Najde",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B157",
+"page": 7,
+"evidence": "Najde of Sweden, who defeated both the North brothers in the final North Surrey League fixture last winter"
+},
+"_key": "n1-N12"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1965/66",
+"match": 2,
+"pos": 73,
+"club": "BEL",
+"from": "Jack Brown",
+"to": "R Brown",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B158",
+"page": 29,
+"evidence": "73. Brown (R)...36:22"
+},
+"_key": "n1-N13"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1967/68",
+"match": 1,
+"pos": 158,
+"club": "BEL",
+"from": "T V Burke",
+"to": "John Baker",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B164",
+"page": "20/41",
+"evidence": "158. J.V. Baker ... 41:30 | Messrs. John Baker and John Hall"
+},
+"_key": "n1-N47"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1967/68",
+"match": 1,
+"pos": 74,
+"club": "BEL",
+"from": "P Hilliar",
+"to": "Peter Hilliar",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B167",
+"page": 19,
+"evidence": "Peter Hilliar (800)"
+},
+"_key": "n1-N26"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1967/68",
+"match": 1,
+"pos": 2,
+"club": "H/W",
+"from": "R Holt",
+"to": "Bob Holt",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B164",
+"page": 21,
+"evidence": "seconds ahead of Bob Holt"
+},
+"_key": "n1-N14"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1967/68",
+"match": 1,
+"pos": 5,
+"club": "SUR",
+"from": "J Snowdon",
+"to": "J Snowden",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B164",
+"page": 41,
+"evidence": "5. J. Snowden (Sy) 28:42"
+},
+"_key": "n1-N16"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1968/69",
+"match": 1,
+"pos": 105,
+"club": "BEL",
+"from": "McMeehan",
+"to": "S McMeekin",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B168/B170",
+"page": "14/46",
+"evidence": "105. McMeekin 35:18 | 76. S. McMeekin 5:29"
+},
+"_key": "n1-N63"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1968/69",
+"match": 1,
+"pos": 92,
+"club": "BEL",
+"from": "C Pearson",
+"to": "Colin Pearson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B170",
+"page": 29,
+"evidence": "Colin Pearson, John Hamilton"
+},
+"_key": "n1-N59"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1968/69",
+"match": 1,
+"pos": 128,
+"club": "BEL",
+"from": "C Manning",
+"to": "Charlie Manning",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B164",
+"page": 16,
+"evidence": "Charlie Manning's entry into hospital"
+},
+"_key": "n1-N67"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1968/69",
+"match": 1,
+"pos": 133,
+"club": "BEL",
+"from": "J V Baker",
+"to": "John Baker",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B164",
+"page": 20,
+"evidence": "Messrs. John Baker and John Hall"
+},
+"_key": "n1-N68"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1968/69",
+"match": 1,
+"pos": 134,
+"club": "BEL",
+"from": "E Stimpson",
+"to": "Ted Stimpson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B164",
+"page": 6,
+"evidence": "Ted Stimpson finished a gallant fourth"
+},
+"_key": "n1-N69"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1972/73",
+"match": 4,
+"pos": 79,
+"club": "BEL",
+"from": "C Keane",
+"to": "Colm Keane",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B180",
+"page": 54,
+"evidence": "Colm Keane .............. Running"
+},
+"_key": "n2-N7"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1972/73",
+"match": 2,
+"pos": 124,
+"club": "BEL",
+"from": "D Carllson",
+"to": "David Carlsson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B180",
+"page": 54,
+"evidence": "David A. Carlsson ........ Running"
+},
+"_key": "n2-N5"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 77,
+"club": "BEL",
+"from": "C Dages",
+"to": "C Dabbs",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 40,
+"evidence": "77. C.Dabbs 31:56"
+},
+"_key": "n3-N28"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 127,
+"club": "BEL",
+"from": "N Kirimatizis",
+"to": "N Kirmatzis",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 40,
+"evidence": "127. N.Kirmatzis 35:21"
+},
+"_key": "n3-N39"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 156,
+"club": "BEL",
+"from": "T Middleton",
+"to": "J Middleton",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 40,
+"evidence": "156. J.Middleton 38:55"
+},
+"_key": "n3-N53"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 135,
+"club": "BEL",
+"from": "J Stratton",
+"to": "J Stratten",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 40,
+"evidence": "58. A.Fairclough 30:55"
+},
+"_key": "n3-N44"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 2,
+"pos": 141,
+"club": "BEL",
+"from": "J Stratton",
+"to": "J Stratten",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 40,
+"evidence": "58. A.Fairclough 30:55"
+},
+"_key": "n3-N74"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 1,
+"pos": 55,
+"club": "BEL",
+"from": "A Blinck",
+"to": "Alan Black",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 19,
+"evidence": "53.A.Black 30:49 / followed by Alan Black, Leo Coy, Simon Holmes"
+},
+"_key": "n3-N152"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 1,
+"pos": 108,
+"club": "BEL",
+"from": "R Maughan",
+"to": "Doug Maughan",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 19,
+"evidence": "110.D. Maughan 32:58 / Doug Maughan losing the silver to his ... arch-enemy Brian Gorman"
+},
+"_key": "n3-N163"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 1,
+"pos": 129,
+"club": "BEL",
+"from": "R Hardwicke",
+"to": "Peter Hardwick",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 19,
+"evidence": "123.P. Hardwick 33:36 / John Wasbrough, John Davies and Peter Hardwick celebrate"
+},
+"_key": "n3-N166"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 1,
+"pos": 153,
+"club": "BEL",
+"from": "G Henn",
+"to": "Charlie Henn",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 19,
+"evidence": "161.C.Henn 35:50"
+},
+"_key": "n3-N177"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 1,
+"pos": 161,
+"club": "BEL",
+"from": "D Crogan",
+"to": "D Gorman",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 19,
+"evidence": "164.D.Gorman 36:20"
+},
+"_key": "n3-N178"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 1,
+"pos": 191,
+"club": "BEL",
+"from": "C Beutler",
+"to": "J Beutter",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 19,
+"evidence": "193.J. Beutter 39:07"
+},
+"_key": "n3-N184"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1974/75",
+"match": 3,
+"pos": 19,
+"club": "BEL",
+"from": "C Barber",
+"to": "Chris Barber",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B188",
+"page": 10,
+"evidence": "Chris Barber"
+},
+"_key": "n3-N4"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1974/75",
+"match": 3,
+"pos": 75,
+"club": "BEL",
+"from": "W Kerr",
+"to": "Bill Kerr",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 38,
+"evidence": "John Davis, Paul Pringle and Bill Kerr"
+},
+"_key": "n3-N11"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1974/75",
+"match": 3,
+"pos": 130,
+"club": "BEL",
+"from": "C Manning",
+"to": "Charlie Manning",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B188",
+"page": 13,
+"evidence": "=5. Chas. Manning ... 56"
+},
+"_key": "n3-N16"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1974/75",
+"match": 3,
+"pos": 132,
+"club": "BEL",
+"from": "J Baker",
+"to": "John Baker",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B188",
+"page": 5,
+"evidence": "Please get in touch with John Baker or myself"
+},
+"_key": "n3-N17"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 114,
+"club": "BEL",
+"from": "S Barrett",
+"to": "Stuart Barrett",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B186",
+"page": 14,
+"evidence": "Stuart Barrett just missed the hour (also \"Stewart Barrett\" B188 p15, \"Stu' Barrett\")"
+},
+"_key": "n3-N35"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 130,
+"club": "BEL",
+"from": "B Merry",
+"to": "Bernard Merry",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B188",
+"page": 15,
+"evidence": "Bernard Merry's silhouette can be seen ahead"
+},
+"_key": "n3-N41"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 131,
+"club": "BEL",
+"from": "P North",
+"to": "Peter North",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 35,
+"evidence": "Peter Gardner, Simon Williamson, Peter North and Brian Marmion have shown great improvement"
+},
+"_key": "n3-N42"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 136,
+"club": "BEL",
+"from": "R Hopkins",
+"to": "Reg Hopkins",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 8,
+"evidence": "Clive Shippen has taken over as Junior Hon. Secretary from Reg Hopkins"
+},
+"_key": "n3-N45"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 1,
+"pos": 149,
+"club": "BEL",
+"from": "D Maclean",
+"to": "Duncan Maclean",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B192",
+"page": 11,
+"evidence": "Our two \"supervets\" Duncan Maclean and Charlie Speechley"
+},
+"_key": "n3-N50"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 2,
+"pos": 91,
+"club": "BEL",
+"from": "W Kerr",
+"to": "Bill Kerr",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 38,
+"evidence": "John Davis, Paul Pringle and Bill Kerr"
+},
+"_key": "n3-N65"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 2,
+"pos": 138,
+"club": "BEL",
+"from": "P Staples",
+"to": "Peter Staples",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B191",
+"page": 25,
+"evidence": "WELCOME TO THE FOLLOWING NEW MEMBERS ... Peter G. Staples"
+},
+"_key": "n3-N73"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 3,
+"pos": 73,
+"club": "BEL",
+"from": "W Kerr",
+"to": "Bill Kerr",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B190",
+"page": 38,
+"evidence": "John Davis, Paul Pringle and Bill Kerr"
+},
+"_key": "n3-N88"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1975/76",
+"match": 3,
+"pos": 109,
+"club": "BEL",
+"from": "P Staples",
+"to": "Peter Staples",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B191",
+"page": 25,
+"evidence": "WELCOME TO THE FOLLOWING NEW MEMBERS ... Peter G. Staples"
+},
+"_key": "n3-N97"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1976/77",
+"match": 1,
+"pos": 92,
+"club": "BEL",
+"from": "P Newall",
+"to": "Pat Newell",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B193",
+"page": 26,
+"evidence": "Lionel Mann and evergreen Pat Newell closing in the 'A' team"
+},
+"_key": "n3-N111"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1976/77",
+"match": 1,
+"pos": 145,
+"club": "BEL",
+"from": "B Merry",
+"to": "Bernard Merry",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B188",
+"page": 15,
+"evidence": "Bernard Merry's silhouette can be seen ahead"
+},
+"_key": "n3-N120"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1976/77",
+"match": 1,
+"pos": 167,
+"club": "BEL",
+"from": "R Day",
+"to": "Ron Day",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B193",
+"page": 13,
+"evidence": "Ron Day, Dave King, John Morris, John Keown and Bob Picton"
+},
+"_key": "n3-N127"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1976/77",
+"match": 1,
+"pos": 180,
+"club": "BEL",
+"from": "G Pearson",
+"to": "Geoff Pearson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 30,
+"evidence": "Geoff Pearson won the over-60's"
+},
+"_key": "n3-N129"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1976/77",
+"match": 1,
+"pos": 183,
+"club": "BEL",
+"from": "C Manning",
+"to": "Charlie Manning",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B188",
+"page": 13,
+"evidence": "=5. Chas. Manning ... 56"
+},
+"_key": "n3-N130"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1976/77",
+"match": 1,
+"pos": 194,
+"club": "BEL",
+"from": "J Morris",
+"to": "John Morris",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B193",
+"page": 2,
+"evidence": "ELECTED COMMITTEE ... John Morris"
+},
+"_key": "n3-N134"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1976/77",
+"match": 4,
+"pos": 110,
+"club": "BEL",
+"from": "R Hopkins Jr",
+"to": "Reg Hopkins Jr",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B194",
+"page": 13,
+"evidence": "Decathlete Reg Hopkins ... completed the course; list: 36. R.Hopkins Jnr"
+},
+"_key": "n3-N146"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1976/77",
+"match": 4,
+"pos": 127,
+"club": "BEL",
+"from": "J Morris",
+"to": "John Morris",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B193",
+"page": 2,
+"evidence": "ELECTED COMMITTEE ... John Morris"
+},
+"_key": "n3-N150"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 1,
+"pos": 188,
+"club": "BEL",
+"from": "G Pearson",
+"to": "Geoff Pearson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 30,
+"evidence": "Geoff Pearson won the over-60's"
+},
+"_key": "n3-N183"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 1,
+"pos": 201,
+"club": "BEL",
+"from": "C Manning",
+"to": "Charlie Manning",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B188",
+"page": 13,
+"evidence": "=5. Chas. Manning ... 56"
+},
+"_key": "n3-N187"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 2,
+"pos": 105,
+"club": "BEL",
+"from": "E Crossingham",
+"to": "Edward Crossingham",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B198",
+"page": 37,
+"evidence": "new members ... Edward Crossingham"
+},
+"_key": "n3-N205"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1978/79",
+"match": 3,
+"pos": 136,
+"club": "BEL",
+"from": "C Manning",
+"to": "Charlie Manning",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B188",
+"page": 13,
+"evidence": "=5. Chas. Manning ... 56"
+},
+"_key": "n3-N221"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1984/85",
+"match": 1,
+"pos": 162,
+"club": "BEL",
+"from": "M Razire",
+"to": "M Bazire",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B208",
+"page": 38,
+"evidence": "162.M.Bazire 34.40"
+},
+"_key": "n4-N199"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1984/85",
+"match": 1,
+"pos": 173,
+"club": "BEL",
+"from": "K Graham",
+"to": "R Graham",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B208",
+"page": 38,
+"evidence": "173.R.Graham 35.29"
+},
+"_key": "n4-N201"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1983/84",
+"match": 2,
+"pos": 127,
+"club": "BEL",
+"from": "B Hollingworth",
+"to": "D Hollingworth",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B207_1984",
+"page": 22,
+"evidence": "127.D.Hollingworth 30.26"
+},
+"_key": "n4-N159"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 4,
+"pos": 88,
+"club": "BEL",
+"from": "S Zreveley",
+"to": "S Zeely",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 32,
+"evidence": "85. S Zeely 32.53"
+},
+"_key": "n4-N372"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1980/81",
+"match": 2,
+"pos": 32,
+"club": "BEL",
+"from": "G North",
+"to": "Gerry North",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B199",
+"page": 40,
+"evidence": "Also running was Gerry North who was 6th in 16.46 [Horsham Vets 3]"
+},
+"_key": "n4-N19"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1982/83",
+"match": 3,
+"pos": 129,
+"club": "BEL",
+"from": "B Kersey",
+"to": "Bob Kersey",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B202",
+"page": 21,
+"evidence": "Vets Section Bob Kersey - Telephone 872 8015 has now taken over this post | 129. R.Kersey 32.28"
+},
+"_key": "n4-N112"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1983/84",
+"match": 1,
+"pos": 96,
+"club": "BEL",
+"from": "R Kersey",
+"to": "Bob Kersey",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B202",
+"page": 21,
+"evidence": "Vets Section Bob Kersey - Telephone 872 8015 has now taken over this post | 129. R.Kersey 32.28"
+},
+"_key": "n4-N135"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1982/83",
+"match": 3,
+"pos": 82,
+"club": "BEL",
+"from": "A Horton",
+"to": "Alister Horton",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B204",
+"page": 26,
+"evidence": "New member Oliver Foote (52) follows Alister Horton (49) | Alister Horton ran well to be the first London runner home in 77th"
+},
+"_key": "n4-N105"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1983/84",
+"match": 2,
+"pos": 44,
+"club": "BEL",
+"from": "A Horton",
+"to": "Alister Horton",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B204",
+"page": 26,
+"evidence": "New member Oliver Foote (52) follows Alister Horton (49) | Alister Horton ran well to be the first London runner home in 77th"
+},
+"_key": "n4-N149"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1985/86",
+"match": 3,
+"pos": 143,
+"club": "BEL",
+"from": "C Chaston",
+"to": "Christopher Chaston",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Christopher Chaston"
+},
+"_key": "n4-N285"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 1,
+"pos": 124,
+"club": "BEL",
+"from": "C Chaston",
+"to": "Christopher Chaston",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Christopher Chaston"
+},
+"_key": "n4-N317"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 1,
+"pos": 53,
+"club": "BEL",
+"from": "M Forrester",
+"to": "Martin Forrester",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Martin Forrester"
+},
+"_key": "n4-N309"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 4,
+"pos": 47,
+"club": "BEL",
+"from": "M Forrester",
+"to": "Martin Forrester",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Martin Forrester"
+},
+"_key": "n4-N369"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1985/86",
+"match": 4,
+"pos": 106,
+"club": "BEL",
+"from": "H Galvan",
+"to": "Henry Galvan",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Henry Galvan"
+},
+"_key": "n4-N297"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1985/86",
+"match": 4,
+"pos": 133,
+"club": "BEL",
+"from": "S Osborne",
+"to": "Stephen Osborne",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Stephen Osborne"
+},
+"_key": "n4-N299"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 1,
+"pos": 153,
+"club": "BEL",
+"from": "S Osborne",
+"to": "Stephen Osborne",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Stephen Osborne"
+},
+"_key": "n4-N319"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 3,
+"pos": 169,
+"club": "BEL",
+"from": "S Osborne",
+"to": "Stephen Osborne",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Stephen Osborne"
+},
+"_key": "n4-N358"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 1,
+"pos": 191,
+"club": "BEL",
+"from": "P Tiernan",
+"to": "Peter Tiernan",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B210",
+"page": 12,
+"evidence": "NewMembers. We welcome to Belgrave Harriers the following who have joined our ranks since the previous issue ... Peter Tiernan"
+},
+"_key": "n4-N321"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 2,
+"pos": 80,
+"club": "BEL",
+"from": "P Anthony",
+"to": "Peter Anthony",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... Peter Anthony"
+},
+"_key": "n4-N336"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 3,
+"pos": 67,
+"club": "BEL",
+"from": "P Anthony",
+"to": "Peter Anthony",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... Peter Anthony"
+},
+"_key": "n4-N351"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 1,
+"pos": 34,
+"club": "BEL",
+"from": "J Budarkiewicz",
+"to": "Joseph Budarkiewicz",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... Joseph Budarkiewicz"
+},
+"_key": "n4-N306"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 2,
+"pos": 42,
+"club": "BEL",
+"from": "J Budarkiewicz",
+"to": "Joseph Budarkiewicz",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... Joseph Budarkiewicz"
+},
+"_key": "n4-N331"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 3,
+"pos": 57,
+"club": "BEL",
+"from": "J Budarkewicz",
+"to": "Joseph Budarkiewicz",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... Joseph Budarkiewicz"
+},
+"_key": "n4-N350"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 2,
+"pos": 27,
+"club": "BEL",
+"from": "D Fantham",
+"to": "Daryle Fantham",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... Daryle Fantham"
+},
+"_key": "n4-N328"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 4,
+"pos": 22,
+"club": "BEL",
+"from": "D Fantham",
+"to": "Daryle Fantham",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... Daryle Fantham"
+},
+"_key": "n4-N367"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 3,
+"pos": 191,
+"club": "BEL",
+"from": "D Ricks",
+"to": "David Ricks",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... David Ricks"
+},
+"_key": "n4-N361"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1986/87",
+"match": 3,
+"pos": 183,
+"club": "BEL",
+"from": "D Ludlow",
+"to": "David Ludlow",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B211",
+"page": 2,
+"evidence": "NewMembers. We welcome to our ranks the following new members ... David Ludlow"
+},
+"_key": "n4-N360"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 117,
+"club": "BEL",
+"from": "A Madgen",
+"to": "A Madsen",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B214",
+"page": 38,
+"evidence": "117. A.Madsen 32.19"
+},
+"_key": "n5-N60"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 2,
+"pos": 111,
+"club": "BEL",
+"from": "A Madgen",
+"to": "A Madsen",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B214",
+"page": 39,
+"evidence": "105. Guest 31.16; 111. A.Madsen 31.46"
+},
+"_key": "n5-N76"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 155,
+"club": "BEL",
+"from": "D Quintavalle",
+"to": "B Quintavalle",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B214",
+"page": 38,
+"evidence": "155. B.Quintavalle 34.17"
+},
+"_key": "n5-N63"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1992/93",
+"match": 3,
+"pos": 155,
+"club": "BEL",
+"from": "A Rushforth",
+"to": "A Rushworth",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 36,
+"evidence": "156, A.Rushworth 37:10"
+},
+"_key": "n5-N244"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 129,
+"club": "BEL",
+"from": "T Beikelet",
+"to": "B Tolla",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B222",
+"page": 51,
+"evidence": "129, B.Tolla 30:38"
+},
+"_key": "n5-N271"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 4,
+"pos": 50,
+"club": "BEL",
+"from": "R Barton",
+"to": "Bruce Barton",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B223",
+"page": 14,
+"evidence": "Bruce Barton hanging on well to finish just outside the top fifty"
+},
+"_key": "n5-N309"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 4,
+"pos": 59,
+"club": "BEL",
+"from": "N Webb",
+"to": "Mike Webb",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B223",
+"page": 14,
+"evidence": "Mike Webb was followed by a very strong looking Adam Jones in the early sixties"
+},
+"_key": "n5-N310"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 4,
+"pos": 102,
+"club": "BEL",
+"from": "M Anderson",
+"to": "Marlon Anderson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 15,
+"evidence": "102, Marlon Anderson 33:01"
+},
+"_key": "n5-N380"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 4,
+"pos": 134,
+"club": "BEL",
+"from": "G Ram",
+"to": "Mick Graham",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 15,
+"evidence": "134, M.Graham 37:48"
+},
+"_key": "n5-N383"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 1,
+"pos": 27,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Captain 'Gerry' Adams at the head of the field; caption Cross Country Captain Graham Adams"
+},
+"_key": "n5-N2"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 1,
+"pos": 82,
+"club": "BEL",
+"from": "A Paton",
+"to": "Andy Paton",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B218",
+"page": 36,
+"evidence": "The Brothers Paton, Stuart (71) and Andy (72) get well involved in the initial charge up the hill at The Nower, Dorking"
+},
+"_key": "n5-N5"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 1,
+"pos": 84,
+"club": "BEL",
+"from": "J Mather",
+"to": "John Mather",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N6"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 1,
+"pos": 132,
+"club": "BEL",
+"from": "A Stone",
+"to": "Tony Stone",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "M50 Tony Stone found himself being handed over"
+},
+"_key": "n5-N9"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 1,
+"pos": 133,
+"club": "BEL",
+"from": "L Coy",
+"to": "Leo Coy",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N10"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 1,
+"pos": 152,
+"club": "BEL",
+"from": "R Bale",
+"to": "Rex Bale",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 10,
+"evidence": "Rex Bale (team photo caption)"
+},
+"_key": "n5-N11"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 2,
+"pos": 67,
+"club": "BEL",
+"from": "M Sinclair",
+"to": "Mark Sinclair",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 35,
+"evidence": "followed by Mark Sinclair, Matthew Stickles, Mike Hayes (20), Francis Ward, Marcello Bizio (15) and Ollie Foote (11)"
+},
+"_key": "n5-N16"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 2,
+"pos": 116,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N19"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 2,
+"pos": 119,
+"club": "BEL",
+"from": "J Mather",
+"to": "John Mather",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N20"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 2,
+"pos": 141,
+"club": "BEL",
+"from": "T Stone",
+"to": "Tony Stone",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "M50 Tony Stone found himself being handed over"
+},
+"_key": "n5-N21"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 3,
+"pos": 52,
+"club": "BEL",
+"from": "A Paton",
+"to": "Andy Paton",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B218",
+"page": 36,
+"evidence": "The Brothers Paton, Stuart (71) and Andy (72) get well involved in the initial charge up the hill at The Nower, Dorking"
+},
+"_key": "n5-N27"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 3,
+"pos": 72,
+"club": "BEL",
+"from": "C Dickenson",
+"to": "Charlie Dickinson",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N31"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 3,
+"pos": 76,
+"club": "BEL",
+"from": "M Sinclair",
+"to": "Mark Sinclair",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 35,
+"evidence": "followed by Mark Sinclair, Matthew Stickles, Mike Hayes (20), Francis Ward, Marcello Bizio (15) and Ollie Foote (11)"
+},
+"_key": "n5-N33"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 3,
+"pos": 104,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N37"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 4,
+"pos": 45,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Captain 'Gerry' Adams at the head of the field; caption Cross Country Captain Graham Adams"
+},
+"_key": "n5-N42"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 4,
+"pos": 56,
+"club": "BEL",
+"from": "A Paton",
+"to": "Andy Paton",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B218",
+"page": 36,
+"evidence": "The Brothers Paton, Stuart (71) and Andy (72) get well involved in the initial charge up the hill at The Nower, Dorking"
+},
+"_key": "n5-N43"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 4,
+"pos": 75,
+"club": "BEL",
+"from": "C Dickinson",
+"to": "Charlie Dickinson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N46"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 4,
+"pos": 112,
+"club": "BEL",
+"from": "L Coy",
+"to": "Leo Coy",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N48"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1987/88",
+"match": 4,
+"pos": 116,
+"club": "BEL",
+"from": "A Stone",
+"to": "Tony Stone",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "M50 Tony Stone found himself being handed over"
+},
+"_key": "n5-N49"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 9,
+"club": "BEL",
+"from": "J Chaston",
+"to": "Justin Chaston",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "if Justin Chastin, Ollie Foote, John Gladwin, Gary Staines, David Swain had been available"
+},
+"_key": "n5-N50"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 15,
+"club": "BEL",
+"from": "M Chaston",
+"to": "Matthew Chaston",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Matthew Chaston running the Tenth Stage was another runner who excelled my expectations"
+},
+"_key": "n5-N51"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 25,
+"club": "BEL",
+"from": "O Foote",
+"to": "Ollie Foote",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Justin Chastin, Ollie Foote, John Gladwin, Gary Staines"
+},
+"_key": "n5-N53"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 38,
+"club": "BEL",
+"from": "M Bizio",
+"to": "Marcello Bizio",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Marcello Bizio ran the penultimate stage 26.52"
+},
+"_key": "n5-N54"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 61,
+"club": "BEL",
+"from": "M Sinclair",
+"to": "Mark Sinclair",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 35,
+"evidence": "followed by Mark Sinclair, Matthew Stickles, Mike Hayes (20), Francis Ward, Marcello Bizio (15) and Ollie Foote (11)"
+},
+"_key": "n5-N55"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 62,
+"club": "BEL",
+"from": "P Gilbey",
+"to": "Pete Gilbey",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 10,
+"evidence": "Pete Gilbey (team photo caption)"
+},
+"_key": "n5-N56"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 85,
+"club": "BEL",
+"from": "J Bicourt",
+"to": "John Bicourt",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N57"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 112,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N59"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 153,
+"club": "BEL",
+"from": "A Stone",
+"to": "Tony Stone",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "M50 Tony Stone found himself being handed over"
+},
+"_key": "n5-N62"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 157,
+"club": "BEL",
+"from": "J Wasborough",
+"to": "John Wasbrough",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N64"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 161,
+"club": "BEL",
+"from": "C Taplin",
+"to": "Chris Taplin",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Slough and Chris Taplin"
+},
+"_key": "n5-N65"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 177,
+"club": "BEL",
+"from": "M Forrester",
+"to": "Martin Forrester",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Martin Forrester played his part well holding onto eleventh place"
+},
+"_key": "n5-N66"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 1,
+"pos": 190,
+"club": "BEL",
+"from": "R Bale",
+"to": "Rex Bale",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 10,
+"evidence": "Rex Bale (team photo caption)"
+},
+"_key": "n5-N67"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 2,
+"pos": 9,
+"club": "BEL",
+"from": "J Chaston",
+"to": "Justin Chaston",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "if Justin Chastin, Ollie Foote, John Gladwin, Gary Staines, David Swain had been available"
+},
+"_key": "n5-N68"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 2,
+"pos": 18,
+"club": "BEL",
+"from": "O Foote",
+"to": "Ollie Foote",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Justin Chastin, Ollie Foote, John Gladwin, Gary Staines"
+},
+"_key": "n5-N69"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 2,
+"pos": 40,
+"club": "BEL",
+"from": "M Bizio",
+"to": "Marcello Bizio",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Marcello Bizio ran the penultimate stage 26.52"
+},
+"_key": "n5-N70"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 2,
+"pos": 42,
+"club": "BEL",
+"from": "J Mather",
+"to": "John Mather",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N71"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 2,
+"pos": 46,
+"club": "BEL",
+"from": "N Kinnane",
+"to": "Matt Kinane",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N72"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 2,
+"pos": 123,
+"club": "BEL",
+"from": "P Gardner",
+"to": "Pete Gardner",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N77"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 13,
+"club": "BEL",
+"from": "O Foote",
+"to": "Ollie Foote",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Justin Chastin, Ollie Foote, John Gladwin, Gary Staines"
+},
+"_key": "n5-N78"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 40,
+"club": "BEL",
+"from": "J Hobbs",
+"to": "Jonathon Hobbs",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B216",
+"page": 22,
+"evidence": "younger runners such as Jonathon Hobbs, Owen Lewis, Roger Alsop etc."
+},
+"_key": "n5-N80"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 43,
+"club": "BEL",
+"from": "A Paton",
+"to": "Andy Paton",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B218",
+"page": 36,
+"evidence": "The Brothers Paton, Stuart (71) and Andy (72) get well involved in the initial charge up the hill at The Nower, Dorking"
+},
+"_key": "n5-N81"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 52,
+"club": "BEL",
+"from": "M Bizio",
+"to": "Marcello Bizio",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Marcello Bizio ran the penultimate stage 26.52"
+},
+"_key": "n5-N82"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 64,
+"club": "BEL",
+"from": "M Webb",
+"to": "Mike Webb",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N83"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 111,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N85"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 116,
+"club": "BEL",
+"from": "A Stone",
+"to": "Tony Stone",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "M50 Tony Stone found himself being handed over"
+},
+"_key": "n5-N86"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 121,
+"club": "BEL",
+"from": "R Bale",
+"to": "Rex Bale",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 10,
+"evidence": "Rex Bale (team photo caption)"
+},
+"_key": "n5-N87"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1989/90",
+"match": 3,
+"pos": 131,
+"club": "BEL",
+"from": "C Taplin",
+"to": "Chris Taplin",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Slough and Chris Taplin"
+},
+"_key": "n5-N88"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 1,
+"pos": 25,
+"club": "BEL",
+"from": "M Kinnane",
+"to": "Matt Kinane",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N91"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 1,
+"pos": 75,
+"club": "BEL",
+"from": "G Teahan",
+"to": "Gavin Teahan",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B216",
+"page": 14,
+"evidence": "With her boyfriend Gavin Teahan she will return to New Zealand"
+},
+"_key": "n5-N93"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 1,
+"pos": 87,
+"club": "BEL",
+"from": "M Lewington",
+"to": "Martin Lewington",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B214",
+"page": 39,
+"evidence": "Our new signing from New Zealand Martin Lewington showed me up by beating three 'A' team runners."
+},
+"_key": "n5-N95"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 1,
+"pos": 139,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N98"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 1,
+"pos": 141,
+"club": "BEL",
+"from": "C Dickenson",
+"to": "Charlie Dickinson",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N99"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 1,
+"pos": 144,
+"club": "BEL",
+"from": "A Stone",
+"to": "Tony Stone",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "M50 Tony Stone found himself being handed over"
+},
+"_key": "n5-N100"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 1,
+"pos": 172,
+"club": "BEL",
+"from": "J Coy",
+"to": "Jon Coy",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N101"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 1,
+"pos": 176,
+"club": "BEL",
+"from": "L Coy",
+"to": "Leo Coy",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N102"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 40,
+"club": "BEL",
+"from": "M Bizio",
+"to": "Marcello Bizio",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Marcello Bizio ran the penultimate stage 26.52"
+},
+"_key": "n5-N105"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 53,
+"club": "BEL",
+"from": "J Teahan",
+"to": "Gavin Teahan",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B216",
+"page": 14,
+"evidence": "With her boyfriend Gavin Teahan she will return to New Zealand"
+},
+"_key": "n5-N106"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 56,
+"club": "BEL",
+"from": "P Sanders",
+"to": "Peter Sanders",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B214",
+"page": 39,
+"evidence": "Peter Sanders was really on form for this race"
+},
+"_key": "n5-N107"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 58,
+"club": "BEL",
+"from": "M Webb",
+"to": "Mike Webb",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N108"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 68,
+"club": "BEL",
+"from": "C Millbank",
+"to": "Chris Millbank",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N109"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 80,
+"club": "BEL",
+"from": "J Gladwin",
+"to": "John Gladwin",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Justin Chastin, Ollie Foote, John Gladwin"
+},
+"_key": "n5-N110"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 87,
+"club": "BEL",
+"from": "M Lewington",
+"to": "Martin Lewington",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B214",
+"page": 39,
+"evidence": "Our new signing from New Zealand Martin Lewington showed me up by beating three 'A' team runners."
+},
+"_key": "n5-N111"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 142,
+"club": "BEL",
+"from": "M Nouch",
+"to": "Mike Nouch",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N114"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 165,
+"club": "BEL",
+"from": "R Bale",
+"to": "Rex Bale",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 10,
+"evidence": "Rex Bale (team photo caption)"
+},
+"_key": "n5-N115"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 174,
+"club": "BEL",
+"from": "J Coy",
+"to": "Jon Coy",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N116"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 2,
+"pos": 177,
+"club": "BEL",
+"from": "L Coy",
+"to": "Leo Coy",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N117"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 3,
+"pos": 31,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Captain 'Gerry' Adams at the head of the field; caption Cross Country Captain Graham Adams"
+},
+"_key": "n5-N120"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 3,
+"pos": 37,
+"club": "BEL",
+"from": "O Foote",
+"to": "Ollie Foote",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Justin Chastin, Ollie Foote, John Gladwin, Gary Staines"
+},
+"_key": "n5-N121"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 3,
+"pos": 58,
+"club": "BEL",
+"from": "P Sanden",
+"to": "Peter Sanders",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B214",
+"page": 39,
+"evidence": "Peter Sanders was really on form for this race"
+},
+"_key": "n5-N123"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 3,
+"pos": 65,
+"club": "BEL",
+"from": "C Dickenson",
+"to": "Charlie Dickinson",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N124"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 3,
+"pos": 72,
+"club": "BEL",
+"from": "C Millbank",
+"to": "Chris Millbank",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N125"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 3,
+"pos": 97,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N127"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 3,
+"pos": 140,
+"club": "BEL",
+"from": "J Coy",
+"to": "Jon Coy",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N129"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1990/91",
+"match": 3,
+"pos": 148,
+"club": "BEL",
+"from": "A Stone",
+"to": "Tony Stone",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "M50 Tony Stone found himself being handed over"
+},
+"_key": "n5-N130"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 1,
+"pos": 19,
+"club": "BEL",
+"from": "M Biziu",
+"to": "Marcello Bizio",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "The senior team poses at Petersham prior to setting out on the first of the 1991/92 Surrey League cross country races."
+},
+"_key": "n5-N131"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 1,
+"pos": 114,
+"club": "BEL",
+"from": "M Hayes",
+"to": "Mike Hayes",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "The senior team poses at Petersham prior to setting out on the first of the 1991/92 Surrey League cross country races."
+},
+"_key": "n5-N140"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 1,
+"pos": 118,
+"club": "BEL",
+"from": "C Dickenson",
+"to": "Charlie Dickinson",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N141"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 1,
+"pos": 197,
+"club": "BEL",
+"from": "L Coy",
+"to": "Leo Coy",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N149"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 2,
+"pos": 8,
+"club": "BEL",
+"from": "F Ward",
+"to": "Frank Ward",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Francis Ward ran the third leg not a bad run from Frank"
+},
+"_key": "n5-N151"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 2,
+"pos": 18,
+"club": "BEL",
+"from": "M Biziu",
+"to": "Marcello Bizio",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "The senior team poses at Petersham prior to setting out on the first of the 1991/92 Surrey League cross country races."
+},
+"_key": "n5-N153"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 2,
+"pos": 65,
+"club": "BEL",
+"from": "D Maynard",
+"to": "Darryl Maynard",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 33,
+"evidence": "Track star Darryl Maynard came all the way down from Leeds to compete - and didn't score!"
+},
+"_key": "n5-N160"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 2,
+"pos": 72,
+"club": "BEL",
+"from": "C Dickenson",
+"to": "Charlie Dickinson",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N161"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 2,
+"pos": 93,
+"club": "BEL",
+"from": "R Allsop",
+"to": "Roger Alsop",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "A smiling Roger Alsop"
+},
+"_key": "n5-N165"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 2,
+"pos": 223,
+"club": "BEL",
+"from": "L Cong",
+"to": "Leo Coy",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N175"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 2,
+"pos": 224,
+"club": "BEL",
+"from": "K Bale",
+"to": "Rex Bale",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 10,
+"evidence": "Rex Bale (team photo caption)"
+},
+"_key": "n5-N176"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 3,
+"pos": 11,
+"club": "BEL",
+"from": "M Dizio",
+"to": "Marcello Bizio",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "The senior team poses at Petersham prior to setting out on the first of the 1991/92 Surrey League cross country races."
+},
+"_key": "n5-N180"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 3,
+"pos": 40,
+"club": "BEL",
+"from": "O Foote",
+"to": "Ollie Foote",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B218",
+"page": 38,
+"evidence": "Top left to right - Ollie Foote, second Belgravian home at Coulsdon, a hirsute Frank Ward ... and Marco Mazzotta ... Bottom - Jon Hobbs, Andy Paton and Don Anderson"
+},
+"_key": "n5-N183"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 3,
+"pos": 99,
+"club": "BEL",
+"from": "M Lewington",
+"to": "Martin Lewington",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B214",
+"page": 39,
+"evidence": "Our new signing from New Zealand Martin Lewington showed me up by beating three 'A' team runners."
+},
+"_key": "n5-N186"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 3,
+"pos": 133,
+"club": "BEL",
+"from": "S Willmott",
+"to": "Steve Willimont",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Steve Willimont is turning into a most reliable engine-room man"
+},
+"_key": "n5-N188"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 3,
+"pos": 181,
+"club": "BEL",
+"from": "M Forrester",
+"to": "Martin Forrester",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Martin Forrester played his part well holding onto eleventh place"
+},
+"_key": "n5-N193"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 4,
+"pos": 21,
+"club": "BEL",
+"from": "F Ward",
+"to": "Frank Ward",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Francis Ward ran the third leg not a bad run from Frank"
+},
+"_key": "n5-N194"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 4,
+"pos": 30,
+"club": "BEL",
+"from": "O Foote",
+"to": "Ollie Foote",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B218",
+"page": 38,
+"evidence": "Top left to right - Ollie Foote, second Belgravian home at Coulsdon, a hirsute Frank Ward ... and Marco Mazzotta ... Bottom - Jon Hobbs, Andy Paton and Don Anderson"
+},
+"_key": "n5-N195"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 4,
+"pos": 55,
+"club": "BEL",
+"from": "M Sizir",
+"to": "Marcello Bizio",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "The senior team poses at Petersham prior to setting out on the first of the 1991/92 Surrey League cross country races."
+},
+"_key": "n5-N199"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 4,
+"pos": 71,
+"club": "BEL",
+"from": "C Dickenson",
+"to": "Charlie Dickinson",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N202"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 4,
+"pos": 96,
+"club": "BEL",
+"from": "C Taplin",
+"to": "Chris Taplin",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Slough and Chris Taplin"
+},
+"_key": "n5-N204"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 4,
+"pos": 111,
+"club": "BEL",
+"from": "S Williamant",
+"to": "Steve Willimont",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Steve Willimont is turning into a most reliable engine-room man"
+},
+"_key": "n5-N206"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1991/92",
+"match": 4,
+"pos": 169,
+"club": "BEL",
+"from": "M Forrester",
+"to": "Martin Forrester",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 39,
+"evidence": "Martin Forrester played his part well holding onto eleventh place"
+},
+"_key": "n5-N210"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1992/93",
+"match": 1,
+"pos": 146,
+"club": "BEL",
+"from": "J Bicourt",
+"to": "John Bicourt",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N221"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1992/93",
+"match": 1,
+"pos": 160,
+"club": "BEL",
+"from": "A Luce",
+"to": "Alex Luce",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B222",
+"page": 46,
+"evidence": "Scoring for Belgrave for the first time Alex Luce, in 42nd"
+},
+"_key": "n5-N222"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1992/93",
+"match": 2,
+"pos": 77,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Captain 'Gerry' Adams at the head of the field; caption Cross Country Captain Graham Adams"
+},
+"_key": "n5-N228"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1992/93",
+"match": 2,
+"pos": 174,
+"club": "BEL",
+"from": "C Taplin",
+"to": "Chris Taplin",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Slough and Chris Taplin"
+},
+"_key": "n5-N233"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1992/93",
+"match": 3,
+"pos": 138,
+"club": "BEL",
+"from": "A Luce",
+"to": "Alex Luce",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B222",
+"page": 46,
+"evidence": "Scoring for Belgrave for the first time Alex Luce, in 42nd"
+},
+"_key": "n5-N242"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1992/93",
+"match": 4,
+"pos": 78,
+"club": "BEL",
+"from": "M Sinclair",
+"to": "Mark Sinclair",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 35,
+"evidence": "followed by Mark Sinclair, Matthew Stickles, Mike Hayes (20), Francis Ward, Marcello Bizio (15) and Ollie Foote (11)"
+},
+"_key": "n5-N254"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 33,
+"club": "BEL",
+"from": "M Kinane",
+"to": "Matt Kinane",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N262"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 55,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B223",
+"page": 14,
+"evidence": "41, G.Adams 32:04"
+},
+"_key": "n5-N263"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 59,
+"club": "BEL",
+"from": "J Estall",
+"to": "Jim Estall",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Estall returning to his best form"
+},
+"_key": "n5-N264"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 62,
+"club": "BEL",
+"from": "M Sinclair",
+"to": "Mark Sinclair",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B213",
+"page": 35,
+"evidence": "followed by Mark Sinclair, Matthew Stickles, Mike Hayes (20), Francis Ward, Marcello Bizio (15) and Ollie Foote (11)"
+},
+"_key": "n5-N265"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 79,
+"club": "BEL",
+"from": "M Hillier",
+"to": "Matt Hillier",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B222",
+"page": 46,
+"evidence": "Matt Hillier, who had a very fine first outing in the senior race"
+},
+"_key": "n5-N266"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 85,
+"club": "BEL",
+"from": "P Carstairs",
+"to": "Phil Carstairs",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Phil Carstairs had also gained a forward position"
+},
+"_key": "n5-N267"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 167,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N275"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 1,
+"pos": 195,
+"club": "BEL",
+"from": "T Earle",
+"to": "Toby Earle",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N277"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 2,
+"pos": 20,
+"club": "BEL",
+"from": "M Kinane",
+"to": "Matt Kinane",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N279"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 2,
+"pos": 33,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B223",
+"page": 14,
+"evidence": "41, G.Adams 32:04"
+},
+"_key": "n5-N280"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 2,
+"pos": 34,
+"club": "BEL",
+"from": "J Estall",
+"to": "Jim Estall",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Estall returning to his best form"
+},
+"_key": "n5-N281"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 2,
+"pos": 41,
+"club": "BEL",
+"from": "R Alsop",
+"to": "Roger Alsop",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "A smiling Roger Alsop"
+},
+"_key": "n5-N282"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 2,
+"pos": 48,
+"club": "BEL",
+"from": "P Carstairs",
+"to": "Phil Carstairs",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Phil Carstairs had also gained a forward position"
+},
+"_key": "n5-N283"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 2,
+"pos": 52,
+"club": "BEL",
+"from": "M Hillier",
+"to": "Matt Hillier",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B222",
+"page": 46,
+"evidence": "Matt Hillier, who had a very fine first outing in the senior race"
+},
+"_key": "n5-N284"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 2,
+"pos": 156,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N291"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 3,
+"pos": 18,
+"club": "BEL",
+"from": "J Estall",
+"to": "Jim Estall",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Estall returning to his best form"
+},
+"_key": "n5-N293"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 3,
+"pos": 66,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B223",
+"page": 14,
+"evidence": "41, G.Adams 32:04"
+},
+"_key": "n5-N294"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 3,
+"pos": 68,
+"club": "BEL",
+"from": "M Hillier",
+"to": "Matt Hillier",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B222",
+"page": 46,
+"evidence": "Matt Hillier, who had a very fine first outing in the senior race"
+},
+"_key": "n5-N295"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 3,
+"pos": 81,
+"club": "BEL",
+"from": "M Webb",
+"to": "Mike Webb",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N296"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 3,
+"pos": 97,
+"club": "BEL",
+"from": "P Carstairs",
+"to": "Phil Carstairs",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Phil Carstairs had also gained a forward position"
+},
+"_key": "n5-N297"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 3,
+"pos": 129,
+"club": "BEL",
+"from": "J Mather",
+"to": "John Mather",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N300"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 3,
+"pos": 170,
+"club": "BEL",
+"from": "T Earle",
+"to": "Toby Earle",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N302"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 4,
+"pos": 22,
+"club": "BEL",
+"from": "R Alsop",
+"to": "Roger Alsop",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "A smiling Roger Alsop"
+},
+"_key": "n5-N305"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 4,
+"pos": 23,
+"club": "BEL",
+"from": "J Estall",
+"to": "Jim Estall",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Estall returning to his best form"
+},
+"_key": "n5-N306"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 4,
+"pos": 34,
+"club": "BEL",
+"from": "P Carstairs",
+"to": "Phil Carstairs",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Phil Carstairs had also gained a forward position"
+},
+"_key": "n5-N307"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 4,
+"pos": 40,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B223",
+"page": 14,
+"evidence": "41, G.Adams 32:04"
+},
+"_key": "n5-N308"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1994/95",
+"match": 4,
+"pos": 126,
+"club": "BEL",
+"from": "T Williams",
+"to": "Trevor Williams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B217",
+"page": 31,
+"evidence": "Back row: Colin Pearson, Gerry Adams, Chris Taplin, Paul Roche, Tony Stone, Mike Hayes, John Booth, Owen Lewis"
+},
+"_key": "n5-N313"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 1,
+"pos": 48,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Captain 'Gerry' Adams at the head of the field; caption Cross Country Captain Graham Adams"
+},
+"_key": "n5-N316"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 1,
+"pos": 69,
+"club": "BEL",
+"from": "C Dickinson",
+"to": "Charlie Dickinson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N317"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 1,
+"pos": 87,
+"club": "BEL",
+"from": "R Alsop",
+"to": "Roger Alsop",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "A smiling Roger Alsop"
+},
+"_key": "n5-N319"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 1,
+"pos": 132,
+"club": "BEL",
+"from": "S Williment",
+"to": "Steve Willimont",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Steve Willimont is turning into a most reliable engine-room man"
+},
+"_key": "n5-N327"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 2,
+"pos": 10,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Captain 'Gerry' Adams at the head of the field; caption Cross Country Captain Graham Adams"
+},
+"_key": "n5-N342"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 2,
+"pos": 22,
+"club": "BEL",
+"from": "J Estall",
+"to": "Jim Estall",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Estall returning to his best form"
+},
+"_key": "n5-N343"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 2,
+"pos": 31,
+"club": "BEL",
+"from": "R Alsop",
+"to": "Roger Alsop",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "A smiling Roger Alsop"
+},
+"_key": "n5-N344"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 2,
+"pos": 63,
+"club": "BEL",
+"from": "P Carstairs",
+"to": "Phil Carstairs",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Phil Carstairs had also gained a forward position"
+},
+"_key": "n5-N345"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 2,
+"pos": 65,
+"club": "BEL",
+"from": "S Chettati",
+"to": "Said Chettati",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B222",
+"page": 51,
+"evidence": "Then a gap before Said Chettati and Junior Galley"
+},
+"_key": "n5-N346"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 2,
+"pos": 115,
+"club": "BEL",
+"from": "P Cooper",
+"to": "Paul Cooper",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B224",
+"page": 11,
+"evidence": "Paul Cooper too has a great deal of natural ability (p10)"
+},
+"_key": "n5-N351"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 3,
+"pos": 18,
+"club": "BEL",
+"from": "J Estall",
+"to": "Jim Estall",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Estall returning to his best form"
+},
+"_key": "n5-N355"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 3,
+"pos": 27,
+"club": "BEL",
+"from": "R Alsop",
+"to": "Roger Alsop",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "A smiling Roger Alsop"
+},
+"_key": "n5-N356"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 3,
+"pos": 39,
+"club": "BEL",
+"from": "P Carstairs",
+"to": "Phil Carstairs",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Phil Carstairs had also gained a forward position"
+},
+"_key": "n5-N358"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 3,
+"pos": 60,
+"club": "BEL",
+"from": "C Dickinson",
+"to": "Charlie Dickinson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Charlie Dickinson"
+},
+"_key": "n5-N360"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 3,
+"pos": 147,
+"club": "BEL",
+"from": "L Maclean",
+"to": "Larry McLean",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N367"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 3,
+"pos": 149,
+"club": "BEL",
+"from": "T Earle",
+"to": "Toby Earle",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Some of the 1993/94 cross country gang at the Epsom Downs Surrey League fixture"
+},
+"_key": "n5-N368"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 4,
+"pos": 23,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Captain 'Gerry' Adams at the head of the field; caption Cross Country Captain Graham Adams"
+},
+"_key": "n5-N370"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 4,
+"pos": 24,
+"club": "BEL",
+"from": "J Estall",
+"to": "Jim Estall",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B220",
+"page": 35,
+"evidence": "Jim Estall returning to his best form"
+},
+"_key": "n5-N371"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 4,
+"pos": 26,
+"club": "BEL",
+"from": "R Alsop",
+"to": "Roger Alsop",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "A smiling Roger Alsop"
+},
+"_key": "n5-N372"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 4,
+"pos": 55,
+"club": "BEL",
+"from": "P Carstairs",
+"to": "Phil Carstairs",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B221",
+"page": 51,
+"evidence": "Phil Carstairs had also gained a forward position"
+},
+"_key": "n5-N376"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1995/96",
+"match": 4,
+"pos": 97,
+"club": "BEL",
+"from": "S Chettati",
+"to": "Said Chettati",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B222",
+"page": 51,
+"evidence": "Then a gap before Said Chettati and Junior Galley"
+},
+"_key": "n5-N379"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 1,
+"pos": 56,
+"club": "BEL",
+"from": "M Anderson",
+"to": "Mark Anderson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 31,
+"evidence": "caption of the opening Surrey League lineup: Wesley Minett (65), Mark Anderson (behind)"
+},
+"_key": "n6-N79"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 2,
+"pos": 83,
+"club": "BEL",
+"from": "P Smoothie",
+"to": "Paul Smoothy",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 41,
+"evidence": "83, P.Smoothie 33.13; p43 'Paul Smoothy'; M3 result 'P.Smoothy'"
+},
+"_key": "n6-N289"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 4,
+"pos": 2,
+"club": "BEL",
+"from": "Andy Graffin",
+"to": "Allen Graffin",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 49,
+"evidence": "2 Allen Graffin (Belgrave) 28:08 (Andy's twin brother, also Belgrave)"
+},
+"_key": "n6-N343"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 1,
+"pos": 93,
+"club": "BEL",
+"from": "J Galley",
+"to": "Junior Galley",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 55,
+"evidence": "the team was closed in by Junior Galley and Mike Webb"
+},
+"_key": "n6-N14"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 1,
+"pos": 105,
+"club": "BEL",
+"from": "A Binda",
+"to": "Tony Binda",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 50,
+"evidence": "captions: Stuart Paton, Rob Harding, Alex Luce, Mick Graham, Tony Binda, Derek Manning; 89, M.Nouch (M40)"
+},
+"_key": "n6-N16"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 1,
+"pos": 156,
+"club": "BEL",
+"from": "D Manning",
+"to": "Derek Manning",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 50,
+"evidence": "captions: Stuart Paton, Rob Harding, Alex Luce, Mick Graham, Tony Binda, Derek Manning; 89, M.Nouch (M40)"
+},
+"_key": "n6-N22"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 2,
+"pos": 88,
+"club": "BEL",
+"from": "J Galley",
+"to": "Junior Galley",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 55,
+"evidence": "the team was closed in by Junior Galley and Mike Webb"
+},
+"_key": "n6-N35"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 2,
+"pos": 91,
+"club": "BEL",
+"from": "A Jones",
+"to": "Adam Jones",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 54,
+"evidence": "91, A.Jones (U20M) 33:13; Adam Jones had been racing well in college events"
+},
+"_key": "n6-N36"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 2,
+"pos": 98,
+"club": "BEL",
+"from": "R Cookson",
+"to": "Rob Cookson",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 51,
+"evidence": "Demetrius Onoufrio and Rob Cookson both made encouraging debuts"
+},
+"_key": "n6-N38"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 3,
+"pos": 54,
+"club": "BEL",
+"from": "J Galley",
+"to": "Junior Galley",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 55,
+"evidence": "the team was closed in by Junior Galley and Mike Webb"
+},
+"_key": "n6-N50"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 3,
+"pos": 85,
+"club": "BEL",
+"from": "A Jones",
+"to": "Adam Jones",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 54,
+"evidence": "91, A.Jones (U20M) 33:13; Adam Jones had been racing well in college events"
+},
+"_key": "n6-N53"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1996/97",
+"match": 4,
+"pos": 92,
+"club": "BEL",
+"from": "J Ollu",
+"to": "Jerome Ollu",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 24,
+"evidence": "92, J.Ollu 32:51; awards list: Jerome Ollu ... C.C, Road"
+},
+"_key": "n6-N70"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 1,
+"pos": 29,
+"club": "BEL",
+"from": "G Adams",
+"to": "Gerry Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 31,
+"evidence": "Lee Hurst was down from Manchester; but Steve Fowler ... when 'Gerry' and Phil Carstairs came in"
+},
+"_key": "n6-N77"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 2,
+"pos": 27,
+"club": "BEL",
+"from": "G Adams",
+"to": "Gerry Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 31,
+"evidence": "Lee Hurst was down from Manchester; but Steve Fowler ... when 'Gerry' and Phil Carstairs came in"
+},
+"_key": "n6-N90"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 2,
+"pos": 78,
+"club": "BEL",
+"from": "J Galley",
+"to": "Junior Galley",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 55,
+"evidence": "the team was closed in by Junior Galley and Mike Webb"
+},
+"_key": "n6-N95"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 2,
+"pos": 94,
+"club": "BEL",
+"from": "A Binda",
+"to": "Tony Binda",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 50,
+"evidence": "captions: Stuart Paton, Rob Harding, Alex Luce, Mick Graham, Tony Binda, Derek Manning; 89, M.Nouch (M40)"
+},
+"_key": "n6-N98"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 2,
+"pos": 124,
+"club": "BEL",
+"from": "M Dane",
+"to": "Mabon Dane",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 29,
+"evidence": "Kassa Tadesse ... Tony Barden's presence; 124, M.Dane (rankings: Mabon Dane)"
+},
+"_key": "n6-N99"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 3,
+"pos": 39,
+"club": "BEL",
+"from": "G Adams",
+"to": "Gerry Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 31,
+"evidence": "Lee Hurst was down from Manchester; but Steve Fowler ... when 'Gerry' and Phil Carstairs came in"
+},
+"_key": "n6-N108"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 3,
+"pos": 101,
+"club": "BEL",
+"from": "J Galley",
+"to": "Junior Galley",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 55,
+"evidence": "the team was closed in by Junior Galley and Mike Webb"
+},
+"_key": "n6-N115"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 3,
+"pos": 105,
+"club": "BEL",
+"from": "A Binda",
+"to": "Tony Binda",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 50,
+"evidence": "captions: Stuart Paton, Rob Harding, Alex Luce, Mick Graham, Tony Binda, Derek Manning; 89, M.Nouch (M40)"
+},
+"_key": "n6-N116"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 4,
+"pos": 76,
+"club": "BEL",
+"from": "A Binda",
+"to": "Tony Binda",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 50,
+"evidence": "captions: Stuart Paton, Rob Harding, Alex Luce, Mick Graham, Tony Binda, Derek Manning; 89, M.Nouch (M40)"
+},
+"_key": "n6-N126"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 4,
+"pos": 118,
+"club": "BEL",
+"from": "A Painter",
+"to": "Alan Painter",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 34,
+"evidence": "rankings: Alan Painter M45 27-5-47"
+},
+"_key": "n6-N131"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1997/98",
+"match": 4,
+"pos": 119,
+"club": "BEL",
+"from": "D Clack",
+"to": "Derek Clack",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 34,
+"evidence": "119, D.Clack (M45) 36:04; rankings: Derek Clack M45"
+},
+"_key": "n6-N132"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 1,
+"pos": 79,
+"club": "BEL",
+"from": "J Galley",
+"to": "Junior Galley",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 55,
+"evidence": "the team was closed in by Junior Galley and Mike Webb"
+},
+"_key": "n6-N144"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 2,
+"pos": 101,
+"club": "BEL",
+"from": "E Lemenger",
+"to": "Erwan Lemenager",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B227",
+"page": 50,
+"evidence": "101, E.Lemenger (n/s) 30:52; awards: Erwann Lemenager; B228/B229 prose 'Erwan Lemenager'"
+},
+"_key": "n6-N164"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 2,
+"pos": 119,
+"club": "BEL",
+"from": "R Palmer",
+"to": "Robert Palmer",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B227",
+"page": 50,
+"evidence": "Lee Hurst, Clive Gilby, Ray Foley, Paul Coughlan, Steve Fowler; new members Robert Palmer and Tom Knowles; Jerome Curtat"
+},
+"_key": "n6-N166"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 2,
+"pos": 128,
+"club": "BEL",
+"from": "A Cowmeadow",
+"to": "Adam Cowmeadow",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "Adam Cowmeadow (132) ... B227 awards: Adam Cowmeadow"
+},
+"_key": "n6-N167"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 2,
+"pos": 131,
+"club": "BEL",
+"from": "T Knowles",
+"to": "Tom Knowles",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B227",
+"page": 50,
+"evidence": "Lee Hurst, Clive Gilby, Ray Foley, Paul Coughlan, Steve Fowler; new members Robert Palmer and Tom Knowles; Jerome Curtat"
+},
+"_key": "n6-N168"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 3,
+"pos": 35,
+"club": "BEL",
+"from": "G Adams",
+"to": "Graham Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B227",
+"page": 52,
+"evidence": "caption: ... Najibe Hliouat, Saul Armanini and Graham Adams"
+},
+"_key": "n6-N176"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 3,
+"pos": 73,
+"club": "BEL",
+"from": "J Galley",
+"to": "Junior Galley",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 55,
+"evidence": "the team was closed in by Junior Galley and Mike Webb"
+},
+"_key": "n6-N179"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 4,
+"pos": 75,
+"club": "BEL",
+"from": "A Binda",
+"to": "Tony Binda",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 50,
+"evidence": "captions: Stuart Paton, Rob Harding, Alex Luce, Mick Graham, Tony Binda, Derek Manning; 89, M.Nouch (M40)"
+},
+"_key": "n6-N187"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1998/99",
+"match": 4,
+"pos": 105,
+"club": "BEL",
+"from": "M Dane",
+"to": "Mabon Dane",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B226",
+"page": 29,
+"evidence": "Kassa Tadesse ... Tony Barden's presence; 124, M.Dane (rankings: Mabon Dane)"
+},
+"_key": "n6-N189"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1999/00",
+"match": 1,
+"pos": 96,
+"club": "BEL",
+"from": "E Lemenager",
+"to": "Erwan Lemenager",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 46,
+"evidence": "68, E.Lemenager 32:40; B229 prose 'Erwan Lemenager'"
+},
+"_key": "n6-N203"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1999/00",
+"match": 1,
+"pos": 132,
+"club": "BEL",
+"from": "A Cowmeadow",
+"to": "Adam Cowmeadow",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "Adam Cowmeadow (132) ... B227 awards: Adam Cowmeadow"
+},
+"_key": "n6-N205"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1999/00",
+"match": 2,
+"pos": 89,
+"club": "BEL",
+"from": "E Lemenager",
+"to": "Erwan Lemenager",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 46,
+"evidence": "68, E.Lemenager 32:40; B229 prose 'Erwan Lemenager'"
+},
+"_key": "n6-N217"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1999/00",
+"match": 2,
+"pos": 110,
+"club": "BEL",
+"from": "G Adams",
+"to": "Gerry Adams",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "caption: Bruce Barton, Geremew Wolde, Rex Bale, Mike Webb, Don Anderson ... Rob McHarg, Steve Clarke, Will Cockerell; Alasdair McLean"
+},
+"_key": "n6-N219"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1999/00",
+"match": 2,
+"pos": 131,
+"club": "BEL",
+"from": "A Cowmeadow",
+"to": "Adam Cowmeadow",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "Adam Cowmeadow (132) ... B227 awards: Adam Cowmeadow"
+},
+"_key": "n6-N221"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "1999/00",
+"match": 3,
+"pos": 107,
+"club": "BEL",
+"from": "A Cowmeadow",
+"to": "Adam Cowmeadow",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "Adam Cowmeadow (132) ... B227 awards: Adam Cowmeadow"
+},
+"_key": "n6-N235"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 1,
+"pos": 94,
+"club": "BEL",
+"from": "S Connor",
+"to": "Sean Connor",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "Richard Hayman ... Joachim Wolf ... Adrian Jowett ... distance man Warren Lynch ... Sean Connor; Fabien Bernard-Gaudin"
+},
+"_key": "n6-N269"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 1,
+"pos": 107,
+"club": "BEL",
+"from": "A Cowmeadow",
+"to": "Adam Cowmeadow",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "Adam Cowmeadow (132) ... B227 awards: Adam Cowmeadow"
+},
+"_key": "n6-N271"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 2,
+"pos": 63,
+"club": "BEL",
+"from": "E Lemenager",
+"to": "Erwan Lemenager",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 46,
+"evidence": "68, E.Lemenager 32:40; B229 prose 'Erwan Lemenager'"
+},
+"_key": "n6-N285"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 2,
+"pos": 94,
+"club": "BEL",
+"from": "S Connor",
+"to": "Sean Connor",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "Richard Hayman ... Joachim Wolf ... Adrian Jowett ... distance man Warren Lynch ... Sean Connor; Fabien Bernard-Gaudin"
+},
+"_key": "n6-N291"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 2,
+"pos": 121,
+"club": "BEL",
+"from": "A Cowmeadow",
+"to": "Adam Cowmeadow",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "Adam Cowmeadow (132) ... B227 awards: Adam Cowmeadow"
+},
+"_key": "n6-N293"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 3,
+"pos": 66,
+"club": "BEL",
+"from": "E Lemenager",
+"to": "Erwan Lemenager",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 46,
+"evidence": "68, E.Lemenager 32:40; B229 prose 'Erwan Lemenager'"
+},
+"_key": "n6-N306"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 3,
+"pos": 103,
+"club": "BEL",
+"from": "S Connor",
+"to": "Sean Connor",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "Richard Hayman ... Joachim Wolf ... Adrian Jowett ... distance man Warren Lynch ... Sean Connor; Fabien Bernard-Gaudin"
+},
+"_key": "n6-N310"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 3,
+"pos": 104,
+"club": "BEL",
+"from": "A Binda",
+"to": "Tony Binda",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B225",
+"page": 50,
+"evidence": "captions: Stuart Paton, Rob Harding, Alex Luce, Mick Graham, Tony Binda, Derek Manning; 89, M.Nouch (M40)"
+},
+"_key": "n6-N311"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 3,
+"pos": 107,
+"club": "BEL",
+"from": "A Cowmeadow",
+"to": "Adam Cowmeadow",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "Adam Cowmeadow (132) ... B227 awards: Adam Cowmeadow"
+},
+"_key": "n6-N312"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 4,
+"pos": 43,
+"club": "BEL",
+"from": "Mark Kazimierski",
+"to": "Mike Kazimierski",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "eH09",
+"page": null,
+"evidence": "it was good to welcome Mike Kazimierski back into the fold (Mike in 45 places; never Mark)"
+},
+"_key": "n6-N314"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 4,
+"pos": 49,
+"club": "BEL",
+"from": "Martin Webb",
+"to": "Mike Webb",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "M.Webb in result lists; caption names 'Mike Webb'; no other Belgrave Webb with initial M in the magazine"
+},
+"_key": "n6-N315"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 4,
+"pos": 56,
+"club": "BEL",
+"from": "Eric Lemenager",
+"to": "Erwan Lemenager",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 42,
+"evidence": "66, E.Lemenager 31:09; B229 prose 'Erwan Lemenager'"
+},
+"_key": "n6-N316"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2000/01",
+"match": 4,
+"pos": 114,
+"club": "BEL",
+"from": "Richard Harding",
+"to": "Rob Harding",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": null,
+"evidence": "'Rob Harding' in B229; results print R.Harding"
+},
+"_key": "n6-N317"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 1,
+"pos": 2,
+"club": "BEL",
+"from": "Lawrence Hurst",
+"to": "Lee Hurst",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 47,
+"evidence": "2 L.Hurst (Belgrave) 24:00; Lee Hurst throughout B228-B231"
+},
+"_key": "n6-N318"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 1,
+"pos": 16,
+"club": "BEL",
+"from": "Chris Herrington",
+"to": "Charles Herrington",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 46,
+"evidence": "Lee Hurst 8th, the bandana'd Charles Herrington 9th ... Alaster Stewart; 62, D.Ochse; 68, E.Lemenager; 106, A.Cowmeadow; 116, R.Bale"
+},
+"_key": "n6-N319"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 1,
+"pos": 60,
+"club": "BEL",
+"from": "Les Greatorex",
+"to": "Lee Greatorex",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B231",
+"page": null,
+"evidence": "Lee Greatorex (B231); results print L.Greatorex"
+},
+"_key": "n6-N320"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 1,
+"pos": 79,
+"club": "BEL",
+"from": "Steve Connor",
+"to": "Sean Connor",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "'Sean Connor' (B229); results print S.Connor"
+},
+"_key": "n6-N322"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 1,
+"pos": 121,
+"club": "BEL",
+"from": "Andy Jowett",
+"to": "Adrian Jowett",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "Adrian Jowett ran like a man possessed"
+},
+"_key": "n6-N324"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 2,
+"pos": 27,
+"club": "BEL",
+"from": "John Wolf",
+"to": "Joachim Wolf",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "Richard Hayman ... Joachim Wolf ... Adrian Jowett ... distance man Warren Lynch ... Sean Connor; Fabien Bernard-Gaudin"
+},
+"_key": "n6-N326"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 2,
+"pos": 28,
+"club": "BEL",
+"from": "Gary Lavender",
+"to": "Guy Lavender",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 42,
+"evidence": "new men Lloyd Catley and Guy Lavender ... Malachi and Lloyd ... Steve Zealy back in action; 63, P.Smoothy"
+},
+"_key": "n6-N327"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 2,
+"pos": 56,
+"club": "BEL",
+"from": "Moses Byansi",
+"to": "Malachi Byansi",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 48,
+"evidence": "56 M.Byansi 29:56; B229: Malachi and Lloyd were within a few places"
+},
+"_key": "n6-N328"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 2,
+"pos": 73,
+"club": "BEL",
+"from": "Les Greatorex",
+"to": "Lee Greatorex",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B231",
+"page": null,
+"evidence": "Lee Greatorex (B231); results print L.Greatorex"
+},
+"_key": "n6-N330"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 2,
+"pos": 76,
+"club": "BEL",
+"from": "Mark Webb",
+"to": "Mike Webb",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 48,
+"evidence": "76 M.Webb 30:42 (Mike Webb in earlier issues)"
+},
+"_key": "n6-N331"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 2,
+"pos": 88,
+"club": "BEL",
+"from": "Steve Connor",
+"to": "Sean Connor",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "'Sean Connor' (B229); results print S.Connor"
+},
+"_key": "n6-N333"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 3,
+"pos": 8,
+"club": "BEL",
+"from": "Liam Hurst",
+"to": "Lee Hurst",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 48,
+"evidence": "8 L.Hurst 28:42; Lee Hurst throughout B228-B231"
+},
+"_key": "n6-N335"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 3,
+"pos": 18,
+"club": "BEL",
+"from": "Chris Herrington",
+"to": "Charles Herrington",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 46,
+"evidence": "Lee Hurst 8th, the bandana'd Charles Herrington 9th ... Alaster Stewart; 62, D.Ochse; 68, E.Lemenager; 106, A.Cowmeadow; 116, R.Bale"
+},
+"_key": "n6-N336"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 4,
+"pos": 5,
+"club": "BEL",
+"from": "Matt Trees",
+"to": "Mike Trees",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 49,
+"evidence": "5 M.Trees 28:58; eH10 prose 'Mike Trees'"
+},
+"_key": "n6-N344"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 4,
+"pos": 17,
+"club": "BEL",
+"from": "Chris Herrington",
+"to": "Charles Herrington",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 46,
+"evidence": "Lee Hurst 8th, the bandana'd Charles Herrington 9th ... Alaster Stewart; 62, D.Ochse; 68, E.Lemenager; 106, A.Cowmeadow; 116, R.Bale"
+},
+"_key": "n6-N345"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 4,
+"pos": 34,
+"club": "BEL",
+"from": "John Wolf",
+"to": "Joachim Wolf",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "Richard Hayman ... Joachim Wolf ... Adrian Jowett ... distance man Warren Lynch ... Sean Connor; Fabien Bernard-Gaudin"
+},
+"_key": "n6-N346"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 4,
+"pos": 45,
+"club": "BEL",
+"from": "Rob Foley",
+"to": "Ray Foley",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 49,
+"evidence": "R.Foley in results; Ray Foley in prose (B225-B228)"
+},
+"_key": "n6-N347"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 4,
+"pos": 71,
+"club": "BEL",
+"from": "Les Greatorex",
+"to": "Lee Greatorex",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B231",
+"page": null,
+"evidence": "Lee Greatorex (B231); results print L.Greatorex"
+},
+"_key": "n6-N349"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2001/02",
+"match": 4,
+"pos": 96,
+"club": "BEL",
+"from": "Steve Connor",
+"to": "Sean Connor",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "'Sean Connor' (B229); results print S.Connor"
+},
+"_key": "n6-N350"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2002/03",
+"match": 3,
+"pos": 77,
+"club": "BEL",
+"from": "Martin Webb",
+"to": "Mike Webb",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B228",
+"page": 39,
+"evidence": "M.Webb in result lists; caption names 'Mike Webb'; no other Belgrave Webb with initial M in the magazine"
+},
+"_key": "n6-N372"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2002/03",
+"match": 4,
+"pos": 5,
+"club": "BEL",
+"from": "Andrew Zawadski",
+"to": "Adam Zawadski",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 52,
+"evidence": "5 A.Zawadski 29:32; B230/B231 prose 'Adam Zawadski'"
+},
+"_key": "n6-N373"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2002/03",
+"match": 4,
+"pos": 92,
+"club": "BEL",
+"from": "Jason Webb",
+"to": "Mike Webb",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B230",
+"page": 52,
+"evidence": "92 M.Webb 35:18 (initial M, not J)"
+},
+"_key": "n6-N376"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2003/04",
+"match": 3,
+"pos": 124,
+"club": "BEL",
+"from": "S Baxendale",
+"to": "Sam Baxendale",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Cross Country Plate Competition 2005-6 (full names of every Belgrave League runner): Warren Lynch, Jason Webb, Matthew Taylor, Robert Norville ..."
+},
+"_key": "n6-N380"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2003/04",
+"match": 4,
+"pos": 105,
+"club": "BEL",
+"from": "Steve Connor",
+"to": "Sean Connor",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B229",
+"page": 38,
+"evidence": "'Sean Connor' (B229); results print S.Connor"
+},
+"_key": "n6-N381"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2003/04",
+"match": 4,
+"pos": 123,
+"club": "BEL",
+"from": "S Baxendale",
+"to": "Sam Baxendale",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Cross Country Plate Competition 2005-6 (full names of every Belgrave League runner): Warren Lynch, Jason Webb, Matthew Taylor, Robert Norville ..."
+},
+"_key": "n6-N382"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2004/05",
+"match": 1,
+"pos": 49,
+"club": "BEL",
+"from": "J Webb",
+"to": "Jason Webb",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Cross Country Plate Competition 2005-6 (full names of every Belgrave League runner): Warren Lynch, Jason Webb, Matthew Taylor, Robert Norville ..."
+},
+"_key": "n6-N394"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2004/05",
+"match": 1,
+"pos": 119,
+"club": "BEL",
+"from": "T Watt",
+"to": "Tim Watt",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Cross Country Plate Competition 2005-6 (full names of every Belgrave League runner): Warren Lynch, Jason Webb, Matthew Taylor, Robert Norville ..."
+},
+"_key": "n6-N399"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2004/05",
+"match": 2,
+"pos": 142,
+"club": "BEL",
+"from": "J Webb",
+"to": "Jason Webb",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Cross Country Plate Competition 2005-6 (full names of every Belgrave League runner): Warren Lynch, Jason Webb, Matthew Taylor, Robert Norville ..."
+},
+"_key": "n6-N413"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2004/05",
+"match": 3,
+"pos": 73,
+"club": "BEL",
+"from": "J Webb",
+"to": "Jason Webb",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Cross Country Plate Competition 2005-6 (full names of every Belgrave League runner): Warren Lynch, Jason Webb, Matthew Taylor, Robert Norville ..."
+},
+"_key": "n6-N426"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2004/05",
+"match": 4,
+"pos": 53,
+"club": "BEL",
+"from": "Justin Webb",
+"to": "Jason Webb",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "(B240 plate) 14 Jason Webb 24; no 'Justin' anywhere"
+},
+"_key": "n6-N433"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2004/05",
+"match": 4,
+"pos": 80,
+"club": "BEL",
+"from": "Mark Kazimierski",
+"to": "Mike Kazimierski",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "eH09",
+"page": null,
+"evidence": "it was good to welcome Mike Kazimierski back into the fold (Mike in 45 places; never Mark)"
+},
+"_key": "n6-N434"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 1,
+"pos": 44,
+"club": "BEL",
+"from": "James Charles",
+"to": "John Charles",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "44 J Charles 25:51 ... (B240 plate) 26 John Charles 14"
+},
+"_key": "n6-N436"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 1,
+"pos": 74,
+"club": "BEL",
+"from": "John Galley",
+"to": "Junior Galley",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "74 J Galley M40; plate table '37= Junior Galley 8'"
+},
+"_key": "n6-N439"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 1,
+"pos": 93,
+"club": "BEL",
+"from": "Mark Whiting",
+"to": "Matt Whiting",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "93 M Whiting 28:23 ... (B240) 17= Matt Whiting 18"
+},
+"_key": "n6-N440"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 1,
+"pos": 128,
+"club": "BEL",
+"from": "John Stevenson",
+"to": "Jamie Stevenson",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "128 J Stevenson 32:08 ... (B240) 42 Jamie Stevenson 3"
+},
+"_key": "n6-N443"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 2,
+"pos": 63,
+"club": "BEL",
+"from": "Mark Whiting",
+"to": "Matt Whiting",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "93 M Whiting 28:23 ... (B240) 17= Matt Whiting 18"
+},
+"_key": "n6-N447"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 2,
+"pos": 105,
+"club": "BEL",
+"from": "Andrew Barden",
+"to": "Tony Barden",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B238",
+"page": 2,
+"evidence": "105 A Barden M40 32:50 ... (B240) 27 Tony Barden 13"
+},
+"_key": "n6-N451"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 2,
+"pos": 118,
+"club": "BEL",
+"from": "T Lynes",
+"to": "Tim Lines",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B238",
+"page": 2,
+"evidence": "118 T Lynes 34:18 ... (B240 plate) 41 Tim Lines 5"
+},
+"_key": "n6-N454"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 2,
+"pos": 134,
+"club": "BEL",
+"from": "S Baxendale",
+"to": "Sam Baxendale",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Cross Country Plate Competition 2005-6 (full names of every Belgrave League runner): Warren Lynch, Jason Webb, Matthew Taylor, Robert Norville ..."
+},
+"_key": "n6-N458"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 4,
+"pos": 87,
+"club": "BEL",
+"from": "Matt Taylor",
+"to": "Matthew Taylor",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "86 M Taylor M40 33:58 ... (p4) 11= Matthew Taylor 30"
+},
+"_key": "n6-N464"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2005/06",
+"match": 4,
+"pos": 106,
+"club": "BEL",
+"from": "Rob Norville",
+"to": "Robert Norville",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "(p4) 28= Robert Norville 12 (always 'Robert' in the magazine)"
+},
+"_key": "n6-N466"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2006/07",
+"match": 3,
+"pos": 60,
+"club": "BEL",
+"from": "J Webb",
+"to": "Jason Webb",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Cross Country Plate Competition 2005-6 (full names of every Belgrave League runner): Warren Lynch, Jason Webb, Matthew Taylor, Robert Norville ..."
+},
+"_key": "n6-N489"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2007/08",
+"match": 2,
+"pos": 102,
+"club": "BEL",
+"from": "Andy Marek",
+"to": "Alex Marek",
+"why": "misread",
+"confidence": "medium",
+"source": {
+"issue": "B263",
+"page": 6,
+"evidence": "102 A Marek 35:52 ... (plate) 33= Alex Marek 9"
+},
+"_key": "n6-N526"
+},
+{
+"op": "rename",
+"file": "men",
+"season": "2007/08",
+"match": 3,
+"pos": 99,
+"club": "BEL",
+"from": "A Sentance",
+"to": "Andrew Sentance",
+"why": "initials→full",
+"confidence": "medium",
+"source": {
+"issue": "B263",
+"page": 3,
+"evidence": "99 A Sentance 33:49; plate: Andrew Sentence; B269 prose 'Andrew Sentance'"
+},
+"_key": "n6-N533"
+},
+{
+"op": "rename",
+"file": "women",
+"season": "2004/05",
+"match": 1,
+"pos": 17,
+"club": "BEL",
+"from": "Matilda Heaton",
+"to": "Mathilde Heaton",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Plate 2005-6: 2= Mathilde Heaton 92 (also 'Tilly Heaton')"
+},
+"_key": "n6-N386"
+},
+{
+"op": "rename",
+"file": "women",
+"season": "2006/07",
+"match": 3,
+"pos": 14,
+"club": "BEL",
+"from": "Matilda Heaton",
+"to": "Mathilde Heaton",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Plate 2005-6: 2= Mathilde Heaton 92 (also 'Tilly Heaton')"
+},
+"_key": "n6-N480"
+},
+{
+"op": "rename",
+"file": "women",
+"season": "2006/07",
+"match": 4,
+"pos": 16,
+"club": "BEL",
+"from": "Matilda Heaton",
+"to": "Mathilde Heaton",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Plate 2005-6: 2= Mathilde Heaton 92 (also 'Tilly Heaton')"
+},
+"_key": "n6-N504"
+},
+{
+"op": "rename",
+"file": "women",
+"season": "2007/08",
+"match": 1,
+"pos": 13,
+"club": "BEL",
+"from": "Matilda Heaton",
+"to": "Mathilde Heaton",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Plate 2005-6: 2= Mathilde Heaton 92 (also 'Tilly Heaton')"
+},
+"_key": "n6-N513"
+},
+{
+"op": "rename",
+"file": "women",
+"season": "2008/09",
+"match": 1,
+"pos": 24,
+"club": "BEL",
+"from": "Matilda Heaton",
+"to": "Mathilde Heaton",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Plate 2005-6: 2= Mathilde Heaton 92 (also 'Tilly Heaton')"
+},
+"_key": "n6-N540"
+},
+{
+"op": "rename",
+"file": "women",
+"season": "2008/09",
+"match": 2,
+"pos": 19,
+"club": "BEL",
+"from": "Matilda Heaton",
+"to": "Mathilde Heaton",
+"why": "spelling",
+"confidence": "medium",
+"source": {
+"issue": "B240",
+"page": 4,
+"evidence": "Plate 2005-6: 2= Mathilde Heaton 92 (also 'Tilly Heaton')"
+},
+"_key": "n6-N542"
+}
+]
