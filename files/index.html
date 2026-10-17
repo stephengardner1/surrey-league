@@ -737,7 +737,7 @@ const makeCardFor=async(file,name,club)=>{const dogged=PROFILE_DOGS.has(file);le
   return{u:URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})),still:URL.createObjectURL(new Blob([still],{type:'image/svg+xml'})),bg,surname:(nm[nm.length-1]||'').replace(/(^|[-'])([a-z])/g,(m,a,b)=>a+b.toUpperCase()),nameCol:posterInk(bg,vest,club),
     initials:((nm[0]||'')[0]+(nm.length>1?nm[nm.length-1].split('-').filter(Boolean).map(x=>x[0]).join('-'):'')).toUpperCase()};};
 /* Save the sticker for Instagram: a still of the profile card (dog-ear resting) on a tonal backdrop, as a 4:5 post or a 9:16 story (Oct 2026) */
-const SHARE_FORMATS={post:{w:1080,h:1350,cw:700,label:'Instagram post'},story:{w:1080,h:1920,cw:820,label:'Instagram story'}};
+const SHARE_FORMATS={post:{w:1080,h:1350,cw:800,label:'Instagram post'},story:{w:1080,h:1920,cw:820,label:'Instagram story'}};
 const shade=(c,f)=>{let x=(c||'#E6EAE4').replace('#','');if(x.length===3)x=x.split('').map(v=>v+v).join('');const n=parseInt(x,16);return'#'+[16,8,0].map(sh=>Math.round(((n>>sh)&255)*f).toString(16).padStart(2,'0')).join('');};
 const stickerPng=async(card,fmt)=>{const F=SHARE_FORMATS[fmt],W=150,H=W*280/230,s=F.cw/W;
   const cv=document.createElement('canvas');cv.width=F.w;cv.height=F.h;const ctx=cv.getContext('2d');
