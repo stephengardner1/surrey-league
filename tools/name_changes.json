@@ -13422,5 +13422,19 @@
   ],
   "evidence": "middle initial dropped: no other runner at the club with that first initial and surname needs it to be told apart (never in the same race, no other middle initial)",
   "approved": "Steve, 17 Oct 2026: middle initials kept only where they disambiguate"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "T Tackley"
+  ],
+  "to": "James Jackson",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "Misreading of 'J Jackson' (1991/92 m4, 10th). No Tackley in any source, including Surrey County XC champs 1961-2013; James Jackson ran m1 (22nd) and m2 (17th) that season with no m4 result, and 10th fits his form; 'T Jackson' 1992/93 already approved as James. Previously aliased to Belgrave's Jon Jackson (best 62nd, last raced 1978/79).",
+  "approved": "Steve, 17 Oct 2026 (names session)"
  }
 ]
