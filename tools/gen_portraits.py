@@ -65,7 +65,7 @@ _MORE = {
     "VAC": ("#ffffff", '<rect x="0" y="8" width="20" height="3" fill="#1a1a1a"/>'),
 }
 for _k,(_p,_pat) in _MORE.items(): KITS[_k]=(_p,_pat,_tint(_p))
-KITS["CRO"] = KITS["CRO"][:2] + (_tint("#1f2a5c"),)  # Croydon: white vest, so base the background on the navy stripes instead of white
+KITS["CRO"] = KITS["CRO"][:2] + ("#D3D7E3",)  # Croydon: white vest, so base the background on the navy stripes instead of white
 SKIN = {  # base, shadow, light
     1: ("#F3D3BE", "#E0B79F", "#F8E2D3"), 2: ("#E6BA98", "#D09D7A", "#EFCDB2"),
     3: ("#CF9B74", "#B6805B", "#DBAF8E"), 4: ("#A9714E", "#8E5A3B", "#BB8663"),
