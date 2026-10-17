@@ -1474,6 +1474,9 @@ save("wayne-oxborough", figure("THH", skin=1, hair="messyfringe", hair_colour="#
 # Simon Fairbrother (BOX), Oct 2026: from AAA Champs 1994 / KP Games 1995 photos (reference only). Sandy swept-back hair, broad jaw
 save("simon-fairbrother", figure("BOX", skin=1, hair="spiky", hair_colour="#C08A50", brow_colour="#8E6E45", jaw="square"))
 
+# Roger Hackney (AFD), Oct 2026: UPPA/Photoshot 1982 steeplechase photo (reference only, b&w). Thick wavy swept hair, clean-shaven, square jaw
+save("roger-hackney", figure("AFD", skin=1, hair="messyvolume", hair_colour="#7E6040", jaw="square"))
+
 # ---- Site export -------------------------------------------------------------
 # Every live portrait, written to site/<slug>.svg under the exact file name the
 # site uses (files/portraits/athletes/). Most portraits are saved under their
