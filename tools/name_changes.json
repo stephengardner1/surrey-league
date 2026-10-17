@@ -4979,5 +4979,501 @@
   ],
   "evidence": "Athletics Weekly: 18 Oct 2000 (2000/01 m1) 'led by James Jackson'; 22 Oct 2003 (2003/04 m1) 'James Jackson, who again turned out for an Aldershot outfit... 10th', listed '10 J Jackson (AFD, M40) 27:01'; 11 Feb 2004 '22 J Jackson (AFD, M40) 29:40' (our 2003/04 m4); 16 Feb 2005 '38 J Jackson (AFD, M40) 32:24' (our 'John Jackson' 2004/05 m4, 32:24). No John Jackson of AFD in any source.",
   "approved": "Names session, 17 Oct 2026: high confidence (Athletics Weekly race reports)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "M Bostleman",
+   "M Bortelman",
+   "M Bostolman"
+  ],
+  "to": "M Bostelmann",
+  "seasons": null,
+  "evidence": "county champs: M Bostelmann (Thames) 1983-2005",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "M Brant"
+  ],
+  "to": "M Bryant",
+  "seasons": [
+   "1998/99",
+   "1998/99"
+  ],
+  "evidence": "county champs: M Bryant (Thames) 1994, 1998",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Mark Briant"
+  ],
+  "to": "M Bryant",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "surname garble; county champs give Matthew (not Mark) Bryant, so the unsupported first name reverts to the initial",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "M Gibbertson"
+  ],
+  "to": "M Gilbertson",
+  "seasons": [
+   "1993/94",
+   "1993/94"
+  ],
+  "evidence": "county champs: Mark/M Gilbertson (Thames) 1995-99; 35 results as Gilbertson",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "M Guatley"
+  ],
+  "to": "M Goatley",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs: Mike/Michael Goatley (Thames) 1995-97",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "M Wrethington"
+  ],
+  "to": "M Worthington",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs: M Worthington (Thames) 1988-99",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Mark Worthington"
+  ],
+  "to": "Mike Worthington",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Mike Worthington (1992), never Mark; Mike also in our 2000/01 results",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "A Dolittle"
+  ],
+  "to": "A Doolittle",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs: Anthony Doolittle (Thames) 2007-08",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Andy Hawse",
+   "Andy Howes"
+  ],
+  "to": "Andy Howse",
+  "seasons": [
+   "2001/02",
+   "2002/03"
+  ],
+  "evidence": "county champs: Andy Howse (Thames) 1999-2001; 27 results as Howse",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "A Kenis"
+  ],
+  "to": "A Kennis",
+  "seasons": [
+   "2005/06",
+   "2005/06"
+  ],
+  "evidence": "Al Kennis 47 results; county champs Kennis 11 times",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "A Leahey"
+  ],
+  "to": "A Leakey",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "county champs: A/Alan Leakey (Thames) 1993-2004",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Tim Nightinglae"
+  ],
+  "to": "T Nightingale",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "county champs: T Nightingale (Thames) 2002-04; first name Tim/Tony unconfirmed so the initial is kept",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "P Nitlock",
+   "P Witlock"
+  ],
+  "to": "P Whitlock",
+  "seasons": [
+   "1989/90",
+   "1995/96"
+  ],
+  "evidence": "county champs: Paul Whitlock (Thames) 1987-2002",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Phil Whitlock"
+  ],
+  "to": "Paul Whitlock",
+  "seasons": [
+   "2000/01",
+   "2002/03"
+  ],
+  "evidence": "county champs: Paul Whitlock (Thames) 1987-2002 incl. 1998 and 2002; no Phil Whitlock in any source",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "John MacFarlane"
+  ],
+  "to": "John McFarlane",
+  "seasons": null,
+  "evidence": "county champs: John McFarlane (Thames) 1999-2008",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "J Macfarlane"
+  ],
+  "to": "J McFarlane",
+  "seasons": null,
+  "evidence": "county champs: John McFarlane (Thames) 1999-2008",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "J McFarland"
+  ],
+  "to": "J McFarlane",
+  "seasons": null,
+  "evidence": "county champs: John McFarlane (Thames) 1999-2008",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "James McFarlane"
+  ],
+  "to": "John McFarlane",
+  "seasons": [
+   "2003/04",
+   "2003/04"
+  ],
+  "evidence": "county champs 2003/04: John McFarlane (Thames); John McFarlane also in our 2003/04 m1; no James in any source",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "L Cherrigton"
+  ],
+  "to": "L Cherrington",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "county champs: L Cherrington (Thames) 1991-2004",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "C Cheesman",
+   "C Cheeseeman"
+  ],
+  "to": "C Cheeseman",
+  "seasons": [
+   "1987/88",
+   "1991/92"
+  ],
+  "evidence": "county champs: C/Chris Cheeseman (Thames) 1988-99",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "N Gauld"
+  ],
+  "to": "Nic Gould",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs 2004: Nic Gould (Thames); Nic Gould 15 results",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "G Heaters"
+  ],
+  "to": "G Heathers",
+  "seasons": [
+   "1999/00",
+   "1999/00"
+  ],
+  "evidence": "county champs: G/Guy Heathers (Thames) 1996-2000",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "M Macallister",
+   "M McCallister"
+  ],
+  "to": "M McAllister",
+  "seasons": [
+   "1986/87",
+   "1987/88"
+  ],
+  "evidence": "county champs: M McAllister (Thames) 1983, 1987",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "R Clark"
+  ],
+  "to": "R Clarke",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "R Clarke 14 results 1986-99; county champs Richard Clarke (Thames)",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "R Keston"
+  ],
+  "to": "R Weston",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "R Weston 1989-96; county champs R Weston (Thames) 1993",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Nick Mclynn"
+  ],
+  "to": "Nick Malynn",
+  "seasons": [
+   "2005/06",
+   "2005/06"
+  ],
+  "evidence": "county champs: Nick Malynn (Thames) 2010; 11 results as Malynn",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "K Spacey"
+  ],
+  "to": "K Spacie",
+  "seasons": null,
+  "evidence": "county champs spell Spacie throughout (K Spacie 1988-98, Keith Spacie 1997); Spacey is a transcription variant",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Kevin Spacie"
+  ],
+  "to": "Keith Spacie",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs: Keith Spacie (Thames) 1997; no Kevin in any source",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Alan Thomas"
+  ],
+  "to": "Andy Thomas",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "county champs: Andy/A Thomas (Thames) 1990-2002; no Alan in any source",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Mark Lynas"
+  ],
+  "to": "Matt Lynas",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "county champs: Matthew/Matt Lynas (Thames); no Mark in any source",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Dave Pescod"
+  ],
+  "to": "Dan Pescod",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs: Dan Pescod (Thames) 2002-12; no Dave in any source",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "women",
+  "club": "THH",
+  "from": [
+   "Allison Carpenter"
+  ],
+  "to": "Alison Carpenter",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs: Alison Carpenter (Thames); 24 results as Alison",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "women",
+  "club": "THH",
+  "from": [
+   "Madalaine Ansell"
+  ],
+  "to": "Maddalaine Ansell",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs 2006: Maddalaine Ansell (Thames)",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "women",
+  "club": "THH",
+  "from": [
+   "Elizabeth Straveski"
+  ],
+  "to": "Elizabeth Stavreski",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs: Elizabeth/Liz Stavreski (Thames) 2007-11; 17 results as Stavreski",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "women",
+  "club": "THH",
+  "from": [
+   "Diane Leaky"
+  ],
+  "to": "Diane Leakey",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs: Diane Leakey (Thames) 1991-2004",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
+ },
+ {
+  "sex": "women",
+  "club": "THH",
+  "from": [
+   "Lucy Hassells",
+   "Lucy Hassels"
+  ],
+  "to": "Lucy Hasell",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "Lucy Hasell (Thames) - the site already aliases Lucy Hasell to Lucy Macalister (nee Hasell); these spellings were missing",
+  "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs or site alias)"
  }
 ]
