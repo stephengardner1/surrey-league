@@ -40,6 +40,9 @@ Athletics Weekly's free online archive (athleticsweekly.com/archives) has PDF is
 To search again: download the PDFs, run `pdftotext -layout`, then grep for the surname and club. The full text of
 all ~800 issues is about 600 MB.
 
+## county-champs/
+All Surrey County XC Championships results 1961/62-2012/13 (downloaded 17 Oct 2026), one finisher per line. See its README.
+
 ## Most useful free source for initials → full names
 Surrey County XC Championships results from 1962/63, with full names and clubs:
 https://www.surreyathletics.uk/crosscountry/index.php (athlete pages: /database/profile.php?N=…&G=M).
