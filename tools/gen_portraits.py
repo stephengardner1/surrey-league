@@ -1997,4 +1997,10 @@ save("nikki-haines", cheekbones(nose(softbrows(brows(eyes(figure("BEL", skin=1, 
 # long face with a broad square chin, high cheekbones, long nose, smallish eyes under light brows, weathered flush
 save("paul-evans", cheekbones(nose(brows(eyes(figure("BEL", skin=1, hair="tousled", hair_colour="#D2B070", brow_colour="#B09060", jaw="broadchin", rosy=True), "small", 0), 0, 0, 2), 0.95, 1.25), depth=.8).replace(HEAD_BROADCHIN, shortlonghead(.92)))
 
+# ---- Low curly top, no bun, hugging the head at the temples (Oct 2026, first used for Matt Yates) ----
+HAIR["curlyfit"] = HAIR["curlyup"].split('<circle')[0].replace("M64,104 L63.0,80.0", "M67.6,106 L65.2,80.0").replace("L137,80.0 L136,104 L131,84", "L134.8,80.0 L132.4,106 L131,86").replace("Q72,72 69,84 Z", "Q72,72 69,86 Z")
+# Matt Yates (BEL, 1996/97), Oct 2026: blond curls kept low on top, long lean face, narrow eyes set right under gently arched light brows,
+# long nose, small cheek hollows, a chin crease with a hint of a bum chin, gold chain
+save("matt-yates", dimple(chincrease(cheekhollows(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="curlyfit", hair_colour="#E0C080", brow_colour="#B89A68", jaw="long", necklace="#C9A646"), "narrow", 0), 0, 0, 6), 2.8, 0.4), 0.95, 1.2), inset=5, depth=.6, dy=3), y=162, lit=True, w=1.0)))
+
 export_site()
