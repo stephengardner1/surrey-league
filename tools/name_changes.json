@@ -21416,5 +21416,33 @@
   ],
   "evidence": "Steve confirmed (18 Oct 2026): the same Terry Booth, long career across Woking, Borough of Hounslow and Guildford. Also in Steve's alias sheet.",
   "approved": "Steve, 18 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "R Harran"
+  ],
+  "to": "Tony Harran",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "evidence": "misread R/T: 82nd in 1982/83 m1 fits Tony (51st-78th that season); Mick was 115th+ by then; no R Harran in any source (county champs list only Mick and Tony at Herne Hill).",
+  "approved": "Steve, 18 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Harran"
+  ],
+  "to": "Mick Harran",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "evidence": "surname only, 1979/80 m1 119th: Mick's level that season (113th, 126th); Tony was 60th-84th. Only Harrans in any source are Mick and Tony of Herne Hill. Club left as printed (SLH).",
+  "approved": "Steve, 18 Oct 2026"
  }
 ]
