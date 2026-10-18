@@ -1988,4 +1988,9 @@ def narrowchin(head, f, y0=128):
 # at the front and hanging down behind; gently arched brows, small silver hoops, fine silver chain, light flush
 save("juliet-hodder", earrings(widesmile(chindef(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="slickdown", hair_colour="#9A7650", brow_colour="#5A4030", rosy=True, necklace="#D4D4D4", jaw="broadchin"), "almond", 0), 0, 0, 2), 3.0, 0.6), 0.9, 1.15).replace(HEAD_BROADCHIN, narrowchin(shortlonghead(1.0), 0.68)))), col="#CFCFCF"))
 
+# Nikki Haines (BEL, 1994-2000), Oct 2026, from a Belgravian London Marathon photo (black and white, hair colour inferred):
+# thick dark hair with wavy volume swept up on top, lean narrow face with defined cheekbones, slightly downturned eyes a little close-set,
+# thin raised brows (a concentrating look)
+save("nikki-haines", cheekbones(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="messyvolume", hair_colour="#3A2A20", brow_colour="#2E211A", jaw="narrow"), "downturned", -1.5), 1.2, -1.5, 2), 2.4, 1.2), 0.95, 1.15), depth=.7))
+
 export_site()
