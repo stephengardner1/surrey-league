@@ -997,8 +997,8 @@ const ClubName=({club,className=''})=><><span className={`cn-code ${className}`}
   const show=(el)=>{const name=el.getAttribute('data-ath'),club=el.getAttribute('data-club')||'';const f=fileFor(name,club);if(!f)return;
     const row=el.closest('tr')||el;if([...row.querySelectorAll('img')].some(i=>{const u=i.getAttribute('src')||'';return u.startsWith('blob:')||u.includes('/portraits/athletes/');}))return;  /* portrait already showing in this row */
     if(!box)make();const src=`/portraits/athletes/${f}.svg?v=${PORTRAIT_V}`;if(img.getAttribute('src')!==src)img.setAttribute('src',src);
-    const r=nameEl(el,name).getBoundingClientRect();let x=r.right+10,y=r.top+r.height/2-H/2;
-    if(x+W>window.innerWidth-8)x=Math.max(8,r.left-W-10);y=Math.min(Math.max(8,y),window.innerHeight-H-8);
+    const r=nameEl(el,name).getBoundingClientRect();let x=r.right+20,y=r.top+r.height/2-H/2;
+    if(x+W>window.innerWidth-8)x=Math.max(8,r.left-W-20);y=Math.min(Math.max(8,y),window.innerHeight-H-8);
     box.style.left=x+'px';box.style.top=y+'px';box.style.opacity='1';box.style.transform='none';};
   document.addEventListener('mouseover',e=>{if(!mq.matches)return;const el=e.target.closest&&e.target.closest('[data-ath]');if(el===cur)return;hide();if(!el)return;cur=el;timer=setTimeout(()=>{if(cur===el)show(el);},120);},true);
   document.documentElement.addEventListener('mouseleave',hide);window.addEventListener('scroll',hide,{passive:true});window.addEventListener('blur',hide);document.addEventListener('click',hide,true);})();
