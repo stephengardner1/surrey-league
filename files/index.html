@@ -695,7 +695,7 @@ const nameInk=el=>{const c=document.createElement('canvas').getContext('2d'),fs=
   /* layout positions (offsets ignore the opening zoom and the stick-down tilt): find the baseline with a zero-size probe sitting on it */
   const pr=document.createElement('span');pr.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';el.appendChild(pr);const base=el.offsetTop+pr.offsetTop;el.removeChild(pr);
   const left=el.offsetLeft-el.offsetWidth/2;return{l:left+fs*.02,r:left+el.offsetWidth-fs*.02,t:base-m.actualBoundingBoxAscent,b:base};};
-const NAME_TAG={fs:5.2,ls:.06,gapA:.4,gapB:.6};  /* card units; gaps measured from the letters themselves */
+const NAME_TAG={fs:5.2,ls:.06,gapA:.4,gapB:4.5};  /* card units; gaps measured from the letters themselves */
 const LoadingBlink=({exiting,onDone,card:given,scale,intro})=>{
   const[pick,setPick]=useState(given||BLINK_DONE);
   useEffect(()=>{if(given)return;let dead=false;getBlinkPick().then(p=>{if(!dead)setPick(p);});return()=>{dead=true;};},[]);
