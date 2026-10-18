@@ -772,7 +772,7 @@ const PortraitCardOverlay=({file,name,club,onClose})=>{const[card,setCard]=useSt
   const close=()=>{if(card&&!exiting)setExiting(true);};
   useEffect(()=>{const k=e=>{if(e.key==='Escape'||e.key==='Enter'||e.key===' '){e.preventDefault();close();}};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k);});
   const vw=window.innerWidth,vh=window.innerHeight,H0=150*280/230;
-  const k=vw>=768?Math.max(1,Math.min(vh*0.5/H0,(vw*0.8)/150)):1;  // desktop: half the screen height
+  const k=Math.max(1,Math.min(vh*0.5/H0,(vw*0.8)/150));  /* every screen: as big as fits, never taller than half the screen height or wider than 80% of it */
   const at={left:Math.round((vw-150*k)/2),top:Math.round((vh-H0*k)/2)};
   if(!card)return null;
   return<div role="dialog" aria-label={`Portrait of ${name}`} onClick={close} style={{position:'fixed',inset:0,zIndex:200,cursor:'pointer',background:exiting?'transparent':'#fff',opacity:exiting||shown?1:0,transition:exiting?'none':'opacity .18s ease-out'}}>
