@@ -1925,4 +1925,23 @@ def chincrease(svg, skin=1, tag="f", y=164, lit=True, w=1.0):
 # Owen Hind (KEN), redrawn Oct 2026: dark brown tufty hair with a slight recede, oblong face with a long strong chin and a crease
 # halfway down it (chin lit below, both widened), slim wide-set cheek hollows low by the base of the nose, small eyes slightly close together tucked right under heavy straight brows
 save("hind", chincrease(longchin(cheekhollows(sockets(nose(angledbrows(brows(eyes(figure("KEN", skin=1, hair="tuftrecede", hair_colour="#3A2820", brow_colour="#2A1D16", jaw="broadchin"), "small", -1.5), 0, -1.5, 6.5), 1.0), 0.95, 1.2), depth=1.3), inset=4, dy=9)), y=163.5, lit=True, w=1.45))
+# ---- Triangular head with a long flat chin (Oct 2026, first used for Jared Martin) ----
+HEAD_TRI = "M65,96 C63,58 80,40 100,40 C120,40 137,58 135,96 L131.5,122 C128,140 119,157 110,169.5 L108,173 L92,173 L90,169.5 C81,157 72,140 68.5,122 Z"  # broad temples tapering straight to a long, narrow, flat chin
+def trihead(svg):
+    """Swap the default round head (jaw=None) for the triangular head with a long flat chin."""
+    return svg.replace(HEAD, HEAD_TRI)
+def softbrows(svg, thick=3.4, rise=0.0):
+    """Medium-weight brows in one soft, even curve, a little fuller at the inner end (a kind, open look); keeps the brow height. rise lifts the inner ends."""
+    m = _rq.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"( [^>]*)?><polygon points="[0-9.]+,[0-9.]+ [0-9.]+,([0-9.]+) [^"]+"/><polygon points="[^"]+"/></g>', svg)
+    if not m: return svg
+    dy = float(m.group(3)) - 100
+    t = thick
+    top = [(73.8,103.6),(77,101.2),(81,99.8),(85.5,99.4),(90,100.1-rise*.5),(94.8,101.6-rise)]
+    bot = [(95,101.6-rise+t*1.05),(90,100.1-rise*.5+t),(85.5,99.4+t),(81,99.8+t*.9),(77,101.2+t*.7),(74.2,103.9+t*.25)]
+    L = top+bot
+    f = lambda pts: " ".join(f"{x:g},{y+dy:g}" for x, y in pts)
+    return svg[:m.start()] + f'<g fill="{m.group(1)}"><polygon points="{f(L)}"/><polygon points="{f([(200-x, y) for x, y in L])}"/></g>' + svg[m.end():]
+# Jared Martin (THH), redrawn Oct 2026: short dark brown crop, triangular head with broad temples and a long flat chin,
+# small hooded eyes under soft curved medium brows, long nose, clean cheeks
+save("jared-martin", trihead(nose(softbrows(brows(eyes(figure("THH", skin=1, hair="crop", hair_colour="#3A2820", brow_colour="#2E211A"), "smallhooded", 0), 0, 0, 3), 3.4, 0), 0.95, 1.15)))
 export_site()
