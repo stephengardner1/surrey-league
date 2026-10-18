@@ -13447,5 +13447,39 @@
   "seasons": null,
   "evidence": "Surrey County XC champs print 'Steve Crawte' (Aldershot, Farnham & District) in 1989 and 1990 and 'S Crawte' (AFD) 1979-1993; Athletics Weekly 11 Nov 1992 'Steve and Hannah Crawte'. Only Crawte in the men's results; already 'Steve Crawte' 2002/03-2003/04.",
   "approved": "Names session, 17 Oct 2026: high confidence (Surrey County XC champs)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "A Moffatt"
+  ],
+  "to": "Alan Moffatt",
+  "seasons": null,
+  "evidence": "Surrey County XC champs print 'Alan Moffatt' (Aldershot, Farnham & District) 1991, 1992, 1993 and 'A Moffatt' (AFD) 1981-86; AW junior rankings Dec 1983 'Alan Moffatt'. One AW relay report (29 Oct 1983) says 'Andrew Moffatt' - outweighed. Only Moffatt at AFD; 'Alan Moffatt' already in our 2001-04 results.",
+  "approved": "Steve, 18 Oct 2026 (names session)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "D Fagan"
+  ],
+  "to": "Deron Fagan",
+  "seasons": null,
+  "evidence": "Surrey County XC champs: 'Deron Fagan' (Croydon Harriers) 1990, 1991, 1993, 1995, 1996, 1998, 1999. Only Fagan at Croydon.",
+  "approved": "Steve, 18 Oct 2026 (names session)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "D Fagan",
+   "Deran Fagan"
+  ],
+  "to": "Deron Fagan",
+  "seasons": null,
+  "evidence": "Surrey County XC champs: 'Deron Fagan' (Herne Hill) 2007, 2010 (one 2005 entry spells it 'Deran'); 32 results as Deron Fagan at HHH 2001-2026. 'Deran Fagan' 2014/15 m3 is a surreyleague.org misspelling (also aliased so re-imports join his page).",
+  "approved": "Steve, 18 Oct 2026 (names session)"
  }
 ]
