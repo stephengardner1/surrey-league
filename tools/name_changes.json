@@ -18277,5 +18277,2805 @@
   "seasons": null,
   "evidence": "misread R/G: 'G Gibbons' is Gary Ribbons. County champs: Gary Ribbons (Epsom & Ewell) 1979-84, (Boxhill Racers) 1986-2000; no G Gibbons in any source; Gary placed 4th-17th for E&E in the same seasons and ran for Boxhill in 1991/92; never in the same race. Steve's alias sheet already linked G Gibbons to G Ribbons.",
   "approved": "Names session, 18 Oct 2026: high confidence (Surrey County XC champs; Steve's alias sheet)"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "M Gregory"
+  ],
+  "to": "Martin Gregory",
+  "seasons": [
+   "1962/63",
+   "1967/68"
+  ],
+  "evidence": "county champs give Martin for M Gregory at this club (Martin x6); county champs 1962-1970; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "L Woodley"
+  ],
+  "to": "Lawrence Woodley",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "evidence": "county champs give Lawrence for L Woodley at this club (Lawrence x1); county champs 1962-1962; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "MIT",
+  "from": [
+   "M Burton"
+  ],
+  "to": "Malcolm Burton",
+  "seasons": [
+   "1962/63",
+   "1968/69"
+  ],
+  "evidence": "county champs give Malcolm for M Burton at this club (Malcolm x4); county champs 1961-1966; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "D White"
+  ],
+  "to": "David White",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "evidence": "county champs give David for D White at this club (David x1); county champs 1962-1962; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "M Maynard"
+  ],
+  "to": "Mike Maynard",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "evidence": "county champs give Mike for M Maynard at this club (Mike x1); county champs 1963-1963; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "MIT",
+  "from": [
+   "B Drewett"
+  ],
+  "to": "Brian Drewett",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "evidence": "county champs give Brian for B Drewett at this club (Brian x1); county champs 1964-1964; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "M Murray"
+  ],
+  "to": "Michael Murray",
+  "seasons": [
+   "1964/65",
+   "1966/67"
+  ],
+  "evidence": "county champs give Michael for M Murray at this club (Michael x3); county champs 1962-1966; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "W Hughes"
+  ],
+  "to": "Will Hughes",
+  "seasons": [
+   "1965/66",
+   "1981/82"
+  ],
+  "evidence": "county champs give Will for W Hughes at this club (Will x16); county champs 1962-1980; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "P Richardson"
+  ],
+  "to": "Peter Richardson",
+  "seasons": [
+   "1965/66",
+   "1982/83"
+  ],
+  "evidence": "county champs give Peter for P Richardson at this club (Peter x14); county champs 1961-1988; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "J Anderson"
+  ],
+  "to": "Jock Anderson",
+  "seasons": [
+   "1967/68",
+   "1967/68"
+  ],
+  "evidence": "county champs give Jock for J Anderson at this club (Jock x2); county champs 1966-1967; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "J Page"
+  ],
+  "to": "John Page",
+  "seasons": [
+   "1967/68",
+   "1967/68"
+  ],
+  "evidence": "county champs give John for J Page at this club (John x4); county champs 1961-1985; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "D Cooper"
+  ],
+  "to": "Dennis Cooper",
+  "seasons": [
+   "1967/68",
+   "1967/68"
+  ],
+  "evidence": "county champs give Dennis for D Cooper at this club (Dennis x1); county champs 1964-1964; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "MIT",
+  "from": [
+   "H Hayes"
+  ],
+  "to": "Hugh Hayes",
+  "seasons": [
+   "1968/69",
+   "1968/69"
+  ],
+  "evidence": "county champs give Hugh for H Hayes at this club (Hugh x2); county champs 1968-1969; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "K Kelly"
+  ],
+  "to": "Kevin Kelly",
+  "seasons": [
+   "1968/69",
+   "1976/77"
+  ],
+  "evidence": "county champs give Kevin for K Kelly at this club (Kevin x8); county champs 1967-1976; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "P King"
+  ],
+  "to": "Phil King",
+  "seasons": [
+   "1968/69",
+   "1985/86"
+  ],
+  "evidence": "county champs give Phil for P King at this club (Phil x4); county champs 1972-1984; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "P Williams"
+  ],
+  "to": "Paul Williams",
+  "seasons": [
+   "1974/75",
+   "2002/03"
+  ],
+  "evidence": "county champs give Paul for P Williams at this club (Paul x20); county champs 1972-2007; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "P Francis"
+  ],
+  "to": "Peter Francis",
+  "seasons": [
+   "1974/75",
+   "1981/82"
+  ],
+  "evidence": "county champs give Peter for P Francis at this club (Peter x11); county champs 1968-1979; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "S Knight"
+  ],
+  "to": "Steve Knight",
+  "seasons": [
+   "1974/75",
+   "1991/92"
+  ],
+  "evidence": "county champs give Steve for S Knight at this club (Steve x9); county champs 1975-1991; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "M Chuter"
+  ],
+  "to": "Martin Chuter",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "evidence": "county champs give Martin for M Chuter at this club (Martin x1); county champs 1974-1974; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "S Rogers"
+  ],
+  "to": "Stan Rogers",
+  "seasons": [
+   "1974/75",
+   "1975/76"
+  ],
+  "evidence": "county champs give Stan for S Rogers at this club (Stan x7); county champs 1962-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "B Curtis"
+  ],
+  "to": "Brian Curtis",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "evidence": "county champs give Brian for B Curtis at this club (Brian x4); county champs 1968-1974; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "D Yeoell"
+  ],
+  "to": "Dave Yeoell",
+  "seasons": [
+   "1975/76",
+   "1976/77"
+  ],
+  "evidence": "county champs give Dave for D Yeoell at this club (Dave x1); county champs 1975-1975; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "L Wells"
+  ],
+  "to": "Leslie Wells",
+  "seasons": [
+   "1975/76",
+   "1980/81"
+  ],
+  "evidence": "county champs give Leslie for L Wells at this club (Leslie x3); county champs 1976-1980; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "M Russell"
+  ],
+  "to": "Martin Russell",
+  "seasons": [
+   "1975/76",
+   "1976/77"
+  ],
+  "evidence": "county champs give Martin for M Russell at this club (Martin x4); county champs 1975-1978; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "C Thomas"
+  ],
+  "to": "Clive Thomas",
+  "seasons": [
+   "1976/77",
+   "1980/81"
+  ],
+  "evidence": "county champs give Clive for C Thomas at this club (Clive x6); county champs 1976-1981; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "D Williams"
+  ],
+  "to": "Dennis Williams",
+  "seasons": [
+   "1976/77",
+   "1998/99"
+  ],
+  "evidence": "county champs give Dennis for D Williams at this club (Dennis x28); county champs 1977-2010; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "M Long"
+  ],
+  "to": "Martin Long",
+  "seasons": [
+   "1976/77",
+   "1984/85"
+  ],
+  "evidence": "county champs give Martin for M Long at this club (Martin x10); county champs 1971-1985; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "P Edwards"
+  ],
+  "to": "Paul Edwards",
+  "seasons": [
+   "1976/77",
+   "1976/77"
+  ],
+  "evidence": "county champs give Paul for P Edwards at this club (Paul x1); county champs 1978-1978; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "W Smith"
+  ],
+  "to": "Wayne Smith",
+  "seasons": [
+   "1976/77",
+   "1976/77"
+  ],
+  "evidence": "county champs give Wayne for W Smith at this club (Wayne x1); county champs 1976-1976; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "G Richardson"
+  ],
+  "to": "Geoff Richardson",
+  "seasons": [
+   "1976/77",
+   "1976/77"
+  ],
+  "evidence": "county champs give Geoff for G Richardson at this club (Geoff x3); county champs 1972-1974; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "J Stevens"
+  ],
+  "to": "Julian Stevens",
+  "seasons": [
+   "1976/77",
+   "1981/82"
+  ],
+  "evidence": "county champs give Julian for J Stevens at this club (Julian x2); county champs 1978-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "S O'Neill"
+  ],
+  "to": "Sean O'Neill",
+  "seasons": [
+   "1976/77",
+   "1981/82"
+  ],
+  "evidence": "county champs give Sean for S O'Neill at this club (Sean x3); county champs 1975-1978; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "A Harper"
+  ],
+  "to": "Anthony Harper",
+  "seasons": [
+   "1978/79",
+   "1978/79"
+  ],
+  "evidence": "county champs give Anthony for A Harper at this club (Anthony x1); county champs 1978-1978; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "P Smith"
+  ],
+  "to": "Peter Smith",
+  "seasons": [
+   "1979/80",
+   "1981/82"
+  ],
+  "evidence": "county champs give Peter for P Smith at this club (Peter x4); county champs 1975-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "A Nicholson"
+  ],
+  "to": "Alistair Nicholson",
+  "seasons": [
+   "1979/80",
+   "1982/83"
+  ],
+  "evidence": "county champs give Alistair for A Nicholson at this club (Alistair x4); county champs 1979-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "G Bishop"
+  ],
+  "to": "Gary Bishop",
+  "seasons": [
+   "1980/81",
+   "1985/86"
+  ],
+  "evidence": "county champs give Gary for G Bishop at this club (Gary x6); county champs 1977-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "K Lee"
+  ],
+  "to": "Ken Lee",
+  "seasons": [
+   "1980/81",
+   "1980/81"
+  ],
+  "evidence": "county champs give Ken for K Lee at this club (Ken x1); county champs 1979-1979; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "T McCarthy"
+  ],
+  "to": "Terry McCarthy",
+  "seasons": [
+   "1980/81",
+   "1980/81"
+  ],
+  "evidence": "county champs give Terry for T McCarthy at this club (Terry x2); county champs 1980-1981; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "R Williams"
+  ],
+  "to": "Ron Williams",
+  "seasons": [
+   "1980/81",
+   "1985/86"
+  ],
+  "evidence": "county champs give Ron for R Williams at this club (Ron x5); county champs 1980-1987; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "L File"
+  ],
+  "to": "Lindsay File",
+  "seasons": [
+   "1980/81",
+   "1981/82"
+  ],
+  "evidence": "county champs give Lindsay for L File at this club (Lindsay x1); county champs 1980-1980; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "K Hall"
+  ],
+  "to": "Kevin Hall",
+  "seasons": [
+   "1980/81",
+   "1985/86"
+  ],
+  "evidence": "county champs give Kevin for K Hall at this club (Kevin x4); county champs 1966-1985; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "K Wallis"
+  ],
+  "to": "Keith Wallis",
+  "seasons": [
+   "1980/81",
+   "1983/84"
+  ],
+  "evidence": "county champs give Keith for K Wallis at this club (Keith x1); county champs 1983-1983; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "P Barratt"
+  ],
+  "to": "Peter Barratt",
+  "seasons": [
+   "1980/81",
+   "1980/81"
+  ],
+  "evidence": "county champs give Peter for P Barratt at this club (Peter x1); county champs 1982-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "T Adams"
+  ],
+  "to": "Timothy Adams",
+  "seasons": [
+   "1980/81",
+   "1981/82"
+  ],
+  "evidence": "county champs give Timothy for T Adams at this club (Timothy x2); county champs 1981-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "D Hayes"
+  ],
+  "to": "David Hayes",
+  "seasons": [
+   "1981/82",
+   "1987/88"
+  ],
+  "evidence": "county champs give David for D Hayes at this club (David x5); county champs 1981-1985; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "A Fox"
+  ],
+  "to": "Austin Fox",
+  "seasons": [
+   "1981/82",
+   "1985/86"
+  ],
+  "evidence": "county champs give Austin for A Fox at this club (Austin x6); county champs 1961-1985; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "D Cocks"
+  ],
+  "to": "David Cocks",
+  "seasons": [
+   "1981/82",
+   "1981/82"
+  ],
+  "evidence": "county champs give David for D Cocks at this club (David x1); county champs 1978-1978; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "R Toomey"
+  ],
+  "to": "Ricky Toomey",
+  "seasons": [
+   "1981/82",
+   "1985/86"
+  ],
+  "evidence": "county champs give Ricky for R Toomey at this club (Ricky x1); county champs 1982-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "C Leonard"
+  ],
+  "to": "Colin Leonard",
+  "seasons": [
+   "1982/83",
+   "1986/87"
+  ],
+  "evidence": "county champs give Colin for C Leonard at this club (Colin x1); county champs 1982-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "A Nisbett"
+  ],
+  "to": "Alexander Nisbett",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "evidence": "county champs give Alexander for A Nisbett at this club (Alexander x1); county champs 1982-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "S Bishop"
+  ],
+  "to": "Steve Bishop",
+  "seasons": [
+   "1982/83",
+   "1985/86"
+  ],
+  "evidence": "county champs give Steve for S Bishop at this club (Steve x10); county champs 1977-1987; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "M Reid"
+  ],
+  "to": "Murray Reid",
+  "seasons": [
+   "1983/84",
+   "1984/85"
+  ],
+  "evidence": "county champs give Murray for M Reid at this club (Murray x8); county champs 1977-1984; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "M Gregory"
+  ],
+  "to": "Mark Gregory",
+  "seasons": [
+   "1983/84",
+   "1984/85"
+  ],
+  "evidence": "county champs give Mark for M Gregory at this club (Mark x1); county champs 1986-1986; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "OME",
+  "from": [
+   "P Francis"
+  ],
+  "to": "Peter Francis",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "evidence": "county champs give Peter for P Francis at this club (Peter x12); county champs 1968-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "R James"
+  ],
+  "to": "Robbie James",
+  "seasons": [
+   "1984/85",
+   "1988/89"
+  ],
+  "evidence": "county champs give Robbie for R James at this club (Robbie x1); county champs 1987-1987; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "I Lamplough"
+  ],
+  "to": "Ian Lamplough",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "evidence": "county champs give Ian for I Lamplough at this club (Ian x1); county champs 1984-1984; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "J Warren"
+  ],
+  "to": "John Warren",
+  "seasons": [
+   "1984/85",
+   "1985/86"
+  ],
+  "evidence": "county champs give John for J Warren at this club (John x3); county champs 1981-1984; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "M Page"
+  ],
+  "to": "Melvyn Page",
+  "seasons": [
+   "1985/86",
+   "1986/87"
+  ],
+  "evidence": "county champs give Melvyn for M Page at this club (Melvyn x4); county champs 1976-1985; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "F Bell"
+  ],
+  "to": "Fred Bell",
+  "seasons": [
+   "1985/86",
+   "1991/92"
+  ],
+  "evidence": "county champs give Fred for F Bell at this club (Fred x10); county champs 1989-2009; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "D Bryant"
+  ],
+  "to": "David Bryant",
+  "seasons": [
+   "1985/86",
+   "1985/86"
+  ],
+  "evidence": "county champs give David for D Bryant at this club (David x1); county champs 1984-1984; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "D Middleton"
+  ],
+  "to": "David Middleton",
+  "seasons": [
+   "1985/86",
+   "1991/92"
+  ],
+  "evidence": "county champs give David for D Middleton at this club (David x5); county champs 1983-1992; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "C Payne"
+  ],
+  "to": "Chris Payne",
+  "seasons": [
+   "1985/86",
+   "1988/89"
+  ],
+  "evidence": "county champs give Chris for C Payne at this club (Chris x5); county champs 1983-1989; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "T Butler"
+  ],
+  "to": "Tim Butler",
+  "seasons": [
+   "1986/87",
+   "1989/90"
+  ],
+  "evidence": "county champs give Tim for T Butler at this club (Tim x1); county champs 1989-1989; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "GUEST",
+  "from": [
+   "B Taylor"
+  ],
+  "to": "Brian Taylor",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "county champs give Brian for B Taylor at this club (Brian x2); county champs 1990-1991; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "G McGurren"
+  ],
+  "to": "Gary McGurren",
+  "seasons": [
+   "1986/87",
+   "1990/91"
+  ],
+  "evidence": "county champs give Gary for G McGurren at this club (Gary x1); county champs 1989-1989; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "G Russell"
+  ],
+  "to": "Gordon Russell",
+  "seasons": [
+   "1987/88",
+   "1990/91"
+  ],
+  "evidence": "county champs give Gordon for G Russell at this club (Gordon x2); county champs 1985-1987; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "D Kew"
+  ],
+  "to": "David Kew",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "evidence": "county champs give David for D Kew at this club (David x1); county champs 1989-1989; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "S Bishop"
+  ],
+  "to": "Steven Bishop",
+  "seasons": [
+   "1988/89",
+   "1994/95"
+  ],
+  "evidence": "county champs give Steven for S Bishop at this club (Steven x4); county champs 1989-1991; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "R McDonnell"
+  ],
+  "to": "Richard McDonnell",
+  "seasons": [
+   "1988/89",
+   "1989/90"
+  ],
+  "evidence": "county champs give Richard for R McDonnell at this club (Richard x1); county champs 1989-1989; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "M Bradshaw"
+  ],
+  "to": "Martin Bradshaw",
+  "seasons": [
+   "1988/89",
+   "1988/89"
+  ],
+  "evidence": "county champs give Martin for M Bradshaw at this club (Martin x1); county champs 1989-1989; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "G Bishop"
+  ],
+  "to": "Gary Bishop",
+  "seasons": [
+   "1989/90",
+   "1997/98"
+  ],
+  "evidence": "county champs give Gary for G Bishop at this club (Gary x1); county champs 1993-1993; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "D Bond"
+  ],
+  "to": "David Bond",
+  "seasons": [
+   "1989/90",
+   "1995/96"
+  ],
+  "evidence": "county champs give David for D Bond at this club (David x6); county champs 1985-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "N Stevens"
+  ],
+  "to": "Nigel Stevens",
+  "seasons": [
+   "1989/90",
+   "1992/93"
+  ],
+  "evidence": "county champs give Nigel for N Stevens at this club (Nigel x1); county champs 1992-1992; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "S Herbert"
+  ],
+  "to": "Saul Herbert",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "county champs give Saul for S Herbert at this club (Saul x1); county champs 1986-1986; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "D Palairet"
+  ],
+  "to": "Dave Palairet",
+  "seasons": [
+   "1989/90",
+   "1990/91"
+  ],
+  "evidence": "county champs give Dave for D Palairet at this club (Dave x1); county champs 1992-1992; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "G Voice"
+  ],
+  "to": "Graham Voice",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "county champs give Graham for G Voice at this club (Graham x1); county champs 1986-1986; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "J Roberts"
+  ],
+  "to": "John Roberts",
+  "seasons": [
+   "1990/91",
+   "1994/95"
+  ],
+  "evidence": "county champs give John for J Roberts at this club (John x2); county champs 1990-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "S Taylor"
+  ],
+  "to": "Stephen Taylor",
+  "seasons": [
+   "1990/91",
+   "1990/91"
+  ],
+  "evidence": "county champs give Stephen for S Taylor at this club (Stephen x1); county champs 1992-1992; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "R Hull"
+  ],
+  "to": "Richard Hull",
+  "seasons": [
+   "1990/91",
+   "1994/95"
+  ],
+  "evidence": "county champs give Richard for R Hull at this club (Richard x1); county champs 1990-1990; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "D Wust"
+  ],
+  "to": "Dieter Wust",
+  "seasons": [
+   "1991/92",
+   "1992/93"
+  ],
+  "evidence": "county champs give Dieter for D Wust at this club (Dieter x1); county champs 1993-1993; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "MPA",
+  "from": [
+   "A Gray"
+  ],
+  "to": "Alan Gray",
+  "seasons": [
+   "1991/92",
+   "1993/94"
+  ],
+  "evidence": "county champs give Alan for A Gray at this club (Alan x1); county champs 1994-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "D Scott"
+  ],
+  "to": "David Scott",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "evidence": "county champs give David for D Scott at this club (David x1); county champs 1991-1991; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "N Sutton"
+  ],
+  "to": "Noel Sutton",
+  "seasons": [
+   "1991/92",
+   "1994/95"
+  ],
+  "evidence": "county champs give Noel for N Sutton at this club (Noel x1); county champs 1991-1991; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "D Leavy"
+  ],
+  "to": "Dan Leavy",
+  "seasons": [
+   "1991/92",
+   "1994/95"
+  ],
+  "evidence": "county champs give Dan for D Leavy at this club (Dan x1); county champs 1993-1993; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "N Hopkins"
+  ],
+  "to": "Nick Hopkins",
+  "seasons": [
+   "1992/93",
+   "1995/96"
+  ],
+  "evidence": "county champs give Nick for N Hopkins at this club (Nick x2); county champs 1992-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "J Brooks"
+  ],
+  "to": "Jerome Brooks",
+  "seasons": [
+   "1992/93",
+   "1998/99"
+  ],
+  "evidence": "county champs give Jerome for J Brooks at this club (Jerome x4); county champs 1994-1997; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "R Knight"
+  ],
+  "to": "Richard Knight",
+  "seasons": [
+   "1992/93",
+   "1997/98"
+  ],
+  "evidence": "county champs give Richard for R Knight at this club (Richard x4); county champs 1990-1993; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "R Thompson"
+  ],
+  "to": "Ray Thompson",
+  "seasons": [
+   "1992/93",
+   "1998/99"
+  ],
+  "evidence": "county champs give Ray for R Thompson at this club (Ray x1); county champs 1994-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "S Newman"
+  ],
+  "to": "Steven Newman",
+  "seasons": [
+   "1992/93",
+   "1992/93"
+  ],
+  "evidence": "county champs give Steven for S Newman at this club (Steven x5); county champs 1988-1992; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "S Taylor"
+  ],
+  "to": "Steve Taylor",
+  "seasons": [
+   "1992/93",
+   "1996/97"
+  ],
+  "evidence": "county champs give Steve for S Taylor at this club (Steve x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "S Nash"
+  ],
+  "to": "Stuart Nash",
+  "seasons": [
+   "1993/94",
+   "1994/95"
+  ],
+  "evidence": "county champs give Stuart for S Nash at this club (Stuart x1); county champs 1994-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOH",
+  "from": [
+   "J Lamont"
+  ],
+  "to": "Jonathon Lamont",
+  "seasons": [
+   "1993/94",
+   "1995/96"
+  ],
+  "evidence": "county champs give Jonathon for J Lamont at this club (Jonathon x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "P Beauvais"
+  ],
+  "to": "Paul Beauvais",
+  "seasons": [
+   "1993/94",
+   "1999/00"
+  ],
+  "evidence": "county champs give Paul for P Beauvais at this club (Paul x1); county champs 1996-1996; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "S Southall"
+  ],
+  "to": "Steve Southall",
+  "seasons": [
+   "1993/94",
+   "1999/00"
+  ],
+  "evidence": "county champs give Steve for S Southall at this club (Steve x1); county champs 1997-1997; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "S Kigo"
+  ],
+  "to": "Sam Kigo",
+  "seasons": [
+   "1993/94",
+   "1996/97"
+  ],
+  "evidence": "county champs give Sam for S Kigo at this club (Sam x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "P Noble"
+  ],
+  "to": "Paul Noble",
+  "seasons": [
+   "1993/94",
+   "1996/97"
+  ],
+  "evidence": "county champs give Paul for P Noble at this club (Paul x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "A Ward"
+  ],
+  "to": "Andrew Ward",
+  "seasons": [
+   "1993/94",
+   "1993/94"
+  ],
+  "evidence": "county champs give Andrew for A Ward at this club (Andrew x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "M Perrett"
+  ],
+  "to": "Mark Perrett",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "county champs give Mark for M Perrett at this club (Mark x1); county champs 1994-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "R Frew"
+  ],
+  "to": "Richard Frew",
+  "seasons": [
+   "1994/95",
+   "1995/96"
+  ],
+  "evidence": "county champs give Richard for R Frew at this club (Richard x1); county champs 1994-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "G Mason"
+  ],
+  "to": "Gavin Mason",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "county champs give Gavin for G Mason at this club (Gavin x3); county champs 1991-1993; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "M Watling"
+  ],
+  "to": "Mark Watling",
+  "seasons": [
+   "1994/95",
+   "1997/98"
+  ],
+  "evidence": "county champs give Mark for M Watling at this club (Mark x1); county champs 1997-1997; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "R Brown"
+  ],
+  "to": "Roger Brown",
+  "seasons": [
+   "1994/95",
+   "1994/95"
+  ],
+  "evidence": "county champs give Roger for R Brown at this club (Roger x1); county champs 1994-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "E Mamet"
+  ],
+  "to": "Eric Mamet",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Eric for E Mamet at this club (Eric x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "J Pritchard"
+  ],
+  "to": "John Pritchard",
+  "seasons": [
+   "1995/96",
+   "1998/99"
+  ],
+  "evidence": "county champs give John for J Pritchard at this club (John x1); county champs 1997-1997; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "J Brown"
+  ],
+  "to": "Jim Brown",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Jim for J Brown at this club (Jim x5); county champs 1990-2011; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BOH",
+  "from": [
+   "B Mabon"
+  ],
+  "to": "Ben Mabon",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Ben for B Mabon at this club (Ben x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "S Bellord"
+  ],
+  "to": "Simon Bellord",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Simon for S Bellord at this club (Simon x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "M Oldham"
+  ],
+  "to": "Mark Oldham",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Mark for M Oldham at this club (Mark x1); county champs 1996-1996; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "T Raggett"
+  ],
+  "to": "Trevor Raggett",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Trevor for T Raggett at this club (Trevor x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "S Burden"
+  ],
+  "to": "Steven Burden",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Steven for S Burden at this club (Steven x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "N Ratcliffe"
+  ],
+  "to": "Nigel Ratcliffe",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Nigel for N Ratcliffe at this club (Nigel x1); county champs 1994-1994; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "M Dawson"
+  ],
+  "to": "Michael Dawson",
+  "seasons": [
+   "1996/97",
+   "2000/01"
+  ],
+  "evidence": "county champs give Michael for M Dawson at this club (Michael x3); county champs 1995-1998; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "P Raven"
+  ],
+  "to": "Paul Raven",
+  "seasons": [
+   "1996/97",
+   "1996/97"
+  ],
+  "evidence": "county champs give Paul for P Raven at this club (Paul x1); county champs 1996-1996; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "C Scott"
+  ],
+  "to": "Chris Scott",
+  "seasons": [
+   "1996/97",
+   "1996/97"
+  ],
+  "evidence": "county champs give Chris for C Scott at this club (Chris x1); county champs 1996-1996; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "L Morgan"
+  ],
+  "to": "Lee Morgan",
+  "seasons": [
+   "1998/99",
+   "2007/08"
+  ],
+  "evidence": "county champs give Lee for L Morgan at this club (Lee x2); our results show the full name 2000-2008 results: 14; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "R Jarrett"
+  ],
+  "to": "Ray Jarrett",
+  "seasons": [
+   "1998/99",
+   "1999/00"
+  ],
+  "evidence": "county champs give Ray for R Jarrett at this club (Ray x1); county champs 1998-1998; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "T Dover"
+  ],
+  "to": "Tom Dover",
+  "seasons": [
+   "1998/99",
+   "1998/99"
+  ],
+  "evidence": "county champs give Tom for T Dover at this club (Tom x1); county champs 1998-1998; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "Guest",
+  "from": [
+   "P Phillips"
+  ],
+  "to": "Paul Phillips",
+  "seasons": [
+   "1998/99",
+   "1998/99"
+  ],
+  "evidence": "county champs give Paul for P Phillips at this club (Paul x3); county champs 2001-2003; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "BAC",
+  "from": [
+   "G Taylor"
+  ],
+  "to": "Graham Taylor",
+  "seasons": [
+   "1999/00",
+   "1999/00"
+  ],
+  "evidence": "county champs give Graham for G Taylor at this club (Graham x23); county champs 1986-2005; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "K Lee"
+  ],
+  "to": "Ken Lee",
+  "seasons": [
+   "1999/00",
+   "2003/04"
+  ],
+  "evidence": "county champs give Ken for K Lee at this club (Ken x11); county champs 1999-2010; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "G Greggains"
+  ],
+  "to": "Gareth Greggains",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs give Gareth for G Greggains at this club (Gareth x1); county champs 1998-1998; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "N Andersen"
+  ],
+  "to": "Neils Andersen",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs give Neils for N Andersen at this club (Neils x1); county champs 2002-2002; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "G Lomas"
+  ],
+  "to": "Gary Lomas",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs give Gary for G Lomas at this club (Gary x1); county champs 1999-1999; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "A Taylor"
+  ],
+  "to": "Andy Taylor",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Andy for A Taylor at this club (Andrew x2); our results show the full name 2001-2012 results: 12; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "M Palmer"
+  ],
+  "to": "Mark Palmer",
+  "seasons": [
+   "2001/02",
+   "2006/07"
+  ],
+  "evidence": "county champs give Mark for M Palmer at this club (Mark x2); our results show the full name 2001-2010 results: 13; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "I Thomas"
+  ],
+  "to": "Ian Thomas",
+  "seasons": [
+   "2001/02",
+   "2007/08"
+  ],
+  "evidence": "county champs give Ian for I Thomas at this club (Ian x1); our results show the full name 2001-2008 results: 14; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Chapman"
+  ],
+  "to": "Neil Chapman",
+  "seasons": [
+   "2002/03",
+   "2004/05"
+  ],
+  "evidence": "county champs give Neil for N Chapman at this club (Neil x1); our results show the full name 2001-2003 results: 2; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "S Williams"
+  ],
+  "to": "Steve Williams",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give Steve for S Williams at this club (Steve x1); our results show the full name 2002-2002 results: 1; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "N Wood"
+  ],
+  "to": "Nick Wood",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give Nick for N Wood at this club (Nick x1); our results show the full name 2004-2004 results: 1; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "M Roberts"
+  ],
+  "to": "Mark Roberts",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give Mark for M Roberts at this club (Mark x1); our results show the full name 2004-2004 results: 1; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "J King"
+  ],
+  "to": "James King",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs give James for J King at this club (James x1); our results show the full name 2004-2006 results: 2; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "E Lees"
+  ],
+  "to": "Evan Lees",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give Evan for E Lees at this club (Evan x1); county champs 2003-2003; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RPR",
+  "from": [
+   "D Baker"
+  ],
+  "to": "David Baker",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give David for D Baker at this club (David x16); county champs 1989-2012; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RPR",
+  "from": [
+   "M Palmer"
+  ],
+  "to": "Mark Palmer",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give Mark for M Palmer at this club (Mark x2); our results show the full name 2010-2010 results: 2; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RPR",
+  "from": [
+   "I Thomas"
+  ],
+  "to": "Ian Thomas",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give Ian for I Thomas at this club (Ian x1); our results show the full name 2008-2008 results: 3; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "M White"
+  ],
+  "to": "Mark White",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs give Mark for M White at this club (Mark x1); our results show the full name 2005-2015 results: 14; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "D Hockaday"
+  ],
+  "to": "Darren Hockaday",
+  "seasons": [
+   "2005/06",
+   "2005/06"
+  ],
+  "evidence": "county champs give Darren for D Hockaday at this club (Darren x1); county champs 2005-2005; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "M Middleton"
+  ],
+  "to": "Mark Middleton",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs give Mark for M Middleton at this club (Mark x1); our results show the full name 2006-2006 results: 1; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "STR",
+  "from": [
+   "P Graham"
+  ],
+  "to": "Paul Graham",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs give Paul for P Graham at this club (Paul x2); our results show the full name 2006-2010 results: 5; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "STR",
+  "from": [
+   "J Parry"
+  ],
+  "to": "Jon Parry",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs give Jon for J Parry at this club (Jon x1); our results show the full name 2006-2012 results: 13; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "I Millar"
+  ],
+  "to": "Iain Millar",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs give Iain for I Millar at this club (Iain x1); county champs 2008-2008; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "W/W",
+  "from": [
+   "G Ball"
+  ],
+  "to": "Graham Ball",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Graham for G Ball at this club (Graham x2); county champs 1993-2008; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "W/W",
+  "from": [
+   "D Bell"
+  ],
+  "to": "David Bell",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give David for D Bell at this club (David x2); our results show the full name 2007-2007 results: 1; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "J Dobson"
+  ],
+  "to": "Jonathan Dobson",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Jonathan for J Dobson at this club (Jonathan x1); county champs 2008-2008; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "I Rustige"
+  ],
+  "to": "Ian Rustige",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Ian for I Rustige at this club (Ian x1); county champs 2008-2008; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "C Young"
+  ],
+  "to": "Colin Young",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Colin for C Young at this club (Colin x2); our results show the full name 2008-2008 results: 4; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "G Tucker"
+  ],
+  "to": "Graham Tucker",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Graham for G Tucker at this club (Graham x1); county champs 2007-2007; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "J Hook"
+  ],
+  "to": "Joe Hook",
+  "seasons": [
+   "2008/09",
+   "2008/09"
+  ],
+  "evidence": "county champs give Joe for J Hook at this club (Joe x1); county champs 2008-2008; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "BEL",
+  "from": [
+   "T Heaton"
+  ],
+  "to": "Tilly Heaton",
+  "seasons": [
+   "2010/11",
+   "2010/11"
+  ],
+  "evidence": "county champs give Tilly for T Heaton at this club (Tilly x1); county champs 2011-2011; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "HHH",
+  "from": [
+   "M Clarke"
+  ],
+  "to": "Marilyn Clarke",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Marilyn for M Clarke at this club (Marilyn x1); our results show the full name 2006-2006 results: 1; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "SLH",
+  "from": [
+   "Y Hill"
+  ],
+  "to": "Yvonne Hill",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Yvonne for Y Hill at this club (Yvonne x2); our results show the full name 2002-2004 results: 4; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "SLH",
+  "from": [
+   "A Walker"
+  ],
+  "to": "Alison Walker",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Alison for A Walker at this club (Alison x1); our results show the full name 2003-2003 results: 1; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "THH",
+  "from": [
+   "K McDonald"
+  ],
+  "to": "Kate McDonald",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Kate for K McDonald at this club (Kate x2); our results show the full name 2002-2002 results: 1; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "BEL",
+  "from": [
+   "A Pike"
+  ],
+  "to": "Amy Pike",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "county champs give Amy for A Pike at this club (Amy x1); county champs 2002-2002; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "GUEST",
+  "from": [
+   "L Watson"
+  ],
+  "to": "Laura Watson",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Laura for L Watson at this club (Laura x5); county champs 1994-1998; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "E&E",
+  "from": [
+   "H Cartwright"
+  ],
+  "to": "Helen Cartwright",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Helen for H Cartwright at this club (Helen x1); county champs 2001-2001; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "SOC",
+  "from": [
+   "K Potter"
+  ],
+  "to": "Kate Potter",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Kate for K Potter at this club (Kate x2); county champs 1999-2001; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "DMV",
+  "from": [
+   "J Cooper"
+  ],
+  "to": "Jacqui Cooper",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Jacqui for J Cooper at this club (Jacqui x1); county champs 2001-2001; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "SOC",
+  "from": [
+   "L Simmons"
+  ],
+  "to": "Lyn Simmons",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Lyn for L Simmons at this club (Lyn x1); county champs 2001-2001; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "SLH",
+  "from": [
+   "E Danilova"
+  ],
+  "to": "Evelina Danilova",
+  "seasons": [
+   "1996/97",
+   "1997/98"
+  ],
+  "evidence": "county champs give Evelina for E Danilova at this club (Evelina x1); county champs 1997-1997; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "BEL",
+  "from": [
+   "J Oakley"
+  ],
+  "to": "Jacky Oakley",
+  "seasons": [
+   "1995/96",
+   "1995/96"
+  ],
+  "evidence": "county champs give Jacky for J Oakley at this club (Jacky x1); county champs 1995-1995; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "K Sutton"
+  ],
+  "to": "Karen Sutton",
+  "seasons": [
+   "1992/93",
+   "1992/93"
+  ],
+  "evidence": "county champs give Karen for K Sutton at this club (Karen x7); county champs 1982-1992; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "J Mitchell"
+  ],
+  "to": "Jeina Mitchell",
+  "seasons": [
+   "1992/93",
+   "1992/93"
+  ],
+  "evidence": "county champs give Jeina for J Mitchell at this club (Jeina x1); county champs 1992-1992; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "SLH",
+  "from": [
+   "S Young"
+  ],
+  "to": "Sally Young",
+  "seasons": [
+   "1989/90",
+   "1990/91"
+  ],
+  "evidence": "county champs give Sally for S Young at this club (Sally x2); county champs 1989-1990; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "G&G",
+  "from": [
+   "P Mason"
+  ],
+  "to": "Philippa Mason",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "evidence": "county champs give Philippa for P Mason at this club (Philippa x1); county champs 1986-1986; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "K Ellis"
+  ],
+  "to": "Karen Ellis",
+  "seasons": [
+   "1983/84",
+   "1983/84"
+  ],
+  "evidence": "county champs give Karen for K Ellis at this club (Karen x4); county champs 1982-1985; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "D Chettle"
+  ],
+  "to": "Di Chettle",
+  "seasons": [
+   "1980/81",
+   "1982/83"
+  ],
+  "evidence": "county champs give Di for D Chettle at this club (Di x1); county champs 1982-1982; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "D Phillips"
+  ],
+  "to": "Deansie Phillips",
+  "seasons": [
+   "1980/81",
+   "1980/81"
+  ],
+  "evidence": "county champs give Deansie for D Phillips at this club (Deansie x2); county champs 1974-1978; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "K Crooke"
+  ],
+  "to": "Ken Crooke",
+  "seasons": [
+   "1974/75",
+   "1996/97"
+  ],
+  "evidence": "county champs give Ken Crooke at this club 1975-2004 (33 times) and no other first name with that initial; 'K Crooke' 1974/75-1996/97 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Keith Crooke"
+  ],
+  "to": "Ken Crooke",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs give Ken Crooke at this club 1975-2004 (33 times) and no other first name with that initial; 'Keith Crooke' 2000/01-2000/01 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "C Hensby"
+  ],
+  "to": "Clive Hensby",
+  "seasons": [
+   "1985/86",
+   "1995/96"
+  ],
+  "evidence": "county champs give Clive Hensby at this club 1976-2003 (10 times) and no other first name with that initial; 'C Hensby' 1985/86-1995/96 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "WOK",
+  "from": [
+   "Chris Hensby"
+  ],
+  "to": "Clive Hensby",
+  "seasons": [
+   "1989/90",
+   "1989/90"
+  ],
+  "evidence": "county champs give Clive Hensby at this club 1976-2003 (10 times) and no other first name with that initial; 'Chris Hensby' 1989/90-1989/90 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "C Parrack"
+  ],
+  "to": "Colin Parrack",
+  "seasons": [
+   "1987/88",
+   "1998/99"
+  ],
+  "evidence": "county champs give Colin Parrack at this club 1985-2004 (18 times) and no other first name with that initial; 'C Parrack' 1987/88-1998/99 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "Chris Parrack"
+  ],
+  "to": "Colin Parrack",
+  "seasons": [
+   "2001/02",
+   "2003/04"
+  ],
+  "evidence": "county champs give Colin Parrack at this club 1985-2004 (18 times) and no other first name with that initial; 'Chris Parrack' 2001/02-2003/04 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "B Cooke"
+  ],
+  "to": "Barry Cooke",
+  "seasons": [
+   "1992/93",
+   "2000/01"
+  ],
+  "evidence": "county champs give Barry Cooke at this club 1987-2000 (9 times) and no other first name with that initial; 'B Cooke' 1992/93-2000/01 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Brian Cooke"
+  ],
+  "to": "Barry Cooke",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs give Barry Cooke at this club 1987-2000 (9 times) and no other first name with that initial; 'Brian Cooke' 2000/01-2000/01 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "A Green"
+  ],
+  "to": "Adrian Green",
+  "seasons": [
+   "1992/93",
+   "1998/99"
+  ],
+  "evidence": "county champs give Adrian Green at this club 1992-2004 (4 times) and no other first name with that initial; 'A Green' 1992/93-1998/99 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "Andy Green"
+  ],
+  "to": "Adrian Green",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Adrian Green at this club 1992-2004 (4 times) and no other first name with that initial; 'Andy Green' 2001/02-2001/02 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Richard Langridge"
+  ],
+  "to": "Robert Langridge",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs give Robert Langridge at this club 1999-2003 (5 times) and no other first name with that initial; 'Richard Langridge' 2000/01-2000/01 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "J Collins"
+  ],
+  "to": "Jim Collins",
+  "seasons": [
+   "1995/96",
+   "2001/02"
+  ],
+  "evidence": "county champs give Jim Collins at this club 1997-2002 (3 times) and no other first name with that initial; 'J Collins' 1995/96-2001/02 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "John Collins"
+  ],
+  "to": "Jim Collins",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Jim Collins at this club 1997-2002 (3 times) and no other first name with that initial; 'John Collins' 2001/02-2001/02 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "A Irvine"
+  ],
+  "to": "Alistair Irvine",
+  "seasons": [
+   "1996/97",
+   "2004/05"
+  ],
+  "evidence": "county champs give Alistair Irvine at this club 1996-2004 (2 times) and no other first name with that initial; 'A Irvine' 1996/97-2004/05 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Andy Irvine"
+  ],
+  "to": "Alistair Irvine",
+  "seasons": [
+   "2001/02",
+   "2004/05"
+  ],
+  "evidence": "county champs give Alistair Irvine at this club 1996-2004 (2 times) and no other first name with that initial; 'Andy Irvine' 2001/02-2004/05 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Andy Austin"
+  ],
+  "to": "Anthony Austin",
+  "seasons": [
+   "2002/03",
+   "2004/05"
+  ],
+  "evidence": "county champs give Anthony Austin at this club 2001-2004 (4 times) and no other first name with that initial; 'Andy Austin' 2002/03-2004/05 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "S Stevens"
+  ],
+  "to": "Simon Stevens",
+  "seasons": [
+   "1997/98",
+   "2002/03"
+  ],
+  "evidence": "county champs give Simon Stevens at this club 1998-2001 (2 times) and no other first name with that initial; 'S Stevens' 1997/98-2002/03 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Steve Stevens"
+  ],
+  "to": "Simon Stevens",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Simon Stevens at this club 1998-2001 (2 times) and no other first name with that initial; 'Steve Stevens' 2001/02-2001/02 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "P Southall"
+  ],
+  "to": "Peter Southall",
+  "seasons": [
+   "1999/00",
+   "2003/04"
+  ],
+  "evidence": "county champs give Peter Southall at this club 1997-2000 (3 times) and no other first name with that initial; 'P Southall' 1999/00-2003/04 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Paul Southall"
+  ],
+  "to": "Peter Southall",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs give Peter Southall at this club 1997-2000 (3 times) and no other first name with that initial; 'Paul Southall' 2000/01-2000/01 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "N Costiff"
+  ],
+  "to": "Nigel Costiff",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "county champs give Nigel Costiff at this club 2001-2011 (6 times) and no other first name with that initial; 'N Costiff' 2006/07-2006/07 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Nick Costiff"
+  ],
+  "to": "Nigel Costiff",
+  "seasons": [
+   "2000/01",
+   "2000/01"
+  ],
+  "evidence": "county champs give Nigel Costiff at this club 2001-2011 (6 times) and no other first name with that initial; 'Nick Costiff' 2000/01-2000/01 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "Phil Byrne"
+  ],
+  "to": "Paul Byrne",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "county champs give Paul Byrne at this club 1990-1998 (6 times) and no other first name with that initial; 'Phil Byrne' 2002/03-2002/03 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "J Godber"
+  ],
+  "to": "James Godber",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give James Godber at this club 2004-2012 (3 times) and no other first name with that initial; 'J Godber' 2004/05-2004/05 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "John Godber"
+  ],
+  "to": "James Godber",
+  "seasons": [
+   "2004/05",
+   "2004/05"
+  ],
+  "evidence": "county champs give James Godber at this club 2004-2012 (3 times) and no other first name with that initial; 'John Godber' 2004/05-2004/05 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "B Egan"
+  ],
+  "to": "Ben Egan",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Ben Egan at this club 2004-2010 (7 times) and no other first name with that initial; 'B Egan' 2007/08-2007/08 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "Brian Egan"
+  ],
+  "to": "Ben Egan",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Ben Egan at this club 2004-2010 (7 times) and no other first name with that initial; 'Brian Egan' 2007/08-2007/08 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "W/W",
+  "from": [
+   "J Wallace"
+  ],
+  "to": "Jim Wallace",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Jim Wallace at this club 2001-2008 (2 times) and no other first name with that initial; 'J Wallace' 2007/08-2007/08 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "men",
+  "club": "W/W",
+  "from": [
+   "John Wallace"
+  ],
+  "to": "Jim Wallace",
+  "seasons": [
+   "2007/08",
+   "2007/08"
+  ],
+  "evidence": "county champs give Jim Wallace at this club 2001-2008 (2 times) and no other first name with that initial; 'John Wallace' 2007/08-2007/08 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "women",
+  "club": "BEL",
+  "from": [
+   "Gabby Collinson"
+  ],
+  "to": "Gabi Collinson",
+  "seasons": [
+   "1986/87",
+   "1986/87"
+  ],
+  "evidence": "county champs give Gabi Collinson at this club 1990-1992 (2 times) and no other first name with that initial; 'Gabby Collinson' 1986/87-1986/87 sits inside those years; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: county champs first name beats ours)"
+ },
+ {
+  "sex": "women",
+  "club": "HHH",
+  "from": [
+   "D Robinson"
+  ],
+  "to": "Debbie Robinson",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Debbie for D Robinson at this club (Debbie x2); our results show the full name 2002-2013 results: 7; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "women",
+  "club": "SLH",
+  "from": [
+   "L Hunt"
+  ],
+  "to": "Liz Hunt",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "county champs give Liz for L Hunt at this club (Liz x1); our results show the full name 2002-2003 results: 3; never in the same race",
+  "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
  }
 ]
