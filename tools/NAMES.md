@@ -24,6 +24,12 @@ Every approved name change is logged in `tools/name_changes.json` (who changed, 
 - Aliases are global (not per club), so only alias distinctive spellings; ordinary names that could belong to
   someone at another club stay as club-scoped renames in the log.
 
+## Initial-only names (Oct 2026)
+An initial (e.g. "D Fagan") is joined to a full name when the county champs give only that first name for
+the initial at that club, the two forms never meet in one race, and the years fit. Not joined (left as initials):
+initials whose years run well beyond the documented full name (possibly two runners), and pairs with no outside
+source. Where our full name disagreed with the county champs (2+ mentions), the county champs name was used.
+
 ## One-off club corrections
 - 2003/04 match 1 (men), 10th, James Jackson 27:01: club THH -> AFD (Steve approved, 17 Oct 2026).
   Athletics Weekly 22 Oct 2003 prints "10 J Jackson (AFD, M40) 27:01". The published team scores
