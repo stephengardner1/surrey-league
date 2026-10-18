@@ -53,3 +53,6 @@ Surrey County XC Championships results from 1962/63, with full names and clubs:
 https://www.surreyathletics.uk/crosscountry/index.php (athlete pages: /database/profile.php?N=…&G=M).
 - Oct 2026 (Jackson puzzle): AW winter issues Oct 1979-Apr 1987 (207 issues from `winter-1974-1987.txt`) and The Belgravian
   B199-B212 (1979-88) searched for Jackson. Findings in `clubs/afd/findings.jsonl`. Not stored.
+- Oct 2026: AW winter issues 1987/88-1997/98 (289 issues) downloaded and searched for first names of initial-only runners
+  (name printed next to the club). 12 applied (logged in tools/name_changes.json); 26 single mentions held for Steve.
+  Text not stored; re-download with the issue pages in `winter.txt`.
