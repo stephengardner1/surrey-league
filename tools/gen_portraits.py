@@ -1952,4 +1952,12 @@ HAIR["lowpart"] = ('<path d="M65.5,100 C62,60 82,39 100,39 C118,39 138,60 134.5,
 # Indy Barnes (THH), redrawn Oct 2026: mid-brown hair parted in the middle and swept out and down to the temples (low hairline,
 # short forehead), short sides, young smooth face with a slightly narrow chin, light flush, hooded eyes, medium-thin soft brows, dark long sleeves
 save("barnes", nose(softbrows(brows(eyes(figure("THH", hair="lowpart", jaw="narrow", skin=1, hair_colour="#6A4A32", brow_colour="#4A3222", sleeves="#1E2A33", rosy=True), "hooded", 0), 0, 0, 1), 2.8, 0.3), 0.9, 1.1))
+# ---- A gentle inward-up eye tilt: halfway between the default eye and 'downturned' (Oct 2026, Richard Ollington) ----
+import re as _rtilt
+def _blend(a, b, t):
+    na = [float(x) for x in _rtilt.findall(r'-?\d+\.?\d*', a)]; nb = iter(float(x) for x in _rtilt.findall(r'-?\d+\.?\d*', b)); it = iter(na)
+    return _rtilt.sub(r'-?\d+\.?\d*', lambda m: f"{(lambda x, y: x + (y - x) * t)(next(it), next(nb)):g}", a)
+EYE_SHAPES["softdown"] = tuple(_blend(a, b, .5) for a, b in zip((_EL0, _ER0, _LL0, _LR0), EYE_SHAPES["downturned"]))
+# Richard Ollington (THH): eyes lift gently towards the middle (was "upturned", which tilted them down inwards)
+save("ollington", eyes(figure("THH", skin=2, hair="shortcurls", hair_colour="#241A15", facial="stubble", facial_colour="#4A3A30"), "softdown"))
 export_site()
