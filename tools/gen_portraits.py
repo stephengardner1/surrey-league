@@ -1944,4 +1944,11 @@ def softbrows(svg, thick=3.4, rise=0.0):
 # Jared Martin (THH), redrawn Oct 2026: short dark brown crop, triangular head with broad temples and a long flat chin,
 # small hooded eyes under soft curved medium brows, long nose, clean cheeks
 save("jared-martin", trihead(nose(softbrows(brows(eyes(figure("THH", skin=1, hair="crop", hair_colour="#3A2820", brow_colour="#2E211A"), "smallhooded", 0), 0, 0, 3), 3.4, 0), 0.95, 1.15)))
+# ---- Low centre-parted sweep (Oct 2026, first used for Indy Barnes) ----
+HAIR["lowpart"] = ('<path d="M65.5,100 C62,60 82,39 100,39 C118,39 138,60 134.5,100 L132,99 Q131.5,90 128.5,84.5 L126,87 Q122,79.5 113,76.5 Q106,74.5 100,73 Q94,74.5 87,76.5 Q78,79.5 74,87 L71.5,84.5 Q68.5,90 68,99 Z"/>'
+    '<path d="M100,73.5 L100,47" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="1.5" stroke-linecap="round"/>'
+    '<g fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1.2" stroke-linecap="round"><path d="M97,54 Q83,58 74,74"/><path d="M103,54 Q117,58 126,74"/></g>')  # medium top parted in the middle and swept out and down to the temples: low hairline, short forehead
+# Indy Barnes (THH), redrawn Oct 2026: mid-brown hair parted in the middle and swept out and down to the temples (low hairline,
+# short forehead), short sides, young smooth face with a slightly narrow chin, light flush, hooded eyes, medium-thin soft brows, dark long sleeves
+save("barnes", nose(softbrows(brows(eyes(figure("THH", hair="lowpart", jaw="narrow", skin=1, hair_colour="#6A4A32", brow_colour="#4A3222", sleeves="#1E2A33", rosy=True), "hooded", 0), 0, 0, 1), 2.8, 0.3), 0.9, 1.1))
 export_site()
