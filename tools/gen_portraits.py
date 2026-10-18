@@ -1960,4 +1960,7 @@ def _blend(a, b, t):
 EYE_SHAPES["softdown"] = tuple(_blend(a, b, .5) for a, b in zip((_EL0, _ER0, _LL0, _LR0), EYE_SHAPES["downturned"]))
 # Richard Ollington (THH): eyes lift gently towards the middle (was "upturned", which tilted them down inwards)
 save("ollington", eyes(figure("THH", skin=2, hair="shortcurls", hair_colour="#241A15", facial="stubble", facial_colour="#4A3A30"), "softdown"))
+# Keith Newton (HHH), redrawn Oct 2026: spiky mid-brown hair, long face with a narrow chin, wide smile with smile lines and dimples,
+# narrowed eyes under warm brows, long nose
+save("keith-newton", cheekdimples(widesmile(nose(brows(eyes(figure("HHH", skin=1, hair="spiky", hair_colour="#6E4E36", brow_colour="#4E3626", creases=True, jaw="narrow"), "narrow", 0), 0.8, 0, 2), 1.0, 1.2))))
 export_site()
