@@ -43,6 +43,12 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
   Athletics Weekly 22 Oct 2003 prints "10 J Jackson (AFD, M40) 27:01". The published team scores
   (Thames 208, Aldershot 321) only add up with him counted for Aldershot.
 
+## Same surname, different runners (women, Steve 18 Oct 2026)
+- Nicky Harvey (Herne Hill, 1990s-2000s) and Natalie Harvey (South London) are two runners. "N Harvey" at
+  Herne Hill is Nicky. The old alias joining "N Harvey" to Natalie was removed.
+- Caroline Letchford (South London, 1980s-early 90s, county champs) and Charlotte Letchford (South London,
+  from 2017/18) are two runners. The 1980s "C Letchford" rows are Caroline. The old alias was removed.
+
 ## Sources already searched
 See `research/README.md`: The Belgravian, club archives, Surrey County XC champs 1961-2013 (`research/county-champs/`),
 and Athletics Weekly winter issues (1998-2005 Oct-Feb text searched again in Oct 2026 for Aldershot names).
