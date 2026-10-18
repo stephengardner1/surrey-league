@@ -689,13 +689,13 @@ const PILL={fs:5.4,px:4.2,py:2.6,gap:3,bottom:7,side:7};  /* honour pills at the
 const INTRO_CSS='@keyframes slStick{0%{clip-path:inset(-30% 100% -30% -2%);translate:0 -3px;rotate:-1.2deg}75%{translate:0 0;rotate:0deg}100%{clip-path:inset(-30% -4% -30% -2%);translate:0 0;rotate:0deg}}@keyframes slRise{0%{opacity:0;translate:0 9px}100%{opacity:1;translate:0 0}}@keyframes slFade{0%{opacity:0}100%{opacity:1}}@keyframes slType{0%{clip-path:inset(-20% 100% -20% 0)}100%{clip-path:inset(-20% 0 -20% 0)}}@media (prefers-reduced-motion:reduce){.sl-intro *{animation:none!important}}';
 const INTRO={name:i=>`slStick .95s cubic-bezier(.35,.6,.3,1) ${.1+.25*i}s both`,fig:'slRise .6s cubic-bezier(.2,.8,.3,1) .5s both',pills:'slFade .45s ease-out .85s both',stats:i=>`slFade .3s ease-out ${.55+.13*i}s both`,buttons:'slFade .6s ease-out .55s both'};
 /* a few runners have a little line of small caps tucked round their surname on the sticker: one word above, aligned left, and one below, aligned right */
-const NAME_TAGS={'jack-millar':{above:'All',below:'No filler',belowShift:-6.8}};
+const NAME_TAGS={'jack-millar':{above:'All',below:'No filler',aboveShift:2,belowShift:-6.8}};
 /* the inked edges of a surname line, in card units relative to its box: left/right of the letters, top of the tallest letter, baseline */
 const nameInk=el=>{const c=document.createElement('canvas').getContext('2d'),fs=parseFloat(el.style.fontSize)||20;c.font=`${POSTER_OPT.w} ${fs}px Fraunces, Georgia, serif`;const m=c.measureText(el.textContent);
   /* layout positions (offsets ignore the opening zoom and the stick-down tilt): find the baseline with a zero-size probe sitting on it */
   const pr=document.createElement('span');pr.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';el.appendChild(pr);const base=el.offsetTop+pr.offsetTop;el.removeChild(pr);
   const left=el.offsetLeft-el.offsetWidth/2;return{l:left+fs*.02,r:left+el.offsetWidth-fs*.02,t:base-m.actualBoundingBoxAscent,b:base};};
-const NAME_TAG={fs:5.2,ls:.06,gapA:.4,gapB:4.5};  /* card units; gaps measured from the letters themselves */
+const NAME_TAG={fs:5.2,ls:.06,gapA:1.6,gapB:5.7};  /* card units; gaps measured from the letters themselves */
 const LoadingBlink=({exiting,onDone,card:given,scale,intro})=>{
   const[pick,setPick]=useState(given||BLINK_DONE);
   useEffect(()=>{if(given)return;let dead=false;getBlinkPick().then(p=>{if(!dead)setPick(p);});return()=>{dead=true;};},[]);
@@ -712,7 +712,7 @@ const LoadingBlink=({exiting,onDone,card:given,scale,intro})=>{
       const ls=[...box.querySelectorAll('[data-pl]')];const tags=box.querySelectorAll('[data-tag]');
       if(tags.length&&ls.length){const g=nameInk(ls[0]),g2=nameInk(ls[ls.length-1]),L=g.l,R=g2.r;
         const T=g.t,B=g2.b;
-        tags.forEach(el=>{const tw=el.offsetWidth;if(el.dataset.tag==='above'){el.style.left=L.toFixed(1)+'px';el.style.top=(T-NAME_TAG.gapA-NAME_TAG.fs*.74).toFixed(1)+'px';}else{el.style.left=(R-tw+NAME_TAG.fs*NAME_TAG.ls+((NAME_TAGS[pick.file]||{}).belowShift||0)).toFixed(1)+'px';el.style.top=(B+NAME_TAG.gapB-NAME_TAG.fs*.12).toFixed(1)+'px';}el.style.opacity='1';});}};
+        tags.forEach(el=>{const tw=el.offsetWidth;if(el.dataset.tag==='above'){el.style.left=(L+((NAME_TAGS[pick.file]||{}).aboveShift||0)).toFixed(1)+'px';el.style.top=(T-NAME_TAG.gapA-NAME_TAG.fs*.74).toFixed(1)+'px';}else{el.style.left=(R-tw+NAME_TAG.fs*NAME_TAG.ls+((NAME_TAGS[pick.file]||{}).belowShift||0)).toFixed(1)+'px';el.style.top=(B+NAME_TAG.gapB-NAME_TAG.fs*.12).toFixed(1)+'px';}el.style.opacity='1';});}};
     (document.fonts&&document.fonts.load?document.fonts.load(POSTER_OPT.w+' 40px Fraunces'):Promise.resolve()).then(fit,fit);return()=>{live=false;};},[u]);
   useEffect(()=>{if(!exiting)return;if(!pick||!pick.u||!card.current){onDone&&onDone();return;}
     let raf;const t0=performance.now();
@@ -778,7 +778,7 @@ const stickerPng=async(card,fmt)=>{const F=SHARE_FORMATS[fmt],W=150,H=W*280/230,
       ctx.font=POSTER_OPT.w+' '+fs.toFixed(2)+'px Fraunces, Georgia, serif';const m=ctx.measureText(ln),A=m.fontBoundingBoxAscent||fs*.98,D=m.fontBoundingBoxDescent||fs*.26;
       const bl=top+(0.8*fs-(A+D))/2+A;ctx.fillText(ln,W/2,bl);inks.push({l:W/2-m.width/2+fs*.02,r:W/2+m.width/2-fs*.02,t:bl-m.actualBoundingBoxAscent,b:bl});top+=fs*(POSTER_OPT.title?0.86:0.78);});
     const tg=NAME_TAGS[card.file];if(tg&&inks.length){ctx.font=`600 ${NAME_TAG.fs}px "Public Sans", Arial, sans-serif`;try{ctx.letterSpacing=(NAME_TAG.fs*NAME_TAG.ls)+'px';}catch(e){}ctx.textBaseline='alphabetic';const f=inks[0],l=inks[inks.length-1];
-      ctx.textAlign='left';ctx.fillText(tg.above.toUpperCase(),f.l,f.t-NAME_TAG.gapA-NAME_TAG.fs*.74+NAME_TAG.fs*.74);
+      ctx.textAlign='left';ctx.fillText(tg.above.toUpperCase(),f.l+(tg.aboveShift||0),f.t-NAME_TAG.gapA-NAME_TAG.fs*.74+NAME_TAG.fs*.74);
       ctx.textAlign='right';ctx.fillText(tg.below.toUpperCase(),l.r+NAME_TAG.fs*NAME_TAG.ls+(tg.belowShift||0),l.b+NAME_TAG.gapB-NAME_TAG.fs*.12+NAME_TAG.fs*.74);
       try{ctx.letterSpacing='0px';}catch(e){}ctx.textAlign='center';}}
   ctx.drawImage(img,0,POSTER_CARD?2:0,W,W*330/230);
