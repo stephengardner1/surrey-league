@@ -1165,7 +1165,8 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
   const hasCalculableResults = race.results?.length > 80 && race.results.some(r => r.pts != null || r.s != null);
   // Get archived match scores from seasonsData for comparison
   const matchKey = `m${race.match}`;
-  const seasonStandingsScores = seasonData?.standings?.filter(s => s[matchKey] != null).map(s => ({club: s.club, pts: s[matchKey]})).sort((a,b) => a.pts - b.pts).map((s,i) => ({...s, pos: i+1}));
+  const isPtsSeason = seasonData?.scoring==='points'; // season table holds league points (highest best), not team scores
+  const seasonStandingsScores = seasonData?.standings?.filter(s => s[matchKey] != null).map(s => ({club: s.club, pts: s[matchKey]})).sort((a,b) => isPtsSeason ? b.pts - a.pts : a.pts - b.pts).map((s,i) => ({...s, pos: i+1}));
   
   // Calculate team scores from results to verify they match archived scores
   const calculatedScoresMatch = useMemo(() => {
@@ -1200,7 +1201,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
   // If they don't match, fall back to archived scores only (safer)
   // Race's own printed team list (archive sources) - preferred when it lists more teams than the season table's match column
   const raceTeamList = race.knownTeamScores?.map((t,i)=>({club:t.club,pos:t.pos||i+1,pts:t.points||t.pts}))||race.teamScores?.map((t,i)=>({club:t.club,pos:i+1,pts:t.score}));
-  const displayTeamScores = (hasCalculableResults && calculatedScoresMatch) ? null : ((seasonStandingsScores?.length > 0 && !(raceTeamList?.length > seasonStandingsScores.length)) ? seasonStandingsScores : (raceTeamList || seasonStandingsScores));
+  const displayTeamScores = (isPtsSeason && raceTeamList?.length) ? raceTeamList : (hasCalculableResults && calculatedScoresMatch) ? null : ((seasonStandingsScores?.length > 0 && !(raceTeamList?.length > seasonStandingsScores.length)) ? seasonStandingsScores : (raceTeamList || seasonStandingsScores));
   
   // Find prev/next races
   const sortedRaces=useMemo(()=>[...races].filter(r=>r.results?.length>0).sort((a,b)=>{if(a.season!==b.season)return a.season.localeCompare(b.season);return a.match-b.match;}),[races]);
