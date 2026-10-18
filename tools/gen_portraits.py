@@ -1908,4 +1908,21 @@ save("martin-duff", nose(brows(eyes(figure("AFD", skin=1, hair="horseshoe", hair
 # thick dark wavy seventies hair over the ears, full moustache, long lean face, high cheekbones, heavy low brows over deep-set eyes.
 # Grenville only: not for his twin Graham Tuck or any "G Tuck" result.
 save("grenville-tuck", cheekbones(sockets(nose(angledbrows(brows(eyes(figure("H/W", skin=1, hair="seventies", hair_colour="#2A1D17", brow_colour="#1E1612", facial="thicktache", facial_colour="#2A1D17", jaw="long"), None, 0), 0, 0, 4), 0.8), 1.0, 1.25), depth=1.2), depth=0.9))
+# ---- Slim, wide-set cheek hollows and a lower chin crease (Oct 2026, first used for Owen Hind) ----
+def cheekhollows(svg, skin=1, tag="f", inset=4.0, depth=1.0):
+    """Like cheekbones(), but the hollows are slimmer and set further apart: their inner edges move out towards the ears by `inset`."""
+    sk, dk, lt = SKIN[skin]; i = inset
+    L = f"M66,125 L{84-i},123.5 Q{87-i},124 {87.5-i},127 L{90-i},143 Q{81-i*.6},131 66,131 Z"
+    R = f"M134,125 L{116+i},123.5 Q{113+i},124 {112.5+i},127 L{110+i},143 Q{119+i*.6},131 134,131 Z"
+    Lh = f"M66,121.5 L{84-i},121 Q{87-i},121.5 {87.5-i},124 Q{85-i},123 {84-i},123.5 L66,125 Z"
+    Rh = f"M134,121.5 L{116+i},121 Q{113+i},121.5 {112.5+i},124 Q{115+i},123 {116+i},123.5 L134,125 Z"
+    return _after_lids(svg, f'<g clip-path="url(#h{tag})"><g fill="{dk}" opacity="{.7*depth:.2f}"><path d="{L}"/><path d="{R}"/></g><g fill="{lt}" opacity=".55"><path d="{Lh}"/><path d="{Rh}"/></g></g>')
+def chincrease(svg, skin=1, tag="f", y=164, lit=True):
+    """A soft crease across the chin, about halfway down from the mouth (use with a long chin); lit=True lights the chin pad below it, as if from above."""
+    sk, dk, lt = SKIN[skin]
+    pad = f'<path d="M93,{y+1.2} Q100,{y-1} 107,{y+1.2} Q106.5,{y+7} 100,{y+8.2} Q93.5,{y+7} 93,{y+1.2} Z" fill="{lt}" opacity=".75"/>' if lit else ''
+    return _after_lids(svg, f'<g clip-path="url(#h{tag})">{pad}<path d="M92.5,{y} Q100,{y-2.6} 107.5,{y} Q100,{y+3.4} 92.5,{y} Z" fill="{dk}"/></g>')
+# Owen Hind (KEN), redrawn Oct 2026: dark brown tufty hair with a slight recede, oblong face with a long strong chin and a crease
+# halfway down it (chin lit below), slim wide-set cheek hollows, small eyes slightly close together tucked right under heavy straight brows
+save("hind", chincrease(longchin(cheekhollows(sockets(nose(angledbrows(brows(eyes(figure("KEN", skin=1, hair="tuftrecede", hair_colour="#3A2820", brow_colour="#2A1D16", jaw="broadchin"), "small", -1.5), 0, -1.5, 6.5), 1.0), 0.95, 1.2), depth=1.3), inset=4)), y=163.5, lit=True))
 export_site()
