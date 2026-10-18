@@ -1063,9 +1063,9 @@ const SeasonSelector=({season,setSeason,seasons})=>{
   return<div className="flex items-center gap-2 relative" ref={dropdownRef}>
     <button onClick={()=>idx<seasons.length-1&&setSeason(seasons[seasons.length-1])} className={`text-xs ${idx<seasons.length-1?'text-gray-500 hover:text-gray-900':'text-gray-300 cursor-default'}`}>Earliest</button>
     <div className="flex items-center">
-      <button onClick={()=>idx<seasons.length-1&&setSeason(seasons[idx+1])} className={`p-0.5 rounded ${idx<seasons.length-1?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronLeft className="w-5 h-5"/></button>
+      <button aria-label="Previous season" onClick={()=>idx<seasons.length-1&&setSeason(seasons[idx+1])} className={`p-0.5 rounded ${idx<seasons.length-1?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronLeft className="w-5 h-5"/></button>
       <span className="text-base font-semibold text-gray-900 min-w-[5rem] text-center cursor-pointer hover:text-[#1b649e]" onClick={()=>setShowDropdown(!showDropdown)}>{season}</span>
-      <button onClick={()=>idx>0&&setSeason(seasons[idx-1])} className={`p-0.5 rounded ${idx>0?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronRight className="w-5 h-5"/></button>
+      <button aria-label="Next season" onClick={()=>idx>0&&setSeason(seasons[idx-1])} className={`p-0.5 rounded ${idx>0?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronRight className="w-5 h-5"/></button>
     </div>
     <button onClick={()=>idx>0&&setSeason(seasons[0])} className={`text-xs ${idx>0?'text-gray-500 hover:text-gray-900':'text-gray-300 cursor-default'}`}>Latest</button>
     {showDropdown&&<div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto py-1">
@@ -1556,7 +1556,7 @@ const PositionChart=({raceHistory,highlightIdx,setHighlightIdx,setView,clubCode}
   const hl=hlChart>=0&&hlWidth?{chartIdx:hlChart,pos:positions[hlChart],x:getX(hlChart,hlWidth)}:null;
   
   return<div className="w-full mb-4 relative">
-    <svg ref={svgRef} className="w-full cursor-pointer" style={{height}} onMouseMove={handleInteraction} onMouseLeave={clearHighlight} onClick={handleClick} onTouchStart={handleInteraction} onTouchMove={handleInteraction} onTouchEnd={clearHighlight}>
+    <svg ref={svgRef} className="w-full cursor-pointer" style={{height}} role="img" aria-label="Chart of finishing positions in each race (every race is also listed in the race history table)" tabIndex={-1} onMouseMove={handleInteraction} onMouseLeave={clearHighlight} onClick={handleClick} onTouchStart={handleInteraction} onTouchMove={handleInteraction} onTouchEnd={clearHighlight}>
       <PathRenderer positions={positions} getY={getY} padding={padding} bestPos={bestPos} highlightIdx={hl?.chartIdx} lineColor={lineColor}/>
     </svg>
     {hl&&<div className="absolute bg-gray-800 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap" style={{left:hl.x,top:-4,transform:'translateX(-50%)'}}>{hl.pos}{hl.pos===1?'st':hl.pos===2?'nd':hl.pos===3?'rd':'th'}</div>}
