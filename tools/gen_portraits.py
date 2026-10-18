@@ -1994,7 +1994,7 @@ save("juliet-hodder", earrings(widesmile(chindef(nose(softbrows(brows(eyes(figur
 save("nikki-haines", cheekbones(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="messyvolume", hair_colour="#3A2A20", brow_colour="#2E211A", jaw="narrow"), "downturned", -1.5), 1.2, -1.5, 2), 2.4, 1.2), 0.95, 1.15), depth=.7))
 
 # Paul Evans (BEL; Olympic marathoner, Chicago Marathon winner 1996), Oct 2026: tousled dark-blond hair swept up, long lean face,
-# high cheekbones, long nose, smallish eyes under light brows, weathered flush
-save("paul-evans", cheekbones(nose(brows(eyes(figure("BEL", skin=1, hair="tousled", hair_colour="#D2B070", brow_colour="#B09060", jaw="long", rosy=True), "small", 0), 0, 0, 2), 0.95, 1.25), depth=.8))
+# long face with a broad square chin, high cheekbones, long nose, smallish eyes under light brows, weathered flush
+save("paul-evans", cheekbones(nose(brows(eyes(figure("BEL", skin=1, hair="tousled", hair_colour="#D2B070", brow_colour="#B09060", jaw="broadchin", rosy=True), "small", 0), 0, 0, 2), 0.95, 1.25), depth=.8).replace(HEAD_BROADCHIN, shortlonghead(.92)))
 
 export_site()
