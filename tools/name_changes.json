@@ -32869,5 +32869,26 @@
   ],
   "evidence": "Athletics Weekly prints the same Tadworth runner as 'R Darvil' (1995/96 m1) and 'R Darvill' (m3, m4); the double-l spelling is printed more often.",
   "approved": "Steve, Oct 2026 (typo fixes)"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "J Mitchel"
+  ],
+  "to": "Jeina Mitchell",
+  "seasons": [
+   "1992/93",
+   "1992/93"
+  ],
+  "races": [
+   [
+    "1992/93",
+    2,
+    3
+   ]
+  ],
+  "evidence": "AW prints 'J Mitchel (Craw)' 3rd in 19:23, next to the winner K Sutton also printed '(Craw)'; both are Croydon in every other result (Steve: 'Craw' is a mistranscription or misprint). Jeina Mitchell is the Croydon runner of that name, winner of 1992/93 m4.",
+  "approved": "Steve, 18 Oct 2026"
  }
 ]
