@@ -352,7 +352,10 @@ const CMS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRPBDTtNa5mZMaR
 // Format: Canonical, Alias1, Alias2, Alias3, etc.
 // Applied after the Google Sheet, so these win over it
 const OVERRIDE_ALIASES={'al kennis':'Al Kennis','alastair kennis':'Al Kennis','m harran':'Mick Harran','mick harran':'Mick Harran','j mather':'John Mather','jon mather':'John Mather','s paton':'Stuart Paton','steve paton':'Stuart Paton','john galley':'Junior Galley','graham adams':'Graham Adams','gerry adams':'Graham Adams','g adams':'Graham Adams','j jackson':'J Jackson'};
-const ALIASES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRPBDTtNa5mZMaRpVkHIGF26iXZBr1AU6XQpTV3JX8M6MawD8jXlRZbrQlvOqxKjqahHEpamMpYgJBh/pub?gid=1248367953&single=true&output=csv';
+// Steve's alias sheet (cms-template, Aliases tab) is no longer read live (Oct 2026): its rows were folded into
+// tools/name_changes.json and data.json. It is now an inbox for suggestions, reviewed before anything changes.
+// Published CSV: https://docs.google.com/spreadsheets/d/e/2PACX-1vRPBDTtNa5mZMaRpVkHIGF26iXZBr1AU6XQpTV3JX8M6MawD8jXlRZbrQlvOqxKjqahHEpamMpYgJBh/pub?gid=1248367953&single=true&output=csv
+const ALIASES_URL = null;
 
 // Parse CMS content with simple markdown-like syntax
 // *bold* -> <strong>bold</strong>

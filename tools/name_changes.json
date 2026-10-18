@@ -21077,5 +21077,36 @@
   ],
   "evidence": "county champs give Liz for L Hunt at this club (Liz x1); our results show the full name 2002-2003 results: 3; never in the same race",
   "approved": "Steve, 18 Oct 2026 (names session: initial joined to the full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "D Symons",
+   "SYMONS",
+   "Dave Symons"
+  ],
+  "to": "David Symons",
+  "seasons": [
+   "1999/00",
+   "2012/13"
+  ],
+  "evidence": "Steve's alias sheet (Thames contributor) joins D Symons, SYMONS, Dave Symons and David Symons as one runner; county champs print 'David Symons' (Thames) 2004 and 2009-12, surreyleague.org 'David Symons' 2013-2019; never two of them in one race.",
+  "approved": "Steve, 18 Oct 2026 (alias sheet folded into the records)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "R.Dickson",
+   "J Dixon"
+  ],
+  "to": "Robin Dickson",
+  "seasons": [
+   "1996/97",
+   "2001/02"
+  ],
+  "evidence": "Steve's alias sheet (Thames contributor) joins R.Dickson, R Dickson, J Dixon and Robin Dickson as one runner (row spelt 'Robin Dixon'); county champs spell 'Robin Dickson' (Thames, vets) 1997-2005; never in the same race.",
+  "approved": "Steve, 18 Oct 2026 (alias sheet folded into the records)"
  }
 ]

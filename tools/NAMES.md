@@ -11,6 +11,11 @@ Every approved name change is logged in `tools/name_changes.json` (who changed, 
 3. Known surreyleague.org misspellings are also listed in `athleteAliases` (data.json / data-women.json),
    so a new result joins the right runner's page even before step 2.
 
+## Steve's alias sheet (Oct 2026)
+The Aliases tab of the cms-template Google Sheet is no longer read by the site. Its rows were folded into the
+change log and data.json, so nothing on the site depends on it. It is now an inbox: when Steve or a club contact
+adds rows, check each against the evidence and turn it into a club-scoped entry in name_changes.json.
+
 ## Rules (Steve, Oct 2026)
 - surreyleague.org is authoritative from 2013/14: only clear typos Steve has approved are changed there.
 - **Married names are never overwritten.** Results keep the name they were printed under. The two names are
