@@ -90,6 +90,8 @@ async function athletePage(request, env, url, women, slug) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // poster download counter (see countSave in index.html): the address itself is what gets counted, so reply with nothing
+    if (url.pathname.startsWith('/count/')) return new Response(null, { status: 204, headers: { 'Cache-Control': 'no-store' } });
     const m = url.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);
     if (m && (request.method === 'GET' || request.method === 'HEAD')) {
       try {
