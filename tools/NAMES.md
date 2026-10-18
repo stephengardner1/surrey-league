@@ -46,8 +46,8 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 - Women's places added from Athletics Weekly whose club wasn't on the site (Oct 2026, Steve): new clubs added
   with no vest colours (grey) because their colours aren't known: Tadworth AC (TAD), Surrey Beagles (SYB),
   Redhill & Surrey Beagles (RSB), Sutton & Cheam (S&C), Chessington & Bookham (C&B), Dorking St Paul's (DSP),
-  Camberley & District AC (CBY). AW's "M&S" for S Lanham, 1986/87 m3, is Mitcham (Sue Lanham).
-  Six places stay unknown: AW's "Craw" (probably a misprint for Croydon), "Runn", "TWH", "C'wood", "Phillips CS", "n/s".
+  Camberley & District AC (CBY), Crawley AC (CRW; AW's "Craw", Steve). AW's "M&S" for S Lanham, 1986/87 m3, is Mitcham (Sue Lanham).
+  Five places stay unknown: AW's "Runn", "TWH", "C'wood", "Phillips CS", "n/s".
 
 ## Same surname, different runners (women, Steve 18 Oct 2026)
 - Nicky Harvey (Herne Hill, 1990s-2000s) and Natalie Harvey (South London) are two runners. "N Harvey" at
