@@ -1978,4 +1978,14 @@ def shortlonghead(k):
 # strong jaw and chin (a little shorter than the long-chin head) with definition under the mouth, gently arched brows, small silver hoops, light flush
 save("isabel-hodder", earrings(widesmile(chindef(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="slicktop", hair_colour="#5A3E2A", brow_colour="#4A3222", rosy=True, jaw="broadchin"), "almond", 0), 0, 0, 2), 3.0, 0.6), 0.9, 1.15).replace(HEAD_BROADCHIN, shortlonghead(.9)))), col="#CFCFCF"))
 
+# ---- Scraped back at the front, hanging down behind (Oct 2026, first used for Juliet Hodder) ----
+HAIR["slickdown"] = HAIR["slick"]
+HAIR_BACK["slickdown"] = '<path d="M65,90 C63,52 80,36 100,36 C120,36 137,52 135,90 L133,150 Q131,172 126,190 L74,190 Q69,172 67,150 Z"/>'
+def narrowchin(head, f, y0=128):
+    """Pull the lower face in towards the centre line (f<1 = narrower chin), easing in from y0 down to the chin."""
+    return _rh.sub(r'(-?\d+\.?\d*),(-?\d+\.?\d*)', lambda m: (lambda x, y: f"{(100+(x-100)*(1-(1-f)*min(1,(y-y0)/40))) if y > y0 else x:g},{y:g}")(float(m.group(1)), float(m.group(2))), head)
+# Juliet Hodder (BEL), redrawn Oct 2026: Isabel's sister and much like her, with a longer, much narrower chin; darker blonde hair scraped back
+# at the front and hanging down behind; gently arched brows, small silver hoops, fine silver chain, light flush
+save("juliet-hodder", earrings(widesmile(chindef(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="slickdown", hair_colour="#9A7650", brow_colour="#5A4030", rosy=True, necklace="#D4D4D4", jaw="broadchin"), "almond", 0), 0, 0, 2), 3.0, 0.6), 0.9, 1.15).replace(HEAD_BROADCHIN, narrowchin(shortlonghead(1.0), 0.68)))), col="#CFCFCF"))
+
 export_site()
