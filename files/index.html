@@ -1558,7 +1558,13 @@ const PathRenderer=({positions,getY,padding,bestPos,highlightIdx,lineColor})=>{
 };
 
 const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mitchellCupWinners,divisionConfig,athleteNee,cmsContent,division,po10Links})=>{
-  const[cardOpen,setCardOpen]=useState(false);
+  const[cardOpen,setCardOpenState]=useState(()=>isPosterUrl());
+  /* opening the sticker moves to the poster address; closing goes back to the athlete page (back button closes it too) */
+  const setCardOpen=open=>{const base=window.location.pathname.replace(/-poster\/?$/i,'').replace(/\/$/,'');
+    if(open&&!isPosterUrl())window.history.pushState({sl:1,slPoster:1},'',base+'-poster');
+    if(!open&&isPosterUrl()){if(window.history.state&&window.history.state.slPoster)window.history.back();else window.history.replaceState({sl:1},'',base);}
+    setCardOpenState(open);};
+  useEffect(()=>{const f=()=>setCardOpenState(isPosterUrl());window.addEventListener('popstate',f);return()=>window.removeEventListener('popstate',f);},[]);
   const[compareInput,setCompareInput]=useState('');
   const[highlightIdx,setHighlightIdx]=useState(null);
   const[compareFocused,setCompareFocused]=useState(false);
@@ -3941,7 +3947,9 @@ const nameToSlug=(n)=>n?.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g
 const slugToName=(s,athletes)=>{if(!s)return null;const slug=s.toLowerCase();const match=athletes?.find(a=>nameToSlug(a.name)===slug);return match?.name||s.replace(/-/g,' ');};
 
 // Athlete pages have real paths (/athlete/<slug>, /women/athlete/<slug>) so links shared on social/WhatsApp get their own preview
-const athletePathRoute=()=>{const m=window.location.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);return m?((m[1]?'women/':'')+'athlete/'+decodeURIComponent(m[2])):null;};
+const athletePathRoute=()=>{const m=window.location.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);return m?((m[1]?'women/':'')+'athlete/'+decodeURIComponent(m[2]).replace(/-poster$/i,'')):null;};
+/* the opened, downloadable sticker has its own address: /athlete/<slug>-poster (and /women/athlete/<slug>-poster) */
+const isPosterUrl=()=>/^\/(women\/)?athlete\/[^\/]+-poster\/?$/i.test(window.location.pathname);
 (()=>{const m=window.location.hash.match(/^#(women\/)?athlete\/(.+)$/i);if(m)window.history.replaceState(null,'',(m[1]?'/women':'')+'/athlete/'+m[2]);})();
 const parseUrlParams=(athletes)=>{
   const hash=(window.location.hash.slice(1)||athletePathRoute()||'').toLowerCase();
@@ -3957,7 +3965,7 @@ const parseUrlParams=(athletes)=>{
   const param=rest.join('/');
   switch(route){
     case'season':return{type:'home',urlSeason:compactToSeason(param),division};
-    case'athlete':{const nm=slugToName(param,athletes);if(isUnknownAthlete(nm))return{type:'athletes',division};return{type:'athlete',athlete:{name:nm,slug:param},division};}
+    case'athlete':{const ps=param.replace(/-poster$/i,'');const nm=slugToName(ps,athletes);if(isUnknownAthlete(nm))return{type:'athletes',division};return{type:'athlete',athlete:{name:nm,slug:ps},division};}
     case'club':return{type:'club',club:param.toUpperCase().replace('HW','H/W').replace('GG','G&G').replace('CC','C/C').replace('EE','E&E').replace('SD','S&D'),division};
     case'race':{const[s,m]=param.split('-');return{type:'race',raceKey:{season:compactToSeason(s),match:parseInt(m)},mode:param.endsWith('/form-guide')?'guide':undefined,division};}
     case'fixtures':return{type:'fixtures',division};
@@ -3990,6 +3998,7 @@ const updateUrl=(view,division='men')=>{
   else if(view.type==='chartroom')hash=prefix+sep+'chartroom';
   else if(view.type==='origin')hash=prefix+sep+'origin';
   const target=(view.type==='athlete'&&view.athlete?.name)?(division==='women'?'/women':'')+'/athlete/'+nameToSlug(view.athlete.name):'/'+hash;
+  if(target+'-poster'===window.location.pathname)return;  /* already on this runner's poster address */
   if(target!==window.location.pathname+window.location.hash)window.history.pushState({sl:1},'',target);
 };
 

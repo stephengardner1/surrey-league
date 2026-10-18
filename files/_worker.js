@@ -93,7 +93,7 @@ export default {
     const m = url.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);
     if (m && (request.method === 'GET' || request.method === 'HEAD')) {
       try {
-        return await athletePage(request, env, url, !!m[1], slugOf(decodeURIComponent(m[2])));
+        return await athletePage(request, env, url, !!m[1], slugOf(decodeURIComponent(m[2])).replace(/-poster$/, ''));  // /athlete/<slug>-poster is the opened sticker: same preview
       } catch (e) {
         return env.ASSETS.fetch(new Request(url.origin + '/'));
       }
