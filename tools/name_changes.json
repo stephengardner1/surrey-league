@@ -18255,5 +18255,27 @@
   ],
   "evidence": "county champs give Kathleen Sims at this club (Kathleen x5, 1971-1980); only first name with that initial; no full name in our results at this club",
   "approved": "Names session, 18 Oct 2026: high confidence (initial joined to the only full name the county champs give at that club)"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "G Gibbons"
+  ],
+  "to": "Gary Ribbons",
+  "seasons": null,
+  "evidence": "misread R/G: 'G Gibbons' is Gary Ribbons. County champs: Gary Ribbons (Epsom & Ewell) 1979-84, (Boxhill Racers) 1986-2000; no G Gibbons in any source; Gary placed 4th-17th for E&E in the same seasons and ran for Boxhill in 1991/92; never in the same race. Steve's alias sheet already linked G Gibbons to G Ribbons.",
+  "approved": "Names session, 18 Oct 2026: high confidence (Surrey County XC champs; Steve's alias sheet)"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "G Gibbons"
+  ],
+  "to": "Gary Ribbons",
+  "seasons": null,
+  "evidence": "misread R/G: 'G Gibbons' is Gary Ribbons. County champs: Gary Ribbons (Epsom & Ewell) 1979-84, (Boxhill Racers) 1986-2000; no G Gibbons in any source; Gary placed 4th-17th for E&E in the same seasons and ran for Boxhill in 1991/92; never in the same race. Steve's alias sheet already linked G Gibbons to G Ribbons.",
+  "approved": "Names session, 18 Oct 2026: high confidence (Surrey County XC champs; Steve's alias sheet)"
  }
 ]
