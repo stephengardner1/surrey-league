@@ -12,3 +12,16 @@
   missing), 1994/95 (calculating puts Stragglers top, but our records and AW's after-two-matches table have Herne Hill
   ahead, so something in AW's team results for the 3rd/4th matches is incomplete), 1980s (only the top 3-4 clubs printed).
 - From 2002/03 the women's tables we hold are aggregate scores (lowest wins).
+
+## Update (Steve asked, 18 Oct 2026): The Belgravian check and scorers
+- 1994/95 built from AW's printed final table (it was in AW's notes for the last match): Herne Hill 36, Stragglers 34 ...
+  Herne Hill was missing from AW's printed team list for match 3; AW's after-three-matches table places them 5th.
+  The Belgravian (No. 223) agrees Belgrave finished 7th.
+- 1993/94: The Belgravian (No. 222) prints the same final table as AW, including Belgrave's impossible 59, but also gives
+  Belgrave's match placings (2nd, 2nd, 1st, 2nd = 37), confirming the calculated table.
+- 1985/86: top 8 of the final table from The Belgravian (No. 210), plus 2nd/3rd places, the winner's time and the team
+  top three for match 4 (not in AW).
+- 1990/91, 1991/92, 1992/93: The Belgravian has only Belgrave's own placings (Belgrave were in Division 2 in 1992/93),
+  so these stay unbuilt.
+- Scorers: where a club's first 4 or 5 finishers (5 from 1990/91) add up exactly to the printed team score, those runners
+  are marked as scorers (`pts`). 134 club results, 374 runners, 1980/81-2005/06. Nothing was marked where the sum doesn't match.
