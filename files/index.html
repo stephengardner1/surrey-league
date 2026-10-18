@@ -217,8 +217,8 @@
 const{useState,useMemo,useEffect,useRef}=React;
 const getNumericPos=(pos)=>{if(typeof pos==='number')return pos;if(typeof pos==='string')return parseInt(pos.replace('=',''),10);return null;};
 const normalizeNameForCompare=(name)=>name?.toLowerCase().trim()||'';
-// Placeholder names for runners whose name wasn't recorded ("unknown athlete", "[Unknown]", "?", "? No. 86 ?"). They keep their place in results but never get an athlete profile or a club ranking.
-const isUnknownAthlete=(name)=>{const n=(name||'').trim();return !n||/^[\[(]?unknown\b/i.test(n)||/^\?/.test(n);};
+// Placeholder names for runners whose name wasn't recorded ("unknown athlete", "[Unknown]", "?", "? No. 86 ?", "No name", "Undeclared Runner", "A.Other"). They keep their place in results but never get an athlete profile or a club ranking.
+const isUnknownAthlete=(name)=>{const n=(name||'').trim();return !n||/^[\[(]?unknown\b/i.test(n)||/^\?/.test(n)||/^(no name|undeclared runner|a\.? ?other)$/i.test(n);};
 const namesMatch=(a,b)=>normalizeNameForCompare(a)===normalizeNameForCompare(b);
 const ordPos=n=>{const v=n%100;return n+(v>=11&&v<=13?'th':['th','st','nd','rd'][n%10]||'th');};
 const getSurname=(name)=>{if(!name)return'';const parts=name.split(' ');return parts.length>1?parts[parts.length-1]:name;};
