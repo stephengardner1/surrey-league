@@ -5312,7 +5312,31 @@ const BlinkOverlay=()=>{const[exiting,setExiting]=useState(false),[gone,setGone]
 if(LOADER_STYLE!=='carousel'){const el=document.createElement('div');document.body.appendChild(el);ReactDOM.createRoot(el).render(<BlinkOverlay/>);}
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
-<!-- Cloudflare Web Analytics (cookieless) -->
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4821b146a9024148905292e993b73a77", "spa": true}'></script>
+<!-- Cloudflare Web Analytics (cookieless).
+     Owner opt-out: open any page with ?nocount once on a device and that browser stops being counted; ?count turns counting back on.
+     The choice is remembered in that browser only (localStorage key "sl-nocount"). -->
+<script>
+(function(){
+  var KEY='sl-nocount',p=new URLSearchParams(location.search),msg=null;
+  try{
+    if(p.has('nocount')){localStorage.setItem(KEY,'1');msg='Visits from this browser are no longer counted.';}
+    else if(p.has('count')){localStorage.removeItem(KEY);msg='Visits from this browser are counted again.';}
+  }catch(e){}
+  if(msg){
+    p.delete('nocount');p.delete('count');var q=p.toString();
+    try{history.replaceState(history.state,'',location.pathname+(q?'?'+q:'')+location.hash);}catch(e){}
+    var n=document.createElement('div');n.setAttribute('role','status');n.textContent=msg;
+    n.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:300;max-width:calc(100% - 32px);padding:10px 16px;border-radius:999px;background:#1d211d;color:#fff;font:14px/1.4 system-ui,sans-serif;text-align:center';
+    /* shown once the site has finished its first draw, so the loading screen doesn't hide or clear it */
+    var show=function(){setTimeout(function(){document.body.appendChild(n);setTimeout(function(){n.remove();},5000);},600);};
+    if(window.__slLoaded)show();else window.addEventListener('sl-loaded',show,{once:true});
+  }
+  var off=false;try{off=localStorage.getItem(KEY)==='1';}catch(e){}
+  if(off)return;
+  var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon','{"token": "4821b146a9024148905292e993b73a77", "spa": true}');
+  document.body.appendChild(s);
+})();
+</script>
 </body>
 </html>
