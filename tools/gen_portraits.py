@@ -66,10 +66,10 @@ _MORE = {
 }
 for _k,(_p,_pat) in _MORE.items(): KITS[_k]=(_p,_pat,_tint(_p))
 KITS["CRO"] = KITS["CRO"][:2] + ("#D3D7E3",)  # Croydon: white vest, so base the background on the navy stripes instead of white
-SKIN = {  # base, shadow, light
+SKIN = {  # base, shadow, light (tones 4-6 lifted Oct 2026 so features read on the darkest skin)
     1: ("#F3D3BE", "#E0B79F", "#F8E2D3"), 2: ("#E6BA98", "#D09D7A", "#EFCDB2"),
-    3: ("#CF9B74", "#B6805B", "#DBAF8E"), 4: ("#A9714E", "#8E5A3B", "#BB8663"),
-    5: ("#7A4B33", "#5E3826", "#8E5C41"), 6: ("#4E2F22", "#3B2219", "#62402F"),
+    3: ("#CF9B74", "#B6805B", "#DBAF8E"), 4: ("#B37C59", "#98653F", "#C5916D"),
+    5: ("#8D5C40", "#72462F", "#A16F52"), 6: ("#6B4431", "#523222", "#805641"),
 }
 HAIR_COL = {"black": "#1C1714", "dark brown": "#3A2620", "mid brown": "#6B4A2E", "light brown": "#8E6643",
             "blonde": "#C9A35F", "auburn": "#9A4A26", "ginger": "#C8743A", "grey": "#A9A7A3", "bleached": "#E3C46A"}
