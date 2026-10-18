@@ -1922,9 +1922,10 @@ def chincrease(svg, skin=1, tag="f", y=164, lit=True, w=1.0):
     sk, dk, lt = SKIN[skin]; a = lambda dx: f"{100+dx*w:g}"
     pad = f'<path d="M{a(-7)},{y+1.2} Q100,{y-1} {a(7)},{y+1.2} Q{a(6.5)},{y+7} 100,{y+8.2} Q{a(-6.5)},{y+7} {a(-7)},{y+1.2} Z" fill="{lt}" opacity=".75"/>' if lit else ''
     return _after_lids(svg, f'<g clip-path="url(#h{tag})">{pad}<path d="M{a(-7.5)},{y} Q100,{y-2.6} {a(7.5)},{y} Q100,{y+3.4} {a(-7.5)},{y} Z" fill="{dk}"/></g>')
+HAIR["tuftfit"] = HAIR["tuftrecede"].replace("M65,100 L62,80 L66,62", "M66.8,104 L64.6,80 L67,62").replace("L134,56 L138,74 L135,100 L132,84", "L133,56 L135.6,74 L133.4,104 L131.6,86").replace("68,84 Z", "68.4,86 Z")  # tuftrecede hugging the head, sides running down to the ears: no gap at the temples (Owen Hind)
 # Owen Hind (KEN), redrawn Oct 2026: dark brown tufty hair with a slight recede, oblong face with a long strong chin and a crease
 # halfway down it (chin lit below, both widened), slim wide-set cheek hollows low by the base of the nose, small eyes slightly close together tucked right under heavy straight brows
-save("hind", chincrease(longchin(cheekhollows(sockets(nose(angledbrows(brows(eyes(figure("KEN", skin=1, hair="tuftrecede", hair_colour="#3A2820", brow_colour="#2A1D16", jaw="broadchin"), "small", -1.5), 0, -1.5, 6.5), 1.0), 0.95, 1.2), depth=1.3), inset=4, dy=9)), y=163.5, lit=True, w=1.45))
+save("hind", chincrease(longchin(cheekhollows(sockets(nose(angledbrows(brows(eyes(figure("KEN", skin=1, hair="tuftfit", hair_colour="#3A2820", brow_colour="#2A1D16", jaw="broadchin"), "small", -1.5), 0, -1.5, 6.5), 1.0), 0.95, 1.2), depth=1.3), inset=4, dy=9)), y=163.5, lit=True, w=1.45))
 # ---- Triangular head with a long flat chin (Oct 2026, first used for Jared Martin) ----
 HEAD_TRI = "M65,96 C63,58 80,40 100,40 C120,40 137,58 135,96 L131.5,122 C128,140 119,157 110,169.5 L108,173 L92,173 L90,169.5 C81,157 72,140 68.5,122 Z"  # broad temples tapering straight to a long, narrow, flat chin
 def trihead(svg):
