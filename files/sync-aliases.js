@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// RETIRED Oct 2026: the alias sheet is no longer synced. Its rows live in data.json and tools/name_changes.json;
+// new rows in the sheet are reviewed by hand (see tools/NAMES.md). Do not re-enable without removing the clashes it re-adds.
 // Fetches aliases from Google Sheet and merges them into data.json
 // Run via GitHub Actions on a schedule, or manually
 
