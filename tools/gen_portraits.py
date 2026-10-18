@@ -1904,4 +1904,8 @@ save("dom-nolan", thickbrows(cheekbones(nose(angledbrows(brows(eyes(figure("CRO"
 # Martin Duff (AFD, 1986-92), Oct 2026: bald on top with short sandy-grey sides, ruddy, thin wire-rimmed glasses, square jaw,
 # hooded eyes looking down, large nose, lines from nose to mouth
 save("martin-duff", nose(brows(eyes(figure("AFD", skin=1, hair="horseshoe", hair_colour="#B59C82", brow_colour="#A08670", glasses=True, glasses_col="#A9A49A", rosy=True, creases=True, jaw="square"), "hooded"), 0, 0, 2), 1.15, 1.2))
+# Grenville Tuck (H/W from 1989), Oct 2026, from Athletics Weekly 28 Oct 1978 p5 (AAA 6-stage relay, Cambridge & Coleridge vest in the photo):
+# thick dark wavy seventies hair over the ears, full moustache, long lean face, high cheekbones, heavy low brows over deep-set eyes.
+# Grenville only: not for his twin Graham Tuck or any "G Tuck" result.
+save("grenville-tuck", cheekbones(sockets(nose(angledbrows(brows(eyes(figure("H/W", skin=1, hair="seventies", hair_colour="#2A1D17", brow_colour="#1E1612", facial="thicktache", facial_colour="#2A1D17", jaw="long"), None, 0), 0, 0, 4), 0.8), 1.0, 1.25), depth=1.2), depth=0.9))
 export_site()
