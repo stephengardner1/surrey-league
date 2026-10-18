@@ -687,7 +687,7 @@ const inkFor=(col,bg,min)=>{const L=h=>{const n=parseInt(h.replace('#',''),16);r
 const PILL={fs:5.4,px:4.2,py:2.6,gap:3,bottom:7,side:7};  /* honour pills at the base of the sticker, in card units (the card is 150 wide) */
 /* the opened sticker builds itself: the name is stuck down left to right, then the runner rises in, the pills fade up, and the numbers under it type out; each starts just before the last finishes */
 const INTRO_CSS='@keyframes slStick{0%{clip-path:inset(-30% 100% -30% -2%);translate:0 -3px;rotate:-1.2deg}75%{translate:0 0;rotate:0deg}100%{clip-path:inset(-30% -4% -30% -2%);translate:0 0;rotate:0deg}}@keyframes slRise{0%{opacity:0;translate:0 9px}100%{opacity:1;translate:0 0}}@keyframes slFade{0%{opacity:0}100%{opacity:1}}@keyframes slType{0%{clip-path:inset(-20% 100% -20% 0)}100%{clip-path:inset(-20% 0 -20% 0)}}@media (prefers-reduced-motion:reduce){.sl-intro *{animation:none!important}}';
-const INTRO={name:i=>`slStick .95s cubic-bezier(.35,.6,.3,1) ${.1+.25*i}s both`,fig:'slRise .6s cubic-bezier(.2,.8,.3,1) .5s both',pills:'slFade .45s ease-out .85s both',stats:'slType 1.25s steps(28,end) 1s both',buttons:'slFade .35s ease-out 1.95s both'};
+const INTRO={name:i=>`slStick .95s cubic-bezier(.35,.6,.3,1) ${.1+.25*i}s both`,fig:'slRise .6s cubic-bezier(.2,.8,.3,1) .5s both',pills:'slFade .45s ease-out .85s both',stats:'slType 1s steps(24,end) .55s both',buttons:'slFade .35s ease-out 1.5s both'};
 const LoadingBlink=({exiting,onDone,card:given,scale,intro})=>{
   const[pick,setPick]=useState(given||BLINK_DONE);
   useEffect(()=>{if(given)return;let dead=false;getBlinkPick().then(p=>{if(!dead)setPick(p);});return()=>{dead=true;};},[]);
