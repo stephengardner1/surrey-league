@@ -55,6 +55,13 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 - Caroline Letchford (South London, 1980s-early 90s, county champs) and Charlotte Letchford (South London,
   from 2017/18) are two runners. The 1980s "C Letchford" rows are Caroline. The old alias was removed.
 
+## Croydon to Boxhill (men, 1986-87)
+- Ken Penney: one runner, Croydon (1981-86) then Boxhill Racers (1987-97). County champs list him at Croydon to 1985
+  and Boxhill from 1986. Norman Hemming (Croydon Harriers), email to Steve and Matthew Kiernan, 18 Oct 2026: Ken had
+  moved on by the time he joined Croydon, and was running for Boxhill at the 1986/87 Surrey County XC. Already one page
+  on the site ("K Penny" spellings joined).
+- Still to confirm with Croydon: Steve/Steven Bishop, Gary Bishop and Ian Statter (same pattern, Croydon then Boxhill).
+
 ## Sources already searched
 See `research/README.md`: The Belgravian, club archives, Surrey County XC champs 1961-2013 (`research/county-champs/`),
 and Athletics Weekly winter issues (1998-2005 Oct-Feb text searched again in Oct 2026 for Aldershot names).
