@@ -8,7 +8,10 @@ Every approved name change is logged in `tools/name_changes.json` (who changed, 
 2. Run `python3 tools/rename_athletes.py` (then `--dry` again: it should report 0).
    Club-wide entries in the log (those with `"seasons": null`) also catch the same misspelling in new seasons,
    e.g. Kent's "Tom Huddiman" becomes Tom Muddiman again.
-3. Known surreyleague.org misspellings are also listed in `athleteAliases` (data.json / data-women.json),
+3. Winner records (`athletes` in data.json) have no season, so season-limited renames skip them. After a batch,
+   check for athlete records whose name no longer appears in any result and rename them to match (Oct 2026: G Tuck,
+   Chris Hensby, M Dent and others had become duplicate pages this way).
+4. Known surreyleague.org misspellings are also listed in `athleteAliases` (data.json / data-women.json),
    so a new result joins the right runner's page even before step 2.
 
 ## Steve's alias sheet (Oct 2026)
