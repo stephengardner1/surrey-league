@@ -727,7 +727,7 @@ for slug, club, name, kw, alt in W439b:
     save(slug, figure(club, **kw))
 # women's Match 4, Wimbledon Common, Feb 2026 (race 440) plus two men from race 439
 W440 = [
- ("isobel-hodder","BEL","Isobel Hodder",dict(skin=1,hair="ponytail",hair_colour="#6B4A2E"),"mid brown ponytail"),
+ ("isabel-hodder","BEL","Isabel Hodder",dict(skin=1,hair="ponytail",hair_colour="#6B4A2E"),"mid brown ponytail"),
  ("emma-howsham","G&G","Emma Howsham",dict(skin=1,hair="ponytail",hair_colour="#3A2620"),"dark brown ponytail"),
  ("eilidh-hide","BEL","Eilidh Hide",dict(skin=1,hair="ponytail",hair_colour="#C08850"),"strawberry-blonde ponytail"),
  ("karen-xiang","BEL","Karen Xiang",dict(skin=2,hair="ponytail",hair_colour="black"),"black ponytail"),
@@ -1963,4 +1963,19 @@ save("ollington", eyes(figure("THH", skin=2, hair="shortcurls", hair_colour="#24
 # Keith Newton (HHH), redrawn Oct 2026: spiky mid-brown hair, long face with a narrow chin, wide smile with smile lines and dimples,
 # narrowed eyes under warm brows, long nose
 save("keith-newton", cheekdimples(widesmile(nose(brows(eyes(figure("HHH", skin=1, hair="spiky", hair_colour="#6E4E36", brow_colour="#4E3626", creases=True, jaw="narrow"), "narrow", 0), 0.8, 0, 2), 1.0, 1.2))))
+# ---- Slicked-back centre parting variants (Oct 2026, first used for Isabel Hodder) ----
+# ---- Slicked-back hair with a sharp centre parting (Oct 2026, first used for Isobel Hodder) ----
+_PART = ('<path d="M100,63 L100,40" fill="none" stroke="#000" stroke-opacity=".32" stroke-width="1.5" stroke-linecap="round"/>'
+         '<g fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="1.2" stroke-linecap="round"><path d="M96,46 Q82,50 72,66"/><path d="M104,46 Q118,50 128,66"/><path d="M95,54 Q84,58 76,72"/><path d="M105,54 Q116,58 124,72"/></g>')
+for _k, _src in (("slickpart", "slicktail"), ("slickbun", "lowbun"), ("slicktop", "tightbun")):
+    HAIR[_k] = HAIR[_src] + _PART
+    if _src in HAIR_BACK: HAIR_BACK[_k] = HAIR_BACK[_src]
+import re as _rh
+def shortlonghead(k):
+    """HEAD_LONGCHIN with everything below the cheekbones squashed up by k (k<1 = shorter face, same strong chin)."""
+    return _rh.sub(r'(-?\d+\.?\d*),(-?\d+\.?\d*)', lambda m: f"{m.group(1)},{(96+(float(m.group(2))-96)*k) if float(m.group(2))>96 else float(m.group(2)):g}", HEAD_LONGCHIN)
+# Isabel Hodder (BEL; the league spells her Isobel), redrawn Oct 2026: mid-brown hair slicked back from a sharp centre parting into a tight bun,
+# strong jaw and chin (a little shorter than the long-chin head) with definition under the mouth, gently arched brows, small silver hoops, light flush
+save("isabel-hodder", earrings(widesmile(chindef(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="slicktop", hair_colour="#5A3E2A", brow_colour="#4A3222", rosy=True, jaw="broadchin"), "almond", 0), 0, 0, 2), 3.0, 0.6), 0.9, 1.15).replace(HEAD_BROADCHIN, shortlonghead(.9)))), col="#CFCFCF"))
+
 export_site()
