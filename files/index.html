@@ -684,7 +684,7 @@ const peelShape=(W,H,p)=>{const k=Math.SQRT1_2,s=(x,y)=>-(x-W)*k-(y-H)*k-p,R=[[0
   return{keep:cut(true),flip,g:[f0,f1]};};
 /* darken a colour (same hue) until it reaches the given contrast against a background, for small text on the saved images */
 const inkFor=(col,bg,min)=>{const L=h=>{const n=parseInt(h.replace('#',''),16);return[16,8,0].map(k=>{const x=((n>>k)&255)/255;return x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4);}).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0);};const lb=L(bg);let c=col,i=0;while(i++<40&&(lb+.05)/(L(c)+.05)<min)c=shade(c,0.92);return c;};
-const PILL={fs:5.4,px:4.2,py:2.6,gap:3,bottom:7};  /* honour pills at the base of the sticker, in card units (the card is 150 wide) */
+const PILL={fs:5.4,px:4.2,py:2.6,gap:3,bottom:7,side:7};  /* honour pills at the base of the sticker, in card units (the card is 150 wide) */
 const LoadingBlink=({exiting,onDone,card:given,scale})=>{
   const[pick,setPick]=useState(given||BLINK_DONE);
   useEffect(()=>{if(given)return;let dead=false;getBlinkPick().then(p=>{if(!dead)setPick(p);});return()=>{dead=true;};},[]);
@@ -727,7 +727,7 @@ const LoadingBlink=({exiting,onDone,card:given,scale})=>{
     {u&&!POSTER_CARD&&pick.initials&&<span style={{position:'absolute',top:10,left:12,zIndex:1,fontFamily:'Fraunces,Georgia,serif',fontWeight:600,fontSize:17,lineHeight:1,letterSpacing:'0.01em',color:'rgba(20,24,20,.78)'}}>{pick.initials}</span>}
     {u&&POSTER_CARD&&pick.surname&&posterLines(POSTER_OPT.title?pick.surname:pick.surname.toUpperCase()).map((ln,i)=><span key={i} data-pl={i} style={{position:'absolute',top:9,left:'50%',transform:'translateX(-50%)',zIndex:0,whiteSpace:'nowrap',fontFamily:'Fraunces,Georgia,serif',fontWeight:POSTER_OPT.w,fontVariationSettings:'"opsz" 36',fontSize:20,lineHeight:.8,color:pick.nameCol,opacity:0}}>{ln}</span>)}
     {u&&<img ref={fig} src={u} alt="" style={{display:'block',position:'relative',zIndex:1,width:W,maxWidth:'none',height:'auto',marginTop:POSTER_CARD?2:0,willChange:'transform'}}/>}
-    {u&&pick.honours&&pick.honours.length>0&&<div style={{position:'absolute',left:6,right:6,bottom:PILL.bottom,zIndex:2,display:'flex',flexWrap:'wrap-reverse',justifyContent:'center',gap:PILL.gap}}>{pick.honours.map(h=><span key={h.l} style={{background:'rgba(255,255,255,.94)',borderRadius:99,padding:`${PILL.py}px ${PILL.px}px`,fontFamily:'"Public Sans",Arial,sans-serif',fontWeight:700,fontSize:PILL.fs,lineHeight:1,letterSpacing:'.03em',textTransform:'uppercase',whiteSpace:'nowrap',color:inkFor(pick.nameCol||'#555555','#FFFFFF',4.5)}}>{pillText(h)}</span>)}</div>}
+    {u&&pick.honours&&pick.honours.length>0&&<div style={{position:'absolute',left:PILL.side,right:6,bottom:PILL.bottom,zIndex:2,display:'flex',flexWrap:'wrap-reverse',justifyContent:pick.dog?'flex-start':'center',alignItems:pick.dog?'flex-start':'center',gap:PILL.gap}}>{pick.honours.map(h=><span key={h.l} style={{background:'rgba(255,255,255,.94)',borderRadius:99,padding:`${PILL.py}px ${PILL.px}px`,fontFamily:'"Public Sans",Arial,sans-serif',fontWeight:700,fontSize:PILL.fs,lineHeight:1,letterSpacing:'.03em',textTransform:'uppercase',whiteSpace:'nowrap',color:inkFor(pick.nameCol||'#555555','#FFFFFF',4.5)}}>{pillText(h)}</span>)}</div>}
     </div>
     {u&&<svg width={W} height={H} style={{position:'absolute',left:0,top:0,overflow:'visible',pointerEvents:'none'}}><defs><clipPath id="flapclip"><rect x="0" y="0" width={W} height={H}/></clipPath></defs><g ref={flapG} clipPath={exiting?undefined:'url(#flapclip)'} style={{transformBox:'view-box',transformOrigin:`${W}px ${H}px`}}><polygon ref={flap} points="0,0 0,0 0,0" fill={halfTint(pick.bg)} stroke={halfTint(pick.bg)} strokeWidth="1.5" strokeLinejoin="round"/></g></svg>}
   </div></>;
@@ -741,7 +741,7 @@ const makeCardFor=async(file,name,club)=>{const dogged=PROFILE_DOGS.has(file);le
   const nm=(name||'').replace(/\s*\([^)]*\)$/,'').split(/\s+/).filter(Boolean);
   const svg=t.includes('class="dog"')?makeBlinker(t).replace('</svg>',CARD_DOG_CSS+DOG_ROLL_CSS+'</svg>'):makeBlinker(t);
   const still=t.replace('viewBox="10 20 180 252"','viewBox="-15 -8 230 330"').replace(/<rect width="200" height="280"[^>]*\/>/,'').replace('</svg>','<style>.dog{transform:translateY(35.5px)}</style></svg>');  /* saved images: eyes straight ahead, no glance or blink, dog popped up */
-  return{u:URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})),still:URL.createObjectURL(new Blob([still],{type:'image/svg+xml'})),bg,surname:(nm[nm.length-1]||'').replace(/(^|[-'])([a-z])/g,(m,a,b)=>a+b.toUpperCase()),nameCol:posterInk(bg,vest,club),
+  return{dog:t.includes('class="dog"'),u:URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})),still:URL.createObjectURL(new Blob([still],{type:'image/svg+xml'})),bg,surname:(nm[nm.length-1]||'').replace(/(^|[-'])([a-z])/g,(m,a,b)=>a+b.toUpperCase()),nameCol:posterInk(bg,vest,club),
     initials:((nm[0]||'')[0]+(nm.length>1?nm[nm.length-1].split('-').filter(Boolean).map(x=>x[0]).join('-'):'')).toUpperCase()};};
 /* Save the sticker for Instagram: a still of the profile card (dog-ear resting) on a tonal backdrop, as a 4:5 post or a 9:16 story (Oct 2026) */
 const SHARE_FORMATS={post:{w:1080,h:1350,cw:800,label:'Instagram post'},story:{w:1080,h:1920,cw:820,label:'Instagram story'}};
@@ -765,7 +765,7 @@ const stickerPng=async(card,fmt)=>{const F=SHARE_FORMATS[fmt],W=150,H=W*280/230,
   if(card.honours&&card.honours.length){ctx.font=`700 ${PILL.fs}px "Public Sans", Arial, sans-serif`;ctx.textBaseline='middle';ctx.textAlign='left';const ls=PILL.fs*.03;try{ctx.letterSpacing=ls+'px';}catch(e){}
     const items=card.honours.map(h=>{const t=pillText(h).toUpperCase();return{t,w:ctx.measureText(t).width+PILL.px*2};}),ph=PILL.fs+PILL.py*2;
     const rows=[];items.forEach(it=>{const r=rows[rows.length-1];if(r&&r.w+PILL.gap+it.w<=W-12){r.items.push(it);r.w+=PILL.gap+it.w;}else rows.push({items:[it],w:it.w});});
-    let y=H-PILL.bottom-ph;for(let ri=0;ri<rows.length;ri++){const r=rows[ri];let x=(W-r.w)/2;r.items.forEach(it=>{ctx.fillStyle='rgba(255,255,255,.94)';ctx.beginPath();ctx.roundRect(x,y,it.w,ph,ph/2);ctx.fill();ctx.fillStyle=inkFor(card.nameCol||'#555555','#FFFFFF',4.5);ctx.fillText(it.t,x+PILL.px,y+ph/2+.2);x+=it.w+PILL.gap;});y-=ph+PILL.gap;}
+    let y=H-PILL.bottom-ph;for(let ri=0;ri<rows.length;ri++){const r=rows[ri];let x=card.dog?PILL.side:(W-r.w)/2;  /* runners with a dog: pills sit to the left, clear of the dog */r.items.forEach(it=>{ctx.fillStyle='rgba(255,255,255,.94)';ctx.beginPath();ctx.roundRect(x,y,it.w,ph,ph/2);ctx.fill();ctx.fillStyle=inkFor(card.nameCol||'#555555','#FFFFFF',4.5);ctx.fillText(it.t,x+PILL.px,y+ph/2+.2);x+=it.w+PILL.gap;});y-=ph+PILL.gap;}
     try{ctx.letterSpacing='0px';}catch(e){}}
   ctx.restore();
   if(flip.length>2){ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();ctx.fillStyle=halfTint(card.bg);ctx.strokeStyle=halfTint(card.bg);ctx.lineWidth=1.5;ctx.lineJoin='round';ctx.beginPath();flip.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fill();ctx.stroke();}
