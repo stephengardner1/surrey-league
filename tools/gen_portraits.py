@@ -2004,4 +2004,8 @@ HAIR["curlyburns"] = HAIR["curlyfit"].replace("M67.6,106 L65.2,80.0", "M69.0364,
 # long nose, small cheek hollows, a chin crease with a hint of a bum chin, gold chain
 save("matt-yates", dimple(chincrease(cheekhollows(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="curlyburns", hair_colour="#E0C080", brow_colour="#B89A68", jaw="long", necklace="#C9A646"), "narrow", 0), 0, 0, 6), 2.8, 0.4), 0.95, 1.2), inset=5, depth=.6, dy=3), y=162, lit=True, w=1.0)))
 
+# Emma Bond (G&G, 2026/27), Oct 2026: golden-blonde hair slicked back into a short tail, narrow face with a slightly longer chin,
+# hooded eyes under pale soft brows, flush, small silver earrings, fine silver chain
+save("emma-bond", earrings(nose(softbrows(brows(eyes(figure("G&G", skin=1, hair="slicktail", hair_colour="#E6CC8C", brow_colour="#B8A070", rosy=True, necklace="#D4D4D4", jaw="broadchin"), "hooded", 0), 0.6, 0, 2), 2.6, 0.8), 0.9, 1.15).replace(HEAD_BROADCHIN, narrowchin(shortlonghead(.88), .72)), col="#CFCFCF"))
+
 export_site()
