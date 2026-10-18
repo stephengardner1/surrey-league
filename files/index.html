@@ -3140,8 +3140,9 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     const currentSeason=data.seasons[0];
     const isCurrentSeason=season===currentSeason;
     const numTeams=standings.length;
-    const winningTotal=standings[0]?.total;
-    const margin=standings.length>=2&&standings[0].total&&standings[1].total?standings[1].total-standings[0].total:null;
+    const isPointsTable=seasonData?.scoring==='points';// league points (highest wins), not aggregate scores
+    const winningTotal=isPointsTable?null:standings[0]?.total;
+    const margin=!isPointsTable&&standings.length>=2&&standings[0].total&&standings[1].total?standings[1].total-standings[0].total:null;
     
     // Notable athletes with achievements
     const notableAthletes={
@@ -3242,7 +3243,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
     const getMarginStats=()=>{
       let closest=null,biggest=null,bestTotal9=null,bestTotal10=null;
       for(const[s,sd] of Object.entries(allSeasonsData)){
-        if(s>season||!sd?.standings?.length||sd.standings.length<2)continue;
+        if(s>season||!sd?.standings?.length||sd.standings.length<2||sd.scoring==='points')continue;
         const st=sd.standings;
         const m=st[1].total&&st[0].total?st[1].total-st[0].total:null;
         const total=st[0].total;
@@ -3522,7 +3523,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
       }
       
       // Final day relegation escape (not for 2022/23 which only relegated one team)
-      if(season!=='2022/23'&&standings.length>=9&&standings.every(x=>x.m1!=null&&x.m2!=null&&x.m3!=null)){
+      if(season!=='2022/23'&&!isPointsTable&&standings.length>=9&&standings.every(x=>x.m1!=null&&x.m2!=null&&x.m3!=null)){
         const afterM3=standings.map(t=>({
           club:t.club,
           totalM3:(t.m1||0)+(t.m2||0)+(t.m3||0),
@@ -3537,7 +3538,7 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
           if(relZone.includes(posAfterM3)&&!relZone.includes(t.final)){
             // Check if this is unique in our data
             const otherEscapes=Object.entries(allSeasonsData).filter(([s,sd])=>{
-              if(s>=season||s==='2022/23'||!sd.standings||sd.standings.length<9)return false;
+              if(s>=season||s==='2022/23'||!sd.standings||sd.standings.length<9||sd.scoring==='points')return false;
               if(sd.standings[0].m4===null||sd.standings[0].m4===undefined)return false;
               if(!sd.standings.every(x=>x.m1!=null&&x.m2!=null&&x.m3!=null))return false;
               const numTeams=sd.standings.length;
@@ -3680,8 +3681,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     (seasonData?.standings?.length>0?seasonData.standings:buildStandingsFromRaces());
 
   // Enrich authoritative standings with per-match scores from race data when available
+  const isPtsTable=seasonData?.scoring==='points';// league points: keep the table's own order and don't fill match columns with team scores
   const enrichedStandings=rawStandings.map(t=>{
-    if(t.m1!=null)return t;
+    if(t.m1!=null||isPtsTable)return t;
     const enriched={...t};
     seasonRaces.forEach(r=>{
       if(!r.teamScores)return;
@@ -3695,7 +3697,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     if(t.total!=null)return t;
     const total=[1,2,3,4].reduce((sum,n)=>sum+(t[`m${n}`]||0),0);
     return{...t,total:total||undefined};
-  }).sort((a,b)=>(a.total||Infinity)-(b.total||Infinity)).map((t,i)=>({...t,pos:t.total?i+1:undefined}));
+  }).sort((a,b)=>isPtsTable?((a.pos||99)-(b.pos||99)):((a.total||Infinity)-(b.total||Infinity))).map((t,i)=>({...t,pos:t.total?i+1:undefined}));
 
   // Season is complete if all 4 races have >100 results each
   const racesWithResults=seasonRaces.filter(r=>r.results&&r.results.length>100);
@@ -3741,7 +3743,8 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     // Determine which match columns to show
     const matchNums=matches.length>0?matches.map(m=>m.num):[1,2,3,4].filter(n=>standings[0]?.[`m${n}`]!=null);
     return<div>
-    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase`} title="Total of a team's scores across all matches">Tot</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#1b649e]':''}`} title={`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isSeasonFinished?'🏆':(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#1b649e]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} px-0.5`}><span className={`tabular-nums ${i===0?'font-bold text-[#1b649e]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase`} title={seasonData?.scoring==='points'?"League points across all matches (highest wins)":"Total of a team's scores across all matches"}>{seasonData?.scoring==='points'?'Pts':'Tot'}</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#1b649e]':''}`} title={seasonData?.scoring==='points'?`League points in match ${n}`:`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isSeasonFinished?'🏆':(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#1b649e]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} px-0.5`}><span className={`tabular-nums ${i===0?'font-bold text-[#1b649e]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    {seasonData?.scoring==='points'&&<p className="text-xs text-gray-500 mt-2">League points: 10 for winning a match down to 1 for 10th; most points wins the title.{seasonData?.tableNote?' '+seasonData.tableNote:''}</p>}
     {isHistorical&&!hasCompleteResults&&seasonRaces.length>0&&<p className="text-xs text-gray-500 mt-2">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
   </div>;};
   
