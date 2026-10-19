@@ -76,3 +76,10 @@ Wayback isn't reachable from the cloud workspace; the photos were downloaded on 
 Not yet used: 2013/14 men m4 (Richmond Park leaders, Leo Coy) and women m1/m2 photos - those images failed to download.
 Profiles: any runner named in a race-photo caption gets the photos on their profile automatically (desktop: a tile at the
 right of the header; mobile: a strip beside "Compare to"). The pop-up shows which race each photo is from, with a link.
+
+## Athletics Weekly 1962-1974 (searched 19 Oct 2026)
+`athletics-weekly/winter-1962-1974.tsv`: 262 winter issue PDFs (Oct-Mar). About 40 issues from 1965-69 have no PDF on AW's site.
+In this era AW called our league the "North Surrey League". Photos are mostly covers ("Cover photo by ...: caption").
+Found and added: cover of 13 Mar 1965 (1964/65 m4 Morden, North and Nåjde, Ron Linstead) and 7 Nov 1970 p25
+(1970/71 m1 Wimbledon leaders, Ron Linstead). Everything else the search turned up was other races (road relays,
+Civil Service, county champs). Text not stored.

@@ -1137,6 +1137,8 @@ const bhw=(ts,u)=>({source:"Belgrave Harriers website (archived)",href:`https://
 const belg=(no,label,page)=>({source:`The Belgravian, ${label}`,href:`${BELG[no]}#page=${page}`});
 const RACE_PHOTOS={
   '1964/65|1':[{src:'photos/races/1964-65-m1-wimbledon.jpg',caption:'Geoff North (10) leads Mick Gowan (110), Les Presland (211) and John Thresher (3) on Wimbledon Common.',credit:'Photo: P. Pepe',source:"Alan Mead's Belgrave Harriers history",href:'https://www.belgraveharriers.info/1938-1987'}],
+  '1964/65|4':[{src:'photos/races/1964-65-m4-morden.jpg',thumbPos:'50% 22%',widePos:'50% 20%',caption:'Gerry North (Belgrave) leads Mitcham\u2019s Bengt Nåjde, the Swedish Olympian, at Morden Park. Nåjde went on to win, with North second.',credit:'Photo: Ron Linstead',source:'Athletics Weekly cover, 13 March 1965',href:'https://athleticsweekly.com/wp-content/uploads/securepdfs/2025/06/March-13-1965-Vol-19-No-11.pdf'}],
+  '1970/71|1':[{src:'photos/races/1970-71-m1-wimbledon.jpg',thumbPos:'50% 22%',widePos:'50% 22%',caption:'Soon after the start on Wimbledon Common: leaders, left to right, Lionel Mano (Belgrave), Bob Holt (Hercules Wimbledon), Steve Badgery (Mitcham), Bill Kerr (Belgrave) and Fred Stebbings (Croydon). Holt went on to win.',people:['Steve Badgery'],credit:'Photo: Ron Linstead',source:'Athletics Weekly, 7 November 1970',href:'https://athleticsweekly.com/wp-content/uploads/securepdfs/2025/06/Nov-7-1970-Vol-24-No-45.pdf#page=25'}],
   '1983/84|4':[{src:'photos/races/1983-84-m4-coulsdon.jpg',thumbPos:'50% 18%',caption:"The final race of the season: Paul Magner (104) and Gary Ribbons lead Kevin Sturman (88), Peter Clarke (167), Stuart Paton, Gary Staines and the season's overall winner, Dave Glassborow (hooped vest).",credit:'Photo: Bill Laws',source:'Athletics Weekly, 24 March 1984',href:'https://athleticsweekly.com/wp-content/uploads/securepdfs/2025/06/March-24-1984-Vol-38-No-12.pdf#page=46'}],
   '1991/92|1':[{src:'photos/races/1991-92-m1-trio.jpg',thumbPos:'50% 12%',caption:"Gary Staines, John Mather and Pete Gardner at Petersham. Staines had an “easy one” after resting from the World Championships in Tokyo.",credit:'Photos: Alan Mead',...belg(217,'December 1991',33)},
     {src:'photos/races/1991-92-m1-paton.jpg',caption:'Stuart Paton completes a lap at Petersham, with plenty of time to think about his finishing kick.',credit:'Photo: Alan Mead',...belg(217,'December 1991',32)}],
@@ -1186,7 +1188,7 @@ const captionNames=(photo,race)=>{
   const links=photo.links||{};const al=window.__nameAliases||{};
   const inRace=new Map();((race?.results)||[]).forEach(r=>{const n=r.name||r.n;if(n&&!/^unknown/i.test(n)){inRace.set(n,n);const d=displayName(n);if(!inRace.has(d))inRace.set(d,n);}});
   const canon=n=>{if(links[n])return links[n];if(inRace.has(n))return inRace.get(n);const c=al[n.toLowerCase()]||al[normalizeNameForCompare(n)];return c&&inRace.has(c)?inRace.get(c):(photo.people||[]).includes(n)?n:null;};
-  const found=[...new Set([...Object.keys(links),...(photo.people||[]),...(photo.caption.match(/[A-Z][a-z]+(?:-[A-Z][a-z]+)? (?:Mc|Mac|O'|De |Van )?[A-Z][a-z]+(?:-[A-Z][a-z]+)?/g)||[])])];
+  const found=[...new Set([...Object.keys(links),...(photo.people||[]),...(photo.caption.match(/[A-ZÀ-Þ][a-zß-ÿ]+(?:-[A-ZÀ-Þ][a-zß-ÿ]+)? (?:Mc|Mac|O'|De |Van )?[A-ZÀ-Þ][a-zß-ÿ]+(?:-[A-ZÀ-Þ][a-zß-ÿ]+)?/g)||[])])];
   return found.filter(n=>photo.caption.includes(n)&&canon(n)).map(n=>({text:n,canon:canon(n)})).sort((x,y)=>y.text.length-x.text.length);
 };
 const PhotoCaption=({photo,race,onNav})=>{
