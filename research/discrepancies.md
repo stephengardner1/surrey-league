@@ -35,3 +35,16 @@ Notes:
 - 1975/76: Ranelagh season total was 2124; AW final and the four matches both give 2142. Fixed.
 - Venues to check (not changed): AW gives 1977/78 m1 "At Esher, October 22nd" (we have Walton) and m2 "At Aldershot,
   November 26th" (we have Fleet). 1977/78 m3 date "Jan" corrected to 10 Dec 1977 (AW 21 Jan 1978).
+
+## Women's fixtures with no match scores — searched 19 Oct 2026
+Athletics Weekly Oct-May issues for 1979/80, 1982/83, 1986/87-1989/90 and Nov-Dec 1991 searched for the Surrey Women's/Ladies' League.
+AW rarely printed these results. Found and added:
+- 1979/80 m2: actually Croydon, 15 Dec 1979 (we had Lloyd Park, Nov). Top 6 and teams G&G 36, Surrey Beagles 49, Hercules W 51 (AW 2 Feb 1980).
+  L Dally's club corrected to Surrey Beagles (SYB), as in her other races.
+- 1982/83 m4 (Brockwell Park, 5 Mar 1983): top 10 and teams Croydon 26, Epsom & E 53, Herne Hill 60 (AW 9 Apr 1983). Some top-10
+  runners were Intermediates (Menendez, Anderson, Brett, Letchford), so positions are as printed.
+- 1987/88 m4: held 19 Mar 1988 (we had Feb). Top 3 (Letchford, Roden, Phillips, all SLH) from AW 21 Apr 1988. AW's team line
+  ("Teams: Epsom & Ewell 21") is unclear with SLH 1-2-3, so no team scores added.
+Not found in AW: 1979/80 m1, m3, m4; 1986/87 m4; 1988/89 m1-m4; 1989/90 m4; 1991/92 m2. AW issues for April 1990 and later
+aren't in the archive lists we have. AW lists J Harrop as Burnham Juniors in 1988/89, while our data has J Harrop (WOK) winning
+1988/89 m2-m4: worth a check.
