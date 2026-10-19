@@ -2151,4 +2151,9 @@ save("trevor-williams", nose(eyes(dimple(figure("BEL", skin=1, hair="messyfringe
 save("leo-coy", nose(eyes(figure("BEL", skin=1, hair="seventies", hair_colour="#2E211B", brow_colour="#241A15", facial="thicktache", facial_colour="#2E211B", glasses=True, jaw="long"), None, 0), 1.05, 1.2))
 # Fiona Clark (REI), Oct 2026: brown hair half up, the rest loose to the jaw, soft full brows, thin dark cord necklace
 save("fiona-clark", nose(softbrows(eyes(figure("REI", skin=1, hair="halfup", hair_colour="#4A3222", brow_colour="#3A2618", necklace="#2A2A2A"), None, 0), 3.2, 0.3), 1.0, 1.15))
+# Hayley Munn (HHH 2015/16; Clapham Chasers 2011-15), Oct 2026: dark hair scraped back into a low bun, thin gently arched brows, long face, rosy cheeks
+def _munn(kit):
+    return nose(softbrows(eyes(figure(kit, skin=1, hair="lowbun", hair_colour="#3A2620", brow_colour="#2A1D16", jaw="long", rosy=True), None, 0), 2.4, 1.6), 1.0, 1.15)
+save("hayley-munn", _munn("HHH"))
+save("hayley-munn-cc", _munn("C/C"))
 export_site()
