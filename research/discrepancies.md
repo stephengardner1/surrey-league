@@ -19,3 +19,19 @@ AFD 215, E&E 279, SLH 308, H/W 316, Walton 375, Belgrave 466, Herne Hill 526 (HH
 The season table had Walton and South London the wrong way round (4th/5th) and Herne Hill on 1807. AW's final placings and the
 sum of the four matches give Walton 1472 (4th), SLH 1477 (5th), HHH 1802; fixed. Match 3 date shown as "Jan" corrected to
 9 Dec 1978 (The Belgravian No. 198), match 4 to 17 Feb 1979.
+
+## Men's match scores 1973/74-1977/78 — added 19 Oct 2026
+14 Division 1 fixtures had no team scores. All added as printed in Athletics Weekly (Surrey/North Surrey league reports):
+1973/74 m1 (24 Nov 73 p9), m2 (15 Dec 73 p36), m3 (22 Dec 73), m4 (9 Mar 74); 1974/75 m1 (23 Nov 74 p29), m2 (7 Dec 74 p23),
+m4 (15 Mar 75); 1975/76 m4 (27 Mar 76); 1976/77 m2 (25 Dec 76), m3 (22 Jan 77); 1977/78 m1 (10 Dec 77), m2 (14 Jan 78),
+m3 (21 Jan 78), m4 (18 Mar 78).
+Notes:
+- 1977/78 m1: AW lists six teams; South London ran but J. Roberts and R. Gevers went off course. Their season total implies 488
+  for this match (1327 minus 247+236+356); not added to the race since it isn't printed.
+- 1976/77 m3: The Belgravian No. 194 prints SLH 342 / Walton 344; AW prints SLH 321 / Walton 365, which matches the season totals. Used AW.
+- 1974/75: AW final table says HHH 1913 (we had 1973; the four matches add to 1913, fixed) and SLH 1344 (matches add to 1341, kept).
+  AFD's four matches add to 870 against a printed final of 875; kept 875.
+- 1973/74: printed matches add to HHH 1688 and Met Police 2009, but AW's final table says 1691 and 2025; kept the final table.
+- 1975/76: Ranelagh season total was 2124; AW final and the four matches both give 2142. Fixed.
+- Venues to check (not changed): AW gives 1977/78 m1 "At Esher, October 22nd" (we have Walton) and m2 "At Aldershot,
+  November 26th" (we have Fleet). 1977/78 m3 date "Jan" corrected to 10 Dec 1977 (AW 21 Jan 1978).
