@@ -2019,7 +2019,7 @@ def lightcreases(svg, op=.4):
     """Make creases=True (nose-to-mouth lines) finer and fainter."""
     return svg.replace('stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".75"/>', f'stroke-width="1.2" fill="none" stroke-linecap="round" opacity="{op}"/>', 1)
 # Sally Young (DMV 1991-2007; SLH 1989-91), Oct 2026, from a black-and-white photo (hair colour inferred): short spiky dark hair,
-# long lean face, defined cheekbones and deep-set narrow eyes under thin soft brows, slim cheek hollows, pronounced philtrum, straight nose-to-mouth folds, small silver hoops in the lobes
+# long lean face, defined cheekbones and deep-set narrow eyes, short from corner to corner, under thin soft brows, slim cheek hollows, pronounced philtrum, straight nose-to-mouth folds, small silver hoops in the lobes
 def straightfolds(svg, skin=1, tag="f", op=.45, top=(94.6,141.2), bot=(87.4,152.4)):
     """Straight nose-to-mouth (nasolabial) folds from the edge of each nostril to just outside the corners of the mouth."""
     sk, dk, lt = SKIN[skin]; (x1, y1), (x2, y2) = top, bot
@@ -2027,8 +2027,11 @@ def straightfolds(svg, skin=1, tag="f", op=.45, top=(94.6,141.2), bot=(87.4,152.
 def lobes(svg, cx=63.5, cy=107.5, r=2.3):
     """Move earrings() hoops up into the earlobes."""
     return svg.replace('<circle cx="61" cy="111" r="2.6"/><circle cx="139" cy="111" r="2.6"/>', f'<circle cx="{cx}" cy="{cy}" r="{r}"/><circle cx="{200-cx}" cy="{cy}" r="{r}"/>')
+import re as _rxs
+def _xscale(path, cx, f): return _rxs.sub(r'(-?\d+\.?\d*),(-?\d+\.?\d*)', lambda m: f"{cx+(float(m.group(1))-cx)*f:g},{m.group(2)}", path)
+EYE_SHAPES["narrowshort"] = tuple(_xscale(p, c, .75) for p, c in zip(EYE_SHAPES["narrow"], (85, 115, 85, 115)))  # narrow eyes, three-quarters the width corner to corner (Sally Young)
 def _sally(kit):
-    s = eyes(figure(kit, skin=1, hair="spiky", hair_colour="#3A2A20", brow_colour="#2E211A", jaw="long"), "narrow", 0)
+    s = eyes(figure(kit, skin=1, hair="spiky", hair_colour="#3A2A20", brow_colour="#2E211A", jaw="long"), "narrowshort", 0)
     s = sockets(nose(softbrows(brows(s, 0, 0, 3), 2.2, 0.6), 1.0, 1.0), depth=1.0)
     s = cheekhollows(s, inset=4, depth=.8)
     return lobes(earrings(philtrum(straightfolds(s, top=(94.6, 135.6)), top=136, w=2.5, op=.78), col="#CFCFCF"))
