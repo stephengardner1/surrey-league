@@ -33,3 +33,14 @@ The caption names only Stuart Paton (71) and Andy Paton (72). The race report on
 ## Leads for bibs 126 and 131
 - The original photographer, Ray O'Donoghue, or Boxhill club members could name them from the prints.
 - Best guesses are Boxhill scorers who were running near the Patons early on, but nothing in the magazine supports any one name.
+
+## Ken Penney (Croydon, then Box Hill Racers): from Croydon Harriers members, 19 Oct 2026
+Source: email from Alan Dolton (Croydon historian) and Norman Hemming to Matthew Kiernan, cc Steve.
+- Cross-country for Croydon Harriers 1977 to 1985/86. Joined Box Hill Racers for 1986/87 when Robin Batchelor became his coach (before that, Dave Betts).
+- Track: won Surrey steeplechase 1984 and 1988 for Croydon; won the steeplechase as Croydon won the 1985 British League qualifying match; Croydon's British League team 1986-88; Haringey in 1989 (won Surrey 1500m, 5000m and steeplechase that year).
+- Won the Surrey senior cross-country championship, December 1989, for Box Hill. Our county-champs file has no winner for SM 1989, so it fits.
+- Photo: Croydon team, 1985 British League qualifier, Ken front row, third from right (Alan Dolton's photo).
+- Alan may be able to put Steve in touch with Ken; Ian Statter also has his contact details.
+- Our results agree: Ken Penney CRO 1981/82 and 1985/86, BOX 1987/88-1996/97 (Croydon and Box Hill weren't in Division I in 1986/87).
+- "R Penney" (CRO 1981/82 m4, 1985/86 m1-2) ran in the same races as Ken, so is a different person. Possibly Bob Penney
+  (Croydon Harriers, Surrey champs M50 1984; Veterans AC M60 1982). Unconfirmed: ask Alan.
