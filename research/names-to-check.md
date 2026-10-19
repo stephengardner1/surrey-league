@@ -10,5 +10,5 @@ Raised by other sessions; check, then bring to Steve.
 
 ## From the archived Belgrave website captions (19 Oct 2026, race photos work)
 - 2005/06 m1: Belgrave caption "Phil Tedd" (THH); raw result says "Paul Tedd" but the site already shows him as Phillip Tedd via an alias. Fine. **Done 19 Oct 2026:** no change needed.
-- 2003/04 women m4: caption "Syreeta Stracey"; we hold "Syretta Stracey". Belgrave's own spelling is Syreeta; worth checking.
+- 2003/04 women m4: caption "Syreeta Stracey"; we hold "Syretta Stracey". Belgrave's own spelling is Syreeta; worth checking. **Done 19 Oct 2026:** the 3 "Syretta" results corrected to Syreeta Stracey (Steve).
 - 2005/06 m1: caption "Jermain Mays"; we hold "Jermaine Mays" (left as is). **Done 19 Oct 2026:** no change.
