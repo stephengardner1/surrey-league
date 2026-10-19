@@ -2065,4 +2065,7 @@ save("dave-clarke", stretchface(nose(brows(eyes(figure("H/W", skin=1, hair="shag
 # long face, subtle cheek hollows set wide, soft brows
 save("norman-stairs", cheekhollows(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="floppythin", hair_colour="#6B4A2E", brow_colour="#4A3222", jaw="long"), None, 0), 0, 0, 3), 2.8, 0.4), 1.0, 1.2), inset=6, depth=.5))
 
+# Trevor Hart (BEL), redrawn Oct 2026 (replaces the earlier save): thick dark wavy hair, square jaw, heavy dark brows, thick-rimmed glasses
+save("trevor-hart", nose(thickbrows(brows(eyes(figure("BEL", skin=1, hair="messyvolume", hair_colour="#2A1D16", brow_colour="#1E1612", glasses="square", glasses_col="#1E1612", jaw="square"), None, 0), 0, 0, 3), .8), 1.0, 1.15))
+
 export_site()
