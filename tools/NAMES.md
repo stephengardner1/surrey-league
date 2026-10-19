@@ -48,6 +48,8 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
   Redhill & Surrey Beagles (RSB), Sutton & Cheam (S&C), Chessington & Bookham (C&B), Dorking St Paul's (DSP),
   Camberley & District AC (CBY). AW's "M&S" for S Lanham, 1986/87 m3, is Mitcham (Sue Lanham).
   AW's "Craw" in 1992/93 m2 (K Sutton, J Mitchel) is a misprint for Croydon (Steve). Five places stay unknown: AW's "Runn", "TWH", "C'wood", "Phillips CS", "n/s".
+- 1987/88 match 4 (men), 94th, M Head (Martyn Head) 5 Mar 1988: club RAN -> BEL (Steve approved, 19 Oct 2026). He ran
+  for Belgrave in matches 1-3 that season and in 1989/90, and The Belgravian (Apr 1988) names him Belgrave's Section Secretary.
 
 ## Same surname, different runners (women, Steve 18 Oct 2026)
 - Nicky Harvey (Herne Hill, 1990s-2000s) and Natalie Harvey (South London) are two runners. "N Harvey" at
