@@ -2149,4 +2149,6 @@ save("macgregor-cox", lobes(earrings(nose(eyes(figure("THH", skin=1, hair="mohaw
 save("trevor-williams", nose(eyes(dimple(figure("BEL", skin=1, hair="messyfringe", hair_colour="#8E6643", brow_colour="#7A5638")), "hooded", 0), 1.05, 1.1))
 # Leo Coy (BEL, 1970s/80s), Oct 2026, from a black-and-white photo: full wavy dark 70s hair over the ears, thick moustache, wire glasses, long face
 save("leo-coy", nose(eyes(figure("BEL", skin=1, hair="seventies", hair_colour="#2E211B", brow_colour="#241A15", facial="thicktache", facial_colour="#2E211B", glasses=True, jaw="long"), None, 0), 1.05, 1.2))
+# Fiona Clark (REI), Oct 2026: brown hair half up, the rest loose to the jaw, soft full brows, thin dark cord necklace
+save("fiona-clark", nose(softbrows(eyes(figure("REI", skin=1, hair="halfup", hair_colour="#4A3222", brow_colour="#3A2618", necklace="#2A2A2A"), None, 0), 3.2, 0.3), 1.0, 1.15))
 export_site()
