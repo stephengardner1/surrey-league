@@ -80,3 +80,13 @@ and Athletics Weekly winter issues (1998-2005 Oct-Feb text searched again in Oct
 
 ## Same surname, different runners (men)
 - Lionel Mann (BEL, 1966-99) and his son Robert Mann (BEL, b. 1968; R Mann in 1985/86, 1986/87, 1989/90). The Belgravian names Lionel's sons as Robert and James. They ran in the same races, so they are kept apart (Steve, 19 Oct 2026).
+
+## Winners-list first names matched to the race results (Steve, 19 Oct 2026)
+The Mitchell Cup winners list and season individual tables were typed separately from the results, so a different
+first name there linked to an empty page. Corrected in `mitchellCupWinners` and `individualRankings` (same winner,
+name only):
+- 1975/76 Roy Treadwell (CRO) -> Bob Treadwell: results print R Treadwell (already joined to Bob); county champs Bob Treadwell 2nd in 1975 and 1976.
+- 1977/78 Mick Connolly (WAL) -> Malcolm Connelly: his places 3, 4, 4, 3; county champs Malcolm Connelly (Walton). His "M Connolly" and surname-only "Connelly" results were joined too (name_changes.json).
+- 1978/79 Geoff Ribbons (E&E) -> Gary Ribbons: no Geoff in any result; county champs Gary Ribbons (Epsom & Ewell) 1976-84.
+- 1986/87 John Wright (BEL) -> Jean Paul Wright: our results and The Belgravian's 1988 photo caption say Jean Paul; its 1986/87 report says John. The page is Jean Paul Wright; John Wright, J Wright and John-Paul Wright are aliases.
+Same-name pages (nameCollisions, e.g. Dave Taylor HHH, Tom Foster G&G) are now linked from winner lists by club in index.html.
