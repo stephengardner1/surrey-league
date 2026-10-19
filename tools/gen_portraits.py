@@ -2106,4 +2106,7 @@ save("juliette-clark", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="low
 # Vicky Edwards (BEL 2003-05; also listed as Victoria): blonde hair pulled back in a short tail, big smile, flush, fine silver chain
 save("vicky-edwards", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slicktail", hair_colour="#D9BC78", brow_colour="#A88C5A", rosy=True, necklace="#D4D4D4"), None, 0), 0, 0, 2), 0.95, 1.15)))
 
+# Helen Alsop (BEL 2002-06): brown hair tied back in a short tail, big smile, flush
+save("helen-alsop", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slicktail", hair_colour="#5A3E2A", brow_colour="#4A3222", rosy=True), None, 0), 0, 0, 2), 0.95, 1.15)))
+
 export_site()
