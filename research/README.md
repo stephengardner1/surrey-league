@@ -61,4 +61,6 @@ https://www.surreyathletics.uk/crosscountry/index.php (athlete pages: /database/
 Race pages can show archive photos: add an entry to `RACE_PHOTOS` in `files/index.html`, keyed `'season|match'`
 (e.g. `'1964/65|1'`), and put the image in `files/photos/races/`. Each entry has a caption, the photographer credit, and
 a source name and link. Desktop shows the photo under the team scores; mobile shows a small thumbnail to the right of the Individual/Teams toggle, which opens a pop-up with caption, credit and link.
+Runner names in a caption link to their profiles automatically when they match a name in that race's results
+(add `people:[...]` to an entry for anyone else). Clicking the photo opens it large with caption and credit.
 Always credit and link the source (e.g. Alan Mead's belgraveharriers.info).

@@ -1133,17 +1133,30 @@ const RACE_PHOTOS={
   '1964/65|1':[{src:'photos/races/1964-65-m1-wimbledon.jpg',caption:'Geoff North (10) leads Mick Gowan (110), Les Presland (211) and John Thresher (3) on Wimbledon Common.',credit:'Photo: P. Pepe',source:"Alan Mead's Belgrave Harriers history",href:'https://www.belgraveharriers.info/1938-1987'}]
 };
 const racePhotosFor=(race)=>race?(RACE_PHOTOS[`${race.season}|${race.match}`]||[]):[];
-const RacePhoto=({photo,compact})=>{
-  const credit=<span>{photo.credit} · <a href={photo.href} target="_blank" rel="noopener" className="underline decoration-gray-300 hover:text-gray-700">{photo.source}</a></span>;
-  if(compact)return<figure className="flex items-start gap-3 mb-5"><a href={photo.src} target="_blank" rel="noopener" className="shrink-0"><img src={photo.src} alt={photo.caption} loading="lazy" className="w-20 h-14 object-cover rounded border border-gray-200 grayscale"/></a><figcaption className="text-xs text-gray-500 leading-snug"><span className="text-gray-700">{photo.caption}</span><br/>{credit}</figcaption></figure>;
-  return<figure className="mt-8"><a href={photo.src} target="_blank" rel="noopener"><img src={photo.src} alt={photo.caption} loading="lazy" className="w-full rounded border border-gray-200"/></a><figcaption className="text-xs text-gray-500 mt-2 leading-snug"><span className="text-gray-700">{photo.caption}</span><br/>{credit}</figcaption></figure>;
+const PhotoCaption=({photo,race,onNav})=>{
+  const names=[...new Set([...(photo.people||[]),...((race?.results)||[]).map(r=>r.name||r.n).filter(n=>n&&!/^unknown/i.test(n))])].filter(n=>photo.caption.includes(n)).sort((a,b)=>b.length-a.length);
+  const parts=[];let rest=photo.caption;
+  while(rest){let best=null;names.forEach(n=>{const at=rest.indexOf(n);if(at>=0&&(best===null||at<best.at))best={at,n};});
+    if(!best){parts.push(rest);break;}
+    if(best.at)parts.push(rest.slice(0,best.at));
+    parts.push(<a key={parts.length} href={`#athlete/${nameToSlug(best.n)}`} onClick={onNav} className="underline decoration-gray-300 underline-offset-2 hover:text-gray-900">{best.n}</a>);
+    rest=rest.slice(best.at+best.n.length);}
+  return<span className="text-gray-700">{parts}</span>;
+};
+const PhotoCredit=({photo})=><span>{photo.credit} · <a href={photo.href} target="_blank" rel="noopener" className="underline decoration-gray-300 hover:text-gray-700">{photo.source}</a></span>;
+const PhotoLightbox=({photo,race,onClose})=>{
+  useEffect(()=>{const k=e=>{if(e.key==='Escape')onClose();};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k);},[onClose]);
+  return<div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 sm:p-8" onClick={onClose}><figure className="bg-white rounded-lg overflow-hidden max-w-lg sm:max-w-5xl w-full" onClick={e=>e.stopPropagation()}><img src={photo.src} alt={photo.caption} className="w-full max-h-[78vh] object-contain bg-black"/><figcaption className="p-3 sm:p-4 text-xs sm:text-sm text-gray-500 leading-snug flex items-start justify-between gap-4"><span><PhotoCaption photo={photo} race={race} onNav={onClose}/><br/><PhotoCredit photo={photo}/></span><button type="button" onClick={onClose} className="shrink-0 text-gray-700 font-medium">Close</button></figcaption></figure></div>;
+};
+const RacePhoto=({photo,race})=>{
+  const [open,setOpen]=useState(false);
+  return<figure className="mt-8"><button type="button" onClick={()=>setOpen(true)} aria-label="Enlarge race photo" className="block w-full cursor-zoom-in"><img src={photo.src} alt={photo.caption} loading="lazy" className="w-full rounded border border-gray-200"/></button><figcaption className="text-xs text-gray-500 mt-2 leading-snug"><PhotoCaption photo={photo} race={race}/><br/><PhotoCredit photo={photo}/></figcaption>{open&&<PhotoLightbox photo={photo} race={race} onClose={()=>setOpen(false)}/>}</figure>;
+};
+const RacePhotoThumb=({photo,race})=>{
+  const [open,setOpen]=useState(false);
+  return<><button type="button" onClick={()=>setOpen(true)} aria-label="Show race photo" className="flex-1 min-w-0 max-w-xs rounded border border-gray-200 overflow-hidden"><img src={photo.src} alt="" className="block w-full h-11 object-cover grayscale" style={{objectPosition:photo.thumbPos||'50% 6%'}}/></button>{open&&<PhotoLightbox photo={photo} race={race} onClose={()=>setOpen(false)}/>}</>;
 };
 
-const RacePhotoThumb=({photo})=>{
-  const [open,setOpen]=useState(false);
-  useEffect(()=>{if(!open)return;const k=e=>{if(e.key==='Escape')setOpen(false);};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k);},[open]);
-  return<><button type="button" onClick={()=>setOpen(true)} aria-label="Show race photo" className="flex-1 min-w-0 max-w-xs rounded border border-gray-200 overflow-hidden"><img src={photo.src} alt="" className="block w-full h-11 object-cover grayscale" style={{objectPosition:photo.thumbPos||'50% 6%'}}/></button>{open&&<div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={()=>setOpen(false)}><figure className="bg-white rounded-lg overflow-hidden max-w-lg w-full" onClick={e=>e.stopPropagation()}><img src={photo.src} alt={photo.caption} className="w-full"/><figcaption className="p-3 text-xs text-gray-500 leading-snug"><span className="text-gray-700">{photo.caption}</span><br/>{photo.credit} · <a href={photo.href} target="_blank" rel="noopener" className="underline decoration-gray-300">{photo.source}</a><button type="button" onClick={()=>setOpen(false)} className="block mt-3 text-gray-700 font-medium">Close</button></figcaption></figure></div>}</>;
-};
 
 const KnownTeamScoresTable=({scores,title,results})=>{
   if(!scores?.length)return null;
@@ -1292,7 +1305,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
     {resultsMode==="guide"&&guideUrl?<FormGuideNative src={guideUrl} results={race.results}/>:<>
     {/* Mobile: tabs */}
     <div className="lg:hidden">
-      <div className="flex items-center justify-between gap-3 mb-6"><div className="inline-flex shrink-0 items-center bg-gray-100 rounded-lg p-0.5">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${tab===t.id?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>{racePhotosFor(race).length>0&&<RacePhotoThumb photo={racePhotosFor(race)[0]}/>}</div>
+      <div className="flex items-center justify-between gap-3 mb-6"><div className="inline-flex shrink-0 items-center bg-gray-100 rounded-lg p-0.5">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${tab===t.id?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>{racePhotosFor(race).length>0&&<RacePhotoThumb photo={racePhotosFor(race)[0]} race={race}/>}</div>
       {tab==='a-teams'&&(displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams" results={race.results}/>:<TeamResultsTable results={race.results} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>)}
       {tab==='b-teams'&&hasCalculableResults&&<TeamResultsTable results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>}
       {tab==='b-teams'&&!hasCalculableResults&&<p className="text-sm text-gray-500">B team scores not available for this race.</p>}
@@ -1312,7 +1325,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
         <div>
           {hasCalculableResults&&parseInt(race.season)>=2013&&<TeamResultsTableCompact results={race.results} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} title="B Teams" divisionConfig={divisionConfig} race={race}/>}
         </div>
-        {racePhotosFor(race).map((ph,i)=><RacePhoto key={i} photo={ph}/>)}
+        {racePhotosFor(race).map((ph,i)=><RacePhoto key={i} photo={ph} race={race}/>)}
         </div>
       </div>
     </div>
