@@ -65,6 +65,8 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 ## Nicknames joined by alias (Steve, 19 Oct 2026)
 - Tilly Heaton (BEL, 2010/11 m1) is Mathilde Heaton: alias in data-women.json athleteAliases. Alison Heaton (W/W) is a different runner (same race 2005/06 m1).
 
+- Belal Ahmed (H/W, 2007-2019) also appears as B Aly, Belal Aly, Belal Ali and Beld Ali: one runner (family name Aly Ahmed; his clubmate H Aly Ahmed / Hussein Ahmed ran in the same races and stays separate). Joined by alias, printed names kept (Steve, 19 Oct 2026).
+
 ## Kept as they are (Steve, 19 Oct 2026)
 - Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
 - Peter Adams (AFD, 1971-2003): one runner; AW prints "P Adams (AFD, M45)" in 1997 and 1999.
