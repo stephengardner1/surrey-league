@@ -1167,6 +1167,7 @@ const RACE_PHOTOS={
     {src:'photos/races/2004-05-w1-murphy.jpg',caption:'Just a month into her membership, Sarah Murphy showed every sign of making a big impact.',credit:'Photo: Jeremy Hemming',...bhw('20060117034804','www.belgraveharriers.com/photo_gallery/w_surrey_lg_2004_1/w_surrey_lg_2004-5_1.html')}],
   'w|2006/07|2':[{src:'photos/races/2006-07-w2-team.jpg',thumbPos:'50% 20%',caption:'Chrissie Wellington, Sarah Gailey, Sarah Murphy, Catherine Bryson, Vicky Clarke, Louise Cooper, Helen Smethurst and Tilly Heaton enjoy a celebratory cuppa after the race at Lightwater.',links:{'Tilly Heaton':'Mathilde Heaton','Vicky Clarke':'Victoria Clarke'},credit:'Photo: Junior Galley',...bhw('20081011025619','www.belgraveharriers.com/2006/rc_2006_a.htm')}],
   'w|2007/08|3':[{src:'photos/races/2007-08-w3-start.jpg',thumbPos:'50% 40%',caption:'The senior women’s field gets under way at Reigate’s Priory Park. Emily Nelson of Epsom & Ewell went on to win, and South London Harriers took the team race.',credit:'Photographer not named',...bhw('20110405032500','www.belgraveharriers.com/2008/rc_2008.htm')}],
+  '2019/20|3':[{src:'photos/races/2019-20-m3-beckenham.jpg',thumbPos:'50% 30%',widePos:'50% 32%',caption:'Owen Hind (680) alongside Nick Goolab (90), with Clapham Chasers\u2019 Johnny Van Deventer tucked in behind and John Gilbert (622) trailing. Goolab went on to win from Van Deventer, Hind and Gilbert.',credit:'Photo: Steve Gardner'}],
   '2004/05|1':[{src:'photos/races/2004-05-m1-brockwell.jpg',thumbPos:'50% 42%',caption:"Kevin Nash (83) leads the field up the first Brockwell Park hill, with Stephen Sharp at his shoulder, Richard Ashe (86), Will Cockerell (90), David Anderson and Knut Hegvold (89). Anderson went on to win. Thames Hare & Hounds got their men home first, but Belgrave took the team race, 181 to 219.",credit:'Photo: belgraveharriers.info',source:"Alan Mead's Belgrave Harriers history",href:'https://www.belgraveharriers.info/1988'},
     {src:'photos/races/2004-05-m1-anderson-sharp.jpg',caption:'Race winner David Anderson (82) didn\u2019t take the lead until the last 200 metres, sprinting past Stephen Sharp (100), who had led for most of the race.',credit:'Photo: Alan Mead',...bhw('20060117033437','www.belgraveharriers.com/photo_gallery/surrey_lg_2004_1/surrey_lg_2004-5_1.html')}]
 };
@@ -1199,7 +1200,7 @@ const athletePhotosFor=(name,races,women)=>{
   return out.sort((a,b)=>b.race.season.localeCompare(a.race.season)||b.race.match-a.race.match);
 };
 const raceHref=(r,w)=>((w??onWomenRoute())?'#women/race/':'#race/')+r.season.replace('/','').slice(-4)+'-'+r.match;
-const PhotoCredit=({photo})=><span>{photo.credit} · <a href={photo.href} target="_blank" rel="noopener" className="underline decoration-gray-300 hover:text-gray-700">{photo.source}</a></span>;
+const PhotoCredit=({photo})=><span>{photo.credit}{photo.href&&<> · <a href={photo.href} target="_blank" rel="noopener" className="underline decoration-gray-300 hover:text-gray-700">{photo.source}</a></>}</span>;
 const PhotoLightbox=({photos,start,race,onClose})=>{
   const [i,setI]=useState(start||0);const n=photos.length;const photo=photos[i];
   const go=d=>setI(x=>(x+d+n)%n);
