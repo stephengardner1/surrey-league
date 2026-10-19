@@ -2044,4 +2044,10 @@ HAIR["tuftcrop"] = '<path d="M67.4,102 L66.6,84 L67.6,70 L71,61 L71,55 L76,54 L7
 # under the lip, small eyes tucked right under thin straight brows, strong high cheekbones
 save("ed-prickett", dimple(chindef(cheekhollows(nose(brows(eyes(figure("REI", skin=1, hair="tuftcrop", hair_colour="#DCBE78", brow_colour="#B89860", thin_brows=True, jaw="broadchin"), "small", 0), 0, 0, 6), 1.0, 1.0).replace(HEAD_BROADCHIN, shortlonghead(.92)), inset=3, depth=1.1))))
 
+# Ken Penney (BOX 1987-97; CRO 1981-86), Oct 2026, from a Croydon team photo: thick dark hair with a messy fringe, round chin, thick dark brows
+def _penney(kit):
+    return nose(thickbrows(brows(eyes(figure(kit, skin=1, hair="messyfringe", hair_colour="#3A2820", brow_colour="#2A1D16"), None, 0), 0, 0, 3), 1.0), 1.0, 1.15)
+save("ken-penney", _penney("BOX"))
+save("ken-penney-cro", _penney("CRO"))
+
 export_site()
