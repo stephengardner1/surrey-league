@@ -1190,7 +1190,7 @@ const RACE_PHOTOS={
   '2004/05|1':[{src:'photos/races/2004-05-m1-brockwell.jpg',thumbPos:'50% 42%',caption:"Kevin Nash (83) leads the field up the first Brockwell Park hill, with Stephen Sharp at his shoulder, Richard Ashe (86), Will Cockerell (90), David Anderson and Knut Hegvold (89). Anderson went on to win. Thames Hare & Hounds got their men home first, but Belgrave took the team race, 181 to 219.",credit:'Photo: belgraveharriers.info',source:"Alan Mead's Belgrave Harriers history",href:'https://www.belgraveharriers.info/1988'},
     {src:'photos/races/2004-05-m1-anderson-sharp.jpg',caption:'Race winner David Anderson (82) didn\u2019t take the lead until the last 200 metres, sprinting past Stephen Sharp (100), who had led for most of the race.',credit:'Photo: Alan Mead',...bhw('20060117033437','www.belgraveharriers.com/photo_gallery/surrey_lg_2004_1/surrey_lg_2004-5_1.html')}]
 };
-const onWomenRoute=()=>/^#women/.test(window.location.hash||'');
+const onWomenRoute=()=>/^#women/.test(window.location.hash||'')||/^\/women(\/|$)/.test(window.location.pathname||'');
 const racePhotosFor=(race)=>race?(RACE_PHOTOS[`${onWomenRoute()?'w|':''}${race.season}|${race.match}`]||[]):[];
 const captionNames=(photo,race)=>{
   const links=photo.links||{};const al=window.__nameAliases||{};
@@ -4131,10 +4131,10 @@ const nameToSlug=(n)=>n?.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g
 const slugToName=(s,athletes)=>{if(!s)return null;const slug=s.toLowerCase();const match=athletes?.find(a=>nameToSlug(a.name)===slug);return match?.name||s.replace(/-/g,' ');};
 
 // Athlete pages have real paths (/athlete/<slug>, /women/athlete/<slug>) so links shared on social/WhatsApp get their own preview
-const athletePathRoute=()=>{const m=window.location.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);return m?((m[1]?'women/':'')+'athlete/'+decodeURIComponent(m[2]).replace(/-poster$/i,'')):null;};
+const athletePathRoute=()=>{const m=window.location.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);if(m)return (m[1]?'women/':'')+'athlete/'+decodeURIComponent(m[2]).replace(/-poster$/i,'');const r=window.location.pathname.match(/^\/(women\/)?race\/(\d{4}-\d+(?:\/form-guide)?)\/?$/i);return r?((r[1]?'women/':'')+'race/'+r[2]):null;};  /* path addresses: /athlete/<slug> and /race/<season>-<match>, so link previews can describe them */
 /* the opened, downloadable sticker has its own address: /athlete/<slug>-poster (and /women/athlete/<slug>-poster) */
 const isPosterUrl=()=>/^\/(women\/)?athlete\/[^\/]+-poster\/?$/i.test(window.location.pathname);
-(()=>{const m=window.location.hash.match(/^#(women\/)?athlete\/(.+)$/i);if(m)window.history.replaceState(null,'',(m[1]?'/women':'')+'/athlete/'+m[2]);})();
+(()=>{const m=window.location.hash.match(/^#(women\/)?(athlete|race)\/(.+)$/i);if(m)window.history.replaceState(null,'',(m[1]?'/women':'')+'/'+m[2].toLowerCase()+'/'+m[3]);})();  /* old #athlete/ and #race/ links move to their path address */
 const parseUrlParams=(athletes)=>{
   const hash=(window.location.hash.slice(1)||athletePathRoute()||'').toLowerCase();
   if(!hash)return{type:'home',division:'men'};
@@ -4181,7 +4181,7 @@ const updateUrl=(view,division='men')=>{
   else if(view.type==='quiz')hash=prefix+sep+'quiz';
   else if(view.type==='chartroom')hash=prefix+sep+'chartroom';
   else if(view.type==='origin')hash=prefix+sep+'origin';
-  const target=(view.type==='athlete'&&view.athlete?.name)?(division==='women'?'/women':'')+'/athlete/'+nameToSlug(view.athlete.name):'/'+hash;
+  const target=(view.type==='athlete'&&view.athlete?.name)?(division==='women'?'/women':'')+'/athlete/'+nameToSlug(view.athlete.name):(view.type==='race'&&view.race)?(division==='women'?'/women':'')+'/race/'+seasonToCompact(view.race.season)+'-'+view.race.match+(view.mode==='guide'?'/form-guide':''):'/'+hash;
   if(target+'-poster'===window.location.pathname)return;  /* already on this runner's poster address */
   if(target!==window.location.pathname+window.location.hash)window.history.pushState({sl:1},'',target);
 };
@@ -5440,7 +5440,7 @@ function App(){
   useEffect(()=>{if(view.type==='athlete'||view.type==='club'||!data)return;const W=division==='women'?"Women's ":'';let t=null;
     switch(view.type){
       case'home':{const s=view.urlSeason||data.seasons?.[0];t=s?`${W}Division 1 ${s}`:null;break;}
-      case'race':{const r=view.race;if(r){const d=r.date&&parseDate(r.date)?formatDate(r.date):`${r.season} match ${r.match}`;t=`${r.venue||'Race'}, ${d}: ${W.toLowerCase()}results`;}break;}
+      case'race':{const r=view.race;if(r){const d=r.date&&parseDate(r.date)?formatDate(r.date):`${r.season} match ${r.match}`;t=`${r.venue||'Race'}, ${d}: ${W.toLowerCase()}${view.mode==='guide'?'form guide':'results'}`;}break;}
       case'fixtures':t=`${W}Fixtures`;break;
       case'seasons':t=`${W}Winners`;break;
       case'athletes':t=`${W}Athletes`;break;
