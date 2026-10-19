@@ -83,3 +83,10 @@ In this era AW called our league the "North Surrey League". Photos are mostly co
 Found and added: cover of 13 Mar 1965 (1964/65 m4 Morden, North and Nåjde, Ron Linstead) and 7 Nov 1970 p25
 (1970/71 m1 Wimbledon leaders, Ron Linstead). Everything else the search turned up was other races (road relays,
 Civil Service, county champs). Text not stored.
+
+## Herne Hill and Thames Hare & Hounds old websites (searched 19 Oct 2026)
+- Herne Hill Harriers before hernehillharriers.com (2009-): hernehillharriers.co.uk (2001-07; the domain is now a spam site)
+  and hernehillharriers.org.uk (2007-09, text only). hhh.org.uk is the Hash House Harriers and nothing to do with us. The archived
+  galleries only hold small (about 90px) uncaptioned thumbnails, so nothing usable.
+- Thames Hare & Hounds (thameshareandhounds.org.uk, archived from 2000): 2000-2010 pages are text reports. The only league
+  photo is the Feb 2011 women's team at the clubhouse, now used for women 2010/11 m4.
