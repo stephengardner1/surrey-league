@@ -49,7 +49,7 @@ _MORE = {
     "BOH": ("#87CEEB", _sides("#dc2626")),
     "AFD": ("#dc2626", '<rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/>'),
     "SUR": ("#ffffff", '<rect x="0" y="7" width="20" height="1" fill="#1a1a1a"/><rect x="0" y="8" width="20" height="3" fill="#3b82f6"/><rect x="0" y="11" width="20" height="1" fill="#1a1a1a"/>'),
-    "MIT": ("#2563eb", '<rect x="0" y="5" width="20" height="1.5" fill="#fff"/><rect x="0" y="8" width="20" height="3" fill="#fff"/><rect x="0" y="12.5" width="20" height="1.5" fill="#fff"/>'),
+    "MIT": ("#2563eb", '<rect x="0" y="6.6" width="20" height="0.8" fill="#fff"/><rect x="0" y="8" width="20" height="3" fill="#fff"/><rect x="0" y="11.6" width="20" height="0.8" fill="#fff"/>'),  # Mitcham: thin outer stripes tight to the main white hoop (Oct 2026)
     "DMV": ("#C42F6A", '<rect x="3" y="8" width="1" height="12" fill="#BCD3EC"/><rect x="4" y="8" width="1" height="12" fill="#fff"/><rect x="16" y="8" width="1" height="12" fill="#BCD3EC"/><rect x="15" y="8" width="1" height="12" fill="#fff"/>'),  # cerise, with equal pale-blue and white side panels from below the armpit (Oct 2026, Luke Caldwell photo)
     "W4H": ("#f4c430", '<rect x="0" y="8" width="20" height="4" fill="#00CED1"/>'),
     "K&P": ("#1E90FF", '<polygon points="8,0 20,0 20,20 0,20 0,8" fill="#1a1a1a"/><polygon points="0,0 8,0 20,12 20,20 12,20 0,8" fill="#fff"/>'),
@@ -2114,5 +2114,15 @@ save("rosie-powell", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slick
 
 # Syreeta Stracey (BEL 2000-06; also listed as Syretta): black hair pulled back in a short tail, light brown skin, smile, silver hoops
 save("syreeta-stracey", earrings(widesmile(nose(brows(eyes(figure("BEL", skin=3, hair="slicktail", hair_colour="#1A1412", brow_colour="#140F0D"), None, 0), 0, 0, 2), 1.0, 1.1)), col="#CFCFCF").replace('r="2.6"/><circle cx="139" cy="111" r="2.6"', 'r="3.4"/><circle cx="139" cy="111" r="3.4"'))
+
+# ---- Messy fringe with big sideburns grown down from the temples, flat to the cheeks (Oct 2026, first used for Steve Badgery) ----
+HAIR["fringeburns"] = (HAIR["messyfringe"].replace("M63,102 L59,76", "M69.4,142 L68.6,124 L67.2,104 L63.6,88 L59,76").replace("Q72,76 68,86 Z", "Q72,76 68,86 L71,100 L74,118 L77,130 L76,140 Z")
+    .replace("L141,70 L137,102 L132,86", "L141,70 L136.4,88 L132.8,104 L131.4,124 L130.6,142 L124,140 L123,130 L126,118 L129,100 L132,86"))
+# Steve Badgery (H/W 1971-81; MIT 1962-72), Oct 2026, from a 1960s race photo: dark brown hair with a messy floppy fringe, big sideburns,
+# long face, cheek hollows
+def _badgery(kit):
+    return cheekhollows(nose(brows(eyes(figure(kit, skin=1, hair="fringeburns", hair_colour="#3A2820", brow_colour="#2A1D16", jaw="long"), None, 0), 0, 0, 3), 1.0, 1.15), inset=0, depth=.9, dy=4)
+save("steve-badgery", _badgery("H/W"))
+save("steve-badgery-mit", _badgery("MIT"))
 
 export_site()
