@@ -74,3 +74,5 @@ Also 19 Oct 2026: 19 photos from the old belgraveharriers.com (2001-2014 site, v
 2007/08 m3. The old site's Surrey League galleries are /photo_gallery/surrey_lg_* and the yearly /20xx/rc_20xx.htm pages.
 Wayback isn't reachable from the cloud workspace; the photos were downloaded on Steve's Mac (~/Pictures/belgrave-wayback).
 Not yet used: 2013/14 men m4 (Richmond Park leaders, Leo Coy) and women m1/m2 photos - those images failed to download.
+Profiles: any runner named in a race-photo caption gets the photos on their profile automatically (desktop: a tile at the
+right of the header; mobile: a strip beside "Compare to"). The pop-up shows which race each photo is from, with a link.
