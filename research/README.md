@@ -56,3 +56,9 @@ https://www.surreyathletics.uk/crosscountry/index.php (athlete pages: /database/
 - Oct 2026: AW winter issues 1987/88-1997/98 (289 issues) downloaded and searched for first names of initial-only runners
   (name printed next to the club). 12 applied (logged in tools/name_changes.json); 26 single mentions held for Steve.
   Text not stored; re-download with the issue pages in `winter.txt`.
+
+## Race photos on the site
+Race pages can show archive photos: add an entry to `RACE_PHOTOS` in `files/index.html`, keyed `'season|match'`
+(e.g. `'1964/65|1'`), and put the image in `files/photos/races/`. Each entry has a caption, the photographer credit, and
+a source name and link. Desktop shows the photo under the team scores; mobile shows a thumbnail under the race heading.
+Always credit and link the source (e.g. Alan Mead's belgraveharriers.info).
