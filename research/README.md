@@ -90,3 +90,12 @@ Civil Service, county champs). Text not stored.
   galleries only hold small (about 90px) uncaptioned thumbnails, so nothing usable.
 - Thames Hare & Hounds (thameshareandhounds.org.uk, archived from 2000): 2000-2010 pages are text reports. The only league
   photo is the Feb 2011 women's team at the clubhouse, now used for women 2010/11 m4.
+
+## Belgrave site 2008-2017 (searched 19 Oct 2026)
+- Old site (to 2014): the yearly /20xx/rc_20xx.htm pages hold the Surrey League reports. Only 2007/08 w3, 2008/09 m2 and 2009/10 m1
+  photos were ever archived (all already used). The 2013/14 photos (women m1 Lightwater team, m2 Coulsdon; men m4 Richmond Park
+  leaders by Leo Coy) were never captured by the Wayback Machine.
+- Current site (Squarespace, posts from 2014): list all posts with https://www.belgraveharriers.com/news?format=json (paginate),
+  then each post with ?format=json. Added 13 photos from 2014/15-2017/18 Division 1 reports (men m2-m4 2014/15, m2 2015/16,
+  m1-m2 2017/18; women m2-m4 2014/15, m3 2015/16, m1 2016/17, m1 2017/18). Not used: Belgrave team group photos and small
+  thumbnails; men were in Division 2 in 2016/17. Downloaded on Steve's Mac in ~/Pictures/belg-wb2.
