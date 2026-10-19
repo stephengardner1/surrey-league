@@ -2008,4 +2008,21 @@ save("matt-yates", dimple(chincrease(cheekhollows(nose(softbrows(brows(eyes(figu
 # hooded eyes under pale soft brows, flush, small silver earrings, fine silver chain
 save("emma-bond", earrings(nose(softbrows(brows(eyes(figure("G&G", skin=1, hair="slicktail", hair_colour="#E6CC8C", brow_colour="#B8A070", rosy=True, necklace="#D4D4D4", jaw="broadchin"), "hooded", 0), 0.6, 0, 2), 2.6, 0.8), 0.9, 1.15).replace(HEAD_BROADCHIN, narrowchin(shortlonghead(.88), .72)), col="#CFCFCF"))
 
+# ---- Philtrum: the groove from the nose to the upper lip (Oct 2026, first used for Sally Young) ----
+def philtrum(svg, skin=1, tag="f", top=141.5, bot=148.2, w=2.2, op=.7):
+    """A pronounced philtrum: a lit groove between two soft ridges from the base of the nose to the upper lip; w = width at the lip, op = line strength."""
+    sk, dk, lt = SKIN[skin]
+    g = (f'<g clip-path="url(#h{tag})"><path d="M{100-w},{bot} L{100-w*.7},{top} L{100+w*.7},{top} L{100+w},{bot} Z" fill="{lt}" opacity=".6"/>'
+         f'<g fill="none" stroke="{dk}" stroke-width="1.1" stroke-linecap="round" opacity="{op}"><path d="M{100-w*.7},{top} L{100-w},{bot}"/><path d="M{100+w*.7},{top} L{100+w},{bot}"/></g></g>')
+    return _after_lids(svg, g)
+def lightcreases(svg, op=.4):
+    """Make creases=True (nose-to-mouth lines) finer and fainter."""
+    return svg.replace('stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".75"/>', f'stroke-width="1.2" fill="none" stroke-linecap="round" opacity="{op}"/>', 1)
+# Sally Young (DMV 1991-2007; SLH 1989-91), Oct 2026, from a black-and-white photo (hair colour inferred): short spiky dark hair,
+# long lean face, defined cheekbones and deep-set narrow eyes under thin soft brows, pronounced philtrum, light nose-to-mouth lines, small silver studs
+def _sally(kit):
+    return earrings(philtrum(lightcreases(cheekbones(sockets(nose(softbrows(brows(eyes(figure(kit, skin=1, hair="spiky", hair_colour="#3A2A20", brow_colour="#2E211A", jaw="long", creases=True), "narrow", 0), 0, 0, 3), 2.2, 0.6), 1.0, 1.2), depth=1.0), depth=.8)), w=2.5, op=.78), col="#CFCFCF")
+save("sally-young", _sally("DMV"))
+save("sally-young-slh", _sally("SLH"))
+
 export_site()
