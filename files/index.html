@@ -4908,6 +4908,20 @@ const normalizeData=(data,division='men',liveAliases={})=>{
       if(nameMap[key])r.name=nameMap[key];
     });
   });
+
+  // Same name, different runners (nameCollisions): winners and Mitchell Cup lists use the plain name,
+  // but the runner's page is "Name (CLUB)". Point them at the right page, e.g. Dave Taylor at HHH.
+  const collisionName=(name,club)=>{
+    if(!name||!club)return name;
+    const cs=getCanonicalName(name,normalizeClub(club));
+    return cs?(nameMap[normalizeNameForCompare(cs)]||cs):name;
+  };
+  data.races.forEach(race=>{if(race.winner&&!race.deadHeat)race.winner=collisionName(race.winner,race.winnerClub);});
+  Object.values(data.seasonsData||{}).forEach(sd=>{
+    (sd.individualRankings||[]).forEach(r=>{r.name=collisionName(r.name,r.club);});
+    (sd.matches||[]).forEach(m=>{if(m.winner&&!String(m.winner).includes(' / '))m.winner=collisionName(m.winner,m.winnerClub);});
+  });
+  Object.values(data.mitchellCupWinners||{}).forEach(ws=>{(Array.isArray(ws)?ws:[]).forEach(w=>{if(w&&w.name)w.name=collisionName(w.name,w.club);});});
   
   // Normalize names in clubMvps
   Object.keys(data.clubMvps||{}).forEach(club=>{
