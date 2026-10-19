@@ -74,3 +74,6 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 ## Sources already searched
 See `research/README.md`: The Belgravian, club archives, Surrey County XC champs 1961-2013 (`research/county-champs/`),
 and Athletics Weekly winter issues (1998-2005 Oct-Feb text searched again in Oct 2026 for Aldershot names).
+
+## Same surname, different runners (men)
+- Lionel Mann (BEL, 1966-99) and his son Robert Mann (BEL, b. 1968; R Mann in 1985/86, 1986/87, 1989/90). The Belgravian names Lionel's sons as Robert and James. They ran in the same races, so they are kept apart (Steve, 19 Oct 2026).

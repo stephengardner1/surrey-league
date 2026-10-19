@@ -33031,5 +33031,19 @@
   ],
   "evidence": "Both races were printed surnames only. Steve Badgery ran for Herne Hill/H/W in the other matches of both seasons (1973/74 m1, m3, m4; 1974/75 m2) at a similar level, and he is the only Badgery anywhere in the men's results (1962-1981).",
   "approved": "Steve, 19 Oct 2026 (screenshot query)"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "R Mann"
+  ],
+  "to": "Robert Mann",
+  "seasons": [
+   "1985/86",
+   "1989/90"
+  ],
+  "evidence": "The Belgravian (1980s) on 'the Mann family': Lionel with sons Robert and James racing together; a later Belgravian records list gives Robert Mann, b. 23-08-1968. R Mann raced in the same Surrey League matches as Lionel (1985/86 m1, 1989/90 m3), so not Lionel. County champs: R Mann (Belgrave) boys 1981, youths 1984. The 1984/85 m4 'R Mann (RAN)' is left as is (club unconfirmed).",
+  "approved": "Steve, 19 Oct 2026"
  }
 ]
