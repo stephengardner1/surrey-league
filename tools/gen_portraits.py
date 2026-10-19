@@ -2068,4 +2068,17 @@ save("norman-stairs", cheekhollows(nose(softbrows(brows(eyes(figure("BEL", skin=
 # Trevor Hart (BEL), redrawn Oct 2026 (replaces the earlier save): thick dark wavy hair, square jaw, heavy dark brows, thick-rimmed glasses
 save("trevor-hart", nose(thickbrows(brows(eyes(figure("BEL", skin=1, hair="messyvolume", hair_colour="#2A1D16", brow_colour="#1E1612", glasses="square", glasses_col="#1E1612", jaw="square"), None, 0), 0, 0, 3), .8), 1.0, 1.15))
 
+# ---- Quiff with a recede, sides cut very short (Oct 2026, first used for Les Presland) ----
+HAIR["quiffshort"] = HAIR["quiffrecede"].replace("M64,100 L63,72", "M68.4,98 L66.6,72").replace("L137,72 L136,100 L131,80", "L133.6,72 L131.8,98 L130.4,80").replace("L69,80 Z", "L69.6,80 Z")
+# Les Presland (AFD 1972-75; Surrey AC 1962-68), Oct 2026, from a black-and-white 1960s photo (hair colour inferred): dark quiff with a recede,
+# sides very short, thin long face, arched brows, cheekbones, chin crease
+def _presland(kit):
+    s = eyes(figure(kit, skin=1, hair="quiffshort", hair_colour="#3A2A20", brow_colour="#2A1D16", jaw="long"), None, 0)
+    s = nose(brows(archbrows(s, lift=1.5), 0, 0, 3), 1.0, 1.2).replace(HEAD_LONG, narrowchin(HEAD_LONG, .88, y0=110))
+    return chincrease(cheekbones(s, depth=.8), y=162, lit=True, w=.9)
+save("les-presland", _presland("AFD"))
+save("les-presland-sur", _presland("SUR"))
+# Mick Gowan (HHH 1962-70), Oct 2026, from the same photo (hair colour inferred): short darker-fair quiff, long face
+save("mick-gowan", nose(brows(eyes(figure("HHH", skin=1, hair="quiff", hair_colour="#9A7C52", brow_colour="#7A5E3E", jaw="long"), None, 0), 0, 0, 3), 1.0, 1.2))
+
 export_site()
