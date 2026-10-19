@@ -99,3 +99,7 @@ Civil Service, county champs). Text not stored.
   then each post with ?format=json. Added 13 photos from 2014/15-2017/18 Division 1 reports (men m2-m4 2014/15, m2 2015/16,
   m1-m2 2017/18; women m2-m4 2014/15, m3 2015/16, m1 2016/17, m1 2017/18). Not used: Belgrave team group photos and small
   thumbnails; men were in Division 2 in 2016/17. Downloaded on Steve's Mac in ~/Pictures/belg-wb2.
+- belgraveharriers.co.uk (WordPress, about 2014-2019): its archived 'road-and-cross-country-20xx' pages reproduce the old yearly
+  reports and name more league photos (2012/13 m1-m2, 2013/14 women m1/m2/m4, men m4), but the Wayback Machine never saved those
+  image files. Only SurreyWomens-R1-Start.jpg (women 2014/15 m1, Richmond Park) was saved; added. Gallery-bank albums
+  "Surrey League Women's/Men's 1415" survive only as tiny cover thumbnails.
