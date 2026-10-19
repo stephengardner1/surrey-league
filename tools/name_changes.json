@@ -33112,5 +33112,26 @@
   "seasons": null,
   "evidence": "Belgrave's M Head (1984/85-1989/90) is Martyn Head (BEL, 1980/81-1982/83): same club, never in the same race. County champs 1980: M Head (Belgrave). The Belgravian No.212 (Apr 1988): 'Martyn Head is your new Section Secretary'.",
   "approved": "Steve, 19 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "L Mead"
+  ],
+  "to": "Martyn Head",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "races": [
+   [
+    "1984/85",
+    3,
+    76
+   ]
+  ],
+  "evidence": "The Belgravian No.209 p34 prints '76.L.Mead 30.24' (8 Dec 1984, Brockwell Park). Alan Mead (Belgrave historian) says there was no other Mead and he would not have finished that high; he confirms it should be Head (Martyn Head, Belgrave, 107th in the next match).",
+  "approved": "Steve, 19 Oct 2026 (Alan Mead confirmed)"
  }
 ]
