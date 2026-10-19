@@ -33005,5 +33005,31 @@
   "seasons": null,
   "evidence": "Same Belgrave runner 2000/01-2005/06: 7 races printed 'Syreeta', 3 'Syretta' (2003/04 m3, m4; 2004/05 m2), never both in one race. Belgrave's own website captions spell it Syreeta. Serena Stracey (SOC) is a different runner.",
   "approved": "Steve, 19 Oct 2026 (names-to-check)"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Badgery"
+  ],
+  "to": "Steve Badgery",
+  "seasons": [
+   "1973/74",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    12
+   ],
+   [
+    "1974/75",
+    4,
+    22
+   ]
+  ],
+  "evidence": "Both races were printed surnames only. Steve Badgery ran for Herne Hill/H/W in the other matches of both seasons (1973/74 m1, m3, m4; 1974/75 m2) at a similar level, and he is the only Badgery anywhere in the men's results (1962-1981).",
+  "approved": "Steve, 19 Oct 2026 (screenshot query)"
  }
 ]
