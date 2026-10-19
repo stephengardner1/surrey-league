@@ -2061,4 +2061,8 @@ def stretchface(svg, head, k):
     return svg.replace(head, _rh.sub(r'(-?\d+\.?\d*),(-?\d+\.?\d*)', lambda m: f"{m.group(1)},{(96+(float(m.group(2))-96)*k) if float(m.group(2))>96 else float(m.group(2)):g}", head))
 save("dave-clarke", stretchface(nose(brows(eyes(figure("H/W", skin=1, hair="shaggyside", hair_colour="#A8845A", brow_colour="#8A6A46", facial="shortbeard", facial_colour="#9A7650", jaw="long", gaunt=True), "hooded", -1.5), 0, -1.5, 3), 1.0, 1.2), HEAD_LONG, 1.05))
 
+# Norman Stairs (BEL 1964/65), redrawn Oct 2026 (replaces the earlier save): mid-brown hair thin and floppy on top with deep temple recedes,
+# long face, subtle cheek hollows set wide, soft brows
+save("norman-stairs", cheekhollows(nose(softbrows(brows(eyes(figure("BEL", skin=1, hair="floppythin", hair_colour="#6B4A2E", brow_colour="#4A3222", jaw="long"), None, 0), 0, 0, 3), 2.8, 0.4), 1.0, 1.2), inset=6, depth=.5))
+
 export_site()
