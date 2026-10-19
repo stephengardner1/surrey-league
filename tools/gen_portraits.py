@@ -2112,4 +2112,7 @@ save("helen-alsop", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slickt
 # Rosie Powell (BEL 2003-05): ginger-auburn hair tied back in a short tail, big smile, flush
 save("rosie-powell", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slicktail", hair_colour="#B0703C", brow_colour="#7A5236", rosy=True), None, 0), 0, 0, 2), 0.95, 1.1)))
 
+# Syreeta Stracey (BEL 2000-06; also listed as Syretta): black hair pulled back in a short tail, light brown skin, smile, silver hoops
+save("syreeta-stracey", earrings(widesmile(nose(brows(eyes(figure("BEL", skin=3, hair="slicktail", hair_colour="#1A1412", brow_colour="#140F0D"), None, 0), 0, 0, 2), 1.0, 1.1)), col="#CFCFCF").replace('r="2.6"/><circle cx="139" cy="111" r="2.6"', 'r="3.4"/><circle cx="139" cy="111" r="3.4"'))
+
 export_site()
