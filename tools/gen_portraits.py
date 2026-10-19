@@ -2038,4 +2038,10 @@ def _sally(kit):
 save("sally-young", _sally("DMV"))
 save("sally-young-slh", _sally("SLH"))
 
+# ---- Very short tufty crop hugging the head at the temples (Oct 2026, first used for Ed Prickett) ----
+HAIR["tuftcrop"] = '<path d="M67.4,102 L66.6,84 L67.6,70 L71,61 L71,55 L76,54 L77.5,48 L84,48 L87,42 L94,44 L100,38 L106,43 L112,40 L115,47 L122,47 L124,54 L129,55 L129,61 L132.4,70 L133.4,84 L132.6,102 L131,82 L120,67 L100,63 L80,67 L69,82 Z"/>'
+# Ed Prickett (REI 2001-04), Oct 2026: very short tufty blond crop, long face with a strong broad square chin, dimple and definition
+# under the lip, small eyes tucked right under thin straight brows, strong high cheekbones
+save("ed-prickett", dimple(chindef(cheekhollows(nose(brows(eyes(figure("REI", skin=1, hair="tuftcrop", hair_colour="#DCBE78", brow_colour="#B89860", thin_brows=True, jaw="broadchin"), "small", 0), 0, 0, 6), 1.0, 1.0).replace(HEAD_BROADCHIN, shortlonghead(.92)), inset=3, depth=1.1))))
+
 export_site()
