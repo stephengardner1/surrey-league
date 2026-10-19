@@ -62,6 +62,10 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
   on the site ("K Penny" spellings joined).
 - Still to confirm with Croydon: Steve/Steven Bishop, Gary Bishop and Ian Statter (same pattern, Croydon then Boxhill).
 
+## Kept as they are (Steve, 19 Oct 2026)
+- Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
+- Peter Adams (AFD, 1971-2003): one runner; AW prints "P Adams (AFD, M45)" in 1997 and 1999.
+
 ## Sources already searched
 See `research/README.md`: The Belgravian, club archives, Surrey County XC champs 1961-2013 (`research/county-champs/`),
 and Athletics Weekly winter issues (1998-2005 Oct-Feb text searched again in Oct 2026 for Aldershot names).

@@ -32937,5 +32937,62 @@
   "seasons": null,
   "evidence": "One Herne Hill runner: the county champs list Mick Gowan at Herne Hill from 1961 to 1989 (juniors, seniors, M40), and no other Gowan with that initial. Our results had him as Mike (8 races) and Mick (4 races), never in the same race.",
   "approved": "Steve, 19 Oct 2026"
+ },
+ {
+  "sex": "women",
+  "club": "REI",
+  "from": [
+   "Fiona Clarke"
+  ],
+  "to": "Fiona Clark",
+  "seasons": [
+   "2006/07",
+   "2006/07"
+  ],
+  "evidence": "Fiona Clark ran for Reigate every season 2004/05-2019/20; the four 2006/07 results (4th, 3rd, 7th, 7th) match her level (2007/08: 7th, 4th, 2nd, 4th) and the two forms never share a race.",
+  "approved": "Steve, 19 Oct 2026 (names-to-check)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "E Prickett",
+   "E.Prickett J"
+  ],
+  "to": "Ed Prickett",
+  "seasons": [
+   "2001/02",
+   "2003/04"
+  ],
+  "evidence": "Same Reigate runner, already joined on the site by alias; county champs list Edward Prickett (Reigate, U15) in 1996.",
+  "approved": "Steve, 19 Oct 2026 (names-to-check)"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "P.Prickett"
+  ],
+  "to": "Peter Prickett",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "County champs list Peter Prickett (Reigate) in 1997, aged over 45 (P Prickett M45); a different runner from Ed Prickett, who finished 10th in the same race.",
+  "approved": "Steve, 19 Oct 2026 (names-to-check)"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "R Penney"
+  ],
+  "to": "Bob Penney",
+  "seasons": [
+   "1981/82",
+   "1985/86"
+  ],
+  "evidence": "Ran in the same races as Ken Penney, so a different man. County champs list Bob Penney (Croydon, M50) in 1983-84; his finishing places (171st-186th) fit a runner in his 50s. Probably Ken's father.",
+  "approved": "Steve, 19 Oct 2026 (names-to-check)"
  }
 ]
