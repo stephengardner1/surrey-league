@@ -2139,4 +2139,7 @@ save("fred-stebbings", cheekhollows(nose(straightbrows(eyes(figure("CRO", skin=1
 # John Snowden (Surrey AC 1962-68; also listed as Snowdon), Oct 2026, from a 1960s race photo (hair colour inferred): short dark quiff, arched brows, pronounced cheek hollows
 save("john-snowden", cheekhollows(nose(brows(archbrows(eyes(figure("SUR", skin=1, hair="quiff", hair_colour="#3A2A20", brow_colour="#2A1D16"), None, 0), lift=1.5), 0, 0, 3), 1.0, 1.15), inset=2, depth=1.3, dy=3))
 
+# Jacob Brockmann (THH), Oct 2026 redraw: messy dark fringe, softly arched brows set close over hooded eyes, light nose-to-mouth creases, slightly squarer chin (jaw unchanged), silver chain
+_JB_SQ = HEAD_LONG.replace("119,163 108,169 L92,169 C81,163", "121,164 111,169 L89,169 C79,164")
+save("jacob-brockmann", lightcreases(nose(brows(eyes(archbrows(figure("THH", skin=1, hair="messyfringe", hair_colour="#4A3222", brow_colour="#3A2618", jaw="long", necklace="#D4D4D4", creases=True), lift=1.4), "hooded", 0), 0, 0, 4), 1.0, 1.25).replace('d="'+HEAD_LONG, 'd="'+_JB_SQ), .35))
 export_site()
