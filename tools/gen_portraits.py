@@ -2147,4 +2147,6 @@ HAIR["mohawk"] = '<path opacity=".28" d="M65,100 C62,60 82,40 100,40 C118,40 138
 save("macgregor-cox", lobes(earrings(nose(eyes(figure("THH", skin=1, hair="mohawk", hair_colour="#B8652F", brow_colour="#B27A4E", necklace="#D4D4D4", rosy=True, facial="stubble", facial_colour="#9C4F24"), "hooded", 0), 1.05, 1.1), col="#D4D4D4")))
 # Trevor Williams (BEL, early 1990s), Oct 2026, from a black-and-white photo: light brown messy fringe, hooded eyes, slight chin dimple
 save("trevor-williams", nose(eyes(dimple(figure("BEL", skin=1, hair="messyfringe", hair_colour="#8E6643", brow_colour="#7A5638")), "hooded", 0), 1.05, 1.1))
+# Leo Coy (BEL, 1970s/80s), Oct 2026, from a black-and-white photo: full wavy dark 70s hair over the ears, thick moustache, wire glasses, long face
+save("leo-coy", nose(eyes(figure("BEL", skin=1, hair="seventies", hair_colour="#2E211B", brow_colour="#241A15", facial="thicktache", facial_colour="#2E211B", glasses=True, jaw="long"), None, 0), 1.05, 1.2))
 export_site()
