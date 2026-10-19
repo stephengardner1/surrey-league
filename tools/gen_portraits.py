@@ -2081,4 +2081,12 @@ save("les-presland-sur", _presland("SUR"))
 # Mick Gowan (HHH 1962-70), Oct 2026, from the same photo (hair colour inferred): short darker-fair quiff, long face
 save("mick-gowan", nose(brows(eyes(figure("HHH", skin=1, hair="quiff", hair_colour="#9A7C52", brow_colour="#7A5E3E", jaw="long"), None, 0), 0, 0, 3), 1.0, 1.2))
 
+# ---- Big curls with the temple hair carried down as sideburns past the earlobes, hugging the face (Oct 2026, first used for Jon Solly) ----
+HAIR["curlsburns"] = (HAIR["bigcurls"].replace("M64,104 L57.7,84.4", "M68.6,140 L64.6,110 L60,96 L57.7,84.4").replace("Q66,82 66,88 Z", "Q67.6,82 68.6,90 L71,104 L72.6,124 L74.2,140 Z")
+    .replace("Q157.0,80.3 142.3,84.4 L136,104 L134,88 Q131,72", "Q157.0,80.3 142.3,84.4 L140,96 L135.4,110 L131.4,140 L125.8,140 L127.4,124 L129,104 L131.4,90 Q131,72"))
+# Jon Solly (HHH), redrawn Oct 2026 (replaces the earlier save): thick black curly hair with sideburns down past the earlobes, light olive skin,
+# heavy dark brows, long face, cheekbones, faint stubble
+_s = nose(thickbrows(brows(eyes(figure("HHH", skin=2, hair="curlsburns", hair_colour="#1E1612", brow_colour="#1A1310", facial="stubble", facial_colour="#2A2220", jaw="long"), None, 0), 0, 0, 3), .8), 1.05, 1.2)
+save("jon-solly", cheekbones(_s.replace('Z" opacity=".32"/>', 'Z" opacity=".14"/>', 1), skin=2, depth=.7))
+
 export_site()
