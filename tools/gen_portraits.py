@@ -2100,4 +2100,7 @@ save("joachim-wolf", cheekhollows(nose(brows(eyes(figure("BEL", skin=1, hair="bu
 # Nina Mills (BEL 1991-2006): grey hair tied back in a short tail, big smile, nose-to-mouth lines, flush
 save("nina-mills", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slicktail", hair_colour="#B8B4AE", brow_colour="#8E8A84", creases=True, rosy=True), None, 0), 0, 0, 2), 0.95, 1.15)))
 
+# Juliette Clark (BEL 2002-07): blonde hair pulled back in a low bun, long face, big smile
+save("juliette-clark", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="lowbun", hair_colour="#D9C089", brow_colour="#A88C5A", jaw="long"), None, 0), 0, 0, 2), 0.95, 1.2)))
+
 export_site()
