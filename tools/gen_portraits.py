@@ -2136,4 +2136,7 @@ def straightbrows(svg, y=100.6, t=4.6):
 # Fred Stebbings (CRO 1965-76), Oct 2026, from a 1960s race photo (hair colour inferred): thick dark wavy hair, long face, straight brows, cheek hollows
 save("fred-stebbings", cheekhollows(nose(straightbrows(eyes(figure("CRO", skin=1, hair="messyvolume", hair_colour="#2E211B", brow_colour="#241A15", jaw="long"), None, 0)), 1.0, 1.2), inset=2, depth=.8, dy=2))
 
+# John Snowden (Surrey AC 1962-68; also listed as Snowdon), Oct 2026, from a 1960s race photo (hair colour inferred): short dark quiff, arched brows, pronounced cheek hollows
+save("john-snowden", cheekhollows(nose(brows(archbrows(eyes(figure("SUR", skin=1, hair="quiff", hair_colour="#3A2A20", brow_colour="#2A1D16"), None, 0), lift=1.5), 0, 0, 3), 1.0, 1.15), inset=2, depth=1.3, dy=3))
+
 export_site()
