@@ -2093,4 +2093,7 @@ save("jon-solly", cheekbones(_s.replace('Z" opacity=".32"/>', 'Z" opacity=".14"/
 # long face, straight nose-to-mouth folds
 save("dave-hill", straightfolds(nose(brows(eyes(figure("THH", skin=1, hair="tuftfit", hair_colour="#4A3628", brow_colour="#3A2A20", jaw="long"), None, 0), 0, 0, 3), 1.0, 1.2), top=(94.6, 141.2)))
 
+# Joachim Wolf (BEL 2000-05), Oct 2026: light-brown buzz cut with a receding hairline, long lean face, small eyes, slim cheek hollows, fine silver chain
+save("joachim-wolf", cheekhollows(nose(brows(eyes(figure("BEL", skin=1, hair="buzzrecede", hair_colour="#9A7650", brow_colour="#7A5A3A", jaw="long", necklace="#D4D4D4"), "small", 0), 0, 0, 4), 1.0, 1.2), inset=4, depth=.7))
+
 export_site()
