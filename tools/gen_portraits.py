@@ -2050,4 +2050,15 @@ def _penney(kit):
 save("ken-penney", _penney("BOX"))
 save("ken-penney-cro", _penney("CRO"))
 
+# ---- Shaggy floppy side parting (Oct 2026, first used for Dave Clarke) ----
+HAIR["shaggyside"] = ('<path d="M65,104 L61,97 L64,91 L59,83 L62,71 C64,52 80,38 100,38 C120,38 138,52 139,71 L142,81 L137,87 L141,95 L136,101 L135.5,106 L132,90 L130,80 L128,79 L123,82 L119,74 L113,79 L107,69 L101,73 L95,63.5 L89,64 L84,56 L80,64 L74,71 L70.5,82 L68.6,94 Z"/>'
+    '<path d="M84,56 L86.5,41" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="1.4" stroke-linecap="round"/>'
+    '<g fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1.2" stroke-linecap="round"><path d="M88,50 Q108,46 126,64"/><path d="M90,58 Q106,56 118,66"/><path d="M82,50 Q74,56 68,72"/></g>')  # parted on his right, a ragged floppy fringe swept across the forehead, shaggy ends over the ears
+# Dave Clarke (H/W 1975-2018), Oct 2026, from a 1980s colour photo: light-brown hair with a shaggy floppy side parting, short beard,
+# long lean face (a little longer still), eyes and brows a little close-set, with hollow cheeks, hooded eyes
+def stretchface(svg, head, k):
+    """Lengthen a face: everything below the cheekbones (y 96) is stretched down by k."""
+    return svg.replace(head, _rh.sub(r'(-?\d+\.?\d*),(-?\d+\.?\d*)', lambda m: f"{m.group(1)},{(96+(float(m.group(2))-96)*k) if float(m.group(2))>96 else float(m.group(2)):g}", head))
+save("dave-clarke", stretchface(nose(brows(eyes(figure("H/W", skin=1, hair="shaggyside", hair_colour="#A8845A", brow_colour="#8A6A46", facial="shortbeard", facial_colour="#9A7650", jaw="long", gaunt=True), "hooded", -1.5), 0, -1.5, 3), 1.0, 1.2), HEAD_LONG, 1.05))
+
 export_site()
