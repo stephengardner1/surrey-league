@@ -2089,4 +2089,8 @@ HAIR["curlsburns"] = (HAIR["bigcurls"].replace("M64,104 L57.7,84.4", "M68.6,140 
 _s = nose(thickbrows(brows(eyes(figure("HHH", skin=2, hair="curlsburns", hair_colour="#1E1612", brow_colour="#1A1310", facial="stubble", facial_colour="#2A2220", jaw="long"), None, 0), 0, 0, 3), .8), 1.05, 1.2)
 save("jon-solly", cheekbones(_s.replace('Z" opacity=".32"/>', 'Z" opacity=".14"/>', 1), skin=2, depth=.7))
 
+# Dave Hill (THH 1988-99), Oct 2026, from a small black-and-white photo (hair colour inferred): short tufty mid-brown hair with a slight recede,
+# long face, straight nose-to-mouth folds
+save("dave-hill", straightfolds(nose(brows(eyes(figure("THH", skin=1, hair="tuftfit", hair_colour="#4A3628", brow_colour="#3A2A20", jaw="long"), None, 0), 0, 0, 3), 1.0, 1.2), top=(94.6, 141.2)))
+
 export_site()
