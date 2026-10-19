@@ -46,5 +46,4 @@ AW rarely printed these results. Found and added:
 - 1987/88 m4: held 19 Mar 1988 (we had Feb). Top 3 (Letchford, Roden, Phillips, all SLH) from AW 21 Apr 1988. AW's team line
   ("Teams: Epsom & Ewell 21") is unclear with SLH 1-2-3, so no team scores added.
 Not found in AW: 1979/80 m1, m3, m4; 1986/87 m4; 1988/89 m1-m4; 1989/90 m4; 1991/92 m2. AW issues for April 1990 and later
-aren't in the archive lists we have. AW lists J Harrop as Burnham Juniors in 1988/89, while our data has J Harrop (WOK) winning
-1988/89 m2-m4: worth a check.
+aren't in the archive lists we have. AW lists J Harrop as Burnham Joggers in road races; Steve confirms that wasn't her Surrey League club. Woking stands.
