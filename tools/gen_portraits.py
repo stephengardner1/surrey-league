@@ -2096,4 +2096,8 @@ save("dave-hill", straightfolds(nose(brows(eyes(figure("THH", skin=1, hair="tuft
 # Joachim Wolf (BEL 2000-05), Oct 2026: light-brown buzz cut with a receding hairline, long lean face, small eyes, slim cheek hollows, fine silver chain
 save("joachim-wolf", cheekhollows(nose(brows(eyes(figure("BEL", skin=1, hair="buzzrecede", hair_colour="#9A7650", brow_colour="#7A5A3A", jaw="long", necklace="#D4D4D4"), "small", 0), 0, 0, 4), 1.0, 1.2), inset=4, depth=.7))
 
+# ---- Belgrave women's team, Lloyd Park, Feb 2004 (photos/races/2003-04-w4-team.jpg), Oct 2026 ----
+# Nina Mills (BEL 1991-2006): grey hair tied back in a short tail, big smile, nose-to-mouth lines, flush
+save("nina-mills", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slicktail", hair_colour="#B8B4AE", brow_colour="#8E8A84", creases=True, rosy=True), None, 0), 0, 0, 2), 0.95, 1.15)))
+
 export_site()
