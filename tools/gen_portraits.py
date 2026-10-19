@@ -48,7 +48,7 @@ _MORE = {
     "BOX": ("#f4c430", _sides("#dc2626")),
     "BOH": ("#87CEEB", _sides("#dc2626")),
     "AFD": ("#dc2626", '<rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/>'),
-    "SUR": ("#ffffff", '<rect x="0" y="7" width="20" height="1" fill="#1a1a1a"/><rect x="0" y="8" width="20" height="3" fill="#3b82f6"/><rect x="0" y="11" width="20" height="1" fill="#1a1a1a"/>'),
+    "SUR": ("#ffffff", '<rect x="0" y="6.4" width="20" height="1" fill="#1a1a1a"/><rect x="0" y="8" width="20" height="3" fill="#3b82f6"/><rect x="0" y="11.6" width="20" height="1" fill="#1a1a1a"/>'),  # Surrey AC: three hoops with white gaps between (Oct 2026)
     "MIT": ("#2563eb", '<rect x="0" y="6.6" width="20" height="0.8" fill="#fff"/><rect x="0" y="8" width="20" height="3" fill="#fff"/><rect x="0" y="11.6" width="20" height="0.8" fill="#fff"/>'),  # Mitcham: thin outer stripes tight to the main white hoop (Oct 2026)
     "DMV": ("#C42F6A", '<rect x="3" y="8" width="1" height="12" fill="#BCD3EC"/><rect x="4" y="8" width="1" height="12" fill="#fff"/><rect x="16" y="8" width="1" height="12" fill="#BCD3EC"/><rect x="15" y="8" width="1" height="12" fill="#fff"/>'),  # cerise, with equal pale-blue and white side panels from below the armpit (Oct 2026, Luke Caldwell photo)
     "W4H": ("#f4c430", '<rect x="0" y="8" width="20" height="4" fill="#00CED1"/>'),
