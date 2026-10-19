@@ -2125,4 +2125,15 @@ def _badgery(kit):
 save("steve-badgery", _badgery("H/W"))
 save("steve-badgery-mit", _badgery("MIT"))
 
+# ---- Straight, level brows (Oct 2026, first used for Fred Stebbings) ----
+import re as _rsb
+def straightbrows(svg, y=100.6, t=4.6):
+    """Replace the brow pair with straight, level brows of thickness t."""
+    m = _rsb.search(r'<g fill="(#[0-9A-Fa-f]{3,6})"><polygon points="[^"]+"/><polygon points="[^"]+"/></g>', svg)
+    if not m: return svg
+    L = f"74,{y+.4} 95,{y-.4} 95,{y-.4+t} 74.6,{y+.4+t*.8}"; R = f"105,{y-.4} 126,{y+.4} 125.4,{y+.4+t*.8} 105,{y-.4+t}"
+    return svg[:m.start()] + f'<g fill="{m.group(1)}"><polygon points="{L}"/><polygon points="{R}"/></g>' + svg[m.end():]
+# Fred Stebbings (CRO 1965-76), Oct 2026, from a 1960s race photo (hair colour inferred): thick dark wavy hair, long face, straight brows, cheek hollows
+save("fred-stebbings", cheekhollows(nose(straightbrows(eyes(figure("CRO", skin=1, hair="messyvolume", hair_colour="#2E211B", brow_colour="#241A15", jaw="long"), None, 0)), 1.0, 1.2), inset=2, depth=.8, dy=2))
+
 export_site()
