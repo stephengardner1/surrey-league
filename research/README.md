@@ -69,3 +69,8 @@ Always credit and link the source (e.g. Alan Mead's belgraveharriers.info).
 Added 19 Oct 2026: 1983/84 m4 and 1997/98 m3 (Athletics Weekly, Steve reviewing the risk), 1991/92 m1/m3/m4, 1998/99 m1,
 1999/00 m1 (men and women), 2000/01 m1 (The Belgravian) and 2004/05 m1 (Alan Mead's site). Not used: The Belgravian
 No. 158 p31 (1966) and No. 226 pp32-33 (1997/98) photos have no captions saying which race they're from.
+Also 19 Oct 2026: 19 photos from the old belgraveharriers.com (2001-2014 site, via the Wayback Machine): men 2001/02 m3,
+2003/04 m1, 2004/05 m1, 2005/06 m1-2, 2006/07 m1, 2008/09 m2, 2009/10 m1; women 2003/04 m4, 2004/05 m1, 2006/07 m2,
+2007/08 m3. The old site's Surrey League galleries are /photo_gallery/surrey_lg_* and the yearly /20xx/rc_20xx.htm pages.
+Wayback isn't reachable from the cloud workspace; the photos were downloaded on Steve's Mac (~/Pictures/belgrave-wayback).
+Not yet used: 2013/14 men m4 (Richmond Park leaders, Leo Coy) and women m1/m2 photos - those images failed to download.

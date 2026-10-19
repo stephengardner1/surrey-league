@@ -7,3 +7,8 @@ Raised by other sessions; check, then bring to Steve.
 - **Ed Prickett (REI):** results split across "Ed Prickett", "E Prickett" and "E.Prickett J". Join up. (19 Oct 2026) **Done 19 Oct 2026:** E Prickett and E.Prickett J renamed Ed Prickett; P.Prickett (136th, 2001/02 m4) is a different runner, renamed Peter Prickett (county champs 1997, M45). Logged.
 - **Fiona Clarke (REI), 2006:** four results, almost certainly Fiona Clark. (19 Oct 2026) **Done 19 Oct 2026:** renamed Fiona Clark (Steve); logged.
 - **Peter Adams (AFD), 1971-2002:** long span; check whether two people. (19 Oct 2026) **Done 19 Oct 2026:** kept as one runner (Steve). County champs: Aldershot junior 1970-71, senior to 1980; AW Surrey League results 19 Nov 1997 and 24 Nov 1999 print "P Adams (AFD, M45)", the right age.
+
+## From the archived Belgrave website captions (19 Oct 2026, race photos work)
+- 2005/06 m1 (Brockwell Park): Belgrave caption names Thames H&H's "Phil Tedd" in the leading group; we hold "Paul Tedd". Not changed.
+- 2003/04 women m4: caption "Syreeta Stracey"; we hold "Syretta Stracey". Belgrave's own spelling is Syreeta; worth checking.
+- 2005/06 m1: caption "Jermain Mays"; we hold "Jermaine Mays" (left as is).
