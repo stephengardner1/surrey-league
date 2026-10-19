@@ -60,7 +60,7 @@ https://www.surreyathletics.uk/crosscountry/index.php (athlete pages: /database/
 ## Race photos on the site
 Race pages can show archive photos: add an entry to `RACE_PHOTOS` in `files/index.html`, keyed `'season|match'`
 (e.g. `'1964/65|1'`), and put the image in `files/photos/races/`. Each entry has a caption, the photographer credit, and
-a source name and link. Desktop shows the photo under the team scores; mobile shows a strip thumbnail beside the Individual/Teams toggle. Several photos per race are fine (the pop-up steps
+a source name and link. Desktop shows a photo tile at the top right of the race header (sepia, "n race photos" label); mobile shows a strip thumbnail beside the Individual/Teams toggle. Several photos per race are fine (the pop-up steps
 through them); women's races use keys starting `w|`. `thumbPos` sets the strip crop.
 Runner names in a caption link to their profiles automatically when they match a name in that race's results
 (caption names go through the site's own aliases, so "Jim Estall" finds James Estall; add `links:{'Caption name':'Athlete name'}` if not). Clicking the photo opens it large with caption and credit.
