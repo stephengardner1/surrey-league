@@ -60,7 +60,12 @@ https://www.surreyathletics.uk/crosscountry/index.php (athlete pages: /database/
 ## Race photos on the site
 Race pages can show archive photos: add an entry to `RACE_PHOTOS` in `files/index.html`, keyed `'season|match'`
 (e.g. `'1964/65|1'`), and put the image in `files/photos/races/`. Each entry has a caption, the photographer credit, and
-a source name and link. Desktop shows the photo under the team scores; mobile shows a small thumbnail to the right of the Individual/Teams toggle, which opens a pop-up with caption, credit and link.
+a source name and link. Desktop shows the photo under the team scores; mobile shows a strip thumbnail beside the Individual/Teams toggle. Several photos per race are fine (the pop-up steps
+through them); women's races use keys starting `w|`. `thumbPos` sets the strip crop.
 Runner names in a caption link to their profiles automatically when they match a name in that race's results
-(add `people:[...]` to an entry for anyone else). Clicking the photo opens it large with caption and credit.
+(caption names go through the site's own aliases, so "Jim Estall" finds James Estall; add `links:{'Caption name':'Athlete name'}` if not). Clicking the photo opens it large with caption and credit.
 Always credit and link the source (e.g. Alan Mead's belgraveharriers.info).
+
+Added 19 Oct 2026: 1983/84 m4 and 1997/98 m3 (Athletics Weekly, Steve reviewing the risk), 1991/92 m1/m3/m4, 1998/99 m1,
+1999/00 m1 (men and women), 2000/01 m1 (The Belgravian) and 2004/05 m1 (Alan Mead's site). Not used: The Belgravian
+No. 158 p31 (1966) and No. 226 pp32-33 (1997/98) photos have no captions saying which race they're from.
