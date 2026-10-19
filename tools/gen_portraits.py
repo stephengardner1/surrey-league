@@ -2109,7 +2109,7 @@ save("vicky-edwards", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slic
 # Helen Alsop (BEL 2002-06): brown hair tied back in a short tail, big smile, flush
 save("helen-alsop", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slicktail", hair_colour="#5A3E2A", brow_colour="#4A3222", rosy=True), None, 0), 0, 0, 2), 0.95, 1.15)))
 
-# Rosie Powell (BEL 2003-05): auburn hair tied back in a ponytail, big smile, flush
-save("rosie-powell", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="ponytail", hair_colour="#9A6A3A", brow_colour="#7A5236", rosy=True), None, 0), 0, 0, 2), 0.95, 1.1)))
+# Rosie Powell (BEL 2003-05): ginger-auburn hair tied back in a short tail, big smile, flush
+save("rosie-powell", widesmile(nose(brows(eyes(figure("BEL", skin=1, hair="slicktail", hair_colour="#B0703C", brow_colour="#7A5236", rosy=True), None, 0), 0, 0, 2), 0.95, 1.1)))
 
 export_site()
