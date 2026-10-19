@@ -2019,9 +2019,19 @@ def lightcreases(svg, op=.4):
     """Make creases=True (nose-to-mouth lines) finer and fainter."""
     return svg.replace('stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".75"/>', f'stroke-width="1.2" fill="none" stroke-linecap="round" opacity="{op}"/>', 1)
 # Sally Young (DMV 1991-2007; SLH 1989-91), Oct 2026, from a black-and-white photo (hair colour inferred): short spiky dark hair,
-# long lean face, defined cheekbones and deep-set narrow eyes under thin soft brows, pronounced philtrum, light nose-to-mouth lines, small silver studs
+# long lean face, defined cheekbones and deep-set narrow eyes under thin soft brows, slim cheek hollows, pronounced philtrum, straight nose-to-mouth folds, small silver hoops in the lobes
+def straightfolds(svg, skin=1, tag="f", op=.45, top=(94.6,141.2), bot=(87.4,152.4)):
+    """Straight nose-to-mouth (nasolabial) folds from the edge of each nostril to just outside the corners of the mouth."""
+    sk, dk, lt = SKIN[skin]; (x1, y1), (x2, y2) = top, bot
+    return _after_lids(svg, f'<g clip-path="url(#h{tag})" stroke="{dk}" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="{op}"><path d="M{x1},{y1} L{x2},{y2}"/><path d="M{200-x1},{y1} L{200-x2},{y2}"/></g>')
+def lobes(svg, cx=63.5, cy=107.5, r=2.3):
+    """Move earrings() hoops up into the earlobes."""
+    return svg.replace('<circle cx="61" cy="111" r="2.6"/><circle cx="139" cy="111" r="2.6"/>', f'<circle cx="{cx}" cy="{cy}" r="{r}"/><circle cx="{200-cx}" cy="{cy}" r="{r}"/>')
 def _sally(kit):
-    return earrings(philtrum(lightcreases(cheekbones(sockets(nose(softbrows(brows(eyes(figure(kit, skin=1, hair="spiky", hair_colour="#3A2A20", brow_colour="#2E211A", jaw="long", creases=True), "narrow", 0), 0, 0, 3), 2.2, 0.6), 1.0, 1.2), depth=1.0), depth=.8)), w=2.5, op=.78), col="#CFCFCF")
+    s = eyes(figure(kit, skin=1, hair="spiky", hair_colour="#3A2A20", brow_colour="#2E211A", jaw="long"), "narrow", 0)
+    s = sockets(nose(softbrows(brows(s, 0, 0, 3), 2.2, 0.6), 1.0, 1.0), depth=1.0)
+    s = cheekhollows(s, inset=4, depth=.8)
+    return lobes(earrings(philtrum(straightfolds(s, top=(94.6, 135.6)), top=136, w=2.5, op=.78), col="#CFCFCF"))
 save("sally-young", _sally("DMV"))
 save("sally-young-slh", _sally("SLH"))
 
