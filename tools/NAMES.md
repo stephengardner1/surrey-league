@@ -62,6 +62,9 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
   on the site ("K Penny" spellings joined).
 - Still to confirm with Croydon: Steve/Steven Bishop, Gary Bishop and Ian Statter (same pattern, Croydon then Boxhill).
 
+## Nicknames joined by alias (Steve, 19 Oct 2026)
+- Tilly Heaton (BEL, 2010/11 m1) is Mathilde Heaton: alias in data-women.json athleteAliases. Alison Heaton (W/W) is a different runner (same race 2005/06 m1).
+
 ## Kept as they are (Steve, 19 Oct 2026)
 - Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
 - Peter Adams (AFD, 1971-2003): one runner; AW prints "P Adams (AFD, M45)" in 1997 and 1999.
