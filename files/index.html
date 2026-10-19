@@ -3800,11 +3800,12 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   const sPhoto=useMemo(()=>seasonPhotoFor(season,division==='women',data.races),[season,division,data]);
   const[photoOpen,setPhotoOpen]=useState(false);useEffect(()=>setPhotoOpen(false),[season,division]);
   const isDesktop=(()=>{try{return window.matchMedia('(min-width: 768px)').matches;}catch(e){return false;}})();
-  const standRef=useRef(null),rightRef=useRef(null),punditRef=useRef(null);const[punditSide,setPunditSide]=useState('left');
-  /* punditry under the table (left) unless putting it under the photo (right) makes the two columns end closer together */
-  const balancePundit=()=>{const L=standRef.current?.offsetHeight,R=rightRef.current?.offsetHeight,P=punditRef.current?.offsetHeight;if(!L||!R||P==null)return;
-    const left=Math.max(L+P,R),right=Math.max(L,R+P);setPunditSide(right<left-24?'right':'left');};
-  React.useLayoutEffect(()=>{if(sPhoto)balancePundit();},[season,division,sPhoto]);const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
+  const standRef=useRef(null),rightRef=useRef(null),punditRef=useRef(null),figRef=useRef(null);const[photoH,setPhotoH]=useState(260);
+  /* crop the photo's height so the right column ends level with the punditry under the table (within sensible limits) */
+  const fitPhoto=()=>{const L=standRef.current?.offsetHeight,P=punditRef.current?.offsetHeight,R=rightRef.current?.offsetHeight,F=figRef.current?.offsetHeight;if(!L||!R||P==null||F==null)return;
+    const h=Math.round(Math.max(150,Math.min(420,L+P-(R-F)-24)));setPhotoH(x=>Math.abs(x-h)>2?h:x);};
+  React.useLayoutEffect(()=>{if(sPhoto)fitPhoto();},[season,division,sPhoto]);
+  useEffect(()=>{if(!sPhoto)return;const f=()=>fitPhoto();window.addEventListener('resize',f);document.fonts?.ready?.then(f);return()=>window.removeEventListener('resize',f);},[season,division,sPhoto]);const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);
   
   // Build matches from either seasonData.matches OR from race data
@@ -4052,12 +4053,16 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     {seasonData?<div className="mb-8">
       <div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
       {sPhoto?<div className="grid md:grid-cols-2 gap-8 md:gap-y-0 items-start md:[grid-template-rows:auto_1fr]">
-        {/* desktop with a season photo: the photo fills the space under the Mitchell Cup, and the punditry goes under whichever column leaves the two closest in length */}
-        <div ref={standRef} className={`overflow-hidden md:col-start-1 md:row-start-1 ${punditSide==='right'?'md:row-span-2':''}`}><StandingsTable/></div>
-        <div ref={rightRef} className={`md:col-start-2 md:row-start-1 ${punditSide==='left'?'md:row-span-2':''}`}><FixturesTable/><IndividualsTable/>
-          <figure className="hidden md:block mt-6"><button type="button" onClick={()=>setPhotoOpen(true)} aria-label="Enlarge race photo" className="block w-full cursor-zoom-in"><img src={sPhoto.ph.src} alt={sPhoto.ph.caption} loading="lazy" onLoad={balancePundit} className="w-full max-h-[340px] object-cover rounded border border-gray-200" style={{objectPosition:sPhoto.ph.widePos||sPhoto.ph.thumbPos||'50% 30%'}}/></button><figcaption className="text-xs text-gray-500 mt-2 leading-snug"><PhotoCaption photo={sPhoto.ph} race={sPhoto.race}/>{sPhoto.race&&<> <span className="text-[#1b649e] underline decoration-[#1b649e]/40 underline-offset-2 hover:decoration-[#1b649e] cursor-pointer whitespace-nowrap" onClick={()=>setView({type:'race',race:sPhoto.race})}>{sPhoto.race.venue} results</span></>}</figcaption>{photoOpen&&<PhotoLightbox photos={sPhoto.list} start={sPhoto.i} race={sPhoto.race} onClose={()=>setPhotoOpen(false)}/>}</figure>
+        {/* desktop with a season photo: punditry under the table, and the photo under the Mitchell Cup cropped to end level with it */}
+        <div ref={standRef} className="overflow-hidden md:col-start-1 md:row-start-1"><StandingsTable/></div>
+        <div ref={rightRef} className="md:col-start-2 md:row-start-1 md:row-span-2"><FixturesTable/><IndividualsTable/>
+          <figure ref={figRef} className="hidden md:block mt-6 relative group">
+            <button type="button" onClick={()=>setPhotoOpen(true)} aria-label="Enlarge race photo" className="block w-full cursor-zoom-in"><img src={sPhoto.ph.src} alt={sPhoto.ph.caption} loading="lazy" onLoad={fitPhoto} className="block w-full object-cover rounded border border-gray-200" style={{height:photoH,objectPosition:sPhoto.ph.widePos||sPhoto.ph.thumbPos||'50% 30%'}}/></button>
+            <button type="button" onClick={()=>setPhotoOpen(true)} aria-label="Enlarge race photo" className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/45 hover:bg-black/65 text-white flex items-center justify-center"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M13.5 2.5l-4.5 4.5M6.5 13.5h-4v-4M2.5 13.5l4.5-4.5"/></svg></button>
+            {sPhoto.ph.credit&&<span className="absolute bottom-1.5 left-1.5 max-w-[85%] truncate text-[10px] leading-none text-white bg-black/45 rounded px-1.5 py-1 pointer-events-none">{sPhoto.ph.credit}</span>}
+            {photoOpen&&<PhotoLightbox photos={sPhoto.list} start={sPhoto.i} race={sPhoto.race} onClose={()=>setPhotoOpen(false)}/>}</figure>
         </div>
-        <div ref={punditRef} className={`-mt-8 md:mt-0 ${punditSide==='right'?'md:col-start-2 md:row-start-2':'md:col-start-1 md:row-start-2'}`}><SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason} division={division} narrow={isDesktop}/></div>
+        <div ref={punditRef} className="-mt-8 md:mt-0 md:col-start-1 md:row-start-2"><SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason} division={division} narrow={isDesktop}/></div>
       </div>:<>
       <div className="grid md:grid-cols-2 gap-8 items-start">
         <div className="overflow-hidden"><StandingsTable/></div>
