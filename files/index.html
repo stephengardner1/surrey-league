@@ -1203,12 +1203,18 @@ const PhotoCaption=({photo,race,onNav})=>{
   return<span className="text-gray-700">{parts}</span>;
 };
 // Every race photo whose caption names this athlete (newest race first)
+// Photos of league runners from other competitions: shown on profiles only, never on a race page
+const ATHLETE_PHOTOS=[
+  {src:'photos/races/1962-civil-service-xc.jpg',season:'1962/63',thumbPos:'50% 40%',widePos:'50% 42%',people:['Les Presland','John Snowden'],label:'Not a Surrey League race · Civil Service Cross-Country Championship, December 1962',caption:'Two of the Surrey League\u2019s leading men of the early 1960s together: Les Presland (left) and John Snowden chase Mick Price (120) at the Civil Service Cross-Country Championship.',credit:'Photo: Ed Lacey',source:'Athletics Weekly cover, 29 December 1962',href:'https://athleticsweekly.com/wp-content/uploads/securepdfs/2025/06/Dec-29-1962-Vol-16-No-52.pdf'}
+];
 const athletePhotosFor=(name,races,women)=>{
-  if(!name||!races)return[];const w=!!women;const slug=nameToSlug(name);const out=[];
+  if(!name||!races)return[];const w=!!women;const slug=nameToSlug(name);const out=[];const al=window.__nameAliases||{};
   Object.entries(RACE_PHOTOS).forEach(([k,list])=>{const isW=k.startsWith('w|');if(isW!==w)return;const [season,match]=k.replace(/^w\|/,'').split('|');
     const race=races.find(r=>r.season===season&&String(r.match)===match);if(!race)return;
     list.forEach(ph=>{if(captionNames(ph,race).some(n=>nameToSlug(n.canon)===slug))out.push({...ph,race,women:w});});});
-  return out.sort((a,b)=>b.race.season.localeCompare(a.race.season)||b.race.match-a.race.match);
+  ATHLETE_PHOTOS.forEach(ph=>{if(!!ph.women!==w)return;if(ph.people.some(n=>nameToSlug(al[n.toLowerCase()]||n)===slug))out.push({...ph,race:null,women:w});});
+  const key=p=>p.race?p.race.season+p.race.match:p.season+'0';
+  return out.sort((a,b)=>key(b).localeCompare(key(a)));
 };
 const raceHref=(r,w)=>((w??onWomenRoute())?'#women/race/':'#race/')+r.season.replace('/','').slice(-4)+'-'+r.match;
 const PhotoCredit=({photo})=><span>{photo.credit}{photo.href&&<> · <a href={photo.href} target="_blank" rel="noopener" className="underline decoration-gray-300 hover:text-gray-700">{photo.source}</a></>}</span>;
@@ -1217,7 +1223,7 @@ const PhotoLightbox=({photos,start,race,onClose})=>{
   const go=d=>setI(x=>(x+d+n)%n);
   useEffect(()=>{const k=e=>{if(e.key==='Escape')onClose();else if(n>1&&e.key==='ArrowRight')go(1);else if(n>1&&e.key==='ArrowLeft')go(-1);};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k);},[onClose,n]);
   const arrow='absolute top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/85 text-gray-800 flex items-center justify-center shadow hover:bg-white';
-  return<div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 sm:p-8" onClick={onClose}><figure className="bg-white rounded-lg overflow-hidden max-w-lg sm:max-w-5xl w-full" onClick={e=>e.stopPropagation()}><div className="relative bg-black"><img src={photo.src} alt={photo.caption} className="w-full max-h-[74vh] object-contain"/>{n>1&&<><button type="button" aria-label="Previous photo" onClick={()=>go(-1)} className={arrow+' left-2'}><ChevronLeft className="w-5 h-5"/></button><button type="button" aria-label="Next photo" onClick={()=>go(1)} className={arrow+' right-2'}><ChevronRight className="w-5 h-5"/></button></>}</div><figcaption className="p-3 sm:p-4 text-xs sm:text-sm text-gray-500 leading-snug flex items-start justify-between gap-4"><span>{photo.race&&<a href={raceHref(photo.race,photo.women)} onClick={onClose} className="block text-[11px] uppercase tracking-wide text-gray-400 hover:text-gray-700 mb-1">{photo.race.season} · Match {photo.race.match}{photo.race.venue?` · ${photo.race.venue}`:''}</a>}<PhotoCaption photo={photo} race={photo.race||race} onNav={onClose}/><br/><PhotoCredit photo={photo}/></span><span className="shrink-0 flex flex-col items-end gap-2">{n>1&&<span className="text-gray-400">{i+1} of {n}</span>}<button type="button" onClick={onClose} className="min-h-[44px] px-4 rounded-md border border-gray-300 text-gray-800 font-medium hover:bg-gray-100">Close</button></span></figcaption></figure></div>;
+  return<div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 sm:p-8" onClick={onClose}><figure className="bg-white rounded-lg overflow-hidden max-w-lg sm:max-w-5xl w-full" onClick={e=>e.stopPropagation()}><div className="relative bg-black"><img src={photo.src} alt={photo.caption} className="w-full max-h-[74vh] object-contain"/>{n>1&&<><button type="button" aria-label="Previous photo" onClick={()=>go(-1)} className={arrow+' left-2'}><ChevronLeft className="w-5 h-5"/></button><button type="button" aria-label="Next photo" onClick={()=>go(1)} className={arrow+' right-2'}><ChevronRight className="w-5 h-5"/></button></>}</div><figcaption className="p-3 sm:p-4 text-xs sm:text-sm text-gray-500 leading-snug flex items-start justify-between gap-4"><span>{photo.race&&<a href={raceHref(photo.race,photo.women)} onClick={onClose} className="block text-[11px] uppercase tracking-wide text-gray-400 hover:text-gray-700 mb-1">{photo.race.season} · Match {photo.race.match}{photo.race.venue?` · ${photo.race.venue}`:''}</a>}{!photo.race&&photo.label&&<span className="block text-[11px] uppercase tracking-wide text-amber-700 mb-1">{photo.label}</span>}<PhotoCaption photo={photo} race={photo.race||race} onNav={onClose}/><br/><PhotoCredit photo={photo}/></span><span className="shrink-0 flex flex-col items-end gap-2">{n>1&&<span className="text-gray-400">{i+1} of {n}</span>}<button type="button" onClick={onClose} className="min-h-[44px] px-4 rounded-md border border-gray-300 text-gray-800 font-medium hover:bg-gray-100">Close</button></span></figcaption></figure></div>;
 };
 const RacePhoto=({photos,index,race})=>{
   const [open,setOpen]=useState(false);const photo=photos[index];
