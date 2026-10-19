@@ -67,6 +67,9 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 
 - Belal Ahmed (H/W, 2007-2019) also appears as B Aly, Belal Aly, Belal Ali and Beld Ali: one runner (family name Aly Ahmed; his clubmate H Aly Ahmed / Hussein Ahmed ran in the same races and stays separate). Joined by alias, printed names kept (Steve, 19 Oct 2026).
 
+## Earlier names joined by alias (men)
+- Andy Maud (C/C, 2013/14 m2-m4) is Andy Coley-Maud: same rule as married names, printed names kept, alias plus athleteNee in data.json so his page shows "(Andy Maud)" (Steve, 19 Oct 2026).
+
 ## Kept as they are (Steve, 19 Oct 2026)
 - Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
 - Peter Adams (AFD, 1971-2003): one runner; AW prints "P Adams (AFD, M45)" in 1997 and 1999.
