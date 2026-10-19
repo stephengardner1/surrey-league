@@ -2145,4 +2145,6 @@ save("jacob-brockmann", lightcreases(nose(brows(eyes(archbrows(figure("THH", ski
 # MacGregor Cox (THH), Oct 2026: ginger mohawk (tall upright strip, sides shaved with a faint shadow), ginger stubble, ruddy cheeks, small silver hoop in the lobes, silver chain
 HAIR["mohawk"] = '<path opacity=".28" d="M65,100 C62,60 82,40 100,40 C118,40 138,60 135,100 L133,84 L128,70 L118,60 L100,57 L82,60 L72,70 L67,84 Z"/><path d="M90,62 L88,46 Q86,36 92,30 Q100,24 110,27 Q115,32 112,44 L110,62 Q100,59 90,62 Z"/>'
 save("macgregor-cox", lobes(earrings(nose(eyes(figure("THH", skin=1, hair="mohawk", hair_colour="#B8652F", brow_colour="#B27A4E", necklace="#D4D4D4", rosy=True, facial="stubble", facial_colour="#9C4F24"), "hooded", 0), 1.05, 1.1), col="#D4D4D4")))
+# Trevor Williams (BEL, early 1990s), Oct 2026, from a black-and-white photo: light brown messy fringe, hooded eyes
+save("trevor-williams", nose(eyes(figure("BEL", skin=1, hair="messyfringe", hair_colour="#8E6643", brow_colour="#7A5638"), "hooded", 0), 1.05, 1.1))
 export_site()
