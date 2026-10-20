@@ -3928,7 +3928,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   const relegationLineAfter=seasonData?.relegationLineAfter!=null?seasonData.relegationLineAfter:(numTeams-1-relegationSpots);
   // Row height alignment - women's table needs tighter spacing due to more teams
   const leftRowPy=division==='women'?'py-[5px]':(numTeams>=10?'py-[7px]':'py-[9px]');
-  const rightRowPy=sPhoto?'py-[4px]':leftRowPy;  /* same row height both sides so the lines run across in step; tighter when a season photo needs the room */
+  const rightRowPy=sPhoto?`${leftRowPy} md:py-[4px]`:leftRowPy;  /* same row height both sides so the lines run across in step; tighter on desktop when a season photo needs the room (phones show no photo) */
   // Division-specific labels
   const individualLabel=division==='women'?'Individual':'Mitchell Cup';
   const teamSize=divisionConfig?.teamSize?.a||10;
