@@ -1254,7 +1254,8 @@ const captionNames=(photo,race)=>{
   return found.filter(n=>photo.caption.includes(n)&&canon(n)).map(n=>({text:n,canon:canon(n)})).sort((x,y)=>y.text.length-x.text.length);
 };
 const PhotoCaption=({photo,race,onNav})=>{
-  const names=captionNames(photo,race);
+  const np=photo.notPictured||[];
+  const names=captionNames(photo,race).filter(n=>!np.includes(n.text)&&!np.includes(n.canon));
   const pre=(photo.women??onWomenRoute())?'#women/athlete/':'#athlete/';
   const parts=[];let rest=photo.caption;
   while(rest){let best=null;names.forEach(n=>{const at=rest.indexOf(n.text);if(at>=0&&(best===null||at<best.at))best={at,n};});
