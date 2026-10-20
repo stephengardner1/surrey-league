@@ -63,6 +63,7 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
   and Boxhill from 1986. Norman Hemming (Croydon Harriers), email to Steve and Matthew Kiernan, 18 Oct 2026: Ken had
   moved on by the time he joined Croydon, and was running for Boxhill at the 1986/87 Surrey County XC. Already one page
   on the site ("K Penny" spellings joined).
+- The guest "K Penney" in 1987/88 m3 (12th) is not Ken (he was 10th in the same race): Keith Penny of Cambridge Harriers (Steve, 20 Oct 2026).
 - Still to confirm with Croydon: Steve/Steven Bishop, Gary Bishop and Ian Statter (same pattern, Croydon then Boxhill).
 
 ## Nicknames joined by alias (Steve, 19 Oct 2026)

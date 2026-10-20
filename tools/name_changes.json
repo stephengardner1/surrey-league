@@ -33180,5 +33180,26 @@
   "seasons": null,
   "evidence": "Steve: Andy Robinson of Thames Hare & Hounds had a spell at Boxhill. Boxhill's A Robinson (10 races, 1991/92-1998/99) fills the gap in his Thames record (1986/87-1989/90, then 2003/04 on).",
   "approved": "Steve, 20 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "GUEST",
+  "from": [
+   "K Penney"
+  ],
+  "to": "Keith Penny",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "races": [
+   [
+    "1987/88",
+    3,
+    12
+   ]
+  ],
+  "evidence": "Guest 12th in 1987/88 m3; Ken Penney (Boxhill) was 10th in the same race, so a different runner. Keith Penny (Cambridge Harriers) was a leading road and cross-country runner in 1987-89 (AW Dec 1987, Jan 1988, Dec 1989).",
+  "approved": "Steve, 20 Oct 2026"
  }
 ]
