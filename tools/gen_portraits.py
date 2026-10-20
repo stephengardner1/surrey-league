@@ -2156,4 +2156,6 @@ def _munn(kit):
     return nose(softbrows(eyes(figure(kit, skin=1, hair="lowbun", hair_colour="#3A2620", brow_colour="#2A1D16", jaw="long", rosy=True), None, 0), 2.4, 1.6), 1.0, 1.15)
 save("hayley-munn", _munn("HHH"))
 save("hayley-munn-cc", _munn("C/C"))
+# Frank Tickner (KEN), Oct 2026 redraw from a 2013 start-line photo: sandy hair receding at the temples with a little lift, dead-straight brows right down on hooded eyes, square jaw, light stubble
+save("frank-tickner", nose(brows(straightbrows(eyes(figure("KEN", skin=1, hair="quiffrecede", hair_colour="#B98A55", brow_colour="#9C7046", facial="stubble", facial_colour="#B08A5E", jaw="square"), "hooded", 0)), 0, 0, 6), 1.05, 1.1))
 export_site()
