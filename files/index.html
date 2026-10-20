@@ -4002,7 +4002,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
                 <td className={`${rightRowPy} pr-2 text-gray-500 w-6`}>{rankDisplay}</td>
                 <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={tieRank===1}/><span className="text-gray-700">{a.name}</span></div></td>
                 <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
-                {a.positions.map((pos,pi)=><td key={pi} className={`${rightRowPy} px-1 text-right text-gray-500 text-xs tabular-nums w-8`}>{pos}</td>)}
+                {a.positions.map((pos,pi)=><td key={pi} className={`${rightRowPy} px-1 text-right text-gray-500 text-xs tabular-nums w-8`}>{pos||'-'}</td>)}
               </tr>}
             )}</tbody>
           </table>
