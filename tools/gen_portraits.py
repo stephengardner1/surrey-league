@@ -2202,4 +2202,8 @@ def _athomas(kit):
     return nose(eyes(figure(kit, skin=1, hair="fringe", hair_colour="#3A2620", brow_colour="#2A1D16", jaw="long", glasses=True, creases=True), None, 0), 1.05, 1.25)
 save("andy-thomas", _athomas("HHH"))
 save("andy-thomas-thh", _athomas("THH"))
+# Round face with a big, full chin (Oct 2026, first used for Dave Glassborow); swap in for the default HEAD
+HEAD_ROUNDCHIN = "M65,96 C63,58 80,40 100,40 C120,40 137,58 135,96 L135,126 C134,148 127,161 117,168 Q109,174 100,174 Q91,174 83,168 C73,161 66,148 65,126 Z"
+# Dave Glassborow (HHH), Oct 2026 redraw: big bushy dark mop over the ears, round face, large chin
+save("dave-glassborow", nose(eyes(figure("HHH", skin=1, hair="seventies", hair_colour="#2E211B", brow_colour="#241A15"), None, 0), 1.05, 1.1).replace(HEAD, HEAD_ROUNDCHIN))
 export_site()
