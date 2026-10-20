@@ -2193,4 +2193,6 @@ def crewsweater(svg, rib, stripe="#F2F2F0", text=None, text_col="#E8B830"):
 # Alan Mead (BEL), Oct 2026: team-manager portrait (replaces his runner's one) in his navy Belgrave sweater with a thin white stripe down the sleeves
 # and small yellow BELGRAVE on the chest; bald with white hair round the temples, short white beard, thin glasses, nasolabial creases, strong chin, smiling
 save("alan-mead", domeflat(crewsweater(nose(eyes(widesmile(figure("BEL", skin=1, hair="closebald", hair_colour="#E4E2DC", brow_colour="#B9B4AA", facial="shortbeard", facial_colour="#E8E6E0", glasses=True, creases=True, jaw="broadchin", jacket=("#1F2A44", "#18213A", None))), None, 0), 1.1, 1.2), "#18213A", text="BELGRAVE"), .88))
+# Alister Moses (REI), Oct 2026, from a small race photo: messy brown fringe, stubble, long face, hooded eyes close under the brows
+save("alister-moses", nose(brows(eyes(figure("REI", skin=1, hair="messyfringe", hair_colour="#5A3E2A", brow_colour="#3A2618", jaw="long", facial="stubble", facial_colour="#5A3E2A"), "hooded", 0), 0, 0, 3), 1.05, 1.2))
 export_site()
