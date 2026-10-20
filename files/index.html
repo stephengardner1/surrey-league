@@ -3831,15 +3831,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   const isDesktop=(()=>{try{return window.matchMedia('(min-width: 768px)').matches;}catch(e){return false;}})();
   const standRef=useRef(null),rightRef=useRef(null),punditRef=useRef(null),figRef=useRef(null);const[photoH,setPhotoH]=useState(260);
   /* crop the photo's height so the right column ends level with the punditry under the table (within sensible limits) */
-  /* nudge the gap above the Mitchell Cup table so its rows sit on the same lines as the league table's rows */
-  const[mcGap,setMcGap]=useState(0);useEffect(()=>setMcGap(0),[season,division]);
-  const alignRight=()=>{const st=standRef.current?.querySelector('tbody'),tabs=rightRef.current?.querySelectorAll('table');if(!st||!tabs||tabs.length<2)return;
-    const rowH=st.rows[0]?.getBoundingClientRect().height,first=tabs[1].tBodies[0]?.rows[0];if(!rowH||!first)return;
-    const off=(first.getBoundingClientRect().bottom-st.getBoundingClientRect().top)%rowH;const d=off<0.5||rowH-off<0.5?0:rowH-off;
-    if(d)setMcGap(g=>Math.round((g+d)%rowH));};
-  const fitPhoto=()=>{alignRight();const L=standRef.current?.offsetHeight,P=punditRef.current?.offsetHeight,R=rightRef.current?.offsetHeight,F=figRef.current?.offsetHeight;if(!L||!R||P==null||F==null)return;
+  const fitPhoto=()=>{const L=standRef.current?.offsetHeight,P=punditRef.current?.offsetHeight,R=rightRef.current?.offsetHeight,F=figRef.current?.offsetHeight;if(!L||!R||P==null||F==null)return;
     const W=figRef.current?.offsetWidth||0;const h=Math.round(Math.max(Math.max(150,W/2),Math.min(420,L+P-(R-F)-24)));  /* never squatter than 2:1 */setPhotoH(x=>Math.abs(x-h)>2?h:x);};
-  React.useLayoutEffect(()=>{if(sPhoto)fitPhoto();},[season,division,sPhoto,mcGap]);
+  React.useLayoutEffect(()=>{if(sPhoto)fitPhoto();},[season,division,sPhoto]);
   useEffect(()=>{if(!sPhoto)return;const f=()=>fitPhoto();window.addEventListener('resize',f);document.fonts?.ready?.then(f);return()=>window.removeEventListener('resize',f);},[season,division,sPhoto]);const topWinners=[...data.athletes].sort((a,b)=>b.wins-a.wins).filter(a=>a.wins>0).slice(0,5);
   const findRace=(num)=>data.races.find(r=>r.season===season&&r.match===num);
   
@@ -3923,7 +3917,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   const relegationLineAfter=seasonData?.relegationLineAfter!=null?seasonData.relegationLineAfter:(numTeams-1-relegationSpots);
   // Row height alignment - women's table needs tighter spacing due to more teams
   const leftRowPy=division==='women'?'py-[5px]':(numTeams>=10?'py-[7px]':'py-[9px]');
-  const rightRowPy=leftRowPy;  /* same row height both sides, so the lines run across the page in step */
+  const rightRowPy=sPhoto?'py-[4px]':leftRowPy;  /* same row height both sides so the lines run across in step; tighter when a season photo needs the room */
   // Division-specific labels
   const individualLabel=division==='women'?'Individual':'Mitchell Cup';
   const teamSize=divisionConfig?.teamSize?.a||10;
@@ -3980,7 +3974,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       // If we have individualRankings with positions array, show the full breakdown
       if(indRankings?.length>0&&indRankings[0]?.positions){
         const numRaces=indRankings[0].positions.length;
-        return<div className="mt-3" style={mcGap?{marginTop:12+mcGap}:undefined}>
+        return<div className="mt-3">
           <table className="w-full text-sm">
             <thead><tr className="border-b border-gray-200">
               <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title={division==='women'?"Individual champion":"The Mitchell Cup - Individual champion"}>{individualLabel}</th>
@@ -4007,7 +4001,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       const mitchellWinners=data.mitchellCupWinners?.[season];
       if(!mitchellWinners||mitchellWinners.length===0)return null;
       const isJoint=mitchellWinners.length>1;
-      return<div className="mt-3" style={mcGap?{marginTop:12+mcGap}:undefined}>
+      return<div className="mt-3">
         <table className="w-full text-sm">
           <thead><tr className="border-b border-gray-200">
             <th colSpan="3" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title={division==='women'?"Individual champion":"The Mitchell Cup - Individual champion"}>{individualLabel}</th>
@@ -4024,7 +4018,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     }
     const seasonRacesLocal=data.races.filter(r=>r.season===season&&r.results);
     const numRaces=seasonRacesLocal.length;
-    if(numRaces===0)return<div className="mt-3" style={mcGap?{marginTop:12+mcGap}:undefined}>
+    if(numRaces===0)return<div className="mt-3">
       <table className="w-full text-sm">
         <thead><tr className="border-b border-gray-200">
           <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title={division==='women'?"Top 5 athletes with 3+ races, ranked by best 3 positions":"Top 5 athletes who raced in all matches, ranked by sum of positions (lowest is best)"}>{individualLabel}</th>
@@ -4056,7 +4050,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       return a;
     }).sort((a,b)=>a.total-b.total).slice(0,5);
     if(eligible.length===0)return null;
-    return<div className="mt-3" style={mcGap?{marginTop:12+mcGap}:undefined}>
+    return<div className="mt-3">
       <table className="w-full text-sm">
         <thead><tr className="border-b border-gray-200">
           <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title={division==='women'?"Top 5 athletes with 3+ races, ranked by best 3 positions":"Top 5 athletes who raced in all matches, ranked by sum of positions (lowest is best)"}>{individualLabel}</th>
