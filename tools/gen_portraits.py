@@ -2158,4 +2158,6 @@ save("hayley-munn", _munn("HHH"))
 save("hayley-munn-cc", _munn("C/C"))
 # Frank Tickner (KEN), Oct 2026 redraw from a 2013 start-line photo: sandy hair receding at the temples with a little lift, dead-straight brows right down on hooded eyes, square jaw, light stubble
 save("frank-tickner", nose(brows(straightbrows(eyes(figure("KEN", skin=1, hair="quiffrecede", hair_colour="#B98A55", brow_colour="#9C7046", facial="stubble", facial_colour="#B08A5E", jaw="square"), "hooded", 0)), 0, 0, 6), 1.05, 1.1))
+# John Gilbert (KEN), Oct 2026 redraw from a 2013 start-line photo: messy light-brown fringe, stubble, ruddy cheeks, hooded eyes close under the brows
+save("john-gilbert", nose(brows(eyes(figure("KEN", skin=1, hair="messyfringe", hair_colour="#8A6440", brow_colour="#6B4A2E", facial="stubble", facial_colour="#8A6440", rosy=True), "hooded", 0), 0, 0, 3), 1.05, 1.15))
 export_site()
