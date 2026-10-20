@@ -1242,6 +1242,16 @@ const RACE_PHOTOS={
 const onWomenRoute=()=>/^#women/.test(window.location.hash||'')||/^\/women(\/|$)/.test(window.location.pathname||'');
 const racePhotosFor=(race)=>race?(RACE_PHOTOS[`${onWomenRoute()?'w|':''}${race.season}|${race.match}`]||[]):[];
 /* the season page's photo: the one marked seasonBest for that season (chosen to show a mix of clubs), else the first */
+/* the credit's text is the dimmest grey that still meets WCAG AA (4.5:1) for small text: it samples the brightest part of the photo behind the pill
+   (black at 45%, darkened only when even white would fall short), so the credit stays readable on any photo but no more prominent than it needs to be */
+const creditInkFor=(img,box)=>{const fb={color:'#fff',bg:'rgba(0,0,0,.6)'};try{const nw=img.naturalWidth,nh=img.naturalHeight,w=img.clientWidth,h=img.clientHeight;if(!nw||!w)return fb;
+  const pos=(getComputedStyle(img).objectPosition||'50% 50%').split(' ').map(v=>parseFloat(v)/100);const sc=Math.max(w/nw,h/nh),ox=(w-nw*sc)*pos[0],oy=(h-nh*sc)*(pos[1]??.5);
+  const c=document.createElement('canvas');c.width=40;c.height=10;const g=c.getContext('2d');g.drawImage(img,(box.x-ox)/sc,(box.y-oy)/sc,box.w/sc,box.h/sc,0,0,40,10);
+  const d=g.getImageData(0,0,40,10).data;const lin=v=>{v/=255;return v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4);};
+  const bright=k=>{const Ls=[];for(let i=0;i<d.length;i+=4)Ls.push(.2126*lin(d[i]*k)+.7152*lin(d[i+1]*k)+.0722*lin(d[i+2]*k));Ls.sort((a,b)=>a-b);return Ls[Math.floor(Ls.length*.98)];};
+  let a=.45;while(a<.9&&1.05/(bright(1-a)+.05)<4.5)a+=.05;  /* darken the pill only if even white text would fall short */
+  const Lt=4.5*(bright(1-a)+.05)-.05;const bg=`rgba(0,0,0,${a.toFixed(2)})`;if(Lt>=1)return{color:'#fff',bg};
+  const v=Lt<=.0031308?Lt*12.92:1.055*Math.pow(Lt,1/2.4)-.055;const n=Math.min(255,Math.ceil(v*255)+1);return{color:`rgb(${n},${n},${n})`,bg};}catch(e){return fb;}};
 const seasonPhotoFor=(season,women,races)=>{const pre=(women?'w|':'')+season+'|';const all=[];
   Object.keys(RACE_PHOTOS).forEach(k=>{if(k.startsWith(pre))RACE_PHOTOS[k].forEach((ph,i)=>all.push({ph,i,match:parseInt(k.slice(pre.length)),list:RACE_PHOTOS[k]}));});
   const pick=all.find(x=>x.ph.seasonBest)||all[0];if(!pick)return null;
@@ -3826,8 +3836,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   useEffect(()=>{if(initialSeason&&data.seasons.includes(initialSeason))setSeasonState(initialSeason);},[initialSeason]);
   const setSeason=(s)=>{setSeasonState(s);setView({type:'home',urlSeason:s});};
   const seasonData=data.seasonsData[season];
+  const winTint=c=>({background:tintHalf(PORTRAIT_GROUND[c]||'#E6EAE4')});  /* the club's lightest tint, as on club pages, behind a season's winners */
   const sPhoto=useMemo(()=>seasonPhotoFor(season,division==='women',data.races),[season,division,data]);
-  const[photoOpen,setPhotoOpen]=useState(false);useEffect(()=>setPhotoOpen(false),[season,division]);
+  const[photoOpen,setPhotoOpen]=useState(false);const[creditInk,setCreditInk]=useState({color:'#fff',bg:'rgba(0,0,0,.45)'});const creditRef=useRef(null);useEffect(()=>setPhotoOpen(false),[season,division]);
   const isDesktop=(()=>{try{return window.matchMedia('(min-width: 768px)').matches;}catch(e){return false;}})();
   const standRef=useRef(null),rightRef=useRef(null),punditRef=useRef(null),figRef=useRef(null);const[photoH,setPhotoH]=useState(260);
   /* crop the photo's height so the right column ends level with the punditry under the table (within sensible limits) */
@@ -3943,7 +3954,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     // Determine which match columns to show
     const matchNums=matches.length>0?matches.map(m=>m.num):[1,2,3,4].filter(n=>standings[0]?.[`m${n}`]!=null);
     return<div>
-    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase`} title={seasonData?.scoring==='points'?"League points across all matches (highest wins)":"Total of a team's scores across all matches"}>{seasonData?.scoring==='points'?'Pts':'Tot'}</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#1b649e]':''}`} title={seasonData?.scoring==='points'?`League points in match ${n}`:`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isSeasonFinished?'🏆':(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#1b649e]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} px-0.5`}><span className={`tabular-nums ${i===0?'font-bold text-[#1b649e]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase`} title={seasonData?.scoring==='points'?"League points across all matches (highest wins)":"Total of a team's scores across all matches"}>{seasonData?.scoring==='points'?'Pts':'Tot'}</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#1b649e]':''}`} title={seasonData?.scoring==='points'?`League points in match ${n}`:`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} style={i===0&&isSeasonFinished?winTint(team.club):undefined} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isSeasonFinished?'🏆':(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#1b649e]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} px-0.5`}><span className={`tabular-nums ${i===0?'font-bold text-[#1b649e]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {seasonData?.scoring==='points'&&<p className="text-xs text-gray-500 mt-2">League points table: most points wins the title.{seasonData?.tableNote?' '+seasonData.tableNote:''}</p>}
     {isHistorical&&!hasCompleteResults&&seasonRaces.length>0&&<p className="text-xs text-gray-500 mt-2">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
   </div>;};
@@ -3987,7 +3998,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
               const isTied=a.total===prevTotal||a.total===nextTotal;
               const tieRank=indRankings.findIndex(e=>e.total===a.total)+1;
               const rankDisplay=isTied?`=${tieRank}`:String(i+1);
-              return <tr key={a.name} className="hover:bg-gray-100 cursor-pointer" data-ath={a.name} data-club={a.club} onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
+              return <tr key={a.name} style={isSeasonFinished&&(isTied?tieRank:i+1)===1?winTint(a.club):undefined} className="hover:bg-gray-100 cursor-pointer" data-ath={a.name} data-club={a.club} onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
                 <td className={`${rightRowPy} pr-2 text-gray-500 w-6`}>{rankDisplay}</td>
                 <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={tieRank===1}/><span className="text-gray-700">{a.name}</span></div></td>
                 <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
@@ -4007,7 +4018,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
             <th colSpan="3" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title={division==='women'?"Individual champion":"The Mitchell Cup - Individual champion"}>{individualLabel}</th>
           </tr></thead>
           <tbody className="divide-y divide-gray-100">
-            {mitchellWinners.map((w,i)=><tr key={i} className="hover:bg-gray-100 cursor-pointer" data-ath={w.name} data-club={w.club} onClick={()=>setView({type:'athlete',athlete:{name:w.name,club:w.club}})}>
+            {mitchellWinners.map((w,i)=><tr key={i} style={winTint(w.club)} className="hover:bg-gray-100 cursor-pointer" data-ath={w.name} data-club={w.club} onClick={()=>setView({type:'athlete',athlete:{name:w.name,club:w.club}})}>
               <td className={`${rightRowPy} pr-2 text-gray-500 w-6`}>{isJoint?'=':(i+1)}</td>
               <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={w.name} club={w.club} show={true}/><span className="text-gray-700">{w.name}</span></div></td>
               <td className={`${rightRowPy} px-1 text-right text-gray-500 text-xs`}></td>
@@ -4065,7 +4076,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
           // Find the first position with this total for "=N" display
           const tieRank=eligible.findIndex(e=>e.total===a.total)+1;
           const rankDisplay=isTied?`=${tieRank}`:String(i+1);
-          return <tr key={a.name} className="hover:bg-gray-100 cursor-pointer" data-ath={a.name} data-club={a.club} onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
+          return <tr key={a.name} style={isSeasonFinished&&(isTied?tieRank:i+1)===1?winTint(a.club):undefined} className="hover:bg-gray-100 cursor-pointer" data-ath={a.name} data-club={a.club} onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
             <td className={`${rightRowPy} pr-2 text-gray-500 w-6`}>{rankDisplay}</td>
             <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={tieRank===1}/><span className="text-gray-700">{a.name}</span></div></td>
             <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
@@ -4086,9 +4097,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
         <div ref={standRef} className="overflow-hidden md:col-start-1 md:row-start-1"><StandingsTable/></div>
         <div ref={rightRef} className="md:col-start-2 md:row-start-1 md:row-span-2"><FixturesTable/><IndividualsTable/>
           <figure ref={figRef} className="hidden md:block mt-6 relative group">
-            <button type="button" onClick={()=>setPhotoOpen(true)} aria-label="Enlarge race photo" className="block w-full cursor-zoom-in"><img src={sPhoto.ph.src} alt={sPhoto.ph.caption} loading="lazy" onLoad={fitPhoto} className="block w-full object-cover rounded border border-gray-200" style={{height:photoH,objectPosition:sPhoto.ph.widePos||sPhoto.ph.thumbPos||'50% 30%'}}/></button>
+            <button type="button" onClick={()=>setPhotoOpen(true)} aria-label="Enlarge race photo" className="block w-full cursor-zoom-in"><img src={sPhoto.ph.src} alt={sPhoto.ph.caption} loading="lazy" onLoad={e=>{fitPhoto();const im=e.currentTarget;requestAnimationFrame(()=>{const cr=creditRef.current;if(!cr)return;const a=im.getBoundingClientRect(),b=cr.getBoundingClientRect();setCreditInk(creditInkFor(im,{x:b.left-a.left,y:b.top-a.top,w:b.width,h:b.height}));});}} className="block w-full object-cover rounded border border-gray-200" style={{height:photoH,objectPosition:sPhoto.ph.widePos||sPhoto.ph.thumbPos||'50% 30%'}}/></button>
             <button type="button" onClick={()=>setPhotoOpen(true)} aria-label="Enlarge race photo" className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/45 hover:bg-black/65 text-white flex items-center justify-center"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M13.5 2.5l-4.5 4.5M6.5 13.5h-4v-4M2.5 13.5l4.5-4.5"/></svg></button>
-            {sPhoto.ph.credit&&<span className="absolute bottom-1.5 left-1.5 max-w-[85%] truncate text-[10px] leading-none text-white bg-black/45 rounded px-1.5 py-1 pointer-events-none">{sPhoto.ph.credit}</span>}
+            {sPhoto.ph.credit&&<span ref={creditRef} className="absolute bottom-1.5 left-1.5 max-w-[85%] truncate text-[10px] leading-none rounded px-1.5 py-1 pointer-events-none" style={{color:creditInk.color,background:creditInk.bg}}>{sPhoto.ph.credit}</span>}
             {photoOpen&&<PhotoLightbox photos={sPhoto.list} start={sPhoto.i} race={sPhoto.race} onClose={()=>setPhotoOpen(false)}/>}</figure>
         </div>
         <div ref={punditRef} className="-mt-8 md:mt-0 md:col-start-1 md:row-start-2"><SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason} division={division} narrow={isDesktop}/></div>
