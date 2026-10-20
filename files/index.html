@@ -4255,6 +4255,8 @@ const parseUrlParams=(athletes)=>{
   }
 };
 
+/* a season address for a season this division doesn't have (e.g. women's 1964/65): the latest season instead */
+const seasonFix=(parsed,D)=>parsed.type==='home'&&parsed.urlSeason&&D&&!D.seasons?.includes(parsed.urlSeason)?{...parsed,urlSeason:undefined}:parsed;
 /* a race address with no such race (e.g. a women's fixture before the women's league began): that season's page if it exists, else the latest */
 const raceMissView=(parsed,D)=>({type:'home',urlSeason:D?.seasons?.includes(parsed.raceKey.season)?parsed.raceKey.season:undefined});
 const updateUrl=(view,division='men')=>{
@@ -5454,6 +5456,10 @@ function App(){
       }
       const race = other.races.find(r=>r.season===key.season&&r.match===key.match&&r.results?.length);
       newView = race ? {type:'race', race, mode:view.mode} : {type:'home', urlSeason: other.seasons?.includes(key.season) ? key.season : undefined};
+    } else if(view.type === 'home' && view.urlSeason) {
+      // On a season page: the same season in the other division (the latest if it didn't exist then)
+      const other = d==='women' ? womenData : menData;
+      newView = {type:'home', urlSeason: !other || other.seasons?.includes(view.urlSeason) ? view.urlSeason : undefined};
     } else if(preservedTypes.includes(view.type)) {
       newView = {type: view.type};
     } else {
@@ -5512,7 +5518,7 @@ function App(){
         if(parsed.raceKey){
           const race=menData.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
           if(race)setViewState({type:'race',race,mode:parsed.mode});else{const v=raceMissView(parsed,menData);setViewState(v);updateUrl(v,parsed.division||'men');}
-        }else{setViewState(parsed);}
+        }else{const v=seasonFix(parsed,menData);setViewState(v);if(v!==parsed)updateUrl(v,parsed.division||'men');}
       }
     }
   },[menData]);
@@ -5525,7 +5531,7 @@ function App(){
         if(parsed.raceKey){
           const race=womenData.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
           if(race)setViewState({type:'race',race,mode:parsed.mode});else{const v=raceMissView(parsed,womenData);setViewState(v);updateUrl(v,parsed.division||'men');}
-        }else{setViewState(parsed);}
+        }else{const v=seasonFix(parsed,womenData);setViewState(v);if(v!==parsed)updateUrl(v,parsed.division||'men');}
       }
     }
   },[womenData,division]);
@@ -5537,7 +5543,7 @@ function App(){
       if(parsed.raceKey&&data){
         const race=data.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
         if(race)setViewState({type:'race',race,mode:parsed.mode});else{const v=raceMissView(parsed,data);setViewState(v);updateUrl(v,parsed.division||'men');}
-      }else{setViewState(parsed);}
+      }else{const v=seasonFix(parsed,data);setViewState(v);if(v!==parsed)updateUrl(v,parsed.division||'men');}
     };
     window.addEventListener('popstate',onPop);
     return()=>window.removeEventListener('popstate',onPop);
@@ -5550,7 +5556,7 @@ function App(){
       if(parsed.raceKey&&data){
         const race=data.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
         if(race)setViewState({type:'race',race,mode:parsed.mode});else{const v=raceMissView(parsed,data);setViewState(v);updateUrl(v,parsed.division||'men');}
-      }else{setViewState(parsed);}
+      }else{const v=seasonFix(parsed,data);setViewState(v);if(v!==parsed)updateUrl(v,parsed.division||'men');}
     };
     window.addEventListener('hashchange',onHash);
     return()=>window.removeEventListener('hashchange',onHash);
