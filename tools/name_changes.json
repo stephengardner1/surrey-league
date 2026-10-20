@@ -33250,5 +33250,26 @@
   ],
   "evidence": "Ranelagh's D Bell (5 results, 2006/07-2007/08) alternates with Duncan Bell (2006/07 m2 and m4) in the same seasons; Steve identifies Duncan Bell in Ray O'Donoghue's photo of 2006/07 m1, where D Bell was 32nd.",
   "approved": "Steve, 20 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "C Attwell"
+  ],
+  "to": "Barry Attwell",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "races": [
+   [
+    "1991/92",
+    2,
+    25
+   ]
+  ],
+  "evidence": "Machine-read 'C Attwell', Boxhill Racers, 25th at Wimbledon Common 23 Nov 1991. Ray O'Donoghue's labelled photo from that race shows Barry Attwell (Boxhill), who ran for Boxhill in 1990/91 and 1991/92 m4.",
+  "approved": "Steve, 20 Oct 2026"
  }
 ]
