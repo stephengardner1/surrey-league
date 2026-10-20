@@ -75,6 +75,10 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 
 - Phillip Sesemann (guest, 2010/11 m2, 34th) is Phil Sesemann (Kent AC; 2nd 2016/17 m1, winner 2018/19 m1): joined by alias. Robert Sesemann (Kent AC, 2021/22 on) is his brother and stays separate (Steve, 20 Oct 2026).
 
+- Andy Robinson (THH) had a spell at Boxhill (Steve, 20 Oct 2026): Boxhill's A Robinson (1991/92-1998/99) joined to him.
+  Four slow Thames results in the 1990s (1989/90 m3, 1991/92 m2, 1994/95 m4, 1995/96 m1) are a second runner and sit on
+  "A Robinson (THH)"; 1991/92 m2 has both men in it.
+
 ## Kept as they are (Steve, 19 Oct 2026)
 - Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
 - Peter Adams (AFD, 1971-2003): one runner; AW prints "P Adams (AFD, M45)" in 1997 and 1999.

@@ -32896,12 +32896,11 @@
   "club": "THH",
   "from": [
    "A Robinson",
-   "Andrew Robinson",
-   "A Robinson (THH)"
+   "Andrew Robinson"
   ],
   "to": "Andy Robinson",
   "seasons": null,
-  "evidence": "One Thames Hare & Hounds runner (1986/87 onwards; county champs give Andy Robinson at Thames). He was split across two pages by a club-collision rule meant to separate him from the Boxhill A Robinson. Steve, 18 Oct 2026.",
+  "evidence": "One Thames Hare & Hounds runner (1986/87 onwards; county champs give Andy Robinson at Thames). He was split across two pages by a club-collision rule meant to separate him from the Boxhill A Robinson. Steve, 18 Oct 2026. 20 Oct 2026: 'A Robinson (THH)' removed from this list; four slow 1990s Thames results are kept apart under that name (see below).",
   "approved": "Steve, 18 Oct 2026"
  },
  {
@@ -33133,5 +33132,53 @@
   ],
   "evidence": "The Belgravian No.209 p34 prints '76.L.Mead 30.24' (8 Dec 1984, Brockwell Park). Alan Mead (Belgrave historian) says there was no other Mead and he would not have finished that high; he confirms it should be Head (Martyn Head, Belgrave, 107th in the next match).",
   "approved": "Steve, 19 Oct 2026 (Alan Mead confirmed)"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "Andy Robinson",
+   "A Robinson"
+  ],
+  "to": "A Robinson (THH)",
+  "seasons": [
+   "1989/90",
+   "1995/96"
+  ],
+  "races": [
+   [
+    "1989/90",
+    3,
+    141
+   ],
+   [
+    "1991/92",
+    2,
+    214
+   ],
+   [
+    "1994/95",
+    4,
+    143
+   ],
+   [
+    "1995/96",
+    1,
+    184
+   ]
+  ],
+  "evidence": "Four Thames results far slower than Andy Robinson's form (141st, 214th, 143rd, 184th) while Andy was racing for Boxhill; 1991/92 m2 has both Boxhill A Robinson (13th) and this Thames A Robinson (214th), so two runners. Kept on a separate page.",
+  "approved": "Steve, 20 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "A Robinson"
+  ],
+  "to": "Andy Robinson",
+  "seasons": null,
+  "evidence": "Steve: Andy Robinson of Thames Hare & Hounds had a spell at Boxhill. Boxhill's A Robinson (10 races, 1991/92-1998/99) fills the gap in his Thames record (1986/87-1989/90, then 2003/04 on).",
+  "approved": "Steve, 20 Oct 2026"
  }
 ]
