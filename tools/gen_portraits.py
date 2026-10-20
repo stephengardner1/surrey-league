@@ -2197,4 +2197,9 @@ save("alan-mead", domeflat(crewsweater(nose(eyes(widesmile(figure("BEL", skin=1,
 save("alister-moses", nose(brows(eyes(figure("REI", skin=1, hair="messyfringe", hair_colour="#5A3E2A", brow_colour="#3A2618", jaw="long", facial="stubble", facial_colour="#5A3E2A"), "hooded", 0), 0, 0, 3), 1.05, 1.2))
 # Bob (Robert) Treadwell (CRO 1975-81), Oct 2026, from a black-and-white 1986 photo (hair colour inferred): messy brown fringe, long face, high cheekbones
 save("bob-treadwell", stretchface(cheekbones(nose(brows(eyes(figure("CRO", skin=1, hair="messyfringe", hair_colour="#5A3E2A", brow_colour="#3A2618", jaw="long"), "hooded", 0), 0, 0, 3), 1.05, 1.25)), HEAD_LONG, 1.1))
+# Andy Thomas (HHH 2004/05; THH 1987-2003), Oct 2026, from a black-and-white photo: short dark side-swept fringe, thin glasses, long face, nose-to-mouth creases
+def _athomas(kit):
+    return nose(eyes(figure(kit, skin=1, hair="fringe", hair_colour="#3A2620", brow_colour="#2A1D16", jaw="long", glasses=True, creases=True), None, 0), 1.05, 1.25)
+save("andy-thomas", _athomas("HHH"))
+save("andy-thomas-thh", _athomas("THH"))
 export_site()
