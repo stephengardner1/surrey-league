@@ -69,6 +69,8 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 ## Nicknames joined by alias (Steve, 19 Oct 2026)
 - Tilly Heaton (BEL, 2010/11 m1) is Mathilde Heaton: alias in data-women.json athleteAliases. Alison Heaton (W/W) is a different runner (same race 2005/06 m1).
 
+- Jon Mather (BEL) is John Mather: page name now John (Steve, 20 Oct 2026); Jon and J Mather are aliases.
+
 - Belal Ahmed (H/W, 2007-2019) also appears as B Aly, Belal Aly, Belal Ali and Beld Ali: one runner (family name Aly Ahmed; his clubmate H Aly Ahmed / Hussein Ahmed ran in the same races and stays separate). Joined by alias, printed names kept (Steve, 19 Oct 2026).
 
 ## Earlier names joined by alias (men)
