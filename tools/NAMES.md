@@ -73,7 +73,7 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 ## Earlier names joined by alias (men)
 - Andy Maud (C/C, 2013/14 m2-m4) is Andy Coley-Maud: same rule as married names, printed names kept, alias plus athleteNee in data.json so his page shows "(Andy Maud)" (Steve, 19 Oct 2026).
 
-- Phillip Sesemann (guest, 2010/11 m2, 34th) is Phil Sesemann (Kent AC; 2nd 2016/17 m1, winner 2018/19 m1): joined by alias. Robert Sesemann (Kent AC, 2021/22 on) stays separate (Steve, 20 Oct 2026).
+- Phillip Sesemann (guest, 2010/11 m2, 34th) is Phil Sesemann (Kent AC; 2nd 2016/17 m1, winner 2018/19 m1): joined by alias. Robert Sesemann (Kent AC, 2021/22 on) is his brother and stays separate (Steve, 20 Oct 2026).
 
 ## Kept as they are (Steve, 19 Oct 2026)
 - Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
