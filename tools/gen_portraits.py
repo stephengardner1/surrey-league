@@ -2167,4 +2167,9 @@ def _coleymaud(kit):
     return cheekdimples(nose(brows(taperbrows(eyes(s, None, 0), 1.2), 0, 0, 3), 1.05, 1.2))
 save("andy-coley-maud", _coleymaud("G&G"))
 save("andy-coley-maud-cc", _coleymaud("C/C"))
+# James McMullan (THH), Oct 2026 redraw from a 2013 start-line photo: shaggy side-swept mid-brown hair, light stubble
+def _mcmullan():
+    s = figure("THH", skin=1, hair="shaggyside", hair_colour="#6B4A30", brow_colour="#4E3626", facial="stubble", facial_colour="#6B4A30")
+    return nose(eyes(s.replace('Z" opacity=".32"/>', 'Z" opacity=".2"/>', 1), None, 0), 1.05, 1.15)
+save("james-mcmullan", _mcmullan())
 export_site()
