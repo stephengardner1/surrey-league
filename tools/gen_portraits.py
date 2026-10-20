@@ -2160,4 +2160,11 @@ save("hayley-munn-cc", _munn("C/C"))
 save("frank-tickner", nose(brows(straightbrows(eyes(figure("KEN", skin=1, hair="quiffrecede", hair_colour="#B98A55", brow_colour="#9C7046", facial="stubble", facial_colour="#B08A5E", jaw="square"), "hooded", 0)), 0, 0, 6), 1.05, 1.1))
 # John Gilbert (KEN), Oct 2026 redraw from a 2013 start-line photo: messy light-brown fringe, stubble, ruddy cheeks, hooded eyes close under the brows
 save("john-gilbert", nose(brows(eyes(figure("KEN", skin=1, hair="messyfringe", hair_colour="#8A6440", brow_colour="#6B4A2E", facial="stubble", facial_colour="#8A6440", rosy=True), "hooded", 0), 0, 0, 3), 1.05, 1.15))
+# Andy Coley-Maud (G&G; Clapham Chasers earlier), Oct 2026 redraw from a 2013 start-line photo: short mid-dark brown quiff, tapered brows close over the eyes, cheek dimples, very light stubble
+def _coleymaud(kit):
+    s = figure(kit, skin=1, hair="quiffshort", hair_colour="#4E3524", brow_colour="#33231A", facial="stubble", facial_colour="#4E3524")
+    s = s.replace('Z" opacity=".32"/>', 'Z" opacity=".12"/>', 1)
+    return cheekdimples(nose(brows(taperbrows(eyes(s, None, 0), 1.2), 0, 0, 3), 1.05, 1.2))
+save("andy-coley-maud", _coleymaud("G&G"))
+save("andy-coley-maud-cc", _coleymaud("C/C"))
 export_site()
