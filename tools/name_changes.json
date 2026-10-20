@@ -33222,5 +33222,19 @@
   ],
   "evidence": "Machine-read 'K Targuer', Hercules Wimbledon, 17th at Coulsdon 15 Feb 1992. Ray O'Donoghue's photo of that race shows Kevin Jacques (Hercules Wimbledon) in the leading group with Clarke (6th), Howard (7th), Thomas (8th) and Penney (13th); K Jacques ran for Hercules Wimbledon in 1989/90 and 1991/92.",
   "approved": "Steve, 20 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "K Jacques"
+  ],
+  "to": "Kevin Jacques",
+  "seasons": [
+   "1989/90",
+   "1991/92"
+  ],
+  "evidence": "Ray O'Donoghue's photo at Coulsdon, 15 Feb 1992, names Hercules Wimbledon's Kevin Jacques. Applied only to the Hercules Wimbledon results (1989/90-1991/92): Ranelagh's later K Jacques is printed once as 'Ken Jacques' (2002/03 m3), so may be a different runner.",
+  "approved": "Steve, 20 Oct 2026"
  }
 ]
