@@ -2172,4 +2172,25 @@ def _mcmullan():
     s = figure("THH", skin=1, hair="shaggyside", hair_colour="#6B4A30", brow_colour="#4E3626", facial="stubble", facial_colour="#6B4A30")
     return nose(eyes(s.replace('Z" opacity=".32"/>', 'Z" opacity=".2"/>', 1), None, 0), 1.05, 1.15)
 save("james-mcmullan", _mcmullan())
+# ---- Lower dome + crew-neck club sweater (Oct 2026, first used for Alan Mead as team manager) ----
+import re as _rdm
+def domeflat(svg, k):
+    """Lower the top of the head (and hair) toward the brow line by k (k<1 = smaller forehead). Only touches path/polygon coordinates above y 96."""
+    fix = lambda a: _rdm.sub(r'(-?\d+\.?\d*),(-?\d+\.?\d*)', lambda m: f"{m.group(1)},{(96-(96-float(m.group(2)))*k) if float(m.group(2))<96 else float(m.group(2)):g}", a)
+    return _rdm.sub(r'( (?:d|points)=")([^"]*)(")', lambda m: m.group(1)+fix(m.group(2))+m.group(3), svg)
+def crewsweater(svg, rib, stripe="#F2F2F0", text=None, text_col="#E8B830"):
+    """Turn a jacket=() quarter-zip into a crew-neck sweater: drops the zip and collars, adds a ribbed neckline, a thin stripe down each sleeve and optional small chest text (wearer's left breast)."""
+    svg = _rdm.sub(r'<path d="M86,182 L114,182 L100,208 Z"[^>]*/><path d="M86,182 L93,192[^>]*/>', '', svg)
+    svg = _rdm.sub(r'<path d="M80,180 Q86,182 91,184 L100,212 L82,200 Z"[^>]*/><path d="M120,180[^>]*/>', '', svg)
+    svg = _rdm.sub(r'<path d="M80,180 Q86,182 91,184 L92,188[^>]*/>', '', svg)
+    svg = _rdm.sub(r'<path d="M100,212 L100,330"[^>]*/><rect x="97.6"[^>]*/>', '', svg)
+    extra = (f'<path d="M84,190 Q100,204 116,190" stroke="{rib}" stroke-width="5" fill="none"/>'
+             '<path d="M84,190 Q100,204 116,190" stroke="#000" stroke-opacity=".25" stroke-width="1" fill="none"/>'
+             f'<path d="M50,212 Q41,228 40.5,250 L37,330 M150,212 Q159,228 159.5,250 L163,330" stroke="{stripe}" stroke-width="1.4" fill="none"/>'
+             + (f'<text x="124" y="236" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="6.5" letter-spacing=".4" fill="{text_col}">{text}</text>' if text else ''))
+    m = _rdm.search(r'<path d="M58,232 Q60,262 58,330 M142,232[^>]*/>', svg)
+    return svg[:m.end()] + extra + svg[m.end():] if m else svg
+# Alan Mead (BEL), Oct 2026: team-manager portrait (replaces his runner's one) in his navy Belgrave sweater with a thin white stripe down the sleeves
+# and small yellow BELGRAVE on the chest; bald with white hair round the temples, short white beard, thin glasses, nasolabial creases, strong chin, smiling
+save("alan-mead", domeflat(crewsweater(nose(eyes(widesmile(figure("BEL", skin=1, hair="closebald", hair_colour="#E4E2DC", brow_colour="#B9B4AA", facial="shortbeard", facial_colour="#E8E6E0", glasses=True, creases=True, jaw="broadchin", jacket=("#1F2A44", "#18213A", None))), None, 0), 1.1, 1.2), "#18213A", text="BELGRAVE"), .88))
 export_site()
