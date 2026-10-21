@@ -53,6 +53,7 @@ a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.dd{display:inline-block;min-width:2ch;text-align:right}
 .num{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-weight:500}
 /* one personal-best marker everywhere: outlined gold chip on the result itself */
 .pbc{display:inline-block;background:var(--pb-tint);color:var(--pb-ink);padding:0 6px;border-radius:4px;font-weight:700;box-shadow:inset 0 0 0 1px var(--pb-bg);line-height:1.35}
@@ -676,6 +677,8 @@ function pctOff(e,v,pb){ if(v==null||pb==null) return null; return isField(e) ? 
 const dObj = d => new Date(d+'T12:00:00');
 const fmtD = d => { const x=dObj(d); return `${x.getDate()} ${MON[x.getMonth()]}`; };
 const fmtDY = d => { const x=dObj(d); return `${x.getDate()} ${MON[x.getMonth()]} ${String(x.getFullYear()).slice(2)}`; };
+// dates in tables: day right-aligned in a two-digit slot so the month names line up
+const dHTML = (d,withYear) => { const x=dObj(d); return `<span class="dd">${x.getDate()}</span> ${MON[x.getMonth()]}${withYear?' '+String(x.getFullYear()).slice(2):''}`; };
 
 /* ---------- club singlets (from the Surrey League archive) ---------- */
 const VEST_P="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
@@ -835,7 +838,7 @@ function renderCross(a){
       <td class="rk num">${i+1}</td>
       <td class="e"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-label="Chart ${esc(r.event)}">${r.event==='1 Mile Road'?'Mile':`<span class="evf">${esc(r.event)}</span><span class="evs" aria-hidden="true">${esc(shortEv(r.event))}</span>`}</button>${i===0?'<span class="sr"> (strongest event)</span>':''}${r.event==='1 Mile Road'?' <span class="note">road</span>':''}${r.viaParkrun?' <span class="note">at parkrun</span>':''}${/i/.test(r.f||'')?' <span class="note">indoor</span>':''}</td>
       ${i===0?'':''}<td class="p num"><span class="pbc">${esc(r.pb)}</span></td>
-      <td class="d num">${fmtDY(r.d)}</td>
+      <td class="d num">${dHTML(r.d,true)}</td>
       <td class="bar" aria-hidden="true">${r.pts!=null?`<span class="track"><span class="fill" style="width:${Math.max(4,Math.round(r.pts/maxP*100))}%"></span></span>`:''}</td>
       <td class="pts num">${r.pts!=null?fmtPts(r.pts):'–'}</td>
       <td class="ag num">${r.ag!=null?fmtAG(r.ag):'–'}${r.ag!=null&&r.age!=null?`<span class="age"> at ${r.age}</span>`:''}</td>
@@ -927,7 +930,7 @@ function renderForm(a){
     </div>
     <div>
       <div class="k" style="font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Latest ${esc(abbr(ev))}</div>
-      <div class="lastn">${lastPts.length?lastPts.map(p=>`<div class="row"><span class="d num">${fmtDY(p.d)}</span><span class="m" title="${esc(p.m)}">${esc(p.m)}</span><span>${gapClass(ev,p.v,pb)==='g0'?`<b class="num pbc">${esc(p.p.replace(/\(.*\)/,''))}</b>`:`<b class="num">${esc(p.p.replace(/\(.*\)/,''))}</b>`} <span class="gap ${gapClass(ev,p.v,pb)}">${fmtGap(ev,p.v,pb)}</span></span></div>`).join(''):'<span style="color:var(--ink-3)">No timed results</span>'}</div>
+      <div class="lastn">${lastPts.length?lastPts.map(p=>`<div class="row"><span class="d num">${dHTML(p.d,true)}</span><span class="m" title="${esc(p.m)}">${esc(p.m)}</span><span>${gapClass(ev,p.v,pb)==='g0'?`<b class="num pbc">${esc(p.p.replace(/\(.*\)/,''))}</b>`:`<b class="num">${esc(p.p.replace(/\(.*\)/,''))}</b>`} <span class="gap ${gapClass(ev,p.v,pb)}">${fmtGap(ev,p.v,pb)}</span></span></div>`).join(''):'<span style="color:var(--ink-3)">No timed results</span>'}</div>
     </div>`;
   drawChart(pts, ev, pb);
 }
@@ -935,7 +938,7 @@ function renderForm(a){
 let chartState=null;
 function drawChart(pts, ev, pb){
   const box=document.getElementById('chart');
-  if(S.chartTable){ box.innerHTML = pts.length? `<div class="chart-table"><table><thead><tr><th>Date</th><th>Result</th><th>Gap to PB then</th><th>Meeting</th></tr></thead><tbody>${pts.slice().reverse().map(p=>`<tr><td>${fmtDY(p.d)}</td><td><b>${esc(p.p)}</b>${p.newPB?' <span class="badge pb">PB</span>':''}</td><td>${p.pbAtTime!=null?fmtGap(ev,p.v,p.pbAtTime):'First'}</td><td style="font-family:var(--font-body);font-size:var(--fs-s)">${esc(p.m)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty-state">No timed results for this event.</div>'; chartState=null; return; }
+  if(S.chartTable){ box.innerHTML = pts.length? `<div class="chart-table"><table><thead><tr><th>Date</th><th>Result</th><th>Gap to PB then</th><th>Meeting</th></tr></thead><tbody>${pts.slice().reverse().map(p=>`<tr><td>${dHTML(p.d,true)}</td><td><b>${esc(p.p)}</b>${p.newPB?' <span class="badge pb">PB</span>':''}</td><td>${p.pbAtTime!=null?fmtGap(ev,p.v,p.pbAtTime):'First'}</td><td style="font-family:var(--font-body);font-size:var(--fs-s)">${esc(p.m)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty-state">No timed results for this event.</div>'; chartState=null; return; }
   const W=Math.max(280, box.clientWidth||600);
   let H=Math.round(Math.min(300,Math.max(210,W*0.38)));
   // side by side on wider screens: grow the chart to the height of the side column so no gap is left under it
@@ -1015,7 +1018,7 @@ function renderRecent(a){
   document.getElementById('recent').innerHTML = `<table class="recent"><thead><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>vs PB</th><th class="m">Meeting</th></tr></thead><tbody>${rows.map(p=>{
     const pbThen=p.pbAtTime; const graded=names.has(p.c) && p.v!=null;
     const gap = p.newPB ? '<span class="gap g0">New PB</span>' : (graded && pbThen!=null ? `<span class="gap ${gapClass(p.c,p.v,pbThen)}">${fmtGap(p.c,p.v,pbThen)}</span>` : '<span style="color:var(--ink-3)">–</span>');
-    return `<tr><td class="num">${fmtDY(p.d)}</td><td class="e"><b>${esc(abbr(p.e))}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td></tr>`;
+    return `<tr><td class="num">${dHTML(p.d,true)}</td><td class="e"><b>${esc(abbr(p.e))}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td></tr>`;
   }).join('')}</tbody></table>${GAPKEY}`;
 }
 
@@ -1059,7 +1062,7 @@ function renderPerfs(a){
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
   const head=`<thead><tr><th>Date</th><th>Event</th><th>Result</th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
-  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${S.sort==='date'||S.sort==='old'?fmtD(p.d):fmtDY(p.d)}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
+  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
