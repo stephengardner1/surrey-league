@@ -655,7 +655,7 @@ const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>wi
 // short event names for the narrow first column on phones
 function shortEv(e){
   if(e==='Half Marathon') return 'HM';
-  if(e==='Marathon') return 'M';
+  if(e==='Marathon') return 'Mara';
   if(e==='1 Mile Road') return '1M';   // in the year-by-year grid it sits under Road, so it reads just 'Mile' there
   const m=e.match(/^(\d+(?:\.\d+)?) Miles?$/); if(m) return m[1]+'M';
   return e;
