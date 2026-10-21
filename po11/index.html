@@ -9,13 +9,13 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
 <style>
 /* Layout: one dense working page. Sticky search bar, athlete header, then a two-column body:
    main column = best-performances grid, form chart, every performance; side column = rankings, clubs, coaches, data notes. */
 /* Look: the new Power of 10's own palette, with contrast raised to WCAG AA.
    Red = brand and the strongest event only. Navy = text, data and selection. Gold = personal bests only.
-   Type: Inter for text and data (tabular figures in tables), IBM Plex Sans Condensed for names and headings.
+   Type: Arial for text and data (its figures are already fixed-width), IBM Plex Sans Condensed for names and headings.
    Type scale (6 sizes): 12 labels/chips, 13 dense tables, 14 body/summary tables, 19 panel titles, 28 big numbers, 40 name.
    Row heights: about 34px in summary tables, about 29px in long lists. */
 :root{
@@ -42,8 +42,8 @@
   --warn-bg:#F8EBD3;
   --dot:#5B6684;
   --font-display:"IBM Plex Sans Condensed","Arial Narrow","Segoe UI",Arial,sans-serif;
-  --font-body:"Inter","Segoe UI",Arial,sans-serif;
-  --font-data:"Inter","Segoe UI",Arial,sans-serif;   /* one family; tables switch on tabular figures */
+  --font-body:Arial,"Helvetica Neue",Helvetica,sans-serif;   /* built into every computer and iPhone: crisp, no download */
+  --font-data:Arial,"Helvetica Neue",Helvetica,sans-serif;   /* one family; tables switch on tabular figures */
   --fs-xs:12px; --fs-s:13px; --fs-m:14px; --fs-l:19px; --fs-xl:28px; --fs-xxl:40px; --fs-data:14px;
   --radius:8px;
   color-scheme:light;
