@@ -347,7 +347,6 @@ details.src p{margin:6px 0 0;max-width:72ch}
       <section class="panel" id="perfPanel">
         <header><h2>All performances</h2><span class="hint" id="perfCount" aria-live="polite"></span></header>
         <div class="filters" id="filters"></div>
-        <div class="yearjump" id="yearjump"></div>
         <div class="scroll" id="perfs" tabindex="0" role="region" aria-label="All performances table"></div>
       </section>
     </div>
@@ -742,7 +741,6 @@ function prepare(a){
 /* ---------- state ---------- */
 const S = { a:null, ev:null, types:new Set(TYPES.map(t=>t[0])), evFilter:'', text:'', sort:'date' };
 S.collapsed=new Set(); try{ const c=JSON.parse(localStorage.getItem('p11-collapsed')||'[]'); if(Array.isArray(c)) S.collapsed=new Set(c); }catch(e){}
-try{ const saved = JSON.parse(localStorage.getItem('p11-types')||'null'); if(Array.isArray(saved)&&saved.length) S.types=new Set(saved); }catch(e){}
 
 /* ---------- search ---------- */
 const q=document.getElementById('q'), qres=document.getElementById('qres'), sbox=document.getElementById('searchbox');
@@ -986,7 +984,6 @@ function renderFilters(a){
   evs.sort((x,y)=>{ const ox=order.has(canon(x))?order.get(canon(x)):999, oy=order.has(canon(y))?order.get(canon(y)):999; return ox-oy || x.localeCompare(y,undefined,{numeric:true}); });
   if(S.evFilter && !evs.includes(S.evFilter)) S.evFilter='';
   document.getElementById('filters').innerHTML = `
-    <div class="chips" role="group" aria-label="Race types">${TYPES.filter(t=>counts[t[0]]).map(t=>`<button class="chip" data-t="${t[0]}" aria-pressed="${S.types.has(t[0])}">${t[1]}<span class="c">${counts[t[0]]}</span></button>`).join('')}</div>
     <label for="fev">Event <select id="fev"><option value="">All events</option>${evs.map(e=>`<option ${e===S.evFilter?'selected':''}>${esc(e)}</option>`).join('')}</select></label>
     <label for="fsort">Sort <select id="fsort">
       <option value="date" ${S.sort==='date'?'selected':''}>Newest first, by year</option>
@@ -999,17 +996,6 @@ function renderFilters(a){
     </select></label>
     <input id="ftext" type="search" placeholder="Meeting or venue" value="${esc(S.text)}" aria-label="Filter by meeting or venue">`;
 }
-document.getElementById('filters').addEventListener('click',e=>{
-  const b=e.target.closest('.chip'); if(!b) return;
-  const t=b.dataset.t; const all=[...document.querySelectorAll('#filters .chip')].map(x=>x.dataset.t);
-  // first click on a full set isolates that type; otherwise toggle
-  if(all.every(x=>S.types.has(x))){ S.types=new Set([t]); }
-  else if(S.types.has(t)){ S.types.delete(t); if(!S.types.size) all.forEach(x=>S.types.add(x)); }
-  else S.types.add(t);
-  try{ localStorage.setItem('p11-types', JSON.stringify([...S.types])); }catch(err){}
-  document.querySelectorAll('#filters .chip').forEach(x=>x.setAttribute('aria-pressed',S.types.has(x.dataset.t)));
-  renderPerfs(S.a);
-});
 document.getElementById('filters').addEventListener('change',e=>{
   if(e.target.id==='fev'){ S.evFilter=e.target.value; renderPerfs(S.a); }
   if(e.target.id==='fsort'){ S.sort=e.target.value; renderPerfs(S.a); }
@@ -1024,7 +1010,7 @@ function clubFor(a,y){
 }
 function renderPerfs(a){
   const t=S.text.trim().toLowerCase();
-  let list=a.perfs.filter(p=>S.types.has(p.t) && (!S.evFilter||p.e===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
+  let list=a.perfs.filter(p=>(!S.evFilter||p.e===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
   const total=a.perfs.length;
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
@@ -1032,7 +1018,6 @@ function renderPerfs(a){
   const head=`<thead><tr><th>Date</th><th>Event</th><th>Result</th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th>Meeting</th><th><span class="sr">Markers</span></th></tr></thead>`;
   const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${S.sort==='date'||S.sort==='old'?fmtD(p.d):fmtDY(p.d)}</td><td class="e">${esc(p.e)}</td><td class="p num">${esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="b">${p.newPB?'<span class="badge pb">PB</span>':''}${p.isSB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td></tr>`;
   let body='';
-  const yj=document.getElementById('yearjump');
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
     const groups=new Map(); list.forEach(p=>{ if(!groups.has(p.y)) groups.set(p.y,[]); groups.get(p.y).push(p); });
@@ -1042,8 +1027,6 @@ function renderPerfs(a){
       body+=`<tr class="yh" id="y-${a.id}-${y}"><td colspan="8"><span class="yy">${y}</span>${club?`<span class="yc">${vestSvg(club,15)} ${esc(club)}</span>`:`<span class="yc" style="color:var(--ink-3);font-weight:400">Club not recorded</span>`}<span class="yn">${ps.length} result${ps.length===1?'':'s'}</span></td></tr>`;
       body+=ps.map(row).join('');
     });
-    yj.innerHTML = [...groups.keys()].map(y=>`<a href="#y-${a.id}-${y}" data-y="${y}">${y}<span class="count"> ${groups.get(y).length}</span></a>`).join('');
-    yj.hidden = groups.size<2;
   } else {
     if(S.sort==='best') list.sort((x,y)=> x.c===y.c ? cmpBest(x,y) : cmpDate(x,y));
     if(S.sort==='best' && !S.evFilter){ // group by event then best
@@ -1053,14 +1036,13 @@ function renderPerfs(a){
     if(S.sort==='pts') list.sort((x,y)=> (y.pts||-1)-(x.pts||-1) || cmpDate(x,y));
     if(S.sort==='ag') list.sort((x,y)=> (y.ag||-1)-(x.ag||-1) || cmpDate(x,y));
     if(S.sort==='pos') list.sort((x,y)=>{ const px=parseInt(x.pos)||1e6, py=parseInt(y.pos)||1e6; return px-py || cmpDate(x,y); });
-    body=list.map(row).join(''); yj.hidden=true;
+    body=list.map(row).join('');
   }
   document.getElementById('perfs').innerHTML = list.length ? `<table class="perf">${head}<tbody>${body}</tbody></table>` : '<div class="empty-state">No results match these filters. Turn a race type back on or clear the search.</div>';
 }
 function openForm(open){ if(open===undefined) open=true; const b=document.getElementById('formToggle'); b.setAttribute('aria-expanded',open); document.getElementById('formBody').hidden=!open; if(open && S.a) renderForm(S.a); }
 document.getElementById('formToggle').addEventListener('click',e=>openForm(e.currentTarget.getAttribute('aria-expanded')!=='true'));
 document.getElementById('recentToggle').addEventListener('click',e=>{ const b=e.currentTarget, open=b.getAttribute('aria-expanded')!=='true'; b.setAttribute('aria-expanded',open); document.getElementById('recent').hidden=!open; });
-document.getElementById('yearjump').addEventListener('click',e=>{ const l=e.target.closest('a'); if(!l) return; e.preventDefault(); const el=document.getElementById(l.getAttribute('href').slice(1)); if(el) el.scrollIntoView({behavior:SMOOTH,block:'start'}); });
 
 /* ---------- side panels ---------- */
 function renderSide(a){
