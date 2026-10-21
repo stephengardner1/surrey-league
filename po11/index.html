@@ -404,7 +404,6 @@ details.src p{margin:6px 0 0;max-width:72ch}
           <dt>ZXC</dt><dd>Cross country, distance not given</dd>
           <dt>L / ML</dt><dd>Relay leg in km / miles</dd>
           <dt>MT</dt><dd>Multi-terrain</dd>
-          <dt>(…)</dt><dd>Gun time, after the chip time</dd>
           <dt>i</dt><dd>Indoor</dd>
           <dt>w</dt><dd>Wind assisted</dd>
           <dt>+</dt><dd>Split taken inside a longer race</dd>
@@ -956,7 +955,7 @@ function renderForm(a){
 let chartState=null;
 function drawChart(pts, ev, pb){
   const box=document.getElementById('chart');
-  if(S.chartTable){ box.innerHTML = pts.length? `<div class="chart-table"><table><thead><tr><th>Date</th><th>Result</th><th>Gap to PB then</th><th>Meeting</th></tr></thead><tbody>${pts.slice().reverse().map(p=>`<tr><td>${dHTML(p.d,true)}</td><td><b>${esc(p.p)}</b>${p.newPB?' <span class="badge pb">PB</span>':''}</td><td>${p.pbAtTime!=null?fmtGap(ev,p.v,p.pbAtTime):'First'}</td><td style="font-family:var(--font-body);font-size:var(--fs-s)">${esc(p.m)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty-state">No timed results for this event.</div>'; chartState=null; return; }
+  if(S.chartTable){ box.innerHTML = pts.length? `<div class="chart-table"><table><thead><tr><th>Date</th><th>Result</th><th>Gap to PB then</th><th>Meeting</th></tr></thead><tbody>${pts.slice().reverse().map(p=>`<tr><td>${dHTML(p.d,true)}</td><td><b>${esc(p.p.replace(/\(.*\)/,''))}</b>${p.newPB?' <span class="badge pb">PB</span>':''}</td><td>${p.pbAtTime!=null?fmtGap(ev,p.v,p.pbAtTime):'First'}</td><td style="font-family:var(--font-body);font-size:var(--fs-s)">${esc(p.m)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty-state">No timed results for this event.</div>'; chartState=null; return; }
   const W=Math.max(280, box.clientWidth||600);
   let H=Math.round(Math.min(300,Math.max(210,W*0.38)));
   // side by side on wider screens: grow the chart to the height of the side column so no gap is left under it
@@ -1020,7 +1019,7 @@ function chartHover(e){
   if(bi<0||bd>(e.type==='click'?2500:900)){ tip.hidden=true; xh.setAttribute('visibility','hidden'); return; }
   const p=pts[bi]; const cx=X(dObj(p.d).getTime()), cy=Y(p.v);
   xh.setAttribute('x1',cx); xh.setAttribute('x2',cx); xh.setAttribute('visibility','visible');
-  tip.innerHTML=`<b class="num">${esc(p.p)}</b> ${p.newPB?'<span class="badge pb">PB</span>':''}<br>${esc(fmtDY(p.d))} · ${esc(p.v!=null?p.pos:'')}${/^\d+$/.test(p.pos)?ord(p.pos):''}<br>${esc(p.m)}<br><span style="opacity:.75">${esc(p.ven)}<br>${p.pbAtTime!=null?'Gap to PB then: '+fmtGap(ev,p.v,p.pbAtTime):'First race at this event'}</span>`;
+  tip.innerHTML=`<b class="num">${esc(p.p.replace(/\(.*\)/,''))}</b> ${p.newPB?'<span class="badge pb">PB</span>':''}<br>${esc(fmtDY(p.d))} · ${esc(p.v!=null?p.pos:'')}${/^\d+$/.test(p.pos)?ord(p.pos):''}<br>${esc(p.m)}<br><span style="opacity:.75">${esc(p.ven)}<br>${p.pbAtTime!=null?'Gap to PB then: '+fmtGap(ev,p.v,p.pbAtTime):'First race at this event'}</span>`;
   tip.hidden=false;
   const tw=tip.offsetWidth, th=tip.offsetHeight;
   let tx=cx+12; if(tx+tw>r.width) tx=cx-12-tw; let ty=cy-th-10; if(ty<0) ty=cy+12;
@@ -1090,7 +1089,7 @@ function renderPerfs(a){
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
   const head=`<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
-  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
+  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
