@@ -115,7 +115,7 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .grid td.y.cur,.grid th.cur{box-shadow:inset 1px 0 0 var(--line),inset -1px 0 0 var(--line)}
 .grid th.cur{color:var(--ink)}
 .grid tbody tr{cursor:pointer}
-.grid .yv{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;border-radius:3px}
+.grid .yv{border:0;background:none;padding:2px 0;min-height:24px;font:inherit;color:inherit;cursor:pointer;border-radius:3px}
 .grid .yv:hover{text-decoration:underline}
 .perf tr.flash td{animation:flash 2.6s ease-out}
 @keyframes flash{0%,40%{background:var(--flash,#FFF1B8)}100%{background:transparent}}
@@ -188,9 +188,9 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 
 /* performances */
 .filters{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line-soft)}
-.filters select,.filters input[type=search]{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);padding:4px 8px;font-size:var(--fs-s);min-width:0}
+.filters select,.filters input[type=search]{border:1px solid #858585;border-radius:var(--radius);background:var(--bg);padding:4px 8px;font-size:var(--fs-s);min-width:0}
 .filters input[type=search]{width:190px;padding-left:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235A6683' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:9px 50%;background-size:14px 14px}
-.fsbtn{display:none;align-items:center;justify-content:center;width:34px;min-height:30px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);color:var(--ink-2);cursor:pointer;padding:0}
+.fsbtn{display:none;align-items:center;justify-content:center;width:34px;min-height:30px;border:1px solid #858585;border-radius:var(--radius);background:var(--bg);color:var(--ink-2);cursor:pointer;padding:0}
 .filters.sopen .fsbtn{background:var(--navy);border-color:var(--navy);color:#fff}
 .filters label{font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;display:flex;gap:6px;align-items:center}
 .perf{font-size:var(--fs-s)}
@@ -296,26 +296,30 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 /* head to head */
 .h2hpick{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-size:var(--fs-s)}
 .h2hclose{border:0;background:none;color:inherit;font-size:22px;line-height:1;cursor:pointer;padding:0 2px;min-width:28px;min-height:28px}
-.h2hbtn{align-self:start;justify-self:end;display:inline-flex;align-items:center;gap:5px;border:0;background:none;color:var(--ink-3);padding:4px 2px;font-weight:500;font-size:var(--fs-xs);cursor:pointer;white-space:nowrap;min-height:24px}
+.h2hline{margin-top:6px}
+.h2hbtn{display:inline-flex;align-items:center;gap:5px;border:0;background:none;color:var(--ink-3);padding:4px 2px;font-weight:500;font-size:var(--fs-xs);cursor:pointer;white-space:nowrap;min-height:24px}
 .h2hbtn svg{width:13px;height:13px}
 .h2hbtn:hover{color:var(--ink);text-decoration:underline}
 #h2hPanel{scroll-margin-top:calc(var(--toph,0px) + 12px)}
 .h2hbtn[aria-expanded="true"]{color:var(--ink);font-weight:600}
-.h2hpick select{font-size:var(--fs-s);border:1px solid var(--line);border-radius:var(--radius);padding:3px 8px;background:#fff;color:var(--ink);max-width:220px}
+.h2hpick select{font-size:var(--fs-s);border:1px solid #858585;border-radius:var(--radius);padding:3px 8px;background:#fff;color:var(--ink);max-width:220px}
 #h2h{padding:14px 14px 4px}
-.h2hsum{width:100%;max-width:460px;margin:0 auto 18px;table-layout:fixed;border-collapse:collapse}
-.h2hsum td{padding:6px 8px;text-align:center;vertical-align:bottom}
-.h2hsum td:first-child{text-align:right}.h2hsum td:last-child{text-align:left}
-.h2hsum td.lab{width:150px;font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;vertical-align:middle}
-.h2hsum tr+tr td{border-top:1px solid var(--line-soft)}
-.h2hsum tr.faces td,.h2hsum tr.names td{border-top:0}
-.h2hsum tr.names td{font-weight:600;padding-top:0;vertical-align:top}
-.h2hsum tr.big td.num{font-size:var(--fs-xl);line-height:1.1}
+.h2hsum{display:grid;grid-template-columns:1fr 150px 1fr;max-width:460px;margin:0 auto 18px;align-items:end}
+.h2hsum>div{padding:6px 8px}
+.h2hsum .l{text-align:right}.h2hsum .r{text-align:left}.h2hsum .m{text-align:center}
+.h2hsum .lab{font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;align-self:center}
+.h2hsum .nm{font-weight:600;padding-top:4px}
+.h2hsum .big,.h2hsum .lv{border-top:1px solid var(--line-soft);align-self:stretch;display:flex;align-items:center}
+.h2hsum .big.l,.h2hsum .lv.l{justify-content:flex-end}.h2hsum .big.m,.h2hsum .lv.m{justify-content:center;text-align:center}
+#h2hPanel h2:focus:not(:focus-visible){outline:none}
+.h2hsum .big.num{font-size:var(--fs-xl);line-height:1.1}
 .h2hsum .num{font-family:var(--font-data);font-variant-numeric:tabular-nums}
 .h2hsum .win,.h2hrace td.win,.h2hrace td.hp.win .ht{color:var(--good);font-weight:700}
+.h2hjump{border:0;background:none;padding:2px 0;min-height:24px;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.h2hjump:hover{text-decoration:underline}
 .h2hface{display:inline-block;width:72px;height:72px;border-radius:8px;overflow:hidden;vertical-align:bottom;background:var(--ground,#eee)}
 .h2hface img{display:block;width:100%;height:auto}
-.h2hgo{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer}
+.h2hgo{border:0;background:none;padding:2px 0;min-height:24px;font:inherit;color:inherit;cursor:pointer}
 .h2hgo:hover{text-decoration:underline}
 .h2hrace{font-size:var(--fs-s);font-family:var(--font-data)}
 .h2hrace th,.h2hrace td{padding:6px 8px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap;vertical-align:baseline}
@@ -323,7 +327,6 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .h2hrace th.r,.h2hrace td.hp{text-align:right}
 .h2hrace td.d{color:var(--ink-3)}
 .h2hrace td.e{font-weight:600}
-.h2hrace td.hp sup{font-size:.7em;margin-left:1px}
 .h2hrace td.hp .ht{display:inline-block;min-width:74px;margin-left:12px;color:var(--ink-3);font-weight:400}
 .h2hrace td.m{color:var(--ink-2)}
 .h2hrace th.r,.h2hrace td.hp{padding-left:24px}
@@ -343,7 +346,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .sidecol{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 }
 @media (max-width: 760px){
-  .h2hbtn{justify-self:start;margin-top:-4px}
+  .h2hrace td.hp .ht{display:none}   /* phones: both places side by side; times are in All performances */
   .athlete{grid-template-columns:minmax(0,1fr)}
   .form{grid-template-columns:minmax(0,1fr)}
   .form .chartbox{border-right:0;border-bottom:1px solid var(--line-soft)}
@@ -417,6 +420,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
       </section>
       <section class="panel" id="bestsPanel">
         <header><h2>Personal bests by year</h2></header>
+        <p class="sr" id="gridHint">Press the right arrow to move through this event's season bests, and Enter on one to find that race in All performances.</p>
         <div class="scroll" id="bests" tabindex="0" role="region" aria-label="Personal bests by year table"></div>
       </section>
       <!-- progression: lives here, hidden, until a row in either best-performances table is opened; then it moves into that row -->
@@ -757,7 +761,7 @@ const dHTML = (d,withYear) => { const x=dObj(d); return `<span class="dd">${x.ge
 
 /* ---------- club singlets (from the Surrey League archive) ---------- */
 const VEST_P="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
-const VEST_CLUB={'cambridge university':'CAM','nottingham university':'NOT','oxford university':'OXF','york university':'YRK','cambridge & coleridge':'CAC','nene valley':'NVH','bristol & west':'BWA','thames valley':'TVH','imperial college':'IMP','radley':'RAD','eynsham':'EYN','notts ac':'NAC','teignbridge':'TEI','avon schools':'AVS','shaftesbury':'SBH','belgrave':'BEL','aldershot farnham':'AFD','south london':'SLH','thames hare':'THH','guildford & godalming':'G&G','hercules wimbledon':'H/W'};
+const VEST_CLUB={'cambridge university':'CAM','nottingham university':'NOT','oxford university':'OXF','york university':'YRK','cambridge & coleridge':'CAC','nene valley':'NVH','bristol & west':'BWA','thames valley':'TVH','imperial college':'IMP','radley':'RAD','eynsham':'EYN','notts ac':'NAC','teignbridge':'TEI','avon schools':'AVS','shaftesbury':'SBH','exeter university':'EXU','belgrave':'BEL','aldershot farnham':'AFD','south london':'SLH','thames hare':'THH','guildford & godalming':'G&G','hercules wimbledon':'H/W'};
 let vestN=0;
 function vestSvg(club,size){
   const key=Object.keys(VEST_CLUB).find(k=>String(club).toLowerCase().includes(k)); const code=key?VEST_CLUB[key]:null;
@@ -777,6 +781,7 @@ function vestSvg(club,size){
     'TEI':`<path d="${p}" fill="#1f45b8"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="0,13.5 20,20.5 20,22 0,22" fill="#1e9a4b"/><polygon points="0,11.6 20,18.6 20,20.5 0,13.5" fill="#f5d020"/><path d="M6 0 Q7 4 10 5 Q13 4 14 0" fill="none" stroke="#f5d020" stroke-width="1.2"/></g>`,
     'AVS':`<path d="${p}" fill="#6E9BD1"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3.5" fill="#fff"/></g>`,
     'SBH':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})" fill="#111"><rect x="3" y="0" width="2" height="20"/><rect x="7" y="0" width="2" height="20"/><rect x="11" y="0" width="2" height="20"/><rect x="15" y="0" width="2" height="20"/></g>`,
+    'EXU':`<path d="${p}" fill="#1f5130"/>`,
     'TVH':`<path d="${p}" fill="#6E9BD1"/>`,
     'BEL':`<path d="${p}" fill="#7A001D"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="20" height="4" fill="#CCAD6A"/></g>`,
     'AFD':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/></g>`,
@@ -955,14 +960,14 @@ function renderBests(a){
   const row=r=>{
     const pbv=r.pbv;
     return `<tr data-ev="${esc(r.event)}" aria-selected="${S.ev===r.event}">
-      <td class="ev" title="${esc(r.event)}"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-pressed="${S.ev===r.event}" aria-label="Chart ${esc(r.event)}"><span class="evf">${esc(r.event==='1 Mile Road'?'Mile':r.event)}</span><span class="evs" aria-hidden="true">${esc(r.event==='1 Mile Road'?'Mile':shortEv(r.event))}</span></button></td>
+      <td class="ev" title="${esc(r.event)}"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-pressed="${S.ev===r.event}" aria-label="Chart ${esc(r.event)}" aria-describedby="gridHint"><span class="evf">${esc(r.event==='1 Mile Road'?'Mile':r.event)}</span><span class="evs" aria-hidden="true">${esc(r.event==='1 Mile Road'?'Mile':shortEv(r.event))}</span></button></td>
       <td class="pb num"><span class="pbc">${esc(r.pb)}</span></td>
       <td class="tr">${spark(r)}</td>
       ${years.map(y=>{ const v=r.sb[y]; if(!v) return `<td class="y ${y===CUR_YEAR?'cur':''}"></td>`;
         const ispb = val(v)!=null && pbv!=null && Math.abs(val(v)-pbv)<0.005;
         const inner=ispb?`<span class="pbc">${esc(v)}</span><span class="sr"> (personal best)</span>`:esc(v);
         const hasRace=a.perfs.some(p=>p.c===r.event && p.y===y && p.v!=null && !p.dup);
-        return `<td class="y num ${ispb?'ispb':''} ${y===CUR_YEAR?'cur':''}">${hasRace?`<button type="button" class="yv" data-ev="${esc(r.event)}" data-y="${y}" data-v="${val(v)}" title="Show this race in All performances">${inner}</button>`:inner}</td>`; }).join('')}
+        return `<td class="y num ${ispb?'ispb':''} ${y===CUR_YEAR?'cur':''}">${hasRace?`<button type="button" class="yv" tabindex="-1" data-ev="${esc(r.event)}" data-y="${y}" data-v="${val(v)}" title="Show this race in All performances">${inner}</button>`:inner}</td>`; }).join('')}
     </tr>`;
   };
   const groups=[['track','Track',a.grid.filter(r=>r.type==='track'&&!isField(r.event))],['field','Field',a.grid.filter(r=>r.type==='track'&&isField(r.event))],['road','Road',a.grid.filter(r=>r.type==='road')]].filter(g=>g[2].length);
@@ -987,6 +992,13 @@ function showPerf(hit){
 }
 document.getElementById('bests').addEventListener('click',e=>{ const yv=e.target.closest('.yv'); if(yv){ e.stopPropagation(); jumpToRace(yv.dataset.ev, +yv.dataset.y, +yv.dataset.v); return; } const sb=e.target.closest('.secbtn'); if(sb){ const k=sb.dataset.sec; if(S.collapsed.has(k)) S.collapsed.delete(k); else S.collapsed.add(k); try{ localStorage.setItem('p11-collapsed',JSON.stringify([...S.collapsed])); }catch(err){} const tb=sb.closest('tbody'); tb.classList.toggle('collapsed',S.collapsed.has(k)); sb.setAttribute('aria-expanded',!S.collapsed.has(k)); return; } const tr=e.target.closest('tr[data-ev]'); if(tr){ openDetail(tr); } });
 // row click is a mouse shortcut; keyboard and screen reader users use the event button in the first cell
+document.getElementById('bests').addEventListener('keydown',e=>{
+  if(e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
+  const t=e.target; const tr=t.closest('tr[data-ev]'); if(!tr || !(t.matches('.evbtn')||t.matches('.yv'))) return;
+  const stops=[tr.querySelector('.evbtn'),...tr.querySelectorAll('.yv')].filter(Boolean);
+  const i=stops.indexOf(t); const n=i+(e.key==='ArrowRight'?1:-1);
+  if(n>=0 && n<stops.length){ e.preventDefault(); stops[n].focus(); stops[n].scrollIntoView({block:'nearest',inline:'nearest'}); }
+});
 
 /* ---------- form ---------- */
 function defaultEvent(a){
@@ -1151,14 +1163,17 @@ function h2hFace(x){
 S.h2h = {};
 function h2hButton(){
   const ath=document.getElementById('athlete'); if(ath.querySelector('.h2hbtn')) return;
-  ath.insertAdjacentHTML('beforeend',`<button type="button" class="h2hbtn" title="Head to head with another runner" aria-controls="h2hPanel" aria-expanded="${S.h2hOpen?'true':'false'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h14"/><path d="m17 20 4-4-4-4"/><path d="M21 16H7"/></svg>Compare</button>`);
+  const sub=ath.querySelector('.sl-head .sub');
+  const html=`<button type="button" class="h2hbtn" title="Head to head with another runner" aria-controls="h2hPanel" aria-expanded="${S.h2hOpen?'true':'false'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h14"/><path d="m17 20 4-4-4-4"/><path d="M21 16H7"/></svg>Compare</button>`;
+  if(sub) sub.insertAdjacentHTML('beforeend',`<span class="sep"> · </span><span class="si">${html}</span>`);
+  else ath.firstElementChild.insertAdjacentHTML('beforeend',`<div class="h2hline">${html}</div>`);
 }
 function setH2HOpen(open){
   S.h2hOpen=open; const panel=document.getElementById('h2hPanel'); panel.hidden=!open;
   const b=document.querySelector('#athlete .h2hbtn'); if(b) b.setAttribute('aria-expanded',open);
-  if(open){ renderH2H(S.a); panel.scrollIntoView({behavior:SMOOTH,block:'start'}); }
+  if(open){ renderH2H(S.a); panel.scrollIntoView({behavior:SMOOTH,block:'start'}); const h=panel.querySelector('h2'); h.tabIndex=-1; if(S.h2hByKey) h.focus({preventScroll:true}); }
 }
-document.getElementById('athlete').addEventListener('click',e=>{ if(e.target.closest('.h2hbtn')) setH2HOpen(!S.h2hOpen); });
+document.getElementById('athlete').addEventListener('click',e=>{ const b=e.target.closest('.h2hbtn'); if(b){ S.h2hByKey = e.detail===0; setH2HOpen(!S.h2hOpen); } });   // detail 0 = keyboard activation: move focus to the section
 document.getElementById('h2hClose').addEventListener('click',()=>{ setH2HOpen(false); document.querySelector('#athlete .h2hbtn')?.focus(); });
 function renderH2H(a){
   h2hButton();
@@ -1173,14 +1188,17 @@ function renderH2H(a){
   const box=document.getElementById('h2h');
   if(!rows.length){ box.innerHTML=`<div class="empty-state">${esc(a.first)} and ${esc(b.first)} haven't raced each other.</div>`; return; }
   const cls=(x,y)=>x>y?'win':'';
-  const cell=(p,w)=>`<td class="hp num ${w>0?'win':''}">${/^\d+$/.test(p.pos||'')?`${p.pos}<sup>${ord(p.pos)}</sup>`:esc(p.pos||'–')}<span class="ht">${esc(String(p.p).replace(/\(.*\)/,''))}</span></td>`;
-  box.innerHTML=`<table class="h2hsum"><tbody>
-      <tr class="faces"><td>${h2hFace(a)}</td><td class="lab">${rows.length} race${rows.length===1?'':'s'}</td><td><button type="button" class="h2hgo" data-id="${b.id}" title="Open ${esc(b.first)} ${esc(b.last)}">${h2hFace(b)}</button></td></tr>
-      <tr class="names"><td>${esc(a.first)} ${esc(a.last)}</td><td></td><td><button type="button" class="h2hgo" data-id="${b.id}">${esc(b.first)} ${esc(b.last)}</button></td></tr>
-      <tr class="big"><td class="num ${cls(wa,wb)}">${wa}</td><td class="lab">Head-to-head wins</td><td class="num ${cls(wb,wa)}">${wb}</td></tr>
-      ${lv?`<tr><td class="num">${lv}</td><td class="lab">Level or no result</td><td class="num">${lv}</td></tr>`:''}
-    </tbody></table>
-    <div class="scroll" tabindex="0" role="region" aria-label="Race by race"><table class="h2hrace"><thead><tr><th>Date</th><th>Event</th><th class="r">${esc(a.first)}</th><th class="r">${esc(b.first)}</th><th class="m">Meeting</th></tr></thead><tbody>${(S.h2hAll?rows:rows.slice(0,10)).map(r=>`<tr data-i="${r.pa.i}"><td class="d num">${dHTML(r.pa.d,true)}</td><td class="e">${esc(abbr(r.pa.e))}</td>${cell(r.pa,r.w)}${cell(r.pb,-r.w)}<td class="m">${esc(r.pa.m)}</td></tr>`).join('')}</tbody></table></div>
+  const cell=(p,w)=>`<td class="hp num ${w>0?'win':''}">${esc(p.pos||'–')}<span class="ht">${esc(String(p.p).replace(/\(.*\)/,''))}</span>${w>0?'<span class="sr"> (won)</span>':''}</td>`;
+  const nmA=`${esc(a.first)} ${esc(a.last)}`, nmB=`${esc(b.first)} ${esc(b.last)}`;
+  box.innerHTML=`<p class="sr">${nmA} ${wa}, ${nmB} ${wb} head-to-head wins from ${rows.length} race${rows.length===1?'':'s'}${lv?`; ${lv} level or no result`:''}.</p>
+    <div class="h2hsum">
+      <div class="l">${h2hFace(a)}<div class="nm">${nmA}</div></div>
+      <div class="m lab">${rows.length} race${rows.length===1?'':'s'}</div>
+      <div class="r"><button type="button" class="h2hgo face" data-id="${b.id}" tabindex="-1" aria-hidden="true">${h2hFace(b)}</button><div class="nm"><button type="button" class="h2hgo" data-id="${b.id}" title="Open ${nmB}'s page">${nmB}</button></div></div>
+      <div class="l big num ${cls(wa,wb)}" aria-hidden="true">${wa}</div><div class="m lab big" aria-hidden="true">Head-to-head wins</div><div class="r big num ${cls(wb,wa)}" aria-hidden="true">${wb}</div>
+      ${lv?`<div class="l num lv" aria-hidden="true">${lv}</div><div class="m lab lv" aria-hidden="true">Level or no result</div><div class="r num lv" aria-hidden="true">${lv}</div>`:''}
+    </div>
+    <div class="scroll" tabindex="0" role="region" aria-label="Race by race"><table class="h2hrace"><thead><tr><th>Date</th><th>Event</th><th class="r">${esc(a.first)}</th><th class="r">${esc(b.first)}</th><th class="m">Meeting</th></tr></thead><tbody>${(S.h2hAll?rows:rows.slice(0,10)).map(r=>`<tr data-i="${r.pa.i}"><td class="d num"><button type="button" class="h2hjump">${dHTML(r.pa.d,true)}<span class="sr">: show this race in All performances</span></button></td><td class="e">${esc(abbr(r.pa.e))}</td>${cell(r.pa,r.w)}${cell(r.pb,-r.w)}<td class="m">${esc(r.pa.m)}</td></tr>`).join('')}</tbody></table></div>
     ${rows.length>10?`<div style="padding-top:10px"><button type="button" class="toggle" id="h2hMore">${S.h2hAll?'Show the latest 10':'Show all '+rows.length+' races'}</button></div>`:''}`;
 }
 document.getElementById('h2hSel').addEventListener('change',e=>{ S.h2h[S.a.id]=e.target.value; S.h2hAll=false; renderH2H(S.a); });
@@ -1234,8 +1252,8 @@ function clubFor(a,y){
 }
 function renderPerfs(a){
   const t=S.text.trim().toLowerCase();
-  let list=a.perfs.filter(p=>(!S.evFilter||p.e===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
-  const total=a.perfs.length;
+  let list=a.perfs.filter(p=>!p.dup && (!S.evFilter||p.e===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
+  const total=a.perfs.filter(p=>!p.dup).length;
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
