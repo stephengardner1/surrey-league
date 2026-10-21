@@ -1089,7 +1089,7 @@ function renderPerfs(a){
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
-  const head=`<thead><tr><th>Date</th><th>Event</th><th>Result</th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">WA pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
+  const head=`<thead><tr><th>Date</th><th>Event</th><th>Result</th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
   const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
   let body='';
   if(S.sort==='date'||S.sort==='old'){
