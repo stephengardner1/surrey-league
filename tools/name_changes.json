@@ -33311,5 +33311,47 @@
   "seasons": null,
   "evidence": "The Belgravian names him Richard Blick: No.211 (1987) club XC champs caption ('Richard Blick ... youths'); No.212 (1988) 'Richard Blick showed middle distance ...' and 'Richard Blick (800/1500)'. The only Blick in Belgrave's results (R Blick, 1989/90 m3 73rd, m4 44th).",
   "approved": "Steve, 21 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Faircloth"
+  ],
+  "to": "Don Faircloth",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    8
+   ]
+  ],
+  "evidence": "Surname-only result (8th, Croydon); Don Faircloth ran for Croydon in 1974/75 m3 (2nd) and is the only Croydon Faircloth.",
+  "approved": "Steve, 21 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "D Fairclough"
+  ],
+  "to": "Don Faircloth",
+  "seasons": [
+   "1985/86",
+   "1985/86"
+  ],
+  "races": [
+   [
+    "1985/86",
+    3,
+    48
+   ]
+  ],
+  "evidence": "Misspelling inside Don Faircloth's Croydon run (1985/86 m1 32nd, m2 41st, m3 48th).",
+  "approved": "Steve, 21 Oct 2026"
  }
 ]
