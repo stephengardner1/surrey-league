@@ -1174,7 +1174,7 @@ function renderH2H(a){
   const cls=(x,y)=>x>y?'win':'';
   const cell=(p,w)=>`<td class="hp num ${w>0?'win':''}">${/^\d+$/.test(p.pos||'')?`${p.pos}<sup>${ord(p.pos)}</sup>`:esc(p.pos||'–')}<span class="ht">${esc(String(p.p).replace(/\(.*\)/,''))}</span></td>`;
   box.innerHTML=`<table class="h2hsum"><tbody>
-      <tr class="faces"><td>${h2hFace(a)}</td><td class="lab">${rows.length} race${rows.length===1?'':'s'}<br>together</td><td><button type="button" class="h2hgo" data-id="${b.id}" title="Open ${esc(b.first)} ${esc(b.last)}">${h2hFace(b)}</button></td></tr>
+      <tr class="faces"><td>${h2hFace(a)}</td><td class="lab">${rows.length} race${rows.length===1?'':'s'}</td><td><button type="button" class="h2hgo" data-id="${b.id}" title="Open ${esc(b.first)} ${esc(b.last)}">${h2hFace(b)}</button></td></tr>
       <tr class="names"><td>${esc(a.first)} ${esc(a.last)}</td><td></td><td><button type="button" class="h2hgo" data-id="${b.id}">${esc(b.first)} ${esc(b.last)}</button></td></tr>
       <tr class="big"><td class="num ${cls(wa,wb)}">${wa}</td><td class="lab">Head-to-head wins</td><td class="num ${cls(wb,wa)}">${wb}</td></tr>
       ${lv?`<tr><td class="num">${lv}</td><td class="lab">Level or no result</td><td class="num">${lv}</td></tr>`:''}
