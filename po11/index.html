@@ -659,12 +659,12 @@ function fmtGap(e, v, pb){
 const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of the PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
 // house abbreviations used everywhere an event is named: HM, M, TJ, HJ, DT
 function abbr(e){
-  return String(e||'').replace(/^Half Marathon/,'HM').replace(/^(Marathon|Mar)$/,'M').replace(/^Triple Jump/,'TJ').replace(/^High Jump/,'HJ').replace(/^Discus/,'DT');
+  return String(e||'').replace(/^Half Marathon/,'HM').replace(/^(Marathon|Mar)$/,'Mara').replace(/^Triple Jump/,'TJ').replace(/^High Jump/,'HJ').replace(/^Discus/,'DT');
 }
 // short event names used in the two summary tables
 function shortEv(e){
   if(e==='Half Marathon') return 'HM';
-  if(e==='Marathon') return 'M';
+  if(e==='Marathon') return 'Mara';
   if(e==='1 Mile Road') return '1M';
   const field={'High Jump':'HJ','Long Jump':'LJ','Triple Jump':'TJ','Pole Vault':'PV','Shot Put':'SP','Shot':'SP','Discus':'DT','Javelin':'JT','Hammer':'HT'};
   if(field[e]) return field[e];   // in the year-by-year grid it sits under Road, so it reads just 'Mile' there
