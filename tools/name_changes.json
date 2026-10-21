@@ -33353,5 +33353,40 @@
   ],
   "evidence": "Misspelling inside Don Faircloth's Croydon run (1985/86 m1 32nd, m2 41st, m3 48th).",
   "approved": "Steve, 21 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "C.Owens"
+  ],
+  "to": "Chris Owens",
+  "seasons": [
+   "2001/02",
+   "2001/02"
+  ],
+  "evidence": "Formatting variant inside Chris Owens's Ranelagh run (1991/92-2012/13); 2001/02 m1, m2, m4 (Chris Owens himself m3), never both in one race; same level (74th-99th).",
+  "approved": "Steve, 21 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "OWENS"
+  ],
+  "to": "Chris Owens",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    94
+   ]
+  ],
+  "evidence": "Surname-only result (94th) in a season Chris Owens ran m1 (64th) and m2 (70th) for Ranelagh; the only Ranelagh Owens in the league results.",
+  "approved": "Steve, 21 Oct 2026"
  }
 ]
