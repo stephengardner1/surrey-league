@@ -714,7 +714,7 @@ const dHTML = (d,withYear) => { const x=dObj(d); return `<span class="dd">${x.ge
 
 /* ---------- club singlets (from the Surrey League archive) ---------- */
 const VEST_P="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
-const VEST_CLUB={'cambridge university':'CAM','nottingham university':'NOT','oxford university':'OXF','york university':'YRK','cambridge & coleridge':'CAC','nene valley':'NVH','bristol':'BWA','belgrave':'BEL','aldershot farnham':'AFD','south london':'SLH','thames hare':'THH','guildford & godalming':'G&G','hercules wimbledon':'H/W'};
+const VEST_CLUB={'cambridge university':'CAM','nottingham university':'NOT','oxford university':'OXF','york university':'YRK','cambridge & coleridge':'CAC','nene valley':'NVH','bristol & west':'BWA','thames valley':'TVH','belgrave':'BEL','aldershot farnham':'AFD','south london':'SLH','thames hare':'THH','guildford & godalming':'G&G','hercules wimbledon':'H/W'};
 let vestN=0;
 function vestSvg(club,size){
   const key=Object.keys(VEST_CLUB).find(k=>String(club).toLowerCase().includes(k)); const code=key?VEST_CLUB[key]:null;
@@ -727,6 +727,7 @@ function vestSvg(club,size){
     'CAC':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="6" width="20" height="2.5" fill="#1f4fa3"/><rect x="0" y="11" width="20" height="2.5" fill="#1f4fa3"/></g>`,
     'NVH':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="10" height="4" fill="#1f4fa3"/><rect x="10" y="7" width="10" height="4" fill="#d0021b"/></g>`,
     'BWA':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="4" fill="#d0021b"/></g>`,
+    'TVH':`<path d="${p}" fill="#6E9BD1"/>`,
     'BEL':`<path d="${p}" fill="#7A001D"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="20" height="4" fill="#CCAD6A"/></g>`,
     'AFD':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/></g>`,
     'SLH':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="13" y="0" width="4" height="20" fill="#800020"/></g>`,
