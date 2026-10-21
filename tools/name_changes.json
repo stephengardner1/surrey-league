@@ -33388,5 +33388,3428 @@
   ],
   "evidence": "Surname-only result (94th) in a season Chris Owens ran m1 (64th) and m2 (70th) for Ranelagh; the only Ranelagh Owens in the league results.",
   "approved": "Steve, 21 Oct 2026"
+ },
+ {
+  "sex": "men",
+  "club": "MIT",
+  "from": [
+   "Gillett"
+  ],
+  "to": "Michael Gillett",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "races": [
+   [
+    "1962/63",
+    2,
+    6
+   ]
+  ],
+  "evidence": "Surname-only result (6th). Michael Gillett is the only Gillett named at MIT in the same season (places 3), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Duggan"
+  ],
+  "to": "Pete Duggan",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "races": [
+   [
+    "1962/63",
+    2,
+    25
+   ]
+  ],
+  "evidence": "Surname-only result (25th). Pete Duggan is the only Duggan named at H/W in the same season (places 12), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Randall"
+  ],
+  "to": "D Randall",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "races": [
+   [
+    "1962/63",
+    2,
+    28
+   ]
+  ],
+  "evidence": "Surname-only result (28th). D Randall is the only Randall named at WAL in the same season (places 13), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "MIT",
+  "from": [
+   "Walker"
+  ],
+  "to": "J Walker",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "races": [
+   [
+    "1962/63",
+    2,
+    31
+   ]
+  ],
+  "evidence": "Surname-only result (31th). J Walker is the only Walker named at MIT in the same season (places 29), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "MIT",
+  "from": [
+   "Davies"
+  ],
+  "to": "B Davies",
+  "seasons": [
+   "1962/63",
+   "1962/63"
+  ],
+  "races": [
+   [
+    "1962/63",
+    2,
+    40
+   ]
+  ],
+  "evidence": "Surname-only result (40th). B Davies is the only Davies named at MIT in the same season (places 39), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Burt"
+  ],
+  "to": "Gordon Burt",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    4
+   ]
+  ],
+  "evidence": "Surname-only result (4th). Gordon Burt is the only Burt named at WAL in the same season (places 2), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SUR",
+  "from": [
+   "Fuller"
+  ],
+  "to": "L Fuller",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    26
+   ]
+  ],
+  "evidence": "Surname-only result (26th). L Fuller is the only Fuller named at SUR in the same season (places 11), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Blackmore"
+  ],
+  "to": "C Blackmore",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    28
+   ]
+  ],
+  "evidence": "Surname-only result (28th). C Blackmore is the only Blackmore named at HHH in the same or next/previous season (places 31, 51), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Durham"
+  ],
+  "to": "J Durham",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    31
+   ]
+  ],
+  "evidence": "Surname-only result (31th). J Durham is the only Durham named at HHH in the same or next/previous season (places 7, 9, 15), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Allen"
+  ],
+  "to": "Stan Allen",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    41
+   ]
+  ],
+  "evidence": "Surname-only result (41th). Stan Allen is the only Allen named at HHH in the same or next/previous season (places 41, 47), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Robinson"
+  ],
+  "to": "C Robinson",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    48
+   ]
+  ],
+  "evidence": "Surname-only result (48th). C Robinson is the only Robinson named at H/W in the same or next/previous season (places 67, 70), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Wakeling"
+  ],
+  "to": "F Wakeling",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    74
+   ]
+  ],
+  "evidence": "Surname-only result (74th). F Wakeling is the only Wakeling named at H/W in the same or next/previous season (places 80, 84), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Sharp"
+  ],
+  "to": "K Sharp",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    83
+   ]
+  ],
+  "evidence": "Surname-only result (83th). K Sharp is the only Sharp named at WAL in the same or next/previous season (places 57, 71), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Jeffery"
+  ],
+  "to": "P Jeffery",
+  "seasons": [
+   "1963/64",
+   "1963/64"
+  ],
+  "races": [
+   [
+    "1963/64",
+    4,
+    93
+   ]
+  ],
+  "evidence": "Surname-only result (93th). P Jeffery is the only Jeffery named at HHH in the same or next/previous season (places 85, 89), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Roath"
+  ],
+  "to": "Bob Roath",
+  "seasons": [
+   "1964/65",
+   "1964/65"
+  ],
+  "races": [
+   [
+    "1964/65",
+    3,
+    10
+   ]
+  ],
+  "evidence": "Surname-only result (10th). Bob Roath is the only Roath named at WAL in the same season (places 7), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SUR",
+  "from": [
+   "Sawyer"
+  ],
+  "to": "Andy Sawyer",
+  "seasons": [
+   "1964/65",
+   "1964/65"
+  ],
+  "races": [
+   [
+    "1964/65",
+    3,
+    11
+   ]
+  ],
+  "evidence": "Surname-only result (11th). Andy Sawyer is the only Sawyer named at SUR in the same season (places 19), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Halliday"
+  ],
+  "to": "John Halliday",
+  "seasons": [
+   "1964/65",
+   "1964/65"
+  ],
+  "races": [
+   [
+    "1964/65",
+    3,
+    12
+   ]
+  ],
+  "evidence": "Surname-only result (12th). John Halliday is the only Halliday named at H/W in the same season (places 16), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Nias"
+  ],
+  "to": "J Nias",
+  "seasons": [
+   "1964/65",
+   "1964/65"
+  ],
+  "races": [
+   [
+    "1964/65",
+    3,
+    16
+   ]
+  ],
+  "evidence": "Surname-only result (16th). J Nias is the only Nias named at HHH in the same season (places 15), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "Smith"
+  ],
+  "to": "P Smith",
+  "seasons": [
+   "1965/66",
+   "1965/66"
+  ],
+  "races": [
+   [
+    "1965/66",
+    2,
+    87
+   ]
+  ],
+  "evidence": "Surname-only result (87th). P Smith is the only Smith named at BEL in the same season (places 58), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "Fairfield"
+  ],
+  "to": "Chris Fairfield",
+  "seasons": [
+   "1965/66",
+   "1965/66"
+  ],
+  "races": [
+   [
+    "1965/66",
+    4,
+    68
+   ]
+  ],
+  "evidence": "Surname-only result (68th). Chris Fairfield is the only Fairfield named at BEL in the same season (places 89), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Fuller"
+  ],
+  "to": "Mike Fuller",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    5
+   ]
+  ],
+  "evidence": "Surname-only result (5th). Mike Fuller is the only Fuller named at H/W in the same season (places 6, 7), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "MPA",
+  "from": [
+   "Hutchin"
+  ],
+  "to": "K Hutchin",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    6
+   ]
+  ],
+  "evidence": "Surname-only result (6th). K Hutchin is the only Hutchin named at MPA in the same season (places 3, 4), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Hanahoe"
+  ],
+  "to": "Mick Hanahoe",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    10
+   ]
+  ],
+  "evidence": "Surname-only result (10th). Mick Hanahoe is the only Hanahoe named at HHH in the same season (places 9, 18), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Beard"
+  ],
+  "to": "D Beard",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    11
+   ]
+  ],
+  "evidence": "Surname-only result (11th). D Beard is the only Beard named at H/W in the same season (places 10, 18), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Davies"
+  ],
+  "to": "Taff Davies",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    13
+   ]
+  ],
+  "evidence": "Surname-only result (13th). Taff Davies is the only Davies named at AFD in the same season (places 9, 12), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Taylor"
+  ],
+  "to": "C Taylor",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    15
+   ]
+  ],
+  "evidence": "Surname-only result (15th). C Taylor is the only Taylor named at HHH in the same season (places 17, 30), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Turner"
+  ],
+  "to": "E Turner",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    16
+   ]
+  ],
+  "evidence": "Surname-only result (16th). E Turner is the only Turner named at AFD in the same season (places 15, 33), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Gevers"
+  ],
+  "to": "R Gevers",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    17
+   ]
+  ],
+  "evidence": "Surname-only result (17th). R Gevers is the only Gevers named at SLH in the same season (places 13), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Upcott"
+  ],
+  "to": "Francis Upcott",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    18
+   ]
+  ],
+  "evidence": "Surname-only result (18th). Francis Upcott is the only Upcott named at SLH in the same season (places 11, 14), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Curwell"
+  ],
+  "to": "D Curwell",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    21
+   ]
+  ],
+  "evidence": "Surname-only result (21th). D Curwell is the only Curwell named at AFD in the same season (places 14, 22), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Watts"
+  ],
+  "to": "John Watts",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    22
+   ]
+  ],
+  "evidence": "Surname-only result (22th). John Watts is the only Watts named at AFD in the same season (places 19, 21), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Newton"
+  ],
+  "to": "S Newton",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    23
+   ]
+  ],
+  "evidence": "Surname-only result (23th). S Newton is the only Newton named at H/W in the same season (places 24), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Williams"
+  ],
+  "to": "Paul Williams",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    25
+   ]
+  ],
+  "evidence": "Surname-only result (25th). Paul Williams is the only Williams named at SLH in the same season (places 18, 21), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Whitty"
+  ],
+  "to": "Christopher Whitty",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    26
+   ]
+  ],
+  "evidence": "Surname-only result (26th). Christopher Whitty is the only Whitty named at AFD in the same season (places 20, 20), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Manning"
+  ],
+  "to": "D Manning",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    27
+   ]
+  ],
+  "evidence": "Surname-only result (27th). D Manning is the only Manning named at H/W in the same season (places 35), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Dunphy"
+  ],
+  "to": "Mick Dunphy",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    29
+   ]
+  ],
+  "evidence": "Surname-only result (29th). Mick Dunphy is the only Dunphy named at HHH in the same season (places 36, 37), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Lippell"
+  ],
+  "to": "S Lippell",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    30
+   ]
+  ],
+  "evidence": "Surname-only result (30th). S Lippell is the only Lippell named at H/W in the same season (places 34), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Claxton"
+  ],
+  "to": "D Claxton",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    31
+   ]
+  ],
+  "evidence": "Surname-only result (31th). D Claxton is the only Claxton named at HHH in the same season (places 27, 36, 48), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Bradbury"
+  ],
+  "to": "G Bradbury",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    33
+   ]
+  ],
+  "evidence": "Surname-only result (33th). G Bradbury is the only Bradbury named at H/W in the same season (places 32, 38), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Crawte"
+  ],
+  "to": "Steve Crawte",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    35
+   ]
+  ],
+  "evidence": "Surname-only result (35th). Steve Crawte is the only Crawte named at AFD in the same season (places 32, 42), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Day"
+  ],
+  "to": "R Day",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    39
+   ]
+  ],
+  "evidence": "Surname-only result (39th). R Day is the only Day named at CRO in the same season (places 28, 29), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Himsworth"
+  ],
+  "to": "E Himsworth",
+  "seasons": [
+   "1973/74",
+   "1973/74"
+  ],
+  "races": [
+   [
+    "1973/74",
+    2,
+    40
+   ]
+  ],
+  "evidence": "Surname-only result (40th). E Himsworth is the only Himsworth named at H/W in the same season (places 23, 38), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Newport"
+  ],
+  "to": "M Newport",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    5
+   ]
+  ],
+  "evidence": "Surname-only result (5th). M Newport is the only Newport named at SLH in the same season (places 5, 5), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Lee"
+  ],
+  "to": "J Lee",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    6
+   ]
+  ],
+  "evidence": "Surname-only result (6th). J Lee is the only Lee named at CRO in the same season (places 11, 19, 21), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Rock"
+  ],
+  "to": "K Rock",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    7
+   ]
+  ],
+  "evidence": "Surname-only result (7th). K Rock is the only Rock named at CRO in the same season (places 12, 29, 32), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Upcott"
+  ],
+  "to": "Francis Upcott",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    9
+   ]
+  ],
+  "evidence": "Surname-only result (9th). Francis Upcott is the only Upcott named at SLH in the same season (places 11, 15, 39), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Watts"
+  ],
+  "to": "John Watts",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    12
+   ]
+  ],
+  "evidence": "Surname-only result (12th). John Watts is the only Watts named at AFD in the same season (places 4, 6, 9), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Barton"
+  ],
+  "to": "M Barton",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    17
+   ]
+  ],
+  "evidence": "Surname-only result (17th). M Barton is the only Barton named at AFD in the same season (places 26), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Hanahoe"
+  ],
+  "to": "Mick Hanahoe",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    18
+   ]
+  ],
+  "evidence": "Surname-only result (18th). Mick Hanahoe is the only Hanahoe named at HHH in the same season (places 5, 7, 17), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Bruce"
+  ],
+  "to": "J Bruce",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    20
+   ]
+  ],
+  "evidence": "Surname-only result (20th). J Bruce is the only Bruce named at CRO in the same season (places 24, 25, 29), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Hughes"
+  ],
+  "to": "Will Hughes",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    23
+   ]
+  ],
+  "evidence": "Surname-only result (23th). Will Hughes is the only Hughes named at WAL in the same or next/previous season (places 35, 39, 71), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Crawte"
+  ],
+  "to": "Steve Crawte",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    25
+   ]
+  ],
+  "evidence": "Surname-only result (25th). Steve Crawte is the only Crawte named at AFD in the same season (places 47), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Francis"
+  ],
+  "to": "Peter Francis",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    27
+   ]
+  ],
+  "evidence": "Surname-only result (27th). Peter Francis is the only Francis named at WAL in the same season (places 33), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Lines"
+  ],
+  "to": "R Lines",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    29
+   ]
+  ],
+  "evidence": "Surname-only result (29th). R Lines is the only Lines named at SLH in the same season (places 23, 31, 31), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Yarlett"
+  ],
+  "to": "Peter Yarlett",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    32
+   ]
+  ],
+  "evidence": "Surname-only result (32th). Peter Yarlett is the only Yarlett named at CRO in the same season (places 37, 45), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Brackstone"
+  ],
+  "to": "A Brackstone",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    33
+   ]
+  ],
+  "evidence": "Surname-only result (33th). A Brackstone is the only Brackstone named at WAL in the same season (places 56), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Lill"
+  ],
+  "to": "Peter Lill",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    34
+   ]
+  ],
+  "evidence": "Surname-only result (34th). Peter Lill is the only Lill named at CRO in the same season (places 38, 51), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Ashby"
+  ],
+  "to": "K Ashby",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    35
+   ]
+  ],
+  "evidence": "Surname-only result (35th). K Ashby is the only Ashby named at H/W in the same or next/previous season (places 45, 52, 54), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "Richardson"
+  ],
+  "to": "Peter Richardson",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    37
+   ]
+  ],
+  "evidence": "Surname-only result (37th). Peter Richardson is the only Richardson named at CRO in the same season (places 39, 60), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Roath"
+  ],
+  "to": "Bob Roath",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    38
+   ]
+  ],
+  "evidence": "Surname-only result (38th). Bob Roath is the only Roath named at WAL in the same season (places 47), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Claxton"
+  ],
+  "to": "D Claxton",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    39
+   ]
+  ],
+  "evidence": "Surname-only result (39th). D Claxton is the only Claxton named at HHH in the same season (places 42), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Larkin"
+  ],
+  "to": "P Larkin",
+  "seasons": [
+   "1974/75",
+   "1974/75"
+  ],
+  "races": [
+   [
+    "1974/75",
+    4,
+    40
+   ]
+  ],
+  "evidence": "Surname-only result (40th). P Larkin is the only Larkin named at AFD in the same season (places 27), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Martin"
+  ],
+  "to": "Stewart Martin",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    15
+   ]
+  ],
+  "evidence": "Surname-only result (15th). Stewart Martin is the only Martin named at E&E in the same season (places 8, 9, 10), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Dippie"
+  ],
+  "to": "A Dippie",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    16
+   ]
+  ],
+  "evidence": "Surname-only result (16th). A Dippie is the only Dippie named at WAL in the same season (places 16, 23, 28), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Walden"
+  ],
+  "to": "M Walden",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    17
+   ]
+  ],
+  "evidence": "Surname-only result (17th). M Walden is the only Walden named at E&E in the same season (places 26), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Nicholson"
+  ],
+  "to": "Alistair Nicholson",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    18
+   ]
+  ],
+  "evidence": "Surname-only result (18th). Alistair Nicholson is the only Nicholson named at E&E in the same season (places 6, 7, 17), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Watts"
+  ],
+  "to": "John Watts",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    24
+   ]
+  ],
+  "evidence": "Surname-only result (24th). John Watts is the only Watts named at AFD in the same season (places 13), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Peel"
+  ],
+  "to": "J Peel",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    30
+   ]
+  ],
+  "evidence": "Surname-only result (30th). J Peel is the only Peel named at AFD in the same season (places 8, 9, 11), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Browne"
+  ],
+  "to": "T Browne",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    31
+   ]
+  ],
+  "evidence": "Surname-only result (31th). T Browne is the only Browne named at E&E in the same season (places 23), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Alcock"
+  ],
+  "to": "J Alcock",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    33
+   ]
+  ],
+  "evidence": "Surname-only result (33th). J Alcock is the only Alcock named at E&E in the same season (places 37), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Morris"
+  ],
+  "to": "Doug Morris",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    36
+   ]
+  ],
+  "evidence": "Surname-only result (36th). Doug Morris is the only Morris named at E&E in the same season (places 40), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Latter"
+  ],
+  "to": "D Latter",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    37
+   ]
+  ],
+  "evidence": "Surname-only result (37th). D Latter is the only Latter named at WAL in the same season (places 8, 21, 27), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Purser"
+  ],
+  "to": "S Purser",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    39
+   ]
+  ],
+  "evidence": "Surname-only result (39th). S Purser is the only Purser named at AFD in the same season (places 62), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "Thomas"
+  ],
+  "to": "G Thomas",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    43
+   ]
+  ],
+  "evidence": "Surname-only result (43th). G Thomas is the only Thomas named at RAN in the same season (places 35, 73), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "Wale"
+  ],
+  "to": "A Wale",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    44
+   ]
+  ],
+  "evidence": "Surname-only result (44th). A Wale is the only Wale named at RAN in the same season (places 57), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Harrold"
+  ],
+  "to": "A Harrold",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    50
+   ]
+  ],
+  "evidence": "Surname-only result (50th). A Harrold is the only Harrold named at H/W in the same season (places 32, 46), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Ingall"
+  ],
+  "to": "Simon Ingall",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    55
+   ]
+  ],
+  "evidence": "Surname-only result (55th). Simon Ingall is the only Ingall named at H/W in the same season (places 34, 60, 63), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Murry"
+  ],
+  "to": "J Murry",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    56
+   ]
+  ],
+  "evidence": "Surname-only result (56th). J Murry is the only Murry named at E&E in the same season (places 29, 32), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Bradbury"
+  ],
+  "to": "G Bradbury",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    58
+   ]
+  ],
+  "evidence": "Surname-only result (58th). G Bradbury is the only Bradbury named at H/W in the same season (places 57, 79), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Hardisty"
+  ],
+  "to": "D Hardisty",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    61
+   ]
+  ],
+  "evidence": "Surname-only result (61th). D Hardisty is the only Hardisty named at WAL in the same season (places 85), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Symington"
+  ],
+  "to": "R Symington",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    63
+   ]
+  ],
+  "evidence": "Surname-only result (63th). R Symington is the only Symington named at E&E in the same season (places 59), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Marriott"
+  ],
+  "to": "Ray Marriott",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    64
+   ]
+  ],
+  "evidence": "Surname-only result (64th). Ray Marriott is the only Marriott named at SLH in the same season (places 47, 58, 63), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Hole"
+  ],
+  "to": "J Hole",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    74
+   ]
+  ],
+  "evidence": "Surname-only result (74th). J Hole is the only Hole named at SLH in the same season (places 72, 73, 92), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Hoffman"
+  ],
+  "to": "M Hoffman",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    75
+   ]
+  ],
+  "evidence": "Surname-only result (75th). M Hoffman is the only Hoffman named at WAL in the same season (places 80, 86, 95), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "O'Neill"
+  ],
+  "to": "Sean O'Neill",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    81
+   ]
+  ],
+  "evidence": "Surname-only result (81th). Sean O'Neill is the only O'Neill named at WAL in the same season (places 97), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "Instone"
+  ],
+  "to": "S Instone",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    82
+   ]
+  ],
+  "evidence": "Surname-only result (82th). S Instone is the only Instone named at RAN in the same season (places 75, 94, 100), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Lambert"
+  ],
+  "to": "C Lambert",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    86
+   ]
+  ],
+  "evidence": "Surname-only result (86th). C Lambert is the only Lambert named at E&E in the same season (places 86), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Kitchenside"
+  ],
+  "to": "Phil Kitchenside",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    88
+   ]
+  ],
+  "evidence": "Surname-only result (88th). Phil Kitchenside is the only Kitchenside named at WAL in the same season (places 53, 78), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Ashby"
+  ],
+  "to": "K Ashby",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    93
+   ]
+  ],
+  "evidence": "Surname-only result (93th). K Ashby is the only Ashby named at H/W in the same season (places 46, 76, 106), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Hughes"
+  ],
+  "to": "Will Hughes",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    95
+   ]
+  ],
+  "evidence": "Surname-only result (95th). Will Hughes is the only Hughes named at WAL in the same season (places 67), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Holroyd"
+  ],
+  "to": "K Holroyd",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    98
+   ]
+  ],
+  "evidence": "Surname-only result (98th). K Holroyd is the only Holroyd named at SLH in the same season (places 121), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Wood"
+  ],
+  "to": "T Wood",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    100
+   ]
+  ],
+  "evidence": "Surname-only result (100th). T Wood is the only Wood named at E&E in the same season (places 91, 108), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "Milne"
+  ],
+  "to": "I Milne",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    101
+   ]
+  ],
+  "evidence": "Surname-only result (101th). I Milne is the only Milne named at RAN in the same season (places 106), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "WAL",
+  "from": [
+   "Mealing"
+  ],
+  "to": "G Mealing",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    102
+   ]
+  ],
+  "evidence": "Surname-only result (102th). G Mealing is the only Mealing named at WAL in the same season (places 85, 91), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Yates"
+  ],
+  "to": "M Yates",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    105
+   ]
+  ],
+  "evidence": "Surname-only result (105th). M Yates is the only Yates named at E&E in the same season (places 96, 99), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Bishop"
+  ],
+  "to": "D Bishop",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    112
+   ]
+  ],
+  "evidence": "Surname-only result (112th). D Bishop is the only Bishop named at E&E in the same season (places 93), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "Cother"
+  ],
+  "to": "M Cother",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    113
+   ]
+  ],
+  "evidence": "Surname-only result (113th). M Cother is the only Cother named at RAN in the same season (places 108, 130), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Quinn"
+  ],
+  "to": "M Quinn",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    121
+   ]
+  ],
+  "evidence": "Surname-only result (121th). M Quinn is the only Quinn named at SLH in the same season (places 115), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "Hedger"
+  ],
+  "to": "S Hedger",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    122
+   ]
+  ],
+  "evidence": "Surname-only result (122th). S Hedger is the only Hedger named at RAN in the same season (places 43, 71, 74), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Hopkins"
+  ],
+  "to": "A Hopkins",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    129
+   ]
+  ],
+  "evidence": "Surname-only result (129th). A Hopkins is the only Hopkins named at SLH in the same season (places 119), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "French"
+  ],
+  "to": "D French",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    130
+   ]
+  ],
+  "evidence": "Surname-only result (130th). D French is the only French named at E&E in the same season (places 135), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Rolls"
+  ],
+  "to": "A Rolls",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    131
+   ]
+  ],
+  "evidence": "Surname-only result (131th). A Rolls is the only Rolls named at SLH in the same season (places 121, 129), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Hallett"
+  ],
+  "to": "B Hallett",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    133
+   ]
+  ],
+  "evidence": "Surname-only result (133th). B Hallett is the only Hallett named at E&E in the same season (places 123, 132), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Neville"
+  ],
+  "to": "A Neville",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    139
+   ]
+  ],
+  "evidence": "Surname-only result (139th). A Neville is the only Neville named at SLH in the same season (places 149), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Page"
+  ],
+  "to": "G Page",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    143
+   ]
+  ],
+  "evidence": "Surname-only result (143th). G Page is the only Page named at E&E in the same season (places 132), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Palmer"
+  ],
+  "to": "N Palmer",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    145
+   ]
+  ],
+  "evidence": "Surname-only result (145th). N Palmer is the only Palmer named at SLH in the same season (places 137), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Richards"
+  ],
+  "to": "T Richards",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    146
+   ]
+  ],
+  "evidence": "Surname-only result (146th). T Richards is the only Richards named at SLH in the same season (places 134), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Butcher"
+  ],
+  "to": "J Butcher",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    1,
+    148
+   ]
+  ],
+  "evidence": "Surname-only result (148th). J Butcher is the only Butcher named at E&E in the same season (places 136), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Najdowski"
+  ],
+  "to": "K Najdowski",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    3,
+    75
+   ]
+  ],
+  "evidence": "Surname-only result (75th). K Najdowski is the only Najdowski named at HHH in the same season (places 67, 82), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "Jennett"
+  ],
+  "to": "C Jennett",
+  "seasons": [
+   "1979/80",
+   "1979/80"
+  ],
+  "races": [
+   [
+    "1979/80",
+    3,
+    121
+   ]
+  ],
+  "evidence": "Surname-only result (121th). C Jennett is the only Jennett named at HHH in the same season (places 107), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "Hall"
+  ],
+  "to": "Kevin Hall",
+  "seasons": [
+   "1980/81",
+   "1980/81"
+  ],
+  "races": [
+   [
+    "1980/81",
+    1,
+    104
+   ]
+  ],
+  "evidence": "Surname-only result (104th). Kevin Hall is the only Hall named at SLH in the same season (places 111), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "Hughes-Games"
+  ],
+  "to": "B Hughes-Games",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "races": [
+   [
+    "1982/83",
+    1,
+    143
+   ]
+  ],
+  "evidence": "Surname-only result (143th). B Hughes-Games is the only Hughes-Games named at RAN in the same season (places 154), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Champion"
+  ],
+  "to": "L Champion",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "races": [
+   [
+    "1982/83",
+    1,
+    153
+   ]
+  ],
+  "evidence": "Surname-only result (153th). L Champion is the only Champion named at E&E in the same season (places 120, 149, 150), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "E&E",
+  "from": [
+   "Ward"
+  ],
+  "to": "B Ward",
+  "seasons": [
+   "1982/83",
+   "1982/83"
+  ],
+  "races": [
+   [
+    "1982/83",
+    1,
+    187
+   ]
+  ],
+  "evidence": "Surname-only result (187th). B Ward is the only Ward named at E&E in the same season (places 167), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "Curwell"
+  ],
+  "to": "D Curwell",
+  "seasons": [
+   "1987/88",
+   "1987/88"
+  ],
+  "races": [
+   [
+    "1987/88",
+    4,
+    106
+   ]
+  ],
+  "evidence": "Surname-only result (106th). D Curwell is the only Curwell named at AFD in the same season (places 99), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "H/W",
+  "from": [
+   "Sheridan"
+  ],
+  "to": "E Sheridan",
+  "seasons": [
+   "1991/92",
+   "1991/92"
+  ],
+  "races": [
+   [
+    "1991/92",
+    1,
+    206
+   ]
+  ],
+  "evidence": "Surname-only result (206th). E Sheridan is the only Sheridan named at H/W in the same season (places 230), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "MAJOR"
+  ],
+  "to": "Stuart Major",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    4
+   ]
+  ],
+  "evidence": "Surname-only result (4th). Stuart Major is the only Major named at SLH in the same season (places 1, 3, 3), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "THOMAS"
+  ],
+  "to": "Andy Thomas",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    17
+   ]
+  ],
+  "evidence": "Surname-only result (17th). Andy Thomas is the only Thomas named at THH in the same season (places 26, 31, 46), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "MARSH"
+  ],
+  "to": "Francis Marsh",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    18
+   ]
+  ],
+  "evidence": "Surname-only result (18th). Francis Marsh is the only Marsh named at HHH in the same or next/previous season (places 19, 32), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "COOMBES"
+  ],
+  "to": "Simon Coombes",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    24
+   ]
+  ],
+  "evidence": "Surname-only result (24th). Simon Coombes is the only Coombes named at HHH in the same season (places 29, 36), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "WOODD"
+  ],
+  "to": "Ben Woodd",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    30
+   ]
+  ],
+  "evidence": "Surname-only result (30th). Ben Woodd is the only Woodd named at HHH in the same season (places 35), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "RAYNER"
+  ],
+  "to": "Dave Rayner",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    33
+   ]
+  ],
+  "evidence": "Surname-only result (33th). Dave Rayner is the only Rayner named at REI in the same season (places 32, 38, 51), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "HOWSE"
+  ],
+  "to": "Andy Howse",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    36
+   ]
+  ],
+  "evidence": "Surname-only result (36th). Andy Howse is the only Howse named at THH in the same season (places 45, 53), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "SANDNES"
+  ],
+  "to": "Tom Sandnes",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    38
+   ]
+  ],
+  "evidence": "Surname-only result (38th). Tom Sandnes is the only Sandnes named at SLH in the same season (places 31), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "MORGAN"
+  ],
+  "to": "Lee Morgan",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    44
+   ]
+  ],
+  "evidence": "Surname-only result (44th). Lee Morgan is the only Morgan named at SLH in the same season (places 54, 67), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "KENNIS"
+  ],
+  "to": "Al Kennis",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    45
+   ]
+  ],
+  "evidence": "Surname-only result (45th). Al Kennis (Alastair) is the only Kennis named at THH in the same season (places 42, 72, 73), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "LANE"
+  ],
+  "to": "Mick Lane",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    47
+   ]
+  ],
+  "evidence": "Surname-only result (47th). Mick Lane is the only Lane named at RAN in the same season (places 55, 63, 66), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "CORPES"
+  ],
+  "to": "Karl Corpes",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    49
+   ]
+  ],
+  "evidence": "Surname-only result (49th). Karl Corpes is the only Corpes named at AFD in the same season (places 22, 30, 50), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "SMYTHE"
+  ],
+  "to": "Steve Smythe",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    51
+   ]
+  ],
+  "evidence": "Surname-only result (51th). Steve Smythe is the only Smythe named at DUL in the same season (places 55, 135), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "BICKERSTAFF"
+  ],
+  "to": "Andy Bickerstaff",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    52
+   ]
+  ],
+  "evidence": "Surname-only result (52th). Andy Bickerstaff is the only Bickerstaff named at RAN in the same season (places 56, 63, 64), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "EARNSHAW"
+  ],
+  "to": "John Earnshaw",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    54
+   ]
+  ],
+  "evidence": "Surname-only result (54th). John Earnshaw is the only Earnshaw named at G&G in the same season (places 74, 88), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "WATERSON"
+  ],
+  "to": "Gavin Waterson",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    55
+   ]
+  ],
+  "evidence": "Surname-only result (55th). Gavin Waterson is the only Waterson named at G&G in the same season (places 64, 69), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "HADJAM"
+  ],
+  "to": "Mo Hadjam",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    63
+   ]
+  ],
+  "evidence": "Surname-only result (63th). Mo Hadjam is the only Hadjam named at HHH in the same season (places 48), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "MANN"
+  ],
+  "to": "Mike Mann",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    68
+   ]
+  ],
+  "evidence": "Surname-only result (68th). Mike Mann is the only Mann named at DUL in the same season (places 79, 81, 81), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "MAINWARING"
+  ],
+  "to": "Paul Mainwaring",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    69
+   ]
+  ],
+  "evidence": "Surname-only result (69th). Paul Mainwaring is the only Mainwaring named at G&G in the same season (places 60, 75, 98), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "SMALLEY"
+  ],
+  "to": "Josh Smalley",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    74
+   ]
+  ],
+  "evidence": "Surname-only result (74th). Josh Smalley is the only Smalley named at G&G in the same season (places 88, 89, 107), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "AFD",
+  "from": [
+   "ADAMS"
+  ],
+  "to": "Peter Adams",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    75
+   ]
+  ],
+  "evidence": "Surname-only result (75th). Peter Adams is the only Adams named at AFD in the same season (places 82), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "O'KANE"
+  ],
+  "to": "Brian O'Kane",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    76
+   ]
+  ],
+  "evidence": "Surname-only result (76th). Brian O'Kane is the only O'Kane named at G&G in the same season (places 78, 81), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "WILLIAMS"
+  ],
+  "to": "Steve Williams",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    84
+   ]
+  ],
+  "evidence": "Surname-only result (84th). Steve Williams is the only Williams named at DUL in the same season (places 103), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "TILLEY"
+  ],
+  "to": "Kevin Tilley",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    89
+   ]
+  ],
+  "evidence": "Surname-only result (89th). Kevin Tilley is the only Tilley named at SLH in the same season (places 88, 121), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "BELL"
+  ],
+  "to": "John Bell",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    91
+   ]
+  ],
+  "evidence": "Surname-only result (91th). John Bell is the only Bell named at REI in the same season (places 106, 121), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "OWEN"
+  ],
+  "to": "Dylan Owen",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    99
+   ]
+  ],
+  "evidence": "Surname-only result (99th). Dylan Owen is the only Owen named at DUL in the same season (places 102, 105, 115), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "SCARLES"
+  ],
+  "to": "Phil Scarles",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    103
+   ]
+  ],
+  "evidence": "Surname-only result (103th). Phil Scarles is the only Scarles named at SLH in the same or next/previous season (places 70, 80, 80, 84, 91, 144), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "MURRAY"
+  ],
+  "to": "Andy Murray",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    105
+   ]
+  ],
+  "evidence": "Surname-only result (105th). Andy Murray is the only Murray named at DUL in the same season (places 104, 111, 125), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "CORR"
+  ],
+  "to": "Billy Corr",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    108
+   ]
+  ],
+  "evidence": "Surname-only result (108th). Billy Corr is the only Corr named at SLH in the same season (places 87, 101), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "MOORE"
+  ],
+  "to": "Steve Moore",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    111
+   ]
+  ],
+  "evidence": "Surname-only result (111th). Steve Moore is the only Moore named at G&G in the same season (places 126), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "WOODMAN"
+  ],
+  "to": "Malcolm Woodman",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    116
+   ]
+  ],
+  "evidence": "Surname-only result (116th). Malcolm Woodman is the only Woodman named at REI in the same season (places 127), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "EMERY"
+  ],
+  "to": "P Emery",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    120
+   ]
+  ],
+  "evidence": "Surname-only result (120th). P Emery is the only Emery named at SLH in the same season (places 143), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "WEST"
+  ],
+  "to": "Dave West",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    124
+   ]
+  ],
+  "evidence": "Surname-only result (124th). Dave West is the only West named at DUL in the same season (places 110, 113, 124), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "THH",
+  "from": [
+   "WHITLOCK"
+  ],
+  "to": "Paul Whitlock",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    126
+   ]
+  ],
+  "evidence": "Surname-only result (126th). Paul Whitlock is the only Whitlock named at THH in the same season (places 134), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "GARDNER"
+  ],
+  "to": "Brian Gardner",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    135
+   ]
+  ],
+  "evidence": "Surname-only result (135th). Brian Gardner is the only Gardner named at SLH in the same season (places 130), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "QUARTON"
+  ],
+  "to": "Glen Quarton",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    141
+   ]
+  ],
+  "evidence": "Surname-only result (141th). Glen Quarton is the only Quarton named at SLH in the same or next/previous season (places 68, 73, 76, 79, 83), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "CAREY"
+  ],
+  "to": "Mike Carey",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    147
+   ]
+  ],
+  "evidence": "Surname-only result (147th). Mike Carey is the only Carey named at REI in the same season (places 154), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "LEA-GERRARD"
+  ],
+  "to": "Andy Lea-Gerrard",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "races": [
+   [
+    "2002/03",
+    4,
+    151
+   ]
+  ],
+  "evidence": "Surname-only result (151th). Andy Lea-Gerrard is the only Lea-Gerrard named at HHH in the same season (places 149, 157), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "Menendez"
+  ],
+  "to": "Niobe Menendez",
+  "seasons": [
+   "1983/84",
+   "1983/84"
+  ],
+  "races": [
+   [
+    "1983/84",
+    2,
+    2
+   ]
+  ],
+  "evidence": "Surname-only result (2th). Niobe Menendez is the only Menendez named at CRO in the same season (places 1, 1, 12), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "RAN",
+  "from": [
+   "Auerback"
+  ],
+  "to": "M Auerback",
+  "seasons": [
+   "1983/84",
+   "1983/84"
+  ],
+  "races": [
+   [
+    "1983/84",
+    2,
+    3
+   ]
+  ],
+  "evidence": "Surname-only result (3th). M Auerback is the only Auerback named at RAN in the same season (places 5, 5), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "E&E",
+  "from": [
+   "Lamont"
+  ],
+  "to": "Leigh Lamont",
+  "seasons": [
+   "1983/84",
+   "1983/84"
+  ],
+  "races": [
+   [
+    "1983/84",
+    2,
+    4
+   ]
+  ],
+  "evidence": "Surname-only result (4th). Leigh Lamont is the only Lamont named at E&E in the same season (places 6, 6), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "Ellis"
+  ],
+  "to": "Karen Ellis",
+  "seasons": [
+   "1983/84",
+   "1983/84"
+  ],
+  "races": [
+   [
+    "1983/84",
+    2,
+    6
+   ]
+  ],
+  "evidence": "Surname-only result (6th). Karen Ellis is the only Ellis named at CRO in the same season (places 1, 3, 8), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "WOK",
+  "from": [
+   "Bott"
+  ],
+  "to": "Alison Bott",
+  "seasons": [
+   "1983/84",
+   "1983/84"
+  ],
+  "races": [
+   [
+    "1983/84",
+    2,
+    7
+   ]
+  ],
+  "evidence": "Surname-only result (7th). Alison Bott is the only Bott named at WOK in the same season (places 4, 4), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "H/W",
+  "from": [
+   "Clarke"
+  ],
+  "to": "Emma Clarke",
+  "seasons": [
+   "1983/84",
+   "1983/84"
+  ],
+  "races": [
+   [
+    "1983/84",
+    2,
+    8
+   ]
+  ],
+  "evidence": "Surname-only result (8th). Emma Clarke is the only Clarke named at H/W in the same season (places 3, 7, 9), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "CRO",
+  "from": [
+   "Burchett"
+  ],
+  "to": "Jill Burchett",
+  "seasons": [
+   "1983/84",
+   "1983/84"
+  ],
+  "races": [
+   [
+    "1983/84",
+    2,
+    9
+   ]
+  ],
+  "evidence": "Surname-only result (9th). Jill Burchett is the only Burchett named at CRO in the same season (places 7, 7, 11), never in this race; place fits.",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "HHH",
+  "from": [
+   "SDawson"
+  ],
+  "to": "Sally Dawson",
+  "seasons": [
+   "1993/94",
+   "1993/94"
+  ],
+  "races": [
+   [
+    "1993/94",
+    3,
+    10
+   ]
+  ],
+  "evidence": "Run-together 'S Dawson' inside Sally Dawson's Herne Hill run (1989/90-2000/01; 1993/94 m1, m2, m4 too).",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "women",
+  "club": "HHH",
+  "from": [
+   "Jillydolphin"
+  ],
+  "to": "Jilly Dolphin",
+  "seasons": [
+   "2011/12",
+   "2011/12"
+  ],
+  "races": [
+   [
+    "2011/12",
+    4,
+    143
+   ]
+  ],
+  "evidence": "Run-together 'Jilly Dolphin' (Herne Hill, 2011/12-2014/15).",
+  "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
  }
 ]

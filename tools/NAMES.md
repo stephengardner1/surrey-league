@@ -52,6 +52,13 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
   for Belgrave in matches 1-3 that season and in 1989/90, and The Belgravian (Apr 1988) names him Belgrave's Section Secretary.
 - 1984/85 match 3 (men), 76th, "L Mead" (BEL) is Martyn Head: The Belgravian's misprint; Alan Mead confirmed (19 Oct 2026).
 
+## Surname-only results (Steve, 21 Oct 2026)
+A surname-only result is given a runner's name when that runner is the only person with the surname named at
+that club in the same season (or the next/previous one, if he ran 2+ races), is not in that race, and the place
+fits his others. 161 applied this way (1962/63-2002/03, mostly 1979/80 m1, 2002/03 m4, 1973/74 m2, 1974/75 m4),
+plus two run-together names (SDawson, Jillydolphin). Left alone: two of a surname in one race, odd places, more
+than one candidate, or no named runner of that surname at the club.
+
 ## Same surname, different runners (women, Steve 18 Oct 2026)
 - Nicky Harvey (Herne Hill, 1990s-2000s) and Natalie Harvey (South London) are two runners. "N Harvey" at
   Herne Hill is Nicky. The old alias joining "N Harvey" to Natalie was removed.
