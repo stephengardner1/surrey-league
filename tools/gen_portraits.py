@@ -2206,4 +2206,9 @@ save("andy-thomas-thh", _athomas("THH"))
 HEAD_ROUNDCHIN = "M65,96 C63,58 80,40 100,40 C120,40 137,58 135,96 L135,126 C134,148 127,161 117,168 Q109,174 100,174 Q91,174 83,168 C73,161 66,148 65,126 Z"
 # Dave Glassborow (HHH), Oct 2026 redraw: big bushy dark mop over the ears, round face, large chin
 save("dave-glassborow", nose(eyes(figure("HHH", skin=1, hair="seventies", hair_colour="#2E211B", brow_colour="#241A15"), None, 0), 1.05, 1.1).replace(HEAD, HEAD_ROUNDCHIN))
+# Robbie James (SLH 1999-2006; Ranelagh 1984-89), Oct 2026: close-cropped silver hair, long lean face, nose-to-mouth creases, hooded eyes under the brows
+def _rjames(kit):
+    return nose(brows(eyes(figure(kit, skin=1, hair="crophigh", hair_colour="#BDBAB3", brow_colour="#7A7268", jaw="long", creases=True), "hooded", 0), 0, 0, 3), 1.05, 1.2)
+save("robbie-james", _rjames("SLH"))
+save("robbie-james-ran", _rjames("RAN"))
 export_site()
