@@ -118,8 +118,8 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .grid tbody tr:hover td{background:var(--surface-2)}
 .grid tbody tr[aria-selected="true"] td.ev{box-shadow:inset 3px 0 0 var(--navy)}
 .grid tbody tr[aria-selected="true"] td{background:var(--surface-2)}
-.grid .sect td{background:#E2E2E2;color:var(--navy);font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;text-align:left;font-weight:600;cursor:default;position:static}
-.grid .sect td>span{position:sticky;left:7px;display:inline-block}
+.grid .sect th{background:#E2E2E2;color:var(--navy);font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;font-weight:600;cursor:default;border-bottom:1px solid var(--line)}
+.grid .sect th.ev{text-align:left;overflow:visible;text-overflow:clip}
 .grid .secbtn{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:2px 0;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer}
 .grid .secbtn svg{transition:transform .15s}
 .grid .secbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
@@ -301,6 +301,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
   /* narrow first column: short event names, and only the event stays pinned when scrolling sideways */
   .grid .ev{min-width:78px;max-width:78px;box-shadow:inset -1px 0 0 var(--line)}
   .grid .pb{position:static;left:auto;border-right:0}
+  .grid .sect th{letter-spacing:.03em}
   .grid td.y.cur,.grid th.cur{box-shadow:none}
   /* venue and meeting stay as one-line columns you scroll sideways to */
   .perf td.v,.perf td.m,.recent td.m{white-space:nowrap;min-width:0}
@@ -886,8 +887,8 @@ function spark(r){
 function renderBests(a){
   closeDetail();
   const years=[]; for(let y=a.yMax;y>=a.yMin;y--) years.push(y);
-  const head=`<thead><tr><th class="ev">Event</th><th class="pb">PB</th><th class="tr">Trend</th>${years.map(y=>`<th class="y ${y===CUR_YEAR?'cur':''}">${y}</th>`).join('')}</tr></thead>`;
-  const sect=(key,label,n)=>`<tr class="sect"><td colspan="${years.length+3}"><span><button type="button" class="secbtn" data-sec="${key}" aria-controls="sec-${key}" aria-expanded="${!S.collapsed.has(key)}"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${label}</button></span></td></tr>`;
+  // no separate header row: each terrain row (Track, Field, Road) carries the column headings
+  const sect=(key,label,n)=>`<tr class="sect"><th class="ev" scope="col"><button type="button" class="secbtn" data-sec="${key}" aria-controls="sec-${key}" aria-expanded="${!S.collapsed.has(key)}"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${label}</button></th><th class="pb" scope="col">PB</th><th class="tr" scope="col">Trend</th>${years.map(y=>`<th class="y ${y===CUR_YEAR?'cur':''}" scope="col">${y}</th>`).join('')}</tr>`;
   const row=r=>{
     const pbv=r.pbv;
     return `<tr data-ev="${esc(r.event)}" aria-selected="${S.ev===r.event}">
@@ -900,7 +901,7 @@ function renderBests(a){
     </tr>`;
   };
   const groups=[['track','Track',a.grid.filter(r=>r.type==='track'&&!isField(r.event))],['field','Field',a.grid.filter(r=>r.type==='track'&&isField(r.event))],['road','Road',a.grid.filter(r=>r.type==='road')]].filter(g=>g[2].length);
-  document.getElementById('bests').innerHTML = `<table class="grid">${head}${groups.map(([k,l,rs])=>`<tbody id="sec-${k}" class="${S.collapsed.has(k)?'collapsed':''}" data-sec="${k}">${sect(k,l,rs.length)}${rs.map(row).join('')}</tbody>`).join('')}</table>`;
+  document.getElementById('bests').innerHTML = `<table class="grid">${groups.map(([k,l,rs])=>`<tbody id="sec-${k}" class="${S.collapsed.has(k)?'collapsed':''}" data-sec="${k}">${sect(k,l,rs.length)}${rs.map(row).join('')}</tbody>`).join('')}</table>`;
 }
 document.getElementById('bests').addEventListener('click',e=>{ const sb=e.target.closest('.secbtn'); if(sb){ const k=sb.dataset.sec; if(S.collapsed.has(k)) S.collapsed.delete(k); else S.collapsed.add(k); try{ localStorage.setItem('p11-collapsed',JSON.stringify([...S.collapsed])); }catch(err){} const tb=sb.closest('tbody'); tb.classList.toggle('collapsed',S.collapsed.has(k)); sb.setAttribute('aria-expanded',!S.collapsed.has(k)); return; } const tr=e.target.closest('tr[data-ev]'); if(tr){ openDetail(tr); } });
 // row click is a mouse shortcut; keyboard and screen reader users use the event button in the first cell
