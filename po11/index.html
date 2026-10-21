@@ -288,6 +288,9 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .quick button,.chip,.evpick button,.evpick select,.tabletoggle,.toggle{min-height:30px}
 .grid .secbtn{min-height:28px}
 @media (pointer:coarse){ .fsbtn{min-height:40px;width:40px} .evbtn{min-height:32px} .quick button,.chip,.evpick button,.evpick select,.tabletoggle,.toggle,.filters select,.filters input[type=search]{min-height:40px} .grid .secbtn{min-height:36px} }
+.noprk{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;flex:none;font-size:var(--fs-s);font-weight:500;cursor:pointer;margin-left:auto;min-height:28px}
+.noprk[hidden]{display:none}
+.noprk input{width:16px;height:16px;margin:0;accent-color:var(--brand);cursor:pointer}
 .panelbtn{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;min-height:28px}
 .panelbtn svg{transition:transform .15s}
 .panelbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
@@ -383,7 +386,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
         </div>
       </div>
       <section class="panel" id="recentPanel">
-        <header><h2><button type="button" class="panelbtn" id="recentToggle" aria-expanded="false" aria-controls="recent">Recent form<svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2></header>
+        <header><h2><button type="button" class="panelbtn" id="recentToggle" aria-expanded="false" aria-controls="recent">Recent form<svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2><label class="noprk" id="noPrkWrap" hidden><input type="checkbox" id="noPrk"> Exclude parkrun</label></header>
         <div class="scroll" id="recent" tabindex="0" role="region" aria-label="Recent form: last 8 races" hidden></div>
       </section>
       <section class="panel" id="perfPanel">
@@ -1054,13 +1057,18 @@ function ord(n){ n=+n; const s=['th','st','nd','rd'], v=n%100; return (s[(v-20)%
 /* ---------- last races ---------- */
 function renderRecent(a){
   const names=new Set(a.grid.map(r=>r.event));
-  const rows=a.sorted.filter(p=>!p.dup).slice(0,8);
+  const rows=a.sorted.filter(p=>!p.dup && !(S.noParkrun && p.t==='parkrun')).slice(0,8);
   document.getElementById('recent').innerHTML = `<table class="recent"><thead><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>vs PB</th><th class="m">Meeting</th></tr></thead><tbody>${rows.map(p=>{
     const pbThen=p.pbAtTime; const graded=names.has(p.c) && p.v!=null;
     const gap = p.newPB ? '<span class="gap g0">New PB</span>' : (graded && pbThen!=null ? `<span class="gap ${gapClass(p.c,p.v,pbThen)}">${fmtGap(p.c,p.v,pbThen)}</span>` : '<span style="color:var(--ink-3)">–</span>');
     return `<tr><td class="num">${dHTML(p.d,true)}</td><td class="e"><b>${esc(abbr(p.e))}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td></tr>`;
   }).join('')}</tbody></table>${GAPKEY}`;
 }
+
+// Recent form: optional 'Exclude parkrun' tick box, remembered between visits
+try{ S.noParkrun = localStorage.getItem('p11-noparkrun')==='1'; }catch(e){}
+document.getElementById('noPrk').checked=!!S.noParkrun;
+document.getElementById('noPrk').addEventListener('change',e=>{ S.noParkrun=e.target.checked; try{ localStorage.setItem('p11-noparkrun',S.noParkrun?'1':'0'); }catch(err){} renderRecent(S.a); });
 
 /* ---------- all performances ---------- */
 function renderFilters(a){
@@ -1163,7 +1171,7 @@ function openDetail(tr){
   setEvent(tr.dataset.ev);
   d.scrollIntoView({behavior:SMOOTH,block:'nearest'});
 }
-document.getElementById('recentToggle').addEventListener('click',e=>{ const b=e.currentTarget, open=b.getAttribute('aria-expanded')!=='true'; b.setAttribute('aria-expanded',open); document.getElementById('recent').hidden=!open; });
+document.getElementById('recentToggle').addEventListener('click',e=>{ const b=e.currentTarget, open=b.getAttribute('aria-expanded')!=='true'; b.setAttribute('aria-expanded',open); document.getElementById('noPrkWrap').hidden=!open; document.getElementById('recent').hidden=!open; });
 
 /* ---------- side panels ---------- */
 function renderSide(a){
