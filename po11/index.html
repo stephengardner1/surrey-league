@@ -125,7 +125,7 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .grid .secbtn svg{transition:transform .15s}
 .grid .secbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
 .grid tbody.collapsed tr:not(.sect){display:none}
-.evs{display:none}
+.evf{display:none}   /* short event names (HM, Mara, 10M) everywhere; the full name stays in the button label for screen readers */
 .grid .restored{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--good);margin-left:6px;vertical-align:middle}
 .spark{display:block;margin:0 auto}
 
@@ -291,8 +291,6 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .quick button{white-space:nowrap}
   .grid .tr{display:none}
   /* narrow first column: short event names, and only the event stays pinned when scrolling sideways */
-  .grid .evf,.cross .evf{display:none}
-  .grid .evs,.cross .evs{display:inline}
   .grid .ev{min-width:78px;max-width:78px;box-shadow:inset -1px 0 0 var(--line)}
   .grid .pb{position:static;left:auto;border-right:0}
   .grid td.y.cur,.grid th.cur{box-shadow:none}
@@ -652,7 +650,7 @@ function fmtGap(e, v, pb){
   return sign + (a<60 ? a.toFixed(a<10?2:1)+'s' : fmtT(a));
 }
 const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of the PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
-// short event names for the narrow first column on phones
+// short event names used in the two summary tables
 function shortEv(e){
   if(e==='Half Marathon') return 'HM';
   if(e==='Marathon') return 'Mara';
