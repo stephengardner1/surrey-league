@@ -125,6 +125,12 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .grid .secbtn svg{transition:transform .15s}
 .grid .secbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
 .grid tbody.collapsed tr:not(.sect){display:none}
+tr.detail td{padding:0!important;background:#fff!important;text-align:left;white-space:normal;cursor:default;border-bottom:2px solid var(--navy)}
+tr.detail .detailwrap{position:sticky;left:0;max-width:100%;border-top:1px solid var(--line)}
+tr.detail .form{background:#fff}
+tr.open td{background:var(--surface-2)}
+tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
+.cross tr.lead.open td{background:#FBF1F0}
 .evf{display:none}   /* short event names (HM, Mara, 10M) everywhere; the full name stays in the button label for screen readers */
 .grid .restored{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--good);margin-left:6px;vertical-align:middle}
 .spark{display:block;margin:0 auto}
@@ -345,8 +351,8 @@ details.src p{margin:6px 0 0;max-width:72ch}
         <header><h2>Best performances by year</h2></header>
         <div class="scroll" id="bests" tabindex="0" role="region" aria-label="Best performances by year table"></div>
       </section>
-      <section class="panel" id="formPanel">
-        <header><h2><button type="button" class="panelbtn" id="formToggle" aria-expanded="false" aria-controls="formBody"><svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Progression</button></h2><span class="hint" id="formHint"></span></header>
+      <!-- progression: lives here, hidden, until a row in either best-performances table is opened; then it moves into that row -->
+      <div id="formHome" hidden>
         <div class="form" id="formBody" hidden>
           <div class="chartbox">
             <div class="evpick" id="evpick" style="padding:0 10px 8px"></div>
@@ -355,7 +361,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
           </div>
           <div class="side" id="formSide"></div>
         </div>
-      </section>
+      </div>
       <section class="panel" id="recentPanel">
         <header><h2><button type="button" class="panelbtn" id="recentToggle" aria-expanded="false" aria-controls="recent"><svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Form</button></h2></header>
         <div class="scroll" id="recent" tabindex="0" role="region" aria-label="Form: last 8 races" hidden></div>
@@ -815,6 +821,7 @@ function renderHeader(a){
 
 /* ---------- best across all distances ---------- */
 function renderCross(a){
+  closeDetail();
   const box=document.getElementById('cross'), panel=document.getElementById('crossPanel');
   if(!a.cross || !a.cross.length){ panel.hidden = !(HAS_POINTS||HAS_AG); box.innerHTML='<div class="empty-state">No scorable events for this athlete.</div>'; return; }
   panel.hidden=false;
@@ -831,7 +838,7 @@ function renderCross(a){
   box.innerHTML=`<table class="cross"><thead><tr><th class="rk">#</th><th>Event</th><th>PB</th><th>Set</th><th class="bar" aria-hidden="true"></th><th style="text-align:right">Points</th><th style="text-align:right">Age grade</th></tr></thead><tbody>${rows}</tbody></table>
     <details class="src" id="scoreSrc"><summary>How these scores work</summary><p>${typeof SCORING_SOURCE==='string'?SCORING_SOURCE:'Points: World Athletics scoring tables. Age grade: World Masters Athletics age-grading tables.'} Age at the time is worked out from current age, so it may be a year out.</p></details>`;
 }
-document.getElementById('cross').addEventListener('click',e=>{ const tr=e.target.closest('tr[data-ev]'); if(tr){ openForm(); setEvent(tr.dataset.ev); document.getElementById('formPanel').scrollIntoView({behavior:SMOOTH,block:'nearest'}); } });
+document.getElementById('cross').addEventListener('click',e=>{ const tr=e.target.closest('tr[data-ev]'); if(tr){ openDetail(tr); } });
 
 /* ---------- best performances grid ---------- */
 function spark(r){
@@ -852,6 +859,7 @@ function spark(r){
     <circle cx="${X(lastp.y)}" cy="${Y(lastp.v)}" r="2" fill="var(--ink)"/></svg>`;
 }
 function renderBests(a){
+  closeDetail();
   const years=[]; for(let y=a.yMax;y>=a.yMin;y--) years.push(y);
   const head=`<thead><tr><th class="ev">Event</th><th class="pb">PB</th><th class="tr">Trend</th>${years.map(y=>`<th class="y ${y===CUR_YEAR?'cur':''}">${y}</th>`).join('')}</tr></thead>`;
   const sect=(key,label,n)=>`<tr class="sect"><td colspan="${years.length+3}"><span><button type="button" class="secbtn" data-sec="${key}" aria-controls="sec-${key}" aria-expanded="${!S.collapsed.has(key)}"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${label}</button></span></td></tr>`;
@@ -869,7 +877,7 @@ function renderBests(a){
   const groups=[['track','Track',a.grid.filter(r=>r.type==='track'&&!isField(r.event))],['field','Field',a.grid.filter(r=>r.type==='track'&&isField(r.event))],['road','Road',a.grid.filter(r=>r.type==='road')]].filter(g=>g[2].length);
   document.getElementById('bests').innerHTML = `<table class="grid">${head}${groups.map(([k,l,rs])=>`<tbody id="sec-${k}" class="${S.collapsed.has(k)?'collapsed':''}" data-sec="${k}">${sect(k,l,rs.length)}${rs.map(row).join('')}</tbody>`).join('')}</table>`;
 }
-document.getElementById('bests').addEventListener('click',e=>{ const sb=e.target.closest('.secbtn'); if(sb){ const k=sb.dataset.sec; if(S.collapsed.has(k)) S.collapsed.delete(k); else S.collapsed.add(k); try{ localStorage.setItem('p11-collapsed',JSON.stringify([...S.collapsed])); }catch(err){} const tb=sb.closest('tbody'); tb.classList.toggle('collapsed',S.collapsed.has(k)); sb.setAttribute('aria-expanded',!S.collapsed.has(k)); return; } const tr=e.target.closest('tr[data-ev]'); if(tr){ openForm(); setEvent(tr.dataset.ev); document.getElementById('formPanel').scrollIntoView({behavior:SMOOTH,block:'nearest'}); } });
+document.getElementById('bests').addEventListener('click',e=>{ const sb=e.target.closest('.secbtn'); if(sb){ const k=sb.dataset.sec; if(S.collapsed.has(k)) S.collapsed.delete(k); else S.collapsed.add(k); try{ localStorage.setItem('p11-collapsed',JSON.stringify([...S.collapsed])); }catch(err){} const tb=sb.closest('tbody'); tb.classList.toggle('collapsed',S.collapsed.has(k)); sb.setAttribute('aria-expanded',!S.collapsed.has(k)); return; } const tr=e.target.closest('tr[data-ev]'); if(tr){ openDetail(tr); } });
 // row click is a mouse shortcut; keyboard and screen reader users use the event button in the first cell
 
 /* ---------- form ---------- */
@@ -891,9 +899,7 @@ function renderEvPick(a){
   const top=evs.slice().sort((x,y)=>counts[y]-counts[x]).slice(0,6);
   if(!top.includes(S.ev) && evs.includes(S.ev)) top[top.length-1]=S.ev;
   const shown=evs.filter(e=>top.includes(e)), rest=evs.filter(e=>!top.includes(e));
-  document.getElementById('evpick').innerHTML = shown.map(e=>`<button data-ev="${esc(e)}" aria-pressed="${e===S.ev}">${esc(e)}</button>`).join('')
-    + (rest.length?`<select id="evmore" aria-label="More events"><option value="">More events</option>${rest.map(e=>`<option value="${esc(e)}">${esc(e)}</option>`).join('')}</select>`:'')
-    + `<button type="button" class="tabletoggle" id="chartTable" aria-pressed="${S.chartTable?'true':'false'}">${S.chartTable?'Show chart':'Show as table'}</button>`;
+  document.getElementById('evpick').innerHTML = `<button type="button" class="tabletoggle" id="chartTable" aria-pressed="${S.chartTable?'true':'false'}">${S.chartTable?'Show chart':'Show as table'}</button>`;
 }
 document.getElementById('evpick').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; if(b.id==='chartTable'){ S.chartTable=!S.chartTable; renderEvPick(S.a); renderForm(S.a); return; } setEvent(b.dataset.ev); });
 document.getElementById('evpick').addEventListener('change',e=>{ if(e.target.id==='evmore' && e.target.value){ const v=e.target.value; setEvent(v); renderEvPick(S.a); } });
@@ -909,7 +915,6 @@ function renderForm(a){
   const sbv=lastYr?row.sb[lastYr]:null;
   const lastPts=pts.slice(-5).reverse();
   const pbPerf = pts.filter(p=>pb!=null && Math.abs(p.v-pb)<0.005).sort((x,y)=>x.d<y.d?-1:1)[0];
-  document.getElementById('formHint').textContent = `${ev} · ${pts.length} result${pts.length===1?'':'s'} on record`;
   document.getElementById('formSide').innerHTML = `
     <div class="stat2">
       <div><div class="k">Personal best</div><div class="v pbv num"><span class="pbc">${esc(row?row.pb:'–')}</span></div><div class="s">${pbPerf?esc(fmtDY(pbPerf.d)+' · '+pbPerf.m):''}</div></div>
@@ -1073,8 +1078,29 @@ function renderPerfs(a){
   }
   document.getElementById('perfs').innerHTML = list.length ? `<table class="perf">${head}<tbody>${body}</tbody></table>` : '<div class="empty-state">No results match these filters. Turn a race type back on or clear the search.</div>';
 }
-function openForm(open){ if(open===undefined) open=true; const b=document.getElementById('formToggle'); b.setAttribute('aria-expanded',open); document.getElementById('formBody').hidden=!open; if(open && S.a) renderForm(S.a); }
-document.getElementById('formToggle').addEventListener('click',e=>openForm(e.currentTarget.getAttribute('aria-expanded')!=='true'));
+/* progression opens inside the table, directly under the row that was clicked; clicking the row again closes it */
+let detailFor=null;
+function closeDetail(){
+  const fb=document.getElementById('formBody'), home=document.getElementById('formHome');
+  if(fb && home && fb.parentElement!==home){ fb.hidden=true; home.appendChild(fb); }
+  document.querySelectorAll('tr.detail').forEach(d=>d.remove());
+  document.querySelectorAll('tr.open').forEach(t=>{ t.classList.remove('open'); const b=t.querySelector('.evbtn'); if(b) b.setAttribute('aria-expanded','false'); });
+  detailFor=null;
+}
+function openDetail(tr){
+  const scroller=tr.closest('.scroll'); const key=scroller.id+'|'+tr.dataset.ev;
+  if(detailFor===key){ closeDetail(); return; }
+  closeDetail();
+  const d=document.createElement('tr'); d.className='detail';
+  d.innerHTML='<td colspan="99"><div class="detailwrap"></div></td>';
+  tr.after(d);
+  const wrap=d.querySelector('.detailwrap'); wrap.style.width=scroller.clientWidth+'px';
+  const fb=document.getElementById('formBody'); wrap.appendChild(fb); fb.hidden=false;
+  tr.classList.add('open'); const b=tr.querySelector('.evbtn'); if(b) b.setAttribute('aria-expanded','true');
+  detailFor=key;
+  setEvent(tr.dataset.ev);
+  d.scrollIntoView({behavior:SMOOTH,block:'nearest'});
+}
 document.getElementById('recentToggle').addEventListener('click',e=>{ const b=e.currentTarget, open=b.getAttribute('aria-expanded')!=='true'; b.setAttribute('aria-expanded',open); document.getElementById('recent').hidden=!open; });
 
 /* ---------- side panels ---------- */
@@ -1139,7 +1165,7 @@ select(start,'replace');
 window.addEventListener('popstate',()=>{ const sl=(location.pathname.match(/^\/athlete\/([a-z0-9-]+)/)||[])[1]; const a=ATH.find(x=>slugOf(x)===sl); if(a && (!S.a||S.a.id!==a.id)) select(a.id,'none'); });
 const setTopH=()=>{ const t=document.querySelector('.top'); if(!t) return; document.documentElement.style.setProperty('--toph', getComputedStyle(t).position==='sticky' ? t.offsetHeight+'px' : '0px'); };
 setTopH();
-let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ setTopH(); if(S.a) renderForm(S.a); },150); });
+let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ setTopH(); document.querySelectorAll('.detailwrap').forEach(w=>{ w.style.width=w.closest('.scroll').clientWidth+'px'; }); if(S.a) renderForm(S.a); },150); });
 window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1); if(ATH.some(a=>a.id===h) && (!S.a||S.a.id!==h)) select(h); });
 })();
 </script>
