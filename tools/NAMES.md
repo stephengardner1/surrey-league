@@ -86,6 +86,8 @@ source. Where our full name disagreed with the county champs (2+ mentions), the 
 
 - R Blick (BEL, 1989/90) is Richard Blick, a Belgrave youth/junior middle-distance runner (The Belgravian 1987-88). Not Alan Black (Steve, 21 Oct 2026).
 
+- Matthew Richards: two runners, Hercules Wimbledon (2019/20) and Belgrave (2023/24). Split with nameCollisions (Steve, 21 Oct 2026).
+
 ## Kept as they are (Steve, 19 Oct 2026)
 - Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
 - Peter Adams (AFD, 1971-2003): one runner; AW prints "P Adams (AFD, M45)" in 1997 and 1999.
