@@ -1736,25 +1736,28 @@ const ClubPositionChart=({clubCode,seasonsData,setView})=>{
   const posOf=s=>{const i=seasonsData[s].standings.findIndex(t=>t.club===clubCode);return i>=0?i+1:null;};
   const first=seasons.findIndex(s=>posOf(s)!=null);let last=-1;seasons.forEach((s,i)=>{if(posOf(s)!=null)last=i;});
   if(first<0)return null;
-  const span=seasons.slice(first,last+1).map(s=>({season:s,pos:posOf(s),done:!!(seasonsData[s].champion||seasonsData[s].historical||(seasonsData[s].matches||[]).filter(m=>m.winner).length>=4)}));
+  /* seasons outside Division 1 rest on a dotted line just below that season's bottom place, as in the chart room's full history chart */
+  const span=seasons.slice(first,last+1).map(s=>{const size=seasonsData[s].standings.length,pos=posOf(s);return{season:s,pos,size,y:pos!=null?pos:size+0.5,done:!!(seasonsData[s].champion||seasonsData[s].historical||(seasonsData[s].matches||[]).filter(m=>m.winner).length>=4)};});
   const pts=span.filter(p=>p.pos!=null);if(pts.length<2)return null;
-  const maxPos=Math.max(...pts.map(p=>p.pos),3);
+  const maxY=Math.max(...span.map(p=>p.size+0.5),3);
   const H=64,pad={top:8,bottom:8,left:5,right:5};
   const X=i=>pad.left+(span.length>1?i/(span.length-1):0.5)*(w-pad.left-pad.right);
-  const Y=pos=>pad.top+((pos-1)/(maxPos-1||1))*(H-pad.top-pad.bottom);
+  const Y=pos=>pad.top+((pos-1)/(maxY-1||1))*(H-pad.top-pad.bottom);
   const color=chartLineColor(clubCode);
-  const runs=[];let cur=[];span.forEach((p,i)=>{if(p.pos==null){if(cur.length)runs.push(cur);cur=[];}else cur.push([X(i),Y(p.pos)]);});if(cur.length)runs.push(cur);
-  const near=e=>{const r=svgRef.current.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;let best=null,d=1e9;span.forEach((p,i)=>{if(p.pos==null)return;const dd=Math.abs(X(i)-x);if(dd<d){d=dd;best=i;}});setHl(best);};
+  const line=span.map((p,i)=>`${X(i)},${Y(p.y)}`).join(' ');
+  const sizeLine=span.map((p,i)=>`${X(i)},${Y(p.size+0.5)}`).join(' ');
+  const near=e=>{const r=svgRef.current.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;let best=null,d=1e9;span.forEach((p,i)=>{const dd=Math.abs(X(i)-x);if(dd<d){d=dd;best=i;}});setHl(best);};
   const star=(cx,cy,size)=>{const a=[];for(let j=0;j<5;j++){const o=(j*72-90)*Math.PI/180,n=(j*72+36-90)*Math.PI/180;a.push(`${cx+size*Math.cos(o)},${cy+size*Math.sin(o)}`,`${cx+size*.4*Math.cos(n)},${cy+size*.4*Math.sin(n)}`);}return a.join(' ');};
   const h=hl!=null?span[hl]:null;
   return<div className="w-full max-w-3xl mb-6 relative">
-    <svg ref={svgRef} className="w-full cursor-pointer" style={{height:H}} role="img" aria-label={`Chart of the club's final Division 1 position each season from ${span[0].season} to ${span[span.length-1].season}`} onMouseMove={near} onMouseLeave={()=>setHl(null)} onTouchStart={near} onTouchMove={near} onTouchEnd={()=>setHl(null)} onClick={()=>{if(h)setView({type:'home',urlSeason:h.season});}}>
-      {runs.map((r,k)=>r.length>1?<polyline key={k} points={r.map(p=>p.join(',')).join(' ')} fill="none" stroke={color} strokeWidth="1" strokeLinejoin="round"/>:null)}
-      {span.map((p,i)=>{if(p.pos==null)return null;const cx=X(i),cy=Y(p.pos),on=hl===i;
+    <svg ref={svgRef} className="w-full cursor-pointer" style={{height:H}} role="img" aria-label={`Chart of the club's final Division 1 position each season from ${span[0].season} to ${span[span.length-1].season}; seasons outside Division 1 sit on the dotted line below the bottom place`} onMouseMove={near} onMouseLeave={()=>setHl(null)} onTouchStart={near} onTouchMove={near} onTouchEnd={()=>setHl(null)} onClick={()=>{if(h&&h.pos!=null)setView({type:'home',urlSeason:h.season});}}>
+      <polyline points={sizeLine} fill="none" stroke="#9ba099" strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
+      <polyline points={line} fill="none" stroke={color} strokeWidth="1" strokeLinejoin="round"/>
+      {span.map((p,i)=>{if(p.pos==null)return hl===i?<circle key={i} cx={X(i)} cy={Y(p.y)} r="2.5" fill="#fff" stroke={color} strokeWidth="1"/>:null;const cx=X(i),cy=Y(p.pos),on=hl===i;
         return p.pos===1&&p.done?<polygon key={i} points={star(cx,cy,on?5:4)} fill="#f59e0b" stroke="#d97706" strokeWidth="0.5"/>:<circle key={i} cx={cx} cy={cy} r={on?3:1.5} fill={color}/>;})}
     </svg>
     <div className="flex justify-between text-[10px] text-gray-500 tabular-nums -mt-1"><span>{span[0].season}</span><span>{span[span.length-1].season}</span></div>
-    {h&&<div className="absolute bg-gray-800 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap" style={{left:Math.min(Math.max(X(hl),56),w-56),top:-4,transform:'translateX(-50%)'}}>{h.season}: {ordPos(h.pos)}{h.done?'':' so far'}</div>}
+    {h&&<div className="absolute bg-gray-800 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap" style={{left:Math.min(Math.max(X(hl),56),w-56),top:-4,transform:'translateX(-50%)'}}>{h.season}: {h.pos!=null?<>{ordPos(h.pos)}{h.done?'':' so far'}</>:'not in Division 1'}</div>}
   </div>;
 };
 
