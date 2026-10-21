@@ -296,10 +296,11 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 /* head to head */
 .h2hpick{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-size:var(--fs-s)}
 .h2hclose{border:0;background:none;color:inherit;font-size:22px;line-height:1;cursor:pointer;padding:0 2px;min-width:28px;min-height:28px}
-.h2hbtn{align-self:start;justify-self:end;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:var(--fs-s);cursor:pointer;white-space:nowrap;min-height:34px}
-.h2hbtn:hover{border-color:var(--navy)}
+.h2hbtn{align-self:start;justify-self:end;display:inline-flex;align-items:center;gap:5px;border:0;background:none;color:var(--ink-3);padding:4px 2px;font-weight:500;font-size:var(--fs-xs);cursor:pointer;white-space:nowrap;min-height:24px}
+.h2hbtn svg{width:13px;height:13px}
+.h2hbtn:hover{color:var(--ink);text-decoration:underline}
 #h2hPanel{scroll-margin-top:calc(var(--toph,0px) + 12px)}
-.h2hbtn[aria-expanded="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.h2hbtn[aria-expanded="true"]{color:var(--ink);font-weight:600}
 .h2hpick select{font-size:var(--fs-s);border:1px solid var(--line);border-radius:var(--radius);padding:3px 8px;background:#fff;color:var(--ink);max-width:220px}
 #h2h{padding:14px 14px 4px}
 .h2hsum{width:100%;max-width:460px;margin:0 auto 18px;table-layout:fixed;border-collapse:collapse}
@@ -1147,7 +1148,7 @@ function h2hFace(x){
 S.h2h = {};
 function h2hButton(){
   const ath=document.getElementById('athlete'); if(ath.querySelector('.h2hbtn')) return;
-  ath.insertAdjacentHTML('beforeend',`<button type="button" class="h2hbtn" aria-controls="h2hPanel" aria-expanded="${S.h2hOpen?'true':'false'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h14"/><path d="m17 20 4-4-4-4"/><path d="M21 16H7"/></svg>Head to head</button>`);
+  ath.insertAdjacentHTML('beforeend',`<button type="button" class="h2hbtn" title="Head to head with another runner" aria-controls="h2hPanel" aria-expanded="${S.h2hOpen?'true':'false'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h14"/><path d="m17 20 4-4-4-4"/><path d="M21 16H7"/></svg>Compare</button>`);
 }
 function setH2HOpen(open){
   S.h2hOpen=open; const panel=document.getElementById('h2hPanel'); panel.hidden=!open;
