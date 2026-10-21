@@ -295,6 +295,11 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .noprk input{width:16px;height:16px;margin:0;accent-color:var(--brand);cursor:pointer}
 /* head to head */
 .h2hpick{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-size:var(--fs-s)}
+.h2hclose{border:0;background:none;color:inherit;font-size:22px;line-height:1;cursor:pointer;padding:0 2px;min-width:28px;min-height:28px}
+.h2hbtn{align-self:start;justify-self:end;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:var(--fs-s);cursor:pointer;white-space:nowrap;min-height:34px}
+.h2hbtn:hover{border-color:var(--navy)}
+#h2hPanel{scroll-margin-top:calc(var(--toph,0px) + 12px)}
+.h2hbtn[aria-expanded="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
 .h2hpick select{font-size:var(--fs-s);border:1px solid var(--line);border-radius:var(--radius);padding:3px 8px;background:#fff;color:var(--ink);max-width:220px}
 #h2h{padding:14px 14px 4px}
 .h2hsum{width:100%;max-width:460px;margin:0 auto 18px;table-layout:fixed;border-collapse:collapse}
@@ -335,6 +340,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .sidecol{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 }
 @media (max-width: 760px){
+  .h2hbtn{justify-self:start;margin-top:4px}
   .athlete{grid-template-columns:minmax(0,1fr)}
   .form{grid-template-columns:minmax(0,1fr)}
   .form .chartbox{border-right:0;border-bottom:1px solid var(--line-soft)}
@@ -398,6 +404,10 @@ details.src p{margin:6px 0 0;max-width:72ch}
   <section class="wrap athlete" id="athlete" tabindex="-1" aria-label="Athlete summary"></section>
   <div class="wrap body">
     <div class="col">
+      <section class="panel" id="h2hPanel" hidden>
+        <header><h2>Head to head</h2><label class="h2hpick"><span>vs</span><select id="h2hSel" aria-label="Compare with"></select></label><button type="button" class="h2hclose" id="h2hClose" aria-label="Close head to head">×</button></header>
+        <div id="h2h"></div>
+      </section>
       <section class="panel" id="crossPanel">
         <header><h2>Best events</h2></header>
         <div class="scroll" id="cross" tabindex="0" role="region" aria-label="Best events table"></div>
@@ -420,10 +430,6 @@ details.src p{margin:6px 0 0;max-width:72ch}
       <section class="panel" id="recentPanel">
         <header><h2><button type="button" class="panelbtn" id="recentToggle" aria-expanded="false" aria-controls="recent">Recent form<svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2><label class="noprk" id="noPrkWrap" hidden><input type="checkbox" id="noPrk"> Exclude parkrun</label></header>
         <div class="scroll" id="recent" tabindex="0" role="region" aria-label="Recent form: last 8 races" hidden></div>
-      </section>
-      <section class="panel" id="h2hPanel">
-        <header><h2>Head to head</h2><label class="h2hpick"><span>vs</span><select id="h2hSel" aria-label="Compare with"></select></label></header>
-        <div id="h2h"></div>
       </section>
       <section class="panel" id="perfPanel">
         <header><h2>All performances</h2><span class="hint" id="perfCount" aria-live="polite"></span></header>
@@ -1139,7 +1145,20 @@ function h2hFace(x){
   return P ? `<span class="h2hface"><img src="${P.src}" alt="" width="72" height="101"></span>` : `<span class="h2hvest">${vestSvg(x.club,40)}</span>`;
 }
 S.h2h = {};
+function h2hButton(){
+  const ath=document.getElementById('athlete'); if(ath.querySelector('.h2hbtn')) return;
+  ath.insertAdjacentHTML('beforeend',`<button type="button" class="h2hbtn" aria-controls="h2hPanel" aria-expanded="${S.h2hOpen?'true':'false'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h14"/><path d="m17 20 4-4-4-4"/><path d="M21 16H7"/></svg>Head to head</button>`);
+}
+function setH2HOpen(open){
+  S.h2hOpen=open; const panel=document.getElementById('h2hPanel'); panel.hidden=!open;
+  const b=document.querySelector('#athlete .h2hbtn'); if(b) b.setAttribute('aria-expanded',open);
+  if(open){ renderH2H(S.a); panel.scrollIntoView({behavior:SMOOTH,block:'start'}); }
+}
+document.getElementById('athlete').addEventListener('click',e=>{ if(e.target.closest('.h2hbtn')) setH2HOpen(!S.h2hOpen); });
+document.getElementById('h2hClose').addEventListener('click',()=>{ setH2HOpen(false); document.querySelector('#athlete .h2hbtn')?.focus(); });
 function renderH2H(a){
+  h2hButton();
+  if(!S.h2hOpen) return;
   const others=ATH.filter(x=>x.id!==a.id).map(b=>({b,n:sharedWith(a,b).length})).sort((x,y)=>y.n-x.n || x.b.last.localeCompare(y.b.last));
   let bid=S.h2h[a.id]; if(!others.some(o=>o.b.id===bid)) bid=others[0].b.id;
   const sel=document.getElementById('h2hSel');
