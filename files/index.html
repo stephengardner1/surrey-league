@@ -1744,7 +1744,6 @@ const ClubPositionChart=({clubCode,seasonsData,setView})=>{
   const X=i=>pad.left+(span.length>1?i/(span.length-1):0.5)*(w-pad.left-pad.right);
   const Y=pos=>pad.top+((pos-1)/(maxY-1||1))*(H-pad.top-pad.bottom);
   const color=chartLineColor(clubCode);
-  const line=span.map((p,i)=>`${X(i)},${Y(p.y)}`).join(' ');
   const sizeLine=span.map((p,i)=>`${X(i)},${Y(p.size+0.5)}`).join(' ');
   const near=e=>{const r=svgRef.current.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;let best=null,d=1e9;span.forEach((p,i)=>{const dd=Math.abs(X(i)-x);if(dd<d){d=dd;best=i;}});setHl(best);};
   const star=(cx,cy,size)=>{const a=[];for(let j=0;j<5;j++){const o=(j*72-90)*Math.PI/180,n=(j*72+36-90)*Math.PI/180;a.push(`${cx+size*Math.cos(o)},${cy+size*Math.sin(o)}`,`${cx+size*.4*Math.cos(n)},${cy+size*.4*Math.sin(n)}`);}return a.join(' ');};
@@ -1752,8 +1751,8 @@ const ClubPositionChart=({clubCode,seasonsData,setView})=>{
   return<div className="w-full max-w-3xl mb-6 relative">
     <svg ref={svgRef} className="w-full cursor-pointer" style={{height:H}} role="img" aria-label={`Chart of the club's final Division 1 position each season from ${span[0].season} to ${span[span.length-1].season}; seasons outside Division 1 sit below the dotted line marking the bottom place`} onMouseMove={near} onMouseLeave={()=>setHl(null)} onTouchStart={near} onTouchMove={near} onTouchEnd={()=>setHl(null)} onClick={()=>{if(h&&h.pos!=null)setView({type:'home',urlSeason:h.season});}}>
       <polyline points={sizeLine} fill="none" stroke="#9ba099" strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
-      <polyline points={line} fill="none" stroke={color} strokeWidth="1" strokeLinejoin="round"/>
-      {span.map((p,i)=>{if(p.pos==null)return<circle key={i} cx={X(i)} cy={Y(p.y)} r={hl===i?3:1.5} fill={color}/>;const cx=X(i),cy=Y(p.pos),on=hl===i;
+      {span.slice(1).map((p,k)=>{const q=span[k];return<line key={'l'+k} x1={X(k)} y1={Y(q.y)} x2={X(k+1)} y2={Y(p.y)} stroke={color} strokeWidth="1" strokeLinecap="round" opacity={q.pos==null||p.pos==null?0.3:1}/>;})}
+      {span.map((p,i)=>{if(p.pos==null)return<circle key={i} cx={X(i)} cy={Y(p.y)} r={hl===i?3:1.5} fill={color} opacity={hl===i?0.6:0.3}/>;const cx=X(i),cy=Y(p.pos),on=hl===i;
         return p.pos===1&&p.done?<polygon key={i} points={star(cx,cy,on?5:4)} fill="#f59e0b" stroke="#d97706" strokeWidth="0.5"/>:<circle key={i} cx={cx} cy={cy} r={on?3:1.5} fill={color}/>;})}
     </svg>
     <div className="flex justify-between text-[10px] text-gray-500 tabular-nums -mt-1"><span>{span[0].season}</span><span>{span[span.length-1].season}</span></div>
