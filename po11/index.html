@@ -125,7 +125,7 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .grid .secbtn svg{transition:transform .15s}
 .grid .secbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
 .grid tbody.collapsed tr:not(.sect){display:none}
-.grid .evs{display:none}
+.evs{display:none}
 .grid .restored{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--good);margin-left:6px;vertical-align:middle}
 .spark{display:block;margin:0 auto}
 
@@ -291,8 +291,8 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .quick button{white-space:nowrap}
   .grid .tr{display:none}
   /* narrow first column: short event names, and only the event stays pinned when scrolling sideways */
-  .grid .evf{display:none}
-  .grid .evs{display:inline}
+  .grid .evf,.cross .evf{display:none}
+  .grid .evs,.cross .evs{display:inline}
   .grid .ev{min-width:78px;max-width:78px;box-shadow:inset -1px 0 0 var(--line)}
   .grid .pb{position:static;left:auto;border-right:0}
   .grid td.y.cur,.grid th.cur{box-shadow:none}
@@ -656,7 +656,7 @@ const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>wi
 function shortEv(e){
   if(e==='Half Marathon') return 'HM';
   if(e==='Marathon') return 'M';
-  if(e==='1 Mile Road') return 'Mile Rd';
+  if(e==='1 Mile Road') return '1M';
   const m=e.match(/^(\d+(?:\.\d+)?) Miles?$/); if(m) return m[1]+'M';
   return e;
 }
@@ -828,7 +828,7 @@ function renderCross(a){
   const maxP=Math.max(...a.cross.map(r=>r.pts||0)) || 1;
   const rows=a.cross.map((r,i)=>`<tr class="${i===0?'lead':''}" data-ev="${esc(r.event)}">
       <td class="rk num">${i+1}</td>
-      <td class="e"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-label="Chart ${esc(r.event)}">${esc(r.event)}</button>${i===0?'<span class="sr"> (strongest event)</span>':''}${r.viaParkrun?' <span class="note">at parkrun</span>':''}${/i/.test(r.f||'')?' <span class="note">indoor</span>':''}</td>
+      <td class="e"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-label="Chart ${esc(r.event)}"><span class="evf">${esc(r.event)}</span><span class="evs" aria-hidden="true">${esc(shortEv(r.event))}</span></button>${i===0?'<span class="sr"> (strongest event)</span>':''}${r.viaParkrun?' <span class="note">at parkrun</span>':''}${/i/.test(r.f||'')?' <span class="note">indoor</span>':''}</td>
       ${i===0?'':''}<td class="p num"><span class="pbc">${esc(r.pb)}</span></td>
       <td class="d num">${fmtDY(r.d)}</td>
       <td class="bar" aria-hidden="true">${r.pts!=null?`<span class="track"><span class="fill" style="width:${Math.max(4,Math.round(r.pts/maxP*100))}%"></span></span>`:''}</td>
