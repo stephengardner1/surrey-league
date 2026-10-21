@@ -7,15 +7,12 @@
 <meta name="description" content="Power of 11: an independent prototype of a clearer athlete profile, using Power of 10 data for a handful of athletes.">
 <title>Power of 11</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
 <style>
 /* Layout: one dense working page. Sticky search bar, athlete header, then a two-column body:
    main column = best-performances grid, form chart, every performance; side column = rankings, clubs, coaches, data notes. */
 /* Look: the new Power of 10's own palette, with contrast raised to WCAG AA.
    Red = brand and the strongest event only. Navy = text, data and selection. Gold = personal bests only.
-   Type: Arial for text and data (its figures are already fixed-width), IBM Plex Sans Condensed for names and headings.
+   Type: Arial for text and data (its figures are already fixed-width), the device's system font for names and headings. Nothing downloads.
    Type scale (6 sizes): 12 labels/chips, 13 dense tables, 14 body/summary tables, 19 panel titles, 28 big numbers, 40 name.
    Row heights: about 34px in summary tables, about 29px in long lists. */
 :root{
@@ -41,7 +38,7 @@
   --warn:#8A5300;
   --warn-bg:#F8EBD3;
   --dot:#5B6684;
-  --font-display:"IBM Plex Sans Condensed","Arial Narrow","Segoe UI",Arial,sans-serif;
+  --font-display:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;   /* the device's own interface font: San Francisco on Apple, Segoe UI on Windows, Roboto on Android */
   --font-body:Arial,"Helvetica Neue",Helvetica,sans-serif;   /* built into every computer and iPhone: crisp, no download */
   --font-data:Arial,"Helvetica Neue",Helvetica,sans-serif;   /* one family; tables switch on tabular figures */
   --fs-xs:12px; --fs-s:13px; --fs-m:14px; --fs-l:19px; --fs-xl:28px; --fs-xxl:40px; --fs-data:14px;
@@ -651,10 +648,14 @@ function fmtGap(e, v, pb){
   return sign + (a<60 ? a.toFixed(a<10?2:1)+'s' : fmtT(a));
 }
 const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of the PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
+// house abbreviations used everywhere an event is named: HM, M, TJ, HJ, DT
+function abbr(e){
+  return String(e||'').replace(/^Half Marathon/,'HM').replace(/^(Marathon|Mar)$/,'M').replace(/^Triple Jump/,'TJ').replace(/^High Jump/,'HJ').replace(/^Discus/,'DT');
+}
 // short event names used in the two summary tables
 function shortEv(e){
   if(e==='Half Marathon') return 'HM';
-  if(e==='Marathon') return 'Mara';
+  if(e==='Marathon') return 'M';
   if(e==='1 Mile Road') return '1M';
   const field={'High Jump':'HJ','Long Jump':'LJ','Triple Jump':'TJ','Pole Vault':'PV','Shot Put':'SP','Shot':'SP','Discus':'DT','Javelin':'JT','Hammer':'HT'};
   if(field[e]) return field[e];   // in the year-by-year grid it sits under Road, so it reads just 'Mile' there
@@ -923,7 +924,7 @@ function renderForm(a){
       <div><div class="k">Best in ${lastYr||'–'}</div><div class="v num">${esc(sbv||'–')}</div><div class="s">${sbv&&pb!=null?`<span class="gap ${gapClass(ev,val(sbv),pb)}">${fmtGap(ev,val(sbv),pb)}</span> ${lastYr<CUR_YEAR?'<span style="color:var(--ink-3)">· none in '+CUR_YEAR+'</span>':''}`:''}</div></div>
     </div>
     <div>
-      <div class="k" style="font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Latest ${ev}</div>
+      <div class="k" style="font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Latest ${esc(abbr(ev))}</div>
       <div class="lastn">${lastPts.length?lastPts.map(p=>`<div class="row"><span class="d num">${fmtDY(p.d)}</span><span class="m" title="${esc(p.m)}">${esc(p.m)}</span><span>${gapClass(ev,p.v,pb)==='g0'?`<b class="num pbc">${esc(p.p.replace(/\(.*\)/,''))}</b>`:`<b class="num">${esc(p.p.replace(/\(.*\)/,''))}</b>`} <span class="gap ${gapClass(ev,p.v,pb)}">${fmtGap(ev,p.v,pb)}</span></span></div>`).join(''):'<span style="color:var(--ink-3)">No timed results</span>'}</div>
     </div>`;
   drawChart(pts, ev, pb);
@@ -1012,7 +1013,7 @@ function renderRecent(a){
   document.getElementById('recent').innerHTML = `<table class="recent"><thead><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>vs PB</th><th class="m">Meeting</th></tr></thead><tbody>${rows.map(p=>{
     const pbThen=p.pbAtTime; const graded=names.has(p.c) && p.v!=null;
     const gap = p.newPB ? '<span class="gap g0">New PB</span>' : (graded && pbThen!=null ? `<span class="gap ${gapClass(p.c,p.v,pbThen)}">${fmtGap(p.c,p.v,pbThen)}</span>` : '<span style="color:var(--ink-3)">–</span>');
-    return `<tr><td class="num">${fmtDY(p.d)}</td><td class="e"><b>${esc(p.e)}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td></tr>`;
+    return `<tr><td class="num">${fmtDY(p.d)}</td><td class="e"><b>${esc(abbr(p.e))}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td></tr>`;
   }).join('')}</tbody></table>${GAPKEY}`;
 }
 
@@ -1024,7 +1025,7 @@ function renderFilters(a){
   evs.sort((x,y)=>{ const ox=order.has(canon(x))?order.get(canon(x)):999, oy=order.has(canon(y))?order.get(canon(y)):999; return ox-oy || x.localeCompare(y,undefined,{numeric:true}); });
   if(S.evFilter && !evs.includes(S.evFilter)) S.evFilter='';
   document.getElementById('filters').innerHTML = `
-    <label for="fev">Event <select id="fev"><option value="">All events</option>${evs.map(e=>`<option ${e===S.evFilter?'selected':''}>${esc(e)}</option>`).join('')}</select></label>
+    <label for="fev">Event <select id="fev"><option value="">All events</option>${evs.map(e=>`<option value="${esc(e)}" ${e===S.evFilter?'selected':''}>${esc(abbr(e))}</option>`).join('')}</select></label>
     <label for="fsort">Sort <select id="fsort">
       <option value="date" ${S.sort==='date'?'selected':''}>Newest first, by year</option>
       <option value="old" ${S.sort==='old'?'selected':''}>Oldest first, by year</option>
@@ -1056,7 +1057,7 @@ function renderPerfs(a){
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
   const head=`<thead><tr><th>Date</th><th>Event</th><th>Result</th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
-  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${S.sort==='date'||S.sort==='old'?fmtD(p.d):fmtDY(p.d)}</td><td class="e">${esc(p.e)}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
+  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${S.sort==='date'||S.sort==='old'?fmtD(p.d):fmtDY(p.d)}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
@@ -1129,7 +1130,7 @@ function renderSide(a){
     const sorted=rs.slice().sort((x,y)=> y.year-x.year || x.rank-y.rank);
     const showAll = rk.dataset.all==='1';
     const shown = showAll?sorted:sorted.slice(0,12);
-    rk.innerHTML=`<div class="scroll" tabindex="0" role="region" aria-label="UK rankings table"><table class="side-list"><thead><tr><th>Year</th><th>Event</th><th>Age</th><th style="text-align:right">Rank</th></tr></thead><tbody>${shown.map(r=>`<tr><td class="num">${r.year}</td><td><b>${esc(r.event)}</b></td><td>${esc(r.ag)}</td><td class="r num">${r.rank}</td></tr>`).join('')}</tbody></table></div>
+    rk.innerHTML=`<div class="scroll" tabindex="0" role="region" aria-label="UK rankings table"><table class="side-list"><thead><tr><th>Year</th><th>Event</th><th>Age</th><th style="text-align:right">Rank</th></tr></thead><tbody>${shown.map(r=>`<tr><td class="num">${r.year}</td><td><b>${esc(abbr(r.event))}</b></td><td>${esc(r.ag)}</td><td class="r num">${r.rank}</td></tr>`).join('')}</tbody></table></div>
       ${sorted.length>12?`<div style="padding:8px 14px 0"><button class="toggle" id="rkmore">${showAll?'Show fewer':'Show all '+sorted.length}</button></div>`:''}`;
     const b=document.getElementById('rkmore'); if(b) b.onclick=()=>{ rk.dataset.all = showAll?'0':'1'; renderSide(a); };
   }
