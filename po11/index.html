@@ -840,8 +840,7 @@ function renderHeader(a){
     <div>
       <h1><span class="fn">${esc(a.first)}</span><span class="ln">${esc(a.last)}</span></h1>
       <dl class="meta">
-        <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>2nd claim ${esc(a.secondClaim)}</span>`:''}</dd></div>
-        <div><dt>Age group</dt><dd>${esc(a.ageGroup)}</dd></div>
+        <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>${vestSvg(a.secondClaim,16)} ${esc(a.secondClaim)} <abbr title="second claim" style="text-decoration:none">(2C)</abbr></span>`:''}</dd></div>
       </dl>
     </div>`;
 }
