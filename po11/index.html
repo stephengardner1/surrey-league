@@ -182,6 +182,8 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .filters{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line-soft)}
 .filters select,.filters input[type=search]{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);padding:4px 8px;font-size:var(--fs-s);min-width:0}
 .filters input[type=search]{width:170px}
+.fsbtn{display:none;align-items:center;justify-content:center;width:34px;min-height:30px;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);color:var(--ink-2);cursor:pointer;padding:0}
+.filters.sopen .fsbtn{background:var(--navy);border-color:var(--navy);color:#fff}
 .filters label{font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;display:flex;gap:6px;align-items:center}
 .perf{font-size:var(--fs-s)}
 .perf th,.perf td{padding:5px 8px;border-bottom:1px solid var(--line-soft);text-align:left;vertical-align:baseline}
@@ -275,7 +277,7 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .cross td.e .strong{margin-left:8px;font-family:var(--font-body);font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--brand)}
 .quick button,.chip,.evpick button,.evpick select,.tabletoggle,.toggle{min-height:30px}
 .grid .secbtn{min-height:28px}
-@media (pointer:coarse){ .evbtn{min-height:32px} .quick button,.chip,.evpick button,.evpick select,.tabletoggle,.toggle,.filters select,.filters input[type=search]{min-height:40px} .grid .secbtn{min-height:36px} }
+@media (pointer:coarse){ .fsbtn{min-height:40px;width:40px} .evbtn{min-height:32px} .quick button,.chip,.evpick button,.evpick select,.tabletoggle,.toggle,.filters select,.filters input[type=search]{min-height:40px} .grid .secbtn{min-height:36px} }
 .panelbtn{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;min-height:28px}
 .panelbtn svg{transition:transform .15s}
 .panelbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
@@ -310,6 +312,13 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .cross th{white-space:normal}
   .recent{font-size:var(--fs-s)}
   .cross th,.cross td{padding-left:7px;padding-right:7px}
+  /* meeting/venue search folds into a magnifying glass to the right of the sort menu */
+  .fsbtn{display:inline-flex;flex:none}
+  .filters{flex-wrap:wrap;gap:8px}
+  .filters label{flex:1 1 0;min-width:0}
+  .filters label select{width:100%;min-width:0;text-overflow:ellipsis}
+  .filters input[type=search]{display:none}
+  .filters.sopen input[type=search]{display:block;flex:1 1 100%;width:100%}
   .perf th:first-child,.perf td:first-child,.recent th:first-child,.recent td:first-child{padding-left:10px}
   .cross td.ag,.cross th:nth-child(7),.cross td.bar,.cross th.bar{display:none}   /* on phone the date set is more useful than age grade */
   .cross td.d{white-space:nowrap}
@@ -1047,11 +1056,21 @@ function renderFilters(a){
       <option value="ag" ${S.sort==='ag'?'selected':''}>Age grade, all events</option>
       <option value="pos" ${S.sort==='pos'?'selected':''}>Position</option>
     </select></label>
+    <button type="button" class="fsbtn" id="fsbtn" aria-label="Search meetings and venues" aria-controls="ftext" aria-expanded="${S.text?'true':'false'}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
     <input id="ftext" type="search" placeholder="Meeting or venue" value="${esc(S.text)}" aria-label="Filter by meeting or venue">`;
+  document.getElementById('filters').classList.toggle('sopen', !!S.text);
 }
 document.getElementById('filters').addEventListener('change',e=>{
   if(e.target.id==='fev'){ S.evFilter=e.target.value; renderPerfs(S.a); }
   if(e.target.id==='fsort'){ S.sort=e.target.value; renderPerfs(S.a); }
+});
+document.getElementById('filters').addEventListener('click',e=>{
+  // phones: the magnifying glass opens the meeting/venue search on its own line; tapping it again closes and clears it
+  const b=e.target.closest('#fsbtn'); if(!b) return;
+  const f=document.getElementById('filters'), open=!f.classList.contains('sopen');
+  f.classList.toggle('sopen',open); b.setAttribute('aria-expanded',open);
+  const t=document.getElementById('ftext');
+  if(open) t.focus(); else if(S.text){ S.text=''; t.value=''; renderPerfs(S.a); }
 });
 document.getElementById('filters').addEventListener('input',e=>{ if(e.target.id==='ftext'){ S.text=e.target.value; renderPerfs(S.a); } });
 
