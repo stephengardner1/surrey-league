@@ -16013,7 +16013,7 @@
    "2002/03",
    "2007/08"
   ],
-  "evidence": "county champs give Andy for A Walker at this club (Andrew x5); our results show the full name 2002-2017 results: 24; never in the same race",
+  "evidence": "Reigate Priory: Andy Walker (2002/03-2017/18) and Andrew Walker (2002/03-2014/15, also coded RPR) never in the same race; one runner. Club-scoped because Andrew Walker is a common name.",
   "approved": "Names session, 18 Oct 2026: high confidence (initial joined to the only full name the county champs give at that club)"
  },
  {
@@ -36811,5 +36811,183 @@
   ],
   "evidence": "Run-together 'Jilly Dolphin' (Herne Hill, 2011/12-2014/15).",
   "approved": "Steve, 21 Oct 2026: high-confidence surname-only batch"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "FARMER",
+   "M Farmer"
+  ],
+  "to": "Mark Farmer",
+  "seasons": null,
+  "evidence": "South London 2002/03: FARMER (m4), M Farmer and Mark Farmer in different matches; one runner.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "BURLES"
+  ],
+  "to": "Andy Burles",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "Surname-only; Andy Burles (G&G 2002/03-2007/08) is the only Burles at the club.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "HAYES",
+   "D Hayes"
+  ],
+  "to": "Dave Hayes",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "Guildford & Godalming 2002/03: HAYES, D Hayes and Dave Hayes in different matches; one runner. (Mitcham's D Hayes, 1991/92, is separate.)",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "G&G",
+  "from": [
+   "MARSDEN"
+  ],
+  "to": "David Marsden",
+  "seasons": [
+   "2002/03",
+   "2002/03"
+  ],
+  "evidence": "Surname-only; David/Dave Marsden (G&G 2004/05-2006/07) is the only Marsden at the club until Mark Marsden in 2018/19.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "FLYNN",
+   "T Flynn",
+   "T.Flynn"
+  ],
+  "to": "Tom Flynn",
+  "seasons": null,
+  "evidence": "Herne Hill 2001/02-2004/05: FLYNN, T Flynn, T.Flynn and Tom Flynn never in the same race; one runner (also Tommy Flynn).",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "JACOBS",
+   "R Jacobs",
+   "R.Jacobs"
+  ],
+  "to": "Rob Jacobs",
+  "seasons": null,
+  "evidence": "Herne Hill: R Jacobs runs 1983/84-2004/05 at the club, alongside R.Jacobs, JACOBS and Rob Jacobs (2002/03, 2005/06), never in the same race; the only R Jacobs at Herne Hill.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "HHH",
+  "from": [
+   "ZAPLE",
+   "J Zaple"
+  ],
+  "to": "Jim Zaple",
+  "seasons": null,
+  "evidence": "Herne Hill: J Zaple (1995/96-2006/07) and Jim Zaple (2001/02-2014/15) never in the same race; the only Zaple at the club.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "CRO",
+  "from": [
+   "J Zaple"
+  ],
+  "to": "Jim Zaple",
+  "seasons": null,
+  "evidence": "Croydon's J Zaple (1981/82-1994/95) continues at Herne Hill from 1995/96 as J Zaple / Jim Zaple; Croydon's G Zaple (1992/93) is separate.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "RAN",
+  "from": [
+   "JACQUES",
+   "K Jacques",
+   "K.Jacques"
+  ],
+  "to": "Ken Jacques",
+  "seasons": null,
+  "evidence": "Ranelagh 2001/02-2002/03: JACQUES, K Jacques, K.Jacques and Ken Jacques never in the same race; one runner.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "REI",
+  "from": [
+   "WALKER",
+   "Andrew Walker",
+   "Andrew walker"
+  ],
+  "to": "Andy Walker",
+  "seasons": null,
+  "evidence": "Reigate Priory: Andy Walker (2002/03-2017/18) and Andrew Walker (2002/03-2014/15, also coded RPR) never in the same race; one runner. Club-scoped because Andrew Walker is a common name.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "SLH",
+  "from": [
+   "MARTINS",
+   "A Martins",
+   "A.Martins"
+  ],
+  "to": "Antonio Martins",
+  "seasons": null,
+  "evidence": "South London: A Martins (1983/84-2009/10) and Antonio Martins (2002/03-2010/11) never in the same race; the only Martins at the club.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "YOUNG",
+   "A Young"
+  ],
+  "to": "Andy Young",
+  "seasons": null,
+  "evidence": "Dulwich 2002/03: YOUNG, A Young and Andy Young in different matches; one runner.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "DUL",
+  "from": [
+   "MORLEY",
+   "M Morley"
+  ],
+  "to": "Martin Morley",
+  "seasons": null,
+  "evidence": "Dulwich: MORLEY (2002/03), M Morley and Martin Morley (2004/05-2006/07) never in the same race; the only Morley at the club.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "RPR",
+  "from": [
+   "Andrew Walker"
+  ],
+  "to": "Andy Walker",
+  "seasons": null,
+  "evidence": "RPR is another code for Reigate Priory; these 6 Andrew Walker results interleave with Andy Walker's, never in the same race.",
+  "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
  }
 ]

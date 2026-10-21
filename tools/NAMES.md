@@ -58,6 +58,10 @@ that club in the same season (or the next/previous one, if he ran 2+ races), is 
 fits his others. 161 applied this way (1962/63-2002/03, mostly 1979/80 m1, 2002/03 m4, 1973/74 m2, 1974/75 m4),
 plus two run-together names (SDawson, Jillydolphin). Left alone: two of a surname in one race, odd places, more
 than one candidate, or no named runner of that surname at the club.
+Also joined at the club where an initial, dotted initial (R.Jacobs), capitals surname and full name never meet in
+a race: Mark Farmer, Andy Burles, Dave Hayes (G&G), David Marsden, Tom Flynn, Rob Jacobs, Jim Zaple (Croydon then
+Herne Hill), Ken Jacques, Andy Walker (Reigate; RPR is the same club), Antonio Martins, Andy Young, Martin Morley.
+Not joined: Beauvais at Walton (Clive and C Beauvais ran in the same race: two runners), Loach at Dulwich (Simon and Steve).
 
 ## Same surname, different runners (women, Steve 18 Oct 2026)
 - Nicky Harvey (Herne Hill, 1990s-2000s) and Natalie Harvey (South London) are two runners. "N Harvey" at
