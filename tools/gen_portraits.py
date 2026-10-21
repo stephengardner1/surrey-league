@@ -2213,4 +2213,7 @@ save("robbie-james", _rjames("SLH"))
 save("robbie-james-ran", _rjames("RAN"))
 # John McFarlane (THH 1999-2011), Oct 2026: tufty dark hair with slight recedes, square jaw, deep cheek hollows, hooded eyes under the brows
 save("john-mcfarlane", cheekhollows(nose(brows(eyes(figure("THH", skin=1, hair="tuftrecede", hair_colour="#3A2620", brow_colour="#2A1D16", jaw="square"), "hooded", 0), 0, 0, 3), 1.05, 1.2), inset=2, depth=1.4, dy=2))
+# Ian Harkness (THH 2000-12), Oct 2026 redraw from a race photo (replaces the bearded batch version): tufty light-brown hair receding at the temples,
+# long face, subtle cheek hollows set low, hooded eyes under the brows
+save("ian-harkness", stretchface(cheekhollows(nose(brows(eyes(figure("THH", skin=1, hair="tuftrecede", hair_colour="#9A6E44", brow_colour="#7A5634", jaw="long"), "hooded", 0), 0, 0, 3), 1.05, 1.2), inset=2, depth=.8, dy=6), HEAD_LONG, 1.06))
 export_site()
