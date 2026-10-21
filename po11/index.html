@@ -440,7 +440,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
         <div class="scroll" id="recent" tabindex="0" role="region" aria-label="Recent form: last 8 races" hidden></div>
       </section>
       <section class="panel" id="perfPanel">
-        <header><h2>All performances</h2><span class="hint" id="perfCount" aria-live="polite"></span></header>
+        <header><h2>All performances</h2><label class="noprk"><input type="checkbox" id="noPrkPerf"> Exclude parkrun</label><span class="sr" id="perfCount" aria-live="polite"></span></header>
         <div class="filters" id="filters"></div>
         <div class="scroll" id="perfs" tabindex="0" role="region" aria-label="All performances table"></div>
       </section>
@@ -986,6 +986,7 @@ function jumpToRace(ev,y,v){
 function showPerf(hit){
   const a=S.a;
   // make sure the race is in the list: clear filters and show it grouped by year
+  if(hit.t==='parkrun' && S.noParkrunPerf){ S.noParkrunPerf=false; document.getElementById('noPrkPerf').checked=false; renderPerfs(a); }
   if(S.evFilter||S.text||!(S.sort==='date'||S.sort==='old')){ S.evFilter=''; S.text=''; S.sort='date'; renderFilters(a); renderPerfs(a); }
   const tr=document.getElementById(`perf-${a.id}-${hit.i}`); if(!tr) return;
   tr.scrollIntoView({behavior:SMOOTH,block:'center'});
@@ -1139,6 +1140,9 @@ function renderRecent(a){
 // Recent form: optional 'Exclude parkrun' tick box, remembered between visits
 try{ S.noParkrun = localStorage.getItem('p11-noparkrun')==='1'; }catch(e){}
 document.getElementById('noPrk').checked=!!S.noParkrun;
+try{ S.noParkrunPerf = localStorage.getItem('p11-noparkrun-perf')==='1'; }catch(e){}
+document.getElementById('noPrkPerf').checked=!!S.noParkrunPerf;
+document.getElementById('noPrkPerf').addEventListener('change',e=>{ S.noParkrunPerf=e.target.checked; try{ localStorage.setItem('p11-noparkrun-perf',S.noParkrunPerf?'1':'0'); }catch(err){} renderPerfs(S.a); });
 document.getElementById('noPrk').addEventListener('change',e=>{ S.noParkrun=e.target.checked; try{ localStorage.setItem('p11-noparkrun',S.noParkrun?'1':'0'); }catch(err){} renderRecent(S.a); });
 
 /* ---------- head to head ---------- */
@@ -1254,7 +1258,7 @@ function clubFor(a,y){
 }
 function renderPerfs(a){
   const t=S.text.trim().toLowerCase();
-  let list=a.perfs.filter(p=>!p.dup && (!S.evFilter||p.e===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
+  let list=a.perfs.filter(p=>!p.dup && !(S.noParkrunPerf && p.t==='parkrun') && (!S.evFilter||p.e===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
   const total=a.perfs.filter(p=>!p.dup).length;
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
