@@ -124,6 +124,8 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .grid .secbtn svg{transition:transform .15s}
 .grid .secbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
 .grid tbody.collapsed tr:not(.sect){display:none}
+.grid tbody.collapsed .sect th:not(.ev){color:transparent}
+.grid tbody.collapsed .sect th{border-right-color:transparent;box-shadow:none}   /* a closed section shows just its name; the column headings return when it opens */
 tr.detail td{padding:0!important;background:#fff!important;text-align:left;white-space:normal;cursor:default;border-bottom:2px solid var(--navy)}
 tr.detail .detailwrap{position:sticky;left:0;max-width:100%;border-top:1px solid var(--line)}
 tr.detail .form{background:#fff}
