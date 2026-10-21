@@ -2211,4 +2211,6 @@ def _rjames(kit):
     return nose(brows(eyes(figure(kit, skin=1, hair="crophigh", hair_colour="#BDBAB3", brow_colour="#7A7268", jaw="long", creases=True), "hooded", 0), 0, 0, 3), 1.05, 1.2)
 save("robbie-james", _rjames("SLH"))
 save("robbie-james-ran", _rjames("RAN"))
+# John McFarlane (THH 1999-2011), Oct 2026: tufty dark hair with slight recedes, square jaw, deep cheek hollows, hooded eyes under the brows
+save("john-mcfarlane", cheekhollows(nose(brows(eyes(figure("THH", skin=1, hair="tuftrecede", hair_colour="#3A2620", brow_colour="#2A1D16", jaw="square"), "hooded", 0), 0, 0, 3), 1.05, 1.2), inset=2, depth=1.4, dy=2))
 export_site()
