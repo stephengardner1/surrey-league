@@ -183,6 +183,8 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .recent th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .recent td.m{white-space:normal;min-width:180px;color:var(--ink-2)}
 .recent td.p{font-weight:700}
+.recent th.r,.recent td.pts{text-align:right}
+.recent td.pts{color:var(--ink-2)}
 
 /* performances */
 .filters{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line-soft)}
@@ -1058,10 +1060,10 @@ function ord(n){ n=+n; const s=['th','st','nd','rd'], v=n%100; return (s[(v-20)%
 function renderRecent(a){
   const names=new Set(a.grid.map(r=>r.event));
   const rows=a.sorted.filter(p=>!p.dup && !(S.noParkrun && p.t==='parkrun')).slice(0,8);
-  document.getElementById('recent').innerHTML = `<table class="recent"><thead><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>vs PB</th><th class="m">Meeting</th></tr></thead><tbody>${rows.map(p=>{
+  document.getElementById('recent').innerHTML = `<table class="recent"><thead><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>vs PB</th><th class="m">Meeting</th><th class="r" title="World Athletics points">Pts</th></tr></thead><tbody>${rows.map(p=>{
     const pbThen=p.pbAtTime; const graded=names.has(p.c) && p.v!=null;
     const gap = p.newPB ? '<span class="gap g0">New PB</span>' : (graded && pbThen!=null ? `<span class="gap ${gapClass(p.c,p.v,pbThen)}">${fmtGap(p.c,p.v,pbThen)}</span>` : '<span style="color:var(--ink-3)">–</span>');
-    return `<tr><td class="num">${dHTML(p.d,true)}</td><td class="e"><b>${esc(abbr(p.e))}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td></tr>`;
+    return `<tr><td class="num">${dHTML(p.d,true)}</td><td class="e"><b>${esc(abbr(p.e))}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td><td class="pts num">${fmtPts(p.pts)}</td></tr>`;
   }).join('')}</tbody></table>${GAPKEY}`;
 }
 
@@ -1119,12 +1121,12 @@ function renderPerfs(a){
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
-  const COLS=`<th scope="col" class="r">Pos</th><th scope="col" class="r" title="World Athletics points">Pts</th><th scope="col" class="v">Venue</th><th scope="col" class="m">Meeting</th>`;
+  const COLS=`<th scope="col" class="r">Pos</th><th scope="col" class="v">Venue</th><th scope="col" class="m">Meeting</th><th scope="col" class="r" title="World Athletics points">Pts</th>`;
   const byYear = S.sort==='date'||S.sort==='old';
   // grouped by year: the column headings sit in each year row, so there is no separate header row
-  const head = byYear ? `<thead class="sr"><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>Pts</th><th>Venue</th><th>Meeting</th></tr></thead>`
-    : `<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
-  const row=p=>`<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
+  const head = byYear ? `<thead class="sr"><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>Venue</th><th>Meeting</th><th>Pts</th></tr></thead>`
+    : `<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th style="text-align:right">Pos</th><th class="v">Venue</th><th class="m">Meeting</th><th style="text-align:right" title="World Athletics points">Pts</th></tr></thead>`;
+  const row=p=>`<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td></tr>`;
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
