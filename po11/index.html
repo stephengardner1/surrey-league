@@ -842,7 +842,6 @@ function renderHeader(a){
       <dl class="meta">
         <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>2nd claim ${esc(a.secondClaim)}</span>`:''}</dd></div>
         <div><dt>Age group</dt><dd>${esc(a.ageGroup)}</dd></div>
-        ${coachNow?`<div><dt>Coach</dt><dd>${esc(coachNow.name)}</dd></div>`:''}
       </dl>
     </div>`;
 }
