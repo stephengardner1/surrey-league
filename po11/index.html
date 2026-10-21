@@ -796,7 +796,7 @@ function showResults(){
   const hits = ATH.filter(a=>(`${a.first} ${a.last} ${a.club} ${a.secondClaim||''}`).toLowerCase().includes(t));
   qSel=0;
   qres.innerHTML = hits.length ? hits.map((a,i)=>`<div role="option" class="opt" id="qopt-${a.id}" data-id="${a.id}" aria-selected="${i===0}"><span><b>${esc(a.first)} ${esc(a.last)}</b> <span class="club">${esc(a.ageGroup)}</span></span><span class="club">${esc(a.club)}</span></div>`).join('')
-    : `<div class="empty">No athlete called “${esc(q.value)}” in this prototype. It holds 5 athletes.</div>`;
+    : `<div class="empty">No athlete called “${esc(q.value)}” in this prototype. It holds ${ATH.length} athletes.</div>`;
   qres.hidden=false; q.setAttribute('aria-expanded','true');
   if(hits.length) q.setAttribute('aria-activedescendant','qopt-'+hits[0].id); else q.removeAttribute('aria-activedescendant');
   document.getElementById('qstatus').textContent = hits.length ? `${hits.length} athlete${hits.length>1?'s':''} found` : 'No athletes found';
@@ -840,7 +840,7 @@ function renderCross(a){
   if(!a.cross || !a.cross.length){ panel.hidden = !(HAS_POINTS||HAS_AG); box.innerHTML='<div class="empty-state">No scorable events for this athlete.</div>'; return; }
   panel.hidden=false;
   const maxP=Math.max(...a.cross.map(r=>r.pts||0)) || 1;
-  const rows=a.cross.map((r,i)=>`<tr class="${i===0?'lead':''}" data-ev="${esc(r.event)}">
+  const rows=a.cross.slice(0,5).map((r,i)=>`<tr class="${i===0?'lead':''}" data-ev="${esc(r.event)}">
       <td class="rk num">${i+1}</td>
       <td class="e"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-label="Chart ${esc(r.event)}">${r.event==='1 Mile Road'?'Mile':`<span class="evf">${esc(r.event)}</span><span class="evs" aria-hidden="true">${esc(shortEv(r.event))}</span>`}</button>${i===0?'<span class="sr"> (strongest event)</span>':''}${r.event==='1 Mile Road'?' <span class="note">road</span>':''}${r.viaParkrun?' <span class="note">at parkrun</span>':''}${/i/.test(r.f||'')?' <span class="note">indoor</span>':''}</td>
       ${i===0?'':''}<td class="p num"><span class="pbc">${esc(r.pb)}</span></td>
