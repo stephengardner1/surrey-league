@@ -125,6 +125,7 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .grid .secbtn svg{transition:transform .15s}
 .grid .secbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
 .grid tbody.collapsed tr:not(.sect){display:none}
+.grid .evs{display:none}
 .grid .restored{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--good);margin-left:6px;vertical-align:middle}
 .spark{display:block;margin:0 auto}
 
@@ -289,6 +290,12 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .quick{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:2px}
   .quick button{white-space:nowrap}
   .grid .tr{display:none}
+  /* narrow first column: short event names, and only the event stays pinned when scrolling sideways */
+  .grid .evf{display:none}
+  .grid .evs{display:inline}
+  .grid .ev{min-width:78px;max-width:78px;box-shadow:inset -1px 0 0 var(--line)}
+  .grid .pb{position:static;left:auto;border-right:0}
+  .grid td.y.cur,.grid th.cur{box-shadow:none}
   .perf td.v{display:none}
   .perf td.m,.perf th.m,.recent td.m,.recent th.m{display:none}
   .perf .mm,.recent .mm{display:block;font-weight:400;font-size:var(--fs-xs);color:var(--ink-3);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -645,6 +652,14 @@ function fmtGap(e, v, pb){
   return sign + (a<60 ? a.toFixed(a<10?2:1)+'s' : fmtT(a));
 }
 const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of the PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
+// short event names for the narrow first column on phones
+function shortEv(e){
+  if(e==='Half Marathon') return 'HM';
+  if(e==='Marathon') return 'M';
+  if(e==='1 Mile Road') return 'Mile Rd';
+  const m=e.match(/^(\d+(?:\.\d+)?) Miles?$/); if(m) return m[1]+'M';
+  return e;
+}
 function gapClass(e,v,pb){
   if(v==null||pb==null) return 'g3';
   const pct = isField(e) ? (pb-v)/pb*100 : (v-pb)/pb*100;
@@ -850,7 +865,7 @@ function renderBests(a){
   const row=r=>{
     const pbv=r.pbv;
     return `<tr data-ev="${esc(r.event)}" aria-selected="${S.ev===r.event}">
-      <td class="ev" title="${esc(r.event)}"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-pressed="${S.ev===r.event}" aria-label="Chart ${esc(r.event)}">${esc(r.event)}</button>${r.restored?'<span class="restored" role="img" title="Season bests worked out from the race list. The new site leaves this row blank." aria-label="Season bests worked out from the race list"></span>':''}</td>
+      <td class="ev" title="${esc(r.event)}"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-pressed="${S.ev===r.event}" aria-label="Chart ${esc(r.event)}"><span class="evf">${esc(r.event)}</span><span class="evs" aria-hidden="true">${esc(shortEv(r.event))}</span></button>${r.restored?'<span class="restored" role="img" title="Season bests worked out from the race list. The new site leaves this row blank." aria-label="Season bests worked out from the race list"></span>':''}</td>
       <td class="pb num"><span class="pbc">${esc(r.pb)}</span></td>
       <td class="tr">${spark(r)}</td>
       ${years.map(y=>{ const v=r.sb[y]; if(!v) return `<td class="y ${y===CUR_YEAR?'cur':''}"></td>`;
