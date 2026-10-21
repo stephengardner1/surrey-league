@@ -293,6 +293,36 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .noprk{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;flex:none;font-size:var(--fs-s);font-weight:500;cursor:pointer;margin-left:auto;min-height:28px}
 .noprk[hidden]{display:none}
 .noprk input{width:16px;height:16px;margin:0;accent-color:var(--brand);cursor:pointer}
+/* head to head */
+.h2hpick{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-size:var(--fs-s)}
+.h2hpick select{font-size:var(--fs-s);border:1px solid var(--line);border-radius:var(--radius);padding:3px 8px;background:#fff;color:var(--ink);max-width:220px}
+#h2h{padding:14px 14px 4px}
+.h2hsum{width:100%;max-width:460px;margin:0 auto 18px;table-layout:fixed;border-collapse:collapse}
+.h2hsum td{padding:6px 8px;text-align:center;vertical-align:bottom}
+.h2hsum td:first-child{text-align:right}.h2hsum td:last-child{text-align:left}
+.h2hsum td.lab{width:150px;font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;vertical-align:middle}
+.h2hsum tr+tr td{border-top:1px solid var(--line-soft)}
+.h2hsum tr.faces td,.h2hsum tr.names td{border-top:0}
+.h2hsum tr.names td{font-weight:600;padding-top:0;vertical-align:top}
+.h2hsum tr.big td.num{font-size:var(--fs-xl);line-height:1.1}
+.h2hsum .num{font-family:var(--font-data);font-variant-numeric:tabular-nums}
+.h2hsum .win,.h2hrace td.win,.h2hrace td.hp.win .ht{color:var(--good);font-weight:700}
+.h2hface{display:inline-block;width:72px;height:72px;border-radius:8px;overflow:hidden;vertical-align:bottom;background:var(--ground,#eee)}
+.h2hface img{display:block;width:100%;height:auto}
+.h2hgo{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer}
+.h2hgo:hover{text-decoration:underline}
+.h2hrace{font-size:var(--fs-s);font-family:var(--font-data)}
+.h2hrace th,.h2hrace td{padding:6px 8px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap;vertical-align:baseline}
+.h2hrace th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.h2hrace th.r,.h2hrace td.hp{text-align:right}
+.h2hrace td.d{color:var(--ink-3)}
+.h2hrace td.e{font-weight:600}
+.h2hrace td.hp sup{font-size:.7em;margin-left:1px}
+.h2hrace td.hp .ht{display:inline-block;min-width:58px;margin-left:8px;color:var(--ink-3);font-weight:400}
+.h2hrace td.m{color:var(--ink-2)}
+.h2hrace tbody tr{cursor:pointer}
+.h2hrace tbody tr:hover td{background:var(--surface-2)}
+.h2hnote{font-size:var(--fs-xs);color:var(--ink-3);margin:10px 0 8px}
 .panelbtn{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;min-height:28px}
 .panelbtn svg{transition:transform .15s}
 .panelbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
@@ -390,6 +420,10 @@ details.src p{margin:6px 0 0;max-width:72ch}
       <section class="panel" id="recentPanel">
         <header><h2><button type="button" class="panelbtn" id="recentToggle" aria-expanded="false" aria-controls="recent">Recent form<svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2><label class="noprk" id="noPrkWrap" hidden><input type="checkbox" id="noPrk"> Exclude parkrun</label></header>
         <div class="scroll" id="recent" tabindex="0" role="region" aria-label="Recent form: last 8 races" hidden></div>
+      </section>
+      <section class="panel" id="h2hPanel">
+        <header><h2>Head to head</h2><label class="h2hpick"><span>vs</span><select id="h2hSel" aria-label="Compare with"></select></label></header>
+        <div id="h2h"></div>
       </section>
       <section class="panel" id="perfPanel">
         <header><h2>All performances</h2><span class="hint" id="perfCount" aria-live="polite"></span></header>
@@ -930,6 +964,10 @@ function jumpToRace(ev,y,v){
   const cands=a.perfs.filter(p=>p.c===ev && p.y===y && p.v!=null && !p.dup);
   if(!cands.length) return;
   const hit=cands.reduce((b,p)=>Math.abs(p.v-v)<Math.abs(b.v-v)?p:b,cands[0]);
+  showPerf(hit);
+}
+function showPerf(hit){
+  const a=S.a;
   // make sure the race is in the list: clear filters and show it grouped by year
   if(S.evFilter||S.text||!(S.sort==='date'||S.sort==='old')){ S.evFilter=''; S.text=''; S.sort='date'; renderFilters(a); renderPerfs(a); }
   const tr=document.getElementById(`perf-${a.id}-${hit.i}`); if(!tr) return;
@@ -1079,6 +1117,56 @@ try{ S.noParkrun = localStorage.getItem('p11-noparkrun')==='1'; }catch(e){}
 document.getElementById('noPrk').checked=!!S.noParkrun;
 document.getElementById('noPrk').addEventListener('change',e=>{ S.noParkrun=e.target.checked; try{ localStorage.setItem('p11-noparkrun',S.noParkrun?'1':'0'); }catch(err){} renderRecent(S.a); });
 
+/* ---------- head to head ---------- */
+// races both runners ran: same date, meeting and event
+function sharedWith(a,b){
+  prepare(b);
+  const key=p=>p.d+'|'+String(p.m||'').trim().toLowerCase()+'|'+p.e;
+  const mb=new Map(); b.perfs.forEach(p=>{ if(!p.dup && !/\+/.test(p.f)) mb.set(key(p),p); });
+  const out=[]; a.perfs.forEach(p=>{ if(p.dup || /\+/.test(p.f)) return; const q=mb.get(key(p)); if(q) out.push({pa:p,pb:q}); });
+  return out.sort((x,y)=> x.pa.d<y.pa.d?1:x.pa.d>y.pa.d?-1:0);
+}
+// who won: position for road, cross country and parkrun (same field); time for track and relays (heats and legs differ)
+function h2hWinner(pa,pb){
+  const num=x=>/^\d+$/.test(x.pos||'')?+x.pos:null;
+  const byTime=()=>{ if(pa.v==null||pb.v==null||Math.abs(pa.v-pb.v)<0.005) return 0; const fld=isField(pa.c); return (fld? pa.v>pb.v : pa.v<pb.v)?1:-1; };
+  const byPos=()=>{ const x=num(pa),y=num(pb); if(x==null||y==null) return null; return x<y?1:x>y?-1:0; };
+  if(pa.t==='track'||pa.t==='relay'){ const t=byTime(); if(t) return t; return byPos()||0; }
+  const ps=byPos(); return ps==null?byTime():ps;
+}
+function h2hFace(x){
+  const P=(window.PORTRAITS||{})[x.id];
+  return P ? `<span class="h2hface"><img src="${P.src}" alt="" width="72" height="101"></span>` : `<span class="h2hvest">${vestSvg(x.club,40)}</span>`;
+}
+S.h2h = {};
+function renderH2H(a){
+  const others=ATH.filter(x=>x.id!==a.id).map(b=>({b,n:sharedWith(a,b).length})).sort((x,y)=>y.n-x.n || x.b.last.localeCompare(y.b.last));
+  let bid=S.h2h[a.id]; if(!others.some(o=>o.b.id===bid)) bid=others[0].b.id;
+  const sel=document.getElementById('h2hSel');
+  sel.innerHTML=others.map(o=>`<option value="${o.b.id}" ${o.b.id===bid?'selected':''}>${esc(o.b.first)} ${esc(o.b.last)} (${o.n})</option>`).join('');
+  const b=ATH.find(x=>x.id===bid);
+  const rows=sharedWith(a,b);
+  let wa=0,wb=0,lv=0; rows.forEach(r=>{ r.w=h2hWinner(r.pa,r.pb); if(r.w>0) wa++; else if(r.w<0) wb++; else lv++; });
+  const box=document.getElementById('h2h');
+  if(!rows.length){ box.innerHTML=`<div class="empty-state">${esc(a.first)} and ${esc(b.first)} haven't raced each other.</div>`; return; }
+  const cls=(x,y)=>x>y?'win':'';
+  const cell=(p,w)=>`<td class="hp num ${w>0?'win':''}">${/^\d+$/.test(p.pos||'')?`${p.pos}<sup>${ord(p.pos)}</sup>`:esc(p.pos||'–')}<span class="ht">${esc(String(p.p).replace(/\(.*\)/,''))}</span></td>`;
+  box.innerHTML=`<table class="h2hsum"><tbody>
+      <tr class="faces"><td>${h2hFace(a)}</td><td class="lab">${rows.length} race${rows.length===1?'':'s'}<br>together</td><td><button type="button" class="h2hgo" data-id="${b.id}" title="Open ${esc(b.first)} ${esc(b.last)}">${h2hFace(b)}</button></td></tr>
+      <tr class="names"><td>${esc(a.first)} ${esc(a.last)}</td><td></td><td><button type="button" class="h2hgo" data-id="${b.id}">${esc(b.first)} ${esc(b.last)}</button></td></tr>
+      <tr class="big"><td class="num ${cls(wa,wb)}">${wa}</td><td class="lab">Head-to-head wins</td><td class="num ${cls(wb,wa)}">${wb}</td></tr>
+      ${lv?`<tr><td class="num">${lv}</td><td class="lab">Level or no result</td><td class="num">${lv}</td></tr>`:''}
+    </tbody></table>
+    <div class="scroll" tabindex="0" role="region" aria-label="Race by race"><table class="h2hrace"><thead><tr><th>Date</th><th>Event</th><th class="r">${esc(a.first)}</th><th class="r">${esc(b.first)}</th><th class="m">Meeting</th></tr></thead><tbody>${(S.h2hAll?rows:rows.slice(0,10)).map(r=>`<tr data-i="${r.pa.i}"><td class="d num">${dHTML(r.pa.d,true)}</td><td class="e">${esc(abbr(r.pa.e))}</td>${cell(r.pa,r.w)}${cell(r.pb,-r.w)}<td class="m">${esc(r.pa.m)}</td></tr>`).join('')}</tbody></table></div>
+    ${rows.length>10?`<div style="padding-top:10px"><button type="button" class="toggle" id="h2hMore">${S.h2hAll?'Show the latest 10':'Show all '+rows.length+' races'}</button></div>`:''}`;
+}
+document.getElementById('h2hSel').addEventListener('change',e=>{ S.h2h[S.a.id]=e.target.value; S.h2hAll=false; renderH2H(S.a); });
+document.getElementById('h2h').addEventListener('click',e=>{
+  if(e.target.closest('#h2hMore')){ S.h2hAll=!S.h2hAll; renderH2H(S.a); return; }
+  const go=e.target.closest('.h2hgo'); if(go){ select(go.dataset.id); document.getElementById('athlete').focus(); window.scrollTo({top:0,behavior:SMOOTH}); return; }
+  const tr=e.target.closest('tr[data-i]'); if(tr){ const p=S.a.perfs[+tr.dataset.i]; if(p) showPerf(p); }
+});
+
 /* ---------- all performances ---------- */
 function renderFilters(a){
   const counts={}; a.perfs.forEach(p=>{ counts[p.t]=(counts[p.t]||0)+1; });
@@ -1226,10 +1314,10 @@ function select(id,how){
   how=how||'push';
   const a=ATH.find(x=>x.id===id) || ATH[0];
   prepare(a);
-  S.a=a; S.ev=defaultEvent(a); S.evFilter=''; S.text='';
+  S.a=a; S.ev=defaultEvent(a); S.evFilter=''; S.text=''; S.h2hAll=false;
   quick.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.id===a.id));
   document.title = `${a.first} ${a.last} · Power of 11`;
-  renderHeader(a); renderCross(a); renderBests(a); renderEvPick(a); renderForm(a); renderRecent(a); renderFilters(a); renderPerfs(a); renderSide(a);
+  renderHeader(a); renderCross(a); renderBests(a); renderEvPick(a); renderForm(a); renderRecent(a); renderH2H(a); renderFilters(a); renderPerfs(a); renderSide(a);
   if(PATHMODE){
     const url='/athlete/'+slugOf(a);
     try{ if(location.pathname!==url){ if(how==='push') history.pushState({id:a.id},'',url); else history.replaceState({id:a.id},'',url); } }catch(e){}
