@@ -665,7 +665,7 @@ function fmtGap(e, v, pb){
   if(isField(e)) return sign + a.toFixed(2)+'m';
   return sign + (a<60 ? a.toFixed(a<10?2:1)+'s' : fmtT(a));
 }
-const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of the PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
+const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
 // house abbreviations used everywhere an event is named: HM, M, TJ, HJ, DT
 function abbr(e){
   return String(e||'').replace(/ Multi Terrain$/,' MT').replace(/^Half Marathon/,'HM').replace(/^(Marathon|Mar)$/,'Mara').replace(/^Triple Jump/,'TJ').replace(/^High Jump/,'HJ').replace(/^Discus/,'DT').replace(/^Long Jump/,'LJ').replace(/^Pole Vault/,'PV').replace(/^Shot( Put)?/,'SP').replace(/^Javelin/,'JT').replace(/^Hammer/,'HT');
@@ -1097,7 +1097,7 @@ function renderPerfs(a){
     groups.forEach((ps,y)=>{
       const club=clubFor(a,y);
       // within a year keep the old site's habit: grouped by event, best first
-      body+=`<tr class="yh" id="y-${a.id}-${y}"><td colspan="7"><span class="yhin"><span class="yy">${y}</span>${club?`<span class="yc">${vestSvg(club,15)} ${esc(club)}</span>`:`<span class="yc" style="color:var(--ink-3);font-weight:400">Club not recorded</span>`}<span class="yn">${ps.length} result${ps.length===1?'':'s'}</span></span></td></tr>`;
+      body+=`<tr class="yh" id="y-${a.id}-${y}"><td colspan="7"><span class="yhin"><span class="yy">${y}</span>${club?`<span class="yc">${vestSvg(club,15)} ${esc(club)}</span>`:`<span class="yc" style="color:var(--ink-3);font-weight:400">Club not recorded</span>`}</span></td></tr>`;
       body+=ps.map(row).join('');
     });
   } else {
