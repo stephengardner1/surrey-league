@@ -14,7 +14,10 @@
 /* Layout: one dense working page. Sticky search bar, athlete header, then a two-column body:
    main column = best-performances grid, form chart, every performance; side column = rankings, clubs, coaches, data notes. */
 /* Look: the new Power of 10's own palette, with contrast raised to WCAG AA.
-   Red = brand and navigation only. Navy = text and data. Gold = personal bests. IBM Plex Sans throughout, with tabular figures in tables. */
+   Red = brand and the strongest event only. Navy = text, data and selection. Gold = personal bests only.
+   Type: Inter for text and data (tabular figures in tables), IBM Plex Sans Condensed for names and headings.
+   Type scale (6 sizes): 12 labels/chips, 13 dense tables, 14 body/summary tables, 19 panel titles, 28 big numbers, 40 name.
+   Row heights: about 34px in summary tables, about 29px in long lists. */
 :root{
   --bg:#F2F2F2;          /* page */
   --surface:#FFFFFF;     /* panels */
@@ -23,7 +26,7 @@
   --navy:#1F2E57;        /* Po10 navy */
   --ink:#1F2E57;
   --ink-2:#46557A;
-  --ink-3:#666666;       /* was #747474: 4.2:1 on the tint, now 5.1:1 */
+  --ink-3:#5A6683;       /* blue-grey to match ink-2; 5.7:1 on white, 5.1:1 on the grey tint */
   --on-navy-2:#C9D0E0;
   --line:#DCDCDC;
   --line-soft:#EAEAEA;
@@ -41,7 +44,7 @@
   --font-display:"IBM Plex Sans Condensed","Arial Narrow","Segoe UI",Arial,sans-serif;
   --font-body:"Inter","Segoe UI",Arial,sans-serif;
   --font-data:"Inter","Segoe UI",Arial,sans-serif;   /* one family; tables switch on tabular figures */
-  --fs-xs:12px; --fs-s:12.5px; --fs-m:14px; --fs-l:16px; --fs-xl:22px; --fs-xxl:40px; --fs-data:13.5px;
+  --fs-xs:12px; --fs-s:13px; --fs-m:14px; --fs-l:19px; --fs-xl:28px; --fs-xxl:40px; --fs-data:14px;
   --radius:8px;
   color-scheme:light;
 }
@@ -53,6 +56,8 @@ a:hover{text-decoration:underline}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .num{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-weight:500}
+/* one personal-best marker everywhere: outlined gold chip on the result itself */
+.pbc{display:inline-block;background:var(--pb-tint);color:var(--pb-ink);padding:0 6px;border-radius:4px;font-weight:700;box-shadow:inset 0 0 0 1px var(--pb-bg);line-height:1.35}
 .grid,.perf,.recent,.side-list,.lastn{font-family:var(--font-data);font-variant-numeric:tabular-nums}
 .grid,.perf,.recent,.side-list{font-size:var(--fs-data)}
 .wrap{max-width:1360px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -84,18 +89,13 @@ button,input,select{font:inherit;color:inherit}
 .meta{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px;color:var(--ink-2);font-size:var(--fs-m)}
 .meta dt{display:inline;color:var(--ink-3);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.06em;margin-right:5px}
 .meta dd{display:inline;margin:0;font-weight:600;color:var(--ink)}
-.facts{display:flex;gap:22px;flex-wrap:wrap}
-.fact{min-width:0}
-.fact .k{font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
-.fact .v{font-family:var(--font-display);font-variant-numeric:tabular-nums;font-weight:600;font-size:24px;line-height:1.1}
-.fact .s{font-size:var(--fs-s);color:var(--ink-2)}
 
 /* body grid */
 .body{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;padding-block:6px 40px;align-items:start}
 .col{display:grid;gap:18px;min-width:0}
 .panel{background:var(--surface);border-radius:var(--radius);min-width:0;overflow:hidden}
 .panel>header{display:flex;align-items:baseline;justify-content:space-between;gap:4px 12px;flex-wrap:wrap;padding:9px 14px;background:var(--navy);color:#fff}
-.panel h2{font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:.005em;margin:0}
+.panel h2{font-family:var(--font-display);font-weight:600;font-size:var(--fs-l);letter-spacing:.005em;margin:0}
 .panel .hint{font-size:var(--fs-xs);color:var(--on-navy-2)}
 .panel .inner{padding:12px 14px}
 
@@ -103,28 +103,26 @@ button,input,select{font:inherit;color:inherit}
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{border-collapse:separate;border-spacing:0;width:100%}
 .grid{font-size:var(--fs-s)}
-.grid th,.grid td{padding:4px 7px;white-space:nowrap;text-align:right;border-bottom:1px solid var(--line-soft)}
-.grid thead th{position:sticky;top:0;background:var(--surface);color:var(--ink-3);font-weight:600;font-size:var(--fs-xs);letter-spacing:.04em;border-bottom:1px solid var(--line)}
-.grid .ev{position:sticky;left:0;z-index:1;background:var(--surface);text-align:left;font-weight:600;min-width:122px;max-width:122px;overflow:hidden;text-overflow:ellipsis}
-.grid .pb{position:sticky;left:122px;z-index:1;background:var(--surface);font-weight:700;border-right:1px solid var(--line);min-width:72px}
-.grid .pb span{display:inline-block;background:var(--pb-tint);color:var(--pb-ink);padding:0 6px;border-radius:4px;font-weight:700;box-shadow:inset 0 0 0 1px var(--pb-bg)}
+.grid th,.grid td{padding:2px 8px;white-space:nowrap;text-align:right;border-bottom:1px solid var(--line-soft)}
+.grid thead th{position:sticky;top:0;background:var(--surface);font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.grid .ev{position:sticky;left:0;z-index:1;background:var(--surface);text-align:left;font-weight:600;min-width:128px;max-width:128px;overflow:hidden;text-overflow:ellipsis}
+.grid .pb{position:sticky;left:128px;z-index:1;background:var(--surface);font-weight:700;border-right:1px solid var(--line);min-width:72px}
+
 .grid .tr{min-width:78px;text-align:center;border-right:1px solid var(--line-soft)}
 .grid td.y{color:var(--ink-2)}
-.grid td.y.ispb{background:var(--pb-tint);color:var(--pb-ink);font-weight:700}
+.grid td.y,.grid th.y{min-width:68px}
+.grid td.y.ispb{color:var(--pb-ink)}
 .grid td.y.cur,.grid th.cur{box-shadow:inset 1px 0 0 var(--line),inset -1px 0 0 var(--line)}
 .grid th.cur{color:var(--ink)}
 .grid tbody tr{cursor:pointer}
 .grid tbody tr:hover td{background:var(--surface-2)}
-.grid tbody tr:hover td.ispb{background:var(--pb-tint)}
-.grid tbody tr[aria-selected="true"] td.ev{box-shadow:inset 3px 0 0 var(--brand)}
+.grid tbody tr[aria-selected="true"] td.ev{box-shadow:inset 3px 0 0 var(--navy)}
 .grid tbody tr[aria-selected="true"] td{background:var(--surface-2)}
-.grid tbody tr[aria-selected="true"] td.ispb{background:var(--pb-tint)}
 .grid .sect td{background:var(--surface-2);color:var(--navy);font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;text-align:left;font-weight:600;cursor:default;position:static}
 .grid .sect td>span{position:sticky;left:7px;display:inline-block}
 .grid .secbtn{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:2px 0;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer}
 .grid .secbtn svg{transition:transform .15s}
 .grid .secbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
-.grid .secbtn .n{font-weight:500;color:var(--ink-3);letter-spacing:0;margin-left:2px}
 .grid tbody.collapsed tr:not(.sect){display:none}
 .grid .restored{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--good);margin-left:6px;vertical-align:middle}
 .spark{display:block;margin:0 auto}
@@ -137,59 +135,54 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .evpick{display:flex;gap:6px;flex-wrap:wrap}
 .evpick select,.tabletoggle{border:1px solid var(--line);background:#fff;border-radius:999px;padding:2px 10px;font-size:var(--fs-s);color:var(--ink-2);cursor:pointer}
 .tabletoggle{margin-left:auto;border-style:dashed}
-.chart-table{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-size:var(--fs-data);max-height:300px;overflow:auto;padding:0 10px}
-.chart-table th,.chart-table td{padding:4px 8px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
-.chart-table th{font-family:var(--font-body);font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;position:sticky;top:0;background:#fff}
+.chart-table{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-size:var(--fs-s);max-height:300px;overflow:auto;padding:0 10px}
+.chart-table th,.chart-table td{padding:5px 8px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
+.chart-table th{font-family:var(--font-body);font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;position:sticky;top:0;background:#fff}
 .evpick button{border:1px solid var(--line);background:none;border-radius:999px;padding:2px 10px;font-size:var(--fs-s);cursor:pointer;color:var(--ink-2)}
-.evpick button[aria-pressed="true"]{border-color:var(--brand);background:var(--brand);color:#fff;font-weight:600}
+.evpick button[aria-pressed="true"]{border-color:var(--navy);background:var(--navy);color:#fff;font-weight:600}
 .stat2{display:grid;grid-template-columns:1fr;gap:14px}
 .stat2 .s{margin-top:2px;line-height:1.35}
 .stat2 .k{font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em}
-.stat2 .v{font-family:var(--font-display);font-variant-numeric:tabular-nums;font-size:28px;font-weight:600;line-height:1.1}
+.stat2 .v{font-family:var(--font-display);font-variant-numeric:tabular-nums;font-size:var(--fs-xl);font-weight:600;line-height:1.1}
 .stat2 .v.pbv{color:var(--navy)}
-.stat2 .v.pbv span{background:var(--pb-tint);padding:0 6px;border-radius:4px;box-shadow:inset 0 0 0 1px var(--pb-bg)}
 .stat2 .s{font-size:var(--fs-xs);color:var(--ink-2)}
 .lastn{display:grid;gap:0;font-size:var(--fs-s)}
-.lastn .row{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line-soft)}
+.lastn .row{display:grid;grid-template-columns:78px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-top:1px solid var(--line-soft)}
 .lastn .d{color:var(--ink-3)}
-.lastn .m{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2)}
-.gap{font-size:11px;font-weight:600;padding:1px 6px;border-radius:999px;white-space:nowrap}
+.lastn .d{white-space:nowrap}
+.lastn .m{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:var(--ink-2);line-height:1.3}
+.gap{font-size:var(--fs-xs);font-weight:600;padding:0 6px;border-radius:999px;white-space:nowrap}
 .gap.g0{background:var(--pb-tint);color:var(--pb-ink)}
 .gap.g1{background:var(--good-bg);color:var(--good)}
 .gap.g2{background:var(--warn-bg);color:var(--warn)}
 .gap.g3{background:var(--surface-2);color:var(--ink-3)}
+.legend.gapkey{padding:10px 10px 12px;margin:0;gap:6px 16px}
+.gapkey .gap{margin-right:4px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:var(--fs-xs);color:var(--ink-3);padding:0 10px 4px}
 .legend i{display:inline-block;vertical-align:middle;margin-right:5px}
 .legend .ld{width:8px;height:8px;border-radius:50%;background:var(--dot)}
 .legend .lp{width:8px;height:8px;border-radius:50%;background:var(--accent)}
 .legend .ll{width:16px;height:2px;background:var(--accent)}
 .tip{position:absolute;pointer-events:none;background:var(--navy);color:#fff;font-size:var(--fs-s);padding:6px 9px;border-radius:5px;max-width:240px;line-height:1.3;box-shadow:0 6px 16px rgba(0,0,0,.2);z-index:5}
-.tip b{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-size:17px;font-weight:600}
-.recent{font-size:var(--fs-s)}
-.recent th,.recent td{padding:5px 8px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
-.recent th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.tip b{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-size:var(--fs-l);font-weight:600}
+.recent{font-size:var(--fs-data)}
+.recent th,.recent td{padding:7px 10px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
+.recent th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .recent td.m{white-space:normal;min-width:180px;color:var(--ink-2)}
 .recent td.p{font-weight:700}
 
 /* performances */
 .filters{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line-soft)}
-.chips{display:flex;gap:5px;flex-wrap:wrap}
-.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px;font-size:var(--fs-s);cursor:pointer;color:var(--ink-3)}
-.chip[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
-.chip .c{margin-left:4px;font-family:var(--font-data);font-variant-numeric:tabular-nums}
 .filters select,.filters input[type=search]{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);padding:4px 8px;font-size:var(--fs-s);min-width:0}
 .filters input[type=search]{width:170px}
 .filters label{font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;display:flex;gap:6px;align-items:center}
-.yearjump{display:flex;flex-wrap:wrap;gap:2px 8px;padding:8px 14px;font-size:var(--fs-s);border-bottom:1px solid var(--line-soft)}
-.yearjump a{font-weight:600}
-.yearjump .count{color:var(--ink-3);font-weight:400;font-size:11px}
 .perf{font-size:var(--fs-s)}
-.perf th,.perf td{padding:4px 8px;border-bottom:1px solid var(--line-soft);text-align:left;vertical-align:baseline}
-.perf thead th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:var(--surface);position:sticky;top:0}
-.perf .yh td{background:var(--pb-tint);padding:6px 8px;border-bottom:1px solid var(--line)}
-.perf .yh .yy{font-family:var(--font-data);font-weight:700;font-size:19px;margin-right:10px;color:var(--navy)}
-.perf .yh .yc{color:var(--navy);font-family:var(--font-body);font-size:13.5px;font-weight:600}
-.perf .yh .yn{color:var(--ink-2);font-family:var(--font-body);font-size:12.5px;margin-left:10px}
+.perf th,.perf td{padding:5px 8px;border-bottom:1px solid var(--line-soft);text-align:left;vertical-align:baseline}
+.perf thead th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--surface);position:sticky;top:var(--toph,0px);z-index:2;box-shadow:inset 0 -1px 0 var(--line)}
+.perf .yh td{background:var(--surface-2);padding:7px 8px;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+.perf .yh .yy{font-family:var(--font-display);font-weight:700;font-size:var(--fs-l);margin-right:10px;color:var(--navy)}
+.perf .yh .yc{color:var(--navy);font-family:var(--font-body);font-size:var(--fs-m);font-weight:600}
+.perf .yh .yn{color:var(--ink-3);font-family:var(--font-body);font-size:var(--fs-xs);margin-left:10px}
 .perf td.d{color:var(--ink-3);white-space:nowrap}
 .perf td.e{font-weight:600;white-space:nowrap}
 .perf td.p{font-weight:700;white-space:nowrap}
@@ -198,19 +191,19 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .perf td.pts{text-align:right;color:var(--ink-2)}
 .perf td.v{color:var(--ink-2);white-space:nowrap}
 .perf td.m{min-width:200px}
-.perf td.b{white-space:nowrap}
-.badge{font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:1px 5px;border-radius:3px;margin-right:3px}
+.perf .mm,.recent .mm{display:none}
+.badge{font-size:var(--fs-xs);font-weight:700;letter-spacing:.03em;padding:0 5px;border-radius:3px;margin-left:6px;vertical-align:1px}
 .badge.pb{background:var(--pb-tint);color:var(--pb-ink)}
 .badge.sb{background:var(--sb-bg);color:var(--navy)}
 .badge.dup{background:var(--warn-bg);color:var(--warn)}
 .perf tr.isdup td{opacity:.6}
-.flag{font-size:10px;color:var(--ink-3);margin-left:2px;font-weight:600}
+.flag{font-size:var(--fs-xs);color:var(--ink-3);margin-left:2px;font-weight:600}
 .empty-state{padding:24px 14px;color:var(--ink-3);text-align:center}
 
 /* side */
 .side-list{font-size:var(--fs-s)}
-.side-list th,.side-list td{padding:4px 10px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
-.side-list th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.side-list th,.side-list td{padding:5px 8px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
+.side-list th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .side-list td.r{text-align:right;font-weight:700}
 .src{font-size:var(--fs-xs);color:var(--ink-3);padding:8px 14px 10px}
 .timeline{list-style:none;margin:0;padding:12px 14px;display:grid;gap:10px}
@@ -224,7 +217,6 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .timeline li.club.second .t{font-weight:500;color:var(--ink-2)}
 .vest{vertical-align:-3px;flex:none}
 .timeline .w{font-size:var(--fs-s);color:var(--ink-3)}
-.notes{margin:0;padding:12px 14px 12px 30px;display:grid;gap:8px;font-size:var(--fs-s);color:var(--ink-2)}
 .codes{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:var(--fs-s);padding:12px 14px;margin:0}
 .codes dt{font-weight:700}
 .codes dd{margin:0;color:var(--ink-2)}
@@ -234,14 +226,13 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 
 /* best across all distances */
 .cross{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-size:var(--fs-data)}
-.cross th,.cross td{padding:5px 8px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
-.cross th{font-family:var(--font-body);font-size:var(--fs-xs);color:var(--ink-3);font-weight:600}
+.cross th,.cross td{padding:5px 10px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
+.cross th{font-family:var(--font-body);font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .cross tbody tr{cursor:pointer}
 .cross tbody tr:hover td{background:var(--surface-2)}
 .cross td.rk{color:var(--ink-3);width:28px}
 .cross td.e{font-weight:600}
 .cross td.d{color:var(--ink-3)}
-.cross .pbchip{background:var(--pb-tint);color:var(--pb-ink);padding:0 6px;border-radius:4px;font-weight:700;box-shadow:inset 0 0 0 1px var(--pb-bg)}
 .cross td.bar{width:38%;min-width:90px}
 .cross .track{display:block;height:8px;border-radius:4px;background:var(--surface-2)}
 .cross .fill{display:block;height:8px;border-radius:4px;background:var(--navy)}
@@ -249,13 +240,20 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .cross tr.lead td.e .strong{margin-left:8px;font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--brand)}
 .cross td.pts{text-align:right;font-weight:700}
 .cross td.ag{text-align:right;color:var(--ink-2)}
-.cross .age{color:var(--ink-3);font-size:12px}
-.cross .note{font-family:var(--font-body);font-size:11px;color:var(--ink-3);font-weight:400}
+.cross .age{color:var(--ink-3);font-size:var(--fs-xs)}
+.cross .note{font-family:var(--font-body);font-size:var(--fs-xs);color:var(--ink-3);font-weight:400}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 /* accessibility */
 .sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
-.scroll{position:relative}
+.scroll{position:relative;background:
+  linear-gradient(to right,#fff 30%,rgba(255,255,255,0)) left center/32px 100% no-repeat local,
+  linear-gradient(to left,#fff 30%,rgba(255,255,255,0)) right center/32px 100% no-repeat local,
+  radial-gradient(farthest-side at 0 50%,rgba(31,46,87,.22),rgba(31,46,87,0)) left center/12px 100% no-repeat scroll,
+  radial-gradient(farthest-side at 100% 50%,rgba(31,46,87,.22),rgba(31,46,87,0)) right center/12px 100% no-repeat scroll}
+/* the full list fits on desktop, so let its column headings stick under the top bar */
+#perfPanel{overflow:clip}
+@media (min-width:761px){ #perfs{overflow:visible} }
 .skip{position:absolute;left:12px;top:-60px;z-index:50;background:var(--navy);color:#fff;padding:8px 12px;border-radius:6px;font-weight:600}
 .skip:focus{top:calc(env(safe-area-inset-top,0px) + 8px)}
 .top :focus-visible{outline:2px solid #fff;outline-offset:2px}
@@ -269,13 +267,12 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .cross td.e .strong{margin-left:8px;font-family:var(--font-body);font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--brand)}
 .quick button,.chip,.evpick button,.evpick select,.tabletoggle,.toggle{min-height:30px}
 .grid .secbtn{min-height:28px}
-.yearjump a{display:inline-flex;align-items:center;min-height:28px;padding:0 2px}
-@media (pointer:coarse){ .evbtn{min-height:32px} .quick button,.chip,.evpick button,.evpick select,.tabletoggle,.toggle,.filters select,.filters input[type=search]{min-height:40px} .grid .secbtn,.yearjump a{min-height:36px} }
+@media (pointer:coarse){ .evbtn{min-height:32px} .quick button,.chip,.evpick button,.evpick select,.tabletoggle,.toggle,.filters select,.filters input[type=search]{min-height:40px} .grid .secbtn{min-height:36px} }
 .panelbtn{display:inline-flex;align-items:center;gap:8px;border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;min-height:28px}
 .panelbtn svg{transition:transform .15s}
 .panelbtn[aria-expanded="false"] svg{transform:rotate(-90deg)}
 .cross tr.lead td{background:#FBF1F0}
-.cross tr.lead td.pts{color:var(--brand);font-size:16px}
+.cross tr.lead td.pts{color:var(--brand);font-size:var(--fs-l);line-height:1}
 details.src summary{cursor:pointer;color:var(--ink-2);font-weight:500;min-height:24px;display:inline-flex;align-items:center}
 details.src p{margin:6px 0 0;max-width:72ch}
 @media (max-width: 1060px){
@@ -292,9 +289,23 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .quick button{white-space:nowrap}
   .grid .tr{display:none}
   .perf td.v{display:none}
+  .perf td.m,.perf th.m,.recent td.m,.recent th.m{display:none}
+  .perf .mm,.recent .mm{display:block;font-weight:400;font-size:var(--fs-xs);color:var(--ink-3);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .perf td.e,.recent td.e{max-width:150px}
+  .perf td.p .gun,.perf .badge.dup{display:none}
+  .perf th,.perf td,.recent th,.recent td{padding-left:5px;padding-right:5px}
+  .perf td.e,.perf .mm{max-width:100px}
+  .recent td.e,.recent .mm{max-width:94px}
+  .perf .badge{margin-left:4px}
+  .cross .age{display:none}
+  .cross td.rk,.cross th:first-child{display:none}
+  .cross th{white-space:normal}
+  .recent{font-size:var(--fs-s)}
+  .cross th,.cross td{padding-left:7px;padding-right:7px}
+  .perf th:first-child,.perf td:first-child,.recent th:first-child,.recent td:first-child{padding-left:10px}
   .cross td.d,.cross th:nth-child(4),.cross td.bar,.cross th.bar{display:none}
   .perf th.v{display:none}
-  .athlete h1{font-size:32px}
+  .athlete h1{font-size:var(--fs-xl)}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
@@ -628,6 +639,7 @@ function fmtGap(e, v, pb){
   if(isField(e)) return sign + a.toFixed(2)+'m';
   return sign + (a<60 ? a.toFixed(a<10?2:1)+'s' : fmtT(a));
 }
+const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of the PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
 function gapClass(e,v,pb){
   if(v==null||pb==null) return 'g3';
   const pct = isField(e) ? (pb-v)/pb*100 : (v-pb)/pb*100;
@@ -797,7 +809,7 @@ function renderCross(a){
   const rows=a.cross.map((r,i)=>`<tr class="${i===0?'lead':''}" data-ev="${esc(r.event)}">
       <td class="rk num">${i+1}</td>
       <td class="e"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-label="Chart ${esc(r.event)}">${esc(r.event)}</button>${i===0?'<span class="sr"> (strongest event)</span>':''}${r.viaParkrun?' <span class="note">at parkrun</span>':''}${/i/.test(r.f||'')?' <span class="note">indoor</span>':''}</td>
-      ${i===0?'':''}<td class="p num"><span class="pbchip">${esc(r.pb)}</span></td>
+      ${i===0?'':''}<td class="p num"><span class="pbc">${esc(r.pb)}</span></td>
       <td class="d num">${fmtDY(r.d)}</td>
       <td class="bar" aria-hidden="true">${r.pts!=null?`<span class="track"><span class="fill" style="width:${Math.max(4,Math.round(r.pts/maxP*100))}%"></span></span>`:''}</td>
       <td class="pts num">${r.pts!=null?fmtPts(r.pts):'–'}</td>
@@ -828,17 +840,17 @@ function spark(r){
 }
 function renderBests(a){
   const years=[]; for(let y=a.yMax;y>=a.yMin;y--) years.push(y);
-  const head=`<thead><tr><th class="ev">Event</th><th class="pb">PB</th><th class="tr">Trend</th>${years.map(y=>`<th class="${y===CUR_YEAR?'cur':''}">${y}</th>`).join('')}</tr></thead>`;
+  const head=`<thead><tr><th class="ev">Event</th><th class="pb">PB</th><th class="tr">Trend</th>${years.map(y=>`<th class="y ${y===CUR_YEAR?'cur':''}">${y}</th>`).join('')}</tr></thead>`;
   const sect=(key,label,n)=>`<tr class="sect"><td colspan="${years.length+3}"><span><button type="button" class="secbtn" data-sec="${key}" aria-controls="sec-${key}" aria-expanded="${!S.collapsed.has(key)}"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${label}</button></span></td></tr>`;
   const row=r=>{
     const pbv=r.pbv;
     return `<tr data-ev="${esc(r.event)}" aria-selected="${S.ev===r.event}">
       <td class="ev" title="${esc(r.event)}"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-pressed="${S.ev===r.event}" aria-label="Chart ${esc(r.event)}">${esc(r.event)}</button>${r.restored?'<span class="restored" role="img" title="Season bests worked out from the race list. The new site leaves this row blank." aria-label="Season bests worked out from the race list"></span>':''}</td>
-      <td class="pb num"><span>${esc(r.pb)}</span></td>
+      <td class="pb num"><span class="pbc">${esc(r.pb)}</span></td>
       <td class="tr">${spark(r)}</td>
       ${years.map(y=>{ const v=r.sb[y]; if(!v) return `<td class="y ${y===CUR_YEAR?'cur':''}"></td>`;
         const ispb = val(v)!=null && pbv!=null && Math.abs(val(v)-pbv)<0.005;
-        return `<td class="y num ${ispb?'ispb':''} ${y===CUR_YEAR?'cur':''}">${esc(v)}${ispb?'<span class="sr"> (personal best)</span>':''}</td>`; }).join('')}
+        return `<td class="y num ${ispb?'ispb':''} ${y===CUR_YEAR?'cur':''}">${ispb?`<span class="pbc">${esc(v)}</span><span class="sr"> (personal best)</span>`:esc(v)}</td>`; }).join('')}
     </tr>`;
   };
   const groups=[['track','Track',a.grid.filter(r=>r.type==='track'&&!isField(r.event))],['field','Field',a.grid.filter(r=>r.type==='track'&&isField(r.event))],['road','Road',a.grid.filter(r=>r.type==='road')]].filter(g=>g[2].length);
@@ -887,12 +899,12 @@ function renderForm(a){
   document.getElementById('formHint').textContent = `${ev} · ${pts.length} result${pts.length===1?'':'s'} on record`;
   document.getElementById('formSide').innerHTML = `
     <div class="stat2">
-      <div><div class="k">Personal best</div><div class="v pbv num"><span>${esc(row?row.pb:'–')}</span></div><div class="s">${pbPerf?esc(fmtDY(pbPerf.d)+' · '+pbPerf.m):''}</div></div>
+      <div><div class="k">Personal best</div><div class="v pbv num"><span class="pbc">${esc(row?row.pb:'–')}</span></div><div class="s">${pbPerf?esc(fmtDY(pbPerf.d)+' · '+pbPerf.m):''}</div></div>
       <div><div class="k">Best in ${lastYr||'–'}</div><div class="v num">${esc(sbv||'–')}</div><div class="s">${sbv&&pb!=null?`<span class="gap ${gapClass(ev,val(sbv),pb)}">${fmtGap(ev,val(sbv),pb)}</span> ${lastYr<CUR_YEAR?'<span style="color:var(--ink-3)">· none in '+CUR_YEAR+'</span>':''}`:''}</div></div>
     </div>
     <div>
       <div class="k" style="font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Latest ${ev}</div>
-      <div class="lastn">${lastPts.length?lastPts.map(p=>`<div class="row"><span class="d num">${fmtDY(p.d)}</span><span class="m" title="${esc(p.m)}">${esc(p.m)}</span><span><b class="num">${esc(p.p.replace(/\(.*\)/,''))}</b> <span class="gap ${gapClass(ev,p.v,pb)}">${fmtGap(ev,p.v,pb)}</span></span></div>`).join(''):'<span style="color:var(--ink-3)">No timed results</span>'}</div>
+      <div class="lastn">${lastPts.length?lastPts.map(p=>`<div class="row"><span class="d num">${fmtDY(p.d)}</span><span class="m" title="${esc(p.m)}">${esc(p.m)}</span><span>${gapClass(ev,p.v,pb)==='g0'?`<b class="num pbc">${esc(p.p.replace(/\(.*\)/,''))}</b>`:`<b class="num">${esc(p.p.replace(/\(.*\)/,''))}</b>`} <span class="gap ${gapClass(ev,p.v,pb)}">${fmtGap(ev,p.v,pb)}</span></span></div>`).join(''):'<span style="color:var(--ink-3)">No timed results</span>'}</div>
     </div>`;
   drawChart(pts, ev, pb);
 }
@@ -901,7 +913,15 @@ let chartState=null;
 function drawChart(pts, ev, pb){
   const box=document.getElementById('chart');
   if(S.chartTable){ box.innerHTML = pts.length? `<div class="chart-table"><table><thead><tr><th>Date</th><th>Result</th><th>Gap to PB then</th><th>Meeting</th></tr></thead><tbody>${pts.slice().reverse().map(p=>`<tr><td>${fmtDY(p.d)}</td><td><b>${esc(p.p)}</b>${p.newPB?' <span class="badge pb">PB</span>':''}</td><td>${p.pbAtTime!=null?fmtGap(ev,p.v,p.pbAtTime):'First'}</td><td style="font-family:var(--font-body);font-size:var(--fs-s)">${esc(p.m)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty-state">No timed results for this event.</div>'; chartState=null; return; }
-  const W=Math.max(280, box.clientWidth||600), H=Math.round(Math.min(300,Math.max(210,W*0.38)));
+  const W=Math.max(280, box.clientWidth||600);
+  let H=Math.round(Math.min(300,Math.max(210,W*0.38)));
+  // side by side on wider screens: grow the chart to the height of the side column so no gap is left under it
+  const fside=document.getElementById('formSide'), cbox=box.closest('.chartbox');
+  if(fside && cbox && fside.lastElementChild && window.matchMedia('(min-width:761px)').matches){
+    const sideH=fside.lastElementChild.getBoundingClientRect().bottom-fside.getBoundingClientRect().top+16;   // natural height of the side column
+    const other=[...cbox.children].filter(x=>x!==box).reduce((h,x)=>h+x.offsetHeight,0)+16;                 // pickers + legend + padding
+    if(sideH>0) H=Math.round(Math.max(H, Math.min(440, sideH-other)));
+  }
   if(pts.length===0){ box.innerHTML='<div class="empty-state">No timed results for this event.</div>'; return; }
   const fld=isField(ev);
   const m={l:52,r:14,t:12,b:26};
@@ -933,13 +953,13 @@ function drawChart(pts, ev, pb){
   const curX=X(new Date(CUR_YEAR,0,1).getTime());
   const svg=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(ev)} results over time. Faster is higher.">
     ${curX < W-m.r ? `<rect x="${Math.max(curX,m.l)}" y="${m.t}" width="${W-m.r-Math.max(curX,m.l)}" height="${H-m.t-m.b}" fill="var(--surface-2)"/>`:''}
-    ${ticks.map(v=>`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line-soft)"/><text x="${m.l-8}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="var(--ink-3)" class="num">${yLab(v)}</text>`).join('')}
-    ${xt.map(y=>{ const x=X(new Date(y,0,1).getTime()); return x>=m.l&&x<=W-m.r?`<line x1="${x}" x2="${x}" y1="${m.t}" y2="${H-m.b}" stroke="var(--line-soft)"/><text x="${x}" y="${H-8}" text-anchor="middle" font-size="11" fill="var(--ink-3)">${y}</text>`:''; }).join('')}
-    <text x="${m.l}" y="${m.t-2}" font-size="10" fill="var(--ink-3)" dy="-1"></text>
+    ${ticks.map(v=>`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line-soft)"/><text x="${m.l-8}" y="${Y(v)+4}" text-anchor="end" font-size="12" fill="var(--ink-3)" class="num">${yLab(v)}</text>`).join('')}
+    ${xt.map(y=>{ const x=X(new Date(y,0,1).getTime()); return x>=m.l&&x<=W-m.r?`<line x1="${x}" x2="${x}" y1="${m.t}" y2="${H-m.b}" stroke="var(--line-soft)"/><text x="${x}" y="${H-8}" text-anchor="middle" font-size="12" fill="var(--ink-3)">${y}</text>`:''; }).join('')}
+    <text x="${m.l}" y="${m.t-2}" font-size="12" fill="var(--ink-3)" dy="-1"></text>
     <path d="${sd}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
     ${pts.map((p,i)=>{ const out = !fld && pb && p.v>hi; return `<circle cx="${X(dObj(p.d).getTime()).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${p.newPB||p.first?4.5:3.6}" fill="${p.newPB||p.first?'var(--accent)':'var(--dot)'}" stroke="var(--surface)" stroke-width="1.5" ${out?'opacity=".55"':''} data-i="${i}"/>`; }).join('')}
     <line id="xh" x1="0" x2="0" y1="${m.t}" y2="${H-m.b}" stroke="var(--ink-3)" stroke-dasharray="3 3" visibility="hidden"/>
-    <text x="${m.l-8}" y="${m.t-1}" text-anchor="end" font-size="10.5" fill="var(--ink-3)">${fld?'Further ↑':'Faster ↑'}</text>
+    <text x="${m.l-8}" y="${m.t-1}" text-anchor="end" font-size="12" fill="var(--ink-3)">${fld?'Further ↑':'Faster ↑'}</text>
   </svg><div class="tip" hidden></div>`;
   box.innerHTML=svg;
   chartState={pts, X, Y, ev, pb, W, H, m};
@@ -969,11 +989,11 @@ function ord(n){ n=+n; const s=['th','st','nd','rd'], v=n%100; return (s[(v-20)%
 function renderRecent(a){
   const names=new Set(a.grid.map(r=>r.event));
   const rows=a.sorted.filter(p=>!p.dup).slice(0,8);
-  document.getElementById('recent').innerHTML = `<table class="recent"><thead><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>vs PB</th><th>Meeting</th></tr></thead><tbody>${rows.map(p=>{
+  document.getElementById('recent').innerHTML = `<table class="recent"><thead><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>vs PB</th><th class="m">Meeting</th></tr></thead><tbody>${rows.map(p=>{
     const pbThen=p.pbAtTime; const graded=names.has(p.c) && p.v!=null;
     const gap = p.newPB ? '<span class="gap g0">New PB</span>' : (graded && pbThen!=null ? `<span class="gap ${gapClass(p.c,p.v,pbThen)}">${fmtGap(p.c,p.v,pbThen)}</span>` : '<span style="color:var(--ink-3)">–</span>');
-    return `<tr><td class="num">${fmtDY(p.d)}</td><td><b>${esc(p.e)}</b></td><td class="p num">${esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td></tr>`;
-  }).join('')}</tbody></table>`;
+    return `<tr><td class="num">${fmtDY(p.d)}</td><td class="e"><b>${esc(p.e)}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td></tr>`;
+  }).join('')}</tbody></table>${GAPKEY}`;
 }
 
 /* ---------- all performances ---------- */
@@ -1015,8 +1035,8 @@ function renderPerfs(a){
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
-  const head=`<thead><tr><th>Date</th><th>Event</th><th>Result</th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th>Meeting</th><th><span class="sr">Markers</span></th></tr></thead>`;
-  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${S.sort==='date'||S.sort==='old'?fmtD(p.d):fmtDY(p.d)}</td><td class="e">${esc(p.e)}</td><td class="p num">${esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="b">${p.newPB?'<span class="badge pb">PB</span>':''}${p.isSB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td></tr>`;
+  const head=`<thead><tr><th>Date</th><th>Event</th><th>Result</th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
+  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${S.sort==='date'||S.sort==='old'?fmtD(p.d):fmtDY(p.d)}</td><td class="e">${esc(p.e)}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.gun?`<span class="gun">(${esc(p.gun)})</span>`:''}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
@@ -1024,7 +1044,7 @@ function renderPerfs(a){
     groups.forEach((ps,y)=>{
       const club=clubFor(a,y);
       // within a year keep the old site's habit: grouped by event, best first
-      body+=`<tr class="yh" id="y-${a.id}-${y}"><td colspan="8"><span class="yy">${y}</span>${club?`<span class="yc">${vestSvg(club,15)} ${esc(club)}</span>`:`<span class="yc" style="color:var(--ink-3);font-weight:400">Club not recorded</span>`}<span class="yn">${ps.length} result${ps.length===1?'':'s'}</span></td></tr>`;
+      body+=`<tr class="yh" id="y-${a.id}-${y}"><td colspan="7"><span class="yy">${y}</span>${club?`<span class="yc">${vestSvg(club,15)} ${esc(club)}</span>`:`<span class="yc" style="color:var(--ink-3);font-weight:400">Club not recorded</span>`}<span class="yn">${ps.length} result${ps.length===1?'':'s'}</span></td></tr>`;
       body+=ps.map(row).join('');
     });
   } else {
@@ -1068,7 +1088,7 @@ function renderSide(a){
     const sorted=rs.slice().sort((x,y)=> y.year-x.year || x.rank-y.rank);
     const showAll = rk.dataset.all==='1';
     const shown = showAll?sorted:sorted.slice(0,12);
-    rk.innerHTML=`<div class="scroll" tabindex="0" role="region" aria-label="UK rankings table"><table class="side-list"><thead><tr><th>Year</th><th>Event</th><th>Age group</th><th style="text-align:right">Rank</th></tr></thead><tbody>${shown.map(r=>`<tr><td class="num">${r.year}</td><td><b>${esc(r.event)}</b></td><td>${esc(r.ag)}</td><td class="r num">${r.rank}</td></tr>`).join('')}</tbody></table></div>
+    rk.innerHTML=`<div class="scroll" tabindex="0" role="region" aria-label="UK rankings table"><table class="side-list"><thead><tr><th>Year</th><th>Event</th><th>Age</th><th style="text-align:right">Rank</th></tr></thead><tbody>${shown.map(r=>`<tr><td class="num">${r.year}</td><td><b>${esc(r.event)}</b></td><td>${esc(r.ag)}</td><td class="r num">${r.rank}</td></tr>`).join('')}</tbody></table></div>
       ${sorted.length>12?`<div style="padding:8px 14px 0"><button class="toggle" id="rkmore">${showAll?'Show fewer':'Show all '+sorted.length}</button></div>`:''}`;
     const b=document.getElementById('rkmore'); if(b) b.onclick=()=>{ rk.dataset.all = showAll?'0':'1'; renderSide(a); };
   }
@@ -1104,7 +1124,9 @@ if(!ATH.some(a=>a.id===start)){ try{ start=localStorage.getItem('p11-last')||'';
 if(!ATH.some(a=>a.id===start)) start='kempson';
 select(start,'replace');
 window.addEventListener('popstate',()=>{ const sl=(location.pathname.match(/^\/athlete\/([a-z0-9-]+)/)||[])[1]; const a=ATH.find(x=>slugOf(x)===sl); if(a && (!S.a||S.a.id!==a.id)) select(a.id,'none'); });
-let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(S.a) renderForm(S.a); },150); });
+const setTopH=()=>{ const t=document.querySelector('.top'); if(!t) return; document.documentElement.style.setProperty('--toph', getComputedStyle(t).position==='sticky' ? t.offsetHeight+'px' : '0px'); };
+setTopH();
+let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ setTopH(); if(S.a) renderForm(S.a); },150); });
 window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1); if(ATH.some(a=>a.id===h) && (!S.a||S.a.id!==h)) select(h); });
 })();
 </script>
