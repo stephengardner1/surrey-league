@@ -1699,21 +1699,8 @@ const StatsTable=({stats})=>{
   return<div className="relative mb-6"><table className="w-full table-fixed max-w-3xl"><thead><tr className="border-b border-gray-200">{cols.map((c,i)=><th key={c.k} className={`py-1.5 text-xs text-gray-500 uppercase cursor-help ${i===0?'text-left':'text-center'}`} onMouseEnter={()=>setHover(i)} onMouseLeave={()=>setHover(null)}>{c.l}</th>)}</tr></thead><tbody><tr>{cols.map((c,i)=><td key={c.k} className={`py-1.5 text-sm tabular-nums ${i===0?'text-left':'text-center'} ${stats[c.k]>0?'text-gray-900':'text-gray-300'}`}>{stats[c.k]||'-'}</td>)}</tr></tbody></table>{hover!==null&&<div className="absolute bg-gray-800 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap z-10" style={{top:-8,left:`${(hover+0.5)/cols.length*100}%`,transform:'translateX(-50%)'}}>{cols[hover].t}</div>}</div>;
 };
 
-const PositionChart=({raceHistory,highlightIdx,setHighlightIdx,setView,clubCode})=>{
-  const svgRef=React.useRef(null);
-  
-  // Reverse to show earliest first (left to right = old to new)
-  const reversedHistory=[...raceHistory].reverse();
-  const pts=reversedHistory.map((r,k)=>({pos:getNumericPos(r.pos),hist:raceHistory.length-1-k})).filter(p=>p.pos!=null);
-  const positions=pts.map(p=>p.pos);
-  if(positions.length<2)return null;
-  
-  const bestPos=Math.min(...positions);
-  const maxPos=Math.max(...positions);
-  const minPos=Math.min(...positions);
-  
-  // Get club color for line - use primary unless white, then secondary
-  const clubColors={
+/* line colour for a club's charts: its main kit colour, or the second colour when the main one is too pale to see */
+const CHART_CLUB_COLORS={
     'HHH':['#c41e3a','#000'],     // red/black
     'THH':['#000','#fff'],        // black/white
     'BEL':['#8b0000','#ffd700'],  // maroon/gold
@@ -1735,8 +1722,56 @@ const PositionChart=({raceHistory,highlightIdx,setHighlightIdx,setView,clubCode}
     'BOH':['#ff0000','#fff'],    // red/white
     'VAC':['#fff','#000'],       // white/black
   };
-  const colors=clubColors[clubCode]||['#1b649e','#1b649e'];
-  const lineColor=(colors[0]==='#fff'||colors[0]==='#ffff00'||colors[0]==='#ffd700')?colors[1]:colors[0];
+const chartLineColor=c=>{const colors=CHART_CLUB_COLORS[c];if(colors)return(colors[0]==='#fff'||colors[0]==='#ffff00'||colors[0]==='#ffd700')?colors[1]:colors[0];
+  /* otherwise the first kit colour in the club's vest drawing that is dark enough to read as a thin line on white */
+  try{const lum=h=>{h=h.replace('#','');if(h.length===3)h=h.split('').map(x=>x+x).join('');return[0,2,4].map(i=>{const v=parseInt(h.slice(i,i+2),16)/255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);}).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0);};
+    const fills=[...String(getClubVestSvg(c)||'').matchAll(/fill="(#[0-9a-fA-F]{3,6})"/g)].map(m=>m[1]);const ok=fills.find(f=>1.05/(lum(f)+.05)>=2.2);if(ok)return ok;}catch(e){}
+  return'#1b649e';};
+
+/* club page: the club's final Division 1 position in every season from its first to its most recent; gaps where it was out of Division 1 */
+const ClubPositionChart=({clubCode,seasonsData,setView})=>{
+  const svgRef=React.useRef(null);const[w,setW]=React.useState(600);const[hl,setHl]=React.useState(null);
+  React.useEffect(()=>{const f=()=>{if(svgRef.current)setW(svgRef.current.getBoundingClientRect().width);};f();window.addEventListener('resize',f);return()=>window.removeEventListener('resize',f);},[]);
+  const seasons=Object.keys(seasonsData||{}).filter(s=>seasonsData[s]?.standings?.length).sort();
+  const posOf=s=>{const i=seasonsData[s].standings.findIndex(t=>t.club===clubCode);return i>=0?i+1:null;};
+  const first=seasons.findIndex(s=>posOf(s)!=null);let last=-1;seasons.forEach((s,i)=>{if(posOf(s)!=null)last=i;});
+  if(first<0)return null;
+  const span=seasons.slice(first,last+1).map(s=>({season:s,pos:posOf(s),done:!!(seasonsData[s].champion||seasonsData[s].historical||(seasonsData[s].matches||[]).filter(m=>m.winner).length>=4)}));
+  const pts=span.filter(p=>p.pos!=null);if(pts.length<2)return null;
+  const maxPos=Math.max(...pts.map(p=>p.pos),3);
+  const H=64,pad={top:8,bottom:8,left:5,right:5};
+  const X=i=>pad.left+(span.length>1?i/(span.length-1):0.5)*(w-pad.left-pad.right);
+  const Y=pos=>pad.top+((pos-1)/(maxPos-1||1))*(H-pad.top-pad.bottom);
+  const color=chartLineColor(clubCode);
+  const runs=[];let cur=[];span.forEach((p,i)=>{if(p.pos==null){if(cur.length)runs.push(cur);cur=[];}else cur.push([X(i),Y(p.pos)]);});if(cur.length)runs.push(cur);
+  const near=e=>{const r=svgRef.current.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;let best=null,d=1e9;span.forEach((p,i)=>{if(p.pos==null)return;const dd=Math.abs(X(i)-x);if(dd<d){d=dd;best=i;}});setHl(best);};
+  const star=(cx,cy,size)=>{const a=[];for(let j=0;j<5;j++){const o=(j*72-90)*Math.PI/180,n=(j*72+36-90)*Math.PI/180;a.push(`${cx+size*Math.cos(o)},${cy+size*Math.sin(o)}`,`${cx+size*.4*Math.cos(n)},${cy+size*.4*Math.sin(n)}`);}return a.join(' ');};
+  const h=hl!=null?span[hl]:null;
+  return<div className="w-full max-w-3xl mb-6 relative">
+    <svg ref={svgRef} className="w-full cursor-pointer" style={{height:H}} role="img" aria-label={`Chart of the club's final Division 1 position each season from ${span[0].season} to ${span[span.length-1].season}`} onMouseMove={near} onMouseLeave={()=>setHl(null)} onTouchStart={near} onTouchMove={near} onTouchEnd={()=>setHl(null)} onClick={()=>{if(h)setView({type:'home',urlSeason:h.season});}}>
+      {runs.map((r,k)=>r.length>1?<polyline key={k} points={r.map(p=>p.join(',')).join(' ')} fill="none" stroke={color} strokeWidth="1" strokeLinejoin="round"/>:null)}
+      {span.map((p,i)=>{if(p.pos==null)return null;const cx=X(i),cy=Y(p.pos),on=hl===i;
+        return p.pos===1&&p.done?<polygon key={i} points={star(cx,cy,on?5:4)} fill="#f59e0b" stroke="#d97706" strokeWidth="0.5"/>:<circle key={i} cx={cx} cy={cy} r={on?3:1.5} fill={color}/>;})}
+    </svg>
+    <div className="flex justify-between text-[10px] text-gray-500 tabular-nums -mt-1"><span>{span[0].season}</span><span>{span[span.length-1].season}</span></div>
+    {h&&<div className="absolute bg-gray-800 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap" style={{left:Math.min(Math.max(X(hl),56),w-56),top:-4,transform:'translateX(-50%)'}}>{h.season}: {ordPos(h.pos)}{h.done?'':' so far'}</div>}
+  </div>;
+};
+
+const PositionChart=({raceHistory,highlightIdx,setHighlightIdx,setView,clubCode})=>{
+  const svgRef=React.useRef(null);
+  
+  // Reverse to show earliest first (left to right = old to new)
+  const reversedHistory=[...raceHistory].reverse();
+  const pts=reversedHistory.map((r,k)=>({pos:getNumericPos(r.pos),hist:raceHistory.length-1-k})).filter(p=>p.pos!=null);
+  const positions=pts.map(p=>p.pos);
+  if(positions.length<2)return null;
+  
+  const bestPos=Math.min(...positions);
+  const maxPos=Math.max(...positions);
+  const minPos=Math.min(...positions);
+  
+  const lineColor=chartLineColor(clubCode);
   
   const height=60;
   const padding={top:8,bottom:8,left:4,right:4};
@@ -3202,7 +3237,7 @@ const ClubDetailView=({clubCode,setView,athletes,races,clubAllTime,clubMvps,seas
   // Get CMS bio for this club (falls back to hardcoded desc)
   const clubBio=getCmsContent(cmsContent,'club_bio',clubCode,division);
   
-  return<div className="max-w-5xl mx-auto px-4 py-8"><button onClick={()=>goBack(setView,{type:'clubs'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button><div className="mb-6"><div className={`flex items-center gap-4 ${(clubBio||clubInfo.desc||titleYears.length||secondYears.length)?'mb-3':''}`}><ClubShield club={clubCode} size={48}/><div><h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{clubInfo.name}</h1>{allTimeRank>0&&<p className="text-sm text-gray-500">#{allTimeRank} all-time{clubData?.seasonCount>0&&<> · {clubData.seasonCount} seasons in Div 1</>}</p>}</div></div>{(clubBio||clubInfo.desc)&&<p className={`text-sm text-gray-500 max-w-3xl ${(titleYears.length||secondYears.length)?'mb-3':''}`}>{clubBio?<ParsedContent content={clubBio} setView={setView}/>:clubInfo.desc}</p>}{(titleYears.length>0||secondYears.length>0)&&(()=>{const pillBg=PORTRAIT_GROUND[clubCode]?tintHalf(PORTRAIT_GROUND[clubCode]):null;const ps=pillBg?{background:pillBg}:undefined;return<div className="flex flex-wrap gap-2">{titleYears.length>0&&<div className="inline-block bg-gray-100 px-3 py-1.5 rounded-[18px] leading-5" style={ps}><span className="text-xs text-gray-600 uppercase whitespace-nowrap mr-2">{titleYears.length}× League Champions 🏆</span><span className="text-sm font-medium text-gray-700">{renderYears(titleYears)}</span></div>}{secondYears.length>0&&<div className="inline-block bg-gray-100 px-3 py-1.5 rounded-[18px] leading-5" style={ps}><span className="text-xs text-gray-600 uppercase whitespace-nowrap mr-2">{secondYears.length}× Runners-up 🥈</span><span className="text-sm font-medium text-gray-700">{renderYears(secondYears)}</span></div>}</div>;})()}</div><div className="overflow-x-auto"><table className="w-full max-w-3xl"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4 max-md:sticky max-md:left-0 max-md:z-10 max-md:bg-white"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="py-1.5 px-1 w-10 text-center"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#1b649e] font-semibold':'text-gray-500'}`} data-tip={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{clubAthletes.map((a,i)=>{const topBg=i===0&&clubBustN>0&&PORTRAIT_GROUND[clubCode]?tintHalf(PORTRAIT_GROUND[clubCode]):null;return<tr key={a.name} className="group border-b border-gray-50 hover:bg-gray-100 cursor-pointer" style={topBg?{background:topBg}:undefined} data-ath={a?.name} data-club={a?.club} onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-4 max-md:sticky max-md:left-0 max-md:z-10 max-md:bg-white group-hover:bg-gray-100" style={topBg?{background:topBg}:undefined}><div className="flex items-center gap-2"><span className={`${topBg?'text-gray-600':'text-gray-500'} text-sm w-6 shrink-0 text-right tabular-nums`}>{i+1}</span>{i<clubBustN&&<ListBust name={a.name} club={clubCode}/>}<span className="text-sm text-gray-900 whitespace-nowrap">{a.name}</span>{a.firstYear&&<span className={`hidden md:inline text-xs ${topBg?'text-gray-600':'text-gray-500'} ml-1`}>{a.firstYear}-{a.lastSeason===currentSeason?'present':a.lastYear}</span>}</div></td>{cols.map(c=><td key={c.f} className={`py-1.5 px-1 w-10 text-center text-sm tabular-nums ${sort===c.f?'font-semibold text-[#1b649e]':'text-gray-600'} ${a[c.f]===0?(topBg?'text-gray-600':'text-gray-300'):''}`}>{a[c.f]||'-'}</td>)}</tr>;})}</tbody></table></div></div>;
+  return<div className="max-w-5xl mx-auto px-4 py-8"><button onClick={()=>goBack(setView,{type:'clubs'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"><ArrowLeft className="w-4 h-4"/>Back</button><div className="mb-6"><div className={`flex items-center gap-4 ${(clubBio||clubInfo.desc||titleYears.length||secondYears.length)?'mb-3':''}`}><ClubShield club={clubCode} size={48}/><div><h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{clubInfo.name}</h1>{allTimeRank>0&&<p className="text-sm text-gray-500">#{allTimeRank} all-time{clubData?.seasonCount>0&&<> · {clubData.seasonCount} seasons in Div 1</>}</p>}</div></div>{(clubBio||clubInfo.desc)&&<p className={`text-sm text-gray-500 max-w-3xl ${(titleYears.length||secondYears.length)?'mb-3':''}`}>{clubBio?<ParsedContent content={clubBio} setView={setView}/>:clubInfo.desc}</p>}{(titleYears.length>0||secondYears.length>0)&&(()=>{const pillBg=PORTRAIT_GROUND[clubCode]?tintHalf(PORTRAIT_GROUND[clubCode]):null;const ps=pillBg?{background:pillBg}:undefined;return<div className="flex flex-wrap gap-2">{titleYears.length>0&&<div className="inline-block bg-gray-100 px-3 py-1.5 rounded-[18px] leading-5" style={ps}><span className="text-xs text-gray-600 uppercase whitespace-nowrap mr-2">{titleYears.length}× League Champions 🏆</span><span className="text-sm font-medium text-gray-700">{renderYears(titleYears)}</span></div>}{secondYears.length>0&&<div className="inline-block bg-gray-100 px-3 py-1.5 rounded-[18px] leading-5" style={ps}><span className="text-xs text-gray-600 uppercase whitespace-nowrap mr-2">{secondYears.length}× Runners-up 🥈</span><span className="text-sm font-medium text-gray-700">{renderYears(secondYears)}</span></div>}</div>;})()}</div><ClubPositionChart clubCode={clubCode} seasonsData={seasonsData} setView={setView}/><div className="overflow-x-auto"><table className="w-full max-w-3xl"><thead><tr className="border-b border-gray-200"><th className="text-left py-1.5 pr-4 max-md:sticky max-md:left-0 max-md:z-10 max-md:bg-white"><span className="text-xs text-gray-500 uppercase">Athlete</span></th>{cols.map(c=><th key={c.f} className="py-1.5 px-1 w-10 text-center"><button onClick={()=>setSort(c.f)} className={`text-xs uppercase ${sort===c.f?'text-[#1b649e] font-semibold':'text-gray-500'}`} data-tip={c.t}>{c.l}</button></th>)}</tr></thead><tbody>{clubAthletes.map((a,i)=>{const topBg=i===0&&clubBustN>0&&PORTRAIT_GROUND[clubCode]?tintHalf(PORTRAIT_GROUND[clubCode]):null;return<tr key={a.name} className="group border-b border-gray-50 hover:bg-gray-100 cursor-pointer" style={topBg?{background:topBg}:undefined} data-ath={a?.name} data-club={a?.club} onClick={()=>setView({type:'athlete',athlete:a})}><td className="py-1.5 pr-4 max-md:sticky max-md:left-0 max-md:z-10 max-md:bg-white group-hover:bg-gray-100" style={topBg?{background:topBg}:undefined}><div className="flex items-center gap-2"><span className={`${topBg?'text-gray-600':'text-gray-500'} text-sm w-6 shrink-0 text-right tabular-nums`}>{i+1}</span>{i<clubBustN&&<ListBust name={a.name} club={clubCode}/>}<span className="text-sm text-gray-900 whitespace-nowrap">{a.name}</span>{a.firstYear&&<span className={`hidden md:inline text-xs ${topBg?'text-gray-600':'text-gray-500'} ml-1`}>{a.firstYear}-{a.lastSeason===currentSeason?'present':a.lastYear}</span>}</div></td>{cols.map(c=><td key={c.f} className={`py-1.5 px-1 w-10 text-center text-sm tabular-nums ${sort===c.f?'font-semibold text-[#1b649e]':'text-gray-600'} ${a[c.f]===0?(topBg?'text-gray-600':'text-gray-300'):''}`}>{a[c.f]||'-'}</td>)}</tr>;})}</tbody></table></div></div>;
 };
 
 const SeasonsView=({setView,seasonsData,races,mitchellCupWinners,division})=>{const divisionConfig=DIVISIONS[division];
