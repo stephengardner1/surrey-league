@@ -924,7 +924,7 @@ function renderCross(a){
   const maxP=Math.max(...a.cross.map(r=>r.pts||0)) || 1;
   const rows=a.cross.slice(0,5).map((r,i)=>`<tr class="${i===0?'lead':''}" data-ev="${esc(r.event)}">
       <td class="rk num">${i+1}</td>
-      <td class="e"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-label="Chart ${esc(r.event)}">${r.event==='1 Mile Road'?'Mile':`<span class="evf">${esc(r.event)}</span><span class="evs" aria-hidden="true">${esc(shortEv(r.event))}</span>`}</button>${i===0?'<span class="sr"> (strongest event)</span>':''}${r.event==='1 Mile Road'?' <span class="note">road</span>':''}${r.viaParkrun?' <span class="note">at parkrun</span>':''}${/i/.test(r.f||'')?' <span class="note">indoor</span>':''}</td>
+      <td class="e"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-label="Chart ${esc(r.event)}">${r.event==='1 Mile Road'?'Mile':`<span class="evf">${esc(r.event)}</span><span class="evs" aria-hidden="true">${esc(shortEv(r.event))}</span>`}</button>${i===0?'<span class="sr"> (strongest event)</span>':''}${r.event==='1 Mile Road'?' <span class="note">road</span>':''}${r.viaParkrun?' <span class="note">at parkrun</span>':''}</td>
       ${i===0?'':''}<td class="p num"><span class="pbc">${esc(r.pb)}</span></td>
       <td class="d num">${dObj(r.d).getFullYear()}</td>
       <td class="bar" aria-hidden="true">${r.pts!=null?`<span class="track"><span class="fill" style="width:${Math.max(4,Math.round(r.pts/maxP*100))}%"></span></span>`:''}</td>
