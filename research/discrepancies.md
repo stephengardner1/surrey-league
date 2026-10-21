@@ -51,3 +51,6 @@ aren't in the archive lists we have. AW lists J Harrop as Burnham Joggers in roa
 ## 1978/79 m2 (Fleet, 25 Nov 1978) — no AW report
 Searched every AW issue 2 Dec 1978 - 17 Feb 1979: AW printed match 1 (2 Dec 1978) and match 4 (24 Mar 1979) but never match 2.
 What we have (winner, the Belgrave runners and all team scores) comes from The Belgravian No. 198.
+
+## Scoring points on partial early results (Oct 2026)
+The Belgravian import (commit 0438174) added runners to partial 1960s-70s results without scoring points, so they showed "-" (non-scorer) between scorers, e.g. Lionel Mann 7th in 1970/71 m1 between 6th and 10th who scored 6 and 10. Where a later runner in the same race scores at exactly their finishing position, everyone above them must have scored at theirs too, so 360 missing points were filled in across 28 men's races (1962/63-1971/72, 1989/90 m4). Team scores untouched. 2012/13 m1 was left alone. In races with under 80 results, a missing point now shows blank (not known) rather than "-".
