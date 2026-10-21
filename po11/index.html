@@ -234,6 +234,7 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .timeline .cur .dotc{background:var(--brand);border-color:var(--brand)}
 .timeline .gapc .dotc{border-style:dashed}
 .timeline .t{font-weight:600}
+.timeline li.none{display:block;color:var(--ink-3)}
 .timeline li.club{grid-template-columns:22px 1fr;gap:10px}
 .timeline li.club .vest{margin-top:1px}
 .timeline li.club.second .t{font-weight:500;color:var(--ink-2)}
@@ -1327,7 +1328,7 @@ function renderSide(a){
   }
   cl.innerHTML=html;
   // coaches
-  document.getElementById('coaches').innerHTML=(a.coaches||[]).map(c=>`<li class="${!c.to&&c.from?'cur':''}"><span class="dotc"></span><div><div class="t">${esc(c.name)}</div><div class="w">${c.from||c.to? `${c.from||'?'} – ${c.to||'now'}`:'Lead coach'}${c.note?' · '+esc(c.note):''}</div></div></li>`).join('') || '<li style="color:var(--ink-3)">No coach listed</li>';
+  document.getElementById('coaches').innerHTML=(a.coaches||[]).map(c=>`<li class="${!c.to&&c.from?'cur':''}"><span class="dotc"></span><div><div class="t">${esc(c.name)}</div><div class="w">${c.from||c.to? `${c.from||'?'} – ${c.to||'now'}`:'Lead coach'}${c.note?' · '+esc(c.note):''}</div></div></li>`).join('') || '<li class="none">No coach listed</li>';
   // rankings
   const rk=document.getElementById('ranks');
   const rs=(a.old_ranks&&a.old_ranks.length)? a.old_ranks : a.ranks;
