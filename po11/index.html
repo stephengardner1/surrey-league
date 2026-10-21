@@ -656,7 +656,7 @@ const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>wi
 function shortEv(e){
   if(e==='Half Marathon') return 'HM';
   if(e==='Marathon') return 'M';
-  if(e==='1 Mile Road') return '1M';
+  if(e==='1 Mile Road') return '1M';   // in the year-by-year grid it sits under Road, so it reads just 'Mile' there
   const m=e.match(/^(\d+(?:\.\d+)?) Miles?$/); if(m) return m[1]+'M';
   return e;
 }
@@ -865,7 +865,7 @@ function renderBests(a){
   const row=r=>{
     const pbv=r.pbv;
     return `<tr data-ev="${esc(r.event)}" aria-selected="${S.ev===r.event}">
-      <td class="ev" title="${esc(r.event)}"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-pressed="${S.ev===r.event}" aria-label="Chart ${esc(r.event)}"><span class="evf">${esc(r.event)}</span><span class="evs" aria-hidden="true">${esc(shortEv(r.event))}</span></button>${r.restored?'<span class="restored" role="img" title="Season bests worked out from the race list. The new site leaves this row blank." aria-label="Season bests worked out from the race list"></span>':''}</td>
+      <td class="ev" title="${esc(r.event)}"><button type="button" class="evbtn" data-ev="${esc(r.event)}" aria-pressed="${S.ev===r.event}" aria-label="Chart ${esc(r.event)}"><span class="evf">${esc(r.event==='1 Mile Road'?'Mile':r.event)}</span><span class="evs" aria-hidden="true">${esc(r.event==='1 Mile Road'?'Mile':shortEv(r.event))}</span></button>${r.restored?'<span class="restored" role="img" title="Season bests worked out from the race list. The new site leaves this row blank." aria-label="Season bests worked out from the race list"></span>':''}</td>
       <td class="pb num"><span class="pbc">${esc(r.pb)}</span></td>
       <td class="tr">${spark(r)}</td>
       ${years.map(y=>{ const v=r.sb[y]; if(!v) return `<td class="y ${y===CUR_YEAR?'cur':''}"></td>`;
