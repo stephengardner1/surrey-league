@@ -294,14 +294,10 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .grid .ev{min-width:78px;max-width:78px;box-shadow:inset -1px 0 0 var(--line)}
   .grid .pb{position:static;left:auto;border-right:0}
   .grid td.y.cur,.grid th.cur{box-shadow:none}
-  .perf td.v{display:none}
-  .perf td.m,.perf th.m,.recent td.m,.recent th.m{display:none}
-  .perf .mm,.recent .mm{display:block;font-weight:400;font-size:var(--fs-xs);color:var(--ink-3);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .perf td.e,.recent td.e{max-width:150px}
+  /* venue and meeting stay as one-line columns you scroll sideways to */
+  .perf td.v,.perf td.m,.recent td.m{white-space:nowrap;min-width:0}
   .perf td.p .gun,.perf .badge.dup{display:none}
   .perf th,.perf td,.recent th,.recent td{padding-left:5px;padding-right:5px}
-  .perf td.e,.perf .mm{max-width:100px}
-  .recent td.e,.recent .mm{max-width:94px}
   .perf .badge{margin-left:4px}
   .cross .age{display:none}
   .cross td.rk,.cross th:first-child{display:none}
@@ -312,7 +308,6 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .cross td.ag,.cross th:nth-child(7),.cross td.bar,.cross th.bar{display:none}   /* on phone the date set is more useful than age grade */
   .cross td.d{white-space:nowrap}
   .cross{font-size:var(--fs-s)}
-  .perf th.v{display:none}
   .athlete h1{font-size:var(--fs-xl)}
   .claim2{display:block;margin-top:2px}
   .claim2 .dot{display:none}
