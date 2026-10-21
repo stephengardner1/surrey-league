@@ -190,7 +190,11 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .perf{font-size:var(--fs-s)}
 .perf th,.perf td{padding:5px 8px;border-bottom:1px solid var(--line-soft);text-align:left;vertical-align:baseline}
 .perf thead th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--surface);position:sticky;top:var(--toph,0px);z-index:2;box-shadow:inset 0 -1px 0 var(--line)}
-.perf .yh td{background:var(--surface-2);padding:7px 8px;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+.perf .yh td,.perf .yh th{background:var(--surface-2);padding:7px 8px;border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+.perf .yh td.yl{white-space:normal}
+.perf .yh th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:left;white-space:nowrap;vertical-align:middle}
+.perf .yh th.r{text-align:right}
+.perf thead.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%)}
 .perf .yh .yhin{position:sticky;left:8px;display:inline-flex;align-items:baseline;white-space:nowrap}
 .perf .yh .yy{font-family:var(--font-body);font-weight:700;font-size:var(--fs-m);margin-right:10px;color:var(--navy)}
 .perf .yh .yc{color:var(--navy);font-family:var(--font-body);font-size:var(--fs-s);font-weight:600}
@@ -1088,7 +1092,11 @@ function renderPerfs(a){
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
-  const head=`<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
+  const COLS=`<th scope="col" class="r">Pos</th><th scope="col" class="r" title="World Athletics points">Pts</th><th scope="col" class="v">Venue</th><th scope="col" class="m">Meeting</th>`;
+  const byYear = S.sort==='date'||S.sort==='old';
+  // grouped by year: the column headings sit in each year row, so there is no separate header row
+  const head = byYear ? `<thead class="sr"><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>Pts</th><th>Venue</th><th>Meeting</th></tr></thead>`
+    : `<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
   const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
   let body='';
   if(S.sort==='date'||S.sort==='old'){
@@ -1097,7 +1105,7 @@ function renderPerfs(a){
     groups.forEach((ps,y)=>{
       const club=clubFor(a,y);
       // within a year keep the old site's habit: grouped by event, best first
-      body+=`<tr class="yh" id="y-${a.id}-${y}"><td colspan="7"><span class="yhin"><span class="yy">${y}</span>${club?`<span class="yc">${vestSvg(club,15)} ${esc(club)}</span>`:`<span class="yc" style="color:var(--ink-3);font-weight:400">Club not recorded</span>`}</span></td></tr>`;
+      body+=`<tr class="yh" id="y-${a.id}-${y}"><td colspan="3" class="yl"><span class="yhin"><span class="yy">${y}</span>${club?`<span class="yc">${vestSvg(club,15)} ${esc(club)}</span>`:`<span class="yc" style="color:var(--ink-3);font-weight:400">Club not recorded</span>`}</span></td>${COLS}</tr>`;
       body+=ps.map(row).join('');
     });
   } else {
