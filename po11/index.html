@@ -56,7 +56,8 @@ button,input,select{font:inherit;color:inherit}
 .dd{display:inline-block;min-width:2ch;text-align:right}
 .num{font-family:var(--font-data);font-variant-numeric:tabular-nums;font-weight:500}
 /* one personal-best marker everywhere: outlined gold chip on the result itself */
-.pbc{display:inline-block;background:var(--pb-tint);color:var(--pb-ink);padding:0 6px;border-radius:4px;font-weight:700;box-shadow:inset 0 0 0 1px var(--pb-bg);line-height:1.35}
+.pbc{color:var(--ink);font-weight:700}
+.perf .pbc::after{content:"PB";display:inline-block;margin-left:6px;font-size:var(--fs-xs);font-weight:700;letter-spacing:.03em;padding:0 5px;border-radius:3px;vertical-align:1px;line-height:1.35;background:var(--pb-tint);color:var(--pb-ink)}
 .grid,.perf,.recent,.side-list,.lastn{font-family:var(--font-data);font-variant-numeric:tabular-nums}
 .grid,.perf,.recent,.side-list{font-size:var(--fs-data)}
 .wrap{max-width:1360px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -66,7 +67,7 @@ button,input,select{font:inherit;color:inherit}
 .top .wrap{display:flex;align-items:center;gap:14px;padding-block:9px;flex-wrap:wrap}
 .brand{font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:-.01em;white-space:nowrap;line-height:1;color:#fff}
 .brand b{color:#fff;background:var(--navy);padding:0 5px;border-radius:4px;margin-left:2px}
-.brand small{display:block;font-family:var(--font-body);font-weight:500;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-top:4px}
+.brand small{display:block;font-family:var(--font-body);font-weight:500;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:#fff;margin-top:4px}
 .search{position:relative;flex:1 1 280px;max-width:440px;min-width:0}
 .search input{width:100%;padding:8px 12px 8px 32px;border:0;border-radius:var(--radius);background:#fff;color:var(--ink)}
 .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--ink-3)}
@@ -181,7 +182,7 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .recent{font-size:var(--fs-data)}
 .recent th,.recent td{padding:7px 10px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
 .recent th{font-size:var(--fs-xs);color:var(--ink-3);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.recent td.m{white-space:normal;min-width:180px;color:var(--ink-2)}
+.recent td.m{white-space:normal;min-width:180px;color:var(--ink)}
 .recent td.p{font-weight:700}
 .recent th.r,.recent td.pts{text-align:right}
 .recent td.pts{color:var(--ink-2)}
@@ -211,7 +212,7 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .perf td.p .gun{font-weight:400;color:var(--ink-3);margin-left:4px}
 .perf td.pos{text-align:right;color:var(--ink-2)}
 .perf td.pts{text-align:right;color:var(--ink-2)}
-.perf td.v{color:var(--ink-2);white-space:nowrap}
+.perf td.v{color:var(--ink);white-space:nowrap}
 .perf td.m{min-width:200px}
 .perf .mm,.recent .mm{display:none}
 .badge{font-size:var(--fs-xs);font-weight:700;letter-spacing:.03em;padding:0 5px;border-radius:3px;margin-left:6px;vertical-align:1px}
@@ -243,6 +244,10 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .codes{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:var(--fs-s);padding:12px 14px;margin:0}
 .codes dt{font-weight:700}
 .codes dd{margin:0;color:var(--ink-2)}
+.codes .badge{margin-left:0}
+.codesub{margin:0;padding:10px 14px 0;font-size:var(--fs-xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);border-top:1px solid var(--line-soft)}
+/* a table that scrolls sideways fades at the edge that has more to show */
+.scroll.more-r{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 48px),rgba(0,0,0,.15));mask-image:linear-gradient(to right,#000 calc(100% - 48px),rgba(0,0,0,.15))}
 .toggle{border:1px solid var(--line);background:none;border-radius:var(--radius);padding:3px 9px;font-size:var(--fs-s);cursor:pointer;color:var(--ink-2)}
 
 .foot{font-size:var(--fs-xs);color:var(--ink-3);padding-block:4px 32px}
@@ -305,7 +310,11 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .h2hbtn[aria-expanded="true"]{color:var(--ink);font-weight:600}
 .h2hpick select{font-size:var(--fs-s);border:1px solid #858585;border-radius:var(--radius);padding:3px 8px;background:#fff;color:var(--ink);max-width:220px}
 #h2h{padding:14px 14px 4px}
-.h2hsum{display:grid;grid-template-columns:1fr 150px 1fr;max-width:460px;margin:0 auto 18px;align-items:end}
+.h2hsum{display:grid;grid-template-columns:1fr 150px 1fr;max-width:460px;margin:0 auto 18px;align-items:start}
+.h2hsum .h2hvest,.h2hsum .h2hface{display:block;line-height:0}
+.h2hsum .l .h2hvest{margin-left:auto;width:max-content}
+.h2hsum .l .h2hface{margin-left:auto}
+.h2hsum .h2hgo.face{display:block;line-height:0;padding:0;min-height:0}
 .h2hsum>div{padding:6px 8px}
 .h2hsum .l{text-align:right}.h2hsum .r{text-align:left}.h2hsum .m{text-align:center}
 .h2hsum .lab{font-size:var(--fs-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;align-self:center}
@@ -315,7 +324,7 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 #h2hPanel h2:focus:not(:focus-visible){outline:none}
 .h2hsum .big.num{font-size:var(--fs-xl);line-height:1.1}
 .h2hsum .num{font-family:var(--font-data);font-variant-numeric:tabular-nums}
-.h2hsum .win,.h2hrace td.win,.h2hrace td.hp.win .ht{color:var(--good);font-weight:700}
+.h2hsum .win,.h2hrace td.win{color:var(--good);font-weight:700}
 .h2hjump{border:0;background:none;padding:2px 0;min-height:24px;font:inherit;color:inherit;cursor:pointer;text-align:left}
 .h2hjump:hover{text-decoration:underline}
 .h2hface{display:inline-block;width:72px;height:72px;border-radius:8px;overflow:hidden;vertical-align:bottom;background:var(--ground,#eee)}
@@ -328,9 +337,14 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .h2hrace th.r,.h2hrace td.hp{text-align:right}
 .h2hrace td.d{color:var(--ink-3)}
 .h2hrace td.e{font-weight:600}
-.h2hrace td.hp .ht{display:inline-block;min-width:74px;margin-left:12px;color:var(--ink-3);font-weight:400}
-.h2hrace td.m{color:var(--ink-2)}
+.h2hrace td.ht{text-align:right;color:var(--ink-3);padding-left:10px}
+.h2hrace th.nmh{text-align:center;padding-left:24px;border-bottom:0;padding-bottom:0;color:var(--ink);letter-spacing:.03em}
+.h2hrace th.sub{padding-top:2px;font-weight:500}
+.h2hrace th.ht{padding-left:10px}
+.h2hrace .mm{display:none}
+.h2hrace td.m{color:var(--ink)}
 .h2hrace th.r,.h2hrace td.hp{padding-left:24px}
+.h2hrace th.ht.r{padding-left:10px}
 .h2hrace th.m,.h2hrace td.m{padding-left:28px}
 .h2hrace tbody tr{cursor:pointer}
 .h2hrace tbody tr:hover td{background:var(--surface-2)}
@@ -347,7 +361,13 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .sidecol{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 }
 @media (max-width: 760px){
-  .h2hrace td.hp .ht{display:none}   /* phones: both places side by side; times are in All performances */
+  /* phones: both places side by side, meeting under the event; times are in All performances */
+  .h2hrace td.ht,.h2hrace th.ht,.h2hrace td.m,.h2hrace th.m{display:none}
+  .h2hrace .mm{display:block;font-weight:400;color:var(--ink-3);font-size:var(--fs-xs);white-space:normal;margin-top:2px}
+  .h2hrace td.e{white-space:normal;overflow-wrap:anywhere}
+  .h2hrace th,.h2hrace td{padding-left:6px;padding-right:6px}
+  .h2hrace th.r,.h2hrace td.hp,.h2hrace th.nmh{padding-left:8px}
+  .h2hrace th.nmh{text-align:right}
   .athlete{grid-template-columns:minmax(0,1fr)}
   .form{grid-template-columns:minmax(0,1fr)}
   .form .chartbox{border-right:0;border-bottom:1px solid var(--line-soft)}
@@ -386,6 +406,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .claim2{display:block;margin-top:2px}
   .claim2 .dot{display:none}
 }
+@media (max-width: 360px){ .h2hrace th,.h2hrace td{padding-left:3px;padding-right:3px;font-size:12.5px} .h2hrace th.r,.h2hrace td.hp,.h2hrace th.nmh{padding-left:5px} }
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 </head>
@@ -468,6 +489,15 @@ details.src p{margin:6px 0 0;max-width:72ch}
           <dt>i</dt><dd>Indoor</dd>
           <dt>w</dt><dd>Wind assisted</dd>
           <dt>+</dt><dd>Split taken inside a longer race</dd>
+        </dl>
+        <h3 class="codesub">Results</h3>
+        <dl class="codes">
+          <dt><span class="badge pb">PB</span></dt><dd>Personal best when it was set</dd>
+          <dt><span class="badge sb">SB</span></dt><dd>Best of that season</dd>
+          <dt>P</dt><dd>Part of a combined event, no position</dd>
+          <dt>DNF</dt><dd>Did not finish</dd>
+          <dt>DNS</dt><dd>Did not start</dd>
+          <dt>NT</dt><dd>No time recorded</dd>
         </dl>
       </section>
     </aside>
@@ -731,7 +761,7 @@ function fmtGap(e, v, pb){
 const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
 // house abbreviations used everywhere an event is named: HM, M, TJ, HJ, DT
 function abbr(e){
-  return String(e||'').replace(/ Multi Terrain$/,' MT').replace(/^Half Marathon/,'HM').replace(/^(Marathon|Mar)$/,'Mara').replace(/^Triple Jump/,'TJ').replace(/^High Jump/,'HJ').replace(/^Discus/,'DT').replace(/^Long Jump/,'LJ').replace(/^Pole Vault/,'PV').replace(/^Shot( Put)?/,'SP').replace(/^Javelin/,'JT').replace(/^Hammer/,'HT');
+  return String(e||'').replace(/ Multi Terrain$/,' MT').replace(/^(\d+(?:\.\d+)?[KM]) Relay Leg$/,'$1L').replace(/^1 Mile Road$/,'Mile').replace(/^(\d+(?:\.\d+)?) Miles?(?: Road)?/,'$1M').replace(/^(\d+(?:\.\d+)?K) Road$/,'$1').replace(/^1M$/,'Mile').replace(/^Half Marathon/,'HM').replace(/^(Marathon|Mar)$/,'Mara').replace(/^Triple Jump/,'TJ').replace(/^High Jump/,'HJ').replace(/^Discus/,'DT').replace(/^Long Jump/,'LJ').replace(/^Pole Vault/,'PV').replace(/^Shot( Put)?/,'SP').replace(/^Javelin/,'JT').replace(/^Hammer/,'HT');
 }
 // short event names used in the two summary tables
 function shortEv(e){
@@ -908,7 +938,7 @@ function renderHeader(a){
   const coachNow=(a.coaches||[]).find(c=>!c.to && c.name!=='(not named)');
   document.getElementById('athlete').innerHTML = `
     <div>
-      <h1><span class="fn">${esc(a.first)}</span><span class="ln">${esc(a.last)}</span></h1>
+      <h1><span class="fn">${esc(a.first)}</span> <span class="ln">${esc(a.last)}</span></h1>
       <dl class="meta">
         <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>${vestSvg(a.secondClaim,16)} ${esc(a.secondClaim)} <abbr title="second claim" style="text-decoration:none">(2C)</abbr></span>`:''}</dd></div>
       </dl>
@@ -1181,6 +1211,8 @@ function setH2HOpen(open){
 }
 document.getElementById('athlete').addEventListener('click',e=>{ const b=e.target.closest('.h2hbtn'); if(b){ S.h2hByKey = e.detail===0; setH2HOpen(!S.h2hOpen); } });   // detail 0 = keyboard activation: move focus to the section
 document.getElementById('h2hClose').addEventListener('click',()=>{ setH2HOpen(false); document.querySelector('#athlete .h2hbtn')?.focus(); });
+const PHONE=matchMedia('(max-width: 760px)');
+PHONE.addEventListener('change',()=>{ if(S.a) renderH2H(S.a); });
 function renderH2H(a){
   h2hButton();
   if(!S.h2hOpen) return;
@@ -1194,7 +1226,8 @@ function renderH2H(a){
   const box=document.getElementById('h2h');
   if(!rows.length){ box.innerHTML=`<div class="empty-state">${esc(a.first)} and ${esc(b.first)} haven't raced each other.</div>`; return; }
   const cls=(x,y)=>x>y?'win':'';
-  const cell=(p,w)=>`<td class="hp num ${w>0?'win':''}">${esc(p.pos||'–')}<span class="ht">${esc(String(p.p).replace(/\(.*\)/,''))}</span>${w>0?'<span class="sr"> (won)</span>':''}</td>`;
+  const narrow=PHONE.matches;   // phones: positions only, meeting under the event
+  const cell=(p,w)=>`<td class="hp num ${w>0?'win':''}">${esc(p.pos||'–')}${w>0?'<span class="sr"> (won)</span>':''}</td>${narrow?'':`<td class="ht num ${w>0?'win':''}">${esc(String(p.p).replace(/\(.*\)/,''))}</td>`}`;
   const nmA=`${esc(a.first)} ${esc(a.last)}`, nmB=`${esc(b.first)} ${esc(b.last)}`;
   box.innerHTML=`<p class="sr">${nmA} ${wa}, ${nmB} ${wb} head-to-head wins from ${rows.length} race${rows.length===1?'':'s'}${lv?`; ${lv} level or no result`:''}.</p>
     <div class="h2hsum">
@@ -1204,7 +1237,7 @@ function renderH2H(a){
       <div class="l big num ${cls(wa,wb)}" aria-hidden="true">${wa}</div><div class="m lab big" aria-hidden="true">Head-to-head wins</div><div class="r big num ${cls(wb,wa)}" aria-hidden="true">${wb}</div>
       ${lv?`<div class="l num lv" aria-hidden="true">${lv}</div><div class="m lab lv" aria-hidden="true">Level or no result</div><div class="r num lv" aria-hidden="true">${lv}</div>`:''}
     </div>
-    <div class="scroll" tabindex="0" role="region" aria-label="Race by race"><table class="h2hrace"><thead><tr><th>Date</th><th>Event</th><th class="r">${esc(a.first)}</th><th class="r">${esc(b.first)}</th><th class="m">Meeting</th></tr></thead><tbody>${(S.h2hAll?rows:rows.slice(0,10)).map(r=>`<tr data-i="${r.pa.i}"><td class="d num"><button type="button" class="h2hjump">${dHTML(r.pa.d,true)}<span class="sr">: show this race in All performances</span></button></td><td class="e">${esc(abbr(r.pa.e))}</td>${cell(r.pa,r.w)}${cell(r.pb,-r.w)}<td class="m">${esc(r.pa.m)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="scroll" tabindex="0" role="region" aria-label="Race by race"><table class="h2hrace"><thead><tr><th rowspan="2" class="d">Date</th><th rowspan="2">Event</th><th colspan="${narrow?1:2}" class="nmh">${esc(a.first)}</th><th colspan="${narrow?1:2}" class="nmh">${esc(b.first)}</th>${narrow?'':'<th rowspan="2" class="m">Meeting</th>'}</tr><tr>${narrow?'<th class="r sub">Pos</th><th class="r sub">Pos</th>':'<th class="r sub">Pos</th><th class="r sub ht">Time</th><th class="r sub">Pos</th><th class="r sub ht">Time</th>'}</tr></thead><tbody>${(S.h2hAll?rows:rows.slice(0,10)).map(r=>`<tr data-i="${r.pa.i}"><td class="d num"><button type="button" class="h2hjump">${dHTML(r.pa.d,true)}<span class="sr">: show this race in All performances</span></button></td><td class="e">${esc(abbr(r.pa.e))}<span class="mm">${esc(r.pa.m)}</span></td>${cell(r.pa,r.w)}${cell(r.pb,-r.w)}${narrow?'':`<td class="m">${esc(r.pa.m)}</td>`}</tr>`).join('')}</tbody></table></div>
     ${rows.length>10?`<div style="padding-top:10px"><button type="button" class="toggle" id="h2hMore">${S.h2hAll?'Show the latest 10':'Show all '+rows.length+' races'}</button></div>`:''}`;
 }
 document.getElementById('h2hSel').addEventListener('change',e=>{ S.h2h[S.a.id]=e.target.value; S.h2hAll=false; renderH2H(S.a); });
@@ -1217,12 +1250,12 @@ document.getElementById('h2h').addEventListener('click',e=>{
 /* ---------- all performances ---------- */
 function renderFilters(a){
   const counts={}; a.perfs.forEach(p=>{ counts[p.t]=(counts[p.t]||0)+1; });
-  const evs=[...new Set(a.perfs.map(p=>p.e))];
+  const evs=[...new Set(a.perfs.map(p=>p.e))].filter((e,i,arr)=>arr.findIndex(x=>abbr(x)===abbr(e))===i);
   const order=new Map(a.grid.map((r,i)=>[r.event,i]));
   evs.sort((x,y)=>{ const ox=order.has(canon(x))?order.get(canon(x)):999, oy=order.has(canon(y))?order.get(canon(y)):999; return ox-oy || x.localeCompare(y,undefined,{numeric:true}); });
-  if(S.evFilter && !evs.includes(S.evFilter)) S.evFilter='';
+  if(S.evFilter && !evs.some(e=>abbr(e)===S.evFilter)) S.evFilter='';
   document.getElementById('filters').innerHTML = `
-    <label for="fev"><span class="sr">Event</span><select id="fev"><option value="">All events</option>${evs.map(e=>`<option value="${esc(e)}" ${e===S.evFilter?'selected':''}>${esc(abbr(e))}</option>`).join('')}</select></label>
+    <label for="fev"><span class="sr">Event</span><select id="fev"><option value="">All events</option>${evs.map(e=>`<option value="${esc(abbr(e))}" ${abbr(e)===S.evFilter?'selected':''}>${esc(abbr(e))}</option>`).join('')}</select></label>
     <label for="fsort"><span class="sr">Sort</span><select id="fsort">
       <option value="date" ${S.sort==='date'?'selected':''}>Newest first, by year</option>
       <option value="old" ${S.sort==='old'?'selected':''}>Oldest first, by year</option>
@@ -1258,7 +1291,7 @@ function clubFor(a,y){
 }
 function renderPerfs(a){
   const t=S.text.trim().toLowerCase();
-  let list=a.perfs.filter(p=>!p.dup && !(S.noParkrunPerf && p.t==='parkrun') && (!S.evFilter||p.e===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
+  let list=a.perfs.filter(p=>!p.dup && !(S.noParkrunPerf && p.t==='parkrun') && (!S.evFilter||abbr(p.e)===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
   const total=a.perfs.filter(p=>!p.dup).length;
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
@@ -1379,6 +1412,12 @@ select(start,'replace');
 window.addEventListener('popstate',()=>{ const sl=(location.pathname.match(/^\/athlete\/([a-z0-9-]+)/)||[])[1]; const a=ATH.find(x=>slugOf(x)===sl); if(a && (!S.a||S.a.id!==a.id)) select(a.id,'none'); });
 const setTopH=()=>{ const t=document.querySelector('.top'); if(!t) return; document.documentElement.style.setProperty('--toph', getComputedStyle(t).position==='sticky' ? t.offsetHeight+'px' : '0px'); };
 setTopH();
+// edge fade on tables that scroll sideways, while there is more to the right
+function updateFades(){ document.querySelectorAll('.scroll').forEach(el=>el.classList.toggle('more-r', el.scrollLeft+el.clientWidth < el.scrollWidth-2 && !el.querySelector('.detailwrap'))); }
+let fadeRaf=0; const queueFades=()=>{ cancelAnimationFrame(fadeRaf); fadeRaf=requestAnimationFrame(updateFades); };
+document.addEventListener('scroll',e=>{ if(e.target.classList&&e.target.classList.contains('scroll')) queueFades(); },true);
+new MutationObserver(queueFades).observe(document.body,{childList:true,subtree:true});
+window.addEventListener('resize',queueFades);
 let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ setTopH(); document.querySelectorAll('.detailwrap').forEach(w=>{ w.style.width=w.closest('.scroll').clientWidth+'px'; }); if(S.a) renderForm(S.a); },150); });
 window.addEventListener('hashchange',()=>{ const h=location.hash.slice(1); if(ATH.some(a=>a.id===h) && (!S.a||S.a.id!==h)) select(h); });
 })();
