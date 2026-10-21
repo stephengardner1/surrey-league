@@ -115,6 +115,10 @@ table{border-collapse:separate;border-spacing:0;width:100%}
 .grid td.y.cur,.grid th.cur{box-shadow:inset 1px 0 0 var(--line),inset -1px 0 0 var(--line)}
 .grid th.cur{color:var(--ink)}
 .grid tbody tr{cursor:pointer}
+.grid .yv{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;border-radius:3px}
+.grid .yv:hover{text-decoration:underline}
+.perf tr.flash td{animation:flash 2.6s ease-out}
+@keyframes flash{0%,40%{background:var(--flash,#FFF1B8)}100%{background:transparent}}
 .grid tbody tr:hover td{background:var(--surface-2)}
 .grid tbody tr[aria-selected="true"] td.ev{box-shadow:inset 3px 0 0 var(--navy)}
 .grid tbody tr[aria-selected="true"] td{background:var(--surface-2)}
@@ -900,13 +904,28 @@ function renderBests(a){
       <td class="tr">${spark(r)}</td>
       ${years.map(y=>{ const v=r.sb[y]; if(!v) return `<td class="y ${y===CUR_YEAR?'cur':''}"></td>`;
         const ispb = val(v)!=null && pbv!=null && Math.abs(val(v)-pbv)<0.005;
-        return `<td class="y num ${ispb?'ispb':''} ${y===CUR_YEAR?'cur':''}">${ispb?`<span class="pbc">${esc(v)}</span><span class="sr"> (personal best)</span>`:esc(v)}</td>`; }).join('')}
+        const inner=ispb?`<span class="pbc">${esc(v)}</span><span class="sr"> (personal best)</span>`:esc(v);
+        const hasRace=a.perfs.some(p=>p.c===r.event && p.y===y && p.v!=null && !p.dup);
+        return `<td class="y num ${ispb?'ispb':''} ${y===CUR_YEAR?'cur':''}">${hasRace?`<button type="button" class="yv" data-ev="${esc(r.event)}" data-y="${y}" data-v="${val(v)}" title="Show this race in All performances">${inner}</button>`:inner}</td>`; }).join('')}
     </tr>`;
   };
   const groups=[['track','Track',a.grid.filter(r=>r.type==='track'&&!isField(r.event))],['field','Field',a.grid.filter(r=>r.type==='track'&&isField(r.event))],['road','Road',a.grid.filter(r=>r.type==='road')]].filter(g=>g[2].length);
   document.getElementById('bests').innerHTML = `<table class="grid">${groups.map(([k,l,rs])=>`<tbody id="sec-${k}" class="${S.collapsed.has(k)?'collapsed':''}" data-sec="${k}">${sect(k,l,rs.length)}${rs.map(row).join('')}</tbody>`).join('')}</table>`;
 }
-document.getElementById('bests').addEventListener('click',e=>{ const sb=e.target.closest('.secbtn'); if(sb){ const k=sb.dataset.sec; if(S.collapsed.has(k)) S.collapsed.delete(k); else S.collapsed.add(k); try{ localStorage.setItem('p11-collapsed',JSON.stringify([...S.collapsed])); }catch(err){} const tb=sb.closest('tbody'); tb.classList.toggle('collapsed',S.collapsed.has(k)); sb.setAttribute('aria-expanded',!S.collapsed.has(k)); return; } const tr=e.target.closest('tr[data-ev]'); if(tr){ openDetail(tr); } });
+// a season best in the year grid jumps to that race in All performances
+function jumpToRace(ev,y,v){
+  const a=S.a; const fld=isField(ev);
+  const cands=a.perfs.filter(p=>p.c===ev && p.y===y && p.v!=null && !p.dup);
+  if(!cands.length) return;
+  const hit=cands.reduce((b,p)=>Math.abs(p.v-v)<Math.abs(b.v-v)?p:b,cands[0]);
+  // make sure the race is in the list: clear filters and show it grouped by year
+  if(S.evFilter||S.text||!(S.sort==='date'||S.sort==='old')){ S.evFilter=''; S.text=''; S.sort='date'; renderFilters(a); renderPerfs(a); }
+  const tr=document.getElementById(`perf-${a.id}-${hit.i}`); if(!tr) return;
+  tr.scrollIntoView({behavior:SMOOTH,block:'center'});
+  tr.classList.remove('flash'); void tr.offsetWidth; tr.classList.add('flash');
+  setTimeout(()=>tr.classList.remove('flash'),2600);
+}
+document.getElementById('bests').addEventListener('click',e=>{ const yv=e.target.closest('.yv'); if(yv){ e.stopPropagation(); jumpToRace(yv.dataset.ev, +yv.dataset.y, +yv.dataset.v); return; } const sb=e.target.closest('.secbtn'); if(sb){ const k=sb.dataset.sec; if(S.collapsed.has(k)) S.collapsed.delete(k); else S.collapsed.add(k); try{ localStorage.setItem('p11-collapsed',JSON.stringify([...S.collapsed])); }catch(err){} const tb=sb.closest('tbody'); tb.classList.toggle('collapsed',S.collapsed.has(k)); sb.setAttribute('aria-expanded',!S.collapsed.has(k)); return; } const tr=e.target.closest('tr[data-ev]'); if(tr){ openDetail(tr); } });
 // row click is a mouse shortcut; keyboard and screen reader users use the event button in the first cell
 
 /* ---------- form ---------- */
@@ -1097,7 +1116,7 @@ function renderPerfs(a){
   // grouped by year: the column headings sit in each year row, so there is no separate header row
   const head = byYear ? `<thead class="sr"><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>Pts</th><th>Venue</th><th>Meeting</th></tr></thead>`
     : `<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th style="text-align:right">Pos</th><th style="text-align:right" title="World Athletics points">Pts</th><th class="v">Venue</th><th class="m">Meeting</th></tr></thead>`;
-  const row=p=>`<tr class="${p.dup?'isdup':''}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
+  const row=p=>`<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td></tr>`;
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
