@@ -714,7 +714,7 @@ const dHTML = (d,withYear) => { const x=dObj(d); return `<span class="dd">${x.ge
 
 /* ---------- club singlets (from the Surrey League archive) ---------- */
 const VEST_P="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
-const VEST_CLUB={'cambridge university':'CAM','nottingham university':'NOT','oxford university':'OXF','york university':'YRK','cambridge & coleridge':'CAC','nene valley':'NVH','bristol & west':'BWA','thames valley':'TVH','imperial college':'IMP','radley':'RAD','eynsham':'EYN','belgrave':'BEL','aldershot farnham':'AFD','south london':'SLH','thames hare':'THH','guildford & godalming':'G&G','hercules wimbledon':'H/W'};
+const VEST_CLUB={'cambridge university':'CAM','nottingham university':'NOT','oxford university':'OXF','york university':'YRK','cambridge & coleridge':'CAC','nene valley':'NVH','bristol & west':'BWA','thames valley':'TVH','imperial college':'IMP','radley':'RAD','eynsham':'EYN','notts ac':'NAC','belgrave':'BEL','aldershot farnham':'AFD','south london':'SLH','thames hare':'THH','guildford & godalming':'G&G','hercules wimbledon':'H/W'};
 let vestN=0;
 function vestSvg(club,size){
   const key=Object.keys(VEST_CLUB).find(k=>String(club).toLowerCase().includes(k)); const code=key?VEST_CLUB[key]:null;
@@ -730,6 +730,7 @@ function vestSvg(club,size){
     'IMP':`<path d="${p}" fill="#1b2a55"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="8" width="20" height="3.5" fill="#d0122b"/></g>`,
     'RAD':`<path d="${p}" fill="#7b4fd6"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="3" y="5.5" width="2.4" height="15" fill="#f0bd1c"/><rect x="14.6" y="5.5" width="2.4" height="15" fill="#f0bd1c"/></g>`,
     'EYN':`<path d="${p}" fill="#1f5bb5"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><path d="M2 5.5 L10 11 L18 5.5 L18 8.6 L10 14.1 L2 8.6 Z" fill="#fff"/></g>`,
+    'NAC':`<path d="${p}" fill="#fff"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="5.6" y="0" width="8.8" height="20" fill="#6cc04a"/><rect x="8.8" y="0" width="2.4" height="20" fill="#e9c13b"/></g>`,
     'TVH':`<path d="${p}" fill="#6E9BD1"/>`,
     'BEL':`<path d="${p}" fill="#7A001D"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="20" height="4" fill="#CCAD6A"/></g>`,
     'AFD':`<path d="${p}" fill="#dc2626"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="14" y="0" width="3" height="20" fill="#fff"/><rect x="0" y="6" width="20" height="3" fill="#228b22"/></g>`,
