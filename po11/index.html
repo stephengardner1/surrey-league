@@ -1026,7 +1026,7 @@ function renderFilters(a){
   if(S.evFilter && !evs.includes(S.evFilter)) S.evFilter='';
   document.getElementById('filters').innerHTML = `
     <label for="fev"><span class="sr">Event</span><select id="fev"><option value="">All events</option>${evs.map(e=>`<option value="${esc(e)}" ${e===S.evFilter?'selected':''}>${esc(abbr(e))}</option>`).join('')}</select></label>
-    <label for="fsort">Sort <select id="fsort">
+    <label for="fsort"><span class="sr">Sort</span><select id="fsort">
       <option value="date" ${S.sort==='date'?'selected':''}>Newest first, by year</option>
       <option value="old" ${S.sort==='old'?'selected':''}>Oldest first, by year</option>
       <option value="best" ${S.sort==='best'?'selected':''}>Best result first</option>
