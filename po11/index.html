@@ -89,6 +89,7 @@ button,input,select{font:inherit;color:inherit}
 .meta{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px;color:var(--ink-2);font-size:var(--fs-m)}
 .meta dt{display:inline;color:var(--ink-3);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.06em;margin-right:5px}
 .meta dd{display:inline;margin:0;font-weight:600;color:var(--ink)}
+.claim2{font-weight:400;color:var(--ink-3);display:inline-block;white-space:nowrap}   /* never splits mid-name; wraps as a whole */
 
 /* body grid */
 .body{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;padding-block:6px 40px;align-items:start}
@@ -308,6 +309,8 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .cross{font-size:var(--fs-s)}
   .perf th.v{display:none}
   .athlete h1{font-size:var(--fs-xl)}
+  .claim2{display:block;margin-top:2px}
+  .claim2 .dot{display:none}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
@@ -795,7 +798,7 @@ function renderHeader(a){
     <div>
       <h1><span class="fn">${esc(a.first)}</span><span class="ln">${esc(a.last)}</span></h1>
       <dl class="meta">
-        <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span style="font-weight:400;color:var(--ink-3)">· 2nd claim ${esc(a.secondClaim)}</span>`:''}</dd></div>
+        <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>2nd claim ${esc(a.secondClaim)}</span>`:''}</dd></div>
         <div><dt>Age group</dt><dd>${esc(a.ageGroup)}</dd></div>
         ${coachNow?`<div><dt>Coach</dt><dd>${esc(coachNow.name)}</dd></div>`:''}
       </dl>
