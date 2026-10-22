@@ -215,9 +215,16 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .perf td.v{color:var(--ink);white-space:nowrap}
 .perf td.m{min-width:200px}
 .perf .mm,.recent .mm{display:none}
-.perf td.g{white-space:nowrap}
-.codes .gap{display:inline-block;margin:0}
-.perf .gapm{display:none}
+.perf td.g{white-space:nowrap;padding-top:2px;padding-bottom:2px;width:64px}
+.perf th.g{text-align:center}
+/* vs PB: one green scale, darker = closer to the PB held on the day, so a column of form reads at a glance */
+.vp{display:block;min-width:52px;padding:2px 6px;border-radius:3px;text-align:center;font-family:var(--font-data);font-variant-numeric:tabular-nums;font-size:var(--fs-xs);font-weight:600;line-height:17px}
+.vp.v0{background:#0f5a42;color:#fff}
+.vp.v1{background:#2e7d61;color:#fff}
+.vp.v2{background:#8ec7ad;color:var(--ink)}
+.vp.v3{background:#c9e6d8;color:var(--ink)}
+.vp.v4{background:#eef3f0;color:var(--ink-3);font-weight:500}
+.codes .vp{display:inline-block}
 .badge{font-size:var(--fs-xs);font-weight:700;letter-spacing:.03em;padding:0 5px;border-radius:3px;margin-left:6px;vertical-align:1px}
 .badge.pb{background:var(--pb-tint);color:var(--pb-ink)}
 .badge.sb{background:var(--sb-bg);color:var(--navy)}
@@ -250,7 +257,7 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .codes .badge{margin-left:0}
 .codesub{margin:0;padding:10px 14px 0;font-size:var(--fs-xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);border-top:1px solid var(--line-soft)}
 /* a table that scrolls sideways fades at the edge that has more to show */
-.scroll.more-r{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 48px),rgba(0,0,0,.15));mask-image:linear-gradient(to right,#000 calc(100% - 48px),rgba(0,0,0,.15))}
+.scroll.more-r{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 20px),rgba(0,0,0,.2));mask-image:linear-gradient(to right,#000 calc(100% - 20px),rgba(0,0,0,.2))}
 .toggle{border:1px solid var(--line);background:none;border-radius:var(--radius);padding:3px 9px;font-size:var(--fs-s);cursor:pointer;color:var(--ink-2)}
 
 .foot{font-size:var(--fs-xs);color:var(--ink-3);padding-block:4px 32px}
@@ -396,9 +403,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .perf td.v,.perf td.m,.recent td.m{white-space:nowrap;min-width:0}
   .perf td.p .gun,.perf .badge.dup{display:none}
   /* phones: no vs PB column; the chip sits after the time instead of the SB pill */
-  .perf td.g,.perf th.g{display:none}
-  .perf .gapm{display:inline;margin-left:4px}
-  .perf td.p.hasg .badge.sb{display:none}
+  .perf td.g{width:56px} .vp{min-width:46px;padding:2px 4px}
   .perf th,.perf td,.recent th,.recent td{padding-left:5px;padding-right:5px}
   .perf .badge{margin-left:4px}
   .cross .age{display:none}
@@ -508,9 +513,11 @@ details.src p{margin:6px 0 0;max-width:72ch}
         <dl class="codes">
           <dt><span class="badge pb">PB</span></dt><dd>Personal best when it was set</dd>
           <dt><span class="badge sb">SB</span></dt><dd>Best of that season</dd>
-          <dt><span class="gap g1">+0:30</span></dt><dd>Within 1.5% of the PB held then</dd>
-          <dt><span class="gap g2">+1:45</span></dt><dd>Within 4%</dd>
-          <dt><span class="gap g3">+3:05</span></dt><dd>Further off</dd>
+          <dt><span class="vp v0">PB</span></dt><dd>vs PB: new or equalled personal best</dd>
+          <dt><span class="vp v1">+0:08</span></dt><dd>Within 1% of the PB held then</dd>
+          <dt><span class="vp v2">+0:25</span></dt><dd>Within 2.5%</dd>
+          <dt><span class="vp v3">+0:50</span></dt><dd>Within 5%</dd>
+          <dt><span class="vp v4">+2:10</span></dt><dd>Further off</dd>
           <dt>c</dt><dd>Chip time</dd>
           <dt>P</dt><dd>Part of a combined event, no position</dd>
           <dt>DNF</dt><dd>Did not finish</dd>
@@ -770,11 +777,11 @@ function fmtT(sec, ref){
 function fmtGap(e, v, pb){
   if(v==null||pb==null) return '';
   const d = isField(e) ? pb - v : v - pb;
-  if(Math.abs(d) < 0.005) return 'PB';
+  if(Math.abs(d) < 0.005) return '=PB';
   const sign = d>0 ? '+' : '−';
   const a = Math.abs(d);
   if(isField(e)) return sign + a.toFixed(2)+'m';
-  return sign + (a<60 ? a.toFixed(a<10?2:1)+'s' : fmtT(a));
+  return sign + (a<60 ? a.toFixed(a<10?2:1).replace(/\.0+$/,'')+'s' : fmtT(a));   // whole seconds read as +7s, not +7.00s
 }
 // house abbreviations used everywhere an event is named: HM, M, TJ, HJ, DT
 function abbr(e){
@@ -1294,8 +1301,13 @@ function clubFor(a,y){
 }
 // how far a run was off the PB held on the day (blank for PBs and for events without a graded PB)
 function vsPB(a,p){
-  if(p.newPB || p.v==null || p.pbAtTime==null || !a.grid.some(r=>r.event===p.c)) return null;
-  return {cls:gapClass(p.c,p.v,p.pbAtTime), txt:fmtGap(p.c,p.v,p.pbAtTime)};
+  if(p.v==null || !a.grid.some(r=>r.event===p.c)) return null;
+  if(p.newPB) return {cls:'v0', txt:'PB', sr:'new personal best'};
+  if(p.pbAtTime==null) return null;
+  const pct=pctOff(p.c,p.v,p.pbAtTime);   // graduated: the darker the green, the closer to the PB held then
+  const cls = pct<=0.001 ? 'v0' : pct<=1 ? 'v1' : pct<=2.5 ? 'v2' : pct<=5 ? 'v3' : 'v4';
+  const txt=fmtGap(p.c,p.v,p.pbAtTime);
+  return {cls, txt, sr:txt==='=PB'?'equalled personal best':txt+' off PB'};
 }
 function renderPerfs(a){
   const t=S.text.trim().toLowerCase();
@@ -1309,7 +1321,7 @@ function renderPerfs(a){
   // grouped by year: the column headings sit in each year row, so there is no separate header row
   const head = byYear ? `<thead class="sr"><tr><th>Date</th><th>Event</th><th>Result</th><th class="g">vs PB</th><th>Pos</th><th>Venue</th><th>Meeting</th><th>Pts</th></tr></thead>`
     : `<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th class="g">vs PB</th><th style="text-align:right">Pos</th><th class="v">Venue</th><th class="m">Meeting</th><th style="text-align:right" title="World Athletics points">Pts</th></tr></thead>`;
-  const row=p=>{ const g=vsPB(a,p); const chip=g?`<span class="gap ${g.cls}">${esc(g.txt)}</span>`:''; return `<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num${g?' hasg':''}">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${g?`<span class="gapm">${chip}<span class="sr"> vs PB</span></span>`:''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="g">${chip}</td><td class="pos num">${esc(p.pos)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td></tr>`; };
+  const row=p=>{ const g=vsPB(a,p); const chip=g?`<span class="vp ${g.cls}"><span aria-hidden="true">${esc(g.txt)}</span><span class="sr">${esc(g.sr)}</span></span>`:''; return `<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="g">${chip}</td><td class="pos num">${esc(p.pos)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td></tr>`; };
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
