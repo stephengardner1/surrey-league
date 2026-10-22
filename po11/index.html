@@ -1197,18 +1197,27 @@ quick.addEventListener('click',e=>{ const b=e.target.closest('button'); if(b) se
 /* home nation: the flag cut to a portrait panel the same size as a singlet, so the two line up */
 const nationOf=a=>String(a.nation||'').replace(/\s*\/\s*$/,'').trim();
 let flagN=0;
+// the Welsh dragon, drawn in the flag's own 960 x 576 space; placed at the singlet's width and centred on the white/green line
+const WALES_DRAGON=`<g fill="#c8102e" stroke="#7a0a1c" stroke-width="6" stroke-linejoin="round">
+  <path d="M118 112 L150 98 L152 122 L245 133 L232 104 L262 92 L300 62 L318 78 L352 52 L366 84 L392 70 L384 104 L404 120 L376 132 L392 160 L364 168 L402 318 L330 352 L298 300 L236 330 L180 280 L140 246 L116 202 L146 212 L160 196 L176 226 L206 262 L262 270 L296 236 L282 196 L258 172 L236 150 L160 142 Z"/>
+  <path d="M410 300 L632 60 L612 168 L768 74 L706 236 L640 306 Z"/>
+  <ellipse cx="480" cy="372" rx="200" ry="74"/>
+  <path d="M332 392 L304 466 L236 482 L160 496 L236 514 L336 498 L392 420 Z"/>
+  <path d="M472 420 L512 458 L446 470 L390 482 L482 500 L572 470 L548 408 Z"/>
+  <path d="M622 382 L700 420 L690 474 L624 494 L722 508 L762 468 L726 378 Z"/>
+  <path d="M660 336 C760 330 820 296 800 254 C784 222 732 228 736 256 C740 282 780 278 790 262 L826 186 L800 182 L852 104 L864 214 L840 196 C860 280 820 340 700 372 Z"/>
+</g>`;
 function flagSvg(nation,size){
-  const id='flag'+(++flagN), x=4,y=1.5,w=12,h=17;
-  const box=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1"/>`;
+  // exactly the singlet's footprint: 14 x 20 at x 3 in the 20 x 20 icon
+  const id='flag'+(++flagN), x=3,y=0,w=14,h=20;
   const F={
     'England':`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#fff"/><rect x="8.9" y="${y}" width="2.2" height="${h}" fill="#ce1124"/><rect x="${x}" y="8.9" width="${w}" height="2.2" fill="#ce1124"/>`,
-    'Scotland':`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#005eb8"/><path d="M${x} ${y} L${x+w} ${y+h} M${x+w} ${y} L${x} ${y+h}" stroke="#fff" stroke-width="2.4"/>`,
-    'Wales':`<rect x="${x}" y="${y}" width="${w}" height="${h/2}" fill="#fff"/><rect x="${x}" y="${y+h/2}" width="${w}" height="${h/2}" fill="#00b140"/><path d="M6.2 12.4 C7 9.6 9 9.4 10.2 10.3 L11.4 8.6 L12.2 9.9 L13.8 9.4 L12.9 11.2 C13.6 12.6 12.8 14.2 11 14.4 L8.6 14.6 L7.4 15.6 L7.6 14 Z" fill="#d30731"/>`,
-    'Ireland':`<rect x="${x}" y="${y}" width="4" height="${h}" fill="#169b62"/><rect x="8" y="${y}" width="4" height="${h}" fill="#fff"/><rect x="12" y="${y}" width="4" height="${h}" fill="#ff883e"/>`,
-    'Northern Ireland':`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#fff"/><rect x="8.9" y="${y}" width="2.2" height="${h}" fill="#ce1124"/><rect x="${x}" y="8.9" width="${w}" height="2.2" fill="#ce1124"/>`,
+    'Scotland':`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#005eb8"/><path d="M${x} ${y} L${x+w} ${y+h} M${x+w} ${y} L${x} ${y+h}" stroke="#fff" stroke-width="2.6"/>`,
+    'Wales':`<rect x="${x}" y="${y}" width="${w}" height="${h/2}" fill="#fff"/><rect x="${x}" y="${h/2}" width="${w}" height="${h/2}" fill="#00b140"/><g transform="translate(${x} ${(h-576*w/960)/2}) scale(${w/960})">${WALES_DRAGON}</g>`,
+    'Ireland':`<rect x="${x}" y="${y}" width="${w/3}" height="${h}" fill="#169b62"/><rect x="${x+w/3}" y="${y}" width="${w/3}" height="${h}" fill="#fff"/><rect x="${x+2*w/3}" y="${y}" width="${w/3}" height="${h}" fill="#ff883e"/>`,
   };
   const inner=F[nation]||`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#c9ced8"/>`;
-  return `<svg class="vest flag" width="${size||18}" height="${size||18}" viewBox="0 0 20 20" aria-hidden="true"><defs><clipPath id="${id}">${box}</clipPath></defs><g clip-path="url(#${id})">${inner}</g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
+  return `<svg class="vest flag" width="${size||18}" height="${size||18}" viewBox="0 0 20 20" aria-hidden="true"><defs><clipPath id="${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath></defs><g clip-path="url(#${id})">${inner}</g><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
 }
 function clubColour(club){
   // the vest's main colour, or its second colour when the main one is white or pale (slarchive PositionChart rule)
