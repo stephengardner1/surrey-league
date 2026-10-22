@@ -418,6 +418,8 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .claim2 .dot{display:none}
 }
 @media (max-width: 360px){ .h2hrace th,.h2hrace td{padding-left:3px;padding-right:3px;font-size:12.5px} .h2hrace th.r,.h2hrace td.hp,.h2hrace th.nmh{padding-left:5px} }
+/* iPhone Safari zooms into any text box or dropdown under 16px: keep them at 16px on touch screens */
+@media (pointer:coarse), (max-width: 760px){ input[type=search],input[type=text],select{font-size:16px!important} }
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 /* ===== Slarchive skin =====
    Restyles Power of 11 with the slarchive.org design system (see the Slarchive design system artifact).
