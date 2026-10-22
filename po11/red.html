@@ -89,6 +89,8 @@ button,input,select{font:inherit;color:inherit}
 .meta{display:flex;flex-direction:column;gap:4px 16px;margin:8px 0 0;color:var(--ink-2);font-size:var(--fs-m)}
 .meta dt{display:inline;color:var(--ink-3);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.06em;margin-right:5px}
 .meta dd{display:inline;margin:0;font-weight:600;color:var(--ink)}
+/* (2C): a size smaller, same colour, so it stays readable (12px, 5.7:1 / 4.6:1) */
+.c2{font-size:var(--fs-xs);text-decoration:none;letter-spacing:.02em}
 .claim2{font-weight:400;color:var(--ink-3);display:inline-block;white-space:nowrap}   /* never splits mid-name; wraps as a whole */
 
 /* body grid */
@@ -998,7 +1000,7 @@ function renderHeader(a){
       <div class="namerow">
       <h1><span class="fn">${esc(a.first)}</span> <span class="ln">${esc(a.last)}</span></h1>
       <dl class="meta">
-        <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>${vestSvg(a.secondClaim,16)} ${esc(a.secondClaim)} <abbr title="second claim" style="text-decoration:none">(2C)</abbr></span>`:''}</dd></div>
+        <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>${vestSvg(a.secondClaim,16)} ${esc(a.secondClaim)} <abbr class="c2" title="second claim">(2C)</abbr></span>`:''}</dd></div>
         ${nationOf(a)?`<div><dt class="sr">Home nation</dt><dd>${flagSvg(nationOf(a),16)} ${esc(nationOf(a))}</dd></div>`:''}
       </dl>
       </div>
