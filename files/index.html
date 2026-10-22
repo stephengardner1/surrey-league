@@ -1346,7 +1346,7 @@ const athletePhotosFor=(name,races,women)=>{
   if(!name||!races)return[];const w=!!women;const slug=nameToSlug(name);const out=[];const al=window.__nameAliases||{};
   Object.entries(RACE_PHOTOS).forEach(([k,list])=>{const isW=k.startsWith('w|');if(isW!==w)return;const [season,match]=k.replace(/^w\|/,'').split('|');
     const race=races.find(r=>r.season===season&&String(r.match)===match);if(!race)return;
-    list.forEach(ph=>{const np=ph.notPictured||[];if(captionNames(ph,race).some(n=>nameToSlug(n.canon)===slug&&!np.includes(n.text)&&!np.includes(n.canon)))out.push({...ph,race,women:w});});});
+    list.forEach(ph=>{const np=ph.notPictured||[];if(captionNames(ph,race).some(n=>nameToSlug(n.canon)===slug&&!np.includes(n.text)&&!np.includes(n.canon))||(ph.people||[]).some(n=>!np.includes(n)&&nameToSlug(al[n.toLowerCase()]||n)===slug))out.push({...ph,race,women:w});});});
   ATHLETE_PHOTOS.forEach(ph=>{if(!!ph.women!==w)return;if(ph.people.some(n=>nameToSlug(al[n.toLowerCase()]||n)===slug))out.push({...ph,race:null,women:w});});
   const key=p=>p.race?p.race.season+p.race.match:p.season+'0';
   return out.sort((a,b)=>key(b).localeCompare(key(a)));
