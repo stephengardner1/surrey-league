@@ -515,10 +515,10 @@ details.src p{margin:6px 0 0;max-width:72ch}
         <dl class="codes">
           <dt><span class="badge sb">SB</span></dt><dd>Best of that season</dd>
           <dt><span class="vp v0">PB</span></dt><dd>Personal best when it was set (=PB: equalled)</dd>
-          <dt><span class="vp v1">+0:08</span></dt><dd>Within 1% of the PB held then</dd>
-          <dt><span class="vp v2">+0:25</span></dt><dd>Within 2.5%</dd>
-          <dt><span class="vp v3">+0:50</span></dt><dd>Within 5%</dd>
-          <dt><span class="vp v4">+2:10</span></dt><dd>Further off</dd>
+          <dt><span class="vp v1">+5s</span></dt><dd>Within 0.5% of the PB held then</dd>
+          <dt><span class="vp v2">+15s</span></dt><dd>Within 1.25%</dd>
+          <dt><span class="vp v3">+35s</span></dt><dd>Within 2.5%</dd>
+          <dt><span class="vp v4">+1:10</span></dt><dd>Further off</dd>
           <dt>c</dt><dd>Chip time</dd>
           <dt>P</dt><dd>Part of a combined event, no position</dd>
           <dt>DNF</dt><dd>Did not finish</dd>
@@ -1306,7 +1306,7 @@ function vsPB(a,p){
   if(p.newPB) return {cls:'v0', txt:'PB', sr:'new personal best'};
   if(p.pbAtTime==null) return null;
   const pct=pctOff(p.c,p.v,p.pbAtTime);   // graduated: the darker the green, the closer to the PB held then
-  const cls = pct<=0.001 ? 'v0' : pct<=1 ? 'v1' : pct<=2.5 ? 'v2' : pct<=5 ? 'v3' : 'v4';
+  const cls = pct<=0.001 ? 'v0' : pct<=0.5 ? 'v1' : pct<=1.25 ? 'v2' : pct<=2.5 ? 'v3' : 'v4';
   const txt=fmtGap(p.c,p.v,p.pbAtTime);
   return {cls, txt, sr:txt==='=PB'?'equalled personal best':txt+' off PB'};
 }
