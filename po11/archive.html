@@ -218,6 +218,9 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .perf td.v{color:var(--ink);white-space:nowrap}
 .perf td.m{min-width:200px}
 .perf .mm,.recent .mm{display:none}
+.perf td.g{white-space:nowrap}
+.codes .gap{display:inline-block;margin:0}
+.perf .gapm{display:none}
 .badge{font-size:var(--fs-xs);font-weight:700;letter-spacing:.03em;padding:0 5px;border-radius:3px;margin-left:6px;vertical-align:1px}
 .badge.pb{background:var(--pb-tint);color:var(--pb-ink)}
 .badge.sb{background:var(--sb-bg);color:var(--navy)}
@@ -395,6 +398,10 @@ details.src p{margin:6px 0 0;max-width:72ch}
   /* venue and meeting stay as one-line columns you scroll sideways to */
   .perf td.v,.perf td.m,.recent td.m{white-space:nowrap;min-width:0}
   .perf td.p .gun,.perf .badge.dup{display:none}
+  /* phones: no vs PB column; the chip sits after the time instead of the SB pill */
+  .perf td.g,.perf th.g{display:none}
+  .perf .gapm{display:inline;margin-left:4px}
+  .perf td.p.hasg .badge.sb{display:none}
   .perf th,.perf td,.recent th,.recent td{padding-left:5px;padding-right:5px}
   .perf .badge{margin-left:4px}
   .cross .age{display:none}
@@ -698,10 +705,6 @@ tr.detail .detailwrap{border-top:1px solid var(--line)}
           <div class="side" id="formSide"></div>
         </div>
       </div>
-      <section class="panel" id="recentPanel">
-        <header><h2><button type="button" class="panelbtn" id="recentToggle" aria-expanded="false" aria-controls="recent">Recent form<svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h2><label class="noprk" id="noPrkWrap" hidden><input type="checkbox" id="noPrk"> Exclude parkrun</label></header>
-        <div class="scroll" id="recent" tabindex="0" role="region" aria-label="Recent form: last 8 races" hidden></div>
-      </section>
       <section class="panel" id="perfPanel">
         <header><h2>All performances</h2><label class="noprk"><input type="checkbox" id="noPrkPerf"> Exclude parkrun</label><span class="sr" id="perfCount" aria-live="polite"></span></header>
         <div class="filters" id="filters"></div>
@@ -736,6 +739,9 @@ tr.detail .detailwrap{border-top:1px solid var(--line)}
         <dl class="codes">
           <dt><span class="badge pb">PB</span></dt><dd>Personal best when it was set</dd>
           <dt><span class="badge sb">SB</span></dt><dd>Best of that season</dd>
+          <dt><span class="gap g1">+0:30</span></dt><dd>Within 1.5% of the PB held then</dd>
+          <dt><span class="gap g2">+1:45</span></dt><dd>Within 4%</dd>
+          <dt><span class="gap g3">+3:05</span></dt><dd>Further off</dd>
           <dt>c</dt><dd>Chip time</dd>
           <dt>P</dt><dd>Part of a combined event, no position</dd>
           <dt>DNF</dt><dd>Did not finish</dd>
@@ -1002,7 +1008,6 @@ function fmtGap(e, v, pb){
   if(isField(e)) return sign + a.toFixed(2)+'m';
   return sign + (a<60 ? a.toFixed(a<10?2:1)+'s' : fmtT(a));
 }
-const GAPKEY='<p class="legend gapkey"><span><span class="gap g1">+0:30</span>within 1.5% of PB</span><span><span class="gap g2">+1:45</span>within 4%</span><span><span class="gap g3">+3:05</span>further off</span></p>';
 // house abbreviations used everywhere an event is named: HM, M, TJ, HJ, DT
 function abbr(e){
   return String(e||'').replace(/ Multi Terrain$/,' MT').replace(/^(\d+(?:\.\d+)?[KM]) Relay Leg$/,'$1L').replace(/^1 Mile Road$/,'Mile').replace(/^(\d+(?:\.\d+)?) Miles?(?: Road)?/,'$1M').replace(/^(\d+(?:\.\d+)?K) Road$/,'$1').replace(/^1M$/,'Mile').replace(/^Half Marathon/,'HM').replace(/^(Marathon|Mar)$/,'Mara').replace(/^Triple Jump/,'TJ').replace(/^High Jump/,'HJ').replace(/^Discus/,'DT').replace(/^Long Jump/,'LJ').replace(/^Pole Vault/,'PV').replace(/^Shot( Put)?/,'SP').replace(/^Javelin/,'JT').replace(/^Hammer/,'HT');
@@ -1412,23 +1417,9 @@ chartBox.addEventListener('pointerleave',()=>{ const t=chartBox.querySelector('.
 function ord(n){ n=+n; const s=['th','st','nd','rd'], v=n%100; return (s[(v-20)%10]||s[v]||s[0]); }
 
 /* ---------- last races ---------- */
-function renderRecent(a){
-  const names=new Set(a.grid.map(r=>r.event));
-  const rows=a.sorted.filter(p=>!p.dup && !(S.noParkrun && p.t==='parkrun')).slice(0,8);
-  document.getElementById('recent').innerHTML = `<table class="recent"><thead><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>vs PB</th><th class="m">Meeting</th><th class="r" title="World Athletics points">Pts</th></tr></thead><tbody>${rows.map(p=>{
-    const pbThen=p.pbAtTime; const graded=names.has(p.c) && p.v!=null;
-    const gap = p.newPB ? '<span class="gap g0">New PB</span>' : (graded && pbThen!=null ? `<span class="gap ${gapClass(p.c,p.v,pbThen)}">${fmtGap(p.c,p.v,pbThen)}</span>` : '<span style="color:var(--ink-3)">–</span>');
-    return `<tr><td class="num">${dHTML(p.d,true)}</td><td class="e"><b>${esc(abbr(p.e))}</b><span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}</td><td class="num">${esc(p.pos)}</td><td>${gap}</td><td class="m">${esc(p.m)} <span style="color:var(--ink-3)">· ${esc(p.ven||'')}</span></td><td class="pts num">${fmtPts(p.pts)}</td></tr>`;
-  }).join('')}</tbody></table>${GAPKEY}`;
-}
-
-// Recent form: optional 'Exclude parkrun' tick box, remembered between visits
-try{ S.noParkrun = localStorage.getItem('p11-noparkrun')==='1'; }catch(e){}
-document.getElementById('noPrk').checked=!!S.noParkrun;
 try{ S.noParkrunPerf = localStorage.getItem('p11-noparkrun-perf')==='1'; }catch(e){}
 document.getElementById('noPrkPerf').checked=!!S.noParkrunPerf;
 document.getElementById('noPrkPerf').addEventListener('change',e=>{ S.noParkrunPerf=e.target.checked; try{ localStorage.setItem('p11-noparkrun-perf',S.noParkrunPerf?'1':'0'); }catch(err){} renderPerfs(S.a); });
-document.getElementById('noPrk').addEventListener('change',e=>{ S.noParkrun=e.target.checked; try{ localStorage.setItem('p11-noparkrun',S.noParkrun?'1':'0'); }catch(err){} renderRecent(S.a); });
 
 /* ---------- head to head ---------- */
 // races both runners ran: same date, meeting and event
@@ -1544,6 +1535,11 @@ function clubFor(a,y){
   if(y===CUR_YEAR) return a.club;
   return null;
 }
+// how far a run was off the PB held on the day (blank for PBs and for events without a graded PB)
+function vsPB(a,p){
+  if(p.newPB || p.v==null || p.pbAtTime==null || !a.grid.some(r=>r.event===p.c)) return null;
+  return {cls:gapClass(p.c,p.v,p.pbAtTime), txt:fmtGap(p.c,p.v,p.pbAtTime)};
+}
 function renderPerfs(a){
   const t=S.text.trim().toLowerCase();
   let list=a.perfs.filter(p=>!p.dup && !(S.noParkrunPerf && p.t==='parkrun') && (!S.evFilter||abbr(p.e)===S.evFilter) && (!t || (p.m+' '+p.ven).toLowerCase().includes(t)));
@@ -1551,12 +1547,12 @@ function renderPerfs(a){
   document.getElementById('perfCount').textContent = list.length===total ? `${total} results` : `${list.length} of ${total} results`;
   const cmpDate=(x,y)=> x.d<y.d?1:x.d>y.d?-1:y.i-x.i;
   const cmpBest=(x,y)=>{ if(x.v==null) return 1; if(y.v==null) return -1; return isField(x.c)?y.v-x.v:x.v-y.v; };
-  const COLS=`<th scope="col" class="r">Pos</th><th scope="col" class="v">Venue</th><th scope="col" class="m">Meeting</th><th scope="col" class="r" title="World Athletics points">Pts</th>`;
+  const COLS=`<th scope="col" class="g">vs PB</th><th scope="col" class="r">Pos</th><th scope="col" class="v">Venue</th><th scope="col" class="m">Meeting</th><th scope="col" class="r" title="World Athletics points">Pts</th>`;
   const byYear = S.sort==='date'||S.sort==='old';
   // grouped by year: the column headings sit in each year row, so there is no separate header row
-  const head = byYear ? `<thead class="sr"><tr><th>Date</th><th>Event</th><th>Result</th><th>Pos</th><th>Venue</th><th>Meeting</th><th>Pts</th></tr></thead>`
-    : `<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th style="text-align:right">Pos</th><th class="v">Venue</th><th class="m">Meeting</th><th style="text-align:right" title="World Athletics points">Pts</th></tr></thead>`;
-  const row=p=>`<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="pos num">${esc(p.pos)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td></tr>`;
+  const head = byYear ? `<thead class="sr"><tr><th>Date</th><th>Event</th><th>Result</th><th class="g">vs PB</th><th>Pos</th><th>Venue</th><th>Meeting</th><th>Pts</th></tr></thead>`
+    : `<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th class="g">vs PB</th><th style="text-align:right">Pos</th><th class="v">Venue</th><th class="m">Meeting</th><th style="text-align:right" title="World Athletics points">Pts</th></tr></thead>`;
+  const row=p=>{ const g=vsPB(a,p); const chip=g?`<span class="gap ${g.cls}">${esc(g.txt)}</span>`:''; return `<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num${g?' hasg':''}">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${g?`<span class="gapm">${chip}<span class="sr"> vs PB</span></span>`:''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="g">${chip}</td><td class="pos num">${esc(p.pos)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td></tr>`; };
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
@@ -1603,7 +1599,6 @@ function openDetail(tr){
   setEvent(tr.dataset.ev);
   d.scrollIntoView({behavior:SMOOTH,block:'nearest'});
 }
-document.getElementById('recentToggle').addEventListener('click',e=>{ const b=e.currentTarget, open=b.getAttribute('aria-expanded')!=='true'; b.setAttribute('aria-expanded',open); document.getElementById('noPrkWrap').hidden=!open; document.getElementById('recent').hidden=!open; });
 
 /* ---------- side panels ---------- */
 function renderSide(a){
@@ -1656,7 +1651,7 @@ function select(id,how){
   S.a=a; S.ev=defaultEvent(a); S.evFilter=''; S.text=''; S.h2hAll=false;
   quick.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.id===a.id));
   document.title = `${a.first} ${a.last} · Power of 11 (slarchive)`;
-  renderHeader(a); renderCross(a); renderBests(a); renderEvPick(a); renderForm(a); renderRecent(a); renderH2H(a); renderFilters(a); renderPerfs(a); renderSide(a);
+  renderHeader(a); renderCross(a); renderBests(a); renderEvPick(a); renderForm(a); renderH2H(a); renderFilters(a); renderPerfs(a); renderSide(a);
   if(PATHMODE){
     const url=BASE+'/athlete/'+slugOf(a);
     modes.querySelectorAll('a').forEach(m=>{ m.href=m.dataset.base+'/athlete/'+slugOf(a); if(m.dataset.base===BASE) m.setAttribute('aria-current','page'); else m.removeAttribute('aria-current'); });
