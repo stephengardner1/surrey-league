@@ -1,2 +1,4 @@
-/archive/athlete/*  /archive  200
+/red/athlete/*  /red  200
+/archive/athlete/*  /athlete/:splat  301
+/archive  /  301
 /athlete/*  /index.html  200
