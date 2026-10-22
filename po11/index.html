@@ -225,6 +225,8 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .vp.v3{background:#e8f5ee;color:var(--ink)}
 .vp.v4{background:none;color:var(--ink-3)}
 .codes .vp{display:inline-block}
+/* the vs PB column already says PB, so the result keeps only its bold */
+.perf td.p.pbcol .pbc::after{display:none}
 .badge{font-size:var(--fs-xs);font-weight:700;letter-spacing:.03em;padding:0 5px;border-radius:3px;margin-left:6px;vertical-align:1px}
 .badge.pb{background:var(--pb-tint);color:var(--pb-ink)}
 .badge.sb{background:var(--sb-bg);color:var(--navy)}
@@ -511,9 +513,8 @@ details.src p{margin:6px 0 0;max-width:72ch}
         </dl>
         <h3 class="codesub">Results</h3>
         <dl class="codes">
-          <dt><span class="badge pb">PB</span></dt><dd>Personal best when it was set</dd>
           <dt><span class="badge sb">SB</span></dt><dd>Best of that season</dd>
-          <dt><span class="vp v0">PB</span></dt><dd>vs PB: new or equalled personal best</dd>
+          <dt><span class="vp v0">PB</span></dt><dd>Personal best when it was set (=PB: equalled)</dd>
           <dt><span class="vp v1">+0:08</span></dt><dd>Within 1% of the PB held then</dd>
           <dt><span class="vp v2">+0:25</span></dt><dd>Within 2.5%</dd>
           <dt><span class="vp v3">+0:50</span></dt><dd>Within 5%</dd>
@@ -1321,7 +1322,7 @@ function renderPerfs(a){
   // grouped by year: the column headings sit in each year row, so there is no separate header row
   const head = byYear ? `<thead class="sr"><tr><th>Date</th><th>Event</th><th>Result</th><th class="g">vs PB</th><th>Pos</th><th>Venue</th><th>Meeting</th><th>Pts</th></tr></thead>`
     : `<thead><tr><th><span class="sr">Date</span></th><th><span class="sr">Event</span></th><th><span class="sr">Result</span></th><th class="g">vs PB</th><th style="text-align:right">Pos</th><th class="v">Venue</th><th class="m">Meeting</th><th style="text-align:right" title="World Athletics points">Pts</th></tr></thead>`;
-  const row=p=>{ const g=vsPB(a,p); const chip=g?`<span class="vp ${g.cls}"><span aria-hidden="true">${esc(g.txt)}</span><span class="sr">${esc(g.sr)}</span></span>`:''; return `<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="g">${chip}</td><td class="pos num">${esc(p.pos)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td></tr>`; };
+  const row=p=>{ const g=vsPB(a,p); const chip=g?`<span class="vp ${g.cls}"><span aria-hidden="true">${esc(g.txt)}</span><span class="sr">${esc(g.sr)}</span></span>`:''; return `<tr class="${p.dup?'isdup':''}" id="perf-${a.id}-${p.i}"><td class="d num">${dHTML(p.d, !(S.sort==='date'||S.sort==='old'))}</td><td class="e">${esc(abbr(p.e))}<span class="mm">${esc(p.m)}</span></td><td class="p num${g&&p.newPB?' pbcol':''}">${p.newPB?`<span class="pbc">${esc(p.p.replace(/\(.*\)/,''))}</span>`:esc(p.p.replace(/\(.*\)/,''))}${p.isSB&&!p.newPB?'<span class="badge sb">SB</span>':''}${p.dup?'<span class="badge dup" title="Same event, result, date and meeting as another row">Duplicate</span>':''}</td><td class="g">${chip}</td><td class="pos num">${esc(p.pos)}</td><td class="v">${esc(p.ven)}</td><td class="m">${esc(p.m)}</td><td class="pts num" title="${p.ag!=null?'Age grade '+fmtAG(p.ag):''}">${fmtPts(p.pts)}</td></tr>`; };
   let body='';
   if(S.sort==='date'||S.sort==='old'){
     list.sort(cmpDate); if(S.sort==='old') list.reverse();
