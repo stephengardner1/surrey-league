@@ -2215,6 +2215,138 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
   return<div className="max-w-5xl mx-auto px-4 pt-3 pb-8 md:pt-5 md:pb-8">{cardOpen&&<PortraitCardOverlay file={portraitFile(athleteData.name,portraitClub)} name={athleteData.name} club={portraitClub} honours={stickerHonours(individualChampData,leagueWinnerData,division)} stats={computedStats} onClose={()=>setCardOpen(false)}/>}<div className="flex items-center justify-between mb-2 md:mb-3 max-w-4xl"><button onClick={()=>goBack(setView,{type:'athletes'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900"><ArrowLeft className="w-4 h-4"/>Back</button><button onClick={()=>setView({type:'h2h',prefill:{athlete1:athleteData}})} className="md:hidden text-sm text-gray-500 hover:text-gray-900 px-2 py-1 -mr-2">Compare ⇄</button><button onClick={()=>setShowCompare(v=>!v)} className="hidden md:inline text-sm text-gray-500 hover:text-gray-900 px-2 py-1 -mr-2">Compare ⇄</button></div><div className="mb-4 md:mb-8">{/* Desktop layout */}<div className="hidden md:flex md:gap-5 md:items-stretch mb-4 max-w-4xl"><AthletePortrait key={athleteData.name} name={athleteData.name} club={portraitClub} w={184} fill blink onClick={()=>portraitFile(athleteData.name,portraitClub)?setCardOpen(true):setView({type:'club',club:currentClub})}/><div className="flex flex-col justify-end pb-1"><div className="flex flex-wrap gap-2 mb-2">{allTimeRank>0&&<div className="inline-flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full cursor-pointer hover:bg-gray-200" onClick={()=>setView({type:'athletes'})}><span className="text-[10px] text-gray-500 uppercase tracking-wide">SL Index 📈</span><span className="text-xs font-semibold text-[#1b649e] tabular-nums">#{allTimeRank}</span></div>}{[...clubRankings].sort((x,y)=>(y.club===currentClub)-(x.club===currentClub)).map(cr=><div key={cr.club} className="inline-flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full cursor-pointer hover:bg-gray-200" onClick={()=>setView({type:'club',club:cr.club})}><ClubShield club={cr.club} size={12}/><span className="text-[10px] text-gray-500">🐐</span><span className="text-xs font-semibold text-[#1b649e] tabular-nums">#{cr.rank}</span></div>)}</div><div className="flex items-center gap-3"><h1 className="text-4xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{athleteData.name}{(po11Url||po10Url)&&<a href={po11Url||po10Url} target="_blank" rel="noopener noreferrer" title={po11Url?"Power of 11":"Power of 10"} className="inline-block ml-2 text-gray-400 hover:text-[#1b649e]"><svg role="img" aria-label={po11Url?"Power of 11":"Power of 10"} viewBox={po11Url?"0 0 122 139":"0 0 178 139"} style={{height:16,width:po11Url?14:20.5,display:"inline",verticalAlign:"baseline"}} fill="currentColor"><path fillRule="evenodd" d={po11Url?PO11_D:PO10_D}/></svg></a>}</h1>{athleteNee?.[athleteData?.name]&&<p className="text-sm text-gray-500 mt-1">({athleteData.name.split(' ')[0]} {athleteNee[athleteData.name]})</p>}</div><div className="flex items-center gap-2 mt-1"><p className="text-sm text-gray-500 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'club',club:currentClub})}>{CLUBS[currentClub]?.short?<><span className="lg:hidden">{CLUBS[currentClub].short}</span><span className="hidden lg:inline">{CLUBS[currentClub].name}</span></>:(CLUBS[currentClub]?.name||currentClub)}</p></div>{/* Desktop badges */}{(individualChampData.length>0||leagueWinnerData.length>0||otherBadges.length>0)&&<div className="flex flex-wrap gap-2 mt-3">{individualChampData.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{individualChampData.length}× {division==='women'?'Individual Champion':'Mitchell Cup'} 🏅</span><span className="text-sm font-medium text-gray-700">{renderYearLinks(individualChampData)}</span></div>}{leagueWinnerData.length>0&&<div className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{leagueWinnerData.length}× League Winner 🏆</span><span className="text-sm font-medium text-gray-700">{renderYearLinks(leagueWinnerData)}</span></div>}{otherBadges.map((b,i)=><div key={i} className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{b.label}</span></div>)}</div>}{/* Athlete bio from CMS */}{athleteBio&&<p className="text-sm text-gray-600 mt-3 max-w-xl"><ParsedContent content={athleteBio} setView={setView}/></p>}{/* Desktop compare (opened from the Back row) */}{showCompare&&<div className="mt-3"><div className="relative inline-flex items-center gap-2"><span className="text-xs text-gray-500">Compare to</span><input type="text" autoFocus aria-label="Compare with another athlete" value={compareInput} onChange={e=>setCompareInput(e.target.value)} onFocus={()=>setCompareFocused(true)} onBlur={()=>setTimeout(()=>setCompareFocused(false),200)} placeholder="search..." className="w-28 text-sm border-b border-gray-300 focus:border-[#1b649e] outline-none placeholder-gray-300 pb-0.5"/>{compareFocused&&compareInput.length>=2&&(()=>{const suggestions=athletes.filter(a=>!a.historical&&nameSearchScore(a.name,compareInput)&&!namesMatch(a.name,athleteData.name)).slice(0,5);return suggestions.length>0?<div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-48">{suggestions.map((a,i)=><div key={i} className="px-3 py-2 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-sm" onClick={()=>{setView({type:'h2h',prefill:{athlete1:athleteData,athlete2:a}});}}><ClubShield club={a.club} size={14}/><span>{a.name}</span></div>)}</div>:null;})()}</div></div>}</div>{(()=>{const ph=athletePhotosFor(athleteData.name,races,division==='women');return ph.length?<AthletePhotoTile key={athleteData.name} photos={ph}/>:null;})()}</div>{/* Mobile layout */}<div className="md:hidden"><div className="flex items-end gap-3 mb-3"><div className="cursor-pointer" onClick={()=>portraitFile(athleteData.name,portraitClub)?setCardOpen(true):setView({type:'club',club:currentClub})}><AthletePortrait key={athleteData.name} name={athleteData.name} club={portraitClub} w={84} blink/></div><div><div className="flex flex-wrap gap-1.5 mb-2">{allTimeRank>0&&<div className="inline-flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full cursor-pointer hover:bg-gray-200" onClick={()=>setView({type:'athletes'})}><span className="text-[10px] text-gray-500 uppercase tracking-wide">SL Index 📈</span><span className="text-xs font-semibold text-[#1b649e] tabular-nums">#{allTimeRank}</span></div>}{[...clubRankings].sort((x,y)=>(y.club===currentClub)-(x.club===currentClub)).map(cr=><div key={cr.club} className="inline-flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full cursor-pointer hover:bg-gray-200" onClick={()=>setView({type:'club',club:cr.club})}><ClubShield club={cr.club} size={12}/><span className="text-[10px] text-gray-500">🐐</span><span className="text-xs font-semibold text-[#1b649e] tabular-nums">#{cr.rank}</span></div>)}</div><div><h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{athleteData.name}{(po11Url||po10Url)&&<a href={po11Url||po10Url} target="_blank" rel="noopener noreferrer" title={po11Url?"Power of 11":"Power of 10"} className="inline-block ml-2 text-gray-400 hover:text-[#1b649e]"><svg role="img" aria-label={po11Url?"Power of 11":"Power of 10"} viewBox={po11Url?"0 0 122 139":"0 0 178 139"} style={{height:8,width:po11Url?7:10.2,display:"inline",verticalAlign:"baseline"}} fill="currentColor"><path fillRule="evenodd" d={po11Url?PO11_D:PO10_D}/></svg></a>}</h1></div>{athleteNee?.[athleteData?.name]&&<p className="text-xs text-gray-500">({athleteData.name.split(' ')[0]} {athleteNee[athleteData.name]})</p>}<div className="flex items-center gap-2"><p className="text-sm text-gray-500 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'club',club:currentClub})}>{CLUBS[currentClub]?.short?<><span className="lg:hidden">{CLUBS[currentClub].short}</span><span className="hidden lg:inline">{CLUBS[currentClub].name}</span></>:(CLUBS[currentClub]?.name||currentClub)}</p></div></div></div>{(individualChampData.length>0||leagueWinnerData.length>0||otherBadges.length>0)&&<div className="flex flex-wrap gap-2 mt-2">{otherBadges.map((b,i)=><div key={i} className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full"><span className="text-xs text-gray-500 uppercase">{b.label}</span></div>)}{individualChampData.length>0&&<div className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-0.5 bg-gray-100 px-3 py-1.5 rounded-2xl"><span className="text-xs text-gray-500 uppercase whitespace-nowrap">{individualChampData.length}× {division==='women'?'Individual Champion':'Mitchell Cup'} 🏅</span><span className="text-sm font-medium text-gray-700">{renderYearLinks(individualChampData)}</span></div>}{leagueWinnerData.length>0&&<div className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-0.5 bg-gray-100 px-3 py-1.5 rounded-2xl"><span className="text-xs text-gray-500 uppercase whitespace-nowrap">{leagueWinnerData.length}× League Winner 🏆</span><span className="text-sm font-medium text-gray-700">{renderYearLinks(leagueWinnerData)}</span></div>}</div>}{/* Mobile athlete bio */}{athleteBio&&<p className="text-sm text-gray-600 mt-3"><ParsedContent content={athleteBio} setView={setView}/></p>}{/* Mobile compare: now a link in the Back row */}<div className="hidden"><div className="relative inline-flex items-center gap-2"><span className="text-xs text-gray-500">Compare to</span><input type="text" aria-label="Compare with another athlete" value={compareInput} onChange={e=>setCompareInput(e.target.value)} onFocus={()=>setCompareFocused(true)} onBlur={()=>setTimeout(()=>setCompareFocused(false),200)} placeholder="search..." className="w-28 text-sm border-b border-gray-300 focus:border-[#1b649e] outline-none placeholder-gray-300 pb-0.5"/>{compareFocused&&compareInput.length>=2&&(()=>{const suggestions=athletes.filter(a=>!a.historical&&nameSearchScore(a.name,compareInput)&&!namesMatch(a.name,athleteData.name)).slice(0,5);return suggestions.length>0?<div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-48">{suggestions.map((a,i)=><div key={i} className="px-3 py-2 hover:bg-gray-50 cursor-pointer flex items-center gap-2 text-sm" onClick={()=>{setView({type:'h2h',prefill:{athlete1:athleteData,athlete2:a}});}}><ClubShield club={a.club} size={14}/><span>{a.name}</span></div>)}</div>:null;})()}</div></div></div></div><StatsTable stats={computedStats}/><div>{raceHistory.length>0?<><div className="max-w-3xl"><PositionChart raceHistory={raceHistory} highlightIdx={highlightIdx} setHighlightIdx={setHighlightIdx} setView={setView} clubCode={athleteData.club}/></div>{(()=>{const ph=athletePhotosFor(athleteData.name,races,division==='women');return ph.length?<AthletePhotoRow key={athleteData.name} photos={ph}/>:null;})()}<table className="w-full text-sm max-w-3xl"><thead><tr className="border-b border-gray-200"><th colSpan="2" className="text-left py-2 pr-2 text-xs text-gray-500 uppercase">Race History</th><th className="text-center py-2 px-1 text-[10px] md:text-xs text-gray-500 uppercase">Club</th><th className="text-right py-2 px-1 text-[10px] md:text-xs text-gray-500 uppercase">Pos</th><th className="text-right py-2 pl-1 text-[10px] md:text-xs text-gray-500 uppercase">Score</th></tr></thead><tbody className="divide-y divide-gray-100">{raceHistory.map((r,i)=>{const scoreNum=r.teamScore?parseInt(r.teamScore.slice(1)):0;const ordinal=ordPos(scoreNum).replace(/^\d+/,'');const scoreTooltip=r.teamScore?`${CLUBS[r.club]?.name||r.club}'s ${scoreNum}${ordinal} scorer for ${r.teamScore[0]} team`:null;const dateObj=r.hasFullDate&&r.date?parseDate(r.date):null;const formatSeasonMatch=(season,match)=>{const months=['Oct','Nov','Jan','Feb'];const p=season.split('/');if(p.length!==2||!match)return season;const y1=parseInt(p[0]),m=months[match-1]||'';return m?m+" '"+(match>=3?String(y1+1).slice(-2):String(y1).slice(-2)):season;};const displayDate=dateObj?dateObj.toLocaleDateString('en-GB',{month:'short'})+" '"+dateObj.getFullYear().toString().slice(-2):formatSeasonMatch(r.season,r.race?.match);const isHighlighted=highlightIdx?.historyIdx===i;return<tr key={i} className={`${isHighlighted?'bg-gray-100':''} ${r.race?.results?.length?'hover:bg-gray-100 cursor-pointer':''} transition-colors`} onMouseEnter={()=>setHighlightIdx({historyIdx:i})} onMouseLeave={()=>setHighlightIdx(null)} onClick={()=>r.race?.results?.length&&setView({type:'race',race:r.race})}><td className="py-2 pr-2 text-xs text-gray-500 whitespace-nowrap">{displayDate}</td><td className="py-2 px-1 text-xs md:text-sm text-gray-900"><VenueName venue={r.venue}/></td><td className="py-2 px-1"><div className="flex justify-center"><ClubShield club={r.club} size={14}/></div></td><td className="py-2 px-1 text-right"><span className={`text-xs md:text-sm font-medium tabular-nums ${getNumericPos(r.pos)===1?'text-[#1b649e]':getNumericPos(r.pos)<=3?'text-gray-900':'text-gray-600'}`}>{(()=>{const numPos=getNumericPos(r.pos);return numPos===1?'🥇':numPos===2?'🥈':numPos===3?'🥉':numPos;})()}{showStar&&getNumericPos(r.pos)===bestPos&&' ⭐'}</span></td><td className="py-2 pl-1 text-xs md:text-sm text-gray-600 text-right tabular-nums font-mono" title={scoreTooltip}>{r.teamScore||'-'}</td></tr>})}</tbody></table></>:<p className="text-sm text-gray-500">No race history</p>}</div></div>;
 };
 
+/* Field depth (/analysis): one cumulative line per Division 1 race since 2016/17, counting finishers at or above each UK 5K rank (or 5K form time).
+   Data: /field-depth.json — rt (rank cut-offs), races [{g,s,m,v,d,n,p,t,r}]: t = counts at 10-second 5K form steps (men from 13:00, women from 15:00), r = counts at each rt cut-off (null until that season's rankings are in). */
+const FD_MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const FD_TT={M:{a:780,b:1080},W:{a:900,b:1320}};
+const FD_COL={M:'#2a78d6',W:'#eb6834'};
+const fdT=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+const fdN=n=>n.toLocaleString('en-GB');
+const fdLabel=r=>r.v+', '+FD_MON[+r.d.slice(5,7)-1]+' '+r.d.slice(0,4)+(r.p?' *':'');
+const fdKey=r=>r.g+r.s+'-'+r.m;
+const FD_PRESETS={rank:[['Stacked: top 100',14],['Top 500',21],['Deep: top 1,000',24],['Top 3,000',29]],
+  timeM:[['Sub-14:30',9],['Sub-15:00',12],['Sub-15:30',15],['Sub-16:00',18]],
+  timeW:[['Sub-16:30',9],['Sub-17:30',15],['Sub-18:30',21],['Sub-20:00',30]]};
+const AnalysisView=({setView})=>{
+  const[fd,setFd]=useState(null),[err,setErr]=useState(null);
+  const[mode,setMode]=useState('rank'),[sex,setSex]=useState('M'),[thrRaw,setThr]=useState(24);
+  const[pin,setPin]=useState(null),[hover,setHover]=useState(null),[tip,setTip]=useState(null),[all,setAll]=useState(false);
+  const boxRef=useRef(null);const[W,setW]=useState(900);
+  useEffect(()=>{fetch('/field-depth.json').then(r=>r.ok?r.json():Promise.reject(r.status)).then(setFd).catch(e=>setErr(String(e)));},[]);
+  useEffect(()=>{const el=boxRef.current;if(!el)return;const upd=()=>setW(Math.max(300,el.clientWidth));upd();const ro=new ResizeObserver(upd);ro.observe(el);return()=>ro.disconnect();},[fd]);
+  if(err)return<div className="max-w-5xl mx-auto px-4 py-8 text-sm text-gray-500">The field depth data didn't load. Try refreshing the page.</div>;
+  if(!fd)return<div className="max-w-5xl mx-auto px-4 py-8 text-sm text-gray-500">Loading…</div>;
+  const RT=fd.rt;
+  const maxThr=mode==='rank'?RT.length-1:(sex==='W'?42:30);
+  const thr=Math.min(thrRaw,maxThr);
+  const tg=sex==='W'?'W':'M';
+  const races=fd.races.filter(r=>(sex==='B'||r.g===sex)&&(mode==='rank'?r.r:true));
+  const xs=r=>{if(mode==='rank')return RT;const t=FD_TT[r.g],o=[];for(let v=t.a;v<=t.b;v+=10)o.push(v);return o;};
+  const ys=r=>mode==='rank'?r.r:r.t;
+  const thrValue=mode==='rank'?RT[thr]:FD_TT[tg].a+thr*10;
+  const thrText=mode==='rank'?'top '+fdN(thrValue):'sub-'+fdT(thrValue);
+  const rankFrom=fd.races.filter(r=>r.r).map(r=>r.s).sort()[0];
+  const chooseMode=v=>{if(v===mode)return;setMode(v);if(v==='time'&&sex==='B')setSex('M');setThr(v==='rank'?24:(sex==='W'?15:12));setPin(null);};
+  const chooseSex=v=>{if(v===sex||(v==='B'&&mode==='time'))return;if(mode==='time'&&(v==='W')!==(sex==='W'))setThr(v==='W'?15:12);setSex(v);setPin(null);};
+  // chart geometry
+  const H=Math.round(Math.min(460,Math.max(300,W*0.5)));
+  const m={l:44,r:24,t:14,b:46},iw=W-m.l-m.r,ih=H-m.t-m.b;
+  const ymax=Math.max(10,...races.map(r=>Math.max(...ys(r))));
+  const yStep=ymax<=60?10:ymax<=150?25:50,yTop=Math.ceil(ymax/yStep)*yStep;
+  const X=mode==='rank'?(v=>m.l+Math.log10(v)/Math.log10(3000)*iw):(v=>m.l+(v-FD_TT[tg].a)/(FD_TT[tg].b-FD_TT[tg].a)*iw);
+  const Y=v=>m.t+ih-(v/yTop)*ih;
+  const yTicks=[];for(let v=0;v<=yTop;v+=yStep)yTicks.push(v);
+  const xTicks=mode==='rank'?(W<480?[1,10,100,1000]:[1,3,10,30,100,300,1000,3000]):(()=>{const o=[];for(let v=FD_TT[tg].a;v<=FD_TT[tg].b;v+=(W<480?120:60))o.push(v);return o;})();
+  const focus=hover||pin;
+  const pathOf=r=>{const xv=xs(r),yv=ys(r);let d='M'+X(xv[0])+','+Y(yv[0]);for(let i=1;i<xv.length;i++)d+='H'+X(xv[i])+'V'+Y(yv[i]);return d;};
+  const ordered=[...races].sort((a,b)=>(fdKey(a)===focus)-(fdKey(b)===focus));
+  const focusRace=focus&&races.find(r=>fdKey(r)===focus);
+  const tx=X(thrValue);
+  const pick=e=>{const svg=e.currentTarget.ownerSVGElement||e.currentTarget;const b=svg.getBoundingClientRect();const k=W/b.width;const px=(e.clientX-b.left)*k,py=(e.clientY-b.top)*k;
+    let best=null,bd=1e9,bi=0;for(const r of races){const xv=xs(r),yv=ys(r);let i=0;while(i+1<xv.length&&X(xv[i+1])<=px)i++;const d=Math.abs(Y(yv[i])-py);if(d<bd){bd=d;best=r;bi=i;}}
+    return bd<28?{r:best,i:bi,px:px/k,py:py/k}:null;};
+  const onMove=e=>{const p=pick(e);setHover(p?fdKey(p.r):null);setTip(p);};
+  const onLeave=()=>{setHover(null);setTip(null);};
+  const onClick=e=>{const p=pick(e);setPin(p&&fdKey(p.r)!==pin?fdKey(p.r):null);};
+  // ranked list
+  const ranked=races.map(r=>({r,c:ys(r)[thr]})).sort((a,b)=>b.c-a.c||b.r.d.localeCompare(a.r.d));
+  const barMax=Math.max(1,...ranked.map(x=>x.c));
+  const shown=all?ranked:ranked.slice(0,12);
+  let prevC=null,pos=0;
+  const segBtn=(on,dis)=>'px-3 py-1.5 text-sm rounded-md transition-colors '+(on?'bg-white text-gray-900 font-semibold shadow-sm':'text-gray-600 hover:text-gray-900')+(dis?' opacity-40 cursor-not-allowed':'');
+  const presets=FD_PRESETS[mode==='rank'?'rank':(sex==='W'?'timeW':'timeM')];
+  return<div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Analysis · Division 1 · 2016/17 to now</div>
+    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-1 mb-3" style={{fontFamily:"'Fraunces',serif",textWrap:'balance'}}>How deep was the field?</h1>
+    <p className="text-gray-600 max-w-2xl">Each line is one race. Reading left to right, it climbs by one for every finisher at least that good, so a line that rises early had a stacked front, and a line that keeps climbing had a deep field. Drag the cut-off to rank every race against it.</p>
+    <div className="flex flex-wrap items-end gap-x-6 gap-y-4 mt-6 mb-4">
+      <div><div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Measure</div>
+        <div className="inline-flex bg-gray-100 rounded-lg p-1 gap-0.5" role="group" aria-label="Measure">
+          {[['rank','UK 5K rank'],['time','5K form time']].map(([v,t])=><button key={v} type="button" aria-pressed={mode===v} className={segBtn(mode===v)} onClick={()=>chooseMode(v)}>{t}</button>)}
+        </div></div>
+      <div><div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Field</div>
+        <div className="inline-flex bg-gray-100 rounded-lg p-1 gap-0.5" role="group" aria-label="Field">
+          {[['M','Men'],['W','Women'],['B','Both']].map(([v,t])=><button key={v} type="button" aria-pressed={sex===v} disabled={v==='B'&&mode==='time'} title={v==='B'&&mode==='time'?'Men and women can only be compared on rank':undefined} className={segBtn(sex===v,v==='B'&&mode==='time')} onClick={()=>chooseSex(v)}>{t}</button>)}
+        </div></div>
+      <div className="flex-1 min-w-[260px]"><label htmlFor="fd-thr" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">{mode==='rank'?'National rank cut-off':'5K form cut-off'}</label>
+        <div className="flex items-center gap-3"><input id="fd-thr" type="range" min="0" max={maxThr} step="1" value={thr} onChange={e=>setThr(+e.target.value)} className="flex-1 min-w-0 accent-gray-600"/><output htmlFor="fd-thr" className="tabular-nums text-sm font-medium text-gray-900 w-24 text-right">{thrText}</output></div>
+        <div className="flex flex-wrap gap-1.5 mt-2">{presets.map(([t,i])=><button key={t} type="button" onClick={()=>setThr(i)} className={'text-xs px-2.5 py-1 rounded-full border '+(thr===i?'border-gray-500 text-gray-900 bg-gray-50':'border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-400')}>{t}</button>)}</div></div>
+    </div>
+    <div className="border border-gray-200 rounded-lg p-3 md:p-4">
+      <div className="flex flex-wrap justify-between items-baseline gap-2 mb-2">
+        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">{mode==='rank'?'Finishers in the UK 5K rankings':'Finishers by 5K form'}</h2>
+        <div className="flex gap-4 text-xs text-gray-600">{(sex==='B'?['M','W']:[sex]).map(g=><span key={g} className="flex items-center gap-1.5"><span className="inline-block w-4 h-0.5 rounded" style={{background:FD_COL[g]}}/>{g==='M'?'Men':'Women'}</span>)}</div>
+      </div>
+      <div ref={boxRef} className="relative">
+        <svg viewBox={`0 0 ${W} ${H}`} className="block w-full h-auto" role="img" aria-label={(mode==='rank'?'Finishers at or above each UK 5K rank':'Finishers at or under each 5K form time')+' for each race'}>
+          {yTicks.map(v=><g key={'y'+v}><line x1={m.l} x2={m.l+iw} y1={Y(v)} y2={Y(v)} stroke="#e8ebe7" strokeWidth="1"/><text x={m.l-8} y={Y(v)+4} textAnchor="end" fontSize="11" fill="#9ba099" className="tabular-nums">{v}</text></g>)}
+          {xTicks.map(v=><g key={'x'+v}><line x1={X(v)} x2={X(v)} y1={m.t+ih} y2={m.t+ih+5} stroke="#9ba099"/><text x={X(v)} y={m.t+ih+18} textAnchor="middle" fontSize="11" fill="#9ba099" className="tabular-nums">{mode==='rank'?fdN(v):fdT(v)}</text></g>)}
+          <line x1={m.l} x2={m.l+iw} y1={m.t+ih} y2={m.t+ih} stroke="#9ba099"/>
+          <text x={m.l+iw/2} y={H-6} textAnchor="middle" fontSize="12" fill="#686e66">{mode==='rank'?'UK 5K rank (log scale), better runners to the left':'5K form, faster to the left'}</text>
+          <text x={12} y={m.t+ih/2} textAnchor="middle" fontSize="12" fill="#686e66" transform={`rotate(-90 12 ${m.t+ih/2})`}>Finishers at or above</text>
+          <line x1={tx} x2={tx} y1={m.t} y2={m.t+ih} stroke="#4c514a" strokeWidth="1" strokeDasharray="4 4"/>
+          <text x={tx+6>m.l+iw-90?tx-6:tx+6} y={m.t+12} textAnchor={tx+6>m.l+iw-90?'end':'start'} fontSize="12" fill="#4c514a">{thrText}</text>
+          {ordered.map(r=>{const f=fdKey(r)===focus;return<path key={fdKey(r)} d={pathOf(r)} fill="none" stroke={FD_COL[r.g]} strokeWidth={f?2.6:1.2} strokeOpacity={focus?(f?1:.16):.45} strokeLinejoin="round"/>;})}
+          {focusRace&&<circle cx={tx} cy={Y(ys(focusRace)[thr])} r="4.5" fill={FD_COL[focusRace.g]} stroke="#fff" strokeWidth="2"/>}
+          <rect x={m.l} y={m.t} width={iw} height={ih} fill="transparent" onPointerMove={onMove} onPointerLeave={onLeave} onClick={onClick} style={{cursor:'crosshair'}}/>
+        </svg>
+        {tip&&<div className="absolute pointer-events-none bg-white border border-gray-200 rounded-lg shadow-lg px-3 py-2 text-xs z-10" style={{left:Math.max(0,tip.px+14+250>W?tip.px-264:tip.px+14),top:Math.max(0,tip.py-20),maxWidth:250}}>
+          <div className="font-semibold text-gray-900 text-sm">{fdLabel(tip.r)}</div>
+          <div className="text-gray-500">{tip.r.g==='M'?'Men':'Women'} · {fdN(tip.r.n)} finishers</div>
+          <div className="text-gray-700 mt-0.5"><span className="tabular-nums font-semibold">{ys(tip.r)[tip.i]}</span> {mode==='rank'?'in the UK top '+fdN(xs(tip.r)[tip.i]):'with 5K form of '+fdT(xs(tip.r)[tip.i])+' or faster'}</div>
+        </div>}
+      </div>
+      <p className="text-xs text-gray-500 mt-2">Hover a line to see the race, or tap a race in the list below to pick it out.</p>
+    </div>
+    <div className="flex flex-wrap justify-between items-baseline gap-2 mt-8 mb-3">
+      <h2 className="text-lg font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>Races ranked by finishers {mode==='rank'?'in the UK top '+fdN(thrValue):'under '+fdT(thrValue)}</h2>
+      <p className="text-sm text-gray-500">{mode==='rank'?`Seasons with ranking data: ${rankFrom} onwards`:'All seasons since 2016/17'}</p>
+    </div>
+    <ol className="grid gap-1">
+      {shown.map((x,i)=>{if(x.c!==prevC){pos=i+1;prevC=x.c;}const k=fdKey(x.r);const on=k===focus;
+        return<li key={k} tabIndex={0} onClick={()=>setPin(pin===k?null:k)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setPin(pin===k?null:k);}}} onMouseEnter={()=>setHover(k)} onMouseLeave={()=>setHover(null)}
+          className={'grid items-center gap-2.5 px-2 py-1.5 rounded-md cursor-pointer '+(on?'bg-gray-100':'hover:bg-gray-50')} style={{gridTemplateColumns:W<480?'1.4em minmax(0,10.5em) 1fr 2.2em':'1.8em minmax(0,12.5em) 1fr 3em'}}>
+          <span className="tabular-nums text-xs text-gray-400 text-right">{pos}</span>
+          <span className="text-sm text-gray-900 truncate">{fdLabel(x.r)}{sex==='B'&&<span className="text-xs text-gray-500 ml-1">{x.r.g==='M'?'men':'women'}</span>}</span>
+          <span className="h-3 relative"><span className="absolute inset-y-0 left-0 rounded-r" style={{width:Math.max(.5,x.c/barMax*100)+'%',background:FD_COL[x.r.g]}}/></span>
+          <span className="tabular-nums text-sm text-gray-900 text-right">{x.c}</span>
+        </li>;})}
+    </ol>
+    {ranked.length>12&&<button type="button" onClick={()=>setAll(!all)} className="mt-2 text-sm text-[#1b649e] hover:underline">{all?'Show top 12':`Show all ${ranked.length} races`}</button>}
+    <div className="mt-10 max-w-3xl text-sm text-gray-600">
+      <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">How it's measured</h2>
+      <ul className="list-disc pl-5 space-y-1.5">
+        <li><b className="text-gray-900 font-semibold">UK 5K rank</b> is each finisher's best position in Power of 10's UK road 5K rankings for the two calendar years leading into the race (2025 and 2026 for this season). Ranks are read to 3,000; anyone ranked lower, or not ranked, isn't counted. Because rank compares runners with everyone in the country that year, faster shoes and busier racing calendars don't inflate later seasons, and men and women can be compared.</li>
+        {rankFrom>'2016/17'&&<li><b className="text-gray-900 font-semibold">Rank coverage so far:</b> {rankFrom} onwards. Earlier seasons are being added.</li>}
+        <li><b className="text-gray-900 font-semibold">5K form time</b> is the same measure as the <a href="/race/2627-1/form-guide" className="text-[#1b649e] underline decoration-gray-300 underline-offset-2">form guides</a>: each finisher's best 5K or 5,000m over the previous two years, with a time estimated from their road handicap where they have no recent 5K. It covers every season since 2016/17, but later seasons look deeper partly because everyone has got faster.</li>
+        <li>Races marked * weren't on Power of 10 (Beckenham January 2023, Wimbledon February 2026 and Wimbledon October 2026), so finishers were matched by name and a few will be missing. October 2026 handicaps aren't used, as Power of 10 recalculated them all in June 2026.</li>
+        <li>Women's fields are Division 1 only, separated from Power of 10's combined Division 1/2 results by name and time.</li>
+      </ul>
+      {fd.updated&&<p className="text-xs text-gray-400 mt-4">Power of 10 data read {fd.updated}.</p>}
+    </div>
+  </div>;
+};
+
 const ChartRoomView=({setView,data,menData,womenData})=>{
   // Detect if viewing women's data
   const isWomen=data===womenData;
@@ -4366,7 +4498,7 @@ const nameToSlug=(n)=>n?.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g
 const slugToName=(s,athletes)=>{if(!s)return null;const slug=s.toLowerCase();const match=athletes?.find(a=>nameToSlug(a.name)===slug);return match?.name||s.replace(/-/g,' ');};
 
 // Athlete pages have real paths (/athlete/<slug>, /women/athlete/<slug>) so links shared on social/WhatsApp get their own preview
-const athletePathRoute=()=>{const m=window.location.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);if(m)return (m[1]?'women/':'')+'athlete/'+decodeURIComponent(m[2]).replace(/-poster$/i,'');const r=window.location.pathname.match(/^\/(women\/)?race\/(\d{4}-\d+(?:\/form-guide)?)\/?$/i);return r?((r[1]?'women/':'')+'race/'+r[2]):null;};  /* path addresses: /athlete/<slug> and /race/<season>-<match>, so link previews can describe them */
+const athletePathRoute=()=>{if(/^\/analysis\/?$/i.test(window.location.pathname))return 'analysis';const m=window.location.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);if(m)return (m[1]?'women/':'')+'athlete/'+decodeURIComponent(m[2]).replace(/-poster$/i,'');const r=window.location.pathname.match(/^\/(women\/)?race\/(\d{4}-\d+(?:\/form-guide)?)\/?$/i);return r?((r[1]?'women/':'')+'race/'+r[2]):null;};  /* path addresses: /athlete/<slug> and /race/<season>-<match>, so link previews can describe them */
 /* the opened, downloadable sticker has its own address: /athlete/<slug>-poster (and /women/athlete/<slug>-poster) */
 const isPosterUrl=()=>/^\/(women\/)?athlete\/[^\/]+-poster\/?$/i.test(window.location.pathname);
 (()=>{const m=window.location.hash.match(/^#(women\/)?(athlete|race)\/(.+)$/i);if(m)window.history.replaceState(null,'',(m[1]?'/women':'')+'/'+m[2].toLowerCase()+'/'+m[3]);})();  /* old #athlete/ and #race/ links move to their path address */
@@ -4395,6 +4527,7 @@ const parseUrlParams=(athletes)=>{
     case'quiz':return{type:'quiz',division};
     case'chartroom':return{type:'chartroom',division};
     case'origin':return{type:'origin',division};
+    case'analysis':return{type:'analysis',division};
     default:return{type:'home',division};
   }
 };
@@ -4420,7 +4553,7 @@ const updateUrl=(view,division='men')=>{
   else if(view.type==='quiz')hash=prefix+sep+'quiz';
   else if(view.type==='chartroom')hash=prefix+sep+'chartroom';
   else if(view.type==='origin')hash=prefix+sep+'origin';
-  const target=(view.type==='athlete'&&view.athlete?.name)?(division==='women'?'/women':'')+'/athlete/'+nameToSlug(view.athlete.name):(view.type==='race'&&view.race)?(division==='women'?'/women':'')+'/race/'+seasonToCompact(view.race.season)+'-'+view.race.match+(view.mode==='guide'?'/form-guide':''):'/'+hash;
+  const target=view.type==='analysis'?'/analysis':(view.type==='athlete'&&view.athlete?.name)?(division==='women'?'/women':'')+'/athlete/'+nameToSlug(view.athlete.name):(view.type==='race'&&view.race)?(division==='women'?'/women':'')+'/race/'+seasonToCompact(view.race.season)+'-'+view.race.match+(view.mode==='guide'?'/form-guide':''):'/'+hash;
   if(target+'-poster'===window.location.pathname)return;  /* already on this runner's poster address */
   if(target!==window.location.pathname+window.location.hash)window.history.pushState({sl:1},'',target);
 };
@@ -5720,7 +5853,8 @@ function App(){
       case'quiz':t='Pub quiz';break;
       case'submit':t='Submit results';break;
       case'chartroom':t='Chart room';break;
-      case'origin':t='Origin story';break;}
+      case'origin':t='Origin story';break;
+      case'analysis':t='How deep was the field?';break;}
     document.title=t?`${t} | ${DEFAULT_TITLE}`:DEFAULT_TITLE;},[view,division,data]);
   const[blinkExit,setBlinkExit]=useState(true);
   if(loading)return<div className="loading"><Loader/></div>;
@@ -5745,6 +5879,7 @@ function App(){
       {view.type==='submit'&&<SubmitView setView={setView}/>}
       {view.type==='chartroom'&&<ChartRoomView setView={setView} data={data} menData={menData} womenData={womenData}/>}
       {view.type==='origin'&&<OriginStoryView setView={setView} cmsContent={cmsContent}/>}
+      {view.type==='analysis'&&<AnalysisView setView={setView}/>}
     </main>
     <Footer setView={setView}/>
   </div>;

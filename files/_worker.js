@@ -194,6 +194,27 @@ export default {
         return env.ASSETS.fetch(new Request(url.origin + '/'));
       }
     }
+    if (/^\/analysis\/?$/i.test(url.pathname) && (request.method === 'GET' || request.method === 'HEAD')) {
+      // the field depth analysis page: the normal site, with its own title and link preview
+      try {
+        const page = await env.ASSETS.fetch(new Request(url.origin + '/'));
+        const title = `How deep was the field? | ${SITE_TITLE}`;
+        const desc = 'Every Surrey League Division 1 race since 2016/17, men and women, ranked by how many finishers were in the UK 5K rankings or under a 5K form time.';
+        const setContent = v => ({ element(el) { el.setAttribute('content', v); } });
+        const res = new HTMLRewriter()
+          .on('title', { element(el) { el.setInnerContent(title); } })
+          .on('meta[property="og:title"]', setContent(title))
+          .on('meta[property="og:description"]', setContent(desc))
+          .on('meta[name="description"]', setContent(desc))
+          .on('meta[property="og:url"]', setContent(SITE + '/analysis'))
+          .transform(page);
+        const out = new Response(res.body, res);
+        out.headers.set('Cache-Control', 'public, max-age=300');
+        return out;
+      } catch (e) {
+        return env.ASSETS.fetch(new Request(url.origin + '/'));
+      }
+    }
     return env.ASSETS.fetch(request);
   }
 };
