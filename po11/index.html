@@ -324,6 +324,9 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .h2hpick{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-size:var(--fs-s)}
 .h2hclose{border:0;background:none;color:inherit;font-size:22px;line-height:1;cursor:pointer;padding:0 2px;min-width:28px;min-height:28px}
 .h2hline{margin-top:6px}
+/* desktop: club and home nation follow the name on its baseline */
+.namerow{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 28px}
+.namerow .meta{flex-direction:row;gap:4px 20px;margin:0}
 .h2hbtn{display:inline-flex;align-items:center;gap:5px;border:0;background:none;color:var(--ink-3);padding:4px 2px;font-weight:500;font-size:var(--fs-xs);cursor:pointer;white-space:nowrap;min-height:24px}
 .h2hbtn svg{width:13px;height:13px}
 .h2hbtn:hover{color:var(--ink);text-decoration:underline}
@@ -392,6 +395,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .h2hrace th.r,.h2hrace td.hp,.h2hrace th.nmh{padding-left:8px}
   .h2hrace th.nmh{text-align:right}
   .athlete{grid-template-columns:minmax(0,1fr)}
+  .namerow{display:block} .namerow .meta{flex-direction:column;margin-top:8px}
   .form{grid-template-columns:minmax(0,1fr)}
   .form .chartbox{border-right:0;border-bottom:1px solid var(--line-soft)}
   .snap{display:none}
