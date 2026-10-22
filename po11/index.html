@@ -84,7 +84,7 @@ button,input,select{font:inherit;color:inherit}
 /* athlete header */
 .athlete{padding-block:18px 10px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 24px;align-items:end}
 .athlete h1{font-family:var(--font-display);font-weight:700;font-size:var(--fs-xxl);line-height:1;margin:0;letter-spacing:.005em;text-wrap:balance}
-.athlete h1 .fn{font-weight:600;color:var(--navy);letter-spacing:0;margin-right:.28em}
+.athlete h1 .fn{font-weight:600;color:var(--navy);letter-spacing:0}
 .athlete h1 .ln{color:var(--brand);text-transform:uppercase;letter-spacing:.01em}
 .meta{display:flex;flex-wrap:wrap;gap:4px 16px;margin:8px 0 0;color:var(--ink-2);font-size:var(--fs-m)}
 .meta dt{display:inline;color:var(--ink-3);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.06em;margin-right:5px}
@@ -285,6 +285,12 @@ tr.open td.ev,tr.open td.e{box-shadow:inset 3px 0 0 var(--navy)}
 .skip{position:absolute;left:12px;top:-60px;z-index:50;background:var(--navy);color:#fff;padding:8px 12px;border-radius:6px;font-weight:600}
 .skip:focus{top:calc(env(safe-area-inset-top,0px) + 8px)}
 .top :focus-visible{outline:2px solid #fff;outline-offset:2px}
+/* red mode / archive mode switch (live site only) */
+.modes{display:inline-flex;margin-left:auto;border:1px solid rgba(255,255,255,.75);border-radius:999px;padding:2px;gap:2px;flex:none}
+.modes[hidden]{display:none}
+.modes a{color:#fff;text-decoration:none;font-size:var(--fs-s);font-weight:600;padding:5px 12px;border-radius:999px;line-height:1.2;white-space:nowrap}
+.modes a:hover{background:rgba(255,255,255,.15)}
+.modes a[aria-current="page"]{background:#fff;color:var(--brand)}
 .panel>header :focus-visible{outline-color:#fff}
 .scroll:focus-visible{outline:2px solid var(--navy);outline-offset:-2px}
 .athlete:focus{outline:none}
@@ -361,6 +367,8 @@ details.src p{margin:6px 0 0;max-width:72ch}
   .sidecol{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 }
 @media (max-width: 760px){
+  .modes{order:1} .top .search{order:2;flex-basis:100%} .quick{order:3}
+  .modes a{padding:5px 10px} .modes .mw{display:none}
   /* phones: both places side by side, meeting under the event; times are in All performances */
   .h2hrace td.ht,.h2hrace th.ht,.h2hrace td.m,.h2hrace th.m{display:none}
   .h2hrace .mm{display:block;font-weight:400;color:var(--ink-3);font-size:var(--fs-xs);white-space:normal;margin-top:2px}
@@ -423,6 +431,7 @@ details.src p{margin:6px 0 0;max-width:72ch}
       <div class="results" id="qres" role="listbox" aria-label="Matching athletes" hidden></div>
       <div class="sr" id="qstatus" aria-live="polite"></div>
     </div>
+    <nav class="modes" id="modes" aria-label="Display mode" hidden><a data-base="">Red<span class="mw"> mode</span></a><a data-base="/archive">Archive<span class="mw"> mode</span></a></nav>
     <div class="quick" id="quick" role="group" aria-label="Sample athletes"></div>
     <div class="snap">Data from Power of 10, read 21 Oct 2026</div>
   </div>
@@ -1390,7 +1399,11 @@ function setEvent(ev){
   renderForm(S.a);
 }
 const slugOf=a=>(a.first+' '+a.last).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const PATHMODE=/^\/athlete\//.test(location.pathname) || /^po11\./.test(location.hostname);
+const BASE=window.P11_BASE||'';   // '' for red mode, '/archive' for archive mode
+const relPath=()=>location.pathname.startsWith(BASE+'/')?location.pathname.slice(BASE.length):location.pathname;
+const PATHMODE=/^\/athlete\//.test(relPath()) || /^po11\./.test(location.hostname);
+const modes=document.getElementById('modes');
+if(PATHMODE) modes.hidden=false;
 function select(id,how){
   how=how||'push';
   const a=ATH.find(x=>x.id===id) || ATH[0];
@@ -1400,17 +1413,18 @@ function select(id,how){
   document.title = `${a.first} ${a.last} · Power of 11`;
   renderHeader(a); renderCross(a); renderBests(a); renderEvPick(a); renderForm(a); renderRecent(a); renderH2H(a); renderFilters(a); renderPerfs(a); renderSide(a);
   if(PATHMODE){
-    const url='/athlete/'+slugOf(a);
+    const url=BASE+'/athlete/'+slugOf(a);
+    modes.querySelectorAll('a').forEach(m=>{ m.href=m.dataset.base+'/athlete/'+slugOf(a); if(m.dataset.base===BASE) m.setAttribute('aria-current','page'); else m.removeAttribute('aria-current'); });
     try{ if(location.pathname!==url){ if(how==='push') history.pushState({id:a.id},'',url); else history.replaceState({id:a.id},'',url); } }catch(e){}
   } else { try{ history.replaceState(null,'','#'+a.id); }catch(e){} }
   try{ localStorage.setItem('p11-last', a.id); }catch(e){}
 }
-const pathSlug=(location.pathname.match(/^\/athlete\/([a-z0-9-]+)\/?$/)||[])[1]||'';
+const pathSlug=(relPath().match(/^\/athlete\/([a-z0-9-]+)\/?$/)||[])[1]||'';
 let start = (ATH.find(a=>slugOf(a)===pathSlug)||{}).id || (location.hash||'').slice(1);
 if(!ATH.some(a=>a.id===start)){ try{ start=localStorage.getItem('p11-last')||''; }catch(e){ start=''; } }
 if(!ATH.some(a=>a.id===start)) start='kempson';
 select(start,'replace');
-window.addEventListener('popstate',()=>{ const sl=(location.pathname.match(/^\/athlete\/([a-z0-9-]+)/)||[])[1]; const a=ATH.find(x=>slugOf(x)===sl); if(a && (!S.a||S.a.id!==a.id)) select(a.id,'none'); });
+window.addEventListener('popstate',()=>{ const sl=(relPath().match(/^\/athlete\/([a-z0-9-]+)/)||[])[1]; const a=ATH.find(x=>slugOf(x)===sl); if(a && (!S.a||S.a.id!==a.id)) select(a.id,'none'); });
 const setTopH=()=>{ const t=document.querySelector('.top'); if(!t) return; document.documentElement.style.setProperty('--toph', getComputedStyle(t).position==='sticky' ? t.offsetHeight+'px' : '0px'); };
 setTopH();
 // edge fade on tables that scroll sideways, while there is more to the right
