@@ -2220,11 +2220,13 @@ const AthleteDetailView=({athlete,setView,athletes,races,clubMvps,seasonsData,mi
 const FD_MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const FD_TT={M:{a:780,b:1080},W:{a:900,b:1320}};
 const FD_COL={M:'#2a78d6',W:'#eb6834'};
+const FD_PTS=Array.from({length:91},(_,i)=>1300-i*10);  /* World Athletics points cut-offs, best first */
 const fdT=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 const fdN=n=>n.toLocaleString('en-GB');
 const fdLabel=r=>r.v+', '+FD_MON[+r.d.slice(5,7)-1]+' '+r.d.slice(0,4)+(r.p?' *':'');
 const fdKey=r=>r.g+r.s+'-'+r.m;
 const FD_PRESETS={rank:[['Stacked: top 100',14],['Top 500',21],['Deep: top 1,000',24],['Top 3,000',29]],
+  points:[['1,000+ points',30],['900+',40],['800+',50],['700+',60]],
   timeM:[['Sub-14:30',9],['Sub-15:00',12],['Sub-15:30',15],['Sub-16:00',18]],
   timeW:[['Sub-16:30',9],['Sub-17:30',15],['Sub-18:30',21],['Sub-20:00',30]]};
 const AnalysisView=({setView})=>{
@@ -2237,26 +2239,26 @@ const AnalysisView=({setView})=>{
   if(err)return<div className="max-w-5xl mx-auto px-4 py-8 text-sm text-gray-500">The field depth data didn't load. Try refreshing the page.</div>;
   if(!fd)return<div className="max-w-5xl mx-auto px-4 py-8 text-sm text-gray-500">Loading…</div>;
   const RT=fd.rt;
-  const maxThr=mode==='rank'?RT.length-1:(sex==='W'?42:30);
+  const maxThr=mode==='rank'?RT.length-1:mode==='points'?FD_PTS.length-1:(sex==='W'?42:30);
   const thr=Math.min(thrRaw,maxThr);
   const tg=sex==='W'?'W':'M';
-  const races=fd.races.filter(r=>(sex==='B'||r.g===sex)&&(mode==='rank'?r.r:true));
-  const xs=r=>{if(mode==='rank')return RT;const t=FD_TT[r.g],o=[];for(let v=t.a;v<=t.b;v+=10)o.push(v);return o;};
-  const ys=r=>mode==='rank'?r.r:r.t;
-  const thrValue=mode==='rank'?RT[thr]:FD_TT[tg].a+thr*10;
-  const thrText=mode==='rank'?'top '+fdN(thrValue):'sub-'+fdT(thrValue);
+  const races=fd.races.filter(r=>(sex==='B'||r.g===sex)&&(mode==='rank'?r.r:mode==='points'?r.w:true));
+  const xs=r=>{if(mode==='rank')return RT;if(mode==='points')return FD_PTS;const t=FD_TT[r.g],o=[];for(let v=t.a;v<=t.b;v+=10)o.push(v);return o;};
+  const ys=r=>mode==='rank'?r.r:mode==='points'?r.w:r.t;
+  const thrValue=mode==='rank'?RT[thr]:mode==='points'?FD_PTS[thr]:FD_TT[tg].a+thr*10;
+  const thrText=mode==='rank'?'top '+fdN(thrValue):mode==='points'?fdN(thrValue)+'+ pts':'sub-'+fdT(thrValue);
   const rankFrom=fd.races.filter(r=>r.r).map(r=>r.s).sort()[0];
-  const chooseMode=v=>{if(v===mode)return;setMode(v);if(v==='time'&&sex==='B')setSex('M');setThr(v==='rank'?24:(sex==='W'?15:12));setPin(null);};
+  const chooseMode=v=>{if(v===mode)return;setMode(v);if(v==='time'&&sex==='B')setSex('M');setThr(v==='rank'?24:v==='points'?50:(sex==='W'?15:12));setPin(null);};
   const chooseSex=v=>{if(v===sex||(v==='B'&&mode==='time'))return;if(mode==='time'&&(v==='W')!==(sex==='W'))setThr(v==='W'?15:12);setSex(v);setPin(null);};
   // chart geometry
   const H=Math.round(Math.min(460,Math.max(300,W*0.5)));
   const m={l:44,r:24,t:14,b:46},iw=W-m.l-m.r,ih=H-m.t-m.b;
   const ymax=Math.max(10,...races.map(r=>Math.max(...ys(r))));
   const yStep=ymax<=60?10:ymax<=150?25:50,yTop=Math.ceil(ymax/yStep)*yStep;
-  const X=mode==='rank'?(scale==='log'?(v=>m.l+Math.log10(v)/Math.log10(3000)*iw):(v=>m.l+(Math.sqrt(v)-1)/(Math.sqrt(3000)-1)*iw)):(v=>m.l+(v-FD_TT[tg].a)/(FD_TT[tg].b-FD_TT[tg].a)*iw);
+  const X=mode==='points'?(v=>m.l+(1300-v)/900*iw):mode==='rank'?(scale==='log'?(v=>m.l+Math.log10(v)/Math.log10(3000)*iw):(v=>m.l+(Math.sqrt(v)-1)/(Math.sqrt(3000)-1)*iw)):(v=>m.l+(v-FD_TT[tg].a)/(FD_TT[tg].b-FD_TT[tg].a)*iw);
   const Y=v=>m.t+ih-(v/yTop)*ih;
   const yTicks=[];for(let v=0;v<=yTop;v+=yStep)yTicks.push(v);
-  const xTicks=mode==='rank'?(scale==='log'?(W<480?[1,10,100,1000]:[1,3,10,30,100,300,1000,3000]):(W<480?[1,250,1000,2000,3000]:[1,100,250,500,1000,1500,2000,2500,3000])):(()=>{const o=[];for(let v=FD_TT[tg].a;v<=FD_TT[tg].b;v+=(W<480?120:60))o.push(v);return o;})();
+  const xTicks=mode==='points'?(W<480?[1300,1100,900,700,500]:[1300,1200,1100,1000,900,800,700,600,500,400]):mode==='rank'?(scale==='log'?(W<480?[1,10,100,1000]:[1,3,10,30,100,300,1000,3000]):(W<480?[1,250,1000,2000,3000]:[1,100,250,500,1000,1500,2000,2500,3000])):(()=>{const o=[];for(let v=FD_TT[tg].a;v<=FD_TT[tg].b;v+=(W<480?120:60))o.push(v);return o;})();
   const focus=hover||pin;
   const pathOf=r=>{const xv=xs(r),yv=ys(r);let d='M'+X(xv[0])+','+Y(yv[0]);for(let i=1;i<xv.length;i++)d+='H'+X(xv[i])+'V'+Y(yv[i]);return d;};
   const ordered=[...races].sort((a,b)=>(fdKey(a)===focus)-(fdKey(b)===focus));
@@ -2274,7 +2276,7 @@ const AnalysisView=({setView})=>{
   const shown=all?ranked:ranked.slice(0,12);
   let prevC=null,pos=0;
   const segBtn=(on,dis)=>'px-3 py-1.5 text-sm rounded-md transition-colors '+(on?'bg-white text-gray-900 font-semibold shadow-sm':'text-gray-600 hover:text-gray-900')+(dis?' opacity-40 cursor-not-allowed':'');
-  const presets=FD_PRESETS[mode==='rank'?'rank':(sex==='W'?'timeW':'timeM')];
+  const presets=FD_PRESETS[mode==='time'?(sex==='W'?'timeW':'timeM'):mode];
   return<div className="max-w-5xl mx-auto px-4 py-8">
     <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Analysis · Division 1 · 2016/17 to now</div>
     <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-1 mb-3" style={{fontFamily:"'Fraunces',serif",textWrap:'balance'}}>How deep was the field?</h1>
@@ -2282,27 +2284,27 @@ const AnalysisView=({setView})=>{
     <div className="flex flex-wrap items-end gap-x-6 gap-y-4 mt-6 mb-4">
       <div><div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Measure</div>
         <div className="inline-flex bg-gray-100 rounded-lg p-1 gap-0.5" role="group" aria-label="Measure">
-          {[['rank','UK 5K rank'],['time','5K form time']].map(([v,t])=><button key={v} type="button" aria-pressed={mode===v} className={segBtn(mode===v)} onClick={()=>chooseMode(v)}>{t}</button>)}
+          {[['rank','UK 5K rank'],['points','WA points'],['time','5K form time']].filter(([v])=>v!=='points'||fd.races.some(r=>r.w)).map(([v,t])=><button key={v} type="button" aria-pressed={mode===v} className={segBtn(mode===v)} onClick={()=>chooseMode(v)}>{t}</button>)}
         </div></div>
       <div><div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Field</div>
         <div className="inline-flex bg-gray-100 rounded-lg p-1 gap-0.5" role="group" aria-label="Field">
           {[['M','Men'],['W','Women'],['B','Both']].map(([v,t])=><button key={v} type="button" aria-pressed={sex===v} disabled={v==='B'&&mode==='time'} title={v==='B'&&mode==='time'?'Men and women can only be compared on rank':undefined} className={segBtn(sex===v,v==='B'&&mode==='time')} onClick={()=>chooseSex(v)}>{t}</button>)}
         </div></div>
-      <div className="flex-1 min-w-[260px]"><label htmlFor="fd-thr" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">{mode==='rank'?'National rank cut-off':'5K form cut-off'}</label>
+      <div className="flex-1 min-w-[260px]"><label htmlFor="fd-thr" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">{mode==='rank'?'National rank cut-off':mode==='points'?'Points cut-off':'5K form cut-off'}</label>
         <div className="flex items-center gap-3"><input id="fd-thr" type="range" min="0" max={maxThr} step="1" value={thr} onChange={e=>setThr(+e.target.value)} className="flex-1 min-w-0 accent-gray-600"/><output htmlFor="fd-thr" className="tabular-nums text-sm font-medium text-gray-900 w-24 text-right">{thrText}</output></div>
         <div className="flex flex-wrap gap-1.5 mt-2">{presets.map(([t,i])=><button key={t} type="button" onClick={()=>setThr(i)} className={'text-xs px-2.5 py-1 rounded-full border '+(thr===i?'border-gray-500 text-gray-900 bg-gray-50':'border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-400')}>{t}</button>)}</div></div>
     </div>
     <div className="border border-gray-200 rounded-lg p-3 md:p-4">
       <div className="flex flex-wrap justify-between items-baseline gap-2 mb-2">
-        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">{mode==='rank'?'Finishers in the UK 5K rankings':'Finishers by 5K form'}</h2>
+        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">{mode==='rank'?'Finishers in the UK 5K rankings':mode==='points'?'Finishers by World Athletics points':'Finishers by 5K form'}</h2>
         <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600">{mode==='rank'&&<span className="inline-flex items-center gap-1.5">Scale<span className="inline-flex bg-gray-100 rounded-md p-0.5" role="group" aria-label="Rank scale">{[['sqrt','Square root'],['log','Log']].map(([v,t])=><button key={v} type="button" aria-pressed={scale===v} onClick={()=>setScale(v)} className={'px-2 py-0.5 rounded '+(scale===v?'bg-white text-gray-900 font-semibold shadow-sm':'text-gray-600 hover:text-gray-900')}>{t}</button>)}</span></span>}{(sex==='B'?['M','W']:[sex]).map(g=><span key={g} className="flex items-center gap-1.5"><span className="inline-block w-4 h-0.5 rounded" style={{background:FD_COL[g]}}/>{g==='M'?'Men':'Women'}</span>)}</div>
       </div>
       <div ref={boxRef} className="relative">
         <svg viewBox={`0 0 ${W} ${H}`} className="block w-full h-auto" role="img" aria-label={(mode==='rank'?'Finishers at or above each UK 5K rank':'Finishers at or under each 5K form time')+' for each race'}>
           {yTicks.map(v=><g key={'y'+v}><line x1={m.l} x2={m.l+iw} y1={Y(v)} y2={Y(v)} stroke="#e8ebe7" strokeWidth="1"/><text x={m.l-8} y={Y(v)+4} textAnchor="end" fontSize="11" fill="#9ba099" className="tabular-nums">{v}</text></g>)}
-          {xTicks.map(v=><g key={'x'+v}><line x1={X(v)} x2={X(v)} y1={m.t+ih} y2={m.t+ih+5} stroke="#9ba099"/><text x={X(v)} y={m.t+ih+18} textAnchor="middle" fontSize="11" fill="#9ba099" className="tabular-nums">{mode==='rank'?fdN(v):fdT(v)}</text></g>)}
+          {xTicks.map(v=><g key={'x'+v}><line x1={X(v)} x2={X(v)} y1={m.t+ih} y2={m.t+ih+5} stroke="#9ba099"/><text x={X(v)} y={m.t+ih+18} textAnchor="middle" fontSize="11" fill="#9ba099" className="tabular-nums">{mode==='time'?fdT(v):fdN(v)}</text></g>)}
           <line x1={m.l} x2={m.l+iw} y1={m.t+ih} y2={m.t+ih} stroke="#9ba099"/>
-          <text x={m.l+iw/2} y={H-6} textAnchor="middle" fontSize="12" fill="#686e66">{mode==='rank'?`UK 5K rank (${scale==='log'?'log':'square-root'} scale), better runners to the left`:'5K form, faster to the left'}</text>
+          <text x={m.l+iw/2} y={H-6} textAnchor="middle" fontSize="12" fill="#686e66">{mode==='rank'?`UK 5K rank (${scale==='log'?'log':'square-root'} scale), better runners to the left`:mode==='points'?'World Athletics points, better runners to the left':'5K form, faster to the left'}</text>
           <text x={12} y={m.t+ih/2} textAnchor="middle" fontSize="12" fill="#686e66" transform={`rotate(-90 12 ${m.t+ih/2})`}>Finishers at or above</text>
           <line x1={tx} x2={tx} y1={m.t} y2={m.t+ih} stroke="#4c514a" strokeWidth="1" strokeDasharray="4 4"/>
           <text x={tx+6>m.l+iw-90?tx-6:tx+6} y={m.t+12} textAnchor={tx+6>m.l+iw-90?'end':'start'} fontSize="12" fill="#4c514a">{thrText}</text>
@@ -2313,14 +2315,14 @@ const AnalysisView=({setView})=>{
         {tip&&<div className="absolute pointer-events-none bg-white border border-gray-200 rounded-lg shadow-lg px-3 py-2 text-xs z-10" style={{left:Math.max(0,tip.px+14+250>W?tip.px-264:tip.px+14),top:Math.max(0,tip.py-20),maxWidth:250}}>
           <div className="font-semibold text-gray-900 text-sm">{fdLabel(tip.r)}</div>
           <div className="text-gray-500">{tip.r.g==='M'?'Men':'Women'} · {fdN(tip.r.n)} finishers</div>
-          <div className="text-gray-700 mt-0.5"><span className="tabular-nums font-semibold">{ys(tip.r)[tip.i]}</span> {mode==='rank'?'in the UK top '+fdN(xs(tip.r)[tip.i]):'with 5K form of '+fdT(xs(tip.r)[tip.i])+' or faster'}</div>
+          <div className="text-gray-700 mt-0.5"><span className="tabular-nums font-semibold">{ys(tip.r)[tip.i]}</span> {mode==='rank'?'in the UK top '+fdN(xs(tip.r)[tip.i]):mode==='points'?'with '+fdN(xs(tip.r)[tip.i])+' or more points':'with 5K form of '+fdT(xs(tip.r)[tip.i])+' or faster'}</div>
         </div>}
       </div>
       <p className="text-xs text-gray-500 mt-2">Hover a line to see the race, or tap a race in the list below to pick it out.</p>
     </div>
     <div className="flex flex-wrap justify-between items-baseline gap-2 mt-8 mb-3">
-      <h2 className="text-lg font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>Races ranked by finishers {mode==='rank'?'in the UK top '+fdN(thrValue):'under '+fdT(thrValue)}</h2>
-      <p className="text-sm text-gray-500">{mode==='rank'?`Seasons with ranking data: ${rankFrom} onwards`:'All seasons since 2016/17'}</p>
+      <h2 className="text-lg font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>Races ranked by finishers {mode==='rank'?'in the UK top '+fdN(thrValue):mode==='points'?'on '+fdN(thrValue)+' points or more':'under '+fdT(thrValue)}</h2>
+      <p className="text-sm text-gray-500">{mode==='rank'&&rankFrom>'2016/17'?`Seasons with ranking data: ${rankFrom} onwards`:'All seasons since 2016/17'}</p>
     </div>
     <ol className="grid gap-1">
       {shown.map((x,i)=>{if(x.c!==prevC){pos=i+1;prevC=x.c;}const k=fdKey(x.r);const on=k===focus;
@@ -2338,6 +2340,7 @@ const AnalysisView=({setView})=>{
       <ul className="list-disc pl-5 space-y-1.5">
         <li><b className="text-gray-900 font-semibold">UK 5K rank</b> is each finisher's best position in Power of 10's UK road 5K rankings for the two calendar years leading into the race (2025 and 2026 for this season). Ranks are read to 3,000; anyone ranked lower, or not ranked, isn't counted. Because rank compares runners with everyone in the country that year, faster shoes and busier racing calendars don't inflate later seasons, and men and women can be compared.</li>
         {rankFrom>'2016/17'&&<li><b className="text-gray-900 font-semibold">Rank coverage so far:</b> {rankFrom} onwards. Earlier seasons are being added.</li>}
+        <li><b className="text-gray-900 font-semibold">WA points</b> uses World Athletics' scoring tables (2025 edition), which give any time at any distance a points score, so a 31:22 10K and a 14:49 5K are both worth about 842 points for a man. Each finisher's score is their best over 3,000m, 5,000m and 10,000m on the track and 5K, 10K, 10 miles and the half marathon on the road, in the two calendar years leading into the race (or the year before that if they have none). The tables are built so that men's and women's points mean the same standard: 800 points is about 15:03 for a man over 5K and 18:25 for a woman.</li>
         <li><b className="text-gray-900 font-semibold">5K form time</b> is the same measure as the <a href="/race/2627-1/form-guide" className="text-[#1b649e] underline decoration-gray-300 underline-offset-2">form guides</a>: each finisher's best 5K or 5,000m over the previous two years, with a time estimated from their road handicap where they have no recent 5K. It covers every season since 2016/17, but later seasons look deeper partly because everyone has got faster.</li>
         <li>Races marked * weren't on Power of 10 (Beckenham January 2023, Wimbledon February 2026 and Wimbledon October 2026), so finishers were matched by name and a few will be missing. October 2026 handicaps aren't used, as Power of 10 recalculated them all in June 2026.</li>
         <li>Women's fields are Division 1 only, separated from Power of 10's combined Division 1/2 results by name and time.</li>
