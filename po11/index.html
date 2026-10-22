@@ -1245,7 +1245,7 @@ function renderHeader(a){
       ${P?`<div class="portrait"><img src="${P.src}" alt="Portrait of ${esc(a.first)} ${esc(a.last)}" width="184" height="258"></div>`:''}
       <div class="hd">
         <h1>${esc(a.first)} ${esc(a.last)}</h1>
-        <div class="club"><span class="sr">Club: </span>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>${vestSvg(a.secondClaim,16)} ${esc(a.secondClaim)} <abbr class="c2" title="second claim">(2C)</abbr></span>`:''}</div>
+        <div class="club"><span class="sr">Club: </span>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>${vestSvg(a.secondClaim,16)} ${esc(a.secondClaim)} <abbr class="c2" title="second claim">2C</abbr></span>`:''}</div>
         ${nationOf(a)?`<div class="club nation"><span class="sr">Home nation: </span>${flagSvg(nationOf(a),16)} ${esc(nationOf(a))}</div>`:''}
         ${sub.length?`<div class="sub">${sub.map(x=>`<span class="si">${x}</span>`).join('<span class="sep"> · </span>')}</div>`:''}
       </div>

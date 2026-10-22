@@ -1000,7 +1000,7 @@ function renderHeader(a){
       <div class="namerow">
       <h1><span class="fn">${esc(a.first)}</span> <span class="ln">${esc(a.last)}</span></h1>
       <dl class="meta">
-        <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>${vestSvg(a.secondClaim,16)} ${esc(a.secondClaim)} <abbr class="c2" title="second claim">(2C)</abbr></span>`:''}</dd></div>
+        <div><dt class="sr">Club</dt><dd>${vestSvg(a.club,16)} ${esc(a.club)}${a.secondClaim?` <span class="claim2"><span class="dot">· </span>${vestSvg(a.secondClaim,16)} ${esc(a.secondClaim)} <abbr class="c2" title="second claim">2C</abbr></span>`:''}</dd></div>
         ${nationOf(a)?`<div><dt class="sr">Home nation</dt><dd>${flagSvg(nationOf(a),16)} ${esc(nationOf(a))}</dd></div>`:''}
       </dl>
       </div>
