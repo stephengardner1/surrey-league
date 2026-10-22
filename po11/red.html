@@ -981,7 +981,7 @@ function flagSvg(nation,size){
     'Ireland':`<rect x="${x}" y="${y}" width="${w/3}" height="${h}" fill="#169b62"/><rect x="${x+w/3}" y="${y}" width="${w/3}" height="${h}" fill="#fff"/><rect x="${x+2*w/3}" y="${y}" width="${w/3}" height="${h}" fill="#ff883e"/>`,
   };
   const inner=F[nation]||`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#c9ced8"/>`;
-  return `<svg class="vest flag" width="${size||18}" height="${size||18}" viewBox="0 0 20 20" aria-hidden="true"><defs><clipPath id="${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath></defs><g clip-path="url(#${id})">${inner}</g><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
+  return `<svg class="vest natflag" width="${size||18}" height="${size||18}" viewBox="0 0 20 20" aria-hidden="true"><defs><clipPath id="${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath></defs><g clip-path="url(#${id})">${inner}</g><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="#374151" stroke-width="0.5"/></svg>`;
 }
 function renderHeader(a){
   const ps=a.sorted.filter(p=>!p.dup);
