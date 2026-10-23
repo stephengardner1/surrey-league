@@ -548,7 +548,7 @@ const ClubVest=({club,size=20})=>{
   const id=`v-${club}-${Math.random().toString(36).substr(2,5)}`;
   const p="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
   const r=()=>{switch(club){
-    case'KEN':return<><path d={p} fill="#2a4d7a"/><path d="M11 5.5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 Z" fill="#dc2626"/></>;
+    case'KEN':return<><path d={p} fill="#1c4b88"/><path d="M11 5.5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 Z" fill="#dc2626"/></>;
     case'H/W':return<><path d={p} fill="#f4c430"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><polygon points="0,0 6,0 20,20 14,20" fill="#c41e3a"/></g></>;
     case'HER':return<><path d={p} fill="#1e3a8a"/><clipPath id={id}><path d={p}/></clipPath><g clipPath={`url(#${id})`}><rect x="0" y="8" width="20" height="3" fill="#dc2626"/></g></>;
     case'THH':return<><path d={p} fill="#fff"/><line x1="6" y1="5" x2="14" y2="15" stroke="#1a1a1a" strokeWidth="2"/><line x1="14" y1="5" x2="6" y2="15" stroke="#1a1a1a" strokeWidth="2"/></>;
@@ -904,7 +904,7 @@ const getClubVestSvg=(club)=>{
   const p="M3 0 L6 0 Q7 4 10 5 Q13 4 14 0 L17 0 L17 20 L3 20 Z";
   const id=`fav-${club}`;
   const vestSvg={
-    'KEN':`<path d="${p}" fill="#2a4d7a"/><path d="M11 5.5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 Z" fill="#dc2626"/>`,
+    'KEN':`<path d="${p}" fill="#1c4b88"/><path d="M11 5.5 L15 5.5 L15 7.5 C15 8.5 14 9 13 9.5 C12 9 11 8.5 11 7.5 Z" fill="#dc2626"/>`,
     'H/W':`<path d="${p}" fill="#f4c430"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><polygon points="0,0 6,0 20,20 14,20" fill="#c41e3a"/></g>`,
     'THH':`<path d="${p}" fill="#fff"/><line x1="6" y1="5" x2="14" y2="15" stroke="#1a1a1a" stroke-width="2"/><line x1="14" y1="5" x2="6" y2="15" stroke="#1a1a1a" stroke-width="2"/>`,
     'BEL':`<path d="${p}" fill="#7A001D"/><defs><clipPath id="${id}"><path d="${p}"/></clipPath></defs><g clip-path="url(#${id})"><rect x="0" y="7" width="20" height="4" fill="#CCAD6A"/></g>`,
@@ -2441,7 +2441,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
     {code:'HHH',color:'#dc2626'},{code:'BEL',color:'#7A001D'},{code:'SLH',color:'#be185d'},
     {code:'H/W',color:'#ca8a04'},{code:'RAN',color:'#0369a1'},{code:'THH',color:'#3c403a'},
     {code:'AFD',color:'#15803d'},{code:'CRO',color:'#525252'},{code:'WAL',color:'#0ea5e9'},
-    {code:'G&G',color:'#16a34a'},{code:'BOX',color:'#7c3aed'},{code:'KEN',color:'#2a4d7a'},
+    {code:'G&G',color:'#16a34a'},{code:'BOX',color:'#7c3aed'},{code:'KEN',color:'#1c4b88'},
     {code:'REI',color:'#e11d48'},{code:'E&E',color:'#b91c1c'},{code:'MIT',color:'#6366f1'},
     {code:'DUL',color:'#a855f7'},{code:'BOH',color:'#f97316'},{code:'C/C',color:'#0891b2'},
     {code:'WOK',color:'#ea580c'},{code:'STR',color:'#84cc16'},{code:'MPA',color:'#1e40af'},
@@ -2453,7 +2453,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
   
   // Shorter list for women's/recent charts
   const clubs=[
-    {code:'BEL',color:'#7A001D'},{code:'THH',color:'#3c403a'},{code:'KEN',color:'#2a4d7a'},
+    {code:'BEL',color:'#7A001D'},{code:'THH',color:'#3c403a'},{code:'KEN',color:'#1c4b88'},
     {code:'HHH',color:'#dc2626'},{code:'H/W',color:'#ca8a04'},{code:'G&G',color:'#16a34a'},
     {code:'SLH',color:'#be185d'},{code:'HOL',color:'#1e40af'},{code:'DUL',color:'#a855f7'},{code:'C/C',color:'#0891b2'},
     {code:'RAN',color:'#0369a1'},{code:'CRO',color:'#525252'},{code:'DMV',color:'#C42F6A'},
@@ -4474,7 +4474,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
         :['07/08','08/09','09/10','10/11','11/12','12/13','13/14','14/15','15/16','16/17','17/18','18/19','19/20','21/22','22/23','23/24','24/25','25/26'];
       const primaryClubs=division==='women'?['BEL','THH','KEN','HHH']:['BEL','KEN','THH','H/W'];
       const clubs=[
-        {code:'BEL',color:'#7A001D'},{code:'THH',color:'#3c403a'},{code:'KEN',color:'#2a4d7a'},
+        {code:'BEL',color:'#7A001D'},{code:'THH',color:'#3c403a'},{code:'KEN',color:'#1c4b88'},
         {code:'HHH',color:'#dc2626'},{code:'H/W',color:'#ca8a04'},{code:'G&G',color:'#16a34a'},
         {code:'SLH',color:'#be185d'},{code:'HOL',color:'#1e40af'},{code:'DUL',color:'#7c3aed'},{code:'C/C',color:'#0891b2'},
         {code:'RAN',color:'#0369a1'},{code:'CRO',color:'#525252'},{code:'DMV',color:'#C42F6A'},
