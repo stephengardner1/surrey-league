@@ -36989,5 +36989,16 @@
   "seasons": null,
   "evidence": "RPR is another code for Reigate Priory; these 6 Andrew Walker results interleave with Andy Walker's, never in the same race.",
   "approved": "Steve, 21 Oct 2026: join initial / surname-only / full-name forms at the same club"
+ },
+ {
+  "sex": "men",
+  "club": "BEL",
+  "from": [
+   "THomas Gardner"
+  ],
+  "to": "Thomas Gardner",
+  "seasons": null,
+  "evidence": "Capitalisation typo in surreyleague.org results (2023/24 m2, 2024/25 m4, 2025/26 m1, m2, m4)",
+  "approved": "Steve, 23 Oct 2026"
  }
 ]
