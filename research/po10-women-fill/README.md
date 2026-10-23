@@ -13,7 +13,7 @@ as one of that season's Division 1 clubs (Steve's rule). Runners with no club on
 - Positions are exact where the added runners exactly fill the gap between two known archive positions;
   otherwise they carry `posEst: true` and show as ≈ on the site. Added entries carry `src: "po10"`.
 - Times for 2010/11 M1 are left blank: Power of 10 rounds them up to the whole minute.
-- Where a stretch had more runners than places, the weakest-evidence runner was left out (see merge.py output).
+- Where a stretch had more runners than places, the weakest-evidence runner was left out (see merge.py output). Fiona Clark (REI, 2013/14 M3) was added back by hand at ≈7 on Steve's say-so: the Belgrave report has S Amend 5th and M Wilkins 7th, with both Claire Grima (H/W) and Fiona Clark crossing the line between them.
 
 Files: `r*.txt` are the Power of 10 rows per race (race index|Div 1 position|overall position|name|club|time|basis|archive position),
 `fill.txt` the final selection with archive names, `merge.py` the script that wrote them into `files/data-women.json`.
