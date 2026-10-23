@@ -60,7 +60,7 @@ for g, div in (('M', 'men'), ('W', 'women')):
             'st': round(sc[i]), 'stP': place(sc, i), 'dp': round(dc[i]), 'dpP': place(dc, i),
             'a10': round(avg_top(r['a'], 10)), 'k100': kth(r['a'], 100),
             'uk100': r['r'][RT.index(100)], 'uk1000': r['r'][RT.index(1000)],
-            'nat': nat[i], 'p': 1 if r.get('p') else 0,
+            'nat': nat[i], 'p': r.get('p', 0),
             'from': min(x['s'] for x in R),
         }
 json.dump(out, open(os.path.join(ROOT, 'files/field-scores.json'), 'w'), separators=(',', ':'))
