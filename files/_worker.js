@@ -173,9 +173,85 @@ async function racePage(request, env, url, women, code, match, guide) {
   }
 }
 
+// ---- embed feed: /embed/race/<season>-<match>.json?club=BEL (and /embed/women/race/...) ----
+// Plain JSON for the results panels on club websites (first user: belgraveharriers.com news articles).
+// One club's finishers in one race, that race's A and B team results, and the league tables after it.
+// Open to any website (CORS *). Club pages copy the panel as text and only use this to refresh it.
+function isoDate(d) {  // "11th October 2025" / "2025-10-11" -> "2025-10-11"; null if no full date
+  const l = longDate(d);
+  if (!l) return null;
+  const [day, mon, yr] = l.split(' ');
+  return `${yr}-${String(MONTHS.indexOf(mon) + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+const num = v => (typeof v === 'number' && isFinite(v) ? v : null);
+function ranked(rows, key) {  // sort low to high (stable), equal scores share a position
+  const out = rows.filter(r => num(r[key]) != null).sort((a, b) => a[key] - b[key]);
+  out.forEach((r, i) => { r.pos = i && out[i - 1][key] === r[key] ? out[i - 1].pos : i + 1; });
+  return out;
+}
+
+async function embedFeed(env, url, women, code, match, club) {
+  const origin = url.origin;
+  const data = await json(env, origin, women ? '/data-women.json' : '/data.json');
+  const season = seasonOf(code);
+  const race = (data.races || []).find(r => r.season === season && Number(r.match) === match);
+  if (!race) return null;
+  let clubs = {};
+  try { clubs = (await json(env, origin, '/goat-ranks.json')).clubs || {}; } catch (e) {}
+  const nameOf = c => clubs[c] || c;
+  const sd = (data.seasonsData || {})[season] || {};
+  const mk = 'm' + match;
+
+  // this club's finishers, in finishing order, with their team and scoring points
+  const runners = [];
+  for (const x of race.results || []) {
+    if ((x.c || x.club) !== club) continue;
+    const pos = num(x.p ?? x.pos);
+    const a = num(x.s ?? x.pts), b = num(x.b_s ?? x.b ?? x.b_pts);
+    const ns = !!(x.x ?? x.ns ?? x.nonScorer);
+    const team = ns ? null : b != null ? 'B' : a != null ? 'A' : null;
+    runners.push({ pos, name: String(x.n || x.name || ''), time: x.t || x.time ? String(x.t || x.time) : null,
+      team, pts: team === 'A' ? a : team === 'B' ? b : null, ns, sc: !!(x.sc || x.secondClaim) });
+  }
+  runners.sort((p, q) => (p.pos ?? 1e9) - (q.pos ?? 1e9));
+
+  // team results on the day: the race's own scores, else the season table's column for this match
+  const teamsA = ranked((race.teamScores && race.teamScores.length ? race.teamScores.map(t => ({ club: t.club, score: num(t.score) }))
+    : (sd.standings || []).map(t => ({ club: t.club, score: num(t[mk]) }))), 'score');
+  const teamsB = ranked((sd.bStandings || []).map(t => ({ club: t.club, score: num(t[mk]) })), 'score');
+
+  // league tables after this match: running totals of each club's match scores so far
+  const upTo = rows => ranked(rows.filter(t => num(t[mk]) != null).map(t => {
+    let total = 0;
+    for (let i = 1; i <= match; i++) total += num(t['m' + i]) || 0;
+    return { club: t.club, total: Math.round(total * 10) / 10 };
+  }), 'total');
+  const tableA = upTo(sd.standings || []), tableB = upTo(sd.bStandings || []);
+
+  const named = rows => rows.map(r => ({ pos: r.pos, club: r.club, name: nameOf(r.club), ...(r.score != null ? { score: r.score } : { total: r.total }) }));
+  return {
+    v: 1, women, code: `${code}-${match}`, season, match,
+    venue: race.venue || null, date: isoDate(race.date), finishers: num(race.finishers),
+    club, clubName: nameOf(club),
+    runners, teamsA: named(teamsA), teamsB: named(teamsB), tableA: named(tableA), tableB: named(tableB),
+  };
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const em = url.pathname.match(/^\/embed\/(women\/)?race\/(\d{4})-(\d+)\.json$/i);
+    if (em) {
+      const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, OPTIONS', 'X-Content-Type-Options': 'nosniff' };
+      if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
+      const club = (url.searchParams.get('club') || '').toUpperCase();
+      let body = null;
+      try { if (/^[A-Z0-9&\/]{2,5}$/.test(club)) body = await embedFeed(env, url, !!em[1], em[2], parseInt(em[3], 10), club); } catch (e) {}
+      return new Response(JSON.stringify(body || { error: 'not found' }), {
+        status: body ? 200 : 404,
+        headers: { ...cors, 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': body ? 'public, max-age=300' : 'no-store' },
+      });
+    }
     // poster download counter (see countSave in index.html): the address itself is what gets counted, so reply with nothing
     if (url.pathname.startsWith('/count/')) return new Response(null, { status: 204, headers: { 'Cache-Control': 'no-store' } });
     const m = url.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);
