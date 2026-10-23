@@ -2259,8 +2259,9 @@ const FD_PRESETS={rank:[['Stacked: top 100',14],['Top 500',21],['Deep: top 1,000
 const AnalysisView=({setView,init})=>{
   const[fd,setFd]=useState(null),[err,setErr]=useState(null);
   const[mode,setMode]=useState(init?'points':'rank'),[sex,setSex]=useState(init?.sex||'M'),[thrRaw,setThr]=useState(init?50:24);
-  const[pin,setPin]=useState(init?.pin||null),[hover,setHover]=useState(null),[tip,setTip]=useState(null),[all,setAll]=useState(!!init),[scale,setScale]=useState('sqrt'),[era,setEra]=useState('adj');
+  const[pin,setPin]=useState(init?.pin||null),[hover,setHover]=useState(null),[tip,setTip]=useState(null),[all,setAll]=useState(!!init),[scale,setScale]=useState('sqrt'),[era,setEra]=useState('adj'),[order,setOrder]=useState('cut'),[fq,setFq]=useState(FQ_CACHE);
   const boxRef=useRef(null);const[W,setW]=useState(900);
+  useEffect(()=>{if(FQ_CACHE)return;fetch('/field-scores.json').then(r=>r.ok?r.json():null).then(j=>{if(j){FQ_CACHE=j;setFq(j);}}).catch(()=>{});},[]);
   useEffect(()=>{fetch('/field-depth.json').then(r=>r.ok?r.json():Promise.reject(r.status)).then(setFd).catch(e=>setErr(String(e)));},[]);
   useEffect(()=>{const el=boxRef.current;if(!el)return;const upd=()=>setW(Math.max(300,el.clientWidth));upd();const ro=new ResizeObserver(upd);ro.observe(el);return()=>ro.disconnect();},[fd]);
   if(err)return<div className="max-w-5xl mx-auto px-4 py-8 text-sm text-gray-500">The field depth data didn't load. Try refreshing the page.</div>;
@@ -2301,7 +2302,9 @@ const AnalysisView=({setView,init})=>{
   const onLeave=()=>{setHover(null);setTip(null);};
   const onClick=e=>{const p=pick(e);setPin(p&&fdKey(p.r)!==pin?fdKey(p.r):null);};
   // ranked list
-  const ranked=races.map(r=>({r,c:ys(r)[thr]})).sort((a,b)=>b.c-a.c||b.r.d.localeCompare(a.r.d));
+  const fqBy={};if(fq)for(const q of Object.values(fq.races))fqBy[q.k]=q;
+  const byScore=order!=='cut'&&fq;
+  const ranked=(byScore?fd.races.filter(r=>(sex==='B'||r.g===sex)&&fqBy[fdKey(r)]).map(r=>({r,c:fqBy[fdKey(r)][order]})):races.map(r=>({r,c:ys(r)[thr]}))).sort((a,b)=>b.c-a.c||b.r.d.localeCompare(a.r.d));
   const barMax=Math.max(1,...ranked.map(x=>x.c));
   const shown=all?ranked:ranked.slice(0,12);
   let prevC=null,pos=0;
@@ -2352,10 +2355,12 @@ const AnalysisView=({setView,init})=>{
       <p className="text-xs text-gray-500 mt-2">Hover or tap a line to see which race it is. Click a race in the list below to open its results.</p>
     </div>
     <div className="flex flex-wrap justify-between items-baseline gap-2 mt-8 mb-3">
-      <h2 className="text-lg font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>Races ranked by finishers {mode==='rank'?'in the UK top '+fdN(thrValue):mode==='points'?'on '+fdN(thrValue)+' points or more'+(adj?', era-adjusted':''):'under '+fdT(thrValue)}</h2>
-      <p className="text-sm text-gray-500">{mode==='rank'&&rankFrom>firstSeason?`Seasons with ranking data: ${rankFrom} onwards`:mode==='time'&&timeFrom>firstSeason?`Seasons with 5K form data: ${timeFrom} onwards`:'All seasons since '+firstSeason}</p>
+      <h2 className="text-lg font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{byScore?(order==='st'?'Races ranked by how stacked the front was':'Races ranked by how deep the field went'):<>Races ranked by finishers {mode==='rank'?'in the UK top '+fdN(thrValue):mode==='points'?'on '+fdN(thrValue)+' points or more'+(adj?', era-adjusted':''):'under '+fdT(thrValue)}</>}</h2>
+      <p className="text-sm text-gray-500">{byScore?'All seasons since '+firstSeason:mode==='rank'&&rankFrom>firstSeason?`Seasons with ranking data: ${rankFrom} onwards`:mode==='time'&&timeFrom>firstSeason?`Seasons with 5K form data: ${timeFrom} onwards`:'All seasons since '+firstSeason}</p>
     </div>
-    <div className="grid items-end gap-2.5 px-2 pb-1 text-xs text-gray-500" style={{gridTemplateColumns:W<480?'1.4em minmax(0,9em) 1fr 2.2em 2.6em':'1.8em minmax(0,12.5em) 1fr 3em 5.5em'}}><span/><span>Race</span><span/><span className="text-right">{mode==='rank'?'UK':mode==='points'?'Pts':'5K'}</span><span className="text-right" title="Finishers in the top 100 at the English National cross country">{W<480?'Nat.':'National top 100'}</span></div>
+    {fq&&<div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3"><span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Order by</span><div className="inline-flex bg-gray-100 rounded-lg p-1 gap-0.5" role="group" aria-label="Order races by">{[['cut','Cut-off'],['st','Stacked'],['dp','Deep']].map(([v,t])=><button key={v} type="button" aria-pressed={order===v} className={segBtn(order===v)} onClick={()=>setOrder(v)}>{t}</button>)}</div>
+      {byScore&&<p className="text-xs text-gray-500 basis-full sm:basis-auto sm:flex-1 max-w-xl">{order==='st'?'Quality at the front: the best ten runners’ points, plus finishers in the UK 5K top 100 and the National top 100.':'Quality through the field: the best 100 runners’ points, plus finishers in the UK 5K top 1,000.'} Scored out of 100 against every {sex==='W'?'women’s':sex==='M'?'men’s':'men’s or women’s'} race; the same scores appear on each race’s results page.</p>}</div>}
+    <div className="grid items-end gap-2.5 px-2 pb-1 text-xs text-gray-500" style={{gridTemplateColumns:W<480?'1.4em minmax(0,9em) 1fr 2.2em 2.6em':'1.8em minmax(0,12.5em) 1fr 3em 5.5em'}}><span/><span>Race</span><span/><span className="text-right">{byScore?'Score':mode==='rank'?'UK':mode==='points'?'Pts':'5K'}</span><span className="text-right" title="Finishers in the top 100 at the English National cross country">{W<480?'Nat.':'National top 100'}</span></div>
     <ol className="grid gap-1">
       {shown.map((x,i)=>{if(x.c!==prevC){pos=i+1;prevC=x.c;}const k=fdKey(x.r);const on=k===focus;
         const href=(x.r.g==='W'?'/women':'')+'/race/'+seasonToCompact(x.r.s)+'-'+x.r.m;
