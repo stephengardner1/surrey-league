@@ -2283,10 +2283,11 @@ const AnalysisView=({setView,init})=>{
   const m={l:44,r:24,t:14,b:46},iw=W-m.l-m.r,ih=H-m.t-m.b;
   const ymax=Math.max(10,...races.map(r=>Math.max(...ys(r))));
   const yStep=ymax<=60?10:ymax<=150?25:50,yTop=Math.ceil(ymax/yStep)*yStep;
-  const X=mode==='points'?(v=>m.l+(1300-v)/900*iw):mode==='rank'?(scale==='log'?(v=>m.l+Math.log10(v)/Math.log10(3000)*iw):(v=>m.l+(Math.sqrt(v)-1)/(Math.sqrt(3000)-1)*iw)):(v=>m.l+(v-FD_TT[tg].a)/(FD_TT[tg].b-FD_TT[tg].a)*iw);
+  const ptTop=mode==='points'?Math.min(1300,Math.ceil(Math.max(900,...races.flatMap(r=>FD_PTS.filter((v,i)=>ys(r)[i]>0)))/50)*50+50):1300;
+  const X=mode==='points'?(v=>m.l+(ptTop-Math.min(v,ptTop))/(ptTop-400)*iw):mode==='rank'?(scale==='log'?(v=>m.l+Math.log10(v)/Math.log10(3000)*iw):(v=>m.l+(Math.sqrt(v)-1)/(Math.sqrt(3000)-1)*iw)):(v=>m.l+(v-FD_TT[tg].a)/(FD_TT[tg].b-FD_TT[tg].a)*iw);
   const Y=v=>m.t+ih-(v/yTop)*ih;
   const yTicks=[];for(let v=0;v<=yTop;v+=yStep)yTicks.push(v);
-  const xTicks=mode==='points'?(W<480?[1300,1100,900,700,500]:[1300,1200,1100,1000,900,800,700,600,500,400]):mode==='rank'?(scale==='log'?(W<480?[1,10,100,1000]:[1,3,10,30,100,300,1000,3000]):(W<480?[1,250,1000,2000,3000]:[1,100,250,500,1000,1500,2000,2500,3000])):(()=>{const o=[];for(let v=FD_TT[tg].a;v<=FD_TT[tg].b;v+=(W<480?120:60))o.push(v);return o;})();
+  const xTicks=mode==='points'?(W<480?[1300,1100,900,700,500]:[1300,1200,1100,1000,900,800,700,600,500,400]).filter(v=>v<=ptTop):mode==='rank'?(scale==='log'?(W<480?[1,10,100,1000]:[1,3,10,30,100,300,1000,3000]):(W<480?[1,250,1000,2000,3000]:[1,100,250,500,1000,1500,2000,2500,3000])):(()=>{const o=[];for(let v=FD_TT[tg].a;v<=FD_TT[tg].b;v+=(W<480?120:60))o.push(v);return o;})();
   const focus=hover||pin;
   const pathOf=r=>{const xv=xs(r),yv=ys(r);let d='M'+X(xv[0])+','+Y(yv[0]);for(let i=1;i<xv.length;i++)d+='H'+X(xv[i])+'V'+Y(yv[i]);return d;};
   const ordered=[...races].sort((a,b)=>(fdKey(a)===focus)-(fdKey(b)===focus));
@@ -2333,7 +2334,7 @@ const AnalysisView=({setView,init})=>{
           {yTicks.map(v=><g key={'y'+v}><line x1={m.l} x2={m.l+iw} y1={Y(v)} y2={Y(v)} stroke="#e8ebe7" strokeWidth="1"/><text x={m.l-8} y={Y(v)+4} textAnchor="end" fontSize="11" fill="#9ba099" className="tabular-nums">{v}</text></g>)}
           {xTicks.map(v=><g key={'x'+v}><line x1={X(v)} x2={X(v)} y1={m.t+ih} y2={m.t+ih+5} stroke="#9ba099"/><text x={X(v)} y={m.t+ih+18} textAnchor="middle" fontSize="11" fill="#9ba099" className="tabular-nums">{mode==='time'?fdT(v):fdN(v)}</text></g>)}
           <line x1={m.l} x2={m.l+iw} y1={m.t+ih} y2={m.t+ih} stroke="#9ba099"/>
-          <text x={m.l+iw/2} y={H-6} textAnchor="middle" fontSize="12" fill="#686e66">{mode==='rank'?`UK 5K rank (${scale==='log'?'log':'square-root'} scale), better runners to the left`:mode==='points'?(adj?(W<480?'Points in 2016 terms, better to the left':'World Athletics points in 2016 terms, better runners to the left'):'World Athletics points, better runners to the left'):'5K form, faster to the left'}</text>
+          <text x={m.l+iw/2} y={H-6} textAnchor="middle" fontSize="12" fill="#686e66">{mode==='rank'?`UK 5K rank (${scale==='log'?'log':'square-root'} scale), better runners to the left`:mode==='points'?(W<480?(adj?'Points in 2016 terms':'World Athletics points')+', better to the left':(adj?'World Athletics points in 2016 terms':'World Athletics points')+', better runners to the left'):'5K form, faster to the left'}</text>
           <text x={12} y={m.t+ih/2} textAnchor="middle" fontSize="12" fill="#686e66" transform={`rotate(-90 12 ${m.t+ih/2})`}>Finishers at or above</text>
           <line x1={tx} x2={tx} y1={m.t} y2={m.t+ih} stroke="#4c514a" strokeWidth="1" strokeDasharray="4 4"/>
           <text x={tx+6>m.l+iw-90?tx-6:tx+6} y={m.t+12} textAnchor={tx+6>m.l+iw-90?'end':'start'} fontSize="12" fill="#4c514a">{thrText}</text>
