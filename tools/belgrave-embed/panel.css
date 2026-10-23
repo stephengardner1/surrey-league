@@ -14,7 +14,7 @@
 .bh-sl__c-pos{width:3.6em}.bh-sl__c-time{width:4.6em}.bh-sl__c-team{width:5.4em}
 .bh-sl__name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bh-sl__scorer .bh-sl__name{font-weight:600;color:rgba(0,0,0,.85)}
-.bh-sl__2c{margin-left:.45em;font-size:11px;font-weight:600;color:var(--bh-muted);text-decoration:none;border:0;cursor:help}
+.bh-sl abbr.bh-sl__2c{margin-left:.45em;font-size:11px;font-weight:600;color:var(--bh-muted);text-decoration:none;border:0;cursor:help}
 .bh-sl__pill{display:inline-block;min-width:1.7em;padding:0 .35em;border-radius:3px;font-size:11px;font-weight:700;line-height:1.6;text-align:center}
 .bh-sl__pill--a{background:var(--bh-claret);color:#fff}
 .bh-sl__pill--b{background:var(--bh-gold);color:#2b1a00}

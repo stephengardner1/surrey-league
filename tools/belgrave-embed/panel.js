@@ -113,11 +113,13 @@
       });
       if (unit) add(box, el('div', 'bh-sl__key', unit));
     }
-    var after = 'League after ' + (d.match === 1 ? 'match 1' : d.match + ' matches');
-    mini('Match ' + d.match + ' A teams', d.teamsA);
-    mini(after + ' · A', d.tableA);
-    mini('Match ' + d.match + ' B teams', d.teamsB);
-    mini(after + ' · B', d.tableB);
+    // A beside B; after match 1 the league table is the same as the day's scores, so it's left out
+    mini('Match ' + d.match + ' · A teams', d.teamsA);
+    mini('Match ' + d.match + ' · B teams', d.teamsB);
+    if (d.match > 1) {
+      mini('League after ' + d.match + ' matches · A', d.tableA);
+      mini('League after ' + d.match + ' matches · B', d.tableB);
+    }
     if (grid.childNodes.length) add(wrap, grid);
 
     var foot = add(wrap, el('div', 'bh-sl__foot'));
