@@ -1,6 +1,6 @@
 """Build files/field-scores.json from files/field-depth.json.
 
-Gives every Division 1 race (2016/17 onwards) two scores from 0 to 100,
+Gives every Division 1 race in the analysis two scores from 0 to 100,
 each the share of same-sex races it beats:
   stacked - quality at the front: average era-adjusted WA points of the best 10,
             the 10th-best runner's points, UK 5K top-100 count, National top-100 count
@@ -61,6 +61,7 @@ for g, div in (('M', 'men'), ('W', 'women')):
             'a10': round(avg_top(r['a'], 10)), 'k100': kth(r['a'], 100),
             'uk100': r['r'][RT.index(100)], 'uk1000': r['r'][RT.index(1000)],
             'nat': nat[i], 'p': 1 if r.get('p') else 0,
+            'from': min(x['s'] for x in R),
         }
 json.dump(out, open(os.path.join(ROOT, 'files/field-scores.json'), 'w'), separators=(',', ':'))
 print(len(out['races']), 'races')
