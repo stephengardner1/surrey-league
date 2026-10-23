@@ -2304,6 +2304,7 @@ const AnalysisView=({setView,init})=>{
   // ranked list
   const fqBy={};if(fq)for(const q of Object.values(fq.races))fqBy[q.k]=q;
   const byScore=order!=='cut'&&fq;
+  const listCols=byScore?(W<480?'1.4em minmax(0,9em) 1fr 4em 3em':'1.8em minmax(0,12.5em) 1fr 4.5em 4.5em'):(W<480?'1.4em minmax(0,9em) 1fr 2.2em 2.6em':'1.8em minmax(0,12.5em) 1fr 3em 5.5em');
   const ranked=(byScore?fd.races.filter(r=>(sex==='B'||r.g===sex)&&fqBy[fdKey(r)]).map(r=>({r,c:fqBy[fdKey(r)][order]})):races.map(r=>({r,c:ys(r)[thr]}))).sort((a,b)=>b.c-a.c||b.r.d.localeCompare(a.r.d));
   const barMax=Math.max(1,...ranked.map(x=>x.c));
   const shown=all?ranked:ranked.slice(0,12);
@@ -2359,18 +2360,19 @@ const AnalysisView=({setView,init})=>{
       <p className="text-sm text-gray-500">{byScore?'All seasons since '+firstSeason:mode==='rank'&&rankFrom>firstSeason?`Seasons with ranking data: ${rankFrom} onwards`:mode==='time'&&timeFrom>firstSeason?`Seasons with 5K form data: ${timeFrom} onwards`:'All seasons since '+firstSeason}</p>
     </div>
     {fq&&<div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3"><span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Order by</span><div className="inline-flex bg-gray-100 rounded-lg p-1 gap-0.5" role="group" aria-label="Order races by">{[['cut','Cut-off'],['st','Stacked'],['dp','Deep']].map(([v,t])=><button key={v} type="button" aria-pressed={order===v} className={segBtn(order===v)} onClick={()=>setOrder(v)}>{t}</button>)}</div>
-      {byScore&&<p className="text-xs text-gray-500 basis-full sm:basis-auto sm:flex-1 max-w-xl">{order==='st'?'Quality at the front: the best ten runners’ points, plus finishers in the UK 5K top 100 and the National top 100.':'Quality through the field: the best 100 runners’ points, plus finishers in the UK 5K top 1,000.'} Scored out of 100 against every {sex==='W'?'women’s':sex==='M'?'men’s':'men’s or women’s'} race; the same scores appear on each race’s results page.</p>}</div>}
-    <div className="grid items-end gap-2.5 px-2 pb-1 text-xs text-gray-500" style={{gridTemplateColumns:W<480?'1.4em minmax(0,9em) 1fr 2.2em 2.6em':'1.8em minmax(0,12.5em) 1fr 3em 5.5em'}}><span/><span>Race</span><span/><span className="text-right">{byScore?'Score':mode==='rank'?'UK':mode==='points'?'Pts':'5K'}</span><span className="text-right" title="Finishers in the top 100 at the English National cross country">{W<480?'Nat.':'National top 100'}</span></div>
+      {byScore&&<p className="text-xs text-gray-500 basis-full sm:basis-auto sm:flex-1 max-w-xl">{order==='st'?'Quality at the front: the best ten runners’ points, plus finishers in the UK 5K top 100 and the National top 100.':'Quality through the field: the best 100 runners’ points, plus finishers in the UK 5K top 1,000.'} These are the Field quality scores shown on each race’s results page, out of 100 against every {sex==='W'?'women’s':sex==='M'?'men’s':'men’s or women’s'} race.</p>}</div>}
+    <div className="grid items-end gap-2.5 px-2 pb-1 text-xs text-gray-500" style={{gridTemplateColumns:listCols}}><span/><span>Race</span><span/>{byScore?<><span className={'text-right'+(order==='st'?' text-gray-900 font-semibold':'')}>Stacked</span><span className={'text-right'+(order==='dp'?' text-gray-900 font-semibold':'')}>Deep</span></>:<><span className="text-right">{mode==='rank'?'UK':mode==='points'?'Pts':'5K'}</span><span className="text-right" title="Finishers in the top 100 at the English National cross country">{W<480?'Nat.':'National top 100'}</span></>}</div>
     <ol className="grid gap-1">
       {shown.map((x,i)=>{if(x.c!==prevC){pos=i+1;prevC=x.c;}const k=fdKey(x.r);const on=k===focus;
         const href=(x.r.g==='W'?'/women':'')+'/race/'+seasonToCompact(x.r.s)+'-'+x.r.m;
         return<li key={k} className={on?'bg-gray-100 rounded-md':''} onMouseEnter={()=>setHover(k)} onMouseLeave={()=>setHover(null)}><a href={href} title={'Open the results for '+fdLabel(x.r).replace(' *','')} onClick={e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();window.history.pushState({sl:1},'',href);window.dispatchEvent(new PopStateEvent('popstate'));window.scrollTo(0,0);}}
-          className={'grid items-center gap-2.5 px-2 py-1.5 rounded-md cursor-pointer '+(on?'':'hover:bg-gray-50')} style={{gridTemplateColumns:W<480?'1.4em minmax(0,9em) 1fr 2.2em 2.6em':'1.8em minmax(0,12.5em) 1fr 3em 5.5em'}}>
+          className={'grid items-center gap-2.5 px-2 py-1.5 rounded-md cursor-pointer '+(on?'':'hover:bg-gray-50')} style={{gridTemplateColumns:listCols}}>
           <span className="tabular-nums text-xs text-gray-400 text-right">{pos}</span>
           <span className="text-sm text-gray-900 truncate">{W<480?x.r.v+' '+FD_MON[+x.r.d.slice(5,7)-1]+' ’'+x.r.d.slice(2,4)+(x.r.p?' *':''):fdLabel(x.r)}{sex==='B'&&<span className="text-xs text-gray-500 ml-1">{x.r.g==='M'?'men':'women'}</span>}</span>
-          <span className="h-3 relative"><span className="absolute inset-y-0 left-0 rounded-r" style={{width:Math.max(.5,x.c/barMax*100)+'%',background:FD_COL[x.r.g]}}/></span>
+          <span className="h-3 relative"><span className="absolute inset-y-0 left-0 rounded-r" style={{width:Math.max(.5,x.c/(byScore?100:barMax)*100)+'%',background:FD_COL[x.r.g]}}/></span>
+          {byScore?(()=>{const q=fqBy[k];return<><span className={'tabular-nums text-right '+(order==='st'?'text-sm text-gray-900 font-semibold':'text-sm text-gray-500')}>{q.st}</span><span className={'tabular-nums text-right '+(order==='dp'?'text-sm text-gray-900 font-semibold':'text-sm text-gray-500')}>{q.dp}</span></>;})():<>
           <span className="tabular-nums text-sm text-gray-900 text-right">{x.c}</span>
-          <span className="tabular-nums text-xs text-gray-500 text-right" title="Finishers who placed in the top 100 at the English National that winter or the one before">{x.r.x?x.r.x[1]:''}</span>
+          <span className="tabular-nums text-xs text-gray-500 text-right" title="Finishers who placed in the top 100 at the English National that winter or the one before">{x.r.x?x.r.x[1]:''}</span></>}
         </a></li>;})}
     </ol>
     {ranked.length>12&&<button type="button" onClick={()=>setAll(!all)} className="mt-2 text-sm text-[#1b649e] hover:underline">{all?'Show top 12':`Show all ${ranked.length} races`}</button>}
