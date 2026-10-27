@@ -37000,5 +37000,19 @@
   "seasons": null,
   "evidence": "Capitalisation typo in surreyleague.org results (2023/24 m2, 2024/25 m4, 2025/26 m1, m2, m4)",
   "approved": "Steve, 23 Oct 2026"
+ },
+ {
+  "sex": "women",
+  "club": "RAN",
+  "from": [
+   "Molly Smith"
+  ],
+  "to": "Molly Smith (RAN)",
+  "seasons": [
+   "2004/05",
+   "2005/06"
+  ],
+  "evidence": "Steve: the Ranelagh Molly Smith (2004/05-2005/06, 138th-153rd) is a different runner from the South London / Herne Hill Molly Smith (2023/24 on). Kept on her own page.",
+  "approved": "Steve, 27 Oct 2026"
  }
 ]

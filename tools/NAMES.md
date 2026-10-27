@@ -69,6 +69,8 @@ Not joined: Beauvais at Walton (Clive and C Beauvais ran in the same race: two r
 - Caroline Letchford (South London, 1980s-early 90s, county champs) and Charlotte Letchford (South London,
   from 2017/18) are two runners. The 1980s "C Letchford" rows are Caroline. The old alias was removed.
 
+- Molly Smith: two runners. Ranelagh (2004/05-2005/06) is shown as "Molly Smith (RAN)"; South London (2023/24) then Herne Hill (2025/26) is one runner (Steve, 27 Oct 2026).
+
 ## Croydon to Boxhill (men, 1986-87)
 - Ken Penney: one runner, Croydon (1981-86) then Boxhill Racers (1987-97). County champs list him at Croydon to 1985
   and Boxhill from 1986. Norman Hemming (Croydon Harriers), email to Steve and Matthew Kiernan, 18 Oct 2026: Ken had
