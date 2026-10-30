@@ -2216,4 +2216,8 @@ save("john-mcfarlane", cheekhollows(nose(brows(eyes(figure("THH", skin=1, hair="
 # Ian Harkness (THH 2000-12), Oct 2026 redraw from a race photo (replaces the bearded batch version): tufty light-brown hair receding at the temples,
 # long face, subtle cheek hollows set low, hooded eyes under the brows
 save("ian-harkness", stretchface(cheekhollows(nose(brows(eyes(figure("THH", skin=1, hair="tuftrecede", hair_colour="#9A6E44", brow_colour="#7A5634", jaw="long"), "hooded", 0), 0, 0, 3), 1.05, 1.2), inset=2, depth=.8, dy=6), HEAD_LONG, 1.06))
+# Alex Hamlet (KEN), Oct 2026, from a George Parker Wimbledon photo: short sandy curls, stubble, ruddy cheeks, long face
+save("alex-hamlet", nose(brows(eyes(figure("KEN", skin=1, hair="shortcurls", hair_colour="#A87A4E", brow_colour="#8A6440", facial="stubble", facial_colour="#B08A5E", jaw="long", rosy=True), None, 0), 0, 0, 3), 1.05, 1.25))
+# Samuel Friend (BEL), Oct 2026, from the same photo: short fair quiff, long face, nose-to-mouth creases, ruddy cheeks
+save("samuel-friend", nose(eyes(figure("BEL", skin=1, hair="quiffshort", hair_colour="#B08A5E", brow_colour="#8A6A46", jaw="long", creases=True, rosy=True), None, 0), 1.05, 1.2))
 export_site()
