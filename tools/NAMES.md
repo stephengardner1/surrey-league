@@ -101,6 +101,8 @@ Not joined: Beauvais at Walton (Clive and C Beauvais ran in the same race: two r
 
 - Matthew Richards: two runners, Hercules Wimbledon (2019/20) and Belgrave (2023/24). Split with nameCollisions (Steve, 21 Oct 2026).
 
+- The guest "J Mayes" (7th, 2001/02 m4, 2 Feb 2002) is Jermaine Mays (Steve, 7 Nov 2026).
+
 ## Kept as they are (Steve, 19 Oct 2026)
 - Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
 - Peter Adams (AFD, 1971-2003): one runner; AW prints "P Adams (AFD, M45)" in 1997 and 1999.
