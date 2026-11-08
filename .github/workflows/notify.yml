@@ -1,0 +1,30 @@
+# Sends app notifications whenever results or corrections are published.
+# Lives in the website's GitHub repository (stephengardner1/surrey-league).
+name: App notifications
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - files/data.json
+      - files/data-women.json
+
+concurrency:
+  group: app-notifications
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Write and send notifications
+        env:
+          SL_API: ${{ secrets.SL_API }}
+          SL_ADMIN_KEY: ${{ secrets.SL_ADMIN_KEY }}
+        run: node notifier/notify.mjs "${{ github.event.before }}" "${{ github.sha }}"
