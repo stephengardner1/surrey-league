@@ -28,4 +28,9 @@ jobs:
         env:
           SL_API: ${{ secrets.SL_API }}
           SL_ADMIN_KEY: ${{ secrets.SL_ADMIN_KEY }}
-        run: node notifier/notify.mjs "${{ github.event.before }}" "${{ github.sha }}"
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            node notifier/notify.mjs --check
+          else
+            node notifier/notify.mjs "${{ github.event.before }}" "${{ github.sha }}"
+          fi
