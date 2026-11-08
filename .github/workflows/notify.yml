@@ -3,6 +3,7 @@
 name: App notifications
 
 on:
+  workflow_dispatch: {}   # "Run workflow" button: checks the connection, sends nothing
   push:
     branches: [main]
     paths:

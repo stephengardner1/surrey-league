@@ -12,6 +12,16 @@ import { diffLeague, messagesFor, LEAGUE_LABEL, seasonRaces } from './compose.mj
 const [before, after = 'HEAD'] = process.argv.slice(2);
 const API = process.env.SL_API, KEY = process.env.SL_ADMIN_KEY, DRY = !!process.env.DRY_RUN;
 
+// `node notifier/notify.mjs --check`: confirm GitHub can reach the back office. Sends nothing.
+if (before === '--check') {
+  if (!API || !KEY) { console.error('Missing secret: ' + (!API ? 'SL_API ' : '') + (!KEY ? 'SL_ADMIN_KEY' : '')); process.exit(1); }
+  const r = await fetch(`${API}/admin/status`, { headers: { authorization: `Bearer ${KEY}` } });
+  if (r.status === 401 || r.status === 403) { console.error('The back office rejected SL_ADMIN_KEY. Re-paste it from the private settings file.'); process.exit(1); }
+  if (!r.ok) { console.error(`Back office replied ${r.status}. Check SL_API.`); process.exit(1); }
+  console.log('Connection OK. Back office status:', JSON.stringify(await r.json()));
+  process.exit(0);
+}
+
 function at(ref, path) {
   if (!ref || /^0+$/.test(ref)) return null;
   try { return JSON.parse(execFileSync('git', ['show', `${ref}:${path}`], { maxBuffer: 1 << 28 }).toString()); }
