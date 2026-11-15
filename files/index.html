@@ -221,10 +221,15 @@
 .m-row-out{animation:m-row-out var(--m-pop-out) var(--m-exit) both}
 /* Accordion chevrons turn with their panel */
 .m-chev{transition:transform var(--m-fold-out) var(--m-move)}
+/* Photo viewer: the next photo fades in with a small nudge from the side you're heading */
+@keyframes m-photo-next{from{opacity:0;translate:16px 0}}
+@keyframes m-photo-prev{from{opacity:0;translate:-16px 0}}
+.m-photo-next{animation:m-photo-next var(--m-pop) var(--m-enter) both}
+.m-photo-prev{animation:m-photo-prev var(--m-pop) var(--m-enter) both}
 .m-chev.is-open{transition-duration:var(--m-fold)}
 @media (prefers-reduced-motion:reduce){
   :where(button):active{scale:none!important}
-  .m-pop-in,.m-pop-out,.m-row-in,.m-row-out{animation-duration:1ms!important;animation-delay:0s!important}
+  .m-pop-in,.m-pop-out,.m-row-in,.m-row-out,.m-photo-next,.m-photo-prev{animation-duration:1ms!important;animation-delay:0s!important}
   .m-chev,.fg .chev{transition:none!important}
 }
 </style>
@@ -1653,13 +1658,55 @@ const athletePhotosFor=(name,races,women)=>{
 };
 const raceHref=(r,w)=>((w??onWomenRoute())?'#women/race/':'#race/')+r.season.replace('/','').slice(-4)+'-'+r.match;
 const PhotoCredit=({photo})=><span>{photo.credit}{photo.href&&<> · <a href={photo.href} target="_blank" rel="noopener" className="underline decoration-gray-300 hover:text-gray-700">{photo.source}</a></>}</span>;
-const PhotoLightbox=({photos,start,race,onClose})=>{
+// Photo viewer motion (Lara rules): the photo grows out of the thumbnail you tapped (320ms ease-in-out, the crop opening out to the
+// full photo and caption) and shrinks back into its thumbnail on close (80%: 256ms). With no thumbnail on screen it rises from 0.95
+// with a fade instead. Stepping between photos cross-fades with a small nudge in the direction of travel. Reduce Motion: fades only.
+let LAST_TAP_IMG=null;
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('button,a,[role="button"]');LAST_TAP_IMG=(e.target.closest&&e.target.closest('img'))||(t&&t.querySelector('img'))||null;},true);
+const lbThumbFor=(src,prefer)=>{const ok=el=>{if(!el||!el.isConnected||el.closest('[data-lightbox]'))return false;if(el.getAttribute('src')!==src)return false;const r=el.getBoundingClientRect();return r.width>8&&r.height>8&&r.bottom>0&&r.top<innerHeight&&r.right>0&&r.left<innerWidth;};
+  if(ok(prefer))return prefer;return[...document.querySelectorAll('img')].find(ok)||null;};
+// Where the full-size photo must start so it sits exactly over its thumbnail: transform, origin and the clip that crops it to the thumbnail's shape.
+const lbFromThumb=(fig,img,thumb)=>{if(!thumb||!img.naturalWidth)return null;
+  const f=fig.getBoundingClientRect(),b=img.getBoundingClientRect(),t=thumb.getBoundingClientRect();
+  const nw=img.naturalWidth,nh=img.naturalHeight,k=Math.min(b.width/nw,b.height/nh),pw=nw*k,ph=nh*k;
+  const px=b.left-f.left+(b.width-pw)/2,py=b.top-f.top+(b.height-ph)/2,ta=t.width/t.height;
+  const pos=(getComputedStyle(thumb).objectPosition||'50% 50%').split(' ').map(v=>parseFloat(v)/100);
+  let cw=pw,ch=ph;if(pw/ph>ta)cw=ph*ta;else ch=pw/ta;
+  const cx=px+(pw-cw)*(isNaN(pos[0])?.5:pos[0]),cy=py+(ph-ch)*(isNaN(pos[1])?.5:pos[1]),s=t.width/cw;
+  const dx=t.left-(f.left+cx),dy=t.top-(f.top+cy),rad=parseFloat(getComputedStyle(thumb).borderRadius)||0;
+  return{origin:`${cx}px ${cy}px`,transform:`translate(${dx}px,${dy}px) scale(${s})`,clip:`inset(${cy}px ${f.width-cx-cw}px ${f.height-cy-ch}px ${cx}px round ${rad/s}px)`};};
+const PhotoLightbox=({photos,start,race,onClose:done})=>{
   const [i,setI]=useState(start||0);const n=photos.length;const photo=photos[i];
-  const go=d=>setI(x=>(x+d+n)%n);
+  const [dir,setDir]=useState(0);const go=d=>{setDir(d);setI(x=>(x+d+n)%n);};
+  const backRef=useRef(null),figRef=useRef(null),imgRef=useRef(null),closing=useRef(false),hidden=useRef(null);
+  const showThumb=()=>{if(hidden.current){hidden.current.style.visibility='';hidden.current=null;}};
+  React.useLayoutEffect(()=>{const back=backRef.current,fig=figRef.current,img=imgRef.current;if(!back||!fig||!back.animate)return;
+    const tap=LAST_TAP_IMG;LAST_TAP_IMG=null;
+    if(MOTION.reduced()){back.animate({opacity:[0,1]},{duration:MOTION.fold,easing:MOTION.enter});return;}
+    back.animate({opacity:[0,1]},{duration:MOTION.fold,easing:MOTION.enter});
+    const run=()=>{const thumb=lbThumbFor(photo.src,tap),g=lbFromThumb(fig,img,thumb);
+      if(g){thumb.style.visibility='hidden';hidden.current=thumb;fig.style.transformOrigin=g.origin;
+        const a=fig.animate([{transform:g.transform,clipPath:g.clip},{transform:'none',clipPath:'inset(0px 0px 0px 0px round 8px)'}],{duration:320,easing:MOTION.move});
+        a.onfinish=a.oncancel=()=>{fig.style.transformOrigin='';showThumb();};}
+      else fig.animate([{opacity:0,transform:'scale(.95)'},{opacity:1,transform:'none'}],{duration:280,easing:MOTION.enter});};
+    // Wait one frame (still before anything is painted): the page's styles for the viewer are added a moment after it appears
+    fig.style.opacity='0';let t=0;const raf=requestAnimationFrame(()=>{
+      if(img.complete&&img.naturalWidth){fig.style.opacity='';run();}
+      else{t=setTimeout(()=>{fig.style.opacity='';run();},400);img.onload=()=>{clearTimeout(t);img.onload=null;fig.style.opacity='';run();};}});
+    return()=>{cancelAnimationFrame(raf);clearTimeout(t);showThumb();};},[]);
+  const onClose=React.useCallback(()=>{if(closing.current)return;closing.current=true;const back=backRef.current,fig=figRef.current,img=imgRef.current;
+    if(!back||!fig||!back.animate||MOTION.reduced()){done();return;}
+    fig.getAnimations().forEach(a=>a.finish());
+    const thumb=lbThumbFor(img.getAttribute('src')),g=lbFromThumb(fig,img,thumb),dur=Math.round(320*.8);
+    back.animate({opacity:[1,0]},{duration:dur,easing:MOTION.exit,fill:'forwards'});
+    let a;if(g){thumb.style.visibility='hidden';hidden.current=thumb;fig.style.transformOrigin=g.origin;
+      a=fig.animate([{transform:'none',clipPath:'inset(0px 0px 0px 0px round 8px)'},{transform:g.transform,clipPath:g.clip}],{duration:dur,easing:MOTION.move,fill:'forwards'});}
+    else a=fig.animate([{opacity:1,transform:'none'},{opacity:0,transform:'scale(.95)'}],{duration:Math.round(280*.8),easing:MOTION.exit,fill:'forwards'});
+    a.onfinish=()=>{showThumb();done();};},[done]);
   // Capture phase + stopImmediatePropagation so arrows step through photos, not to the next race
   useEffect(()=>{const k=e=>{if(e.key!=='Escape'&&e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.preventDefault();e.stopImmediatePropagation();if(e.key==='Escape')onClose();else if(n>1)go(e.key==='ArrowRight'?1:-1);};window.addEventListener('keydown',k,true);return()=>window.removeEventListener('keydown',k,true);},[onClose,n]);
   const arrow='absolute top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/85 text-gray-800 flex items-center justify-center shadow hover:bg-white';
-  return<div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 sm:p-8" onClick={onClose}><figure className="bg-white rounded-lg overflow-hidden max-w-lg sm:max-w-5xl w-full" onClick={e=>e.stopPropagation()}><div className="relative bg-black"><img src={photo.src} alt={photo.caption} className="w-full max-h-[74vh] object-contain"/>{n>1&&<><button type="button" aria-label="Previous photo" onClick={()=>go(-1)} className={arrow+' left-2'}><ChevronLeft className="w-5 h-5"/></button><button type="button" aria-label="Next photo" onClick={()=>go(1)} className={arrow+' right-2'}><ChevronRight className="w-5 h-5"/></button></>}</div><figcaption className="p-3 sm:p-4 text-xs sm:text-sm text-gray-500 leading-snug flex items-start justify-between gap-4"><span>{photo.race&&<a href={raceHref(photo.race,photo.women)} onClick={onClose} className="block text-[11px] uppercase tracking-wide text-gray-400 hover:text-gray-700 mb-1">{photo.race.season} · Match {photo.race.match}{photo.race.venue?` · ${photo.race.venue}`:''}</a>}{!photo.race&&photo.label&&<span className="block text-[11px] uppercase tracking-wide text-amber-700 mb-1">{photo.label}</span>}<PhotoCaption photo={photo} race={photo.race||race} onNav={onClose}/><br/><PhotoCredit photo={photo}/></span><span className="shrink-0 flex flex-col items-end gap-2">{n>1&&<span className="text-gray-400">{i+1} of {n}</span>}<button type="button" onClick={onClose} className="min-h-[44px] px-4 rounded-md border border-gray-300 text-gray-800 font-medium hover:bg-gray-100">Close</button></span></figcaption></figure></div>;
+  return<div data-lightbox="" role="dialog" aria-modal="true" aria-label="Photo viewer" style={{position:'fixed',inset:0,zIndex:50}} className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8" onClick={onClose}><div ref={backRef} className="absolute inset-0 bg-black/85" aria-hidden="true"/><figure ref={figRef} className="relative bg-white rounded-lg overflow-hidden max-w-lg sm:max-w-5xl w-full" onClick={e=>e.stopPropagation()}><div className="relative bg-black"><img ref={imgRef} key={photo.src} src={photo.src} alt={photo.caption} className={'w-full max-h-[74vh] object-contain'+(dir?(dir>0?' m-photo-next':' m-photo-prev'):'')}/>{n>1&&<><button type="button" aria-label="Previous photo" onClick={()=>go(-1)} className={arrow+' left-2'}><ChevronLeft className="w-5 h-5"/></button><button type="button" aria-label="Next photo" onClick={()=>go(1)} className={arrow+' right-2'}><ChevronRight className="w-5 h-5"/></button></>}</div><figcaption className="p-3 sm:p-4 text-xs sm:text-sm text-gray-500 leading-snug flex items-start justify-between gap-4"><span>{photo.race&&<a href={raceHref(photo.race,photo.women)} onClick={onClose} className="block text-[11px] uppercase tracking-wide text-gray-400 hover:text-gray-700 mb-1">{photo.race.season} · Match {photo.race.match}{photo.race.venue?` · ${photo.race.venue}`:''}</a>}{!photo.race&&photo.label&&<span className="block text-[11px] uppercase tracking-wide text-amber-700 mb-1">{photo.label}</span>}<PhotoCaption photo={photo} race={photo.race||race} onNav={onClose}/><br/><PhotoCredit photo={photo}/></span><span className="shrink-0 flex flex-col items-end gap-2">{n>1&&<span className="text-gray-400">{i+1} of {n}</span>}<button type="button" onClick={onClose} className="min-h-[44px] px-4 rounded-md border border-gray-300 text-gray-800 font-medium hover:bg-gray-100">Close</button></span></figcaption></figure></div>;
 };
 const RacePhoto=({photos,index,race})=>{
   const [open,setOpen]=useState(false);const photo=photos[index];
