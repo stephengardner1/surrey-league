@@ -216,10 +216,11 @@
   {
    "bib": 220,
    "club": "G&G",
-   "familyName": "athlete",
-   "givenName": "unknown",
+   "familyName": "Howsham",
+   "givenName": "Emma",
    "perf": "21:57",
-   "rank": 27
+   "rank": 27,
+   "secondClaim": true
   },
   {
    "bib": 52,
@@ -529,10 +530,10 @@
    "rank": 65
   },
   {
-   "bib": 741,
-   "club": "VAC",
-   "familyName": "athlete",
-   "givenName": "unknown",
+   "bib": 635,
+   "club": "STR",
+   "familyName": "Chambers",
+   "givenName": "Lucy",
    "perf": "23:44",
    "rank": 66
   },
@@ -1124,10 +1125,10 @@
    "rank": 139
   },
   {
-   "bib": 641,
+   "bib": 647,
    "club": "STR",
-   "familyName": "Diamantopolous",
-   "givenName": "Anna",
+   "familyName": "Hamilton",
+   "givenName": "Nicole",
    "perf": "26:17",
    "rank": 140
   },
