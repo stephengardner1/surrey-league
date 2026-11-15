@@ -269,6 +269,144 @@
 })();
 </script>
 <script>document.addEventListener("touchstart",function(){},{passive:true});/* lets iPhone show the pressed state */</script>
+<style id="motion-charts-css">
+/* Charts animate on the first time they're seen (scrolled into view, or their accordion opened). Until then their marks wait hidden.
+   Only switched on by the motion-charts script, so if that script doesn't run, or Reduce Motion is on, charts simply show. */
+html.m-charts svg[data-chart]:not([data-mseen]) :is(rect,circle,ellipse,line,path,polyline,polygon){visibility:hidden}
+html.m-charts svg[data-chart] :is(defs,clipPath,mask,pattern) *{visibility:inherit}
+html.m-charts :is(.m-bar,.pred .bt i){transform-origin:left center}
+html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
+</style>
+<script id="motion-reorder">
+/* Re-sorting a table: rows glide from where they were to where they now belong (Lara rule 9: moves ease in and out, 300ms).
+   Works for any table sorted from its header, and for lists whose re-order button carries data-reorders="<css selector of the list>".
+   Rows travelling a long way slide in from the edge of the screen rather than streaking across it. Reduce Motion: no animation. */
+(function(){
+  if(!Element.prototype.animate)return;
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)');
+  var MOVE='cubic-bezier(.65,0,.35,1)',ENTER='cubic-bezier(.16,1,.3,1)',DUR=300,MAX_ROWS=400;
+  function rowsOf(list){return Array.prototype.slice.call(list.children,0,MAX_ROWS);}
+  function key(el){return el.textContent.replace(/\s+/g,' ').trim();}
+  document.addEventListener('click',function(e){
+    if(RM&&RM.matches)return;
+    var t=e.target.closest&&e.target.closest('thead th,[data-reorders]');if(!t)return;
+    var sel=t.getAttribute('data-reorders')||(t.closest('[data-reorders]')||{getAttribute:function(){return null;}}).getAttribute('data-reorders');
+    var table=sel?null:t.closest('table'),find=function(){return sel?document.querySelector(sel):(table&&table.tBodies[0]);};
+    var list=find();if(!list)return;
+    var base=list.getBoundingClientRect().top,byNode=new Map(),byKey={};
+    rowsOf(list).forEach(function(r){var y=r.getBoundingClientRect().top-base;byNode.set(r,y);var k=key(r);if(!(k in byKey))byKey[k]=y;});
+    requestAnimationFrame(function(){
+      var l2=find();if(!l2)return;
+      var b2=l2.getBoundingClientRect().top,vh=window.innerHeight,lim=vh,bg='#fff';
+      for(var n=l2;n&&n.nodeType===1;n=n.parentElement){var c=getComputedStyle(n).backgroundColor;if(c&&c!=='transparent'&&!/rgba\([^)]*,\s*0\)$/.test(c)){bg=c;break;}}  /* moving rows cover the ones they pass */
+      rowsOf(l2).forEach(function(r){
+        var now=r.getBoundingClientRect(),y=now.top-b2,was=byNode.has(r)?byNode.get(r):byKey[key(r)];
+        if(now.bottom<-200||now.top>vh+200)return;           /* off screen: nothing to see */
+        if(was===undefined){r.animate([{opacity:0,offset:0}],{duration:DUR,easing:ENTER});return;}
+        var d=Math.max(-lim,Math.min(lim,was-y));if(Math.abs(d)<.5)return;
+        r.animate([{transform:'translateY('+d+'px)',backgroundColor:bg,position:'relative',zIndex:1},{transform:'none',backgroundColor:bg,position:'relative',zIndex:1}],{duration:DUR,easing:MOVE});
+      });
+    });
+  },true);
+})();
+</script>
+<script id="haptics">
+/* iPhone app only: a light selection tick when a toggle changes (Men/Women, Classic results/Form guide, Individual/A Teams/B Teams,
+   chart and table options, sort headings). Uses Capacitor's Haptics plugin when the app includes it; does nothing on the website. */
+(function(){
+  function H(){var C=window.Capacitor;return C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Haptics;}
+  function isToggle(b){
+    if(b.matches('[role="switch"],[role="tab"],input[type="checkbox"],input[type="radio"],thead th button,.sortbtn,[data-haptic]'))return true;
+    if(b.hasAttribute('aria-pressed'))return true;
+    var p=b.parentElement;if(!p)return false;
+    var group=p.getAttribute('role')==='group'||p.classList.contains('seg')||(/\bbg-gray-100\b/.test(p.className)&&/\brounded/.test(p.className));
+    return group&&p.querySelectorAll(':scope > button').length>=2;
+  }
+  function alreadyOn(b){return b.getAttribute('aria-pressed')==='true'||b.getAttribute('aria-selected')==='true'||(/\bbg-white\b/.test(b.className)&&/\bshadow-sm\b/.test(b.className));}
+  document.addEventListener('click',function(e){
+    var h=H();if(!h)return;
+    var b=e.target.closest&&e.target.closest('button,[role="switch"],[role="tab"],input[type="checkbox"],input[type="radio"]');
+    if(!b||b.disabled||!isToggle(b)||(!b.matches('thead th button,.sortbtn,input')&&alreadyOn(b)))return;
+    try{h.selectionStart();h.selectionChanged();h.selectionEnd();}catch(err){}
+  },true);
+})();
+</script>
+<script id="motion-charts">
+/* Chart data animates on the first time each chart is seen, in the spirit of the Lara motion rules:
+   lines draw from left to right (700ms, ease-in-out), dots and segments land as the line reaches them,
+   bars grow from their baseline one after another (500ms ease-out, spread over 300ms), and gridlines fade in.
+   Text and axis labels stay put so the chart is readable from the first frame. Each chart animates once only.
+   Opt a chart in with data-chart on its <svg>, and an HTML bar with class m-bar. Add data-static to anything that shouldn't move. */
+(function(){
+  if(!Element.prototype.animate)return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  document.documentElement.classList.add('m-charts');
+  var ENTER='cubic-bezier(.16,1,.3,1)',MOVE='cubic-bezier(.65,0,.35,1)',DRAW=700,GROW=500,SPREAD=300,DOT=300,FRAME=200,STAG=30;
+  var CHARTS='svg[data-chart]',BARS='.m-bar,.pred .bt i';
+  function clear(a,el,props){a.onfinish=a.oncancel=function(){props.forEach(function(p){el.style[p]='';});};}
+  function see(el){el.setAttribute('data-mseen','');}
+  function none(v){return !v||v==='none'||v==='transparent'||/rgba\([^)]*,\s*0\)$/.test(v);}
+  function frame(el){el.animate([{opacity:0,offset:0}],{duration:FRAME,easing:ENTER});}
+  function draw(el,delay,dur,ease){var L=0;try{L=el.getTotalLength();}catch(e){}if(!L){frame(el);return;}
+    el.animate([{strokeDasharray:L+' '+L,strokeDashoffset:L},{strokeDasharray:L+' '+L,strokeDashoffset:0}],{duration:dur,delay:delay,easing:ease,fill:'backwards'});}
+  function pop(el,delay,from,dur){el.style.transformBox='fill-box';el.style.transformOrigin='center';
+    clear(el.animate([{opacity:0,transform:'scale('+from+')',offset:0}],{duration:dur,delay:delay,easing:ENTER,fill:'backwards'}),el,['transformBox','transformOrigin']);}
+  function playChart(svg){
+    see(svg);
+    var box=svg.getBoundingClientRect(),W=box.width||1,H=box.height||1,bars=[];
+    Array.prototype.forEach.call(svg.querySelectorAll('rect,circle,ellipse,line,path,polyline,polygon'),function(el){
+      if(el.closest('defs,clipPath,mask,pattern,[data-static]'))return;
+      var cs=getComputedStyle(el);if(cs.display==='none')return;
+      var r=el.getBoundingClientRect(),fx=Math.max(0,Math.min(1,(r.left-box.left)/W)),tag=el.tagName.toLowerCase();
+      var dashed=!none(cs.strokeDasharray),noFill=none(cs.fill),thin=r.width<1.5||r.height<1.5;
+      if(tag==='line'){if(dashed||thin)frame(el);else draw(el,fx*DRAW,Math.max(80,r.width/W*DRAW),'linear');}
+      else if(tag==='polyline'||(tag==='path'&&noFill)){if(dashed||thin)frame(el);else draw(el,0,DRAW,MOVE);}
+      else if(tag==='path'){el.animate([{opacity:0,offset:0}],{duration:DRAW,delay:100,easing:ENTER,fill:'backwards'});}
+      else if(tag==='rect'){if(noFill||(r.width>=W*.9&&r.height>=H*.9))frame(el);else bars.push({el:el,r:r});}
+      else pop(el,fx*DRAW*.9,.4,DOT);
+    });
+    if(!bars.length)return;
+    var share=function(f){var c={},best=0;bars.forEach(function(b){var k=Math.round(f(b.r));c[k]=(c[k]||0)+1;if(c[k]>best)best=c[k];});return best/bars.length;};
+    var bottom=share(function(r){return r.bottom;}),left=share(function(r){return r.left;}),top=share(function(r){return r.top;});
+    var mode=bottom>=.5?'up':left>=.5?'right':top>=.5?'down':'tiles';
+    var key=mode==='right'?function(b){return b.r.top;}:mode==='tiles'?function(b){return b.r.left+b.r.top;}:function(b){return b.r.left;};
+    bars.sort(function(a,b){return key(a)-key(b);});
+    var n=bars.length;
+    bars.forEach(function(b,i){var el=b.el,delay=n>1?i/(n-1)*SPREAD:0;
+      if(mode==='tiles'){pop(el,delay,.95,DOT);return;}
+      el.style.transformBox='fill-box';el.style.transformOrigin=mode==='up'?'center bottom':mode==='down'?'center top':'left center';
+      clear(el.animate([{transform:mode==='right'?'scaleX(0)':'scaleY(0)',offset:0}],{duration:GROW,delay:delay,easing:ENTER,fill:'backwards'}),el,['transformBox','transformOrigin']);
+    });
+  }
+  function playBars(list){
+    list.sort(function(a,b){return a.getBoundingClientRect().top-b.getBoundingClientRect().top;});
+    list.forEach(function(el,i){see(el);el.animate([{transform:'scaleX(0)',offset:0}],{duration:GROW,delay:Math.min(i,8)*STAG,easing:ENTER,fill:'backwards'});});
+  }
+  /* On the main site, wait for the loading sticker to start peeling, so nothing animates out of sight beneath it */
+  var waiting=[];
+  function ready(){return !window.__slWaitPeel||window.__slPeel;}
+  function go(els){var bars=[];els.forEach(function(el){if(el.hasAttribute('data-mseen'))return;if(el.tagName.toLowerCase()==='svg')playChart(el);else bars.push(el);});if(bars.length)playBars(bars);}
+  window.addEventListener('sl-peel',function(){var w=waiting;waiting=[];setTimeout(function(){go(w);},120);});
+  /* A plain position check rather than IntersectionObserver, which misreports charts inside an accordion that starts open */
+  var pending=[],queued=false;
+  function check(){queued=false;
+    Array.prototype.forEach.call(document.querySelectorAll(CHARTS+','+BARS),function(el){if(!el.__mc){el.__mc=1;pending.push(el);}});
+    var vh=window.innerHeight,now=[];
+    pending=pending.filter(function(el){if(!el.isConnected||el.hasAttribute('data-mseen'))return false;
+      var r=el.getBoundingClientRect();if(!r.height)return true;
+      var seen=Math.min(r.bottom,vh)-Math.max(r.top,0);
+      if(seen>=Math.min(r.height*.2,vh*.2)){now.push(el);return false;}return true;});
+    if(!now.length)return;if(ready())go(now);else waiting=waiting.concat(now);
+  }
+  function soon(){if(!queued){queued=true;requestAnimationFrame(check);}}
+  new MutationObserver(soon).observe(document.documentElement,{childList:true,subtree:true});
+  window.addEventListener('scroll',soon,{passive:true,capture:true});
+  window.addEventListener('resize',soon);
+  document.addEventListener('toggle',function(){soon();setTimeout(soon,320);},true);
+  document.addEventListener('click',function(){setTimeout(soon,320);},true);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',soon);else soon();
+})();
+</script>
 </head>
 <body>
 <div id="root"><div class="loading">Loading...</div></div>
@@ -1532,7 +1670,7 @@ const FieldQuality=({race,div,setView})=>{
   const q=fq?.races?.[`${div}|${race.season}|${race.match}`];
   if(!q)return null;
   const who=q.g==='M'?"men's":"women's";
-  const Meter=({v})=><span className="hidden sm:inline-block w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden align-middle"><span className="block h-full rounded-full bg-gray-600" style={{width:Math.max(4,v)+'%'}}/></span>;
+  const Meter=({v})=><span className="hidden sm:inline-block w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden align-middle"><span className="m-bar block h-full rounded-full bg-gray-600" style={{width:Math.max(4,v)+'%'}}/></span>;
   return<div ref={boxRef} className="mt-2 relative">
     <button type="button" aria-expanded={open} onClick={()=>setOpen(!open)} className="inline-flex items-center gap-2 whitespace-nowrap text-xs text-gray-600 border border-gray-200 rounded-full pl-3 pr-2 py-1 hover:border-gray-400 hover:text-gray-900 transition-colors">
       <span className="text-gray-500">Field quality</span>
@@ -1976,7 +2114,7 @@ const ClubPositionChart=({clubCode,seasonsData,setView})=>{
   const star=(cx,cy,size)=>{const a=[];for(let j=0;j<5;j++){const o=(j*72-90)*Math.PI/180,n=(j*72+36-90)*Math.PI/180;a.push(`${cx+size*Math.cos(o)},${cy+size*Math.sin(o)}`,`${cx+size*.4*Math.cos(n)},${cy+size*.4*Math.sin(n)}`);}return a.join(' ');};
   const h=hl!=null?span[hl]:null;
   return<div className="w-full max-w-3xl mb-6 relative">
-    <svg ref={svgRef} className="w-full cursor-pointer" style={{height:H}} role="img" aria-label={`Chart of the club's final Division 1 position each season from ${span[0].season} to ${span[span.length-1].season}; seasons outside Division 1 sit below the dotted line marking the bottom place`} onMouseMove={near} onMouseLeave={()=>setHl(null)} onTouchStart={near} onTouchMove={near} onTouchEnd={()=>setHl(null)} onClick={()=>{if(h&&h.pos!=null)setView({type:'home',urlSeason:h.season});}}>
+    <svg data-chart ref={svgRef} className="w-full cursor-pointer" style={{height:H}} role="img" aria-label={`Chart of the club's final Division 1 position each season from ${span[0].season} to ${span[span.length-1].season}; seasons outside Division 1 sit below the dotted line marking the bottom place`} onMouseMove={near} onMouseLeave={()=>setHl(null)} onTouchStart={near} onTouchMove={near} onTouchEnd={()=>setHl(null)} onClick={()=>{if(h&&h.pos!=null)setView({type:'home',urlSeason:h.season});}}>
       <polyline points={sizeLine} fill="none" stroke="#9ba099" strokeWidth="1.5" strokeDasharray="4,3" opacity="0.6"/>
       {span.slice(1).map((p,k)=>{const q=span[k];return<line key={'l'+k} x1={X(k)} y1={Y(q.y)} x2={X(k+1)} y2={Y(p.y)} stroke={color} strokeWidth="1" strokeLinecap="round" opacity={q.pos==null||p.pos==null?0.3:1}/>;})}
       {span.map((p,i)=>{if(p.pos==null)return<circle key={i} cx={X(i)} cy={Y(p.y)} r={hl===i?3:1.5} fill={color} opacity={hl===i?0.6:0.3}/>;const cx=X(i),cy=Y(p.pos),on=hl===i;
@@ -2044,7 +2182,7 @@ const PositionChart=({raceHistory,highlightIdx,setHighlightIdx,setView,clubCode}
   const hl=hlChart>=0&&hlWidth?{chartIdx:hlChart,pos:positions[hlChart],x:getX(hlChart,hlWidth)}:null;
   
   return<div className="w-full mb-4 relative">
-    <svg ref={svgRef} className="w-full cursor-pointer" style={{height}} role="img" aria-label="Chart of finishing positions in each race (every race is also listed in the race history table)" tabIndex={-1} onMouseMove={handleInteraction} onMouseLeave={clearHighlight} onClick={handleClick} onTouchStart={handleInteraction} onTouchMove={handleInteraction} onTouchEnd={clearHighlight}>
+    <svg data-chart ref={svgRef} className="w-full cursor-pointer" style={{height}} role="img" aria-label="Chart of finishing positions in each race (every race is also listed in the race history table)" tabIndex={-1} onMouseMove={handleInteraction} onMouseLeave={clearHighlight} onClick={handleClick} onTouchStart={handleInteraction} onTouchMove={handleInteraction} onTouchEnd={clearHighlight}>
       <PathRenderer positions={positions} getY={getY} padding={padding} bestPos={bestPos} highlightIdx={hl?.chartIdx} lineColor={lineColor}/>
     </svg>
     {hl&&<div className="absolute bg-gray-800 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap" style={{left:hl.x,top:-4,transform:'translateX(-50%)'}}>{ordPos(hl.pos)}</div>}
@@ -2460,7 +2598,7 @@ const AnalysisView=({setView,init})=>{
         <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600">{mode==='points'&&fd.races.some(r=>r.a)&&<span className="inline-flex items-center gap-1.5">Points<span className="inline-flex bg-gray-100 rounded-md p-0.5" role="group" aria-label="Points adjustment">{[['adj','Era-adjusted'],['raw','As run']].map(([v,t])=><button key={v} type="button" aria-pressed={era===v} onClick={()=>setEra(v)} className={'px-2 py-0.5 rounded '+(era===v?'bg-white text-gray-900 font-semibold shadow-sm':'text-gray-600 hover:text-gray-900')}>{t}</button>)}</span></span>}{mode==='rank'&&<span className="inline-flex items-center gap-1.5">Scale<span className="inline-flex bg-gray-100 rounded-md p-0.5" role="group" aria-label="Rank scale">{[['sqrt','Square root'],['log','Log']].map(([v,t])=><button key={v} type="button" aria-pressed={scale===v} onClick={()=>setScale(v)} className={'px-2 py-0.5 rounded '+(scale===v?'bg-white text-gray-900 font-semibold shadow-sm':'text-gray-600 hover:text-gray-900')}>{t}</button>)}</span></span>}{(sex==='B'?['M','W']:[sex]).map(g=><span key={g} className="flex items-center gap-1.5"><span className="inline-block w-4 h-0.5 rounded" style={{background:FD_COL[g]}}/>{g==='M'?'Men':'Women'}</span>)}</div>
       </div>
       <div ref={boxRef} className="relative">
-        <svg viewBox={`0 0 ${W} ${H}`} className="block w-full h-auto" role="img" aria-label={(mode==='rank'?'Finishers at or above each UK 5K rank':'Finishers at or under each 5K form time')+' for each race'}>
+        <svg data-chart viewBox={`0 0 ${W} ${H}`} className="block w-full h-auto" role="img" aria-label={(mode==='rank'?'Finishers at or above each UK 5K rank':'Finishers at or under each 5K form time')+' for each race'}>
           {yTicks.map(v=><g key={'y'+v}><line x1={m.l} x2={m.l+iw} y1={Y(v)} y2={Y(v)} stroke="#e8ebe7" strokeWidth="1"/><text x={m.l-8} y={Y(v)+4} textAnchor="end" fontSize="11" fill="#9ba099" className="tabular-nums">{v}</text></g>)}
           {xTicks.map(v=><g key={'x'+v}><line x1={X(v)} x2={X(v)} y1={m.t+ih} y2={m.t+ih+5} stroke="#9ba099"/><text x={X(v)} y={m.t+ih+18} textAnchor="middle" fontSize="11" fill="#9ba099" className="tabular-nums">{mode==='time'?fdT(v):fdN(v)}</text></g>)}
           <line x1={m.l} x2={m.l+iw} y1={m.t+ih} y2={m.t+ih} stroke="#9ba099"/>
@@ -2484,18 +2622,18 @@ const AnalysisView=({setView,init})=>{
       <h2 className="text-lg font-bold text-gray-900" style={{fontFamily:"'Fraunces',serif"}}>{byScore?(order==='st'?'Races ranked by how stacked the front was':'Races ranked by how deep the field went'):<>Races ranked by finishers {mode==='rank'?'in the UK top '+fdN(thrValue):mode==='points'?'on '+fdN(thrValue)+' points or more'+(adj?', era-adjusted':''):'under '+fdT(thrValue)}</>}</h2>
       <p className="text-sm text-gray-500">{byScore?'All seasons since '+firstSeason:mode==='rank'&&rankFrom>firstSeason?`Seasons with ranking data: ${rankFrom} onwards`:mode==='time'&&timeFrom>firstSeason?`Seasons with 5K form data: ${timeFrom} onwards`:'All seasons since '+firstSeason}</p>
     </div>
-    {fq&&<div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3"><span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Order by</span><div className="inline-flex bg-gray-100 rounded-lg p-1 gap-0.5" role="group" aria-label="Order races by">{[['st','Stacked'],['dp','Deep'],['cut',thrText.charAt(0).toUpperCase()+thrText.slice(1)]].map(([v,t])=><button key={v} type="button" aria-pressed={order===v} className={segBtn(order===v)} onClick={()=>setOrder(v)}>{t}</button>)}</div>
+    {fq&&<div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3"><span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Order by</span><div className="inline-flex bg-gray-100 rounded-lg p-1 gap-0.5" role="group" aria-label="Order races by" data-reorders="ol[data-fd-list]">{[['st','Stacked'],['dp','Deep'],['cut',thrText.charAt(0).toUpperCase()+thrText.slice(1)]].map(([v,t])=><button key={v} type="button" aria-pressed={order===v} className={segBtn(order===v)} onClick={()=>setOrder(v)}>{t}</button>)}</div>
       {!byScore&&<p className="text-xs text-gray-500 basis-full sm:basis-auto sm:flex-1 max-w-xl">Counts finishers at or above the cut-off set above the chart ({mode==='rank'?'UK 5K '+thrText:mode==='points'?thrText+(adj?', era-adjusted':''):'5K form '+thrText}). Move the slider or pick a preset to change it.</p>}
       {byScore&&<p className="text-xs text-gray-500 basis-full sm:basis-auto sm:flex-1 max-w-xl">{order==='st'?'Quality at the front: the best ten runners’ points, plus finishers in the UK 5K top 100 and the National top 100.':'Quality through the field: the best 100 runners’ points, plus finishers in the UK 5K top 1,000.'} These are the Field quality scores shown on each race’s results page, out of 100 against every {sex==='W'?'women’s':sex==='M'?'men’s':'men’s or women’s'} race.</p>}</div>}
     <div className="grid items-end gap-2.5 px-2 pb-1 text-xs text-gray-500" style={{gridTemplateColumns:listCols}}><span/><span>Race</span><span/>{byScore?<><span className={'text-right'+(order==='st'?' text-gray-900 font-semibold':'')}>Stacked</span><span className={'text-right'+(order==='dp'?' text-gray-900 font-semibold':'')}>Deep</span></>:<><span className="text-right">{mode==='rank'?'UK':mode==='points'?'Pts':'5K'}</span><span className="text-right" title="Finishers in the top 100 at the English National cross country">{W<480?'Nat.':'National top 100'}</span></>}</div>
-    <ol className="grid gap-1">
+    <ol className="grid gap-1" data-fd-list="">
       {shown.map((x,i)=>{if(x.c!==prevC){pos=i+1;prevC=x.c;}const k=fdKey(x.r);const on=k===focus;
         const href=(x.r.g==='W'?'/women':'')+'/race/'+seasonToCompact(x.r.s)+'-'+x.r.m;
         return<li key={k} className={(on?'bg-gray-100 rounded-md':'')+(i>=12?' m-row-in':'')} style={i>=12?{'--i':i-12}:undefined} onMouseEnter={()=>setHover(k)} onMouseLeave={()=>setHover(null)}><a href={href} title={'Open the results for '+fdLabel(x.r).replace(' *','')} onClick={e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();window.history.pushState({sl:1},'',href);window.dispatchEvent(new PopStateEvent('popstate'));window.scrollTo(0,0);}}
           className={'grid items-center gap-2.5 px-2 py-1.5 rounded-md cursor-pointer '+(on?'':'hover:bg-gray-50')} style={{gridTemplateColumns:listCols}}>
           <span className="tabular-nums text-xs text-gray-400 text-right">{pos}</span>
           <span className="text-sm text-gray-900 truncate">{W<480?x.r.v+' '+FD_MON[+x.r.d.slice(5,7)-1]+' ’'+x.r.d.slice(2,4)+(x.r.p?' *':''):fdLabel(x.r)}{sex==='B'&&<span className="text-xs text-gray-500 ml-1">{x.r.g==='M'?'men':'women'}</span>}</span>
-          <span className="h-3 relative"><span className="absolute inset-y-0 left-0 rounded-r" style={{width:Math.max(.5,x.c/(byScore?100:barMax)*100)+'%',background:FD_COL[x.r.g]}}/></span>
+          <span className="h-3 relative"><span className="m-bar absolute inset-y-0 left-0 rounded-r" style={{width:Math.max(.5,x.c/(byScore?100:barMax)*100)+'%',background:FD_COL[x.r.g]}}/></span>
           {byScore?(()=>{const q=fqBy[k];return<><span className={'tabular-nums text-right '+(order==='st'?'text-sm text-gray-900 font-semibold':'text-sm text-gray-500')}>{q.st}</span><span className={'tabular-nums text-right '+(order==='dp'?'text-sm text-gray-900 font-semibold':'text-sm text-gray-500')}>{q.dp}</span></>;})():<>
           <span className="tabular-nums text-sm text-gray-900 text-right">{x.c}</span>
           <span className="tabular-nums text-xs text-gray-500 text-right" title="Finishers who placed in the top 100 at the English National that winter or the one before">{x.r.x?x.r.x[1]:''}</span></>}
@@ -2799,7 +2937,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
       {!isWomen&&<div>
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Club positions by season</h2>
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
-          <svg viewBox={`0 0 ${chartW} ${chartH}`} className="w-full" style={{minWidth:'500px'}}>
+          <svg data-chart viewBox={`0 0 ${chartW} ${chartH}`} className="w-full" style={{minWidth:'500px'}}>
             {[1,2,3,4,5,6,7,8,9,10].map(pos=><g key={pos}>
               <line x1={padL} y1={yScale(pos)} x2={chartW-padR} y2={yScale(pos)} stroke="#dfe2dd" strokeWidth="1"/>
               <text x={padL-8} y={yScale(pos)+4} textAnchor="end" fontSize="10" fill="#9ba099">{pos}</text>
@@ -2847,7 +2985,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
       {isWomen&&<div>
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Club positions by season</h2>
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
-          <svg viewBox={`0 0 ${chartW} ${chartH}`} className="w-full" style={{minWidth:'500px'}}>
+          <svg data-chart viewBox={`0 0 ${chartW} ${chartH}`} className="w-full" style={{minWidth:'500px'}}>
             {[1,2,3,4,5,6,7,8,9,10].map(pos=><g key={pos}>
               <line x1={padL} y1={yScale(pos)} x2={chartW-padR} y2={yScale(pos)} stroke="#dfe2dd" strokeWidth="1"/>
               <text x={padL-8} y={yScale(pos)+4} textAnchor="end" fontSize="10" fill="#9ba099">{pos}</text>
@@ -2886,7 +3024,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
       <div>
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Match attendance since 2014</h2>
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
-          <svg viewBox="0 0 900 220" className="w-full" style={{minWidth:'600px'}}>
+          <svg data-chart viewBox="0 0 900 220" className="w-full" style={{minWidth:'600px'}}>
             {[100,150,200,250,300,350].map(v=><g key={v}>
               <line x1="40" y1={190-(v-100)*0.7} x2="870" y2={190-(v-100)*0.7} stroke="#dfe2dd" strokeWidth="1"/>
               <text x="35" y={190-(v-100)*0.7+4} textAnchor="end" fontSize="9" fill="#9ba099">{v}</text>
@@ -2915,7 +3053,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
       <div>
         <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">Average team size per season</h2>
         <div className="bg-gray-50 rounded-lg p-3">
-          <svg viewBox="0 0 600 220" className="w-full">
+          <svg data-chart viewBox="0 0 600 220" className="w-full">
             {avgTeamSize.map((d,i)=>{
               const isHovered=hoveredSeason===i||tappedSeason===i;
               const barH=d.value*5; // Scale factor reduced to fit taller bars
@@ -2935,7 +3073,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
           {(()=>{
             const squadXStep=plotW/(recentSeasons.length-1);
-            return<svg viewBox={`0 0 ${chartW} 220`} className="w-full" style={{minWidth:'500px'}}>
+            return<svg data-chart viewBox={`0 0 ${chartW} 220`} className="w-full" style={{minWidth:'500px'}}>
             {[0,20,40,60,80,100].map(v=><g key={v}>
               <line x1={padL} y1={190-v*1.7} x2={chartW-padR} y2={190-v*1.7} stroke="#dfe2dd" strokeWidth="1"/>
               <text x={padL-8} y={190-v*1.7+4} textAnchor="end" fontSize="9" fill="#9ba099">{v}</text>
@@ -3037,7 +3175,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
               }
             });
             
-            return<svg viewBox={`0 0 ${width} ${height}`} className="w-full">
+            return<svg data-chart viewBox={`0 0 ${width} ${height}`} className="w-full">
               {rects.map((r,i)=><g key={i}>
                 <rect x={r.x+1} y={r.y+1} width={Math.max(0,r.width-2)} height={Math.max(0,r.height-2)} fill={r.color} rx="4" className="hover:opacity-90 cursor-default"/>
                 {r.width>45&&r.height>28&&<text x={r.x+r.width/2} y={r.y+r.height/2-(r.height>45?8:2)} textAnchor="middle" fontSize={r.width>140?"14":"12"} fill="white" fontWeight="600">{r.name}</text>}
@@ -3119,7 +3257,7 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
               const y=fYScale(size+0.5);
               return i===0?`M${x},${y}`:`L${x},${y}`;
             }).join(' ');
-            return<svg viewBox={`0 0 ${fullW} ${fullH}`} className="w-full h-[416px] md:h-auto" style={{minWidth:'900px'}}>
+            return<svg data-chart viewBox={`0 0 ${fullW} ${fullH}`} className="w-full h-[416px] md:h-auto" style={{minWidth:'900px'}}>
               {/* Grid lines for positions 1-10 */}
               {[1,2,3,4,5,6,7,8,9,10].map(pos=><g key={pos}>
                 <line x1={fPadL} y1={fYScale(pos)} x2={fullW-fPadR} y2={fYScale(pos)} stroke="#dfe2dd" strokeWidth="1"/>
@@ -4625,7 +4763,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       return<div className="mt-8 pt-6 border-t border-gray-200">
         <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-wide mb-2 pb-1 border-b border-gray-200 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'chartroom'})}>Chart room →</h3>
         <div className="bg-gray-50 rounded-lg p-3 overflow-x-auto">
-          <svg viewBox={`0 0 ${chartW} ${chartH}`} className="w-full min-w-[320px] md:min-w-[500px]">
+          <svg data-chart viewBox={`0 0 ${chartW} ${chartH}`} className="w-full min-w-[320px] md:min-w-[500px]">
             {Array.from({length:maxPos},(_, i)=>i+1).map(pos=><g key={pos}>
               <line x1={padL} y1={yScale(pos)} x2={chartW-padR} y2={yScale(pos)} stroke="#dfe2dd" strokeWidth="1"/>
               <text x={padL-8} y={yScale(pos)+4} textAnchor="end" fontSize="10" fill="#9ba099">{pos}</text>
@@ -6063,13 +6201,13 @@ function App(){
 const BlinkOverlay=()=>{const[exiting,setExiting]=useState(false),[gone,setGone]=useState(false);
   useEffect(()=>{
     /* wait until the page has finished its big first draw and frames are coming smoothly again (3 quick frames in a row, or 900ms at most) before peeling */
-    const go=()=>{const start=performance.now();let last=start,calm=0;const wait=now=>{calm=(now-last<24)?calm+1:0;last=now;if(calm>=3||now-start>900)setExiting(true);else requestAnimationFrame(wait);};requestAnimationFrame(wait);};
+    const go=()=>{const start=performance.now();let last=start,calm=0;const wait=now=>{calm=(now-last<24)?calm+1:0;last=now;if(calm>=3||now-start>900){setExiting(true);window.__slPeel=true;window.dispatchEvent(new Event('sl-peel'));}else requestAnimationFrame(wait);};requestAnimationFrame(wait);};
     if(window.__slLoaded)go();window.addEventListener('sl-loaded',go);return()=>window.removeEventListener('sl-loaded',go);},[]);
   /* the card's spot is fixed in pixels when it first appears, so the page's scrollbar (or a phone's address bar) arriving behind it can't nudge it */
   const at=useMemo(()=>({left:Math.round((window.innerWidth-150)/2),top:Math.round((window.innerHeight-150*280/230)/2)}),[]);
   if(gone)return null;
   return<div aria-hidden={exiting?'true':undefined} style={{position:'fixed',inset:0,zIndex:200,pointerEvents:exiting?'none':'auto',background:exiting?'transparent':'#fff'}}><div style={{position:'fixed',left:at.left,top:at.top}}><LoadingBlink exiting={exiting} onDone={()=>setGone(true)}/></div></div>;};
-if(LOADER_STYLE!=='carousel'){const el=document.createElement('div');document.body.appendChild(el);ReactDOM.createRoot(el).render(<BlinkOverlay/>);}
+if(LOADER_STYLE!=='carousel'){window.__slWaitPeel=true;const el=document.createElement('div');document.body.appendChild(el);ReactDOM.createRoot(el).render(<BlinkOverlay/>);}
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 <!-- Cloudflare Web Analytics (cookieless).
