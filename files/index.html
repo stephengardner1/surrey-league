@@ -1789,6 +1789,52 @@ const IndividualResultsTable=({results,clubFilter,setClubFilter,setView,clubMvps
    newcomers who finished ahead this time, runners who beat them last time but didn't run this time,
    and the change in rank among the runners who ran both (the part down to how they ran). */
 const raceShortWhen=x=>{const MON=['Oct','Nov','Jan','Feb'];const y=parseInt(x.season)+(x.match>=3?1:0);return `${MON[(x.match||1)-1]||''} ${y}`.trim();};
+/* Compare tab chart: place here (across) against place in the other race (up). Runners who missed one race sit in a faded "didn't run" strip at the end of that race's axis and play no part in the trend line. Move or drag across to read what a place here is worth in the other race. */
+const CompareScatter=({data,thisName,otherName,hl})=>{
+  const[hx,setHx]=useState(null);const svgRef=useRef(null);const boxRef=useRef(null);const[W,setW]=useState(640);
+  useEffect(()=>{const el=boxRef.current;if(!el||typeof ResizeObserver==='undefined')return;const ro=new ResizeObserver(([e])=>setW(Math.max(280,Math.round(e.contentRect.width))));ro.observe(el);return()=>ro.disconnect();},[]);
+  if(!data||!data.rows.length)return null;
+  const{rows,onlyA,onlyB,maxA,maxB,trend}=data;
+  const H=Math.round(Math.min(440,Math.max(300,W*0.78))),L=46,R=14,T=12,B=40;
+  const gA=Math.max(8,Math.round(maxA*0.07)),gB=Math.max(8,Math.round(maxB*0.07));
+  const dA=maxA+gA,dB=maxB+gB;
+  const X=p=>L+(p-1)/(dA-1)*(W-L-R),Y=p=>H-B-(p-1)/(dB-1)*(H-T-B);
+  const step=n=>n>400?100:n>150?50:n>60?20:10;
+  const tA=[1];for(let v=step(maxA);v<=maxA;v+=step(maxA))tA.push(v);
+  const tB=[1];for(let v=step(maxB);v<=maxB;v+=step(maxB))tB.push(v);
+  const tr=[...trend.entries()].sort((a,b)=>a[0]-b[0]);
+  const path=tr.map(([x,y],i)=>`${i?'L':'M'}${X(x).toFixed(1)},${Y(y).toFixed(1)}`).join('');
+  const move=e=>{const r=svgRef.current.getBoundingClientRect();const cx=(e.touches?e.touches[0].clientX:e.clientX)-r.left;const vx=cx/r.width*W;const p=Math.round(1+(vx-L)/(W-L-R)*(dA-1));setHx(p>=1&&p<=maxA?p:null);};
+  const readX=hx!=null&&trend.has(hx)?hx:(hl&&!hx&&trend.has(hl.pA)?hl.pA:null);
+  const readY=readX!=null?trend.get(readX):null;
+  const dot='#1b649e';
+  return<div className="mb-4 max-w-2xl" ref={boxRef}>
+    <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block w-full h-auto select-none touch-pan-y" role="img" aria-label={`Scatter chart: each runner's place at ${thisName} across, against their place at ${otherName} up, with a trend line`}
+      onPointerMove={move} onPointerDown={move} onPointerLeave={()=>setHx(null)}>
+      {/* grid and axes */}
+      {tA.map(v=><g key={'xa'+v}><line x1={X(v)} x2={X(v)} y1={T} y2={H-B} stroke="#eef0f2"/><text x={X(v)} y={H-B+14} fontSize="11" textAnchor="middle" fill="#6b7280">{v}</text></g>)}
+      {tB.map(v=><g key={'ya'+v}><line x1={L} x2={W-R} y1={Y(v)} y2={Y(v)} stroke="#eef0f2"/><text x={L-6} y={Y(v)+4} fontSize="11" textAnchor="end" fill="#6b7280">{v}</text></g>)}
+      <rect x={X(maxA+gA/2)} y={T} width={W-R-X(maxA+gA/2)} height={H-B-T} fill="#f3f4f6"/>
+      <rect x={L} y={Y(maxB+gB/2)-(Y(maxB+gB/2)-T)} width={W-R-L} height={Y(maxB+gB/2)-T} fill="#f3f4f6"/>
+      <text x={X(dA)} y={H-B+14} fontSize="10" textAnchor="middle" fill="#6b7280">DNS</text>
+      <text x={L-6} y={Y(dB)+4} fontSize="10" textAnchor="end" fill="#6b7280">DNS</text>
+      <text x={L+(W-L-R)/2} y={H-6} fontSize="12" textAnchor="middle" fill="#374151" fontWeight="600">Place at {thisName}</text>
+      <text transform={`translate(12,${T+(H-B-T)/2}) rotate(-90)`} fontSize="12" textAnchor="middle" fill="#374151" fontWeight="600">Place at {otherName}</text>
+      {/* dots */}
+      {onlyA.map((r,i)=><circle key={'a'+i} cx={X(r.p)} cy={Y(dB)} r="2.2" fill="#9ca3af" opacity=".45"/>)}
+      {onlyB.map((r,i)=><circle key={'b'+i} cx={X(dA)} cy={Y(r.p)} r="2.2" fill="#9ca3af" opacity=".45"/>)}
+      {rows.map(r=><circle key={r.k} cx={X(r.pA)} cy={Y(r.pB)} r="2.4" fill={dot} opacity=".38"/>)}
+      <path d={path} fill="none" stroke="#111827" strokeWidth="2.2" strokeLinejoin="round"/>
+      {/* the searched or opened runner */}
+      {hl&&<g><line x1={X(hl.pA)} x2={X(hl.pA)} y1={Y(hl.pB)} y2={H-B} stroke={chartLineColor(hl.club)} strokeDasharray="3,3"/><line x1={L} x2={X(hl.pA)} y1={Y(hl.pB)} y2={Y(hl.pB)} stroke={chartLineColor(hl.club)} strokeDasharray="3,3"/>
+        <circle cx={X(hl.pA)} cy={Y(hl.pB)} r="5.5" fill={chartLineColor(hl.club)} stroke="#fff" strokeWidth="2"/>
+        <text x={X(hl.pA)+(X(hl.pA)>W*0.7?-9:9)} y={Y(hl.pB)-8} fontSize="12" fontWeight="600" textAnchor={X(hl.pA)>W*0.7?'end':'start'} fill="#111827" stroke="#fff" strokeWidth="3" paintOrder="stroke">{hl.name}</text></g>}
+      {/* read across */}
+      {readX!=null&&<g pointerEvents="none"><line x1={X(readX)} x2={X(readX)} y1={H-B} y2={Y(readY)} stroke="#111827" strokeWidth="1"/><line x1={L} x2={X(readX)} y1={Y(readY)} y2={Y(readY)} stroke="#111827" strokeWidth="1"/><circle cx={X(readX)} cy={Y(readY)} r="3.5" fill="#111827"/></g>}
+    </svg>
+    <p className="text-sm text-gray-700 min-h-[1.5rem]">{readX!=null?<><b className="font-semibold text-gray-900">{ordPos(readX)}</b> at {thisName} ≈ <b className="font-semibold text-gray-900">{ordPos(Math.round(readY))}</b> at {otherName}, on the trend line.</>:<span className="text-gray-500">Move across the chart to read what a place here was worth at {otherName}. Grey dots ran only one of the two races.</span>}</p>
+  </div>;
+};
 const RaceCompare=({race,races,setView})=>{
   const others=useMemo(()=>(races||[]).filter(x=>x!==race&&x.season===race.season&&(x.results||[]).length>0).sort((a,b)=>a.match-b.match),[races,race]);
   const defaultOther=others.filter(x=>x.match<race.match).slice(-1)[0]||others[0]||null;
@@ -1804,26 +1850,42 @@ const RaceCompare=({race,races,setView})=>{
     const rA=rankIn(sortedA),rB=rankIn(sortedB);
     /* running counts of finishers ahead who didn't run the other race */
     const rows=[...both].map(k=>{const a=A.get(k),b=B.get(k),cA=rA.get(k),cB=rB.get(k);return{k,name:a.name,club:a.club,pA:a.p,pB:b.p,cA,cB,newAhead:a.p-1-(cA-1),goneAhead:b.p-1-(cB-1)};});
-    return{rows,nBoth:both.size,nA:A.size,nB:B.size};
+    const onlyA=sortedA.filter(r=>!both.has(normalizeNameForCompare(r.name))).map(r=>({name:r.name,club:r.club,p:r.p}));
+    const onlyB=sortedB.filter(r=>!both.has(normalizeNameForCompare(r.name))).map(r=>({name:r.name,club:r.club,p:r.p}));
+    const maxA=Math.max(0,...(race.results||[]).map(r=>parseInt(r.pos)||0)),maxB=Math.max(0,...(other.results||[]).map(r=>parseInt(r.pos)||0));
+    /* trend: a running median of the other race's place around each place here, then forced to rise steadily (pool-adjacent-violators) so it reads across cleanly */
+    const pts=rows.map(r=>[r.pA,r.pB]).sort((x,y)=>x[0]-y[0]);const h=Math.max(4,Math.round(maxA*0.06));const raw=[];let lo=0,hi=0;
+    for(let x=1;x<=maxA;x++){while(lo<pts.length&&pts[lo][0]<x-h)lo++;while(hi<pts.length&&pts[hi][0]<=x+h)hi++;const ys=pts.slice(lo,hi).map(q=>q[1]).sort((u,v)=>u-v);if(ys.length>=3)raw.push([x,ys.length%2?ys[(ys.length-1)/2]:(ys[ys.length/2-1]+ys[ys.length/2])/2]);}
+    const blocks=[];raw.forEach(([x,y])=>{blocks.push({xs:[x],sum:y,n:1});while(blocks.length>1&&blocks[blocks.length-2].sum/blocks[blocks.length-2].n>blocks[blocks.length-1].sum/blocks[blocks.length-1].n){const t=blocks.pop(),u=blocks[blocks.length-1];u.xs.push(...t.xs);u.sum+=t.sum;u.n+=t.n;}});
+    const step=[];blocks.forEach(bk=>bk.xs.forEach(x=>step.push([x,bk.sum/bk.n])));
+    /* soften the steps with a moving average (still only ever rises) */
+    const trend=new Map();const sw=Math.max(2,Math.round(h/2));step.forEach(([x],i)=>{let t=0,n=0;for(let j=Math.max(0,i-sw);j<=Math.min(step.length-1,i+sw);j++){t+=step[j][1];n++;}trend.set(x,t/n);});
+    return{rows,nBoth:both.size,nA:A.size,nB:B.size,onlyA,onlyB,maxA,maxB,trend};
   },[race,other]);
   if(!others.length)return<p className="text-sm text-gray-500 py-4">There's no other race this season to compare with yet.</p>;
   const thisName=race.venue,otherName=other?.venue||'';
   const sq=searchFold(q);
   let rows=data?.rows||[];
-  if(sq)rows=rows.filter(r=>nameSearchScore(r.name,q)||searchFold(r.club).includes(sq));
+  const qNum=/^\s*\d+\s*(st|nd|rd|th)?\s*$/i.test(q)?parseInt(q):null;
+  if(qNum)rows=rows.filter(r=>r.pA===qNum);else if(sq)rows=rows.filter(r=>nameSearchScore(r.name,q)||searchFold(r.club).includes(sq));
   rows=[...rows].sort(sort==='gain'?((a,b)=>(a.cA-a.cB)-(b.cA-b.cB)||a.pA-b.pA):((a,b)=>a.pA-b.pA));
   const shown=rows.slice(0,sq?100:400);
   const autoOpen=sq&&rows.length===1?rows[0].k:null;
   const places=n=>`${n} place${n===1?'':'s'}`;
   const Delta=({d})=>d===0?<span className="text-gray-500">=</span>:<span className={d>0?'text-green-700':'text-red-600'}>{d>0?'▲':'▼'} {Math.abs(d)}</span>;
-  const Explain=({r})=>{const raw=r.pB-r.pA,like=r.cB-r.cA;
+  const Explain=({r})=>{const raw=r.pB-r.pA,like=r.cB-r.cA;const all=data.rows;const swapUp=all.filter(o=>o.pA<r.pA&&o.pB>r.pB).length,swapDown=all.filter(o=>o.pA>r.pA&&o.pB<r.pB).length;const tv=data.trend.get(r.pA);const exp=tv!=null?Math.round(tv):null;
     const verdict=Math.abs(like)<=Math.max(2,Math.round(data.nBoth*0.01))?'Against the same runners you ran about as well as last time, so the change is mostly down to who turned up.':like>0?`Against the same runners you finished higher, so you ran better than at ${otherName}.`:`Against the same runners you finished lower, so you ran less well than at ${otherName}.`;
     return<div className="text-sm text-gray-700 bg-gray-50 rounded-lg px-3 py-3 space-y-1.5">
       <p><b className="font-semibold text-gray-900">{ordPos(r.pA)}</b> at {thisName}, <b className="font-semibold text-gray-900">{ordPos(r.pB)}</b> at {otherName}: {raw===0?'the same place.':`${places(Math.abs(raw))} ${raw>0?'higher':'lower'}.`}</p>
       <ul className="space-y-1 pl-4 list-disc marker:text-gray-400">
         <li>{r.newAhead===0?`Nobody new finished ahead of you at ${thisName}.`:`${r.newAhead} ${r.newAhead===1?'runner':'runners'} who didn't race at ${otherName} finished ahead of you at ${thisName}.`}</li>
         <li>{r.goneAhead===0?`Everyone who beat you at ${otherName} raced again.`:`${r.goneAhead} ${r.goneAhead===1?'runner':'runners'} who beat you at ${otherName} didn't race at ${thisName}.`}</li>
-        <li>Among the {data.nBoth} runners who ran both, you were {ordPos(r.cB)} at {otherName} and {ordPos(r.cA)} at {thisName}{like===0?': no change.':`: ${places(Math.abs(like))} ${like>0?'higher':'lower'}.`}</li>
+        <li>Among the {data.nBoth} runners who ran both, you were {ordPos(r.cB)} at {otherName} and {ordPos(r.cA)} at {thisName}{like===0?': no change.':`: ${places(Math.abs(like))} ${like>0?'higher':'lower'}.`}
+          <ul className="mt-1 space-y-1 pl-4 list-[circle] marker:text-gray-400">
+            <li>{swapUp===0?`Nobody who beat you here had been behind you at ${otherName}.`:`${swapUp} who beat you here had been behind you at ${otherName}.`}</li>
+            <li>{swapDown===0?`Nobody you beat here had been ahead of you at ${otherName}.`:`${swapDown} you beat here had been ahead of you at ${otherName}.`}</li>
+          </ul></li>
+        {exp!=null&&<li>On the trend line, {ordPos(r.pA)} here is worth about {ordPos(exp)} at {otherName}. You were {ordPos(r.pB)}.</li>}
       </ul>
       <p className="text-gray-900">{verdict}</p>
     </div>;};
@@ -1832,7 +1894,8 @@ const RaceCompare=({race,races,setView})=>{
       <div className="inline-flex flex-wrap bg-gray-100 rounded-lg p-0.5">{others.map(x=><button key={x.match} onClick={()=>{setOther(x);setOpen(null);}} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium ${other===x?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{x.venue}<span className="hidden sm:inline text-gray-500 font-normal"> · {raceShortWhen(x)}</span></button>)}</div>
     </div>
     <p className="text-sm text-gray-500 mb-3">{data.nBoth} runners ran both races. Tap a runner to see whether a change in place was down to how they ran or who else turned up.</p>
-    <div className="flex items-center gap-3 mb-2"><input value={q} onChange={e=>{setQ(e.target.value);setOpen(null);}} placeholder="Find a runner or club…" aria-label="Find a runner or club" className="flex-1 min-w-0 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1b649e]"/>
+    <CompareScatter data={data} thisName={thisName} otherName={otherName} hl={(rows.find(r=>r.k===(open||autoOpen)))||null}/>
+    <div className="flex items-center gap-3 mb-2"><input value={q} onChange={e=>{setQ(e.target.value);setOpen(null);}} placeholder="Your name, club or place…" aria-label="Find a runner by name, club or place" className="flex-1 min-w-0 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1b649e]"/>
       <div className="inline-flex shrink-0 bg-gray-100 rounded-lg p-0.5 text-xs">{[['pos','Place'],['gain','Climbers']].map(([id,l])=><button key={id} onClick={()=>setSort(id)} className={`px-2 py-1 rounded-md font-medium ${sort===id?'bg-white text-gray-900 shadow-sm':'text-gray-500'}`}>{l}</button>)}</div></div>
     <table className="w-full text-sm"><thead><tr className="border-b border-gray-200 text-xs font-semibold text-gray-900 uppercase tracking-wide">
       <th className="text-left py-1.5">Runner</th><th className="text-right py-1.5 px-1 md:px-2 max-w-[5rem] truncate" title={thisName}>This race</th><th className="text-right py-1.5 px-1 md:px-2 max-w-[6rem] truncate" title={otherName}><span className="hidden sm:inline">{otherName}</span><span className="sm:hidden">Other</span></th><th className="text-right py-1.5 pl-1 md:pl-2" title="Change in rank among the runners who ran both races"><span className="whitespace-nowrap">Like for like</span></th></tr></thead>
@@ -1842,7 +1905,7 @@ const RaceCompare=({race,races,setView})=>{
         <td className="py-2 px-1 md:px-2 text-right tabular-nums text-gray-500">{r.pB}</td>
         <td className="py-2 pl-1 md:pl-2 text-right tabular-nums whitespace-nowrap"><Delta d={r.cB-r.cA}/></td></tr>
         {isOpen&&<tr><td colSpan={4} className="pb-3 pt-1"><Explain r={r}/><button onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:r.name,club:r.club}});}} className="mt-2 text-sm text-[#1b649e] underline decoration-[#1b649e]/40 underline-offset-2">{r.name}'s profile</button></td></tr>}</React.Fragment>;})}</tbody></table>
-    {!shown.length&&<p className="text-sm text-gray-500 py-4">No runner who ran both races matches “{q}”.</p>}
+    {!shown.length&&<p className="text-sm text-gray-500 py-4">{qNum?`Whoever was ${ordPos(qNum)} here didn't run both races.`:`No runner who ran both races matches “${q}”.`}</p>}
     {rows.length>shown.length&&<p className="text-xs text-gray-500 mt-2">Showing the first {shown.length} of {rows.length}. Search to find anyone else.</p>}
   </div>;
 };
