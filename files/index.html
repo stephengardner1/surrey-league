@@ -37,15 +37,13 @@
 .fg .mono,.fg td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .fg header{display:grid;gap:6px}
 .fg .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.fg .vrow{display:flex;gap:4px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:-6px -4px 0;padding:2px 4px 4px}
+.fg .vrow{display:flex;gap:2px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:-10px -2px 0;padding:0}
 .fg .vrow::-webkit-scrollbar{display:none}
 .fg .vrow.more{-webkit-mask-image:linear-gradient(to right,#000 80%,transparent);mask-image:linear-gradient(to right,#000 80%,transparent)}
-.fg .vrow .vest{flex:none;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:44px;padding:6px 4px 4px;border:0;border-radius:8px;background:transparent;cursor:pointer;font:inherit;color:var(--ink-2);transition:opacity .15s,background .15s}
+.fg .vrow .vest{flex:none;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;padding:2px;border:0;border-radius:6px;background:transparent;cursor:pointer;transition:opacity .15s,background .15s}
 .fg .vrow .vest:hover{background:var(--seg-bg,#f3f4f2)}
 .fg .vrow .vi{display:block;width:28px;height:28px}.fg .vrow .vi svg{display:block;width:100%;height:100%}
-.fg .vrow .vc{font-size:11px;font-weight:500;letter-spacing:.02em;line-height:1}
 .fg .vrow.one .vest[aria-pressed="false"]{opacity:.3}
-.fg .vrow.one .vest[aria-pressed="true"] .vc{color:var(--ink);font-weight:600}
 .fg .seg{display:inline-flex;align-items:center;gap:0;padding:2px;border-radius:8px;background:var(--seg-bg,#f3f4f2)}
 .fg .seg button{font:inherit;font-size:14px;font-weight:500;border:0;border-radius:6px;background:transparent;color:var(--seg-off,#686e66);padding:4px 12px;cursor:pointer;transition:color .15s,background .15s}
 .fg .seg button:hover{color:var(--seg-hover,#3c403a)}
@@ -1741,7 +1739,7 @@ const initFormGuide=(root,G)=>{
   /* club filter: a row of vests (all selected by default); tap one to show just that club, tap it again for all clubs */
   const sel=$("#club");if(sel)sel.remove();
   const vr=document.createElement("div");vr.className="vrow";vr.setAttribute("role","group");vr.setAttribute("aria-label","Filter by club");
-  vr.innerHTML=[...new Set(ROWS.map(r=>r.c).filter(Boolean))].sort().map(c=>`<button type="button" class="vest" data-club="${c}" aria-pressed="false" title="${CLUBS[c]||c}"><span class="vi" aria-hidden="true">${getClubVestSvg(c)}</span><span class="vc">${c}</span></button>`).join("");
+  vr.innerHTML=[...new Set(ROWS.map(r=>r.c).filter(Boolean))].sort().map(c=>`<button type="button" class="vest" data-club="${c}" aria-pressed="false" title="${CLUBS[c]||c}" aria-label="${CLUBS[c]||c}"><span class="vi" aria-hidden="true">${getClubVestSvg(c)}</span></button>`).join("");
   $(".controls").insertAdjacentElement("afterend",vr);
   const vMore=()=>vr.classList.toggle("more",vr.scrollLeft+vr.clientWidth<vr.scrollWidth-2);vr.addEventListener("scroll",vMore,{passive:true});window.addEventListener("resize",vMore);requestAnimationFrame(vMore);
   const paintVests=()=>{vr.classList.toggle("one",!!state.club);vr.querySelectorAll(".vest").forEach(b=>b.setAttribute("aria-pressed",String(!state.club||b.dataset.club===state.club)));};paintVests();
