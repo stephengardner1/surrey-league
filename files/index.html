@@ -311,10 +311,22 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
 })();
 </script>
 <script id="haptics">
-/* iPhone app only: a light selection tick when a toggle changes (Men/Women, Classic results/Form guide, Individual/A Teams/B Teams,
-   chart and table options, sort headings). Uses Capacitor's Haptics plugin when the app includes it; does nothing on the website. */
+/* A light selection tick when a toggle changes, in the iPhone app and on the mobile website (Men/Women, Classic results/Form guide, Individual/A Teams/B Teams,
+   chart and table options, sort headings). In the app it uses Capacitor's Haptics plugin when the app includes it. */
 (function(){
   function H(){var C=window.Capacitor;return C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Haptics;}
+  /* On the mobile website: iPhone Safari (iOS 18+) has no vibration API, but its native switch control ticks when toggled,
+     so a hidden switch is flicked via its label inside the tap. Android browsers use navigator.vibrate. Desktop: nothing. */
+  var touch=window.matchMedia&&matchMedia('(pointer: coarse)').matches,sw=null,lab=null;
+  function webTick(){
+    if(!touch)return;
+    if(navigator.vibrate){try{navigator.vibrate(8);}catch(e){}return;}
+    if(!sw){sw=document.createElement('input');sw.type='checkbox';sw.setAttribute('switch','');sw.id='sl-haptic';sw.tabIndex=-1;sw.setAttribute('aria-hidden','true');
+      lab=document.createElement('label');lab.htmlFor='sl-haptic';lab.setAttribute('aria-hidden','true');
+      lab.style.cssText=sw.style.cssText='position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;pointer-events:none';
+      document.body.appendChild(sw);document.body.appendChild(lab);}
+    lab.click();
+  }
   function isToggle(b){
     if(b.matches('[role="switch"],[role="tab"],input[type="checkbox"],input[type="radio"],thead th button,.sortbtn,[data-haptic]'))return true;
     if(b.hasAttribute('aria-pressed'))return true;
@@ -324,10 +336,11 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
   }
   function alreadyOn(b){return b.getAttribute('aria-pressed')==='true'||b.getAttribute('aria-selected')==='true'||(/\bbg-white\b/.test(b.className)&&/\bshadow-sm\b/.test(b.className));}
   document.addEventListener('click',function(e){
-    var h=H();if(!h)return;
+    if(e.target===lab||e.target===sw)return;
+    var h=H();
     var b=e.target.closest&&e.target.closest('button,[role="switch"],[role="tab"],input[type="checkbox"],input[type="radio"]');
     if(!b||b.disabled||!isToggle(b)||(!b.matches('thead th button,.sortbtn,input')&&alreadyOn(b)))return;
-    try{h.selectionStart();h.selectionChanged();h.selectionEnd();}catch(err){}
+    if(h){try{h.selectionStart();h.selectionChanged();h.selectionEnd();}catch(err){}}else webTick();
   },true);
 })();
 </script>
