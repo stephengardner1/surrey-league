@@ -262,10 +262,10 @@ export default {
         return env.ASSETS.fetch(new Request(url.origin + '/'));
       }
     }
-    const rm = url.pathname.match(/^\/(women\/)?race\/(\d{4})-(\d+)(\/form-guide)?\/?$/i);
+    const rm = url.pathname.match(/^\/(women\/)?race\/(\d{4})-(\d+)(\/form-guide|\/compare)?\/?$/i);
     if (rm && (request.method === 'GET' || request.method === 'HEAD')) {
       try {
-        return await racePage(request, env, url, !!rm[1], rm[2], parseInt(rm[3], 10), !!rm[4]);
+        return await racePage(request, env, url, !!rm[1], rm[2], parseInt(rm[3], 10), /form-guide/i.test(rm[4]||''));
       } catch (e) {
         return env.ASSETS.fetch(new Request(url.origin + '/'));
       }
