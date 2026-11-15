@@ -1,0 +1,2199 @@
+{
+ "discipline": "5MXC",
+ "name": "Senior Men",
+ "positions": [
+  {
+   "bib": 560,
+   "club": "HOL",
+   "familyName": "Kavanagh",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 1
+  },
+  {
+   "bib": 426,
+   "club": "HHH",
+   "familyName": "Bramwell",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 2
+  },
+  {
+   "bib": 844,
+   "club": "THH",
+   "familyName": "Fox",
+   "givenName": "Oliver",
+   "perf": "N/A",
+   "rank": 3
+  },
+  {
+   "bib": 869,
+   "club": "THH",
+   "familyName": "Mapperley",
+   "givenName": "Nathan",
+   "perf": "N/A",
+   "rank": 4,
+   "secondClaim": true
+  },
+  {
+   "bib": 19,
+   "club": "BEL",
+   "familyName": "Ryan",
+   "givenName": "Larry",
+   "perf": "N/A",
+   "rank": 5
+  },
+  {
+   "bib": 836,
+   "club": "THH",
+   "familyName": "McColgan",
+   "givenName": "Ethan",
+   "perf": "N/A",
+   "rank": 6
+  },
+  {
+   "bib": 551,
+   "club": "HOL",
+   "familyName": "Green",
+   "givenName": "Andrew",
+   "perf": "N/A",
+   "rank": 7
+  },
+  {
+   "bib": 268,
+   "club": "G&G",
+   "familyName": "Reilly",
+   "givenName": "Cameron",
+   "perf": "N/A",
+   "rank": 8
+  },
+  {
+   "bib": 242,
+   "club": "G&G",
+   "familyName": "Foster",
+   "givenName": "Tom",
+   "perf": "N/A",
+   "rank": 9
+  },
+  {
+   "bib": 652,
+   "club": "KEN",
+   "familyName": "Collier",
+   "givenName": "Jonathan",
+   "perf": "N/A",
+   "rank": 10
+  },
+  {
+   "bib": 17,
+   "club": "BEL",
+   "familyName": "Pearce",
+   "givenName": "Fintan",
+   "perf": "N/A",
+   "rank": 11,
+   "secondClaim": true
+  },
+  {
+   "bib": 839,
+   "club": "THH",
+   "familyName": "Howard",
+   "givenName": "Alex",
+   "perf": "N/A",
+   "rank": 12,
+   "secondClaim": true
+  },
+  {
+   "bib": 852,
+   "club": "THH",
+   "familyName": "Martin",
+   "givenName": "Jared",
+   "perf": "N/A",
+   "rank": 13
+  },
+  {
+   "bib": 4,
+   "club": "BEL",
+   "familyName": "Eccles",
+   "givenName": "Gavin",
+   "perf": "N/A",
+   "rank": 14
+  },
+  {
+   "bib": 472,
+   "club": "HHH",
+   "familyName": "Shaw",
+   "givenName": "Daniel",
+   "perf": "N/A",
+   "rank": 15
+  },
+  {
+   "bib": 340,
+   "club": "H/W",
+   "familyName": "Dickson",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 16
+  },
+  {
+   "bib": 894,
+   "club": "THH",
+   "familyName": "Brockmann",
+   "givenName": "Jacob",
+   "perf": "N/A",
+   "rank": 17
+  },
+  {
+   "bib": 566,
+   "club": "HOL",
+   "familyName": "Hewitt",
+   "givenName": "Hugo",
+   "perf": "N/A",
+   "rank": 18,
+   "secondClaim": true
+  },
+  {
+   "bib": 538,
+   "club": "HOL",
+   "familyName": "Barnes",
+   "givenName": "Kieran",
+   "perf": "N/A",
+   "rank": 19
+  },
+  {
+   "bib": 25,
+   "club": "BEL",
+   "familyName": "Coppard",
+   "givenName": "Simon",
+   "perf": "N/A",
+   "rank": 20
+  },
+  {
+   "bib": 148,
+   "club": "DUL",
+   "familyName": "Chuck",
+   "givenName": "Edward",
+   "perf": "N/A",
+   "rank": 21
+  },
+  {
+   "bib": 294,
+   "club": "G&G",
+   "familyName": "Jermy",
+   "givenName": "Ollie",
+   "perf": "N/A",
+   "rank": 22
+  },
+  {
+   "bib": 850,
+   "club": "THH",
+   "familyName": "Hoad",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 23
+  },
+  {
+   "bib": 18,
+   "club": "BEL",
+   "familyName": "Gebreselassie",
+   "givenName": "Samuel",
+   "perf": "N/A",
+   "rank": 24
+  },
+  {
+   "bib": 590,
+   "club": "HOL",
+   "familyName": "Woods",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 25
+  },
+  {
+   "bib": 862,
+   "club": "THH",
+   "familyName": "Renshaw",
+   "givenName": "Thomas",
+   "perf": "N/A",
+   "rank": 26
+  },
+  {
+   "bib": 636,
+   "club": "KEN",
+   "familyName": "Parker",
+   "givenName": "Isaac",
+   "perf": "N/A",
+   "rank": 27
+  },
+  {
+   "bib": 350,
+   "club": "H/W",
+   "familyName": "Mallet",
+   "givenName": "George",
+   "perf": "N/A",
+   "rank": 28
+  },
+  {
+   "bib": 396,
+   "club": "H/W",
+   "familyName": "Walton",
+   "givenName": "Archie",
+   "perf": "N/A",
+   "rank": 29
+  },
+  {
+   "bib": 924,
+   "club": "WOK",
+   "familyName": "Hutchins",
+   "givenName": "John",
+   "perf": "N/A",
+   "rank": 30
+  },
+  {
+   "bib": 3,
+   "club": "BEL",
+   "familyName": "Sommerville",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 31
+  },
+  {
+   "bib": 364,
+   "club": "H/W",
+   "familyName": "Stockings",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 32
+  },
+  {
+   "bib": 424,
+   "club": "HHH",
+   "familyName": "Board",
+   "givenName": "Rowan",
+   "perf": "N/A",
+   "rank": 33
+  },
+  {
+   "bib": 917,
+   "club": "WOK",
+   "familyName": "Dormer",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 34
+  },
+  {
+   "bib": 377,
+   "club": "H/W",
+   "familyName": "Slemeck",
+   "givenName": "Fred",
+   "perf": "N/A",
+   "rank": 35
+  },
+  {
+   "bib": 856,
+   "club": "THH",
+   "familyName": "Gathercole",
+   "givenName": "George",
+   "perf": "N/A",
+   "rank": 36
+  },
+  {
+   "bib": 1,
+   "club": "BEL",
+   "familyName": "McNally",
+   "givenName": "Conall",
+   "perf": "N/A",
+   "rank": 37
+  },
+  {
+   "bib": 270,
+   "club": "G&G",
+   "familyName": "Royer",
+   "givenName": "Adrien",
+   "perf": "N/A",
+   "rank": 38
+  },
+  {
+   "bib": 259,
+   "club": "G&G",
+   "familyName": "Martin",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 39
+  },
+  {
+   "bib": 491,
+   "club": "HHH",
+   "familyName": "Fitzpatrick",
+   "givenName": "Ben",
+   "perf": "N/A",
+   "rank": 40
+  },
+  {
+   "bib": 771,
+   "club": "RAN",
+   "familyName": "Olden",
+   "givenName": "Callum",
+   "perf": "N/A",
+   "rank": 41,
+   "secondClaim": true
+  },
+  {
+   "bib": 48,
+   "club": "BEL",
+   "familyName": "Dyer",
+   "givenName": "Findlay",
+   "perf": "N/A",
+   "rank": 42
+  },
+  {
+   "bib": 468,
+   "club": "HHH",
+   "familyName": "Roberts",
+   "givenName": "Harry",
+   "perf": "N/A",
+   "rank": 43
+  },
+  {
+   "bib": 351,
+   "club": "H/W",
+   "familyName": "Mallett",
+   "givenName": "Ed",
+   "perf": "N/A",
+   "rank": 44
+  },
+  {
+   "bib": 137,
+   "club": "DUL",
+   "familyName": "Armstrong",
+   "givenName": "Rob",
+   "perf": "N/A",
+   "rank": 45
+  },
+  {
+   "bib": 11,
+   "club": "BEL",
+   "familyName": "Johnstone",
+   "givenName": "Andrew",
+   "perf": "N/A",
+   "rank": 46
+  },
+  {
+   "bib": 679,
+   "club": "KEN",
+   "familyName": "Hamlet",
+   "givenName": "Alex",
+   "perf": "N/A",
+   "rank": 47
+  },
+  {
+   "bib": 492,
+   "club": "HHH",
+   "familyName": "Richardson",
+   "givenName": "Jake",
+   "nonScorer": true,
+   "perf": "N/A",
+   "rank": 48
+  },
+  {
+   "bib": 345,
+   "club": "H/W",
+   "familyName": "Hobden",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 49
+  },
+  {
+   "bib": 333,
+   "club": "H/W",
+   "familyName": "Brady",
+   "givenName": "Eoin",
+   "perf": "N/A",
+   "rank": 50
+  },
+  {
+   "bib": 238,
+   "club": "G&G",
+   "familyName": "Etheridge",
+   "givenName": "Marcus",
+   "perf": "N/A",
+   "rank": 51
+  },
+  {
+   "bib": 543,
+   "club": "HOL",
+   "familyName": "Burgoyne",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 52
+  },
+  {
+   "bib": 662,
+   "club": "KEN",
+   "familyName": "Dibaba",
+   "givenName": "Dame",
+   "perf": "N/A",
+   "rank": 53
+  },
+  {
+   "bib": 5,
+   "club": "BEL",
+   "familyName": "Neville",
+   "givenName": "Jonny",
+   "perf": "N/A",
+   "rank": 54
+  },
+  {
+   "bib": 482,
+   "club": "HHH",
+   "familyName": "Grehan Bradley",
+   "givenName": "Joseph",
+   "perf": "N/A",
+   "rank": 55
+  },
+  {
+   "bib": 627,
+   "club": "KEN",
+   "familyName": "Buck",
+   "givenName": "Olly",
+   "perf": "N/A",
+   "rank": 56
+  },
+  {
+   "bib": 764,
+   "club": "RAN",
+   "familyName": "Killip",
+   "givenName": "Joe",
+   "perf": "N/A",
+   "rank": 57
+  },
+  {
+   "bib": 637,
+   "club": "KEN",
+   "familyName": "Pettitt",
+   "givenName": "Dan",
+   "perf": "N/A",
+   "rank": 58
+  },
+  {
+   "bib": 230,
+   "club": "G&G",
+   "familyName": "Brewer",
+   "givenName": "Ed",
+   "perf": "N/A",
+   "rank": 59
+  },
+  {
+   "bib": 14,
+   "club": "BEL",
+   "familyName": "Preston",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 60
+  },
+  {
+   "bib": 250,
+   "club": "G&G",
+   "familyName": "High",
+   "givenName": "Colin",
+   "perf": "N/A",
+   "rank": 61
+  },
+  {
+   "bib": 257,
+   "club": "G&G",
+   "familyName": "Lightfoot",
+   "givenName": "Nick",
+   "perf": "N/A",
+   "rank": 62
+  },
+  {
+   "bib": 30,
+   "club": "BEL",
+   "familyName": "Gandee",
+   "givenName": "Thomas",
+   "perf": "N/A",
+   "rank": 63
+  },
+  {
+   "bib": 427,
+   "club": "HHH",
+   "familyName": "Brashaw",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 64
+  },
+  {
+   "bib": 647,
+   "club": "KEN",
+   "familyName": "Royle",
+   "givenName": "Bert",
+   "perf": "N/A",
+   "rank": 65
+  },
+  {
+   "bib": 438,
+   "club": "HHH",
+   "familyName": "Goncalves",
+   "givenName": "Ashley",
+   "perf": "N/A",
+   "rank": 66
+  },
+  {
+   "bib": 643,
+   "club": "KEN",
+   "familyName": "Torry",
+   "givenName": "Nicholas",
+   "perf": "N/A",
+   "rank": 67
+  },
+  {
+   "bib": 8,
+   "club": "BEL",
+   "familyName": "Wolff",
+   "givenName": "Daniel",
+   "perf": "N/A",
+   "rank": 68
+  },
+  {
+   "bib": 241,
+   "club": "G&G",
+   "familyName": "Ford",
+   "givenName": "Will",
+   "perf": "N/A",
+   "rank": 69
+  },
+  {
+   "bib": 687,
+   "club": "KEN",
+   "familyName": "Anderson",
+   "givenName": "Callum",
+   "perf": "N/A",
+   "rank": 70
+  },
+  {
+   "bib": 935,
+   "club": "WOK",
+   "familyName": "Skentos",
+   "givenName": "Thomas",
+   "perf": "N/A",
+   "rank": 71
+  },
+  {
+   "bib": 681,
+   "club": "KEN",
+   "familyName": "Ewing",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 72
+  },
+  {
+   "bib": 583,
+   "club": "HOL",
+   "familyName": "Swinburn",
+   "givenName": "Phil",
+   "perf": "N/A",
+   "rank": 73
+  },
+  {
+   "bib": 354,
+   "club": "H/W",
+   "familyName": "Mcllroy",
+   "givenName": "Chris",
+   "perf": "N/A",
+   "rank": 74
+  },
+  {
+   "bib": 286,
+   "club": "G&G",
+   "familyName": "Friscia",
+   "givenName": "Alex",
+   "perf": "N/A",
+   "rank": 75
+  },
+  {
+   "bib": 494,
+   "club": "HHH",
+   "familyName": "Velayos Hernando",
+   "givenName": "Olmo",
+   "perf": "N/A",
+   "rank": 76
+  },
+  {
+   "bib": 164,
+   "club": "DUL",
+   "familyName": "Howe",
+   "givenName": "Ben",
+   "perf": "N/A",
+   "rank": 77
+  },
+  {
+   "bib": 475,
+   "club": "HHH",
+   "familyName": "Tanguy",
+   "givenName": "Ronan",
+   "perf": "N/A",
+   "rank": 78
+  },
+  {
+   "bib": 757,
+   "club": "RAN",
+   "familyName": "Bruce",
+   "givenName": "Aaron",
+   "perf": "N/A",
+   "rank": 79
+  },
+  {
+   "bib": 488,
+   "club": "HHH",
+   "familyName": "Banfield",
+   "givenName": "Simon",
+   "perf": "N/A",
+   "rank": 80
+  },
+  {
+   "bib": 857,
+   "club": "THH",
+   "familyName": "Garner",
+   "givenName": "Oliver",
+   "perf": "N/A",
+   "rank": 81
+  },
+  {
+   "bib": 838,
+   "club": "THH",
+   "familyName": "Chisholm",
+   "givenName": "Neil",
+   "perf": "N/A",
+   "rank": 82
+  },
+  {
+   "bib": 29,
+   "club": "BEL",
+   "familyName": "McCarthy",
+   "givenName": "Michael",
+   "perf": "N/A",
+   "rank": 83
+  },
+  {
+   "bib": 186,
+   "club": "DUL",
+   "familyName": "Ramm",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 84
+  },
+  {
+   "bib": 464,
+   "club": "HHH",
+   "familyName": "Palmer",
+   "givenName": "Ben",
+   "perf": "N/A",
+   "rank": 85
+  },
+  {
+   "bib": 633,
+   "club": "KEN",
+   "familyName": "Hartley",
+   "givenName": "Joe",
+   "perf": "N/A",
+   "rank": 86
+  },
+  {
+   "bib": 166,
+   "club": "DUL",
+   "familyName": "Impey",
+   "givenName": "Nick",
+   "perf": "N/A",
+   "rank": 87
+  },
+  {
+   "bib": 777,
+   "club": "RAN",
+   "familyName": "Robins",
+   "givenName": "Peter",
+   "perf": "N/A",
+   "rank": 88
+  },
+  {
+   "bib": 41,
+   "club": "BEL",
+   "familyName": "Lukies",
+   "givenName": "Nic",
+   "perf": "N/A",
+   "rank": 89
+  },
+  {
+   "bib": 539,
+   "club": "HOL",
+   "familyName": "Blackburn",
+   "givenName": "Chris",
+   "perf": "N/A",
+   "rank": 90
+  },
+  {
+   "bib": 864,
+   "club": "THH",
+   "familyName": "McMullan",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 91
+  },
+  {
+   "bib": 641,
+   "club": "KEN",
+   "familyName": "Speed",
+   "givenName": "Mathew",
+   "perf": "N/A",
+   "rank": 92
+  },
+  {
+   "bib": 295,
+   "club": "G&G",
+   "familyName": "Pritchard",
+   "givenName": "Oliver",
+   "perf": "N/A",
+   "rank": 93
+  },
+  {
+   "bib": 188,
+   "club": "DUL",
+   "familyName": "Russell",
+   "givenName": "Adrian",
+   "perf": "N/A",
+   "rank": 94
+  },
+  {
+   "bib": 395,
+   "club": "H/W",
+   "familyName": "Wright",
+   "givenName": "Thomas",
+   "perf": "N/A",
+   "rank": 95
+  },
+  {
+   "bib": 630,
+   "club": "KEN",
+   "familyName": "Day",
+   "givenName": "Barnaby",
+   "perf": "N/A",
+   "rank": 96
+  },
+  {
+   "bib": 104,
+   "club": "BEL",
+   "familyName": "Holland",
+   "givenName": "Thomas",
+   "perf": "N/A",
+   "rank": 97,
+   "secondClaim": true
+  },
+  {
+   "bib": 542,
+   "club": "HOL",
+   "familyName": "Burchett",
+   "givenName": "Mark",
+   "perf": "N/A",
+   "rank": 98
+  },
+  {
+   "bib": 436,
+   "club": "HHH",
+   "familyName": "Elliott",
+   "givenName": "Joe",
+   "perf": "N/A",
+   "rank": 99
+  },
+  {
+   "bib": 628,
+   "club": "KEN",
+   "familyName": "Dames",
+   "givenName": "Samuel",
+   "perf": "N/A",
+   "rank": 100
+  },
+  {
+   "bib": 140,
+   "club": "DUL",
+   "familyName": "Blackwood",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 101
+  },
+  {
+   "bib": 920,
+   "club": "WOK",
+   "familyName": "Cotton",
+   "givenName": "George",
+   "perf": "N/A",
+   "rank": 102
+  },
+  {
+   "bib": 107,
+   "club": "BEL",
+   "familyName": "Turner",
+   "givenName": "Harry",
+   "perf": "N/A",
+   "rank": 103
+  },
+  {
+   "bib": 205,
+   "club": "DUL",
+   "familyName": "Cremen",
+   "givenName": "Eoin",
+   "perf": "N/A",
+   "rank": 104
+  },
+  {
+   "bib": 910,
+   "club": "WOK",
+   "familyName": "Brummer",
+   "givenName": "Ntando",
+   "perf": "N/A",
+   "rank": 105
+  },
+  {
+   "bib": 672,
+   "club": "KEN",
+   "familyName": "Morgan",
+   "givenName": "David",
+   "perf": "N/A",
+   "rank": 106
+  },
+  {
+   "bib": 252,
+   "club": "G&G",
+   "familyName": "Houchell",
+   "givenName": "Matthew",
+   "perf": "N/A",
+   "rank": 107
+  },
+  {
+   "bib": 26,
+   "club": "BEL",
+   "familyName": "Powell",
+   "givenName": "Rhys",
+   "perf": "N/A",
+   "rank": 108
+  },
+  {
+   "bib": 125,
+   "club": "BEL",
+   "familyName": "Powell",
+   "givenName": "Luca",
+   "perf": "N/A",
+   "rank": 109
+  },
+  {
+   "bib": 428,
+   "club": "HHH",
+   "familyName": "Brotchie",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 110
+  },
+  {
+   "bib": 556,
+   "club": "HOL",
+   "familyName": "Hilson",
+   "givenName": "Benjamin",
+   "perf": "N/A",
+   "rank": 111
+  },
+  {
+   "bib": 360,
+   "club": "H/W",
+   "familyName": "Revill",
+   "givenName": "Hector",
+   "perf": "N/A",
+   "rank": 112
+  },
+  {
+   "bib": 337,
+   "club": "H/W",
+   "familyName": "Creegan",
+   "givenName": "Jackson",
+   "perf": "N/A",
+   "rank": 113
+  },
+  {
+   "bib": 490,
+   "club": "HHH",
+   "familyName": "Drummond",
+   "givenName": "Russell",
+   "perf": "N/A",
+   "rank": 114
+  },
+  {
+   "bib": 439,
+   "club": "HHH",
+   "familyName": "Gutteridge",
+   "givenName": "Alex",
+   "perf": "N/A",
+   "rank": 115
+  },
+  {
+   "bib": 433,
+   "club": "HHH",
+   "familyName": "Coombes",
+   "givenName": "Simon",
+   "perf": "N/A",
+   "rank": 116
+  },
+  {
+   "bib": 95,
+   "club": "BEL",
+   "familyName": "Threadgold",
+   "givenName": "Chris",
+   "perf": "N/A",
+   "rank": 117
+  },
+  {
+   "bib": 837,
+   "club": "THH",
+   "familyName": "Ollington",
+   "givenName": "Richard",
+   "perf": "N/A",
+   "rank": 118
+  },
+  {
+   "bib": 113,
+   "club": "BEL",
+   "familyName": "Davis",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 119
+  },
+  {
+   "bib": 87,
+   "club": "BEL",
+   "familyName": "Turner",
+   "givenName": "Euan",
+   "perf": "N/A",
+   "rank": 120
+  },
+  {
+   "bib": 914,
+   "club": "WOK",
+   "familyName": "Cunningham",
+   "givenName": "Charlie",
+   "perf": "N/A",
+   "rank": 121
+  },
+  {
+   "bib": 762,
+   "club": "RAN",
+   "familyName": "Hopkins",
+   "givenName": "Gareth",
+   "perf": "N/A",
+   "rank": 122
+  },
+  {
+   "bib": 285,
+   "club": "G&G",
+   "familyName": "Arnel",
+   "givenName": "Will",
+   "perf": "N/A",
+   "rank": 123
+  },
+  {
+   "bib": 83,
+   "club": "BEL",
+   "familyName": "Thomas",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 124
+  },
+  {
+   "bib": 254,
+   "club": "G&G",
+   "familyName": "Job",
+   "givenName": "Callum",
+   "perf": "N/A",
+   "rank": 125
+  },
+  {
+   "bib": 292,
+   "club": "G&G",
+   "familyName": "Southam",
+   "givenName": "Dan",
+   "perf": "N/A",
+   "rank": 126
+  },
+  {
+   "bib": 448,
+   "club": "HHH",
+   "familyName": "Kearney",
+   "givenName": "Fintan",
+   "perf": "N/A",
+   "rank": 127
+  },
+  {
+   "bib": 200,
+   "club": "DUL",
+   "familyName": "Trueman",
+   "givenName": "Mathew",
+   "perf": "N/A",
+   "rank": 128
+  },
+  {
+   "bib": 866,
+   "club": "THH",
+   "familyName": "Lancefield",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 129
+  },
+  {
+   "bib": 183,
+   "club": "DUL",
+   "familyName": "Phillips",
+   "givenName": "Jon",
+   "perf": "N/A",
+   "rank": 130
+  },
+  {
+   "bib": 369,
+   "club": "H/W",
+   "familyName": "Spelman",
+   "givenName": "Kyle",
+   "perf": "N/A",
+   "rank": 131
+  },
+  {
+   "bib": 547,
+   "club": "HOL",
+   "familyName": "Davis",
+   "givenName": "Luke",
+   "perf": "N/A",
+   "rank": 132
+  },
+  {
+   "bib": 770,
+   "club": "RAN",
+   "familyName": "Mockett",
+   "givenName": "Ted",
+   "perf": "N/A",
+   "rank": 133
+  },
+  {
+   "bib": 31,
+   "club": "BEL",
+   "familyName": "Christie",
+   "givenName": "Ross",
+   "perf": "N/A",
+   "rank": 134
+  },
+  {
+   "bib": 116,
+   "club": "BEL",
+   "familyName": "Scott",
+   "givenName": "Ben",
+   "perf": "N/A",
+   "rank": 135
+  },
+  {
+   "bib": 275,
+   "club": "G&G",
+   "familyName": "Tearle",
+   "givenName": "Nick",
+   "perf": "N/A",
+   "rank": 136
+  },
+  {
+   "bib": 921,
+   "club": "WOK",
+   "familyName": "Goddard",
+   "givenName": "Ben",
+   "perf": "N/A",
+   "rank": 137
+  },
+  {
+   "bib": 367,
+   "club": "H/W",
+   "familyName": "Todd",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 138
+  },
+  {
+   "bib": 136,
+   "club": "DUL",
+   "familyName": "Cumine",
+   "givenName": "Andrew",
+   "perf": "N/A",
+   "rank": 139
+  },
+  {
+   "bib": 690,
+   "club": "KEN",
+   "familyName": "Roots",
+   "givenName": "Cillian",
+   "perf": "N/A",
+   "rank": 140,
+   "secondClaim": true
+  },
+  {
+   "bib": 54,
+   "club": "BEL",
+   "familyName": "Mallinson",
+   "givenName": "George",
+   "perf": "N/A",
+   "rank": 141
+  },
+  {
+   "bib": 767,
+   "club": "RAN",
+   "familyName": "Lawley",
+   "givenName": "David",
+   "perf": "N/A",
+   "rank": 142
+  },
+  {
+   "bib": 224,
+   "club": "G&G",
+   "familyName": "Alwin",
+   "givenName": "Michael",
+   "perf": "N/A",
+   "rank": 143
+  },
+  {
+   "bib": 584,
+   "club": "HOL",
+   "familyName": "Thornley",
+   "givenName": "Tom",
+   "perf": "N/A",
+   "rank": 144
+  },
+  {
+   "bib": 122,
+   "club": "BEL",
+   "familyName": "Nolan",
+   "givenName": "Zach",
+   "perf": "N/A",
+   "rank": 145
+  },
+  {
+   "bib": 911,
+   "club": "WOK",
+   "familyName": "Butt",
+   "givenName": "Matthew",
+   "perf": "N/A",
+   "rank": 146
+  },
+  {
+   "bib": 434,
+   "club": "HHH",
+   "familyName": "Cunningham",
+   "givenName": "Jeff",
+   "perf": "N/A",
+   "rank": 147
+  },
+  {
+   "bib": 695,
+   "club": "KEN",
+   "familyName": "Laing",
+   "givenName": "Robert",
+   "perf": "N/A",
+   "rank": 148
+  },
+  {
+   "bib": 21,
+   "club": "BEL",
+   "familyName": "Edgar",
+   "givenName": "Matthew",
+   "perf": "N/A",
+   "rank": 149
+  },
+  {
+   "bib": 267,
+   "club": "G&G",
+   "familyName": "Reeves",
+   "givenName": "Matthew",
+   "perf": "N/A",
+   "rank": 150
+  },
+  {
+   "bib": 928,
+   "club": "WOK",
+   "familyName": "Nurse",
+   "givenName": "Hugh",
+   "perf": "N/A",
+   "rank": 151
+  },
+  {
+   "bib": 288,
+   "club": "G&G",
+   "familyName": "Holbourn",
+   "givenName": "Oscar",
+   "perf": "N/A",
+   "rank": 152
+  },
+  {
+   "bib": 697,
+   "club": "KEN",
+   "familyName": "Ostrowski",
+   "givenName": "NIck",
+   "perf": "N/A",
+   "rank": 153
+  },
+  {
+   "bib": 693,
+   "club": "KEN",
+   "familyName": "Lighting",
+   "givenName": "Peter",
+   "perf": "N/A",
+   "rank": 154
+  },
+  {
+   "bib": 112,
+   "club": "BEL",
+   "familyName": "Kebe",
+   "givenName": "Falilou",
+   "perf": "N/A",
+   "rank": 155
+  },
+  {
+   "bib": 841,
+   "club": "THH",
+   "familyName": "Darling",
+   "givenName": "Jamie",
+   "perf": "N/A",
+   "rank": 156
+  },
+  {
+   "bib": 663,
+   "club": "KEN",
+   "familyName": "Sanders",
+   "givenName": "Phil",
+   "perf": "N/A",
+   "rank": 157
+  },
+  {
+   "bib": 853,
+   "club": "THH",
+   "familyName": "Harrington",
+   "givenName": "Angus",
+   "nonScorer": true,
+   "perf": "N/A",
+   "rank": 158,
+   "secondClaim": true
+  },
+  {
+   "bib": 388,
+   "club": "H/W",
+   "familyName": "Jones",
+   "givenName": "Richard",
+   "perf": "N/A",
+   "rank": 159
+  },
+  {
+   "bib": 863,
+   "club": "THH",
+   "familyName": "Oliver",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 160
+  },
+  {
+   "bib": 296,
+   "club": "G&G",
+   "familyName": "Glennon",
+   "givenName": "George",
+   "perf": "N/A",
+   "rank": 161
+  },
+  {
+   "bib": 58,
+   "club": "BEL",
+   "familyName": "Snow",
+   "givenName": "Josh",
+   "perf": "N/A",
+   "rank": 162
+  },
+  {
+   "bib": 685,
+   "club": "KEN",
+   "familyName": "Le Mare",
+   "givenName": "Dominic",
+   "perf": "N/A",
+   "rank": 163
+  },
+  {
+   "bib": 563,
+   "club": "HOL",
+   "familyName": "Long",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 164
+  },
+  {
+   "bib": 664,
+   "club": "KEN",
+   "familyName": "Giles",
+   "givenName": "Richard",
+   "perf": "N/A",
+   "rank": 165
+  },
+  {
+   "bib": 932,
+   "club": "WOK",
+   "familyName": "Rogers-Everitt",
+   "givenName": "Caden",
+   "perf": "N/A",
+   "rank": 166
+  },
+  {
+   "bib": 779,
+   "club": "RAN",
+   "familyName": "Sawtell",
+   "givenName": "Rudy",
+   "perf": "N/A",
+   "rank": 167
+  },
+  {
+   "bib": 173,
+   "club": "DUL",
+   "familyName": "Leafe",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 168
+  },
+  {
+   "bib": 63,
+   "club": "BEL",
+   "familyName": "Justice",
+   "givenName": "Adam",
+   "perf": "N/A",
+   "rank": 169
+  },
+  {
+   "bib": 639,
+   "club": "KEN",
+   "familyName": "Russell",
+   "givenName": "George",
+   "perf": "N/A",
+   "rank": 170
+  },
+  {
+   "bib": 843,
+   "club": "THH",
+   "familyName": "Watchorn",
+   "givenName": "Daniel",
+   "perf": "N/A",
+   "rank": 171
+  },
+  {
+   "bib": 90,
+   "club": "BEL",
+   "familyName": "Vellin",
+   "givenName": "Enzo",
+   "perf": "N/A",
+   "rank": 172
+  },
+  {
+   "bib": 651,
+   "club": "KEN",
+   "familyName": "Lawson-Murray",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 173
+  },
+  {
+   "bib": 912,
+   "club": "WOK",
+   "familyName": "Balharrie",
+   "givenName": "Callum",
+   "perf": "N/A",
+   "rank": 174
+  },
+  {
+   "bib": 92,
+   "club": "BEL",
+   "familyName": "Young",
+   "givenName": "Oliver",
+   "perf": "N/A",
+   "rank": 175
+  },
+  {
+   "bib": 682,
+   "club": "KEN",
+   "familyName": "Knight",
+   "givenName": "Rory",
+   "perf": "N/A",
+   "rank": 176
+  },
+  {
+   "bib": 656,
+   "club": "KEN",
+   "familyName": "Brown",
+   "givenName": "Will",
+   "perf": "N/A",
+   "rank": 177
+  },
+  {
+   "bib": 89,
+   "club": "BEL",
+   "familyName": "Daniel",
+   "givenName": "Oliver",
+   "perf": "N/A",
+   "rank": 178
+  },
+  {
+   "bib": 549,
+   "club": "HOL",
+   "familyName": "Ellis",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 179
+  },
+  {
+   "bib": 788,
+   "club": "RAN",
+   "familyName": "Hirschler",
+   "givenName": "Matthew",
+   "perf": "N/A",
+   "rank": 180
+  },
+  {
+   "bib": 676,
+   "club": "KEN",
+   "familyName": "Longley",
+   "givenName": "Michael",
+   "perf": "N/A",
+   "rank": 181
+  },
+  {
+   "bib": 677,
+   "club": "KEN",
+   "familyName": "Thomas",
+   "givenName": "Matthew",
+   "perf": "N/A",
+   "rank": 182
+  },
+  {
+   "bib": 85,
+   "club": "BEL",
+   "familyName": "Rose",
+   "givenName": "Oliver",
+   "perf": "N/A",
+   "rank": 183
+  },
+  {
+   "bib": 221,
+   "club": "G&G",
+   "familyName": "Acreman",
+   "givenName": "Ian",
+   "perf": "N/A",
+   "rank": 184
+  },
+  {
+   "bib": 68,
+   "club": "BEL",
+   "familyName": "Janiaud",
+   "givenName": "Alex",
+   "perf": "N/A",
+   "rank": 185
+  },
+  {
+   "bib": 291,
+   "club": "G&G",
+   "familyName": "Rathborn",
+   "givenName": "Jack",
+   "perf": "N/A",
+   "rank": 186
+  },
+  {
+   "bib": 437,
+   "club": "HHH",
+   "familyName": "Fagan",
+   "givenName": "Deron",
+   "perf": "N/A",
+   "rank": 187
+  },
+  {
+   "bib": 783,
+   "club": "RAN",
+   "familyName": "Weller",
+   "givenName": "Graham",
+   "perf": "N/A",
+   "rank": 188
+  },
+  {
+   "bib": 939,
+   "club": "WOK",
+   "familyName": "Winn-Smith",
+   "givenName": "Matt",
+   "perf": "N/A",
+   "rank": 189
+  },
+  {
+   "bib": 262,
+   "club": "G&G",
+   "familyName": "Mills",
+   "givenName": "Stevyn",
+   "perf": "N/A",
+   "rank": 190
+  },
+  {
+   "bib": 922,
+   "club": "WOK",
+   "familyName": "Gonzalez",
+   "givenName": "Juan",
+   "perf": "N/A",
+   "rank": 191
+  },
+  {
+   "bib": 859,
+   "club": "THH",
+   "familyName": "Chisholm",
+   "givenName": "Edward",
+   "nonScorer": true,
+   "perf": "N/A",
+   "rank": 192,
+   "secondClaim": true
+  },
+  {
+   "bib": 849,
+   "club": "THH",
+   "familyName": "Bell",
+   "givenName": "Jamie",
+   "perf": "N/A",
+   "rank": 193
+  },
+  {
+   "bib": 430,
+   "club": "HHH",
+   "familyName": "Brown",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 194
+  },
+  {
+   "bib": 700,
+   "club": "KEN",
+   "familyName": "athlete",
+   "givenName": "unknown",
+   "perf": "N/A",
+   "rank": 195
+  },
+  {
+   "bib": 653,
+   "club": "KEN",
+   "familyName": "Oliver",
+   "givenName": "Laurie",
+   "perf": "N/A",
+   "rank": 196
+  },
+  {
+   "bib": 629,
+   "club": "KEN",
+   "familyName": "Davies",
+   "givenName": "Lee",
+   "perf": "N/A",
+   "rank": 197
+  },
+  {
+   "bib": 349,
+   "club": "H/W",
+   "familyName": "Lutaya",
+   "givenName": "Isaac",
+   "perf": "N/A",
+   "rank": 198
+  },
+  {
+   "bib": 243,
+   "club": "G&G",
+   "familyName": "Foster",
+   "givenName": "Tom",
+   "perf": "N/A",
+   "rank": 199
+  },
+  {
+   "bib": 868,
+   "club": "THH",
+   "familyName": "Nevill",
+   "givenName": "Patrick",
+   "perf": "N/A",
+   "rank": 200
+  },
+  {
+   "bib": 645,
+   "club": "KEN",
+   "familyName": "Woodford-Smith",
+   "givenName": "Phil",
+   "perf": "N/A",
+   "rank": 201
+  },
+  {
+   "bib": 457,
+   "club": "HHH",
+   "familyName": "Morrison",
+   "givenName": "Scott",
+   "perf": "N/A",
+   "rank": 202
+  },
+  {
+   "bib": 493,
+   "club": "HHH",
+   "familyName": "Foxall",
+   "givenName": "John",
+   "perf": "N/A",
+   "rank": 203,
+   "secondClaim": true
+  },
+  {
+   "bib": 668,
+   "club": "KEN",
+   "familyName": "Lowther",
+   "givenName": "Adrian",
+   "perf": "N/A",
+   "rank": 204
+  },
+  {
+   "bib": 435,
+   "club": "HHH",
+   "familyName": "Daly",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 205
+  },
+  {
+   "bib": 105,
+   "club": "BEL",
+   "familyName": "Horn",
+   "givenName": "Miles",
+   "perf": "N/A",
+   "rank": 206
+  },
+  {
+   "bib": 692,
+   "club": "KEN",
+   "familyName": "Merali",
+   "givenName": "Arif",
+   "perf": "N/A",
+   "rank": 207
+  },
+  {
+   "bib": 784,
+   "club": "RAN",
+   "familyName": "Wells",
+   "givenName": "Eliott",
+   "perf": "N/A",
+   "rank": 208
+  },
+  {
+   "bib": 675,
+   "club": "KEN",
+   "familyName": "Kyffin",
+   "givenName": "Sam",
+   "perf": "N/A",
+   "rank": 209
+  },
+  {
+   "bib": 441,
+   "club": "HHH",
+   "familyName": "Haile",
+   "givenName": "Muhamud",
+   "perf": "N/A",
+   "rank": 210
+  },
+  {
+   "bib": 780,
+   "club": "RAN",
+   "familyName": "Smith",
+   "givenName": "Ed",
+   "perf": "N/A",
+   "rank": 211
+  },
+  {
+   "bib": 694,
+   "club": "KEN",
+   "familyName": "Hammersley",
+   "givenName": "Finn",
+   "perf": "N/A",
+   "rank": 212
+  },
+  {
+   "bib": 467,
+   "club": "HHH",
+   "familyName": "Preskett",
+   "givenName": "Mark",
+   "perf": "N/A",
+   "rank": 213
+  },
+  {
+   "bib": 789,
+   "club": "RAN",
+   "familyName": "Perry",
+   "givenName": "Edmund",
+   "perf": "N/A",
+   "rank": 214
+  },
+  {
+   "bib": 944,
+   "club": "WOK",
+   "familyName": "Critchlow",
+   "givenName": "Thomas",
+   "perf": "N/A",
+   "rank": 215
+  },
+  {
+   "bib": 373,
+   "club": "H/W",
+   "familyName": "Higgins",
+   "givenName": "Seth",
+   "perf": "N/A",
+   "rank": 216
+  },
+  {
+   "bib": 689,
+   "club": "KEN",
+   "familyName": "Boyce",
+   "givenName": "Frank",
+   "perf": "N/A",
+   "rank": 217
+  },
+  {
+   "bib": 251,
+   "club": "G&G",
+   "familyName": "Holcroft",
+   "givenName": "Guy",
+   "perf": "N/A",
+   "rank": 218
+  },
+  {
+   "bib": 258,
+   "club": "G&G",
+   "familyName": "Lintern",
+   "givenName": "Lee",
+   "perf": "N/A",
+   "rank": 219
+  },
+  {
+   "bib": 786,
+   "club": "RAN",
+   "familyName": "Forbes",
+   "givenName": "Ed",
+   "perf": "N/A",
+   "rank": 220
+  },
+  {
+   "bib": 484,
+   "club": "HHH",
+   "familyName": "Urquia",
+   "givenName": "Norman",
+   "perf": "N/A",
+   "rank": 221
+  },
+  {
+   "bib": 867,
+   "club": "THH",
+   "familyName": "Barrett",
+   "givenName": "Simon",
+   "nonScorer": true,
+   "perf": "N/A",
+   "rank": 222,
+   "secondClaim": true
+  },
+  {
+   "bib": 157,
+   "club": "DUL",
+   "familyName": "Farrington-Douglas",
+   "givenName": "Joe",
+   "perf": "N/A",
+   "rank": 223
+  },
+  {
+   "bib": 774,
+   "club": "RAN",
+   "familyName": "Riley",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 224
+  },
+  {
+   "bib": 576,
+   "club": "HOL",
+   "familyName": "Paillard",
+   "givenName": "Julien",
+   "perf": "N/A",
+   "rank": 225
+  },
+  {
+   "bib": 671,
+   "club": "KEN",
+   "familyName": "Gibson",
+   "givenName": "Michael",
+   "perf": "N/A",
+   "rank": 226
+  },
+  {
+   "bib": 669,
+   "club": "KEN",
+   "familyName": "Harvie",
+   "givenName": "Jamie",
+   "perf": "N/A",
+   "rank": 227
+  },
+  {
+   "bib": 293,
+   "club": "G&G",
+   "familyName": "Rosier",
+   "givenName": "Daniel",
+   "perf": "N/A",
+   "rank": 228
+  },
+  {
+   "bib": 386,
+   "club": "H/W",
+   "familyName": "Hall",
+   "givenName": "Austin",
+   "perf": "N/A",
+   "rank": 229
+  },
+  {
+   "bib": 245,
+   "club": "G&G",
+   "familyName": "Friend",
+   "givenName": "Ben",
+   "perf": "N/A",
+   "rank": 230
+  },
+  {
+   "bib": 343,
+   "club": "H/W",
+   "familyName": "Hamilton",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 231
+  },
+  {
+   "bib": 177,
+   "club": "DUL",
+   "familyName": "Meadows",
+   "givenName": "Rob",
+   "perf": "N/A",
+   "rank": 232
+  },
+  {
+   "bib": 758,
+   "club": "RAN",
+   "familyName": "Cameron",
+   "givenName": "Tom",
+   "perf": "N/A",
+   "rank": 233
+  },
+  {
+   "bib": 555,
+   "club": "HOL",
+   "familyName": "Hickman",
+   "givenName": "Nick",
+   "perf": "N/A",
+   "rank": 234
+  },
+  {
+   "bib": 265,
+   "club": "G&G",
+   "familyName": "Pryke",
+   "givenName": "Philip",
+   "perf": "N/A",
+   "rank": 235
+  },
+  {
+   "bib": 233,
+   "club": "G&G",
+   "familyName": "Davies",
+   "givenName": "Ian",
+   "perf": "N/A",
+   "rank": 236
+  },
+  {
+   "bib": 654,
+   "club": "KEN",
+   "familyName": "Green",
+   "givenName": "Ash",
+   "perf": "N/A",
+   "rank": 237
+  },
+  {
+   "bib": 781,
+   "club": "RAN",
+   "familyName": "Starr",
+   "givenName": "Andy",
+   "perf": "N/A",
+   "rank": 238
+  },
+  {
+   "bib": 946,
+   "club": "WOK",
+   "familyName": "Morris",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 239
+  },
+  {
+   "bib": 279,
+   "club": "G&G",
+   "familyName": "Wilkie",
+   "givenName": "Alistair",
+   "perf": "N/A",
+   "rank": 240
+  },
+  {
+   "bib": 670,
+   "club": "KEN",
+   "familyName": "Lineham",
+   "givenName": "Dan",
+   "perf": "N/A",
+   "rank": 241
+  },
+  {
+   "bib": 861,
+   "club": "THH",
+   "familyName": "Scott",
+   "givenName": "Will",
+   "perf": "N/A",
+   "rank": 242
+  },
+  {
+   "bib": 790,
+   "club": "RAN",
+   "familyName": "Thomas",
+   "givenName": "Mike",
+   "perf": "N/A",
+   "rank": 243
+  },
+  {
+   "bib": 192,
+   "club": "DUL",
+   "familyName": "Simmons",
+   "givenName": "Ed",
+   "perf": "N/A",
+   "rank": 244
+  },
+  {
+   "bib": 763,
+   "club": "RAN",
+   "familyName": "Khatamizadeh",
+   "givenName": "Hadi",
+   "perf": "N/A",
+   "rank": 245
+  },
+  {
+   "bib": 289,
+   "club": "G&G",
+   "familyName": "Idowu",
+   "givenName": "Ope",
+   "perf": "N/A",
+   "rank": 246
+  },
+  {
+   "bib": 561,
+   "club": "HOL",
+   "familyName": "Lammali",
+   "givenName": "Aziouz",
+   "perf": "N/A",
+   "rank": 247
+  },
+  {
+   "bib": 931,
+   "club": "WOK",
+   "familyName": "Rose",
+   "givenName": "Mark",
+   "perf": "N/A",
+   "rank": 248
+  },
+  {
+   "bib": 488,
+   "club": "HHH",
+   "familyName": "Banfield",
+   "givenName": "Simon",
+   "perf": "N/A",
+   "rank": 249
+  },
+  {
+   "bib": 578,
+   "club": "HOL",
+   "familyName": "Rady",
+   "givenName": "Thomas",
+   "perf": "N/A",
+   "rank": 250
+  },
+  {
+   "bib": 374,
+   "club": "H/W",
+   "familyName": "Billane",
+   "givenName": "Hugh",
+   "perf": "N/A",
+   "rank": 251
+  },
+  {
+   "bib": 846,
+   "club": "THH",
+   "familyName": "Westran",
+   "givenName": "Thomas",
+   "perf": "N/A",
+   "rank": 252
+  },
+  {
+   "bib": 649,
+   "club": "KEN",
+   "familyName": "Osborne",
+   "givenName": "Ed",
+   "perf": "N/A",
+   "rank": 253
+  },
+  {
+   "bib": 776,
+   "club": "RAN",
+   "familyName": "Ritchie",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 254
+  },
+  {
+   "bib": 176,
+   "club": "DUL",
+   "familyName": "Mattu",
+   "givenName": "Sumrit",
+   "perf": "N/A",
+   "rank": 255
+  },
+  {
+   "bib": 665,
+   "club": "KEN",
+   "familyName": "Harvey",
+   "givenName": "Robert",
+   "perf": "N/A",
+   "rank": 256
+  },
+  {
+   "bib": 558,
+   "club": "HOL",
+   "familyName": "Jones",
+   "givenName": "Neil",
+   "perf": "N/A",
+   "rank": 257
+  },
+  {
+   "bib": 398,
+   "club": "H/W",
+   "familyName": "athlete",
+   "givenName": "unknown",
+   "perf": "N/A",
+   "rank": 258
+  },
+  {
+   "bib": 688,
+   "club": "KEN",
+   "familyName": "Harvey",
+   "givenName": "Clive",
+   "perf": "N/A",
+   "rank": 259
+  },
+  {
+   "bib": 559,
+   "club": "HOL",
+   "familyName": "Jupp",
+   "givenName": "Rob",
+   "perf": "N/A",
+   "rank": 260
+  },
+  {
+   "bib": 634,
+   "club": "KEN",
+   "familyName": "Jones",
+   "givenName": "Stephen",
+   "perf": "N/A",
+   "rank": 261
+  },
+  {
+   "bib": 239,
+   "club": "G&G",
+   "familyName": "Flanagan",
+   "givenName": "Andrew",
+   "perf": "N/A",
+   "rank": 262
+  },
+  {
+   "bib": 223,
+   "club": "G&G",
+   "familyName": "Alger",
+   "givenName": "Charlie",
+   "perf": "N/A",
+   "rank": 263
+  },
+  {
+   "bib": 660,
+   "club": "KEN",
+   "familyName": "Billy-Huggins",
+   "givenName": "Pertrice",
+   "perf": "N/A",
+   "rank": 264
+  },
+  {
+   "bib": 346,
+   "club": "H/W",
+   "familyName": "Howard",
+   "givenName": "Craig",
+   "perf": "N/A",
+   "rank": 265
+  },
+  {
+   "bib": 642,
+   "club": "KEN",
+   "familyName": "Stickland",
+   "givenName": "Hugh",
+   "perf": "N/A",
+   "rank": 266
+  },
+  {
+   "bib": 696,
+   "club": "KEN",
+   "familyName": "Morgan",
+   "givenName": "Martin",
+   "perf": "N/A",
+   "rank": 267
+  },
+  {
+   "bib": 655,
+   "club": "KEN",
+   "familyName": "Turner",
+   "givenName": "James",
+   "perf": "N/A",
+   "rank": 268
+  },
+  {
+   "bib": 263,
+   "club": "G&G",
+   "familyName": "O'Kane",
+   "givenName": "Brian",
+   "perf": "N/A",
+   "rank": 269
+  },
+  {
+   "bib": 196,
+   "club": "DUL",
+   "familyName": "Spindler",
+   "givenName": "David",
+   "perf": "N/A",
+   "rank": 270
+  },
+  {
+   "bib": 769,
+   "club": "RAN",
+   "familyName": "McLauchlan",
+   "givenName": "Andrew",
+   "perf": "N/A",
+   "rank": 271
+  },
+  {
+   "bib": 787,
+   "club": "RAN",
+   "familyName": "Grant",
+   "givenName": "Simon",
+   "perf": "N/A",
+   "rank": 272
+  }
+ ],
+ "startTime": "2026-11-14T15:00:00Z",
+ "venue": "Beckenham Place"
+}
