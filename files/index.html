@@ -316,11 +316,12 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
 })();
 </script>
 <script id="motion-travel">
-/* Three movements added 17 Nov 2026 (see claude/motion.md). All work from outside React, like motion-reorder: nothing in the app code changes.
+/* Movements added 17 Nov 2026 (see claude/motion.md). All work from outside React, like motion-reorder: nothing in the app code changes.
    1. Toggles: the white highlight of a grey pill toggle slides to the option you choose (240ms ease-in-out).
    2. Race page, A Teams / B Teams: clubs glide to their new places, points roll to the new score, the scores fade in.
    3. Name to profile: tap a runner's name and it travels into the profile heading while their club vest grows into the portrait;
       the career numbers count up once. Going back returns the name to its row when that row is on screen.
+   4. Race history to race: tap a race in a runner's history and its name travels up to become the race page's headline, and back again.
    To undo: delete this script and the <style id="motion-travel-css"> block. Reduce Motion: highlights jump, nothing travels. */
 (function(){
   if(!Element.prototype.animate)return;
@@ -406,32 +407,35 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     });
   },true);
 
-  /* ---------- 3. name to profile, and back ---------- */
-  var last=null;
-  function ghost(src,rect){
-    var g=src.cloneNode(true),cs=getComputedStyle(src);
-    g.removeAttribute('id');g.removeAttribute('data-ath');
+  /* ---------- 3. name to profile, venue to race headline, and back ---------- */
+  var trips=[];                                   /* journeys made, newest last, so Back can retrace them */
+  function fix(g,rect,cs){
     var st=g.style;
-    st.position='fixed';st.left=rect.left+'px';st.top=rect.top+'px';st.width=rect.width+'px';st.height=rect.height+'px';st.margin='0';
+    st.position='fixed';st.left=rect.left+'px';st.top=rect.top+'px';st.width=rect.width+'px';st.height=rect.height+'px';st.margin='0';st.padding='0';
     st.font=cs.font;st.color=cs.color;st.letterSpacing=cs.letterSpacing;st.whiteSpace='nowrap';st.pointerEvents='none';st.zIndex='9999';st.display='block';
+    if(rect.height)st.lineHeight=rect.height+'px';
     document.body.appendChild(g);return g;
   }
+  function ghost(src,rect){var g=src.cloneNode(true);g.removeAttribute('id');g.removeAttribute('data-ath');return fix(g,rect,getComputedStyle(src));}
+  function textRect(el){var r=document.createRange();r.selectNodeContents(el);return r.getBoundingClientRect();}
+  function textGhost(el,rect){var g=document.createElement('div');g.textContent=el.innerText.trim();return fix(g,rect,getComputedStyle(el));}
   function drop(g,ms){if(!g)return;var a=g.animate([{opacity:1},{opacity:0}],{duration:ms||160,easing:EXIT,fill:'forwards'});a.onfinish=a.oncancel=function(){g.remove();};}
   function heading(){var l=document.querySelectorAll('#root h1');for(var i=0;i<l.length;i++)if(seen(l[i]))return l[i];return null;}
   function tile(){var l=document.querySelectorAll('#root img[alt^="Portrait of"],#root img[alt^="Runner in"]');for(var i=0;i<l.length;i++)if(seen(l[i]))return l[i].parentElement;return null;}
-  /* a and b are the same thing in two places: the ghost of where it was fades out as the real one fades in, both travelling together */
-  function travel(g,from,el,ms,fit){
-    var to=el.getBoundingClientRect();
+  function onScreen(r){return r.width>0&&r.top>=0&&r.bottom<=window.innerHeight;}
+  /* the same thing in two places: the ghost of where it was fades out as the real one fades in, both travelling together.
+     to: where it lands, when that isn't the element's own box (text inside a table cell, say). */
+  function travel(g,from,el,ms,fit,to){
+    to=to||el.getBoundingClientRect();
     if(!to.width||!from.width){drop(g);return;}
     var sx=fit?from.width/to.width:from.height/to.height,sy=from.height/to.height;
     var dx=from.left-to.left,dy=fit?from.top-to.top:(from.top+from.height/2)-(to.top+to.height/2);
-    var org=fit?'0 0':'0 50%',o={duration:ms,easing:MOVE,fill:'backwards'};
-    var end='translate('+(-dx)+'px,'+(-dy)+'px) scale('+(1/sx)+','+(1/sy)+')',a;
-    if(getComputedStyle(el).display==='inline'){   /* inline text can't be moved, so the ghost carries it all the way and hands over at the end */
+    var org=fit?'0 0':'0 50%',end='translate('+(-dx)+'px,'+(-dy)+'px) scale('+(1/sx)+','+(1/sy)+')',a,d=getComputedStyle(el).display;
+    if(d!=='block'&&d!=='flex'&&d!=='inline-block'){   /* inline text and table cells can't be moved, so the ghost carries it all the way and hands over at the end */
       el.animate([{opacity:0},{opacity:0,offset:.6},{opacity:1}],{duration:ms/.6,easing:'linear',fill:'backwards'});
       a=g.animate([{transformOrigin:org,transform:'none',opacity:1},{transformOrigin:org,transform:end,opacity:1,offset:.6,easing:'linear'},{transformOrigin:org,transform:end,opacity:0}],{duration:ms/.6,easing:MOVE,fill:'forwards'});
     }else{
-      el.animate([{transformOrigin:org,transform:'translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+')',opacity:0},{transformOrigin:org,transform:'none',opacity:1}],o);
+      el.animate([{transformOrigin:org,transform:'translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+')',opacity:0},{transformOrigin:org,transform:'none',opacity:1}],{duration:ms,easing:MOVE,fill:'backwards'});
       a=g.animate([{transformOrigin:org,transform:'none',opacity:1},{transformOrigin:org,transform:end,opacity:0}],{duration:ms,easing:MOVE,fill:'forwards'});
     }
     a.onfinish=a.oncancel=function(){g.remove();};
@@ -439,45 +443,71 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
   function wait(test,frames,then,giveUp){
     (function poll(n){var r=test();if(r){then(r);return;}if(n<=0){giveUp();return;}requestAnimationFrame(function(){poll(n-1);});})(frames);
   }
+  function remember(j){j.h=(heading()||{innerText:''}).innerText.trim();trips.push(j);if(trips.length>12)trips.shift();}
+  function historyTable(){var l=document.querySelectorAll('#root table');for(var i=0;i<l.length;i++)if(seen(l[i])&&l[i].tHead&&/race history/i.test(l[i].tHead.textContent))return l[i];return null;}
   document.addEventListener('click',function(e){
-    if(still()||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
-    var a=e.target.closest&&e.target.closest('[data-ath]');if(!a||!seen(a))return;
-    var row=a.closest('tr'),vest=row&&row.querySelector('svg'),p0=location.pathname;
-    var nr=a.getBoundingClientRect(),vr=vest&&seen(vest)?vest.getBoundingClientRect():null;
-    var gn=ghost(a,nr),gv=vr?ghost(vest,vr):null,name=a.getAttribute('data-ath');
-    requestAnimationFrame(function(){
-      wait(function(){return location.pathname!==p0&&location.pathname.indexOf('/athlete/')>=0&&heading();},20,function(h){
-        travel(gn,nr,h,320);
-        var t=tile();if(gv&&t)travel(gv,vr,t,320,true);else drop(gv);
-        var tb=document.querySelector('#root table.table-fixed tbody');
-        if(tb&&tb.rows[0])Array.prototype.forEach.call(tb.rows[0].cells,function(td,i){
-          var n=td.firstChild,v=n&&n.nodeType===3?parseFloat(n.nodeValue):NaN;
-          if(!isNaN(v)&&v>0&&td.childNodes.length===1)roll(n,0,v,600,200+i*30);
-        });
-        last={name:name,path:location.pathname};
-      },function(){drop(gn);drop(gv);});
-    });
+    if(still()||e.metaKey||e.ctrlKey||e.shiftKey||e.button||!e.target.closest)return;
+    var p0=location.pathname,a=e.target.closest('[data-ath]');
+    if(a&&seen(a)){                                                   /* a runner's name, heading for their profile */
+      var row=a.closest('tr'),vest=row&&row.querySelector('svg');
+      var nr=a.getBoundingClientRect(),vr=vest&&seen(vest)?vest.getBoundingClientRect():null;
+      var gn=ghost(a,nr),gv=vr?ghost(vest,vr):null,name=a.getAttribute('data-ath');
+      requestAnimationFrame(function(){
+        wait(function(){return location.pathname!==p0&&location.pathname.indexOf('/athlete/')>=0&&heading();},20,function(h){
+          travel(gn,nr,h,320);
+          var t=tile();if(gv&&t)travel(gv,vr,t,320,true);else drop(gv);
+          var tb=document.querySelector('#root table.table-fixed tbody');
+          if(tb&&tb.rows[0])Array.prototype.forEach.call(tb.rows[0].cells,function(td,i){
+            var n=td.firstChild,v=n&&n.nodeType===3?parseFloat(n.nodeValue):NaN;
+            if(!isNaN(v)&&v>0&&td.childNodes.length===1)roll(n,0,v,600,200+i*30);
+          });
+          remember({kind:'ath',name:name});
+        },function(){drop(gn);drop(gv);});
+      });
+      return;
+    }
+    var tr=e.target.closest('tr.cursor-pointer'),tab=tr&&tr.closest('table');
+    if(tr&&tab&&tab===historyTable()&&tr.cells[1]){                  /* a race in a runner's history, heading for that race's page */
+      var cell=tr.cells[1],cr=textRect(cell);if(!cr.width)return;
+      var gc=textGhost(cell,cr),idx=tr.sectionRowIndex,venue=cell.innerText.trim();
+      requestAnimationFrame(function(){
+        wait(function(){return location.pathname!==p0&&location.pathname.indexOf('/race/')>=0&&heading();},20,function(h){
+          travel(gc,cr,h,320);
+          remember({kind:'race',row:idx,venue:venue});
+        },function(){drop(gc);});
+      });
+    }
   },true);
   window.addEventListener('popstate',function(){
-    if(still()||!last)return;
-    if(location.pathname.indexOf('/athlete/')>=0)return;          /* still on a profile (closing the poster, say) */
-    var h=heading(),want=last.name;last=null;
-    if(!h||!document.querySelector('#root table.table-fixed'))return;
-    var t=tile(),hr=h.getBoundingClientRect(),tr=t?t.getBoundingClientRect():null;
-    var gh=ghost(h,hr),gt=t?ghost(t,tr):null;
-    if(gt){gt.style.overflow='hidden';gt.style.borderRadius='4px';}
-    requestAnimationFrame(function(){
-      wait(function(){
-        var l=document.querySelectorAll('#root [data-ath]');
-        for(var i=0;i<l.length;i++){if(l[i].getAttribute('data-ath')!==want||!seen(l[i]))continue;
-          var r=l[i].getBoundingClientRect();if(r.top>=0&&r.bottom<=window.innerHeight)return l[i];}
-        return null;
-      },12,function(a){
-        travel(gh,hr,a,256);
-        var row=a.closest('tr'),vest=row&&row.querySelector('svg');
-        if(gt&&vest&&seen(vest))travel(gt,tr,vest,256,true);else drop(gt);
-      },function(){drop(gh);drop(gt);});
-    });
+    if(still()||!trips.length)return;
+    var j=trips[trips.length-1],h=heading(),path=location.pathname;
+    if(!h||h.innerText.trim()!==j.h)return;                          /* not on the page that journey ended at */
+    if(j.kind==='ath'&&path.indexOf('/athlete/')>=0)return;          /* still on the profile (closing the poster, say) */
+    if(j.kind==='race'&&path.indexOf('/race/')>=0)return;            /* still on the race (changing its tab, say) */
+    trips.pop();
+    var hr=h.getBoundingClientRect(),gh=ghost(h,hr);
+    if(j.kind==='ath'){
+      var t=tile(),tr=t?t.getBoundingClientRect():null,gt=t?ghost(t,tr):null;
+      if(gt){gt.style.overflow='hidden';gt.style.borderRadius='4px';}
+      requestAnimationFrame(function(){
+        wait(function(){
+          var l=document.querySelectorAll('#root [data-ath]');
+          for(var i=0;i<l.length;i++)if(l[i].getAttribute('data-ath')===j.name&&seen(l[i])&&onScreen(l[i].getBoundingClientRect()))return l[i];
+          return null;
+        },12,function(a){
+          travel(gh,hr,a,256);
+          var row=a.closest('tr'),vest=row&&row.querySelector('svg');
+          if(gt&&vest&&seen(vest))travel(gt,tr,vest,256,true);else drop(gt);
+        },function(){drop(gh);drop(gt);});
+      });
+    }else{
+      requestAnimationFrame(function(){
+        wait(function(){
+          var tab=historyTable(),r=tab&&tab.tBodies[0]&&tab.tBodies[0].rows[j.row],c=r&&r.cells[1];
+          return c&&c.innerText.trim()===j.venue&&onScreen(textRect(c))?c:null;
+        },12,function(c){travel(gh,hr,c,256,false,textRect(c));},function(){drop(gh);});
+      });
+    }
   });
 })();
 </script>
