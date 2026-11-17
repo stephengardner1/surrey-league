@@ -321,7 +321,7 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
    2. Race page, A Teams / B Teams: clubs glide to their new places, points roll to the new score, the scores fade in.
    3. Name to profile: tap a runner's name and it travels into the profile heading while their club vest grows into the portrait;
       the career numbers count up once. Going back returns the name to its row when that row is on screen.
-   4. Race history to race: tap a race in a runner's history and its name travels up to become the race page's headline, and back again.
+   4. Venue to race: tap a race anywhere (a runner's history, the Matches list, the Races page) and its name travels to become the race page's headline, and back again.
    To undo: delete this script and the <style id="motion-travel-css"> block. Reduce Motion: highlights jump, nothing travels. */
 (function(){
   if(!Element.prototype.animate)return;
@@ -417,8 +417,6 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     document.body.appendChild(g);return g;
   }
   function ghost(src,rect){var g=src.cloneNode(true);g.removeAttribute('id');g.removeAttribute('data-ath');return fix(g,rect,getComputedStyle(src));}
-  function textRect(el){var r=document.createRange();r.selectNodeContents(el);return r.getBoundingClientRect();}
-  function textGhost(el,rect){var g=document.createElement('div');g.textContent=el.innerText.trim();return fix(g,rect,getComputedStyle(el));}
   function drop(g,ms){if(!g)return;var a=g.animate([{opacity:1},{opacity:0}],{duration:ms||160,easing:EXIT,fill:'forwards'});a.onfinish=a.oncancel=function(){g.remove();};}
   function heading(){var l=document.querySelectorAll('#root h1');for(var i=0;i<l.length;i++)if(seen(l[i]))return l[i];return null;}
   function tile(){var l=document.querySelectorAll('#root img[alt^="Portrait of"],#root img[alt^="Runner in"]');for(var i=0;i<l.length;i++)if(seen(l[i]))return l[i].parentElement;return null;}
@@ -426,12 +424,12 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
   /* the same thing in two places: the ghost of where it was fades out as the real one fades in, both travelling together.
      to: where it lands, when that isn't the element's own box (text inside a table cell, say). */
   function travel(g,from,el,ms,fit,to){
-    to=to||el.getBoundingClientRect();
+    var given=!!to;to=to||el.getBoundingClientRect();
     if(!to.width||!from.width){drop(g);return;}
     var sx=fit?from.width/to.width:from.height/to.height,sy=from.height/to.height;
     var dx=from.left-to.left,dy=fit?from.top-to.top:(from.top+from.height/2)-(to.top+to.height/2);
     var org=fit?'0 0':'0 50%',end='translate('+(-dx)+'px,'+(-dy)+'px) scale('+(1/sx)+','+(1/sy)+')',a,d=getComputedStyle(el).display;
-    if(d!=='block'&&d!=='flex'&&d!=='inline-block'){   /* inline text and table cells can't be moved, so the ghost carries it all the way and hands over at the end */
+    if(given||(d!=='block'&&d!=='flex'&&d!=='inline-block')){   /* inline text and table cells can't be moved, so the ghost carries it all the way and hands over at the end */
       el.animate([{opacity:0},{opacity:0,offset:.6},{opacity:1}],{duration:ms/.6,easing:'linear',fill:'backwards'});
       a=g.animate([{transformOrigin:org,transform:'none',opacity:1},{transformOrigin:org,transform:end,opacity:1,offset:.6,easing:'linear'},{transformOrigin:org,transform:end,opacity:0}],{duration:ms/.6,easing:MOVE,fill:'forwards'});
     }else{
@@ -444,7 +442,6 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     (function poll(n){var r=test();if(r){then(r);return;}if(n<=0){giveUp();return;}requestAnimationFrame(function(){poll(n-1);});})(frames);
   }
   function remember(j){j.h=(heading()||{innerText:''}).innerText.trim();trips.push(j);if(trips.length>12)trips.shift();}
-  function historyTable(){var l=document.querySelectorAll('#root table');for(var i=0;i<l.length;i++)if(seen(l[i])&&l[i].tHead&&/race history/i.test(l[i].tHead.textContent))return l[i];return null;}
   document.addEventListener('click',function(e){
     if(still()||e.metaKey||e.ctrlKey||e.shiftKey||e.button||!e.target.closest)return;
     var p0=location.pathname,a=e.target.closest('[data-ath]');
@@ -466,17 +463,27 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
       });
       return;
     }
-    var tr=e.target.closest('tr.cursor-pointer'),tab=tr&&tr.closest('table');
-    if(tr&&tab&&tab===historyTable()&&tr.cells[1]){                  /* a race in a runner's history, heading for that race's page */
-      var cell=tr.cells[1],cr=textRect(cell);if(!cr.width)return;
-      var gc=textGhost(cell,cr),idx=tr.sectionRowIndex,venue=cell.innerText.trim();
-      requestAnimationFrame(function(){
-        wait(function(){return location.pathname!==p0&&location.pathname.indexOf('/race/')>=0&&heading();},20,function(h){
-          travel(gc,cr,h,320);
-          remember({kind:'race',row:idx,venue:venue});
-        },function(){drop(gc);});
-      });
+    if(p0.indexOf('/race/')>=0)return;
+    /* anything else that might lead to a race page: note every piece of text in what was tapped, then, if a race page
+       arrives, the piece that matches its headline is the one that travels */
+    var box=e.target.closest('tr,[role="link"],a,button,li')||e.target,bits=[],w=document.createTreeWalker(box,NodeFilter.SHOW_TEXT),n;
+    while((n=w.nextNode())&&bits.length<40){
+      var tx=n.nodeValue.trim();if(tx.length<3||!n.parentElement||!seen(n.parentElement))continue;
+      var rg=document.createRange();rg.selectNodeContents(n);var rc=rg.getBoundingClientRect();if(!rc.width)continue;
+      var cs=getComputedStyle(n.parentElement);
+      bits.push({t:tx,r:rc,cs:{font:cs.font,color:cs.color,letterSpacing:cs.letterSpacing}});
     }
+    if(!bits.length)return;
+    requestAnimationFrame(function(){
+      wait(function(){return location.pathname!==p0&&location.pathname.indexOf('/race/')>=0&&heading();},6,function(h){
+        var names=[h.innerText.trim()];Array.prototype.forEach.call(h.querySelectorAll('span'),function(x){names.push(x.textContent.trim());});
+        var b=null;for(var i=0;i<bits.length&&!b;i++)if(names.indexOf(bits[i].t)>=0)b=bits[i];
+        if(!b)return;
+        var g=document.createElement('div');g.textContent=b.t;fix(g,b.r,b.cs);
+        travel(g,b.r,h,320);
+        remember({kind:'race',venue:b.t,x:b.r.left,y:b.r.top});
+      },function(){});
+    });
   },true);
   window.addEventListener('popstate',function(){
     if(still()||!trips.length)return;
@@ -503,9 +510,15 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     }else{
       requestAnimationFrame(function(){
         wait(function(){
-          var tab=historyTable(),r=tab&&tab.tBodies[0]&&tab.tBodies[0].rows[j.row],c=r&&r.cells[1];
-          return c&&c.innerText.trim()===j.venue&&onScreen(textRect(c))?c:null;
-        },12,function(c){travel(gh,hr,c,256,false,textRect(c));},function(){drop(gh);});
+          var w=document.createTreeWalker(document.getElementById('root'),NodeFilter.SHOW_TEXT),n,hits=[];
+          while((n=w.nextNode())){
+            if(n.nodeValue.trim()!==j.venue||!n.parentElement||!seen(n.parentElement))continue;
+            var rg=document.createRange();rg.selectNodeContents(n);var rc=rg.getBoundingClientRect();
+            if(onScreen(rc))hits.push({el:n.parentElement,r:rc,d:Math.abs(rc.left-j.x)+Math.abs(rc.top-j.y)});
+          }
+          hits.sort(function(a,b){return a.d-b.d;});
+          return hits.length&&(hits.length===1||hits[0].d<30)?hits[0]:null;   /* the same one that was tapped, not a namesake */
+        },12,function(hit){travel(gh,hr,hit.el,256,false,hit.r);},function(){drop(gh);});
       });
     }
   });
