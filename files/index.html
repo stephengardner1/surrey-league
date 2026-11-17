@@ -315,6 +315,181 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
   },true);
 })();
 </script>
+<script id="motion-travel">
+/* Three movements added 17 Nov 2026 (see claude/motion.md). All work from outside React, like motion-reorder: nothing in the app code changes.
+   1. Toggles: the white highlight of a grey pill toggle slides to the option you choose (240ms ease-in-out).
+   2. Race page, A Teams / B Teams: clubs glide to their new places, points roll to the new score, the scores fade in.
+   3. Name to profile: tap a runner's name and it travels into the profile heading while their club vest grows into the portrait;
+      the career numbers count up once. Going back returns the name to its row when that row is on screen.
+   To undo: delete this script and the <style id="motion-travel-css"> block. Reduce Motion: highlights jump, nothing travels. */
+(function(){
+  if(!Element.prototype.animate)return;
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)');
+  function still(){return !!(RM&&RM.matches);}
+  var MOVE='cubic-bezier(.65,0,.35,1)',ENTER='cubic-bezier(.16,1,.3,1)',EXIT='cubic-bezier(.4,0,1,1)';
+  function seen(el){return !!(el&&el.getClientRects().length);}
+
+  /* ---------- 1. sliding toggle highlight ---------- */
+  function placeSeg(el){
+    var kids=el.children,n=kids.length,on=null;
+    if(n<2)return;
+    for(var i=0;i<n;i++){if(kids[i].tagName!=='BUTTON')return;if(kids[i].classList.contains('bg-white'))on=kids[i];}
+    if(!el.hasAttribute('data-seg')){if(!on)return;el.setAttribute('data-seg','');}
+    if(!on||!on.offsetWidth){el.style.setProperty('--seg-o','0');return;}
+    el.style.setProperty('--seg-x',on.offsetLeft+'px');el.style.setProperty('--seg-y',on.offsetTop+'px');
+    el.style.setProperty('--seg-w',on.offsetWidth+'px');el.style.setProperty('--seg-h',on.offsetHeight+'px');
+    el.style.setProperty('--seg-o','1');
+    if(el.getAttribute('data-seg')!=='go')requestAnimationFrame(function(){requestAnimationFrame(function(){if(el.isConnected&&el.offsetWidth)el.setAttribute('data-seg','go');});});
+  }
+  function placeAll(){var l=document.querySelectorAll('.bg-gray-100.rounded-lg');for(var i=0;i<l.length;i++)placeSeg(l[i]);}
+  var queued=false,trail=null;
+  function queue(){
+    if(!queued){queued=true;requestAnimationFrame(function(){queued=false;placeAll();});}
+    clearTimeout(trail);trail=setTimeout(placeAll,160);   /* once more after Tailwind has written late styles */
+  }
+  function start(){
+    new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+    window.addEventListener('resize',queue);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(queue);
+    queue();
+  }
+  if(document.body)start();else document.addEventListener('DOMContentLoaded',start);
+
+  /* a number rolls from one value to another, written into React's own text node so React keeps track of it */
+  function roll(node,from,to,ms,delay){
+    if(!node||node.nodeType!==3)return;
+    var end=node.nodeValue,dec=/\./.test(end),last=String(dec?from.toFixed(1):Math.round(from)),t0=null;
+    node.nodeValue=last;
+    function step(now){
+      if(!node.isConnected||node.nodeValue!==last)return;      /* gone, or changed by the app: leave it alone */
+      if(t0===null)t0=now+(delay||0);
+      var k=(now-t0)/ms;
+      if(k>=1){node.nodeValue=end;return;}
+      if(k>0){var e=1-Math.pow(1-k,4),v=from+(to-from)*e;last=dec?v.toFixed(1):String(Math.round(v));node.nodeValue=last;}
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ---------- 2. A Teams / B Teams ---------- */
+  function teamBody(host){
+    var tb=host&&host.querySelector('table tbody');
+    if(!tb||tb.querySelector('[data-ath]')||!tb.rows.length||tb.rows[0].cells.length<4)return null;
+    return tb;
+  }
+  document.addEventListener('click',function(e){
+    if(still())return;
+    var b=e.target.closest&&e.target.closest('button');if(!b)return;
+    var t=b.textContent.trim();if(t!=='A Teams'&&t!=='B Teams'&&t!=='Individual')return;
+    if(b.classList.contains('bg-white'))return;                 /* already showing */
+    var seg=b.parentElement,host=seg&&seg.parentElement&&seg.parentElement.parentElement;
+    if(!host||!seg.classList.contains('bg-gray-100'))return;
+    var old=teamBody(host),was={};
+    if(old)Array.prototype.forEach.call(old.rows,function(r){was[r.cells[2].textContent.trim()]={y:r.getBoundingClientRect().top,pts:parseFloat(r.cells[3].textContent)};});
+    requestAnimationFrame(function(){
+      var tb=teamBody(host);
+      if(!old||!tb){                                             /* to or from Individual: the new table arrives gently */
+        var tab=host.querySelector('table');
+        if(tab&&tab.parentElement)tab.parentElement.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:200,easing:ENTER});
+        return;
+      }
+      Array.prototype.forEach.call(tb.rows,function(r){
+        var w=was[r.cells[2].textContent.trim()];
+        if(!w){r.animate([{opacity:0},{opacity:1}],{duration:300,easing:ENTER});return;}
+        var d=w.y-r.getBoundingClientRect().top;
+        if(Math.abs(d)>=.5){var z=d>0?2:1;
+          r.animate([{transform:'translateY('+d+'px)',backgroundColor:'#fff',position:'relative',zIndex:z},{transform:'none',backgroundColor:'#fff',position:'relative',zIndex:z}],{duration:300,easing:MOVE});}
+        var to=parseFloat(r.cells[3].textContent);
+        if(!isNaN(to)&&!isNaN(w.pts)&&to!==w.pts)roll(r.cells[3].firstChild,w.pts,to,400);
+        if(r.cells[4])r.cells[4].animate([{opacity:0},{opacity:1}],{duration:300,easing:ENTER});
+      });
+    });
+  },true);
+
+  /* ---------- 3. name to profile, and back ---------- */
+  var last=null;
+  function ghost(src,rect){
+    var g=src.cloneNode(true),cs=getComputedStyle(src);
+    g.removeAttribute('id');g.removeAttribute('data-ath');
+    var st=g.style;
+    st.position='fixed';st.left=rect.left+'px';st.top=rect.top+'px';st.width=rect.width+'px';st.height=rect.height+'px';st.margin='0';
+    st.font=cs.font;st.color=cs.color;st.letterSpacing=cs.letterSpacing;st.whiteSpace='nowrap';st.pointerEvents='none';st.zIndex='9999';st.display='block';
+    document.body.appendChild(g);return g;
+  }
+  function drop(g,ms){if(!g)return;var a=g.animate([{opacity:1},{opacity:0}],{duration:ms||160,easing:EXIT,fill:'forwards'});a.onfinish=a.oncancel=function(){g.remove();};}
+  function heading(){var l=document.querySelectorAll('#root h1');for(var i=0;i<l.length;i++)if(seen(l[i]))return l[i];return null;}
+  function tile(){var l=document.querySelectorAll('#root img[alt^="Portrait of"],#root img[alt^="Runner in"]');for(var i=0;i<l.length;i++)if(seen(l[i]))return l[i].parentElement;return null;}
+  /* a and b are the same thing in two places: the ghost of where it was fades out as the real one fades in, both travelling together */
+  function travel(g,from,el,ms,fit){
+    var to=el.getBoundingClientRect();
+    if(!to.width||!from.width){drop(g);return;}
+    var sx=fit?from.width/to.width:from.height/to.height,sy=from.height/to.height;
+    var dx=from.left-to.left,dy=fit?from.top-to.top:(from.top+from.height/2)-(to.top+to.height/2);
+    var org=fit?'0 0':'0 50%',o={duration:ms,easing:MOVE,fill:'backwards'};
+    var end='translate('+(-dx)+'px,'+(-dy)+'px) scale('+(1/sx)+','+(1/sy)+')',a;
+    if(getComputedStyle(el).display==='inline'){   /* inline text can't be moved, so the ghost carries it all the way and hands over at the end */
+      el.animate([{opacity:0},{opacity:0,offset:.6},{opacity:1}],{duration:ms/.6,easing:'linear',fill:'backwards'});
+      a=g.animate([{transformOrigin:org,transform:'none',opacity:1},{transformOrigin:org,transform:end,opacity:1,offset:.6,easing:'linear'},{transformOrigin:org,transform:end,opacity:0}],{duration:ms/.6,easing:MOVE,fill:'forwards'});
+    }else{
+      el.animate([{transformOrigin:org,transform:'translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+')',opacity:0},{transformOrigin:org,transform:'none',opacity:1}],o);
+      a=g.animate([{transformOrigin:org,transform:'none',opacity:1},{transformOrigin:org,transform:end,opacity:0}],{duration:ms,easing:MOVE,fill:'forwards'});
+    }
+    a.onfinish=a.oncancel=function(){g.remove();};
+  }
+  function wait(test,frames,then,giveUp){
+    (function poll(n){var r=test();if(r){then(r);return;}if(n<=0){giveUp();return;}requestAnimationFrame(function(){poll(n-1);});})(frames);
+  }
+  document.addEventListener('click',function(e){
+    if(still()||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
+    var a=e.target.closest&&e.target.closest('[data-ath]');if(!a||!seen(a))return;
+    var row=a.closest('tr'),vest=row&&row.querySelector('svg'),p0=location.pathname;
+    var nr=a.getBoundingClientRect(),vr=vest&&seen(vest)?vest.getBoundingClientRect():null;
+    var gn=ghost(a,nr),gv=vr?ghost(vest,vr):null,name=a.getAttribute('data-ath');
+    requestAnimationFrame(function(){
+      wait(function(){return location.pathname!==p0&&location.pathname.indexOf('/athlete/')>=0&&heading();},20,function(h){
+        travel(gn,nr,h,320);
+        var t=tile();if(gv&&t)travel(gv,vr,t,320,true);else drop(gv);
+        var tb=document.querySelector('#root table.table-fixed tbody');
+        if(tb&&tb.rows[0])Array.prototype.forEach.call(tb.rows[0].cells,function(td,i){
+          var n=td.firstChild,v=n&&n.nodeType===3?parseFloat(n.nodeValue):NaN;
+          if(!isNaN(v)&&v>0&&td.childNodes.length===1)roll(n,0,v,600,200+i*30);
+        });
+        last={name:name,path:location.pathname};
+      },function(){drop(gn);drop(gv);});
+    });
+  },true);
+  window.addEventListener('popstate',function(){
+    if(still()||!last)return;
+    if(location.pathname.indexOf('/athlete/')>=0)return;          /* still on a profile (closing the poster, say) */
+    var h=heading(),want=last.name;last=null;
+    if(!h||!document.querySelector('#root table.table-fixed'))return;
+    var t=tile(),hr=h.getBoundingClientRect(),tr=t?t.getBoundingClientRect():null;
+    var gh=ghost(h,hr),gt=t?ghost(t,tr):null;
+    if(gt){gt.style.overflow='hidden';gt.style.borderRadius='4px';}
+    requestAnimationFrame(function(){
+      wait(function(){
+        var l=document.querySelectorAll('#root [data-ath]');
+        for(var i=0;i<l.length;i++){if(l[i].getAttribute('data-ath')!==want||!seen(l[i]))continue;
+          var r=l[i].getBoundingClientRect();if(r.top>=0&&r.bottom<=window.innerHeight)return l[i];}
+        return null;
+      },12,function(a){
+        travel(gh,hr,a,256);
+        var row=a.closest('tr'),vest=row&&row.querySelector('svg');
+        if(gt&&vest&&seen(vest))travel(gt,tr,vest,256,true);else drop(gt);
+      },function(){drop(gh);drop(gt);});
+    });
+  });
+})();
+</script>
+<style id="motion-travel-css">
+/* The sliding highlight for grey pill toggles: drawn behind the buttons, placed by the motion-travel script. */
+[data-seg]{position:relative;isolation:isolate}
+[data-seg]>button{position:relative;z-index:1;background-color:transparent!important;box-shadow:none!important}
+[data-seg]::before{content:"";position:absolute;left:0;top:0;width:var(--seg-w,0);height:var(--seg-h,0);transform:translate(var(--seg-x,0),var(--seg-y,0));
+  background:#fff;border-radius:.375rem;box-shadow:0 1px 2px 0 rgb(0 0 0/.05);opacity:var(--seg-o,0);pointer-events:none}
+[data-seg="go"]::before{transition:transform 240ms var(--m-move),width 240ms var(--m-move),height 240ms var(--m-move)}
+@media (prefers-reduced-motion:reduce){[data-seg]::before{transition:none!important}}
+</style>
 <script id="haptics">
 /* A light selection tick when a toggle changes, in the iPhone app and on the mobile website (Men/Women, Classic results/Form guide, Individual/A Teams/B Teams,
    chart and table options, sort headings). In the app it uses Capacitor's Haptics plugin when the app includes it. */
