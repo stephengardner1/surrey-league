@@ -2056,7 +2056,7 @@ const CompareScatter=({data,thisName,otherName,hl})=>{
   useEffect(()=>{const el=boxRef.current;if(!el||typeof ResizeObserver==='undefined')return;const ro=new ResizeObserver(([e])=>setW(Math.max(280,Math.round(e.contentRect.width))));ro.observe(el);return()=>ro.disconnect();},[]);
   if(!data||!data.rows.length)return null;
   const{rows,onlyA,onlyB,maxA,maxB,trend}=data;
-  const H=Math.round(Math.min(440,Math.max(300,W*0.78))),L=46,R=14,T=12,B=40;
+  const H=Math.round(Math.min(560,Math.max(300,W<700?W*0.78:W*0.45))),L=46,R=14,T=12,B=40;
   const gA=Math.max(8,Math.round(maxA*0.07)),gB=Math.max(8,Math.round(maxB*0.07));
   const dA=maxA+gA,dB=maxB+gB;
   const X=p=>L+(p-1)/(dA-1)*(W-L-R),Y=p=>H-B-(p-1)/(dB-1)*(H-T-B);
@@ -2069,7 +2069,7 @@ const CompareScatter=({data,thisName,otherName,hl})=>{
   const readX=hx!=null&&trend.has(hx)?hx:(hl&&!hx&&trend.has(hl.pA)?hl.pA:null);
   const readY=readX!=null?trend.get(readX):null;
   const dot='#1b649e';
-  return<div className="mb-4 max-w-2xl" ref={boxRef}>
+  return<div className="mb-4" ref={boxRef}>
     <svg ref={svgRef} data-chart viewBox={`0 0 ${W} ${H}`} width={W} height={H} className="block w-full h-auto select-none touch-pan-y" role="img" aria-label={`Scatter chart: each runner's place at ${thisName} across, against their place at ${otherName} up, with a trend line`}
       onPointerMove={move} onPointerDown={move} onPointerLeave={()=>setHx(null)}>
       {/* grid and axes */}
