@@ -383,7 +383,7 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     var b=e.target.closest&&e.target.closest('button');if(!b)return;
     var t=b.textContent.trim();if(t!=='A Teams'&&t!=='B Teams'&&t!=='Individual')return;
     if(b.classList.contains('bg-white'))return;                 /* already showing */
-    var seg=b.parentElement,host=seg&&seg.parentElement&&seg.parentElement.parentElement;
+    var seg=b.parentElement,tbl=seg&&seg.closest&&seg.closest('table'),host=tbl?tbl.parentElement:(seg&&seg.parentElement&&seg.parentElement.parentElement);
     if(!host||!seg.classList.contains('bg-gray-100'))return;
     var old=teamBody(host),was={};
     if(old)Array.prototype.forEach.call(old.rows,function(r){was[r.cells[2].textContent.trim()]={y:r.getBoundingClientRect().top,pts:parseFloat(r.cells[3].textContent)};});
@@ -402,7 +402,7 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
           r.animate([{transform:'translateY('+d+'px)',backgroundColor:'#fff',position:'relative',zIndex:z},{transform:'none',backgroundColor:'#fff',position:'relative',zIndex:z}],{duration:300,easing:MOVE});}
         var to=parseFloat(r.cells[3].textContent);
         if(!isNaN(to)&&!isNaN(w.pts)&&to!==w.pts)roll(r.cells[3].firstChild,w.pts,to,400);
-        if(r.cells[4])r.cells[4].animate([{opacity:0},{opacity:1}],{duration:300,easing:ENTER});
+        for(var ci=4;ci<r.cells.length;ci++)r.cells[ci].animate([{opacity:0},{opacity:1}],{duration:300,easing:ENTER});
       });
     });
   },true);
@@ -4888,6 +4888,18 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   
   // Build matches from either seasonData.matches OR from race data
   const seasonRaces=data.races.filter(r=>r.season===season);
+  /* A teams / B teams on the season table (2013/14 on): stored B table when we have one, otherwise added up from each race's B team scores */
+  const[standView,setStandView]=useState('a');
+  const bStandRows=useMemo(()=>{
+    if(parseInt(season)<2013)return null;
+    const sb=seasonData?.bStandings;
+    if(sb&&sb.length)return sb.map(t=>({club:t.club,total:t.total??t.bTotal,pos:t.pos??t.bPos,m1:t.m1??t.bm1,m2:t.m2??t.bm2,m3:t.m3??t.bm3,m4:t.m4??t.bm4})).filter(t=>t.club).sort((x,y)=>(x.pos||99)-(y.pos||99)||(x.total||9e9)-(y.total||9e9));
+    const sz=divisionConfig?.historicTeamSize?.(season)||divisionConfig?.teamSize||{a:10,b:10};const acc={};
+    seasonRaces.filter(r=>(r.results||[]).length>=80).forEach(r=>{computeTeamScores(r.results,(sz.a||10)+1,sz.b||10,divisionConfig,r).forEach(t=>{const o=acc[t.club]||(acc[t.club]={club:t.club,n:0,total:0});o['m'+r.match]=t.points;o.n++;o.total+=t.points;});});
+    const rows=Object.values(acc).sort((x,y)=>y.n-x.n||x.total-y.total);if(!rows.length)return null;
+    rows.forEach((t,i)=>{t.pos=i>0&&rows[i-1].n===t.n&&rows[i-1].total===t.total?rows[i-1].pos:i+1;});return rows;
+  },[season,division,seasonData,data.races]);
+  useEffect(()=>{if(!bStandRows)setStandView('a');},[bStandRows]);
   const buildMatchesFromRaces=()=>seasonRaces.map(r=>({
     num:r.match,
     date:r.date||'',
@@ -4991,8 +5003,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     }
     // Determine which match columns to show
     const matchNums=matches.length>0?matches.map(m=>m.num):[1,2,3,4].filter(n=>standings[0]?.[`m${n}`]!=null);
+    const showB=standView==='b'&&!!bStandRows;const rows=showB?bStandRows:standings;
     return<div>
-    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>Division 1</th><th className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase`} title={seasonData?.scoring==='points'?"League points across all matches (highest wins)":"Total of a team's scores across all matches"}>{seasonData?.scoring==='points'?'Pts':'Tot'}</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#1b649e]':''}`} title={seasonData?.scoring==='points'?`League points in match ${n}`:`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{standings.map((team,i)=><tr key={team.club} style={i===0&&isSeasonFinished?winTint(team.club):undefined} className={`hover:bg-gray-50 ${showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isSeasonFinished?'🏆':(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#1b649e]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} px-0.5`}><span className={`tabular-nums ${i===0?'font-bold text-[#1b649e]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
+    <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>{bStandRows?<span className="flex items-center gap-2"><span className="hidden sm:inline">Division 1</span><span className="inline-flex bg-gray-100 rounded-lg p-0.5 normal-case whitespace-nowrap" role="group" aria-label="Season table for">{[['a','A Teams'],['b','B Teams']].map(([id,l])=><button key={id} type="button" aria-pressed={standView===id} onClick={()=>setStandView(id)} className={`px-1.5 sm:px-2 py-0.5 rounded-md text-[11px] font-medium whitespace-nowrap ${standView===id?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{l}</button>)}</span></span>:'Division 1'}</th><th className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase`} title={seasonData?.scoring==='points'?"League points across all matches (highest wins)":"Total of a team's scores across all matches"}>{seasonData?.scoring==='points'?'Pts':'Tot'}</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#1b649e]':''}`} title={seasonData?.scoring==='points'?`League points in match ${n}`:`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{rows.map((team,i)=><tr key={team.club} style={i===0&&isSeasonFinished?winTint(team.club):undefined} className={`hover:bg-gray-50 ${!showB&&showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isSeasonFinished?'🏆':(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#1b649e]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} px-0.5`}><span className={`tabular-nums ${i===0?'font-bold text-[#1b649e]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {seasonData?.scoring==='points'&&<p className="text-xs text-gray-500 mt-2">League points table: most points wins the title.{seasonData?.tableNote?' '+seasonData.tableNote:''}</p>}
     {isHistorical&&!hasCompleteResults&&seasonRaces.length>0&&<p className="text-xs text-gray-500 mt-2">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
   </div>;};
