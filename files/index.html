@@ -335,7 +335,14 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     var kids=el.children,n=kids.length,on=null;
     if(n<2)return;
     for(var i=0;i<n;i++){if(kids[i].tagName!=='BUTTON')return;if(kids[i].classList.contains('bg-white'))on=kids[i];}
-    if(!el.hasAttribute('data-seg')){if(!on)return;el.setAttribute('data-seg','');}
+    if(!el.hasAttribute('data-seg')){if(!on)return;el.setAttribute('data-seg','');
+      /* the app often rebuilds a toggle when you tap it, so the new one starts where the old highlight was and slides from there */
+      var lc=lastTap;if(lc&&Date.now()-lc.t<1000&&lc.sig===segSig(el)&&on.offsetWidth&&!still()){
+        lastTap=null;var r=el.getBoundingClientRect();
+        el.style.setProperty('--seg-x',(lc.rect.left-r.left)+'px');el.style.setProperty('--seg-y',(lc.rect.top-r.top)+'px');
+        el.style.setProperty('--seg-w',lc.rect.width+'px');el.style.setProperty('--seg-h',lc.rect.height+'px');el.style.setProperty('--seg-o','1');
+        void el.offsetWidth;el.setAttribute('data-seg','go');requestAnimationFrame(function(){placeSeg(el);});return;}
+    }
     if(!on||!on.offsetWidth){el.style.setProperty('--seg-o','0');return;}
     el.style.setProperty('--seg-x',on.offsetLeft+'px');el.style.setProperty('--seg-y',on.offsetTop+'px');
     el.style.setProperty('--seg-w',on.offsetWidth+'px');el.style.setProperty('--seg-h',on.offsetHeight+'px');
@@ -343,6 +350,15 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     if(el.getAttribute('data-seg')!=='go')requestAnimationFrame(function(){requestAnimationFrame(function(){if(el.isConnected&&el.offsetWidth)el.setAttribute('data-seg','go');});});
   }
   function placeAll(){var l=document.querySelectorAll('.bg-gray-100.rounded-lg');for(var i=0;i<l.length;i++)placeSeg(l[i]);}
+  var lastTap=null;
+  function segSig(el){var t=[];for(var i=0;i<el.children.length;i++)t.push(el.children[i].textContent.trim());return t.join('|');}
+  document.addEventListener('pointerdown',function(e){
+    var b=e.target.closest&&e.target.closest('[data-seg]>button');if(!b)return;
+    var g=b.parentElement,on=null;for(var i=0;i<g.children.length;i++)if(g.children[i].classList.contains('bg-white'))on=g.children[i];
+    if(on&&on!==b){lastTap={sig:segSig(g),rect:on.getBoundingClientRect(),t:Date.now()};
+      /* start the slide on touch-down, before the app does its (sometimes heavy) re-render on click */
+      if(g.getAttribute('data-seg')==='go'&&b.offsetWidth&&!still()){g.style.setProperty('--seg-x',b.offsetLeft+'px');g.style.setProperty('--seg-y',b.offsetTop+'px');g.style.setProperty('--seg-w',b.offsetWidth+'px');g.style.setProperty('--seg-h',b.offsetHeight+'px');setTimeout(placeAll,700);}}
+  },true);
   var queued=false,trail=null;
   function queue(){
     if(!queued){queued=true;requestAnimationFrame(function(){queued=false;placeAll();});}
@@ -5145,7 +5161,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       <div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>
       {sPhoto?<div className="grid md:grid-cols-2 gap-8 md:gap-y-0 items-start md:[grid-template-rows:auto_1fr]">
         {/* desktop with a season photo: punditry under the table, and the photo under the Mitchell Cup cropped to end level with it */}
-        <div ref={standRef} className="overflow-hidden md:col-start-1 md:row-start-1"><StandingsTable/></div>
+        <div ref={standRef} className="overflow-hidden md:col-start-1 md:row-start-1">{StandingsTable()}</div>
         <div ref={rightRef} className="md:col-start-2 md:row-start-1 md:row-span-2"><FixturesTable/><IndividualsTable/>
           <figure ref={figRef} className="hidden md:block mt-4 relative group">
             <button type="button" onClick={()=>setPhotoOpen(true)} aria-label="Enlarge race photo" className="block w-full cursor-zoom-in"><img src={sPhoto.ph.src} alt={sPhoto.ph.caption} loading="lazy" onLoad={e=>{fitPhoto();const im=e.currentTarget;requestAnimationFrame(()=>{const cr=creditRef.current;if(!cr)return;const a=im.getBoundingClientRect(),b=cr.getBoundingClientRect();setCreditInk(creditInkFor(im,{x:b.left-a.left,y:b.top-a.top,w:b.width,h:b.height}));});}} className="block w-full object-cover rounded border border-gray-200" style={{height:photoH,objectPosition:sPhoto.ph.seasonPos||sPhoto.ph.widePos||sPhoto.ph.thumbPos||'50% 30%'}}/></button>
@@ -5156,7 +5172,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
         <div ref={punditRef} className="-mt-8 md:mt-0 md:col-start-1 md:row-start-2"><SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason} division={division} narrow={isDesktop}/></div>
       </div>:<>
       <div className="grid md:grid-cols-2 gap-8 items-start">
-        <div className="overflow-hidden"><StandingsTable/></div>
+        <div className="overflow-hidden">{StandingsTable()}</div>
         <div><FixturesTable/><IndividualsTable/>{division==='women'&&<SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason} division={division}/>}</div>
       </div>
       {division!=='women'&&<SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason} division={division}/>}</>}
