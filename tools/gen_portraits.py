@@ -537,7 +537,8 @@ save("hair_tousled", figure("HOL", skin=2, hair="tousled", hair_colour="mid brow
 save("saron", figure("BEL", skin=4, hair="ponytail", hair_colour="black"))
 save("owor", figure("BEL", skin=5, hair=None))
 save("cap_beanie", figure("HOL", skin=2, hair="crop", hair_colour="mid brown", beanie="#5E6266"))
-save("ruby", figure("H/W", skin=1, hair="ponytail", hair_colour="blonde"))
+save("ruby", figure("HHH", skin=1, hair="ponytail", hair_colour="blonde"))  # moved to Herne Hill for 2026/27
+save("ruby-carter-hw", figure("H/W", skin=1, hair="ponytail", hair_colour="blonde"))  # her Hercules Wimbledon years
 save("foster", figure("G&G", skin=1, hair="crop", hair_colour="dark brown", facial="stubble"))
 save("hair_shortcurls", figure("HOL", skin=2, hair="shortcurls", hair_colour="mid brown"))
 save("tennyson", figure("G&G", skin=1, hair="curlspeak", hair_colour="mid brown", greying="sides", glasses=True))
