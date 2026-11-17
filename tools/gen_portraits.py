@@ -2221,4 +2221,8 @@ save("ian-harkness", stretchface(cheekhollows(nose(brows(eyes(figure("THH", skin
 save("alex-hamlet", nose(brows(eyes(figure("KEN", skin=1, hair="shortcurls", hair_colour="#A87A4E", brow_colour="#8A6440", facial="stubble", facial_colour="#B08A5E", jaw="long", rosy=True), None, 0), 0, 0, 3), 1.05, 1.25))
 # Samuel Friend (BEL), Oct 2026, from the same photo: short fair quiff, long face, nose-to-mouth creases, ruddy cheeks
 save("samuel-friend", nose(eyes(figure("BEL", skin=1, hair="quiffshort", hair_colour="#B08A5E", brow_colour="#8A6A46", jaw="long", creases=True, rosy=True), None, 0), 1.05, 1.2))
+# Nathan Mapperley (THH), Nov 2026, from George Parker's Beckenham Place photo (4th on debut): short tufty brown hair receding at the temples, narrow face, hooded eyes under the brows
+save("nathan-mapperley", nose(brows(eyes(figure("THH", skin=1, hair="tuftrecede", hair_colour="#7A5634", brow_colour="#5A3E28", jaw="narrow"), "hooded", 0), 0, 0, 3), 1.05, 1.25))
+# Katrina Robinson (BEL), Nov 2026, from George Parker's Beckenham Place photo (14th on debut): dark-blonde hair with a centre parting pulled into a ponytail, dark soft brows, almond eyes
+save("katrina-robinson", nose(softbrows(eyes(figure("BEL", skin=1, hair="ponytail", hair_colour="#A88050", brow_colour="#4A3222"), "almond", 0), 3.0, 0.4), 0.95, 1.15))
 export_site()
