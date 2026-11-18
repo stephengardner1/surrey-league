@@ -3,7 +3,13 @@
 name: App notifications
 
 on:
-  workflow_dispatch: {}   # "Run workflow" button: checks the connection, sends nothing
+  workflow_dispatch:      # "Run workflow" button
+    inputs:
+      mode:
+        description: 'check = test the connection (sends nothing). rehearse = replay the latest race as if just published, to the approver phone only'
+        type: choice
+        options: [check, rehearse]
+        default: check
   push:
     branches: [main]
     paths:
@@ -30,7 +36,7 @@ jobs:
           SL_ADMIN_KEY: ${{ secrets.SL_ADMIN_KEY }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            node notifier/notify.mjs --check
+            node notifier/notify.mjs --${{ inputs.mode || 'check' }}
           else
             node notifier/notify.mjs "${{ github.event.before }}" "${{ github.sha }}"
           fi
