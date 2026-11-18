@@ -1,0 +1,3 @@
+{ "name": "sl-notify", "private": true, "type": "module",
+  "scripts": { "dev": "wrangler dev", "deploy": "wrangler deploy", "db:setup": "wrangler d1 execute sl-notify --remote --file=schema.sql" },
+  "devDependencies": { "wrangler": "^4" } }

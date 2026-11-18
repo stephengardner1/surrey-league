@@ -1,0 +1,18 @@
+# Surrey League Compendium notifications back office
+name = "sl-notify"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+APNS_TOPIC = "org.slarchive.app"
+APNS_KEY_ID = "ZQWL67D4QM"      # 10 characters, shown when Steve creates the push key
+APNS_TEAM_ID = "TR7WKKL578"     # 10 characters, top right of developer.apple.com/account
+APPROVAL = "on"                 # pilot: every batch waits for Steve's approval
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sl-notify"
+database_id = "5a6d1819-4c6e-41cd-98a2-7a3562e0013b"      # filled in when the database is created
+
+[triggers]
+crons = ["* * * * *"]           # every minute: carry on sending any batch in progress

@@ -1,0 +1,14 @@
+# Made by the build (./ship.sh), not kept in GitHub
+www/
+build/
+node_modules/
+.site-cache/
+ios/App/App/public/
+ios/App/App/capacitor.config.json
+ios/App/App/config.xml
+xcuserdata/
+DerivedData/
+worker/node_modules/
+worker/.wrangler/
+worker/.dev.vars
+.DS_Store

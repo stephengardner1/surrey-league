@@ -5,4 +5,4 @@ Each time the app opens, it downloads the latest site page plus these files, and
 the next launch. So changes here (the Notifications screen, follow bells, app-only layout) reach
 phones without a new App Store build.
 
-Source: the slarchive-app project (app-src/). Don't edit here by hand.
+Source: iphone-app/app-src/, copied here automatically by the "Publish app layer" GitHub Action. Don’t edit here by hand.

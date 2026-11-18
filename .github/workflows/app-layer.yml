@@ -1,0 +1,33 @@
+# Publishes the iPhone app's own layer to slarchive.org/app/, where the app picks it up
+# by itself (no new App Store version needed). Runs when the app layer's source changes.
+name: Publish app layer
+on:
+  push:
+    branches: [main]
+    paths:
+      - iphone-app/app-src/app.js
+      - iphone-app/app-src/app.css
+      - notifier/compose.mjs
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: app-layer
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy into files/app and commit if changed
+        run: |
+          mkdir -p files/app
+          cp iphone-app/app-src/app.js iphone-app/app-src/app.css files/app/
+          cp notifier/compose.mjs files/app/
+          git add files/app
+          if git diff --cached --quiet; then echo "Already up to date"; exit 0; fi
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "App layer: publish latest from iphone-app/app-src"
+          git pull --rebase origin main
+          git push
