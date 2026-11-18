@@ -317,15 +317,16 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
 </script>
 <script id="motion-toggles">
 /* Sliding toggle highlight (17-18 Nov 2026, see claude/motion.md). The highlight of a pill toggle slides to the option you choose (240ms ease-in-out).
-   Covers the grey Tailwind toggles (bg-gray-100 with rounded-lg or rounded-md) and the form guide's .seg toggles. The chosen button is the one
-   with the bg-white class or aria-pressed="true"; the highlight copies that button's own colour, corners and shadow.
+   Covers the grey Tailwind toggles (bg-gray-100 with rounded-lg or rounded-md), the form guide's .seg toggles and the main navigation (.nav-tabs).
+   The chosen button is the one with the bg-white class, aria-pressed="true" or aria-current="page"; the highlight copies that button's own
+   colour, corners and shadow. When nothing is chosen (a page that belongs to no tab) the highlight fades away.
    Works from outside the app. This same script sits in every standalone form guide page: keep the copies identical.
    To undo: delete this script and the <style id="motion-toggles-css"> block. Reduce Motion: the highlight jumps. */
 (function(){
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)');
   function still(){return !!(RM&&RM.matches);}
-  var GROUPS='.bg-gray-100.rounded-lg,.bg-gray-100.rounded-md,.seg';
-  function isOn(b){return b.classList.contains('bg-white')||b.getAttribute('aria-pressed')==='true';}
+  var GROUPS='.bg-gray-100.rounded-lg,.bg-gray-100.rounded-md,.seg,.nav-tabs';
+  function isOn(b){return b.classList.contains('bg-white')||b.getAttribute('aria-pressed')==='true'||b.getAttribute('aria-current')==='page';}
   function chosen(el){
     var kids=el.children,n=kids.length,on=null,c=0;
     if(n<2)return false;
@@ -336,9 +337,9 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     var on=chosen(el);
     if(on===false)return;
     if(!el.hasAttribute('data-seg')){if(!on)return;
-      var cs=getComputedStyle(on),bg=cs.backgroundColor;
+      on.style.transition='none';var cs=getComputedStyle(on),bg=cs.backgroundColor,rad=cs.borderTopLeftRadius,sh=cs.boxShadow;on.style.transition='';   /* read its settled look, not a colour caught mid-fade */
       if(!bg||bg==='transparent'||/,\s*0\)$/.test(bg))return;      /* its styles haven't arrived yet: try again on the next pass */
-      el.style.setProperty('--seg-hi-bg',bg);el.style.setProperty('--seg-hi-r',cs.borderTopLeftRadius);el.style.setProperty('--seg-hi-sh',cs.boxShadow);
+      el.style.setProperty('--seg-hi-bg',bg);el.style.setProperty('--seg-hi-r',rad);el.style.setProperty('--seg-hi-sh',sh);
       el.setAttribute('data-seg','');
       /* the app often rebuilds a toggle when you tap it, so the new one starts where the old highlight was and slides from there */
       var lc=lastTap;if(lc&&Date.now()-lc.t<1000&&lc.sig===segSig(el)&&on.offsetWidth&&!still()){
@@ -369,7 +370,7 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     clearTimeout(trail);trail=setTimeout(placeAll,160);   /* once more after late styles have arrived */
   }
   function start(){
-    new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-pressed']});
+    new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-pressed','aria-current']});
     window.addEventListener('resize',queue);
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(queue);
     queue();
@@ -383,7 +384,7 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
 [data-seg]>button{position:relative;z-index:1;background-color:transparent!important;box-shadow:none!important}
 [data-seg]::before{content:"";position:absolute;left:0;top:0;width:var(--seg-w,0);height:var(--seg-h,0);transform:translate(var(--seg-x,0),var(--seg-y,0));
   background:var(--seg-hi-bg,#fff);border-radius:var(--seg-hi-r,.375rem);box-shadow:var(--seg-hi-sh,0 1px 2px 0 rgb(0 0 0/.05));opacity:var(--seg-o,0);pointer-events:none}
-[data-seg="go"]::before{transition:transform 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),width 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),height 240ms var(--m-move,cubic-bezier(.65,0,.35,1))}
+[data-seg="go"]::before{transition:transform 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),width 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),height 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),opacity 160ms var(--m-exit,cubic-bezier(.4,0,1,1))}
 @media (prefers-reduced-motion:reduce){[data-seg]::before{transition:none!important}}
 </style>
 <script id="motion-travel">
@@ -395,6 +396,7 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
    3. Venue to race: tap a race anywhere and its name travels to become the race page's headline.
    4. Club to club page: tap a club anywhere and its name travels to the club page's heading while its vest grows into the big vest there.
    Back retraces each of these when the place it came from is on screen.
+   5. Main navigation: tapping a tab cross-fades the page you leave into the page you arrive at (220ms).
    (The sliding toggle highlight is in its own script, motion-toggles.)
    To undo: delete this script. Reduce Motion: nothing travels. */
 (function(){
@@ -605,6 +607,24 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
       });
     }
   });
+  /* ---------- 3. main navigation: the page you leave fades out over the page you arrive at ---------- */
+  document.addEventListener('click',function(e){
+    if(still()||e.metaKey||e.ctrlKey||e.shiftKey||e.button||!e.target.closest)return;
+    if(!e.target.closest('.nav-tabs>button'))return;
+    var main=document.getElementById('main-content');if(!main||main.getElementsByTagName('*').length>8000)return;   /* a very long page: plain swap, no stutter */
+    var p0=here(),r=main.getBoundingClientRect(),shell=document.createElement('div'),copy=main.cloneNode(true);
+    copy.removeAttribute('id');
+    shell.setAttribute('aria-hidden','true');
+    shell.style.cssText='position:fixed;left:0;top:0;width:100vw;height:100vh;overflow:hidden;pointer-events:none;z-index:30;background:#fff';
+    copy.style.cssText='position:absolute;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;margin:0';
+    shell.appendChild(copy);
+    requestAnimationFrame(function(){
+      if(here()===p0)return;                                    /* tapped the tab you were already on */
+      document.body.appendChild(shell);
+      var a=shell.animate([{opacity:1},{opacity:0}],{duration:220,easing:MOVE,fill:'forwards'});
+      a.onfinish=a.oncancel=function(){shell.remove();};
+    });
+  },true);
 })();
 </script>
 <script id="haptics">
@@ -1594,10 +1614,12 @@ const DivisionToggle=({division,setDivision})=>{
    and the title row hides while scrolling down and comes back on scrolling up */
 const IS_APP=!!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());
 if(IS_APP)document.documentElement.classList.add('in-app');
-const Nav=({setView,division,setDivision})=>{
+const Nav=({setView,division,setDivision,view})=>{
+  const cur={home:'home',fixtures:'fixtures',race:'fixtures',seasons:'seasons',athletes:'athletes',athlete:'athletes',clubs:'clubs',club:'clubs'}[view&&view.type];
+  const tab=k=>cur===k?'text-gray-900 bg-gray-100':'text-gray-500 hover:text-gray-900 hover:bg-gray-50';
   const [top,setTop]=React.useState({hidden:false,scrolled:false});
   React.useEffect(()=>{if(!IS_APP)return;let last=window.scrollY;const on=()=>{const y=window.scrollY,d=y-last;last=y;setTop(t=>{const scrolled=y>4;let hidden=t.hidden;if(y<56)hidden=false;else if(d>4)hidden=true;else if(d<-4)hidden=false;return hidden===t.hidden&&scrolled===t.scrolled?t:{hidden,scrolled};});};window.addEventListener('scroll',on,{passive:true});return()=>window.removeEventListener('scroll',on);},[]);
-  return <header className="max-md:contents"><div className={IS_APP?`md:hidden bg-white sticky top-0 z-40 border-b transition-transform duration-200 ${top.hidden?'-translate-y-full':''} ${top.scrolled?'border-gray-200':'border-transparent'}`:"md:hidden bg-white"}><div className="max-w-5xl mx-auto px-4 py-3"><span className="font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium<img src="/trophy.svg?v=2" alt="" aria-hidden="true" style={{display:'inline-block',height:'1.3em',width:'auto',verticalAlign:'-0.28em',marginLeft:'0.3em'}}/></span><span className="text-xs text-gray-500 ml-2 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span></div></div><nav className={IS_APP?"border-gray-200 bg-white z-50 md:sticky md:top-0 md:border-b max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:border-t":"border-b border-gray-200 bg-white sticky top-0 z-50"} style={IS_APP?{paddingBottom:'env(safe-area-inset-bottom)'}:undefined}><div className="max-w-5xl mx-auto px-2 md:px-4 flex items-center justify-between h-12"><div className="flex items-center gap-3"><span className="hidden md:inline font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium<img src="/trophy.svg?v=2" alt="" aria-hidden="true" style={{display:'inline-block',height:'1.3em',width:'auto',verticalAlign:'-0.28em',marginLeft:'0.3em'}}/></span><span className="hidden md:inline text-xs text-gray-500 ml-1 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span><div className="hidden md:block w-4"></div><DivisionToggle division={division} setDivision={setDivision}/></div><div className="flex gap-0.5 md:gap-1 text-xs md:text-sm"><button onClick={()=>setView({type:'home'})} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50`}>Tables</button><button onClick={()=>setView({type:'fixtures'})} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50`}><span className="md:hidden">Races</span><span className="hidden md:inline">Fixtures</span></button><button onClick={()=>setView({type:'seasons'})} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50`}><span className="md:hidden">Wins</span><span className="hidden md:inline">Winners</span></button><button onClick={()=>setView({type:'athletes'})} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50`}>Athletes</button><button onClick={()=>setView({type:'clubs'})} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded text-gray-500 hover:text-gray-900 hover:bg-gray-50`}>Clubs</button></div></div></nav></header>
+  return <header className="max-md:contents"><div className={IS_APP?`md:hidden bg-white sticky top-0 z-40 border-b transition-transform duration-200 ${top.hidden?'-translate-y-full':''} ${top.scrolled?'border-gray-200':'border-transparent'}`:"md:hidden bg-white"}><div className="max-w-5xl mx-auto px-4 py-3"><span className="font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium<img src="/trophy.svg?v=2" alt="" aria-hidden="true" style={{display:'inline-block',height:'1.3em',width:'auto',verticalAlign:'-0.28em',marginLeft:'0.3em'}}/></span><span className="text-xs text-gray-500 ml-2 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span></div></div><nav className={IS_APP?"border-gray-200 bg-white z-50 md:sticky md:top-0 md:border-b max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:border-t":"border-b border-gray-200 bg-white sticky top-0 z-50"} style={IS_APP?{paddingBottom:'env(safe-area-inset-bottom)'}:undefined}><div className="max-w-5xl mx-auto px-2 md:px-4 flex items-center justify-between h-12"><div className="flex items-center gap-3"><span className="hidden md:inline font-bold text-gray-900 cursor-pointer text-lg" style={{fontFamily:"'Fraunces',serif"}} onClick={()=>setView({type:'home'})}>Surrey League compendium<img src="/trophy.svg?v=2" alt="" aria-hidden="true" style={{display:'inline-block',height:'1.3em',width:'auto',verticalAlign:'-0.28em',marginLeft:'0.3em'}}/></span><span className="hidden md:inline text-xs text-gray-500 ml-1 cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'origin'})}>since 1962</span><div className="hidden md:block w-4"></div><DivisionToggle division={division} setDivision={setDivision}/></div><div className="nav-tabs flex gap-0.5 md:gap-1 text-xs md:text-sm"><button onClick={()=>setView({type:'home'})} aria-current={cur==='home'?'page':undefined} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded ${tab('home')}`}>Tables</button><button onClick={()=>setView({type:'fixtures'})} aria-current={cur==='fixtures'?'page':undefined} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded ${tab('fixtures')}`}><span className="md:hidden">Races</span><span className="hidden md:inline">Fixtures</span></button><button onClick={()=>setView({type:'seasons'})} aria-current={cur==='seasons'?'page':undefined} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded ${tab('seasons')}`}><span className="md:hidden">Wins</span><span className="hidden md:inline">Winners</span></button><button onClick={()=>setView({type:'athletes'})} aria-current={cur==='athletes'?'page':undefined} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded ${tab('athletes')}`}>Athletes</button><button onClick={()=>setView({type:'clubs'})} aria-current={cur==='clubs'?'page':undefined} className={`px-1.5 md:px-3 py-1.5 ${IS_APP?'max-md:h-11 ':''}rounded ${tab('clubs')}`}>Clubs</button></div></div></nav></header>
 };
 
 // Left/right arrow keys and horizontal swipes step to the previous/next item (seasons on the tables page, fixtures on a race page)
@@ -6731,7 +6753,7 @@ function App(){
   return<div className="min-h-screen bg-white flex flex-col">
     <LoadedSignal/>
     <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:rounded">Skip to content</a>
-    <Nav setView={setView} division={division} setDivision={setDivision}/>
+    <Nav setView={setView} division={division} setDivision={setDivision} view={view}/>
     <main id="main-content" className="flex-1">
       {view.type==='home'&&<HomeView key={view.urlSeason||'default'} setView={setView} data={data} initialSeason={view.urlSeason} division={division} divisionConfig={divisionConfig}/>}
       {view.type==='race'&&<RaceDetailView race={view.race} mode={view.mode} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions} divisionConfig={divisionConfig}/>}

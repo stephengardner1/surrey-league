@@ -632,15 +632,16 @@ let rsz; window.addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(
 </script>
 <script id="motion-toggles">
 /* Sliding toggle highlight (17-18 Nov 2026, see claude/motion.md). The highlight of a pill toggle slides to the option you choose (240ms ease-in-out).
-   Covers the grey Tailwind toggles (bg-gray-100 with rounded-lg or rounded-md) and the form guide's .seg toggles. The chosen button is the one
-   with the bg-white class or aria-pressed="true"; the highlight copies that button's own colour, corners and shadow.
+   Covers the grey Tailwind toggles (bg-gray-100 with rounded-lg or rounded-md), the form guide's .seg toggles and the main navigation (.nav-tabs).
+   The chosen button is the one with the bg-white class, aria-pressed="true" or aria-current="page"; the highlight copies that button's own
+   colour, corners and shadow. When nothing is chosen (a page that belongs to no tab) the highlight fades away.
    Works from outside the app. This same script sits in every standalone form guide page: keep the copies identical.
    To undo: delete this script and the <style id="motion-toggles-css"> block. Reduce Motion: the highlight jumps. */
 (function(){
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)');
   function still(){return !!(RM&&RM.matches);}
-  var GROUPS='.bg-gray-100.rounded-lg,.bg-gray-100.rounded-md,.seg';
-  function isOn(b){return b.classList.contains('bg-white')||b.getAttribute('aria-pressed')==='true';}
+  var GROUPS='.bg-gray-100.rounded-lg,.bg-gray-100.rounded-md,.seg,.nav-tabs';
+  function isOn(b){return b.classList.contains('bg-white')||b.getAttribute('aria-pressed')==='true'||b.getAttribute('aria-current')==='page';}
   function chosen(el){
     var kids=el.children,n=kids.length,on=null,c=0;
     if(n<2)return false;
@@ -651,9 +652,9 @@ let rsz; window.addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(
     var on=chosen(el);
     if(on===false)return;
     if(!el.hasAttribute('data-seg')){if(!on)return;
-      var cs=getComputedStyle(on),bg=cs.backgroundColor;
+      on.style.transition='none';var cs=getComputedStyle(on),bg=cs.backgroundColor,rad=cs.borderTopLeftRadius,sh=cs.boxShadow;on.style.transition='';   /* read its settled look, not a colour caught mid-fade */
       if(!bg||bg==='transparent'||/,\s*0\)$/.test(bg))return;      /* its styles haven't arrived yet: try again on the next pass */
-      el.style.setProperty('--seg-hi-bg',bg);el.style.setProperty('--seg-hi-r',cs.borderTopLeftRadius);el.style.setProperty('--seg-hi-sh',cs.boxShadow);
+      el.style.setProperty('--seg-hi-bg',bg);el.style.setProperty('--seg-hi-r',rad);el.style.setProperty('--seg-hi-sh',sh);
       el.setAttribute('data-seg','');
       /* the app often rebuilds a toggle when you tap it, so the new one starts where the old highlight was and slides from there */
       var lc=lastTap;if(lc&&Date.now()-lc.t<1000&&lc.sig===segSig(el)&&on.offsetWidth&&!still()){
@@ -684,7 +685,7 @@ let rsz; window.addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(
     clearTimeout(trail);trail=setTimeout(placeAll,160);   /* once more after late styles have arrived */
   }
   function start(){
-    new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-pressed']});
+    new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-pressed','aria-current']});
     window.addEventListener('resize',queue);
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(queue);
     queue();
@@ -698,7 +699,7 @@ let rsz; window.addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(
 [data-seg]>button{position:relative;z-index:1;background-color:transparent!important;box-shadow:none!important}
 [data-seg]::before{content:"";position:absolute;left:0;top:0;width:var(--seg-w,0);height:var(--seg-h,0);transform:translate(var(--seg-x,0),var(--seg-y,0));
   background:var(--seg-hi-bg,#fff);border-radius:var(--seg-hi-r,.375rem);box-shadow:var(--seg-hi-sh,0 1px 2px 0 rgb(0 0 0/.05));opacity:var(--seg-o,0);pointer-events:none}
-[data-seg="go"]::before{transition:transform 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),width 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),height 240ms var(--m-move,cubic-bezier(.65,0,.35,1))}
+[data-seg="go"]::before{transition:transform 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),width 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),height 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),opacity 160ms var(--m-exit,cubic-bezier(.4,0,1,1))}
 @media (prefers-reduced-motion:reduce){[data-seg]::before{transition:none!important}}
 </style>
 <script id="haptics">
