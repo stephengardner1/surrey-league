@@ -2551,10 +2551,29 @@ const ListBust=({name,club})=>{const file=portraitFile(name,club);const[u,setU]=
 const WinnerMark=({name,club,show})=>show&&portraitFile(name,club)?<ListBust name={name} club={club}/>:<ClubShield club={club} size={14}/>;
 // Portrait with its background rectangle stripped, cached as a blob URL (used for the busts in the form-guide movers boxes)
 const BUSTS={};const loadBust=src=>BUSTS[src]||(BUSTS[src]=fetch(src).then(r=>{if(!r.ok)throw 0;return r.text();}).then(t=>URL.createObjectURL(new Blob([t.replace(/<rect width="200" height="280"[^>]*\/>/,'')],{type:'image/svg+xml'}))));
+// Line the form guide up with the race results as they stand now, matching runners by NAME, not finishing place.
+// Results are often corrected after a guide is made (a runner added, someone re-identified), which shifts everyone
+// below; matching by place then links names to the wrong athletes. Matched runners take their corrected place;
+// a runner re-identified in the corrections takes the new name with no form ranking (the old form was someone else's);
+// runners added later join with no ranking; anyone no longer in the results is dropped.
+const matchGuideRows=(ROWS,results)=>{const norm=s=>String(s||'').replace(/\s*\(2C\)\s*$/i,'').trim().toLowerCase();const isUnk=s=>/^\(?unknown/i.test(s||'');const sur=s=>norm(s).replace(/\s*\([^)]*\)\s*$/,'').split(/\s+/).pop();
+  const res=(results||[]).map(x=>({p:x.p??x.pos,n:x.n??x.name,c:x.c??x.club??""})).filter(x=>x.p!=null&&x.n);if(!res.length)return ROWS;ROWS.forEach(r=>{r.c=r.c||"";});
+  const used=new Set(),done=new Set(),byPos={};res.forEach(x=>{byPos[x.p]=x;});
+  const take=(r,x)=>{used.add(x);done.add(r);r.an=x.n;r.p=x.p;};const free=f=>res.filter(x=>!used.has(x)&&f(x));const todo=f=>ROWS.filter(r=>!done.has(r)&&f(r));
+  const near=(r,xs)=>xs.slice().sort((a,b)=>(a.c===r.c?0:1)-(b.c===r.c?0:1)||Math.abs(a.p-r.p)-Math.abs(b.p-r.p))[0];
+  const blank=(x,flags)=>({p:x.p,n:x.n,an:x.n,c:x.c||'',t:'',a:'',tm:'',l:null,b:null,bs:null,src:null,g:null,f:flags||[],py:null,hc:null,hb:null,hd:null,rb:null,rbs:null,rby:null});
+  todo(r=>!isUnk(r.n)).forEach(r=>{const xs=free(x=>norm(x.n)===norm(r.an)||norm(x.n)===norm(r.n));if(xs.length)take(r,near(r,xs));});
+  todo(r=>!isUnk(r.n)).forEach(r=>{const x=byPos[r.p];if(x&&!used.has(x)&&sur(x.n)===sur(r.n))return take(r,x);const xs=free(x=>!isUnk(x.n)&&x.c===r.c&&sur(x.n)===sur(r.n));if(xs.length===1)take(r,xs[0]);});
+  todo(r=>isUnk(r.n)).forEach(r=>{const xs=free(x=>isUnk(x.n)&&x.c===r.c&&Math.abs(x.p-r.p)<=2);if(xs.length)take(r,near(r,xs));});
+  const out=ROWS.filter(r=>done.has(r));
+  ROWS.filter(r=>!done.has(r)).forEach(r=>{const xs=free(x=>x.c===r.c&&Math.abs(x.p-r.p)<=2);if(xs.length){const x=near(r,xs);used.add(x);out.push(blank(x,isUnk(x.n)?['Unidentified in results']:[]));}});
+  free(()=>true).forEach(x=>out.push(blank(x,isUnk(x.n)?['Unidentified in results']:[])));
+  return out.sort((a,b)=>a.p-b.p);
+};
 const FormGuideNative=({src,results,teamOrder})=>{
   const ref=useRef(null);const[err,setErr]=useState(false);
   useEffect(()=>{let dead=false,cleanup=null;setErr(false);
-    fetch(src).then(r=>r.text()).then(t=>{if(dead||!ref.current)return;const g=parseFormGuide(t);g.div=/-women\./.test(src)?'women/':'';g.teamOrder=teamOrder||[];const byPos={};(results||[]).forEach(x=>{const p=x.p??x.pos,n=x.n??x.name;if(p!=null&&n)byPos[p]=n;});g.ROWS.forEach(r=>{if(byPos[r.p])r.an=byPos[r.p];});ref.current.innerHTML=g.html;cleanup=initFormGuide(ref.current,g);}).catch(()=>{if(!dead)setErr(true);});
+    fetch(src).then(r=>r.text()).then(t=>{if(dead||!ref.current)return;const g=parseFormGuide(t);g.div=/-women\./.test(src)?'women/':'';g.teamOrder=teamOrder||[];g.ROWS=matchGuideRows(g.ROWS,results);ref.current.innerHTML=g.html;cleanup=initFormGuide(ref.current,g);}).catch(()=>{if(!dead)setErr(true);});
     return()=>{dead=true;if(cleanup)cleanup();};},[src,results,(teamOrder||[]).join()]);
   return err?<p className="text-sm text-gray-500">The form guide couldn't be loaded. <a className="underline" href={src}>Open it on its own page</a>.</p>:<div className="fg" ref={ref}/>;
 };
