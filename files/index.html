@@ -315,27 +315,31 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
   },true);
 })();
 </script>
-<script id="motion-travel">
-/* Movements added 17 Nov 2026 (see claude/motion.md). All work from outside React, like motion-reorder: nothing in the app code changes.
-   1. Toggles: the white highlight of a grey pill toggle slides to the option you choose (240ms ease-in-out).
-   2. Race page, A Teams / B Teams: clubs glide to their new places, points roll to the new score, the scores fade in.
-   3. Name to profile: tap a runner's name and it travels into the profile heading while their club vest grows into the portrait;
-      the career numbers count up once. Going back returns the name to its row when that row is on screen.
-   4. Venue to race: tap a race anywhere (a runner's history, the Matches list, the Races page) and its name travels to become the race page's headline, and back again.
-   To undo: delete this script and the <style id="motion-travel-css"> block. Reduce Motion: highlights jump, nothing travels. */
+<script id="motion-toggles">
+/* Sliding toggle highlight (17-18 Nov 2026, see claude/motion.md). The highlight of a pill toggle slides to the option you choose (240ms ease-in-out).
+   Covers the grey Tailwind toggles (bg-gray-100 with rounded-lg or rounded-md) and the form guide's .seg toggles. The chosen button is the one
+   with the bg-white class or aria-pressed="true"; the highlight copies that button's own colour, corners and shadow.
+   Works from outside the app. This same script sits in every standalone form guide page: keep the copies identical.
+   To undo: delete this script and the <style id="motion-toggles-css"> block. Reduce Motion: the highlight jumps. */
 (function(){
-  if(!Element.prototype.animate)return;
   var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)');
   function still(){return !!(RM&&RM.matches);}
-  var MOVE='cubic-bezier(.65,0,.35,1)',ENTER='cubic-bezier(.16,1,.3,1)',EXIT='cubic-bezier(.4,0,1,1)';
-  function seen(el){return !!(el&&el.getClientRects().length);}
-
-  /* ---------- 1. sliding toggle highlight ---------- */
+  var GROUPS='.bg-gray-100.rounded-lg,.bg-gray-100.rounded-md,.seg';
+  function isOn(b){return b.classList.contains('bg-white')||b.getAttribute('aria-pressed')==='true';}
+  function chosen(el){
+    var kids=el.children,n=kids.length,on=null,c=0;
+    if(n<2)return false;
+    for(var i=0;i<n;i++){if(kids[i].tagName!=='BUTTON')return false;if(isOn(kids[i])){on=kids[i];c++;}}
+    return c===1?on:null;                        /* false: not a toggle; null: nothing, or several, chosen */
+  }
   function placeSeg(el){
-    var kids=el.children,n=kids.length,on=null;
-    if(n<2)return;
-    for(var i=0;i<n;i++){if(kids[i].tagName!=='BUTTON')return;if(kids[i].classList.contains('bg-white'))on=kids[i];}
-    if(!el.hasAttribute('data-seg')){if(!on)return;el.setAttribute('data-seg','');
+    var on=chosen(el);
+    if(on===false)return;
+    if(!el.hasAttribute('data-seg')){if(!on)return;
+      var cs=getComputedStyle(on),bg=cs.backgroundColor;
+      if(!bg||bg==='transparent'||/,\s*0\)$/.test(bg))return;      /* its styles haven't arrived yet: try again on the next pass */
+      el.style.setProperty('--seg-hi-bg',bg);el.style.setProperty('--seg-hi-r',cs.borderTopLeftRadius);el.style.setProperty('--seg-hi-sh',cs.boxShadow);
+      el.setAttribute('data-seg','');
       /* the app often rebuilds a toggle when you tap it, so the new one starts where the old highlight was and slides from there */
       var lc=lastTap;if(lc&&Date.now()-lc.t<1000&&lc.sig===segSig(el)&&on.offsetWidth&&!still()){
         lastTap=null;var r=el.getBoundingClientRect();
@@ -349,12 +353,12 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     el.style.setProperty('--seg-o','1');
     if(el.getAttribute('data-seg')!=='go')requestAnimationFrame(function(){requestAnimationFrame(function(){if(el.isConnected&&el.offsetWidth)el.setAttribute('data-seg','go');});});
   }
-  function placeAll(){var l=document.querySelectorAll('.bg-gray-100.rounded-lg');for(var i=0;i<l.length;i++)placeSeg(l[i]);}
+  function placeAll(){var l=document.querySelectorAll(GROUPS);for(var i=0;i<l.length;i++)placeSeg(l[i]);}
   var lastTap=null;
   function segSig(el){var t=[];for(var i=0;i<el.children.length;i++)t.push(el.children[i].textContent.trim());return t.join('|');}
   document.addEventListener('pointerdown',function(e){
-    var b=e.target.closest&&e.target.closest('[data-seg]>button');if(!b)return;
-    var g=b.parentElement,on=null;for(var i=0;i<g.children.length;i++)if(g.children[i].classList.contains('bg-white'))on=g.children[i];
+    var b=e.target.closest&&e.target.closest('[data-seg]>button');if(!b||b.disabled)return;
+    var g=b.parentElement,on=chosen(g);
     if(on&&on!==b){lastTap={sig:segSig(g),rect:on.getBoundingClientRect(),t:Date.now()};
       /* start the slide on touch-down, before the app does its (sometimes heavy) re-render on click */
       if(g.getAttribute('data-seg')==='go'&&b.offsetWidth&&!still()){g.style.setProperty('--seg-x',b.offsetLeft+'px');g.style.setProperty('--seg-y',b.offsetTop+'px');g.style.setProperty('--seg-w',b.offsetWidth+'px');g.style.setProperty('--seg-h',b.offsetHeight+'px');setTimeout(placeAll,700);}}
@@ -362,15 +366,43 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
   var queued=false,trail=null;
   function queue(){
     if(!queued){queued=true;requestAnimationFrame(function(){queued=false;placeAll();});}
-    clearTimeout(trail);trail=setTimeout(placeAll,160);   /* once more after Tailwind has written late styles */
+    clearTimeout(trail);trail=setTimeout(placeAll,160);   /* once more after late styles have arrived */
   }
   function start(){
-    new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+    new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-pressed']});
     window.addEventListener('resize',queue);
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(queue);
     queue();
   }
   if(document.body)start();else document.addEventListener('DOMContentLoaded',start);
+})();
+</script>
+<style id="motion-toggles-css">
+/* The sliding highlight for pill toggles: drawn behind the buttons, placed by the motion-toggles script. */
+[data-seg]{position:relative;isolation:isolate}
+[data-seg]>button{position:relative;z-index:1;background-color:transparent!important;box-shadow:none!important}
+[data-seg]::before{content:"";position:absolute;left:0;top:0;width:var(--seg-w,0);height:var(--seg-h,0);transform:translate(var(--seg-x,0),var(--seg-y,0));
+  background:var(--seg-hi-bg,#fff);border-radius:var(--seg-hi-r,.375rem);box-shadow:var(--seg-hi-sh,0 1px 2px 0 rgb(0 0 0/.05));opacity:var(--seg-o,0);pointer-events:none}
+[data-seg="go"]::before{transition:transform 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),width 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),height 240ms var(--m-move,cubic-bezier(.65,0,.35,1))}
+@media (prefers-reduced-motion:reduce){[data-seg]::before{transition:none!important}}
+</style>
+<script id="motion-travel">
+/* Movements added 17-18 Nov 2026 (see claude/motion.md). All work from outside React, like motion-reorder.
+   1. Race page and season table, A Teams / B Teams: clubs glide to their new places, points roll to the new score, the scores fade in.
+   2. Name to profile: tap a runner's name and it travels into the profile heading while their club vest grows into the portrait;
+      the career numbers count up once. A tapped portrait travels to the profile portrait. Mark a link with data-ath="<name>";
+      add data-ath-find when the link itself isn't the name (a portrait, a "profile" button): the name is then picked up from the nearest place it is written.
+   3. Venue to race: tap a race anywhere and its name travels to become the race page's headline.
+   4. Club to club page: tap a club anywhere and its name travels to the club page's heading while its vest grows into the big vest there.
+   Back retraces each of these when the place it came from is on screen.
+   (The sliding toggle highlight is in its own script, motion-toggles.)
+   To undo: delete this script. Reduce Motion: nothing travels. */
+(function(){
+  if(!Element.prototype.animate)return;
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)');
+  function still(){return !!(RM&&RM.matches);}
+  var MOVE='cubic-bezier(.65,0,.35,1)',ENTER='cubic-bezier(.16,1,.3,1)',EXIT='cubic-bezier(.4,0,1,1)';
+  function seen(el){return !!(el&&el.getClientRects().length);}
 
   /* a number rolls from one value to another, written into React's own text node so React keeps track of it */
   function roll(node,from,to,ms,delay){
@@ -388,7 +420,7 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     requestAnimationFrame(step);
   }
 
-  /* ---------- 2. A Teams / B Teams ---------- */
+  /* ---------- 1. A Teams / B Teams ---------- */
   function teamBody(host){
     var tb=host&&host.querySelector('table tbody');
     if(!tb||tb.querySelector('[data-ath]')||!tb.rows.length||tb.rows[0].cells.length<4)return null;
@@ -423,7 +455,7 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
     });
   },true);
 
-  /* ---------- 3. name to profile, venue to race headline, and back ---------- */
+  /* ---------- 2. name to profile, venue to race headline, club to club page, and back ---------- */
   var trips=[];                                   /* journeys made, newest last, so Back can retrace them */
   function fix(g,rect,cs){
     var st=g.style;
@@ -457,56 +489,88 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
   function wait(test,frames,then,giveUp){
     (function poll(n){var r=test();if(r){then(r);return;}if(n<=0){giveUp();return;}requestAnimationFrame(function(){poll(n-1);});})(frames);
   }
-  function remember(j){j.h=(heading()||{innerText:''}).innerText.trim();trips.push(j);if(trips.length>12)trips.shift();}
+  function here(){return location.pathname+location.hash;}
+  function remember(j){j.h=(heading()||{innerText:''}).innerText.trim();j.path=here();trips.push(j);if(trips.length>12)trips.shift();}
+  function textBox(n){var rg=document.createRange();rg.selectNodeContents(n);return rg.getBoundingClientRect();}
+  /* every place on screen where exactly this text is written, nearest to x,y first */
+  function nearText(text,x,y){
+    var w=document.createTreeWalker(document.getElementById('root'),NodeFilter.SHOW_TEXT),n,hits=[];
+    while((n=w.nextNode())){
+      if(n.nodeValue.trim()!==text||!n.parentElement||!seen(n.parentElement))continue;
+      var rc=textBox(n);if(onScreen(rc))hits.push({el:n.parentElement,r:rc,d:Math.abs(rc.left-x)+Math.abs(rc.top-y)});
+    }
+    hits.sort(function(a,b){return a.d-b.d;});return hits;
+  }
+  function styleOf(el){var cs=getComputedStyle(el);return {font:cs.font,color:cs.color,letterSpacing:cs.letterSpacing};}
+  function textGhost(t,r,cs){var g=document.createElement('div');g.textContent=t;return fix(g,r,cs);}
+  function norm(t){return t.toLowerCase().replace(/[^a-z0-9]/g,'');}
+  function vestsIn(el){var l=el&&el.querySelectorAll?el.querySelectorAll('svg'):[],out=[];for(var i=0;i<l.length;i++)if(l[i].getAttribute('viewBox')==='0 0 20 20'&&seen(l[i]))out.push(l[i]);return out;}
+  function bigVest(h){return vestsIn(h&&h.parentElement&&h.parentElement.parentElement)[0]||null;}
   document.addEventListener('click',function(e){
     if(still()||e.metaKey||e.ctrlKey||e.shiftKey||e.button||!e.target.closest)return;
-    var p0=location.pathname,a=e.target.closest('[data-ath]');
-    if(a&&seen(a)){                                                   /* a runner's name, heading for their profile */
-      var row=a.closest('tr'),vest=row&&row.querySelector('svg');
-      var nr=a.getBoundingClientRect(),vr=vest&&seen(vest)?vest.getBoundingClientRect():null;
-      var gn=ghost(a,nr),gv=vr?ghost(vest,vr):null,name=a.getAttribute('data-ath');
+    var p0=here(),a=e.target.closest('[data-ath]');
+    if(a&&seen(a)){                                                   /* a runner, heading for their profile */
+      var name=a.getAttribute('data-ath'),find=a.hasAttribute('data-ath-find'),pic=find&&a.querySelector('img')?a:null,src=a,nr=null,gn=null;
+      if(find){var ar=a.getBoundingClientRect(),hit=nearText(name,ar.left,ar.top)[0];
+        if(hit){src=hit.el;nr=hit.r;gn=textGhost(name,nr,styleOf(src));}else src=null;}
+      else{nr=a.getBoundingClientRect();gn=ghost(a,nr);}
+      var row=src&&src.closest('tr'),vest=pic||(row&&row.querySelector('svg')),vr=vest&&seen(vest)?vest.getBoundingClientRect():null,gv=vr?ghost(vest,vr):null;
       requestAnimationFrame(function(){
-        wait(function(){return location.pathname!==p0&&location.pathname.indexOf('/athlete/')>=0&&heading();},20,function(h){
-          travel(gn,nr,h,320);
+        wait(function(){return here()!==p0&&/[#\/]athlete\//.test(here())&&heading();},20,function(h){
+          if(gn)travel(gn,nr,h,320);
           var t=tile();if(gv&&t)travel(gv,vr,t,320,true);else drop(gv);
           var tb=document.querySelector('#root table.table-fixed tbody');
           if(tb&&tb.rows[0])Array.prototype.forEach.call(tb.rows[0].cells,function(td,i){
             var n=td.firstChild,v=n&&n.nodeType===3?parseFloat(n.nodeValue):NaN;
             if(!isNaN(v)&&v>0&&td.childNodes.length===1)roll(n,0,v,600,200+i*30);
           });
-          remember({kind:'ath',name:name});
+          remember({kind:'ath',name:name,find:find,pic:!!pic,x:nr?nr.left:0,y:nr?nr.top:0});
         },function(){drop(gn);drop(gv);});
       });
       return;
     }
-    if(p0.indexOf('/race/')>=0)return;
-    /* anything else that might lead to a race page: note every piece of text in what was tapped, then, if a race page
-       arrives, the piece that matches its headline is the one that travels */
+    /* anything else that might lead to a race page or a club page: note every piece of text (and any club vest) in what was
+       tapped, then, if such a page arrives, the piece that names it is the one that travels */
     var box=e.target.closest('tr,[role="link"],a,button,li')||e.target,bits=[],w=document.createTreeWalker(box,NodeFilter.SHOW_TEXT),n;
     while((n=w.nextNode())&&bits.length<40){
       var tx=n.nodeValue.trim();if(tx.length<3||!n.parentElement||!seen(n.parentElement))continue;
-      var rg=document.createRange();rg.selectNodeContents(n);var rc=rg.getBoundingClientRect();if(!rc.width)continue;
-      var cs=getComputedStyle(n.parentElement);
-      bits.push({t:tx,r:rc,cs:{font:cs.font,color:cs.color,letterSpacing:cs.letterSpacing}});
+      var rc=textBox(n);if(!rc.width)continue;
+      bits.push({t:tx,r:rc,cs:styleOf(n.parentElement)});
     }
     if(!bits.length)return;
+    var vests=[],vl=vestsIn(box.closest('tr')||box),cx=e.clientX,cy=e.clientY;
+    for(var vi=0;vi<vl.length&&vi<4;vi++)vests.push({el:vl[vi],r:vl[vi].getBoundingClientRect()});
     requestAnimationFrame(function(){
-      wait(function(){return location.pathname!==p0&&location.pathname.indexOf('/race/')>=0&&heading();},6,function(h){
-        var names=[h.innerText.trim()];Array.prototype.forEach.call(h.querySelectorAll('span'),function(x){names.push(x.textContent.trim());});
-        var b=null;for(var i=0;i<bits.length&&!b;i++)if(names.indexOf(bits[i].t)>=0)b=bits[i];
+      wait(function(){
+        var p=here(),h=p!==p0&&heading();if(!h)return null;
+        if(/[#\/]race\//.test(p))return /[#\/]race\//.test(p0)?null:{k:'race',h:h};      /* not between two races (Prev, Next) */
+        if(/[#\/]club\//.test(p))return {k:'club',h:h,slug:p.split('club/')[1].split(/[\/?#]/)[0]};
+        return null;
+      },6,function(d){
+        var h=d.h,names=[h.innerText.trim()],b=null,i;
+        Array.prototype.forEach.call(h.querySelectorAll('span'),function(x){names.push(x.textContent.trim());});
+        for(i=0;i<bits.length&&!b;i++)if(names.indexOf(bits[i].t)>=0||(d.k==='club'&&norm(bits[i].t)===d.slug))b=bits[i];
+        if(!b&&d.k==='club'){                                           /* a short form of the name ("Herc Wimbledon"), else the wording nearest the tap */
+          var hw=norm(names[0].split(' ')[0]).slice(0,4),worded=bits.filter(function(x){return /[A-Za-z]{2}/.test(x.t);}),best=1e9;
+          for(i=0;i<worded.length&&!b;i++)if(hw.length===4&&norm(worded[i].t).slice(0,4)===hw)b=worded[i];
+          if(!b&&worded.length<=3)worded.forEach(function(x){var dd=Math.abs(x.r.left+x.r.width/2-cx)+Math.abs(x.r.top+x.r.height/2-cy);if(dd<best){best=dd;b=x;}});
+        }
         if(!b)return;
-        var g=document.createElement('div');g.textContent=b.t;fix(g,b.r,b.cs);
-        travel(g,b.r,h,320);
-        remember({kind:'race',venue:b.t,x:b.r.left,y:b.r.top});
+        travel(textGhost(b.t,b.r,b.cs),b.r,h,320);
+        var j={kind:d.k,venue:b.t,x:b.r.left,y:b.r.top},big=d.k==='club'&&bigVest(h);
+        if(big&&vests.length){
+          vests.sort(function(p,q){return (Math.abs(p.r.left-b.r.left)+Math.abs(p.r.top-b.r.top))-(Math.abs(q.r.left-b.r.left)+Math.abs(q.r.top-b.r.top));});
+          var g=vests[0].el.cloneNode(true);fix(g,vests[0].r,{font:'',color:'',letterSpacing:''});travel(g,vests[0].r,big,320,true);j.vest=true;
+        }
+        remember(j);
       },function(){});
     });
   },true);
   window.addEventListener('popstate',function(){
     if(still()||!trips.length)return;
-    var j=trips[trips.length-1],h=heading(),path=location.pathname;
+    var j=trips[trips.length-1],h=heading();
     if(!h||h.innerText.trim()!==j.h)return;                          /* not on the page that journey ended at */
-    if(j.kind==='ath'&&path.indexOf('/athlete/')>=0)return;          /* still on the profile (closing the poster, say) */
-    if(j.kind==='race'&&path.indexOf('/race/')>=0)return;            /* still on the race (changing its tab, say) */
+    if(j.path&&here().indexOf(j.path)===0)return;                    /* still on that page (closing the poster, changing a tab) */
     trips.pop();
     var hr=h.getBoundingClientRect(),gh=ghost(h,hr);
     if(j.kind==='ath'){
@@ -514,41 +578,35 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
       if(gt){gt.style.overflow='hidden';gt.style.borderRadius='4px';}
       requestAnimationFrame(function(){
         wait(function(){
-          var l=document.querySelectorAll('#root [data-ath]');
-          for(var i=0;i<l.length;i++)if(l[i].getAttribute('data-ath')===j.name&&seen(l[i])&&onScreen(l[i].getBoundingClientRect()))return l[i];
-          return null;
-        },12,function(a){
-          travel(gh,hr,a,256);
-          var row=a.closest('tr'),vest=row&&row.querySelector('svg');
+          var nm=null,pc=null,l,i;
+          if(j.find){l=nearText(j.name,j.x,j.y);if(l.length)nm=l[0];}
+          else{l=document.querySelectorAll('#root [data-ath]:not([data-ath-find])');
+            for(i=0;i<l.length&&!nm;i++)if(l[i].getAttribute('data-ath')===j.name&&seen(l[i])&&onScreen(l[i].getBoundingClientRect()))nm={el:l[i]};}
+          if(j.pic){l=document.querySelectorAll('#root [data-ath-find]');
+            for(i=0;i<l.length&&!pc;i++)if(l[i].getAttribute('data-ath')===j.name&&l[i].querySelector('img')&&seen(l[i])&&onScreen(l[i].getBoundingClientRect()))pc=l[i];}
+          return nm||pc?{n:nm,p:pc}:null;
+        },12,function(to){
+          if(to.n)travel(gh,hr,to.n.el,256,false,to.n.r);else drop(gh);
+          var vest=to.p,row;if(!vest&&to.n){row=to.n.el.closest('tr');vest=row&&row.querySelector('svg');}
           if(gt&&vest&&seen(vest))travel(gt,tr,vest,256,true);else drop(gt);
         },function(){drop(gh);drop(gt);});
       });
     }else{
+      var big=j.vest&&bigVest(h),br=big?big.getBoundingClientRect():null,gb=big?ghost(big,br):null;
       requestAnimationFrame(function(){
         wait(function(){
-          var w=document.createTreeWalker(document.getElementById('root'),NodeFilter.SHOW_TEXT),n,hits=[];
-          while((n=w.nextNode())){
-            if(n.nodeValue.trim()!==j.venue||!n.parentElement||!seen(n.parentElement))continue;
-            var rg=document.createRange();rg.selectNodeContents(n);var rc=rg.getBoundingClientRect();
-            if(onScreen(rc))hits.push({el:n.parentElement,r:rc,d:Math.abs(rc.left-j.x)+Math.abs(rc.top-j.y)});
-          }
-          hits.sort(function(a,b){return a.d-b.d;});
+          var hits=nearText(j.venue,j.x,j.y);
           return hits.length&&(hits.length===1||hits[0].d<30)?hits[0]:null;   /* the same one that was tapped, not a namesake */
-        },12,function(hit){travel(gh,hr,hit.el,256,false,hit.r);},function(){drop(gh);});
+        },12,function(hit){
+          travel(gh,hr,hit.el,256,false,hit.r);
+          var v=gb&&vestsIn(hit.el.closest('tr')||hit.el.parentElement)[0];
+          if(gb&&v)travel(gb,br,v,256,true);else drop(gb);
+        },function(){drop(gh);drop(gb);});
       });
     }
   });
 })();
 </script>
-<style id="motion-travel-css">
-/* The sliding highlight for grey pill toggles: drawn behind the buttons, placed by the motion-travel script. */
-[data-seg]{position:relative;isolation:isolate}
-[data-seg]>button{position:relative;z-index:1;background-color:transparent!important;box-shadow:none!important}
-[data-seg]::before{content:"";position:absolute;left:0;top:0;width:var(--seg-w,0);height:var(--seg-h,0);transform:translate(var(--seg-x,0),var(--seg-y,0));
-  background:#fff;border-radius:.375rem;box-shadow:0 1px 2px 0 rgb(0 0 0/.05);opacity:var(--seg-o,0);pointer-events:none}
-[data-seg="go"]::before{transition:transform 240ms var(--m-move),width 240ms var(--m-move),height 240ms var(--m-move)}
-@media (prefers-reduced-motion:reduce){[data-seg]::before{transition:none!important}}
-</style>
 <script id="haptics">
 /* A light selection tick when a toggle changes, in the iPhone app and on the mobile website (Men/Women, Classic results/Form guide, Individual/A Teams/B Teams,
    chart and table options, sort headings). In the app it uses Capacitor's Haptics plugin when the app includes it. */
@@ -2183,7 +2241,7 @@ const RaceCompare=({race,races,setView})=>{
         <td className="py-2 px-1 md:px-2 text-right tabular-nums text-gray-900">{r.pA}</td>
         <td className="py-2 px-1 md:px-2 text-right tabular-nums text-gray-500">{r.pB}</td>
         <td className="py-2 pl-1 md:pl-2 text-right tabular-nums whitespace-nowrap"><Delta d={r.cB-r.cA}/></td></tr>
-        <tr><td colSpan={4} className="p-0"><Fold open={isOpen} className="pb-3 pt-1"><Explain r={r}/><button onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:r.name,club:r.club}});}} className="mt-2 text-sm text-[#1b649e] underline decoration-[#1b649e]/40 underline-offset-2">{r.name}'s profile</button></Fold></td></tr></React.Fragment>;})}</tbody></table>
+        <tr><td colSpan={4} className="p-0"><Fold open={isOpen} className="pb-3 pt-1"><Explain r={r}/><button data-ath={r.name} data-ath-find="" onClick={e=>{e.stopPropagation();setView({type:'athlete',athlete:{name:r.name,club:r.club}});}} className="mt-2 text-sm text-[#1b649e] underline decoration-[#1b649e]/40 underline-offset-2">{r.name}'s profile</button></Fold></td></tr></React.Fragment>;})}</tbody></table>
     {!shown.length&&<p className="text-sm text-gray-500 py-4">{qNum?`Whoever was ${ordPos(qNum)} here didn't run both races.`:`No runner who ran both races matches “${q}”.`}</p>}
     {rows.length>shown.length&&<p className="text-xs text-gray-500 mt-2">Showing the first {shown.length} of {rows.length}. Search to find anyone else.</p>}
     </div>
@@ -2457,8 +2515,8 @@ const WinnerBust=({winners,onOpen})=>{const hit=useMemo(()=>{for(const w of winn
   const[u,setU]=useState(null);useEffect(()=>{setU(null);if(!file)return;let d=false;loadBust(`/portraits/athletes/${file}.svg?v=${PORTRAIT_V}`).then(x=>{if(!d)setU(x);}).catch(()=>{});return()=>{d=true;};},[file]);
   const[lg,setLg]=useState(()=>window.matchMedia('(min-width:1024px)').matches);useEffect(()=>{const m=window.matchMedia('(min-width:1024px)');const f=()=>setLg(m.matches);m.addEventListener('change',f);return()=>m.removeEventListener('change',f);},[]);
   if(!file)return null;const W=lg?120:96,H=lg?144:Math.round(96*252/180),sc=W/180;
-  return<div className="flex-none cursor-pointer" title={onOpen?`${hit.w.name}: athlete profile`:undefined} onClick={onOpen?()=>onOpen(hit.w):undefined} style={{width:W,height:H,marginLeft:lg?-16:-12,marginRight:lg?-4:-11,clipPath:'inset(-60px 0 0 0)'}}>{u&&<img src={u} alt="" style={{display:'block',maxWidth:'none',width:180*sc,height:'auto'}}/>}</div>;};
-const MobileWinnerBust=({w,onOpen,anchor})=>{const file=portraitFile(w.name,w.club);const[H,setH]=useState(72);useEffect(()=>{const el=anchor&&anchor.current;if(!el)return;const f=()=>setH(el.offsetTop+el.offsetHeight);f();const ro=new ResizeObserver(f);ro.observe(el);return()=>ro.disconnect();},[anchor]);const W=Math.round(H*5/6),IW=Math.round(W*1.28);if(!file)return null;return<div className="lg:hidden absolute left-0 top-0 cursor-pointer rounded-md" title={`${w.name}: athlete profile`} onClick={()=>onOpen&&onOpen(w)} style={{width:W,height:H,overflow:'hidden'}}><img src={`/portraits/athletes/${file}.svg?v=${PORTRAIT_V}`} alt="" style={{display:'block',maxWidth:'none',width:IW,height:'auto',marginLeft:-(IW-W)/2,marginTop:-Math.round(IW*0.02)}}/></div>;};
+  return<div className="flex-none cursor-pointer" data-ath={onOpen?hit.w.name:undefined} data-ath-find={onOpen?"":undefined} title={onOpen?`${hit.w.name}: athlete profile`:undefined} onClick={onOpen?()=>onOpen(hit.w):undefined} style={{width:W,height:H,marginLeft:lg?-16:-12,marginRight:lg?-4:-11,clipPath:'inset(-60px 0 0 0)'}}>{u&&<img src={u} alt="" style={{display:'block',maxWidth:'none',width:180*sc,height:'auto'}}/>}</div>;};
+const MobileWinnerBust=({w,onOpen,anchor})=>{const file=portraitFile(w.name,w.club);const[H,setH]=useState(72);useEffect(()=>{const el=anchor&&anchor.current;if(!el)return;const f=()=>setH(el.offsetTop+el.offsetHeight);f();const ro=new ResizeObserver(f);ro.observe(el);return()=>ro.disconnect();},[anchor]);const W=Math.round(H*5/6),IW=Math.round(W*1.28);if(!file)return null;return<div className="lg:hidden absolute left-0 top-0 cursor-pointer rounded-md" data-ath={w.name} data-ath-find="" title={`${w.name}: athlete profile`} onClick={()=>onOpen&&onOpen(w)} style={{width:W,height:H,overflow:'hidden'}}><img src={`/portraits/athletes/${file}.svg?v=${PORTRAIT_V}`} alt="" style={{display:'block',maxWidth:'none',width:IW,height:'auto',marginLeft:-(IW-W)/2,marginTop:-Math.round(IW*0.02)}}/></div>;};
 // Back buttons return to wherever you came from inside the site; if you landed here directly, go to a sensible default page
 const goBack=(setView,fallback)=>{if(window.history.state&&window.history.state.sl)window.history.back();else setView(fallback);};
 // background colour behind each club's portraits (from tools/gen_portraits.py KITS)
@@ -5454,9 +5512,9 @@ const H2HView=({athletes,races,setView,prefill})=>{
         <colgroup><col/><col className="w-28 md:w-40"/><col/></colgroup>
         <tbody className="divide-y divide-gray-100">
           <tr className="!border-0">
-            <td className="pb-3 align-bottom"><div className="flex justify-end cursor-pointer" title={stats1.name} onClick={()=>setView({type:'athlete',athlete:athlete1})}><AthletePortrait key={stats1.name} name={stats1.name} club={stats1.club} w={104}/></div></td>
+            <td className="pb-3 align-bottom"><div className="flex justify-end cursor-pointer" data-ath={stats1.name} data-ath-find="" title={stats1.name} onClick={()=>setView({type:'athlete',athlete:athlete1})}><AthletePortrait key={stats1.name} name={stats1.name} club={stats1.club} w={104}/></div></td>
             <td className="pb-3 align-bottom text-center text-[11px] md:text-xs text-gray-500 uppercase tracking-wide">{h2h.total} shared<br/>races</td>
-            <td className="pb-3 align-bottom"><div className="flex justify-start cursor-pointer" title={stats2.name} onClick={()=>setView({type:'athlete',athlete:athlete2})}><AthletePortrait key={stats2.name} name={stats2.name} club={stats2.club} w={104}/></div></td>
+            <td className="pb-3 align-bottom"><div className="flex justify-start cursor-pointer" data-ath={stats2.name} data-ath-find="" title={stats2.name} onClick={()=>setView({type:'athlete',athlete:athlete2})}><AthletePortrait key={stats2.name} name={stats2.name} club={stats2.club} w={104}/></div></td>
           </tr>
           <tr className="!border-t !border-gray-200">
             <td className={`py-3 pr-3 text-right text-3xl tabular-nums ${h2h.wins1>h2h.wins2?'text-[#1a8a6f] font-semibold':h2h.wins1<h2h.wins2?'text-gray-700':'text-gray-700'}`}>{h2h.wins1}</td>

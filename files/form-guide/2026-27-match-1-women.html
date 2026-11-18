@@ -631,5 +631,110 @@ let rsz; window.addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(
   },true);
 })();
 </script>
+<script id="motion-toggles">
+/* Sliding toggle highlight (17-18 Nov 2026, see claude/motion.md). The highlight of a pill toggle slides to the option you choose (240ms ease-in-out).
+   Covers the grey Tailwind toggles (bg-gray-100 with rounded-lg or rounded-md) and the form guide's .seg toggles. The chosen button is the one
+   with the bg-white class or aria-pressed="true"; the highlight copies that button's own colour, corners and shadow.
+   Works from outside the app. This same script sits in every standalone form guide page: keep the copies identical.
+   To undo: delete this script and the <style id="motion-toggles-css"> block. Reduce Motion: the highlight jumps. */
+(function(){
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)');
+  function still(){return !!(RM&&RM.matches);}
+  var GROUPS='.bg-gray-100.rounded-lg,.bg-gray-100.rounded-md,.seg';
+  function isOn(b){return b.classList.contains('bg-white')||b.getAttribute('aria-pressed')==='true';}
+  function chosen(el){
+    var kids=el.children,n=kids.length,on=null,c=0;
+    if(n<2)return false;
+    for(var i=0;i<n;i++){if(kids[i].tagName!=='BUTTON')return false;if(isOn(kids[i])){on=kids[i];c++;}}
+    return c===1?on:null;                        /* false: not a toggle; null: nothing, or several, chosen */
+  }
+  function placeSeg(el){
+    var on=chosen(el);
+    if(on===false)return;
+    if(!el.hasAttribute('data-seg')){if(!on)return;
+      var cs=getComputedStyle(on),bg=cs.backgroundColor;
+      if(!bg||bg==='transparent'||/,\s*0\)$/.test(bg))return;      /* its styles haven't arrived yet: try again on the next pass */
+      el.style.setProperty('--seg-hi-bg',bg);el.style.setProperty('--seg-hi-r',cs.borderTopLeftRadius);el.style.setProperty('--seg-hi-sh',cs.boxShadow);
+      el.setAttribute('data-seg','');
+      /* the app often rebuilds a toggle when you tap it, so the new one starts where the old highlight was and slides from there */
+      var lc=lastTap;if(lc&&Date.now()-lc.t<1000&&lc.sig===segSig(el)&&on.offsetWidth&&!still()){
+        lastTap=null;var r=el.getBoundingClientRect();
+        el.style.setProperty('--seg-x',(lc.rect.left-r.left)+'px');el.style.setProperty('--seg-y',(lc.rect.top-r.top)+'px');
+        el.style.setProperty('--seg-w',lc.rect.width+'px');el.style.setProperty('--seg-h',lc.rect.height+'px');el.style.setProperty('--seg-o','1');
+        void el.offsetWidth;el.setAttribute('data-seg','go');requestAnimationFrame(function(){placeSeg(el);});return;}
+    }
+    if(!on||!on.offsetWidth){el.style.setProperty('--seg-o','0');return;}
+    el.style.setProperty('--seg-x',on.offsetLeft+'px');el.style.setProperty('--seg-y',on.offsetTop+'px');
+    el.style.setProperty('--seg-w',on.offsetWidth+'px');el.style.setProperty('--seg-h',on.offsetHeight+'px');
+    el.style.setProperty('--seg-o','1');
+    if(el.getAttribute('data-seg')!=='go')requestAnimationFrame(function(){requestAnimationFrame(function(){if(el.isConnected&&el.offsetWidth)el.setAttribute('data-seg','go');});});
+  }
+  function placeAll(){var l=document.querySelectorAll(GROUPS);for(var i=0;i<l.length;i++)placeSeg(l[i]);}
+  var lastTap=null;
+  function segSig(el){var t=[];for(var i=0;i<el.children.length;i++)t.push(el.children[i].textContent.trim());return t.join('|');}
+  document.addEventListener('pointerdown',function(e){
+    var b=e.target.closest&&e.target.closest('[data-seg]>button');if(!b||b.disabled)return;
+    var g=b.parentElement,on=chosen(g);
+    if(on&&on!==b){lastTap={sig:segSig(g),rect:on.getBoundingClientRect(),t:Date.now()};
+      /* start the slide on touch-down, before the app does its (sometimes heavy) re-render on click */
+      if(g.getAttribute('data-seg')==='go'&&b.offsetWidth&&!still()){g.style.setProperty('--seg-x',b.offsetLeft+'px');g.style.setProperty('--seg-y',b.offsetTop+'px');g.style.setProperty('--seg-w',b.offsetWidth+'px');g.style.setProperty('--seg-h',b.offsetHeight+'px');setTimeout(placeAll,700);}}
+  },true);
+  var queued=false,trail=null;
+  function queue(){
+    if(!queued){queued=true;requestAnimationFrame(function(){queued=false;placeAll();});}
+    clearTimeout(trail);trail=setTimeout(placeAll,160);   /* once more after late styles have arrived */
+  }
+  function start(){
+    new MutationObserver(queue).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','aria-pressed']});
+    window.addEventListener('resize',queue);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(queue);
+    queue();
+  }
+  if(document.body)start();else document.addEventListener('DOMContentLoaded',start);
+})();
+</script>
+<style id="motion-toggles-css">
+/* The sliding highlight for pill toggles: drawn behind the buttons, placed by the motion-toggles script. */
+[data-seg]{position:relative;isolation:isolate}
+[data-seg]>button{position:relative;z-index:1;background-color:transparent!important;box-shadow:none!important}
+[data-seg]::before{content:"";position:absolute;left:0;top:0;width:var(--seg-w,0);height:var(--seg-h,0);transform:translate(var(--seg-x,0),var(--seg-y,0));
+  background:var(--seg-hi-bg,#fff);border-radius:var(--seg-hi-r,.375rem);box-shadow:var(--seg-hi-sh,0 1px 2px 0 rgb(0 0 0/.05));opacity:var(--seg-o,0);pointer-events:none}
+[data-seg="go"]::before{transition:transform 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),width 240ms var(--m-move,cubic-bezier(.65,0,.35,1)),height 240ms var(--m-move,cubic-bezier(.65,0,.35,1))}
+@media (prefers-reduced-motion:reduce){[data-seg]::before{transition:none!important}}
+</style>
+<script id="haptics">
+/* A light selection tick when a toggle changes, in the iPhone app and on the mobile website (Men/Women, Classic results/Form guide, Individual/A Teams/B Teams,
+   chart and table options, sort headings). In the app it uses Capacitor's Haptics plugin when the app includes it. */
+(function(){
+  function H(){var C=window.Capacitor;return C&&C.isNativePlatform&&C.isNativePlatform()&&C.Plugins&&C.Plugins.Haptics;}
+  /* On the mobile website: iPhone Safari (iOS 18+) has no vibration API, but its native switch control ticks when toggled,
+     so a hidden switch is flicked via its label inside the tap. Android browsers use navigator.vibrate. Desktop: nothing. */
+  var touch=window.matchMedia&&matchMedia('(pointer: coarse)').matches,sw=null,lab=null;
+  function webTick(){
+    if(!touch)return;
+    if(navigator.vibrate){try{navigator.vibrate(8);}catch(e){}return;}
+    if(!sw){sw=document.createElement('input');sw.type='checkbox';sw.setAttribute('switch','');sw.id='sl-haptic';sw.tabIndex=-1;sw.setAttribute('aria-hidden','true');
+      lab=document.createElement('label');lab.htmlFor='sl-haptic';lab.setAttribute('aria-hidden','true');
+      lab.style.cssText=sw.style.cssText='position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;pointer-events:none';
+      document.body.appendChild(sw);document.body.appendChild(lab);}
+    lab.click();
+  }
+  function isToggle(b){
+    if(b.matches('[role="switch"],[role="tab"],input[type="checkbox"],input[type="radio"],thead th button,.sortbtn,[data-haptic]'))return true;
+    if(b.hasAttribute('aria-pressed'))return true;
+    var p=b.parentElement;if(!p)return false;
+    var group=p.getAttribute('role')==='group'||p.classList.contains('seg')||(/\bbg-gray-100\b/.test(p.className)&&/\brounded/.test(p.className));
+    return group&&p.querySelectorAll(':scope > button').length>=2;
+  }
+  function alreadyOn(b){return b.getAttribute('aria-pressed')==='true'||b.getAttribute('aria-selected')==='true'||(/\bbg-white\b/.test(b.className)&&/\bshadow-sm\b/.test(b.className));}
+  document.addEventListener('click',function(e){
+    if(e.target===lab||e.target===sw)return;
+    var h=H();
+    var b=e.target.closest&&e.target.closest('button,[role="switch"],[role="tab"],input[type="checkbox"],input[type="radio"]');
+    if(!b||b.disabled||!isToggle(b)||(!b.matches('thead th button,.sortbtn,input')&&alreadyOn(b)))return;
+    if(h){try{h.selectionStart();h.selectionChanged();h.selectionEnd();}catch(err){}}else webTick();
+  },true);
+})();
+</script>
 </body>
 </html>
