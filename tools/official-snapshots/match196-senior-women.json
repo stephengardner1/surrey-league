@@ -348,6 +348,7 @@
    "club": "HHH",
    "familyName": "Parmar",
    "givenName": "Madelaine",
+   "nonScorer": true,
    "perf": "23:03",
    "rank": 43,
    "secondClaim": true
@@ -389,6 +390,7 @@
    "club": "BEL",
    "familyName": "King Powrie",
    "givenName": "Ella",
+   "nonScorer": true,
    "perf": "23:16",
    "rank": 48,
    "secondClaim": true
@@ -718,6 +720,7 @@
    "club": "SLH",
    "familyName": "Mooney",
    "givenName": "Katie",
+   "nonScorer": true,
    "perf": "24:26",
    "rank": 89,
    "secondClaim": true
@@ -960,6 +963,7 @@
    "club": "RAN",
    "familyName": "Jovani",
    "givenName": "Maria",
+   "nonScorer": true,
    "perf": "25:41",
    "rank": 119,
    "secondClaim": true
@@ -1703,8 +1707,8 @@
   {
    "bib": 151,
    "club": "C/C",
-   "familyName": "athlete",
-   "givenName": "unknown",
+   "familyName": "Goodhead",
+   "givenName": "Katy",
    "perf": "31:04",
    "rank": 212
   },
