@@ -2225,4 +2225,7 @@ save("samuel-friend", nose(eyes(figure("BEL", skin=1, hair="quiffshort", hair_co
 save("nathan-mapperley", nose(brows(eyes(figure("THH", skin=1, hair="tuftrecede", hair_colour="#7A5634", brow_colour="#5A3E28", jaw="narrow"), "hooded", 0), 0, 0, 3), 1.05, 1.25))
 # Katrina Robinson (BEL), Nov 2026, from George Parker's Beckenham Place photo (14th on debut): dark-blonde hair with a centre parting pulled into a ponytail, dark soft brows, almond eyes
 save("katrina-robinson", nose(softbrows(eyes(figure("BEL", skin=1, hair="ponytail", hair_colour="#A88050", brow_colour="#4A3222"), "almond", 0), 3.0, 0.4), 0.95, 1.15))
+# Peter Adams (AFD 1971-2003), Nov 2026, from Ron Linstead's black-and-white photo in The Belgravian (June 1970, junior 1500m final, number 1):
+# neat side-swept dark-brown hair (colour from Steve), long face, high cheekbones, hooded eyes under the brows
+save("peter-adams", cheekbones(nose(brows(eyes(figure("AFD", skin=1, hair="fringe", hair_colour="#3A2620", brow_colour="#2A1D16", jaw="long"), "hooded", 0), 0, 0, 3), 1.05, 1.2), depth=1.2))
 export_site()
