@@ -168,21 +168,24 @@
   function checkForUpdate() {
     if (checking || !native() || !http()) return;
     checking = true;
-    get('', 20000).then(function (raw) {
+    var opt = function (p) { return get(p, 20000).catch(function () { return null; }); };
+    Promise.all([get('', 20000), opt('app/app.css'), opt('app/app.js'), opt('app/compose.mjs')]).then(function (f) {
+      var raw = f[0], css = f[1], js = f[2], compose = f[3];
       if (raw.indexOf('</body>') < 0 || raw.indexOf('<script') < 0) throw new Error('not the site');
-      var hash = fnv(raw);
+      // A real app.css / app.js / compose.mjs, not the site's page served in their place
+      if (css && (/<html/i.test(css) || !/\.sl-/.test(css))) css = null;
+      if (js && (/<html/i.test(js) || !/renderPanel|SL_CONFIG/.test(js))) js = null;
+      if (compose && (/<html/i.test(compose) || !/export /.test(compose))) compose = null;
+      if (!css || !js || !compose) throw new Error('app files unavailable'); // try again next time
+      // Fingerprint of the site page AND the app's own files: either changing means a new version
+      var hash = fnv(raw + '\n' + css + '\n' + js + '\n' + compose);
       if (hash === BUILT) { ['sl-live-hash', 'sl-live-html', 'sl-live-compose', 'sl-live-neednet'].forEach(LS.del); return; }
       if (hash === LS.get('sl-live-hash') || hash === LS.get('sl-live-bad')) return;
-      var opt = function (p) { return get(p, 20000).catch(function () { return null; }); };
-      return Promise.all([origFetch('/app/vendor-map.json').then(function (r) { return r.json(); }).catch(function () { return []; }),
-        opt('app/app.css'), opt('app/app.js'), opt('app/compose.mjs')]).then(function (a) {
-        var js = a[2] && /renderPanel|SL_CONFIG/.test(a[2]) && !/<html/i.test(a[2]) ? a[2] : null; // only a real app.js, not a page
-        if (a[3] && (!/export /.test(a[3]) || /<html/i.test(a[3]))) a[3] = null;
-        if (a[1] && /<html/i.test(a[1])) a[1] = null;
-        var page = makeAppPage(raw, a[0], a[1] && /\.sl-/.test(a[1]) ? a[1] : null, js, !!(js && a[3]));
+      return origFetch('/app/vendor-map.json').then(function (r) { return r.json(); }).catch(function () { return []; }).then(function (map) {
+        var page = makeAppPage(raw, map, css, js, true);
         LS.del('sl-live-html');
         if (!LS.set('sl-live-html', page.html)) return;
-        if (js && a[3]) LS.set('sl-live-compose', a[3]); else LS.del('sl-live-compose');
+        LS.set('sl-live-compose', compose);
         LS.set('sl-live-neednet', page.needNet ? '1' : '0');
         LS.set('sl-live-hash', hash);
         LS.set('sl-live-at', String(Date.now()));

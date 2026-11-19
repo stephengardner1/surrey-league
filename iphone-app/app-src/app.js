@@ -60,7 +60,8 @@ async function setupPush() {
   Push.addListener('registrationError', (e) => console.warn('[SL] push registration error', e));
   Push.addListener('pushNotificationActionPerformed', (a) => {
     const url = a && a.notification && a.notification.data && a.notification.data.url;
-    if (url) go(url);
+    if (url && /\/approve\/[^/?#]+\?k=/.test(url)) openApproval(url);
+    else if (url) go(url);
   });
   const p = await Push.checkPermissions();
   if (p.receive === 'granted') { pushState = 'granted'; await Push.register(); }
@@ -166,6 +167,42 @@ const face = (name, club) => {
 
 // ---------- the Notifications screen ----------
 let panel = null, query = '';
+// ---------- Approving a batch of notifications (Steve's phone), inside the app ----------
+let approvalEl = null;
+async function openApproval(url) {
+  const H = window.Capacitor?.Plugins?.CapacitorHttp;
+  if (!H) { location.href = url; return; }
+  if (!approvalEl) { approvalEl = h('div', { class: 'sl-panel', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Approve notifications' }); document.body.append(approvalEl); }
+  approvalEl.hidden = false; document.body.classList.add('sl-lock');
+  const close = () => { approvalEl.hidden = true; if (!panel || panel.hidden) document.body.classList.remove('sl-lock'); };
+  const top = h('div', { class: 'sl-top' }, h('button', { type: 'button', class: 'sl-link', onclick: close }, '‹ Back'));
+  const show = (...kids) => approvalEl.replaceChildren(top, ...kids.filter(Boolean));
+  show(h('p', { class: 'sl-muted' }, 'Loading…'));
+  let page;
+  try { page = await H.get({ url, responseType: 'text' }); }
+  catch (e) { show(h('div', { class: 'sl-head' }, h('h1', {}, 'Couldn’t load'), h('p', { class: 'sl-muted' }, 'Check your signal and tap the notification again.'))); return; }
+  const doc = new DOMParser().parseFromString(String(page.data || ''), 'text/html');
+  const title = doc.querySelector('h1')?.textContent || 'Notifications';
+  const state = doc.querySelector('.state')?.textContent || '';
+  const waiting = !!doc.querySelector('button[value="send"]');
+  const items = [...doc.querySelectorAll('li')].map((li) => ({ t: li.querySelector('b')?.textContent || '', n: li.querySelector('.n')?.textContent || '', b: li.querySelector('pre')?.textContent || '' }));
+  const act = async (action, label) => {
+    show(h('p', { class: 'sl-muted' }, label));
+    try { await H.post({ url, headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, data: 'action=' + action }); } catch (e) {}
+    openApproval(url);
+  };
+  show(
+    h('div', { class: 'sl-head' }, h('h1', {}, 'Approve notifications'), h('p', { class: 'sl-muted' }, title)),
+    h('p', { class: 'sl-small' }, state),
+    waiting ? h('div', { class: 'sl-approve-actions' },
+      h('button', { type: 'button', class: 'sl-approve-go', onclick: () => act('send', 'Sending…') }, 'Send to everyone'),
+      h('button', { type: 'button', class: 'sl-approve-stop', onclick: () => act('cancel', 'Cancelling…') }, 'Don’t send')) : null,
+    items.length ? h('section', {}, h('div', { class: 'sl-label' }, items.length === 1 ? '1 different notification' : `${items.length} different notifications`),
+      ...items.map((m) => h('div', { class: 'sl-note' }, h('span', { class: 'sl-appicon', 'aria-hidden': 'true' }),
+        h('div', { class: 'sl-col sl-grow' }, h('span', { class: 'sl-strong' }, m.t, ' ', h('span', { class: 'sl-sub' }, m.n)), h('span', { class: 'sl-body' }, m.b))))) : null,
+  );
+}
+
 function openPanel() { if (!panel) { panel = h('div', { class: 'sl-panel', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Notifications' }); document.body.append(panel); } panel.hidden = false; document.body.classList.add('sl-lock'); renderPanel(); }
 function closePanel() { if (panel) panel.hidden = true; document.body.classList.remove('sl-lock'); }
 

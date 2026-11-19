@@ -83,6 +83,8 @@ if (fontsMatch) {
   swaps.push([fontsMatch[1], local]);
 }
 const rawSiteHtml = html;
+const appFiles = () => [readFileSync('app-src/app.css', 'utf8'), readFileSync('app-src/app.js', 'utf8'), readFileSync(INSIDE ? join('..', 'notifier', 'compose.mjs') : 'notifier/compose.mjs', 'utf8')];
+const builtHash = () => fnv([rawSiteHtml, ...appFiles()].join('\n'));
 const fnv = (str) => { let x = 0x811c9dc5; for (let k = 0; k < str.length; k++) { x ^= str.charCodeAt(k); x = Math.imul(x, 16777619) >>> 0; } return x.toString(16); };
 for (const [from, to] of swaps) html = html.split(from).join(to);
 html = html.replace(/<link rel="preconnect"[^>]*>\s*/g, '');
@@ -90,7 +92,7 @@ html = html.replace(/<link rel="preconnect"[^>]*>\s*/g, '');
 // 4. The app's own pieces
 cpSync('app-src', join(OUT, 'app'), { recursive: true });
 cpSync(INSIDE ? join('..', 'notifier', 'compose.mjs') : 'notifier/compose.mjs', join(OUT, 'app', 'compose.mjs'));
-html = html.replace(/<head>/i, () => `<head>\n<script>window.SL_BUILT_HASH='${fnv(rawSiteHtml)}';</script>\n<script src="/app/config.js"></script>\n<script src="/app/early.js"></script>`);
+html = html.replace(/<head>/i, () => `<head>\n<script>window.SL_BUILT_HASH='${builtHash()}';</script>\n<script src="/app/config.js"></script>\n<script src="/app/early.js"></script>`);
 // Let the page run edge to edge so the app can pad around the notch and home bar itself
 html = html.replace(/(<meta name="viewport" content=")([^"]*)"/i, (m, a, b) => a + (b.includes('viewport-fit') ? b : b + ', viewport-fit=cover') + '"');
 // The site's club vests, for the app's own screens (copied from the site so they always match)
@@ -105,7 +107,7 @@ writeFileSync(join(OUT, 'index.html'), html);
 // For live updates: which outside files the app has saved copies of, and a fingerprint of the
 // site version built in (the app compares it with slarchive.org to spot a newer version)
 writeFileSync(join(OUT, 'app', 'vendor-map.json'), JSON.stringify(swaps));
-writeFileSync(join(OUT, 'app', 'site-hash.txt'), fnv(rawSiteHtml));
+writeFileSync(join(OUT, 'app', 'site-hash.txt'), builtHash());
 
 const commit = execSync(`git -C ${SITE_REPO} log -1 --format="%h %ad %s" --date=short`).toString().trim();
 writeFileSync(join(OUT, 'app', 'built-from.txt'), commit + '\n');
