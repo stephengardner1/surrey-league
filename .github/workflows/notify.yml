@@ -15,6 +15,7 @@ on:
     paths:
       - files/data.json
       - files/data-women.json
+      - notifier/rehearse.txt
 
 concurrency:
   group: app-notifications
@@ -37,6 +38,8 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             node notifier/notify.mjs --${{ inputs.mode || 'check' }}
+          elif git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" 2>/dev/null | grep -qx notifier/rehearse.txt; then
+            node notifier/notify.mjs --rehearse    # Claude can start a rehearsal by changing that file
           else
             node notifier/notify.mjs "${{ github.event.before }}" "${{ github.sha }}"
           fi

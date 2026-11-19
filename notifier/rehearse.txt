@@ -1,0 +1,4 @@
+Changing this file starts a notifications rehearsal: the latest race replayed as if just published,
+sent to the approver phone only. See notifier/notify.mjs --rehearse.
+
+Last requested: 2026-11-19T05:01Z
