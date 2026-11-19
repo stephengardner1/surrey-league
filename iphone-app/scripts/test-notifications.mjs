@@ -4,7 +4,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { diffLeague, messagesFor, currentSeason } from '../../notifier/compose.mjs';
 
-const SRC = process.env.SITE_FILES || '.site-cache/files';
+const SRC = process.env.SITE_FILES || (existsSync('../files/data.json') ? '../files' : '.site-cache/files');
 const load = (f) => JSON.parse(readFileSync(`${SRC}/${f}`, 'utf8'));
 const portraits = existsSync(`${SRC}/portraits/portraits.json`) ? load('portraits/portraits.json') : {};
 const clone = (x) => structuredClone(x);
@@ -74,7 +74,7 @@ function addMatch(data, match, venue, shuffle, teamDelta) {
   const d = clone(data);
   const m1 = d.races.find((r) => r.season === season && r.match === 1);
   const race = clone(m1);
-  race.match = match; race.venue = venue; race.provisional = true;
+  race.match = match; race.venue = venue; race.provisional = true; race.officialStatus = 'provisional';
   const rs = race.results;
   for (const [i, j] of shuffle) { const a = rs[i].p; rs[i].p = rs[j].p; rs[j].p = a; }
   rs.sort((a, b) => a.p - b.p);
@@ -89,7 +89,7 @@ const menM3 = addMatch(menM2, 3, 'Godalming', [[1, 2]], { THH: -50, WOK: -30 });
 const menM4 = addMatch(menM3, 4, 'Morden Park', [[0, 2]], { THH: -40 });
 show('MEN: Match 4 arrives (made up): final standings + Mitchell Cup', 'men', menM3, menM4);
 const menDone = clone(menM4);
-menDone.races.find((r) => r.season === season && r.match === 4).provisional = false;
+menDone.races.find((r) => r.season === season && r.match === 4).officialStatus = 'completed';
 show('MEN: Match 4 results marked complete (made up)', 'men', menM4, menDone);
 
 // ---------- Women: Match 1 arrives ----------

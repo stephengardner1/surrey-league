@@ -53,7 +53,7 @@ if (!leagues.length) { console.log('No new results, corrections or season change
 const summary = leagues.flatMap(({ league, next, events }) => events.map((e) => {
   const race = e.match && seasonRaces(next, e.season).find((r) => r.match === e.match);
   const where = race ? ` match ${e.match} at ${race.venue}` : '';
-  const what = { results: 'provisional results', corrections: `${e.changes?.length || ''} correction${e.changes?.length === 1 ? '' : 's'}`, complete: 'season complete', champ: `individual standings (${e.stage})` }[e.type];
+  const what = { results: 'provisional results', corrections: `${e.changes?.length || ''} correction${e.changes?.length === 1 ? '' : 's'}`, complete: 'season complete', confirmed: 'results confirmed', champ: `individual standings (${e.stage})` }[e.type];
   return `${LEAGUE_LABEL[league]}${where}: ${what}`;
 })).filter((v, i, a) => a.indexOf(v) === i).join('; ');
 console.log('Changes:', summary);

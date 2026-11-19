@@ -1,4 +1,6 @@
 Changing this file starts a notifications rehearsal: the latest race replayed as if just published,
 sent to the approver phone only. See notifier/notify.mjs --rehearse.
+A line "replay: <commit>" instead re-runs that one real update (through approval as normal).
 
-Last requested: 2026-11-19T05:14Z
+replay: 5ae4459
+Last requested: 2026-11-19T13:10Z

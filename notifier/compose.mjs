@@ -38,8 +38,10 @@ export function normRace(race) {
   })).filter((x) => x.n && x.p).sort((a, b) => a.p - b.p);
   return {
     season: race.season, match: race.match, venue: race.venue,
-    provisional: race.provisional !== false, // missing flag = treat as provisional
-    provisionalFlag: race.provisional,
+    // surreyleague.org's own label wins: officialStatus 'completed' = final; otherwise the older
+    // provisional flag; no information = treat as provisional
+    provisional: race.officialStatus ? race.officialStatus !== 'completed' : race.provisional !== false,
+    provisionalFlag: race.officialStatus ? race.officialStatus !== 'completed' : race.provisional,
     teamScores: race.teamScores || null,
     results,
   };
@@ -152,9 +154,13 @@ export function diffLeague(prev, next, league) {
         if (a !== b) events.push({ type: 'champ', league, season, stage: 'correction' });
       }
     }
-    if (race.match === total && old.provisionalFlag !== false && race.provisionalFlag === false) {
-      events.push({ type: 'complete', league, season, match: race.match });
-      events.push({ type: 'champ', league, season, stage: 'confirmed' });
+    if (old.provisionalFlag !== false && race.provisionalFlag === false) {
+      if (race.match === total) { // last match: the season-complete messages say it all
+        events.push({ type: 'complete', league, season, match: race.match });
+        events.push({ type: 'champ', league, season, stage: 'confirmed' });
+      } else {
+        events.push({ type: 'confirmed', league, season, match: race.match });
+      }
     }
   }
   return events;
@@ -380,6 +386,23 @@ export function render(event, follow, ctx) {
       }
     }
     out.push({ title: n > 1 ? 'Surrey League corrections' : 'Surrey League correction', body: body.trim(), image: null, threadId: thread, url });
+    return out;
+  }
+
+  if (event.type === 'confirmed') { // one match's results marked complete (not the last match)
+    const race = seasonRaces(data, season).find((r) => r.match === event.match);
+    if (!race || !race.results.length) return out;
+    const clubs = followedClubs(follow, data, season, event.match);
+    const mine = followedRunners(follow, league, race);
+    const on = leagueOn(follow, league);
+    if (!on && !mine.length) return out;
+    const teams = teamResult(data, season, event.match);
+    const lines = [`${LEAGUE_LABEL[league]} match ${event.match} at ${race.venue} is now final.`];
+    if (on && teams.length) lines.push(...teamLines(teams, clubs));
+    const mineKeys = new Set(mine.map(key));
+    lines.push(...mine.sort((x, y) => x.p - y.p).map((r) => `${r.p} ${r.n} ${r.c}${mineKeys.has(key(r)) ? ARROW : ''}`));
+    out.push({ title: 'Surrey League results confirmed', body: lines.join('\n'),
+      image: on && teams.length ? { type: 'singlet', club: clubs[0] || teams[0].club } : pictureFor(mine[0].n, mine[0].c, ctx.portraits), threadId: thread, url: `${league === 'women' ? '/women' : ''}/race/${compact}-${event.match}` });
     return out;
   }
 
