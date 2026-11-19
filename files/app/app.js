@@ -361,3 +361,87 @@ loadData();
 setupPush().then(renderAll);
 // Keep the back office up to date (e.g. after a reinstall)
 if (pushToken) sync();
+
+// ---------- Pull to refresh (the app turns off iPhone's own bounce, so it's drawn here) ----------
+// Pull down at the top of a page: the page follows your finger with some resistance and a ring
+// under the title fills; let go past the line to check for new results. Springs back gently.
+(function pullToRefresh() {
+  if (!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) return;
+  const TRIGGER = 64, MAX = 92, HOLD = 52, R = 9, C = 2 * Math.PI * R;
+  const SPRING = 'transform 420ms cubic-bezier(.3, 1.25, .5, 1)'; // settles with a slight overshoot
+  const ring = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  ring.setAttribute('viewBox', '0 0 24 24'); ring.setAttribute('width', '24'); ring.setAttribute('height', '24');
+  ring.innerHTML = `<circle cx="12" cy="12" r="${R}" fill="none" stroke="var(--sl-rule)" stroke-width="2"></circle>`
+    + `<circle class="sl-ptr-arc" cx="12" cy="12" r="${R}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 12 12)"></circle>`;
+  const ind = h('div', { class: 'sl-ptr', 'aria-hidden': 'true' }, ring);
+  const live = h('div', { class: 'sl-visually-hidden', role: 'status', 'aria-live': 'polite' });
+  document.body.append(ind, live);
+  const arc = ring.querySelector('.sl-ptr-arc');
+  const main = () => document.getElementById('main-content');
+  const top = () => { const t = document.querySelector('header > div:first-child'); const r = t && t.getBoundingClientRect(); return r && r.bottom > 0 ? r.bottom : 0; };
+  const blocked = () => busy || document.body.classList.contains('sl-lock') || (panel && !panel.hidden) || (approvalEl && !approvalEl.hidden);
+  let startY = null, pull = 0, busy = false, armed = false;
+
+  function draw(px, animate) {
+    const m = main(); if (!m) return;
+    m.style.transition = animate ? SPRING : 'none';
+    m.style.transform = px ? `translateY(${px}px)` : '';
+    ind.style.transition = animate ? 'opacity 200ms ease-out, transform 420ms cubic-bezier(.3, 1.25, .5, 1)' : 'none';
+    ind.style.top = top() + 'px';
+    ind.style.opacity = px ? Math.min(1, px / 32) : 0;
+    ind.style.transform = `translate(-50%, ${Math.max(0, px - 36) / 2 + 8}px)`;
+    if (!busy) arc.setAttribute('stroke-dashoffset', String(C * (1 - Math.min(1, px / TRIGGER))));
+    const nowArmed = px >= TRIGGER;
+    if (nowArmed !== armed) { armed = nowArmed; ind.classList.toggle('armed', armed); }
+  }
+  const settle = () => { draw(0, true); setTimeout(() => { const m = main(); if (m && !pull) m.style.transition = ''; }, 450); };
+
+  addEventListener('touchstart', (e) => {
+    startY = (blocked() || window.scrollY > 0 || e.touches.length !== 1) ? null : e.touches[0].clientY;
+    pull = 0;
+  }, { passive: true });
+  addEventListener('touchmove', (e) => {
+    if (startY == null) return;
+    const dy = e.touches[0].clientY - startY;
+    if (window.scrollY > 0 || dy <= 0) { if (pull) { pull = 0; draw(0, false); } return; }
+    pull = Math.min(MAX, dy * 0.45); // resistance: the page moves less than your finger
+    draw(pull, false);
+  }, { passive: true });
+  const end = () => {
+    if (startY == null) return;
+    startY = null;
+    if (pull >= TRIGGER) refresh(); else { pull = 0; settle(); }
+  };
+  addEventListener('touchend', end, { passive: true });
+  addEventListener('touchcancel', end, { passive: true });
+
+  // What the app showed last time, from the saved copies early.js keeps
+  const saved = (path) => new Promise((res) => {
+    try {
+      const r = indexedDB.open('sl-cache', 1);
+      r.onsuccess = () => { try { const q = r.result.transaction('files').objectStore('files').get(path); q.onsuccess = () => res(q.result ? q.result.text : null); q.onerror = () => res(null); } catch (e) { res(null); } };
+      r.onerror = () => res(null);
+    } catch (e) { res(null); }
+  });
+
+  async function refresh() {
+    busy = true; pull = HOLD; draw(HOLD, true);
+    ind.classList.add('spin'); arc.setAttribute('stroke-dashoffset', String(C * 0.72));
+    const files = ['data.json', 'data-women.json'];
+    const started = Date.now();
+    let changed = false, offline = false;
+    try {
+      const before = await Promise.all(files.map(saved));
+      const after = await Promise.all(files.map((f) => fetch('/' + f, { cache: 'no-store' }).then((r) => r.text())));
+      offline = window.SL_DATA_SOURCE !== 'live';
+      changed = !offline && after.some((t, i) => before[i] != null && t !== before[i]);
+    } catch (e) { offline = true; }
+    await new Promise((r) => setTimeout(r, Math.max(0, 700 - (Date.now() - started)))); // long enough to see it working
+    const msg = changed ? 'New results' : offline ? 'No signal: showing saved results' : 'Up to date';
+    live.textContent = msg;
+    ind.classList.remove('spin'); busy = false; pull = 0;
+    settle();
+    toast(msg);
+    if (changed) setTimeout(() => location.reload(), 600);
+  }
+})();

@@ -82,3 +82,11 @@ button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, 
 .sl-approve-go { border: 1px solid var(--sl-link); background: var(--sl-link); color: #fff; }
 .sl-approve-stop { border: 1px solid var(--sl-link); background: #fff; color: var(--sl-link); }
 .sl-approve-go:focus-visible, .sl-approve-stop:focus-visible { outline: 2px solid var(--sl-link); outline-offset: 2px; }
+
+/* Pull to refresh */
+.sl-ptr { position: fixed; left: 50%; top: 0; z-index: 45; width: 32px; height: 32px; margin-top: 4px; display: flex; align-items: center; justify-content: center; border-radius: 9999px; background: #fff; color: #9ca39a; opacity: 0; pointer-events: none; transform: translate(-50%, 0); }
+.sl-ptr.armed, .sl-ptr.spin { color: var(--sl-link); }
+.sl-ptr.spin svg { animation: sl-ptr-spin 800ms linear infinite; }
+@keyframes sl-ptr-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .sl-ptr.spin svg { animation-duration: 2400ms; } #main-content { transition: none !important; } }
+.sl-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
