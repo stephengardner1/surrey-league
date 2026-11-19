@@ -402,7 +402,7 @@ export function render(event, follow, ctx) {
     const mineKeys = new Set(mine.map(key));
     lines.push(...mine.sort((x, y) => x.p - y.p).map((r) => `${r.p} ${r.n} ${r.c}${mineKeys.has(key(r)) ? ARROW : ''}`));
     out.push({ title: 'Surrey League results confirmed', body: lines.join('\n'),
-      image: on && teams.length ? { type: 'singlet', club: clubs[0] || teams[0].club } : pictureFor(mine[0].n, mine[0].c, ctx.portraits), threadId: thread, url: `${league === 'women' ? '/women' : ''}/race/${compact}-${event.match}` });
+      image: teams.length ? { type: 'singlet', club: teams[0].club } : null, // the winning team's singlet, whoever you follow threadId: thread, url: `${league === 'women' ? '/women' : ''}/race/${compact}-${event.match}` });
     return out;
   }
 
