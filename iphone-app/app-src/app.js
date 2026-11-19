@@ -307,17 +307,18 @@ function placeFollow() {
   const heading = s && [...document.querySelectorAll('h1')].find((e) => e.offsetParent && !e.closest('header'));
   const on = s && (s.kind === 'runner' ? follow.runners.some((r) => r.name === s.name && r.league === s.league) : follow.clubs.includes(s.club));
   const key = s ? `${s.kind}|${s.name || s.club}|${s.league}|${on}` : '';
-  document.querySelectorAll('.sl-follow').forEach((b) => { if (b.dataset.key !== key || b.parentElement !== heading) b.remove(); });
+  document.querySelectorAll('.sl-follow').forEach((b) => { const w = b.closest('.sl-follow-wrap') || b; if (b.dataset.key !== key || w.parentElement !== heading) w.remove(); });
   if (!s || !heading || heading.querySelector('.sl-follow')) return;
   const label = s.kind === 'runner' ? s.name : clubName(s.club);
-  heading.append(h('button', { type: 'button', class: 'sl-follow' + (on ? ' on' : ''), 'data-key': key, 'aria-pressed': on ? 'true' : 'false',
+  // A word joiner glues the bell to the name's last word, so a long name never leaves it alone on a line
+  heading.append(h('span', { class: 'sl-follow-wrap' }, '\u2060', h('button', { type: 'button', class: 'sl-follow' + (on ? ' on' : ''), 'data-key': key, 'aria-pressed': on ? 'true' : 'false',
     'aria-label': on ? `Following ${label}. Tap to stop` : `Follow ${label}`,
     onclick: (e) => {
       e.stopPropagation();
       if (s.kind === 'runner') change(() => { follow.runners = on ? follow.runners.filter((r) => !(r.name === s.name && r.league === s.league)) : [...follow.runners, { name: s.name, club: s.club, league: s.league }]; });
       else { change(() => { follow.clubs = on ? follow.clubs.filter((c) => c !== s.club) : [...follow.clubs, s.club]; if (!on && !follow.men && !follow.women) follow[s.league] = true; }); if (!on) openSheet(s.club); }
       toast(on ? `Stopped following ${label}` : `Following ${label}`);
-    } }, bellIcon(!!on)));
+    } }, bellIcon(!!on))));
 }
 let toastEl = null;
 function toast(text) {
