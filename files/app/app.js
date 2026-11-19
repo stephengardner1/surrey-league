@@ -434,14 +434,58 @@ if (pushToken) sync();
       const before = await Promise.all(files.map(saved));
       const after = await Promise.all(files.map((f) => fetch('/' + f, { cache: 'no-store' }).then((r) => r.text())));
       offline = window.SL_DATA_SOURCE !== 'live';
-      changed = !offline && after.some((t, i) => before[i] != null && t !== before[i]);
+      if (!offline) {
+        // Compare what matters, not the raw files: this season's results and their provisional/
+        // completed status ("New results"), then anything else, such as archive fixes ("Updated")
+        const season = (t) => { try { const d = JSON.parse(t); const latest = d.races.map((r) => r.season).sort().pop();
+          return JSON.stringify(d.races.filter((r) => r.season === latest).map((r) => [r.match, r.officialStatus || r.provisional,
+            (r.results || []).map((x) => [x.p ?? x.pos, x.n ?? x.name, x.c ?? x.club, x.t ?? x.time])])); } catch (e) { return null; } };
+        const whole = (t) => { try { return JSON.stringify(JSON.parse(t)); } catch (e) { return null; } };
+        changed = after.some((t, i) => before[i] != null && season(t) !== season(before[i])) ? 'results'
+          : after.some((t, i) => before[i] != null && whole(t) !== whole(before[i])) ? 'archive' : false;
+      }
     } catch (e) { offline = true; }
     await new Promise((r) => setTimeout(r, Math.max(0, 700 - (Date.now() - started)))); // long enough to see it working
-    const msg = changed ? 'New results' : offline ? 'No signal: showing saved results' : 'Up to date';
+    const msg = changed === 'results' ? 'New results' : changed ? 'Updated' : offline ? 'No signal: showing saved results' : 'Up to date';
     live.textContent = msg;
     ind.classList.remove('spin'); busy = false; pull = 0;
     settle();
     toast(msg);
     if (changed) setTimeout(() => location.reload(), 600);
+  }
+})();
+
+// ---------- Fonts added to the site after this build (e.g. Castoro Belgrave) ----------
+// The page asks for /fonts/... files; if this build doesn't have them, fetch them from
+// slarchive.org once, keep them on the phone, and hand them to the page.
+(async function siteFonts() {
+  const H = window.Capacitor?.Plugins?.CapacitorHttp;
+  if (!window.Capacitor?.isNativePlatform?.() || !H) return;
+  const site = (window.SL_CONFIG && window.SL_CONFIG.site) || 'https://slarchive.org';
+  const faces = [];
+  for (const sheet of document.styleSheets) {
+    let rules; try { rules = sheet.cssRules; } catch (e) { continue; }
+    for (const r of rules || []) {
+      if (r.type !== CSSRule.FONT_FACE_RULE) continue;
+      const m = /url\(["']?(\/fonts\/[^"')]+\.woff2)["']?\)/.exec(r.style.getPropertyValue('src'));
+      if (m) faces.push({ family: r.style.getPropertyValue('font-family').replace(/["']/g, '').trim(), url: m[1],
+        weight: r.style.getPropertyValue('font-weight') || 'normal', style: r.style.getPropertyValue('font-style') || 'normal' });
+    }
+  }
+  const b64 = (str) => { const bin = atob(str); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u.buffer; };
+  for (const f of faces) {
+    const desc = { weight: f.weight, style: f.style, display: 'swap' };
+    try { await new FontFace(f.family, `url(${f.url})`, desc).load(); continue; } catch (e) { /* not in this build */ }
+    const key = 'sl-font:' + f.url;
+    let data = null;
+    try { data = localStorage.getItem(key); } catch (e) {}
+    if (!data) {
+      try {
+        const r = await H.get({ url: site + f.url, responseType: 'arraybuffer' });
+        if (r.status === 200 && typeof r.data === 'string') { data = r.data; try { localStorage.setItem(key, data); } catch (e) {} }
+      } catch (e) {}
+    }
+    if (!data) continue;
+    try { const face = new FontFace(f.family, b64(data), desc); await face.load(); document.fonts.add(face); } catch (e) { console.warn('[SL] font', f.url, e && e.message); }
   }
 })();
