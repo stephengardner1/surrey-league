@@ -1,7 +1,7 @@
 {
- "match": "provisional",
+ "match": "completed",
  "races": {
-  "Senior Men": "provisional",
-  "Senior Women": "provisional"
+  "Senior Men": "completed",
+  "Senior Women": "completed"
  }
 }
