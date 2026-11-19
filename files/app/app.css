@@ -70,6 +70,7 @@ button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, 
 .sl-statusbar { position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top); background: #fff; z-index: 1100; pointer-events: none; }
 
 /* Follow bell after a runner's or club's name */
+.sl-follow-wrap { white-space: nowrap; }
 .sl-follow { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin-left: 4px; vertical-align: middle; border: 0; border-radius: 9999px; background: transparent; color: var(--sl-muted); cursor: pointer; padding: 0; }
 .sl-follow svg { width: 22px; height: 22px; }
 .sl-follow.on { color: var(--sl-link); }
