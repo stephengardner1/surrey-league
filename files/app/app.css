@@ -75,3 +75,10 @@ button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, 
 .sl-follow.on { color: var(--sl-link); }
 .sl-follow:focus-visible { outline: 2px solid var(--sl-link); outline-offset: 2px; }
 .sl-toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom) + var(--sl-navh) + 16px); z-index: 960; max-width: calc(100% - 32px); padding: 10px 16px; border-radius: 9999px; background: var(--sl-ink); color: #fff; font: 14px/20px 'Public Sans', system-ui, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Approving notifications (approver's phone) */
+.sl-approve-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 8px; }
+.sl-approve-go, .sl-approve-stop { min-height: 48px; padding: 0 20px; border-radius: 9999px; font: inherit; font-weight: 600; cursor: pointer; }
+.sl-approve-go { border: 1px solid var(--sl-link); background: var(--sl-link); color: #fff; }
+.sl-approve-stop { border: 1px solid var(--sl-link); background: #fff; color: var(--sl-link); }
+.sl-approve-go:focus-visible, .sl-approve-stop:focus-visible { outline: 2px solid var(--sl-link); outline-offset: 2px; }
