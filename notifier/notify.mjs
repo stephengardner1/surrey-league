@@ -34,6 +34,20 @@ function at(ref, path) {
   catch { return null; }
 }
 
+// New results the fast race-day check (notifier/fast.mjs) has already sent straight from
+// surreyleague.org: don't send those again when the full import arrives here.
+//   "<season>|<league>|m<N>|results"             team and individual results both sent
+//   "<season>|<league>|m<N>|results|individual"  only the individual results were sent
+const announced = new Set();
+if (!REHEARSE && !DRY && API && KEY) {
+  try {
+    const r = await fetch(`${API}/admin/announced`, { headers: { authorization: `Bearer ${KEY}` } });
+    if (r.ok) for (const a of await r.json()) announced.add(a.key);
+  } catch { /* back office unreachable: carry on, the batch step will report it */ }
+}
+const resultsKey = (e) => `${e.season}|${e.league}|m${e.match}|results`;
+const individualOnly = new Set(); // thread ids of races whose individual results have already gone out
+
 const portraits = at(after, 'files/portraits/portraits.json') || {};
 const leagues = [];
 for (const [league, file] of [['men', 'files/data.json'], ['women', 'files/data-women.json']]) {
@@ -45,7 +59,12 @@ for (const [league, file] of [['men', 'files/data.json'], ['women', 'files/data-
     const last = Math.max(0, ...seasonRaces(next, season).map((r) => r.match));
     prev = { ...prev, races: prev.races.filter((r) => !(r.season === season && r.match === last)) };
   }
-  const events = diffLeague(prev, next, league);
+  const events = diffLeague(prev, next, league).filter((e) => {
+    if (e.type !== 'results') return true;
+    if (announced.has(resultsKey(e))) { console.log(`${LEAGUE_LABEL[league]} match ${e.match} results were already sent by the fast race-day check.`); return false; }
+    if (announced.has(resultsKey(e) + '|individual')) individualOnly.add(`${league}-${e.season}-m${e.match}`);
+    return true;
+  });
   if (events.length) leagues.push({ league, prev, next, events });
 }
 if (!leagues.length) { console.log('No new results, corrections or season changes. Nothing to send.'); process.exit(0); }
@@ -82,6 +101,7 @@ const groups = new Map();
 for (const d of devices) {
   for (const { league, prev, next, events } of leagues) {
     for (const m of messagesFor(d.follow, events, { prev, next, portraits })) {
+      if (m.title === 'Surrey League provisional individual results' && individualOnly.has(m.threadId)) continue;
       const k = JSON.stringify([m.title, m.body, m.image, m.url, m.threadId]);
       if (!groups.has(k)) groups.set(k, { ...m, tokens: [] });
       groups.get(k).tokens.push(d.token);
@@ -101,3 +121,6 @@ const r = await fetch(`${API}/admin/batch`, {
 });
 console.log('Back office replied:', r.status, await r.text());
 if (!r.ok) process.exit(1);
+// Record the new results sent here, so a late fast check doesn't send them a second time
+const keys = REHEARSE ? [] : leagues.flatMap(({ events }) => events.filter((e) => e.type === 'results').map(resultsKey));
+if (keys.length) await fetch(`${API}/admin/announced`, { method: 'POST', headers: { authorization: `Bearer ${KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ key: keys }) }).catch(() => {});

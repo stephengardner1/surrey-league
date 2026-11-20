@@ -1,0 +1,49 @@
+# Fast race-day results: started by the back office (Cloudflare) the moment a senior race
+# appears in the league's own results feed. Sends "provisional results" notifications
+# straight from surreyleague.org, without waiting for the full import into slarchive.org.
+# See notifier/fast.mjs.
+name: Fast results
+
+on:
+  repository_dispatch:
+    types: [fast-results]
+  workflow_dispatch:      # "Run workflow" button, for testing
+    inputs:
+      matchId:
+        description: "The league's match number, from surreyleague.org/match/<number>/ (Match 2 was 196)"
+        default: '196'
+      race:
+        type: choice
+        options: [Senior Men, Senior Women]
+      mode:
+        description: 'dry = only print the wording here (sends nothing). rehearse = send to the approver phone only'
+        type: choice
+        options: [dry, rehearse]
+        default: dry
+
+jobs:
+  fast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:               # only the few files needed, to start as quickly as possible
+          sparse-checkout: |
+            notifier
+            files/data.json
+            files/data-women.json
+            files/portraits/portraits.json
+          sparse-checkout-cone-mode: false
+      - name: Write and send notifications
+        env:
+          SL_API: ${{ secrets.SL_API }}
+          SL_ADMIN_KEY: ${{ secrets.SL_ADMIN_KEY }}
+          MATCH_ID: ${{ github.event.client_payload.matchId || inputs.matchId }}
+          RACE: ${{ github.event.client_payload.race || inputs.race }}
+          MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+        run: |
+          case "$MODE" in
+            live)     node notifier/fast.mjs "$MATCH_ID" "$RACE" ;;
+            rehearse) node notifier/fast.mjs "$MATCH_ID" "$RACE" --rehearse ;;
+            *)        DRY_RUN=1 node notifier/fast.mjs "$MATCH_ID" "$RACE" --rehearse ;;
+          esac

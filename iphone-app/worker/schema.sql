@@ -23,3 +23,18 @@ CREATE TABLE IF NOT EXISTS deliveries (
   result TEXT
 );
 CREATE INDEX IF NOT EXISTS deliveries_waiting ON deliveries (sent, batch);
+
+-- Fast race-day results (20 Nov 2026)
+CREATE TABLE IF NOT EXISTS announced (
+  key TEXT PRIMARY KEY,            -- e.g. "2026/27|men|m3|results": these new results have been announced
+  at TEXT NOT NULL,
+  batch TEXT
+);
+CREATE TABLE IF NOT EXISTS fast_races (
+  key TEXT PRIMARY KEY,            -- league match id | race, e.g. "197|Senior Men"
+  first_seen TEXT NOT NULL,        -- when results first appeared in the league's feed
+  dispatched_at TEXT,              -- when GitHub was last asked to write and send the notifications
+  tries INTEGER NOT NULL DEFAULT 0,
+  announced_at TEXT,               -- when the notifications were handed over (or found already sent)
+  note TEXT
+);
