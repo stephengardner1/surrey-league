@@ -68,6 +68,13 @@ html.in-app body { padding-bottom: calc(76px + env(safe-area-inset-bottom)) !imp
 .sl-follow { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin-left: 4px; vertical-align: middle; border: 0; border-radius: 9999px; background: transparent; color: var(--sl-muted); cursor: pointer; padding: 0; }
 .sl-follow svg { width: 26px; height: 26px; }
 .sl-follow.on { color: var(--sl-ink); }
+/* Tapping the bell: it swings twice from its top as it starts ringing, and gives one small nod when switched off */
+.sl-follow svg { transform-origin: 50% 12%; }
+@keyframes sl-ring { 0% { transform: rotate(0); } 18% { transform: rotate(14deg); } 40% { transform: rotate(-11deg); } 60% { transform: rotate(7deg); } 80% { transform: rotate(-3deg); } 100% { transform: rotate(0); } }
+@keyframes sl-hush { 0% { transform: rotate(0); } 40% { transform: rotate(-6deg); } 100% { transform: rotate(0); } }
+.sl-follow.sl-rung svg { animation: sl-ring 620ms cubic-bezier(.3,0,.3,1) both; }
+.sl-follow.sl-hushed svg { animation: sl-hush 260ms ease-out both; }
+@media (prefers-reduced-motion: reduce) { .sl-follow svg { animation: none !important; } }
 .sl-follow:focus-visible { outline: 2px solid var(--sl-link); outline-offset: 2px; }
 .sl-toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom) + var(--sl-navh) + 16px); z-index: 960; max-width: calc(100% - 32px); padding: 10px 16px; border-radius: 9999px; background: var(--sl-ink); color: #fff; font: 14px/20px 'Public Sans', system-ui, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 

@@ -325,6 +325,7 @@ function renderFab() {
   placeFollow();
 }
 // Follow button: a small bell straight after the runner's or club's name at the top of their page
+let tapped = null;
 function placeFollow() {
   const s = pageSubject();
   const heading = s && [...document.querySelectorAll('h1')].find((e) => e.offsetParent && !e.closest('header'));
@@ -334,10 +335,11 @@ function placeFollow() {
   if (!s || !heading || heading.querySelector('.sl-follow')) return;
   const label = s.kind === 'runner' ? s.name : clubName(s.club);
   // A word joiner glues the bell to the name's last word, so a long name never leaves it alone on a line
-  heading.append(h('span', { class: 'sl-follow-wrap' }, '\u2060', h('button', { type: 'button', class: 'sl-follow' + (on ? ' on' : ''), 'data-key': key, 'aria-pressed': on ? 'true' : 'false',
+  heading.append(h('span', { class: 'sl-follow-wrap' }, '\u2060', h('button', { type: 'button', class: 'sl-follow' + (on ? ' on' : '') + (tapped === (s.name || s.club) ? (on ? ' sl-rung' : ' sl-hushed') : ''), 'data-key': key, 'aria-pressed': on ? 'true' : 'false',
     'aria-label': on ? `Following ${label}. Tap to stop` : `Follow ${label}`,
     onclick: (e) => {
       e.stopPropagation();
+      tapped = s.name || s.club; setTimeout(() => { tapped = null; }, 1200); // the new bell swings once (see .sl-rung)
       if (s.kind === 'runner') change(() => { follow.runners = on ? follow.runners.filter((r) => !(r.name === s.name && r.league === s.league)) : [...follow.runners, { name: s.name, club: s.club, league: s.league }]; });
       else { change(() => { follow.clubs = on ? follow.clubs.filter((c) => c !== s.club) : [...follow.clubs, s.club]; if (!on && !follow.men && !follow.women) follow[s.league] = true; }); if (!on) openSheet(s.club); }
       toast(on ? `Stopped following ${label}` : `Following ${label}`);
