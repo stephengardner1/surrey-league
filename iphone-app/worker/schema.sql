@@ -1,6 +1,6 @@
 -- Surrey League Compendium back office: the database
 CREATE TABLE IF NOT EXISTS devices (
-  token TEXT PRIMARY KEY,          -- Apple's address for one iPhone
+  token TEXT PRIMARY KEY,          -- one phone's address: from Apple (iPhone) or Firebase (Android)
   follow TEXT NOT NULL,            -- what that phone follows (JSON)
   env TEXT,                        -- 'production' (TestFlight/App Store) or 'sandbox' (Xcode); learnt on first send
   admin INTEGER NOT NULL DEFAULT 0,-- 1 = Steve's phone: gets every batch first, for approval
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS deliveries (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   batch TEXT NOT NULL,
   token TEXT NOT NULL,
-  payload TEXT NOT NULL,           -- the APNs JSON
+  payload TEXT NOT NULL,           -- the message in Apple's JSON shape (turned into Firebase's when sent to Android)
   is_admin INTEGER NOT NULL DEFAULT 0,
   sent INTEGER NOT NULL DEFAULT 0, -- 0 waiting, 1 sent, 2 failed
   result TEXT

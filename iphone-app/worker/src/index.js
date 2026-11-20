@@ -13,6 +13,9 @@
 //   ADMIN_KEY          secret: password the GitHub Action uses
 //   ADMIN_CODE         secret: code Steve types into the app to mark his phone as the approver
 //   APPROVAL           var: "on" (pilot: Steve approves every batch) or "off"
+//   FCM_SERVICE_ACCOUNT secret: the whole text of the Firebase private key file (.json). Android
+//                      phones are reached through Google's Firebase service instead of Apple's.
+//                      Without it, iPhones carry on as normal and Android sends are marked failed.
 //
 // Fast race-day results (20 Nov 2026): on match days the once-a-minute timer also looks at
 // the league's own results feed. The moment a senior race has results it asks GitHub to run
@@ -80,7 +83,11 @@ async function unregister(req, env) {
   await env.DB.prepare('DELETE FROM devices WHERE token = ?1').bind(b.token).run();
   return json({ ok: true });
 }
-const validToken = (t) => typeof t === 'string' && /^[0-9a-f]{64,200}$/i.test(t);
+// A phone's address. iPhones: a long run of 0-9 and a-f from Apple. Android phones: a longer
+// mixed string from Firebase (it always contains a colon), so the two can be told apart on sight.
+const appleToken = (t) => typeof t === 'string' && /^[0-9a-f]{64,200}$/i.test(t);
+const androidToken = (t) => typeof t === 'string' && !appleToken(t) && /^[A-Za-z0-9_-]{5,60}:[A-Za-z0-9_-]{60,4000}$/.test(t);
+const validToken = (t) => appleToken(t) || androidToken(t);
 function cleanFollow(f) {
   f = f && typeof f === 'object' ? f : {};
   const clubs = Array.isArray(f.clubs) ? f.clubs.filter((c) => typeof c === 'string' && c.length <= 5).slice(0, 20) : [];
@@ -368,9 +375,69 @@ async function apnsJwt(env) {
   return jwtCache.token;
 }
 
+// ---------- Android (Firebase) ----------
+// Google wants a short-lived pass, earned by signing a request with the private key.
+let fcmCache = { token: null, until: 0, project: null };
+async function fcmAccess(env) {
+  const now = Math.floor(Date.now() / 1000);
+  if (fcmCache.token && now < fcmCache.until) return fcmCache;
+  const sa = JSON.parse(env.FCM_SERVICE_ACCOUNT);
+  const enc = (o) => b64url(new TextEncoder().encode(JSON.stringify(o)));
+  const head = enc({ alg: 'RS256', typ: 'JWT' });
+  const claims = enc({ iss: sa.client_email, scope: 'https://www.googleapis.com/auth/firebase.messaging', aud: 'https://oauth2.googleapis.com/token', iat: now, exp: now + 3600 });
+  const pem = sa.private_key.replace(/-----[^-]+-----/g, '').replace(/\s+/g, '');
+  const key = await crypto.subtle.importKey('pkcs8', Uint8Array.from(atob(pem), (c) => c.charCodeAt(0)), { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, new TextEncoder().encode(head + '.' + claims));
+  const r = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: 'grant_type=' + encodeURIComponent('urn:ietf:params:oauth:grant-type:jwt-bearer') + '&assertion=' + `${head}.${claims}.${b64url(new Uint8Array(sig))}`,
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || !j.access_token) throw new Error('Firebase sign-in failed: ' + (j.error_description || j.error || r.status));
+  fcmCache = { token: j.access_token, until: now + Math.min(j.expires_in || 3600, 3600) - 300, project: sa.project_id };
+  return fcmCache;
+}
+
+// The same message, in the shape Firebase wants. Everything is stored in Apple's shape
+// (see apnsPayload), so the approval page and the app read one format.
+function fcmMessage(token, payload) {
+  const alert = (payload.aps && payload.aps.alert) || {};
+  const image = payload.image;
+  const notification = { title: alert.title || '', body: alert.body || '' };
+  const android = { priority: 'HIGH', notification: {} };
+  // A runner's portrait comes straight from slarchive.org. (Club singlets are built into the
+  // iPhone app; Android gets them once they are published on the site.)
+  if (image && image.type === 'portrait' && image.file) android.notification.image = `https://slarchive.org/portraits/og/athletes/${encodeURIComponent(image.file)}.png`;
+  const data = { url: String(payload.url || '/') };
+  if (image) data.image = JSON.stringify(image);
+  return { message: { token, notification, data, android } };
+}
+
+async function sendAndroid(env, row, payload) {
+  if (!env.FCM_SERVICE_ACCOUNT) return { ok: false, reason: 'Android not set up (no Firebase key)' };
+  let access;
+  try { access = await fcmAccess(env); } catch (e) { return { ok: false, reason: String(e.message || e).slice(0, 200) }; }
+  const r = await fetch(`https://fcm.googleapis.com/v1/projects/${access.project}/messages:send`, {
+    method: 'POST',
+    headers: { authorization: `Bearer ${access.token}`, 'content-type': 'application/json' },
+    body: JSON.stringify(fcmMessage(row.token, payload)),
+  });
+  if (r.ok) return { ok: true, reason: 'android' };
+  const j = await r.json().catch(() => ({}));
+  const err = (j.error && j.error.details && (j.error.details.find((d) => d.errorCode) || {}).errorCode) || (j.error && j.error.status) || String(r.status);
+  if (r.status === 401) fcmCache = { token: null, until: 0, project: null }; // pass expired early: get a new one next time
+  // The app has been removed from that phone, or the address was never a real one
+  if (err === 'UNREGISTERED' || (err === 'INVALID_ARGUMENT' && /registration token/i.test((j.error && j.error.message) || ''))) {
+    await env.DB.prepare('DELETE FROM devices WHERE token = ?1').bind(row.token).run();
+  }
+  return { ok: false, reason: err };
+}
+
 // TestFlight and App Store phones use Apple's live service; phones running a build
 // straight from Xcode use the test ("sandbox") service. Try live first and remember.
 async function sendOne(env, row, payload) {
+  if (androidToken(row.token)) return sendAndroid(env, row, payload);
   const order = row.env === 'sandbox' ? ['sandbox', 'production'] : ['production', 'sandbox'];
   let last = null;
   for (const which of order) {
