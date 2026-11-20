@@ -1659,7 +1659,7 @@ const TROPHY_CACHE={};
 const champTrophy=club=>{if(!club)return'/trophy.svg?v=2';if(TROPHY_CACHE[club])return TROPHY_CACHE[club];let src='/trophy.svg?v=2';try{const k=kitColours(club),i=TROPHY_SVG.indexOf('<g fill="none" stroke-linecap="butt">');if(k&&i>0){const rib=TROPHY_SVG.slice(i).split('#E8A33D').join(k[0]).split('rx="1.5" fill="#7A1F3D"').join('rx="1.5" fill="'+k[0]+'"').split('#7A1F3D').join(k[1]);src='data:image/svg+xml;utf8,'+encodeURIComponent(TROPHY_SVG.slice(0,i)+rib);}}catch(e){}return TROPHY_CACHE[club]=src;};
 const reigningChamp=data=>{const sd=data&&data.seasonsData;if(!sd)return null;const k=Object.keys(sd).sort().reverse().find(k=>sd[k]&&sd[k].champion);return k?sd[k].champion:null;};
 const DIV={set:null};
-/* The iPhone app's shell: what the top of each screen says, and the floating nav (Races, Stats, Tables, FantaXC, Following).
+/* The iPhone app's shell: what the top of each screen says, and the floating nav (Stats, Races, Tables, Following, FantaXC).
    Following and FantaXC are drawn by the app's own layer (iphone-app/app-src/app.js), which listens through window.slFollowing / window.slFantaXC. */
 const AppNav=({setView,division,setDivision,view,champ})=>{
   const t=view&&view.type;
@@ -1677,7 +1677,7 @@ const AppNav=({setView,division,setDivision,view,champ})=>{
     {t==='home'&&!fol&&<div className="app-mast"><span className="app-mast-name">Surrey League<img src={champTrophy(champ)} alt="" aria-hidden="true"/></span><button type="button" className="app-since" onClick={()=>setView({type:'origin'})}>since 1962</button></div>}
     {t==='fixtures'&&<div className="app-title"><h1 className="font-bold" style={TT}>Races</h1><DivisionToggle division={division} setDivision={setDivision}/></div>}
     {stats&&<><div className="app-title"><h1 className="font-bold" style={TT}>Stats</h1><DivisionToggle division={division} setDivision={setDivision}/></div><div className="app-seg bg-gray-100 rounded-lg p-0.5" role="group" aria-label="Stats">{[['seasons','Winners'],['athletes','Athletes'],['clubs','Clubs']].map(([k,l])=><button key={k} type="button" aria-pressed={t===k} onClick={()=>setView({type:k})} className={t===k?'bg-white text-gray-900':'text-gray-500'}>{l}</button>)}</div></>}
-  </div><nav aria-label="Main" className="app-nav nav-tabs">{tab('races','Races','races',to({type:'fixtures'}))}{tab('stats','Stats','stats',to({type:'seasons'}))}{tab('home','Tables','tables',to({type:'home'}))}{tab('fantaxc','FantaXC','fantaxc',fanta)}{tab('following','Following','bell',following)}</nav></header>;
+  </div><nav aria-label="Main" className="app-nav nav-tabs">{tab('stats','Stats','stats',to({type:'seasons'}))}{tab('races','Races','races',to({type:'fixtures'}))}{tab('home','Tables','tables',to({type:'home'}))}{tab('following','Following','bell',following)}{tab('fantaxc','FantaXC','fantaxc',fanta)}</nav></header>;
 };
 const Nav=({setView,division,setDivision,view,champ})=>{
   DIV.set=setDivision;
