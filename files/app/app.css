@@ -99,3 +99,6 @@ html.in-app body { padding-bottom: calc(76px + env(safe-area-inset-bottom)) !imp
 .sl-web-bar .sl-link { min-width: 56px; min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
 .sl-web-bar a.sl-link { justify-content: flex-end; }
 .sl-web iframe { flex: 1; width: 100%; border: 0; }
+
+/* Privacy · Help links at the foot of Following: grey, not link blue */
+.sl-legal .sl-link { color: var(--sl-muted); min-height: 44px; padding: 0 2px; }
