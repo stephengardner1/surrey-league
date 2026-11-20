@@ -153,13 +153,10 @@ if (DRY) {
   }
 }
 
-// The race's own page doesn't exist on slarchive.org until the full import lands a few
-// minutes later, so a tap opens the season page (fixtures and table) instead.
-const seasonUrl = `/${league === 'women' ? '#women/' : '#'}season/${season.replace('/', '').slice(-4)}`;
 const groups = new Map();
 for (const d of devices) {
   for (const m0 of messagesFor(d.follow, events, { prev: data, next, portraits })) {
-    const m = { ...m0, url: seasonUrl };
+    const m = m0; // a tap opens the race page, drawn from the "first results" copy left below
     const k = JSON.stringify([m.title, m.body, m.image, m.url, m.threadId]);
     if (!groups.has(k)) groups.set(k, { ...m, tokens: [] });
     groups.get(k).tokens.push(d.token);
@@ -172,6 +169,14 @@ console.log(`${messages.length} different notifications for ${devices.length} ph
 if (DRY) {
   for (const m of messages) console.log(`\n[${m.tokens.join(', ')}] ${m.title}\n${m.body}\n(picture: ${JSON.stringify(m.image)}; opens ${m.url})`);
   process.exit(0);
+}
+
+// Leave a "first results" copy of the race with the back office. slarchive.org and the app show
+// it as the race page (marked as first results, more to come) until the full import is published.
+if (!REHEARSE) {
+  const live = await admin('/admin/live', { key: `${season}|${league}|m${match}`, league,
+    race: { season, match, venue: fixture.venue, date: raceDate, results, teamScores: teams, source: `${SITE}/match/${matchId}/` } });
+  console.log('First-results page copy stored:', live.status);
 }
 
 // The back office records the key and takes the batch in one step, so it can never go out twice.

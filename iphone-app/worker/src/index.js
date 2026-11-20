@@ -33,6 +33,7 @@ export default {
       if (url.pathname === '/') return text('Surrey League Compendium notifications: running.');
       if (url.pathname === '/v1/register' && req.method === 'POST') return cors(await register(req, env));
       if (url.pathname === '/v1/unregister' && req.method === 'POST') return cors(await unregister(req, env));
+      if (url.pathname === '/v1/live' && req.method === 'GET') return cors(await liveList(env));
       if (url.pathname.startsWith('/admin/')) {
         if (!(await isAdmin(req, env))) return json({ error: 'not allowed' }, 401);
         if (url.pathname === '/admin/devices' && req.method === 'GET') return json(await devices(env));
@@ -41,6 +42,7 @@ export default {
         if (url.pathname === '/admin/test' && req.method === 'POST') return json(await testPush(req, env));
         if (url.pathname === '/admin/announced' && req.method === 'GET') return json(await announcedList(env));
         if (url.pathname === '/admin/announced' && req.method === 'POST') return json(await announcedAdd(req, env));
+        if (url.pathname === '/admin/live' && req.method === 'POST') return json(await liveSet(req, env));
         if (url.pathname === '/admin/fast' && req.method === 'GET') return json(await fastStatus(env));
         if (url.pathname === '/admin/fast-check' && req.method === 'POST') return json(await fastCheck(env, (await req.json().catch(() => ({}))).now));
       }
@@ -156,6 +158,36 @@ async function announcedAdd(req, env) {
   }
   if (b.fast) await env.DB.prepare('UPDATE fast_races SET announced_at = ?1 WHERE key = ?2 AND announced_at IS NULL').bind(now, String(b.fast)).run();
   return { ok: true };
+}
+
+// ---------- "first results" copies of a race ----------
+// The fast race-day check also leaves a copy of the race here (every finisher, team scores).
+// slarchive.org and the app lay it over their normal data, so a tap on the notification opens
+// a real results page straight away. When the full results are published the copy is marked
+// replaced, and open pages swap themselves over.
+//   POST /admin/live { key: "2026/27|men|m3", league, race: {...} }   store a copy
+//   POST /admin/live { replaced: ["2026/27|men|m3"] }                 the full results are out
+//   GET  /v1/live                                                     public: the last few days' copies
+async function liveSet(req, env) {
+  const b = await req.json().catch(() => ({}));
+  const now = new Date().toISOString();
+  if (b.key && b.race) {
+    const body = JSON.stringify({ key: String(b.key), league: b.league === 'women' ? 'women' : 'men', at: now, race: b.race });
+    if (body.length > 400000) return { ok: false, error: 'too big' };
+    await env.DB.prepare('INSERT INTO live_races (key, body, at) VALUES (?1, ?2, ?3) ON CONFLICT(key) DO UPDATE SET body = ?2, at = ?3 WHERE replaced_at IS NULL')
+      .bind(String(b.key).slice(0, 100), body, now).run();
+  }
+  for (const k of [].concat(b.replaced || []).slice(0, 10)) {
+    await env.DB.prepare('UPDATE live_races SET replaced_at = ?1 WHERE key = ?2 AND replaced_at IS NULL').bind(now, String(k)).run();
+  }
+  return { ok: true };
+}
+async function liveList(env) {
+  const since = new Date(Date.now() - 4 * 864e5).toISOString();
+  const rows = (await env.DB.prepare('SELECT key, body, replaced_at FROM live_races WHERE at > ?1 ORDER BY at').bind(since).all()).results;
+  // The stored text is already JSON: stitch it together rather than re-reading it (keeps this quick)
+  const parts = rows.map((r) => (r.replaced_at ? JSON.stringify({ key: r.key, replaced: true }) : r.body));
+  return new Response('{"races":[' + parts.join(',') + ']}', { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 }
 
 // ---------- fast race-day check ----------
@@ -391,7 +423,7 @@ const json = (o, status = 200) => new Response(JSON.stringify(o), { status, head
 const text = (s) => new Response(s, { headers: { 'content-type': 'text/plain; charset=utf-8' } });
 function cors(r) {
   r.headers.set('access-control-allow-origin', '*');
-  r.headers.set('access-control-allow-methods', 'POST, OPTIONS');
+  r.headers.set('access-control-allow-methods', 'GET, POST, OPTIONS');
   r.headers.set('access-control-allow-headers', 'content-type');
   return r;
 }

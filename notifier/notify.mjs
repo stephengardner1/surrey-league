@@ -46,6 +46,7 @@ if (!REHEARSE && !DRY && API && KEY) {
   } catch { /* back office unreachable: carry on, the batch step will report it */ }
 }
 const resultsKey = (e) => `${e.season}|${e.league}|m${e.match}|results`;
+const replaced = []; // races that have just arrived in full
 const individualOnly = new Set(); // thread ids of races whose individual results have already gone out
 
 const portraits = at(after, 'files/portraits/portraits.json') || {};
@@ -59,6 +60,8 @@ for (const [league, file] of [['men', 'files/data.json'], ['women', 'files/data-
     const last = Math.max(0, ...seasonRaces(next, season).map((r) => r.match));
     prev = { ...prev, races: prev.races.filter((r) => !(r.season === season && r.match === last)) };
   }
+  // A race that is new on slarchive.org replaces any "first results" copy the fast check left
+  for (const e of diffLeague(prev, next, league)) if (e.type === 'results' && !REHEARSE) replaced.push(`${e.season}|${league}|m${e.match}`);
   const events = diffLeague(prev, next, league).filter((e) => {
     if (e.type !== 'results') return true;
     if (announced.has(resultsKey(e))) { console.log(`${LEAGUE_LABEL[league]} match ${e.match} results were already sent by the fast race-day check.`); return false; }
@@ -66,6 +69,9 @@ for (const [league, file] of [['men', 'files/data.json'], ['women', 'files/data-
     return true;
   });
   if (events.length) leagues.push({ league, prev, next, events });
+}
+if (replaced.length && !DRY && API && KEY) {
+  await fetch(`${API}/admin/live`, { method: 'POST', headers: { authorization: `Bearer ${KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ replaced }) }).catch(() => {});
 }
 if (!leagues.length) { console.log('No new results, corrections or season changes. Nothing to send.'); process.exit(0); }
 

@@ -38,3 +38,9 @@ CREATE TABLE IF NOT EXISTS fast_races (
   announced_at TEXT,               -- when the notifications were handed over (or found already sent)
   note TEXT
 );
+CREATE TABLE IF NOT EXISTS live_races (
+  key TEXT PRIMARY KEY,            -- e.g. "2026/27|men|m3"
+  body TEXT NOT NULL,              -- the "first results" copy of the race (JSON), shown until the full results are published
+  at TEXT NOT NULL,
+  replaced_at TEXT                 -- when the full results reached slarchive.org
+);
