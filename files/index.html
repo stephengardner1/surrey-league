@@ -768,7 +768,9 @@ html.in-app .app-top{padding-top:env(safe-area-inset-top);background:#fff;positi
 .app-shell .app-seg>button{height:36px;border-radius:7px;font-size:14px;font-weight:500}
 .app-shell .app-seg>button[aria-pressed=true]{font-weight:600}
 .app-strip{position:sticky;top:env(safe-area-inset-top);z-index:30;background:#fff;display:flex;align-items:center;justify-content:space-between;margin:0 -16px 12px;padding:6px 8px 6px 16px;border-bottom:1px solid #e3e5e1}
-.app-nav{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom)*.5 + 9px);z-index:1050;display:flex;align-items:center;height:64px;padding:0 5px;border-radius:9999px;border:1px solid #c9ccc7;background:#fff}
+.app-nav{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom)*.5 + 9px);z-index:1050;display:flex;align-items:center;height:64px;padding:0 5px;border-radius:9999px;border:1px solid #c9ccc7;background:#fff;transform-origin:50% 100%;transition:transform 240ms cubic-bezier(.65,0,.35,1)}
+.app-nav.is-small{transform:scale(.86)}
+@media (prefers-reduced-motion:reduce){.app-nav{transition:none}}
 /* The page fades to white beneath the floating nav, so nothing shows through or peeks out under it */
 html.in-app body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:calc(env(safe-area-inset-bottom)*.5 + 104px);background:linear-gradient(rgba(255,255,255,0),#fff 62%);z-index:1040;pointer-events:none}
 .app-nav>button{flex:1 1 0;min-width:0;height:54px;border:0;border-radius:9999px;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#686e66;font-size:11px;line-height:14px;font-weight:500;-webkit-tap-highlight-color:transparent}
@@ -1676,6 +1678,10 @@ const AppNav=({setView,division,setDivision,view,champ})=>{
   const t=view&&view.type;
   const [fol,setFol]=React.useState(false);
   React.useEffect(()=>{const on=e=>setFol(!!e.detail);window.addEventListener('sl-following',on);return()=>window.removeEventListener('sl-following',on);},[]);
+  // The nav shrinks a little while you scroll down and comes back to full size when you scroll up (or reach the top)
+  const [small,setSmall]=React.useState(false);
+  React.useEffect(()=>{let last=window.scrollY,raf=0;const on=()=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const y=window.scrollY,d=y-last;if(Math.abs(d)<8)return;setSmall(d>0&&y>60);last=y;});};window.addEventListener('scroll',on,{passive:true});return()=>{window.removeEventListener('scroll',on);if(raf)cancelAnimationFrame(raf);};},[]);
+  React.useEffect(()=>{setSmall(false);},[t,fol]);
   const cur=fol?'following':({home:'home',fixtures:'races',race:'races',seasons:'stats',athletes:'stats',athlete:'stats',clubs:'stats',club:'stats',h2h:'stats',chartroom:'stats'})[t];
   const shut=()=>{if(window.slFollowing)window.slFollowing(false);};
   const to=v=>()=>{shut();setView(v);};
@@ -1688,7 +1694,7 @@ const AppNav=({setView,division,setDivision,view,champ})=>{
     {t==='home'&&!fol&&<div className="app-mast"><span className="app-mast-name">Surrey League<img src={champTrophy(champ)} alt="" aria-hidden="true"/></span><button type="button" className="app-since" onClick={()=>setView({type:'origin'})}>since 1962</button></div>}
     {t==='fixtures'&&<div className="app-title"><h1 className="font-bold" style={TT}>Races</h1><DivisionToggle division={division} setDivision={setDivision}/></div>}
     {stats&&<><div className="app-title"><h1 className="font-bold" style={TT}>Stats</h1><DivisionToggle division={division} setDivision={setDivision}/></div><div className="app-seg bg-gray-100 rounded-lg p-0.5" role="group" aria-label="Stats">{[['seasons','Winners'],['athletes','Athletes'],['clubs','Clubs']].map(([k,l])=><button key={k} type="button" aria-pressed={t===k} onClick={()=>setView({type:k})} className={t===k?'bg-white text-gray-900':'text-gray-500'}>{l}</button>)}</div></>}
-  </div><nav aria-label="Main" className="app-nav nav-tabs">{tab('stats','Stats','stats',to({type:'seasons'}))}{tab('races','Races','races',to({type:'fixtures'}))}{tab('home','Tables','tables',to({type:'home'}))}{tab('following','Following','bell',following)}{tab('fantaxc','FantaXC','fantaxc',fanta)}</nav></header>;
+  </div><nav aria-label="Main" className={"app-nav nav-tabs"+(small&&!fol?" is-small":"")}>{tab('stats','Stats','stats',to({type:'seasons'}))}{tab('races','Races','races',to({type:'fixtures'}))}{tab('home','Tables','tables',to({type:'home'}))}{tab('following','Following','bell',following)}{tab('fantaxc','FantaXC','fantaxc',fanta)}</nav></header>;
 };
 const Nav=({setView,division,setDivision,view,champ})=>{
   DIV.set=setDivision;
