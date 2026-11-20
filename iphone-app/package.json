@@ -2,14 +2,16 @@
   "name": "slarchive-app",
   "version": "0.1.0",
   "private": true,
-  "description": "Surrey League Compendium iPhone app (slarchive.org)",
+  "description": "Surrey League Compendium iPhone and Android app (slarchive.org)",
   "type": "module",
   "scripts": {
     "update-site": "node scripts/update-site.mjs",
     "sync": "npm run update-site && npx cap sync ios",
-    "test-notifications": "node scripts/test-notifications.mjs"
+    "test-notifications": "node scripts/test-notifications.mjs",
+    "sync-android": "npm run update-site && npx cap sync android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.2",
     "@capacitor/cli": "^8.6.0",
     "@capacitor/core": "^8.6.0",
     "@capacitor/ios": "^8.6.0",

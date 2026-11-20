@@ -14,5 +14,9 @@
         "alert"
       ]
     }
+  },
+  "android": {
+    "backgroundColor": "#ffffff",
+    "includePlugins": []
   }
 }
