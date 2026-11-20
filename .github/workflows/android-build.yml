@@ -39,7 +39,7 @@ jobs:
       - name: Build the install file
         working-directory: iphone-app/android
         run: |
-          export SL_BUILD=$(date -u +%y%m%d%H%M)
+          export SL_BUILD=$(date -u +%y%m%d%H%M) SL_CODE=$(( $(date -u +%s) / 60 ))
           echo "SL_BUILD=$SL_BUILD" >> "$GITHUB_ENV"
           chmod +x gradlew
           ./gradlew --no-daemon assembleDebug
