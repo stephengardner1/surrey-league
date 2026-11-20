@@ -744,7 +744,9 @@ html.m-charts :is(.m-bar,.pred .bt i):not([data-mseen]){transform:scaleX(0)}
 .bg-gray-100.rounded-lg.p-0\.5:not(.flex-wrap),.bg-gray-100.rounded-md.p-0\.5:not(.flex-wrap){display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr}
 .bg-gray-100.rounded-lg.p-0\.5:not(.flex-wrap)>button,.bg-gray-100.rounded-md.p-0\.5:not(.flex-wrap)>button{text-align:center;white-space:nowrap}
 /* iPhone app only: the floating five-tab nav and the top of each screen (20 Nov 2026, see claude/app-design-decisions.md) */
-html.in-app .app-top{padding-top:env(safe-area-inset-top);background:#fff}
+html.in-app .app-top{padding-top:env(safe-area-inset-top);background:#fff;position:relative;z-index:31}
+/* The pinned Men/Women and season row keeps the area behind the status bar white while it is stuck */
+.app-strip::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:env(safe-area-inset-top);background:#fff}
 .app-mast{display:flex;align-items:center;gap:6px;padding:10px 16px 0}
 .app-mast-name{font-family:'Castoro Belgrave Titling',serif;font-size:24px;line-height:32px;color:#1d211d;white-space:nowrap;text-transform:uppercase}
 .app-mast-name img{display:inline-block;height:1.3em;width:auto;vertical-align:-.28em;margin-left:.3em}
@@ -756,7 +758,9 @@ html.in-app .app-top{padding-top:env(safe-area-inset-top);background:#fff}
 .app-shell .app-seg>button{height:36px;border-radius:7px;font-size:14px;font-weight:500}
 .app-shell .app-seg>button[aria-pressed=true]{font-weight:600}
 .app-strip{position:sticky;top:env(safe-area-inset-top);z-index:30;background:#fff;display:flex;align-items:center;justify-content:space-between;margin:0 -16px 12px;padding:6px 8px 6px 16px;border-bottom:1px solid #e3e5e1}
-.app-nav{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom)*.5 + 9px);z-index:1050;display:flex;align-items:center;height:64px;padding:0 5px;border-radius:9999px;border:1px solid #e3e5e1;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.app-nav{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom)*.5 + 9px);z-index:1050;display:flex;align-items:center;height:64px;padding:0 5px;border-radius:9999px;border:1px solid #c9ccc7;background:#fff}
+/* The page fades to white beneath the floating nav, so nothing shows through or peeks out under it */
+html.in-app body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:calc(env(safe-area-inset-bottom)*.5 + 104px);background:linear-gradient(rgba(255,255,255,0),#fff 62%);z-index:1040;pointer-events:none}
 .app-nav>button{flex:1 1 0;min-width:0;height:54px;border:0;border-radius:9999px;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#686e66;font-size:11px;line-height:14px;font-weight:500;-webkit-tap-highlight-color:transparent}
 .app-nav>button[aria-current=page]{color:#1d211d;background:#f3f4f2;font-weight:600}
 html.in-app body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
