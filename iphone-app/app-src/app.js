@@ -203,8 +203,25 @@ async function openApproval(url) {
   );
 }
 
-function openPanel() { if (!panel) { panel = h('div', { class: 'sl-panel', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Notifications' }); document.body.append(panel); } panel.hidden = false; document.body.classList.add('sl-lock'); renderPanel(); }
-function closePanel() { if (panel) panel.hidden = true; document.body.classList.remove('sl-lock'); }
+const tellNav = (open) => window.dispatchEvent(new CustomEvent('sl-following', { detail: open }));
+function openPanel() { if (!panel) { panel = h('div', { class: 'sl-panel', role: 'region', 'aria-label': 'Following' }); document.body.append(panel); } panel.hidden = false; panel.scrollTop = 0; document.body.classList.add('sl-lock'); renderPanel(); tellNav(true); }
+function closePanel() { const was = panel && !panel.hidden; if (panel) panel.hidden = true; document.body.classList.remove('sl-lock'); if (was) { query = ''; tellNav(false); } }
+// The floating nav (drawn by the site's page) opens and closes the Following screen through this
+window.slFollowing = (open) => { if (open) openPanel(); else closePanel(); };
+// FantaXC: Richard's site opens over the app, with Done to come back (an in-app browser if the build has one)
+let fanta = null;
+window.slFantaXC = () => {
+  const url = 'https://fantaxc.com/surrey-league';
+  const C = window.Capacitor;
+  if (C && C.isPluginAvailable && C.isPluginAvailable('Browser')) { C.Plugins.Browser.open({ url, presentationStyle: 'popover' }); return; }
+  fanta?.remove();
+  const done = () => { fanta?.remove(); fanta = null; };
+  fanta = h('div', { class: 'sl-web', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'FantaXC' },
+    h('div', { class: 'sl-web-bar' }, h('button', { type: 'button', class: 'sl-link', onclick: done }, 'Done'), h('span', { class: 'sl-strong' }, 'FantaXC'),
+      h('a', { class: 'sl-link', href: url }, 'Safari')),
+    h('iframe', { src: url, title: 'FantaXC', allow: 'clipboard-write' }));
+  document.body.append(fanta);
+};
 
 async function change(fn) {
   const before = anyFollow();
@@ -213,39 +230,46 @@ async function change(fn) {
   saveFollow();
 }
 
+function openPage(hash) { closePanel(); location.hash = hash; window.scrollTo(0, 0); }
+function searchClubs(q) {
+  q = q.trim().toLowerCase(); if (q.length < 2) return [];
+  return Object.keys(CLUB_NAMES).filter((c) => !follow.clubs.includes(c) && (clubName(c).toLowerCase().includes(q) || c.toLowerCase() === q)).slice(0, 4);
+}
 function renderPanel() {
   if (!panel || panel.hidden) return;
-  const clubs = currentClubs();
-  const results = searchRunners(query);
+  const results = searchRunners(query).filter((m) => !follow.runners.some((r) => r.name === m.name && r.league === m.league));
+  const clubHits = searchClubs(query);
+  const none = !follow.clubs.length && !follow.runners.length;
   panel.replaceChildren(...[
-    h('div', { class: 'sl-top' }, h('button', { type: 'button', class: 'sl-link', onclick: closePanel }, '‹ Back')),
-    h('div', { class: 'sl-head' }, h('h1', {}, 'Notifications'), h('p', { class: 'sl-muted' }, 'Results and corrections as soon as they’re published.')),
+    h('div', { class: 'sl-head' }, h('h1', {}, 'Following'), h('p', { class: 'sl-muted' }, 'Results as soon as they’re published.')),
     pushState === 'denied' ? h('p', { class: 'sl-warn' }, 'Notifications are switched off for this app. Turn them on in your iPhone’s Settings › Surrey League › Notifications.') : null,
     !NATIVE ? h('p', { class: 'sl-warn' }, 'Notifications work in the iPhone app.') : null,
     h('section', {}, h('div', { class: 'sl-label' }, 'Leagues'), h('div', { class: 'sl-list' },
       toggle('Men', follow.men, () => change(() => { follow.men = !follow.men; })),
-      toggle('Women', follow.women, () => change(() => { follow.women = !follow.women; })),
-      toggle('Corrections', follow.corrections, () => change(() => { follow.corrections = !follow.corrections; }), 'When a result is changed after it’s published'))),
-    h('section', {}, h('div', { class: 'sl-label' }, 'Your clubs'), h('div', { class: 'sl-list' },
-      clubs.map((c) => h('button', { type: 'button', class: 'sl-row sl-pick', 'aria-pressed': follow.clubs.includes(c) ? 'true' : 'false',
-        onclick: () => change(() => { follow.clubs = follow.clubs.includes(c) ? follow.clubs.filter((x) => x !== c) : [...follow.clubs, c]; }) },
-        vest(c), h('span', { class: 'sl-grow' }, clubName(c)), h('span', { class: 'sl-tick' }, follow.clubs.includes(c) ? '✓' : '')))),
-      h('p', { class: 'sl-small' }, 'Optional. Notifications will be tailored to the clubs you follow.')),
-    h('section', {}, h('div', { class: 'sl-label' }, 'Runners'),
-      h('div', { class: 'sl-list' }, follow.runners.map((r) => h('div', { class: 'sl-row' }, face(r.name, r.club),
-        h('span', { class: 'sl-grow sl-col' }, h('span', { class: 'sl-strong' }, r.name), h('span', { class: 'sl-sub' }, `${clubName(r.club)} · ${r.league === 'women' ? 'Women' : 'Men'}`)),
-        h('button', { type: 'button', class: 'sl-link', 'aria-label': 'Unfollow ' + r.name, onclick: () => change(() => { follow.runners = follow.runners.filter((x) => x !== r); }) }, 'Unfollow')))),
-      h('label', { for: 'sl-search', class: 'sl-strong sl-pad' }, 'Find a runner'),
-      h('input', { id: 'sl-search', type: 'search', autocomplete: 'off', placeholder: 'Type a name', value: query,
-        oninput: (e) => { query = e.target.value; renderPanel(); document.getElementById('sl-search')?.focus(); } }),
-      h('div', { class: 'sl-list' }, results.filter((m) => !follow.runners.some((r) => r.name === m.name && r.league === m.league)).map((m) =>
-        h('div', { class: 'sl-row' }, face(m.name, m.club), h('span', { class: 'sl-grow sl-col' }, h('span', { class: 'sl-strong' }, m.name),
-          h('span', { class: 'sl-sub' }, `${clubName(m.club)} · ${m.league === 'women' ? 'Women' : 'Men'}${m.last ? ' · last race ' + m.last : ''}`)),
+      toggle('Women', follow.women, () => change(() => { follow.women = !follow.women; })))),
+    h('section', {}, h('div', { class: 'sl-label' }, 'Clubs and runners'),
+      none ? h('p', { class: 'sl-muted' }, 'Nobody yet. Add a club or runner below, or tap the bell beside their name.') : null,
+      h('div', { class: 'sl-list' },
+        follow.clubs.map((c) => h('div', { class: 'sl-row' },
+          h('button', { type: 'button', class: 'sl-open', 'aria-label': 'Open ' + clubName(c), onclick: () => openPage('#club/' + clubKey(c)) }, vest(c), h('span', { class: 'sl-grow sl-strong' }, clubName(c))),
+          h('button', { type: 'button', class: 'sl-link', 'aria-label': 'Unfollow ' + clubName(c), onclick: () => change(() => { follow.clubs = follow.clubs.filter((x) => x !== c); }) }, 'Unfollow'))),
+        follow.runners.map((r) => h('div', { class: 'sl-row' },
+          h('button', { type: 'button', class: 'sl-open', 'aria-label': 'Open ' + r.name, onclick: () => openPage('#' + (r.league === 'women' ? 'women/' : '') + 'athlete/' + slug(r.name)) }, face(r.name, r.club),
+            h('span', { class: 'sl-grow sl-col' }, h('span', { class: 'sl-strong' }, r.name), h('span', { class: 'sl-sub' }, `${clubName(r.club)}, ${r.league === 'women' ? 'women' : 'men'}`))),
+          h('button', { type: 'button', class: 'sl-link', 'aria-label': 'Unfollow ' + r.name, onclick: () => change(() => { follow.runners = follow.runners.filter((x) => x !== r); }) }, 'Unfollow')))),
+      h('label', { class: 'sl-search' }, searchIcon(), h('input', { id: 'sl-search', type: 'search', autocomplete: 'off', placeholder: 'Add a club or runner', 'aria-label': 'Add a club or runner', value: query,
+        oninput: (e) => { query = e.target.value; renderPanel(); const f = document.getElementById('sl-search'); if (f) { f.focus(); f.setSelectionRange(query.length, query.length); } } })),
+      h('div', { class: 'sl-list' },
+        clubHits.map((c) => h('div', { class: 'sl-row' }, vest(c), h('span', { class: 'sl-grow sl-strong' }, clubName(c)),
+          h('button', { type: 'button', class: 'sl-pill', 'aria-label': 'Follow ' + clubName(c), onclick: () => { query = ''; change(() => { follow.clubs = [...follow.clubs, c]; }); } }, 'Follow'))),
+        results.map((m) => h('div', { class: 'sl-row' }, face(m.name, m.club), h('span', { class: 'sl-grow sl-col' }, h('span', { class: 'sl-strong' }, m.name),
+          h('span', { class: 'sl-sub' }, `${clubName(m.club)}, ${m.league === 'women' ? 'women' : 'men'}${m.last ? ', last race ' + m.last : ''}`)),
           h('button', { type: 'button', class: 'sl-pill', 'aria-label': 'Follow ' + m.name,
             onclick: () => { query = ''; change(() => { follow.runners = [...follow.runners, { name: m.name, club: m.club, league: m.league }]; }); } }, 'Follow')))),
-      query.trim().length >= 2 && !results.length ? h('p', { class: 'sl-muted' }, 'No runner by that name yet. Runners can be found once they’ve run a Surrey League race.') : null,
-      h('p', { class: 'sl-small' }, 'Anyone who has run a Surrey League race. You’ll hear about their results even if their league is switched off.')),
-    h('section', {}, h('div', { class: 'sl-label' }, 'What you’ll get'), preview()),
+      query.trim().length >= 2 && !results.length && !clubHits.length ? h('p', { class: 'sl-muted' }, 'Nothing by that name. Runners can be found once they’ve run a Surrey League race.') : null,
+      h('p', { class: 'sl-small' }, 'You’ll hear about a runner’s results even if their league is switched off.')),
+    h('section', {}, h('div', { class: 'sl-list' },
+      toggle('Corrections to results', follow.corrections, () => change(() => { follow.corrections = !follow.corrections; }), 'When a result is changed after it’s published'))),
     h('p', { class: 'sl-small sl-foot' }, h('button', { type: 'button', class: 'sl-link sl-small', onclick: approverCode },
       localStorage.getItem('sl-approver-code') ? 'Approver: this phone approves notifications' : 'Approver code')),
     h('p', { class: 'sl-small' }, window.SL_LIVE_VERSION ? `App updated ${new Date(+localStorage.getItem('sl-live-at') || Date.now()).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} (${window.SL_LIVE_VERSION})` : `Built-in version (${window.SL_BUILT_HASH || '–'})`),
@@ -298,7 +322,6 @@ function pageSubject() {
 }
 function renderFab() {
   if (!document.querySelector('.sl-statusbar')) document.body.append(h('div', { class: 'sl-statusbar', 'aria-hidden': 'true' }));
-  if (!bell) { bell = h('button', { type: 'button', class: 'sl-bell', 'aria-label': 'Notifications', onclick: openPanel }, bellIcon()); document.body.append(bell); }
   placeFollow();
 }
 // Follow button: a small bell straight after the runner's or club's name at the top of their page
@@ -318,7 +341,7 @@ function placeFollow() {
       if (s.kind === 'runner') change(() => { follow.runners = on ? follow.runners.filter((r) => !(r.name === s.name && r.league === s.league)) : [...follow.runners, { name: s.name, club: s.club, league: s.league }]; });
       else { change(() => { follow.clubs = on ? follow.clubs.filter((c) => c !== s.club) : [...follow.clubs, s.club]; if (!on && !follow.men && !follow.women) follow[s.league] = true; }); if (!on) openSheet(s.club); }
       toast(on ? `Stopped following ${label}` : `Following ${label}`);
-    } }, bellIcon(!!on))));
+    } }, bellIcon(!!on, s.club))));
 }
 let toastEl = null;
 function toast(text) {
@@ -336,15 +359,32 @@ function openSheet(club) {
   sheet = h('div', { class: 'sl-sheet', role: 'dialog', 'aria-label': 'Choose leagues', 'data-club': club },
     h('p', {}, `You’ll get ${clubName(club)}’s results and corrections for:`),
     h('div', { class: 'sl-chips' }, pill('men'), pill('women')),
-    h('div', { class: 'sl-sheet-foot' }, h('button', { type: 'button', class: 'sl-link', onclick: () => { sheet.remove(); sheet = null; openPanel(); } }, 'Notification settings'),
+    h('div', { class: 'sl-sheet-foot' }, h('button', { type: 'button', class: 'sl-link', onclick: () => { sheet.remove(); sheet = null; openPanel(); } }, 'Following'),
       h('button', { type: 'button', class: 'sl-link', onclick: () => { sheet.remove(); sheet = null; } }, 'Done')));
   document.body.append(sheet);
 }
-function bellIcon(filled) {
+const BELL = 'M44 174 44 175 47 175 47 175 60 175 72 174 82 174 168 174 180 174 192 174 196 175 196 174 198 172 198 170 198 168 198 166 196 164 196 163 190 164 183 164 181 159 177 150 176 142 174 131 174 119 174 100 173 91 172 87 171 79 168 71 166 67 162 62 157 57 152 52 146 49 140 46 134 44 128 43 128 29 127 29 127 27 124 25 122 24 118 24 117 25 114 26 113 29 112 29 112 42 106 43 99 45 94 47 90 49 84 53 79 58 77 61 73 67 70 75 68 82 67 87 66 96 66 116 66 128 65 139 63 147 60 154 56 164 44 163 44 164 43 165 42 167 41 169 42 170 42 172ZM73 164 73 164 76 158 78 152 79 145 80 139 81 126 82 96 82 89 85 80 87 74 89 70 94 64 100 59 106 55 111 53 120 52 126 52 132 53 137 55 139 56 143 59 149 64 153 71 156 79 157 86 158 92 159 123 159 132 160 139 161 145 163 151 165 157 169 164ZM97 198 96 199 98 201 102 204 105 205 110 207 114 208 119 209 124 210 128 209 132 209 135 208 139 205 143 202 145 199 144 199 145 197 144 194 143 191 140 189 137 189 134 189 132 191 131 191 129 194 127 197 124 199 121 200 117 200 113 199 112 198 110 196 108 192 107 192 105 191 103 190 101 191 99 191 98 193 97 195Z';
+const BELL_FILL = 'M60 169 62 167 63 165 65 162 66 160 67 157 69 155 69 152 70 149 71 147 72 144 72 141 73 138 73 135 73 132 74 129 74 126 74 123 74 119 74 116 74 113 74 110 74 106 74 103 74 100 74 96 74 92 75 88 76 84 76 81 77 77 79 74 80 71 81 68 83 66 85 63 87 61 89 59 91 57 94 55 96 53 99 52 101 51 104 49 107 49 110 48 113 47 117 47 120 47 123 47 127 47 130 48 133 49 136 49 139 50 141 52 144 53 146 55 149 57 151 59 153 61 155 63 157 66 159 68 160 71 161 74 163 77 164 81 164 84 165 88 166 92 166 96 166 100 166 103 166 106 166 110 166 113 166 116 166 119 166 123 166 126 166 129 167 132 167 135 167 138 168 141 168 144 169 147 170 149 171 152 171 155 173 157 174 160 175 162 177 165 178 167 180 169Z';
+const BELL_RING = 'M193 68 193 69 196 75 199 80 201 86 202 92 203 98 203 104 202 110 201 117 201 117 202 119 204 121 206 122 209 122 211 121 213 119 213 119 214 110 215 102 214 97 214 92 212 85 210 78 208 74 205 69 201 63 201 63 198 63 195 64 194 66ZM25 102 26 110 27 119 28 119 29 121 31 122 34 122 36 121 37 119 38 117 39 117 38 111 37 104 38 98 39 90 41 85 43 79 45 75 48 69 48 69 48 67 47 65 46 64 44 62 42 62 40 62 38 63 38 63 34 69 32 73 29 80 27 88 26 95Z';
+const SEARCH = 'M34 105 34 112 35 118 37 124 39 132 43 138 47 144 51 150 56 154 60 158 67 162 73 166 79 168 85 170 91 172 97 173 104 174 110 174 118 173 124 172 131 170 137 167 143 164 148 161 191 204 195 209 198 214 199 213 202 214 204 214 206 214 210 212 211 211 213 210 213 208 214 204 214 202 213 199 214 198 209 195 202 188 162 148 167 140 170 133 173 127 175 120 176 112 176 105 176 98 175 92 173 84 170 78 167 72 163 66 159 61 154 56 149 51 143 48 137 44 131 42 125 40 119 38 113 37 106 36 98 36 93 37 86 38 79 40 72 43 67 46 61 49 55 55 51 59 48 62 46 65 43 70 39 77 37 83 36 87 35 91 34 97ZM56 107 57 100 57 95 59 91 60 86 62 82 65 77 68 73 71 70 74 66 78 63 82 61 87 58 91 57 96 55 101 54 106 54 111 54 116 54 123 57 129 60 133 63 137 66 141 69 144 73 146 77 149 82 151 86 152 91 153 95 154 100 154 105 153 110 152 115 150 122 148 128 145 133 142 137 139 140 136 144 132 147 128 149 123 152 119 153 114 155 109 156 104 156 99 156 94 156 90 154 85 153 81 150 77 147 73 144 69 141 66 137 64 133 61 128 59 124 58 119 57 115Z';
+const mix = (a, b, t) => '#' + [1, 3, 5].map((k) => Math.round(parseInt(a.slice(k, k + 2), 16) + (parseInt(b.slice(k, k + 2), 16) - parseInt(a.slice(k, k + 2), 16)) * t).toString(16).padStart(2, '0')).join('');
+const hex6 = (c) => (c.length === 4 ? '#' + [1, 2, 3].map((k) => c[k] + c[k]).join('') : c).toLowerCase();
+// The club's main kit colour, read from its singlet artwork (first colour that isn't white)
+function kitColour(club) {
+  const svg = window.slVest && club ? window.slVest(club).split('<g transform')[0] : '';
+  const all = [...svg.matchAll(/(?:fill|stroke)="(#[0-9a-fA-F]{3,6})"/g)].map((m) => hex6(m[1]));
+  return all.find((c) => c !== '#ffffff') || '#686e66';
+}
+function pen(d, size) {
   const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('width', '18'); s.setAttribute('height', '18'); s.setAttribute('aria-hidden', 'true');
-  s.innerHTML = `<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`;
-  return s;
+  s.setAttribute('viewBox', '0 0 240 240'); s.setAttribute('width', size); s.setAttribute('height', size); s.setAttribute('aria-hidden', 'true');
+  s.innerHTML = d; return s;
+}
+const searchIcon = () => pen(`<path d="${SEARCH}" fill="currentColor" fill-rule="evenodd"/>`, 18);
+function bellIcon(on, club) {
+  if (!on) return pen(`<path d="${BELL}" fill="currentColor" fill-rule="evenodd"/>`, 26);
+  const tint = mix(hex6(GROUND[club] || '#e9ebe7'), kitColour(club), 0.38);
+  return pen(`<path d="${BELL_FILL}" fill="${tint}"/><path d="${BELL}" fill="currentColor" fill-rule="evenodd"/><path d="${BELL_RING}" fill="currentColor" fill-rule="evenodd"/>`, 26);
 }
 
 function renderAll() { renderFab(); renderPanel(); if (sheet) openSheet(sheet.dataset.club); }

@@ -3,16 +3,16 @@
 body.sl-lock { overflow: hidden; }
 .sl-panel { position: fixed; inset: 0; z-index: 1000; overflow-y: auto; background: #fff; color: var(--sl-ink);
   font-family: 'Public Sans', system-ui, -apple-system, sans-serif; font-size: 14px; line-height: 20px;
-  padding: calc(env(safe-area-inset-top) + 8px) 16px calc(env(safe-area-inset-bottom) + 32px); box-sizing: border-box; }
+  padding: calc(env(safe-area-inset-top) + 10px) 16px calc(env(safe-area-inset-bottom) + var(--sl-navh) + 48px); box-sizing: border-box; }
 .sl-panel[hidden] { display: none; }
 .sl-panel section { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
 .sl-top { min-height: 44px; display: flex; align-items: center; }
-.sl-head h1 { margin: 8px 0 0; font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 24px; line-height: 32px; letter-spacing: -0.01em; }
-.sl-head p { margin: 8px 0 0; }
+.sl-head h1 { margin: 0; font-family: 'Castoro Belgrave Titling', Georgia, serif !important; font-weight: 400; font-size: 30px; line-height: 38px; text-transform: uppercase; }
+.sl-head p { margin: 4px 0 0; }
 .sl-muted { color: var(--sl-muted); margin: 0; }
 .sl-small { margin: 0; font-size: 12px; line-height: 16px; color: var(--sl-muted); }
 .sl-warn { margin: 16px 0 0; padding: 12px; border-radius: 8px; background: #f8e0dd; color: #8a2a22; }
-.sl-label { font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.025em; text-transform: uppercase; color: var(--sl-muted); }
+.sl-label { font-size: 13px; line-height: 18px; font-weight: 600; color: var(--sl-muted); }
 .sl-list { display: flex; flex-direction: column; border-top: 1px solid var(--sl-rule); }
 .sl-list:empty { border-top: 0; }
 .sl-row { display: flex; align-items: center; gap: 12px; min-height: 52px; border: 0; border-bottom: 1px solid var(--sl-rule); background: transparent; padding: 0; text-align: left; font: inherit; color: inherit; width: 100%; }
@@ -30,12 +30,14 @@ body.sl-lock { overflow: hidden; }
 .sl-switch span { width: 27px; height: 27px; border-radius: 9999px; background: #fff; }
 .sl-link { min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--sl-link); font: inherit; cursor: pointer; }
 .sl-pill { min-height: 36px; padding: 0 14px; border: 1px solid var(--sl-link); border-radius: 9999px; background: #fff; color: var(--sl-link); font: inherit; font-weight: 500; cursor: pointer; }
-#sl-search { box-sizing: border-box; width: 100%; height: 44px; padding: 0 12px; border: 1px solid var(--sl-rule); border-radius: 8px; font: inherit; font-size: 16px; }
+.sl-search { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; margin-top: 4px; border: 1px solid #c9ccc7; border-radius: 8px; color: var(--sl-muted); }
+.sl-search:focus-within { border-color: var(--sl-ink); }
+#sl-search { flex: 1; min-width: 0; height: 40px; padding: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 16px; color: var(--sl-ink); -webkit-appearance: none; }
+.sl-open { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; min-height: 44px; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
 .sl-previews { display: flex; flex-direction: column; gap: 8px; }
 .sl-note { display: flex; gap: 12px; padding: 12px; border-radius: 14px; background: var(--sl-wash); }
 .sl-note .sl-body { color: #3c403a; white-space: pre-line; }
 .sl-appicon { width: 36px; height: 36px; flex-shrink: 0; border-radius: 8px; border: 1px solid var(--sl-rule); background: #fff url('/favicon.svg') center / 24px no-repeat; }
-.sl-bell { position: fixed; right: 16px; bottom: calc(env(safe-area-inset-bottom) + var(--sl-navh) + 12px); z-index: 900; width: 48px; height: 48px; border-radius: 9999px; border: 1px solid var(--sl-rule); background: #fff; color: var(--sl-ink); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .sl-fab-wrap { position: fixed; left: 16px; right: 76px; bottom: calc(env(safe-area-inset-bottom) + var(--sl-navh) + 12px); z-index: 900; display: flex; justify-content: flex-start; pointer-events: none; }
 .sl-fab { pointer-events: auto; display: flex; align-items: center; gap: 8px; min-height: 48px; max-width: 100%; padding: 0 20px; border-radius: 9999px; border: 1px solid var(--sl-link); background: var(--sl-link); color: #fff; font: 500 14px/20px 'Public Sans', system-ui, sans-serif; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sl-fab.on { background: #fff; color: var(--sl-link); }
@@ -45,7 +47,7 @@ body.sl-lock { overflow: hidden; }
 .sl-chip { min-height: 44px; padding: 0 18px; border-radius: 9999px; border: 1px solid #c9ccc7; background: #fff; color: var(--sl-ink); font: inherit; font-weight: 500; cursor: pointer; }
 .sl-chip.on { background: var(--sl-ink); border-color: var(--sl-ink); color: #fff; }
 .sl-sheet-foot { display: flex; justify-content: space-between; }
-button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, .sl-fab:focus-visible, .sl-bell:focus-visible, .sl-chip:focus-visible, .sl-pick:focus-visible { outline: 2px solid var(--sl-link); outline-offset: 2px; }
+button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, .sl-fab:focus-visible, .sl-chip:focus-visible, .sl-pick:focus-visible { outline: 2px solid var(--sl-link); outline-offset: 2px; }
 .sl-foot { margin-top: 32px; }
 
 .sl-vest { width: 28px; height: 28px; flex-shrink: 0; margin: 0 2px; }
@@ -53,18 +55,10 @@ button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, 
 
 /* ---- Fitting round the iPhone: notch and status bar at the top, rounded corners and home bar at the bottom ---- */
 :root { --sl-navh: 0px; }
-@media (max-width: 767.98px) {
-  html.in-app { --sl-navh: 57px; }
-  /* Site title row starts below the status bar; a white strip keeps the status bar readable while scrolling */
-  html.in-app header > div:first-child { padding-top: env(safe-area-inset-top); }
-  /* Bottom nav: taller, bigger type, kept clear of the rounded corners and the home bar */
-  html.in-app body { padding-bottom: calc(var(--sl-navh) + env(safe-area-inset-bottom)) !important; }
-  html.in-app header nav > div { height: 56px; padding-left: 12px; padding-right: 12px; gap: 8px; }
-  html.in-app header nav .nav-tabs { font-size: 14px; flex: 1; justify-content: space-between; gap: 0; }
-  html.in-app header nav .nav-tabs { min-width: 0; }
-  html.in-app header nav .nav-tabs button { height: 44px; padding-left: 3px; padding-right: 3px; white-space: nowrap; }
-  html.in-app header nav > div > div:first-child button { font-size: 14px; min-height: 36px; }
-}
+/* The floating nav and the top of each screen are drawn and styled by the site's page (style id="app-shell" in index.html).
+   --sl-navh is the room the floating nav takes above the home bar, for things that sit over it. */
+html.in-app { --sl-navh: 64px; }
+html.in-app body { padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important; }
 
 /* White band behind the iPhone status bar, above the page and the Notifications screen */
 .sl-statusbar { position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top); background: #fff; z-index: 1100; pointer-events: none; }
@@ -72,8 +66,8 @@ button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, 
 /* Follow bell after a runner's or club's name */
 .sl-follow-wrap { white-space: nowrap; }
 .sl-follow { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin-left: 4px; vertical-align: middle; border: 0; border-radius: 9999px; background: transparent; color: var(--sl-muted); cursor: pointer; padding: 0; }
-.sl-follow svg { width: 22px; height: 22px; }
-.sl-follow.on { color: var(--sl-link); }
+.sl-follow svg { width: 26px; height: 26px; }
+.sl-follow.on { color: var(--sl-ink); }
 .sl-follow:focus-visible { outline: 2px solid var(--sl-link); outline-offset: 2px; }
 .sl-toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom) + var(--sl-navh) + 16px); z-index: 960; max-width: calc(100% - 32px); padding: 10px 16px; border-radius: 9999px; background: var(--sl-ink); color: #fff; font: 14px/20px 'Public Sans', system-ui, sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -91,3 +85,10 @@ button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, 
 @keyframes sl-ptr-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .sl-ptr.spin svg { animation-duration: 2400ms; } #main-content { transition: none !important; } }
 .sl-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* FantaXC, opened over the app */
+.sl-web { position: fixed; inset: 0; z-index: 1200; display: flex; flex-direction: column; background: #fff; padding-top: env(safe-area-inset-top); font: 14px/20px 'Public Sans', system-ui, sans-serif; color: var(--sl-ink); }
+.sl-web-bar { display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 16px; border-bottom: 1px solid var(--sl-rule); }
+.sl-web-bar .sl-link { min-width: 56px; min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
+.sl-web-bar a.sl-link { justify-content: flex-end; }
+.sl-web iframe { flex: 1; width: 100%; border: 0; }
