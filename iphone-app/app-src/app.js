@@ -42,7 +42,7 @@ function sync() {
   clearTimeout(syncTimer);
   syncTimer = setTimeout(async () => {
     if (!pushToken || !CFG.api || /REPLACE-ME/.test(CFG.api)) return;
-    const body = JSON.stringify({ token: pushToken, platform: 'ios', follow, adminCode: localStorage.getItem('sl-approver-code') || undefined });
+    const body = JSON.stringify({ token: pushToken, platform: (Cap && Cap.getPlatform && Cap.getPlatform()) || 'ios', follow, adminCode: localStorage.getItem('sl-approver-code') || undefined });
     try {
       if (Http) await Http.post({ url: CFG.api + '/v1/register', headers: { 'Content-Type': 'application/json' }, data: JSON.parse(body) });
       else await fetch(CFG.api + '/v1/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });

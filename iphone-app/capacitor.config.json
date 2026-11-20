@@ -21,7 +21,8 @@
   "android": {
     "backgroundColor": "#ffffff",
     "includePlugins": [
-      "@capacitor/app"
+      "@capacitor/app",
+      "@capacitor/push-notifications"
     ]
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "764879299564",
+    "project_id": "surrey-league",
+    "storage_bucket": "surrey-league.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764879299564:android:5cee6428e2558333d356c9",
+        "android_client_info": {
+          "package_name": "org.slarchive.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHcqX8xBGlN6ocUcg-Ci0Wn5eExzygSK0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
