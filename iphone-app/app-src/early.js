@@ -29,6 +29,25 @@
   };
   function fnv(str) { var x = 0x811c9dc5; for (var k = 0; k < str.length; k++) { x ^= str.charCodeAt(k); x = Math.imul(x, 16777619) >>> 0; } return x.toString(16); }
 
+  // ---------- Android only: the phone's Back button ----------
+  // Closes whatever is open on top (FantaXC, Following), otherwise goes back a page;
+  // on the first page it puts the app away, as Android apps do.
+  (function () {
+    try {
+      var C = cap(), App = C && C.Plugins && C.Plugins.App;
+      if (!native() || !App || !C.getPlatform || C.getPlatform() !== 'android') return;
+      App.addListener('backButton', function (ev) {
+        var web = document.querySelector('.sl-web');
+        var done = web && web.querySelector('button');
+        if (done) { done.click(); return; }
+        var panel = document.querySelector('.sl-panel:not([hidden])');
+        if (panel && window.slFollowing) { window.slFollowing(false); return; }
+        if (ev && ev.canGoBack) { history.back(); return; }
+        if (App.minimizeApp) App.minimizeApp(); else App.exitApp();
+      });
+    } catch (e) {}
+  })();
+
   // ---------- 2a. Switch to the saved newer version, if there is one ----------
   var BUILT = window.SL_BUILT_HASH || '';
   var live = null;

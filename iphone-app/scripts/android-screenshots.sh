@@ -36,5 +36,9 @@ tap Following 756 2230; shot 05-following
 adb shell input keyevent 4; sleep 3; shot 06-after-back-button
 tap FantaXC 972 2230;   sleep 6; shot 07-fantaxc
 adb shell input keyevent 4; sleep 3; shot 08-after-back-button-2
+adb shell input keyevent 4; sleep 3; shot 09-after-back-button-3
+# Notes for checking the home-screen icon
+{ adb shell dumpsys package org.slarchive.app | grep -i -E "versionName|versionCode|icon" ; AAPT=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | tail -1); "$AAPT" dump badging "$OUT/surrey-league-test.apk" | grep -i -E "icon|label|sdk"; "$AAPT" dump resources "$OUT/surrey-league-test.apk" | grep -A8 "mipmap/ic_launcher" | head -60; } > "$S/icon-notes.txt" 2>&1
+adb shell input keyevent 3; sleep 3; shot 10-home-screen
 adb logcat -d -t 400 '*:E' > "$OUT/screens/errors.txt" 2>/dev/null || true
 exit 0
