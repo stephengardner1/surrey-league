@@ -20,6 +20,10 @@ on:
         type: choice
         options: [dry, rehearse]
         default: dry
+  push:                   # Claude can start a test by changing this file (see the notes inside it)
+    branches: [main]
+    paths:
+      - notifier/fast-rehearse.txt
 
 jobs:
   fast:
@@ -40,8 +44,14 @@ jobs:
           SL_ADMIN_KEY: ${{ secrets.SL_ADMIN_KEY }}
           MATCH_ID: ${{ github.event.client_payload.matchId || inputs.matchId }}
           RACE: ${{ github.event.client_payload.race || inputs.race }}
-          MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+          MODE: ${{ github.event_name == 'repository_dispatch' && 'live' || inputs.mode || 'file' }}
         run: |
+          if [ "$MODE" = "file" ]; then   # a test asked for through notifier/fast-rehearse.txt: never a live send
+            MATCH_ID=$(grep -m1 -oE '^match: [0-9]+' notifier/fast-rehearse.txt | cut -d' ' -f2)
+            RACE=$(grep -m1 -oE '^race: Senior (Men|Women)' notifier/fast-rehearse.txt | cut -d' ' -f2-)
+            MODE=$(grep -m1 -oE '^mode: (dry|rehearse)' notifier/fast-rehearse.txt | cut -d' ' -f2)
+            MODE=${MODE:-dry}
+          fi
           case "$MODE" in
             live)     node notifier/fast.mjs "$MATCH_ID" "$RACE" ;;
             rehearse) node notifier/fast.mjs "$MATCH_ID" "$RACE" --rehearse ;;

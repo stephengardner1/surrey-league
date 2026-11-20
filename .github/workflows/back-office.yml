@@ -1,0 +1,72 @@
+# Publishes the notifications back office (the Cloudflare Worker in iphone-app/worker)
+# whenever its code changes, so no temporary Cloudflare token is needed each time.
+#
+# Needs two GitHub repository secrets (Settings > Secrets and variables > Actions):
+#   CLOUDFLARE_API_TOKEN   a Cloudflare API token made from the "Edit Cloudflare Workers" template
+#   FAST_DISPATCH_TOKEN    a GitHub fine-grained token for this repository only, with
+#                          "Contents: Read and write". The back office uses it to start the
+#                          "Fast results" Action on race day.
+name: Publish back office
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - iphone-app/worker/**
+
+concurrency:
+  group: back-office
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      FAST_DISPATCH_TOKEN: ${{ secrets.FAST_DISPATCH_TOKEN }}
+    steps:
+      - name: Check the secrets are there
+        id: ready
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::Not published: the CLOUDFLARE_API_TOKEN secret hasn't been added yet."
+            echo "go=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.ready.outputs.go == 'yes'
+        with:
+          sparse-checkout: iphone-app/worker
+      - uses: actions/setup-node@v4
+        if: steps.ready.outputs.go == 'yes'
+        with:
+          node-version: 22
+      - name: Publish
+        if: steps.ready.outputs.go == 'yes'
+        working-directory: iphone-app/worker
+        run: |
+          npm ci
+          npx wrangler d1 execute sl-notify --remote --file=schema.sql
+          npx wrangler deploy
+          if [ -n "$FAST_DISPATCH_TOKEN" ]; then
+            printf '%s' "$FAST_DISPATCH_TOKEN" | npx wrangler secret put GITHUB_TOKEN
+          else
+            echo "::warning::FAST_DISPATCH_TOKEN isn't set, so the back office can't start the Fast results Action yet."
+          fi
+      - name: Check the back office
+        if: steps.ready.outputs.go == 'yes'
+        env:
+          SL_API: ${{ secrets.SL_API }}
+          SL_ADMIN_KEY: ${{ secrets.SL_ADMIN_KEY }}
+        run: |
+          sleep 5
+          curl -fsS -H "authorization: Bearer $SL_ADMIN_KEY" "$SL_API/admin/fast"
+          echo
+          if [ -n "$FAST_DISPATCH_TOKEN" ]; then   # can that token really start the Action? (asks GitHub, starts nothing)
+            code=$(curl -s -o /dev/null -w '%{http_code}' -H "authorization: Bearer $FAST_DISPATCH_TOKEN" -H "accept: application/vnd.github+json" "https://api.github.com/repos/${{ github.repository }}")
+            echo "GitHub replied $code to the dispatch token"
+            [ "$code" = "200" ]
+          fi
