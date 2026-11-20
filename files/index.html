@@ -2398,7 +2398,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
         {nextRace?<button onClick={()=>setView({type:'race',race:nextRace})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><span className="hidden sm:inline">{nextRace.venue}</span><span className="sm:hidden">Next</span><ChevronRight className="w-4 h-4"/></button>:null}
       </div>
     </div>
-    {(()=>{const bw=(()=>{const isG=c=>/^(guest|g)$/i.test(c||'');if(!winnersData.length||!winnersData.every(w=>isG(w.club)))return winnersData;const nx=(race.results||[]).find(r=>!isG(r.club||r.c));return nx?[{name:nx.name||nx.n,club:nx.club||nx.c}]:[];})();const bh=(bw||[]).find(w=>portraitFile(w.name,w.club));const openW=w=>setView({type:'athlete',athlete:{name:w.name,club:w.club}});return <div className="mb-2 lg:mb-6 flex items-end gap-2 lg:gap-5"><WinnerBust winners={bw} onOpen={openW}/>{racePhotosFor(race).length>0&&<RacePhotoTile key={'t'+race.season+race.match} photos={racePhotosFor(race)} race={race}/>}<div className="flex-1 min-w-0 relative"><div className={`text-sm text-gray-500 mb-1 `}>{race.date&&parseDate(race.date)?formatDate(race.date):(()=>{const months=['Oct','Nov','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=3?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4"><div><div ref={venueRowRef} className={`flex flex-wrap items-center gap-x-2 gap-y-0 `}><h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>{canCompare&&<div className={`basis-full h-0 order-1 `}/>}{canCompare&&<div className={`flex items-center bg-gray-100 rounded-lg p-0.5 order-2 mt-1`}><button onClick={()=>setResultsMode('classic')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='classic'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Classic results</button>{guideUrl&&<button onClick={()=>setResultsMode('guide')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='guide'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Form guide</button>}<button onClick={()=>setResultsMode('compare')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='compare'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Compare</button></div>}<div className="relative flex items-center gap-2" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-0 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}{resultsStatus==='filled'?<span className="text-xs text-gray-500">Completed from Power of 10 · ≈ marks an estimated position · <span className="hover:text-[#1b649e] cursor-pointer underline decoration-gray-300 underline-offset-2" onClick={()=>setView({type:'submit'})}>Know the original results?</span></span>:resultsStatus!=='complete'&&<span className="text-xs text-gray-500 hover:text-[#1b649e] cursor-pointer" onClick={()=>setView({type:'submit'})}>Submit more results</span>}</div></div>{raceWinTexts.map((wt,i)=><p key={i} className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><span className={bh&&bw===winnersData?'hidden lg:inline-flex':'inline-flex'}><ClubShield club={wt.club} size={16}/></span><span className="text-gray-500">{wt.text}</span></p>)}{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.short?<><span className="lg:hidden">{CLUBS[teamWinner].short}</span><span className="hidden lg:inline">{CLUBS[teamWinner].name}</span></>:(CLUBS[teamWinner]?.name||teamWinner)}</span> <span className="text-gray-500">won the match</span></span></p>}<FieldQuality race={race} div={divisionConfig?.id} setView={setView}/></div>{race.weather&&<div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 lg:min-w-[180px]"><span className="text-3xl">{race.weather.icon}</span><div className="flex flex-col"><span className="text-lg font-semibold text-gray-900">{race.weather.temp}°C</span><span className="text-sm text-gray-600">{race.weather.description}</span><span className="text-xs text-gray-500">{race.weather.windSpeed} km/h wind</span></div></div>}</div></div></div>;})()}
+    {(()=>{const bw=(()=>{const isG=c=>/^(guest|g)$/i.test(c||'');if(!winnersData.length||!winnersData.every(w=>isG(w.club)))return winnersData;const nx=(race.results||[]).find(r=>!isG(r.club||r.c));return nx?[{name:nx.name||nx.n,club:nx.club||nx.c}]:[];})();const bh=(bw||[]).find(w=>portraitFile(w.name,w.club));const openW=w=>setView({type:'athlete',athlete:{name:w.name,club:w.club}});return <div className="mb-2 lg:mb-6 flex items-end gap-2 lg:gap-5"><WinnerBust winners={bw} onOpen={openW}/>{racePhotosFor(race).length>0&&<RacePhotoTile key={'t'+race.season+race.match} photos={racePhotosFor(race)} race={race}/>}<div className="flex-1 min-w-0 relative"><div className={`text-sm text-gray-500 mb-1 `}>{race.date&&parseDate(race.date)?formatDate(race.date):(()=>{const months=['Oct','Nov','Jan','Feb'];const p=race.season.split('/');if(p.length===2&&race.match>=1&&race.match<=4){const y1=parseInt(p[0]),m=months[race.match-1]||'';return m?m+" '"+(race.match>=3?String(y1+1).slice(-2):String(y1).slice(-2)):race.season;}return race.season;})()} · Match {race.match} · <span className="cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{formatSeasonFull(race.season)}</span></div><div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4"><div><div ref={venueRowRef} className={`flex flex-wrap items-center gap-x-2 gap-y-0 `}><h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>{canCompare&&<div className={`basis-full h-0 order-1 `}/>}{canCompare&&<div className={`flex items-center bg-gray-100 rounded-lg p-0.5 order-2 mt-1`}><button onClick={()=>setResultsMode('classic')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='classic'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Classic results</button>{guideUrl&&<button onClick={()=>setResultsMode('guide')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='guide'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Form guide</button>}<button onClick={()=>setResultsMode('compare')} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${resultsMode==='compare'?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>Compare</button></div>}<div className="relative flex items-center gap-2" onMouseEnter={()=>setStatusHover(true)} onMouseLeave={()=>setStatusHover(false)}><span className={`inline-block w-2 h-2 rounded-full ${statusColor}`}></span>{statusHover&&<div className="absolute left-0 bottom-full mb-1 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">{statusText}</div>}{resultsStatus==='filled'?<span className="text-xs text-gray-500">Completed from Power of 10 · ≈ marks an estimated position</span>:null}</div></div>{raceWinTexts.map((wt,i)=><p key={i} className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><span className={bh&&bw===winnersData?'hidden lg:inline-flex':'inline-flex'}><ClubShield club={wt.club} size={16}/></span><span className="text-gray-500">{wt.text}</span></p>)}{teamWinner&&<p className="text-sm text-gray-700 mt-1 flex items-center gap-1.5"><ClubShield club={teamWinner} size={16}/><span><span className="font-medium">{CLUBS[teamWinner]?.short?<><span className="lg:hidden">{CLUBS[teamWinner].short}</span><span className="hidden lg:inline">{CLUBS[teamWinner].name}</span></>:(CLUBS[teamWinner]?.name||teamWinner)}</span> <span className="text-gray-500">won the match</span></span></p>}<FieldQuality race={race} div={divisionConfig?.id} setView={setView}/></div>{race.weather&&<div className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 lg:min-w-[180px]"><span className="text-3xl">{race.weather.icon}</span><div className="flex flex-col"><span className="text-lg font-semibold text-gray-900">{race.weather.temp}°C</span><span className="text-sm text-gray-600">{race.weather.description}</span><span className="text-xs text-gray-500">{race.weather.windSpeed} km/h wind</span></div></div>}</div></div></div>;})()}
     
     {resultsMode==="compare"&&canCompare?<RaceCompare race={race} races={races} setView={setView}/>:resultsMode==="guide"&&guideUrl?<FormGuideNative src={guideUrl} results={race.results} teamOrder={displayTeamScores?[...displayTeamScores].filter(t=>t&&t.club&&t.score!=null).sort((a,b)=>a.score-b.score).map(t=>t.club):computeTeamScores(race.results,1,effectiveTeamSize.a,divisionConfig,race).map(t=>t.club)}/>:<>
     {/* Mobile: tabs */}
@@ -3925,198 +3925,6 @@ const ChartRoomView=({setView,data,menData,womenData})=>{
   </div>;
 };
 
-const SubmitView=({setView})=>{
-  const[submitType,setSubmitType]=useState('url');
-  const[url,setUrl]=useState('');
-  const[file,setFile]=useState(null);
-  const[notes,setNotes]=useState('');
-  const[status,setStatus]=useState(null);
-  const[submitting,setSubmitting]=useState(false);
-  
-  const handleSubmit=async(e)=>{
-    e.preventDefault();
-    setSubmitting(true);
-    
-    const formData=new FormData();
-    formData.append('access_key','7f1557bd-f355-4008-a904-d892da5489b0'); // You'll replace this
-    formData.append('subject','Surrey League Archive - Results Submission');
-    formData.append('type',submitType);
-    if(submitType==='url')formData.append('url',url);
-    if(submitType==='file'&&file)formData.append('attachment',file);
-    formData.append('notes',notes);
-    
-    try{
-      const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:formData});
-      if(res.ok){setStatus('success');}else{setStatus('error');}
-    }catch(err){setStatus('error');}
-    setSubmitting(false);
-  };
-  
-  if(status==='success')return<div className="max-w-xl mx-auto px-4 pt-3 md:pt-6 pb-8">
-    <button onClick={()=>goBack(setView,{type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-1 md:mb-3 -ml-2 px-2 py-1 rounded hover:bg-gray-100"><ArrowLeft className="w-4 h-4"/>Back</button>
-    <div className="text-center py-12">
-      <div className="text-5xl mb-4">✅</div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Thanks!</h1>
-      <p className="text-gray-600">Your submission has been received. We'll review it and update the archive.</p>
-    </div>
-  </div>;
-  
-  return<div className="max-w-xl mx-auto px-4 pt-3 md:pt-6 pb-8">
-    <button onClick={()=>goBack(setView,{type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-1 md:mb-3 -ml-2 px-2 py-1 rounded hover:bg-gray-100"><ArrowLeft className="w-4 h-4"/>Back</button>
-    <h1 className="text-2xl font-bold text-gray-900 mb-2">Submit Results</h1>
-    <p className="text-sm text-gray-500 mb-6">Help us fill in the gaps! Submit a link to results or upload a file (PDF, image, etc).</p>
-    
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="flex gap-4">
-        <label className={`flex-1 p-4 border-2 rounded-lg cursor-pointer text-center transition-all ${submitType==='url'?'border-[#1b649e] bg-blue-50':'border-gray-200 hover:border-gray-300'}`}>
-          <input type="radio" name="type" value="url" checked={submitType==='url'} onChange={()=>setSubmitType('url')} className="sr-only"/>
-          <div className="text-2xl mb-1">🔗</div>
-          <div className="font-medium">URL</div>
-        </label>
-        <label className={`flex-1 p-4 border-2 rounded-lg cursor-pointer text-center transition-all ${submitType==='file'?'border-[#1b649e] bg-blue-50':'border-gray-200 hover:border-gray-300'}`}>
-          <input type="radio" name="type" value="file" checked={submitType==='file'} onChange={()=>setSubmitType('file')} className="sr-only"/>
-          <div className="text-2xl mb-1">📄</div>
-          <div className="font-medium">File</div>
-        </label>
-      </div>
-      
-      {submitType==='url'&&<div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">URL to results</label>
-        <input type="url" aria-label="URL to results" value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://..." required className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1b649e] focus:border-transparent outline-none"/>
-      </div>}
-      
-      {submitType==='file'&&<div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Upload file</label>
-        <input type="file" aria-label="Upload file" onChange={e=>setFile(e.target.files[0])} accept=".pdf,.png,.jpg,.jpeg,.gif,.doc,.docx,.xls,.xlsx,.csv" required className="w-full px-4 py-2 border border-gray-300 rounded-lg"/>
-        <p className="text-xs text-gray-500 mt-1">PDF, images, Word, Excel accepted</p>
-      </div>}
-      
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Notes (optional)</label>
-        <textarea aria-label="Notes (optional)" value={notes} onChange={e=>setNotes(e.target.value)} placeholder="e.g. Season, match number, venue..." rows={3} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1b649e] focus:border-transparent outline-none resize-none"/>
-      </div>
-      
-      {status==='error'&&<p className="text-red-600 text-sm">Something went wrong. Please try again.</p>}
-      
-      <button type="submit" disabled={submitting} className="w-full py-3 bg-[#1b649e] text-white rounded-lg hover:bg-[#134d7a] font-medium disabled:opacity-50">
-        {submitting?'Submitting...':'Submit'}
-      </button>
-    </form>
-  </div>;
-};
-
-const PubQuizView=({setView})=>{
-  const questions=[
-    {q:"Which father/son duo holds the record for best combined score?",opts:["The Ogdens (SLH)","The Sandersons (G&G)","The Clarks (H/W)","The Makkars (SLH)"],ans:0,info:"George Ogden (24th) + David Ogden (82nd) = 106 pts at Lloyd Park, 2021/22 M4"},
-    {q:"Since 2014, how many times has a team escaped the relegation zone on the final day?",opts:["0","1","2","3"],ans:1,info:"Just once: Thames Hare & Hounds in 2023/24, overcoming a 15-point deficit to climb from 9th to 8th"},
-    {q:"Since 2014, how many times has a team thrown away the lead on the final day?",opts:["0","1","2","3"],ans:2,info:"Twice: H/W lost a 12-point lead to Kent in 2017/18, and G&G lost a 24-point lead to H/W in 2022/23"},
-    {q:"Which team recorded the worst single-match score in a 10-team season?",opts:["Ranelagh Harriers","Epsom & Ewell","Clapham Chasers","Woking AC"],ans:2,info:"Clapham Chasers scored 917 points at Beckenham Place Park in 2025/26 M2"},
-    {q:"Which team recorded the best single-match score in a 9-team season?",opts:["Hercules Wimbledon","Kent AC","Herne Hill Harriers","Thames Hare & Hounds"],ans:2,info:"Herne Hill Harriers scored 99 points twice in 2011/12 – at Wimbledon Common (M1) and Ham Lands (M2)"},
-    {q:"How many times have Clapham Chasers been relegated since 2014?",opts:["1 time","2 times","3 times","4 times"],ans:2,info:"Relegated in 2017/18, 2019/20, and 2023/24 – never staying up for more than 3 consecutive seasons"},
-    {q:"Which brothers hold the record for best combined score?",opts:["The Holts (H/W)","The Malletts (H/W)","The Roberts (HHH)","The Cockerells (BEL)"],ans:0,info:"Bob Holt (=1st) + Dave Holt (=1st) = 3 pts at Morden Park, 1969/70 M3. They dead-heated for the win!"},
-    {q:"What is the biggest points swing between two teams in a single match?",opts:["601 points","657 points","703 points","722 points"],ans:3,info:"H/W scored 153 pts while E&E scored 875 pts at Wimbledon Common, 2024/25 M1 – a 722-point gap"},
-    {q:"Which clubs have won the title despite winning only one match that season?",opts:["Belgrave Harriers only","Hercules Wimbledon and Aldershot only","Three different clubs","No club has ever done this"],ans:2,info:"BOH (1996/97), H/W (1964/65), and AFD (1975/76) all won titles with just 1 match win"},
-    {q:"What is the biggest race turnout in Surrey League history?",opts:["312 finishers","327 finishers","341 finishers","354 finishers"],ans:3,info:"354 finishers at Wimbledon Common, 2023/24 M3 – the largest field in league history"}
-  ];
-  const[current,setCurrent]=useState(0);
-  const[selected,setSelected]=useState(null);
-  const[score,setScore]=useState(0);
-  const[showResult,setShowResult]=useState(false);
-  const[finished,setFinished]=useState(false);
-  
-  const handleSelect=(idx)=>{
-    if(showResult)return;
-    setSelected(idx);
-    setShowResult(true);
-    if(idx===questions[current].ans)setScore(s=>s+1);
-  };
-  
-  const nextQuestion=()=>{
-    if(current<questions.length-1){
-      setCurrent(c=>c+1);
-      setSelected(null);
-      setShowResult(false);
-    }else{
-      setFinished(true);
-    }
-  };
-  
-  const restart=()=>{
-    setCurrent(0);
-    setSelected(null);
-    setScore(0);
-    setShowResult(false);
-    setFinished(false);
-  };
-  
-  if(finished){
-    const comparisons=[
-      {min:0,max:0,name:"Clapham's 917-pt meltdown",club:"C/C",desc:"Beckenham Place Park, 2025/26 M2. The worst single-match score on record.",isTeam:true},
-      {min:1,max:1,name:"Ranelagh's 907-pt disaster",club:"RAN",desc:"West Horsley Place, 2023/24 M4. A day to forget – this one will haunt you for a while.",isTeam:true},
-      {min:2,max:2,name:"Dorking's 850-pt collapse",club:"DMV",desc:"Mitcham Common, 2016/17 M3. The day the wheels came off.",isTeam:true},
-      {min:3,max:3,name:"Steve Gardner",club:"BEL",desc:"17 races averaging 106th. You clearly care, but that hasn't helped your performance on this terrain."},
-      {min:4,max:4,name:"David Ogden",club:"SLH",desc:"42 races averaging 135th. You clearly like this league enough to put your own son through it too."},
-      {min:5,max:5,name:"David Grima",club:"H/W",desc:"40 races averaging 111th. Hercules' most persistent pack runner."},
-      {min:6,max:6,name:"Jeff Cunningham",club:"HHH",desc:"39 races averaging 56th. Herne Hill's modern-era ironman."},
-      {min:7,max:7,name:"Chris Greenwood",club:"KEN",desc:"28 races averaging 18th. Consistent A-team scorer."},
-      {min:8,max:8,name:"John Gilbert",club:"KEN",desc:"32 races averaging 7th with 2 wins. Top 10 regular."},
-      {min:9,max:9,name:"Jack Millar",club:"THH",desc:"5 wins from 9 races. Elite performer."},
-      {min:10,max:10,name:"Paskar Owor",club:"BEL",desc:"The modern-era GOAT. 11 wins from 37 races, averaging 5th place."}
-    ];
-    const comp=comparisons.find(c=>score>=c.min&&score<=c.max)||comparisons[5];
-    return<div className="max-w-2xl mx-auto px-4 pt-3 md:pt-6 pb-8">
-      <button onClick={()=>goBack(setView,{type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-1 md:mb-3 -ml-2 px-2 py-1 rounded hover:bg-gray-100"><ArrowLeft className="w-4 h-4"/>Back</button>
-      <div className="text-center py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Quiz Complete!</h1>
-        <div className="text-6xl font-bold text-[#1b649e] mb-6">{score}/{questions.length}</div>
-        <div className="bg-gray-50 rounded-xl p-6 mb-6">
-          <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">You are{comp.isTeam?' equivalent to':' the'}...</p>
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <ClubShield club={comp.club} size={32}/>
-            <span className="text-2xl font-bold text-gray-900">{comp.name}</span>
-          </div>
-          <p className="text-gray-600">{comp.desc}</p>
-        </div>
-        <button onClick={restart} className="px-6 py-3 bg-[#1b649e] text-white rounded-lg hover:bg-[#134d7a] font-medium">Try Again</button>
-      </div>
-    </div>;
-  }
-  
-  const q=questions[current];
-  return<div className="max-w-2xl mx-auto px-4 pt-3 md:pt-6 pb-8">
-    <button onClick={()=>goBack(setView,{type:'home'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-1 md:mb-3 -ml-2 px-2 py-1 rounded hover:bg-gray-100"><ArrowLeft className="w-4 h-4"/>Back</button>
-    <div className="mb-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">🍺 Surrey League Pub Quiz</h1>
-      <p className="text-sm text-gray-500">Question {current+1} of {questions.length} • Score: {score}/{current+(showResult?1:0)}</p>
-    </div>
-    <div className="bg-gray-50 rounded-xl p-6 mb-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">{q.q}</h2>
-      <div className="space-y-3">
-        {q.opts.map((opt,i)=>{
-          let cls="w-full text-left px-4 py-3 rounded-lg border-2 transition-all ";
-          if(!showResult){
-            cls+=selected===i?"border-[#1b649e] bg-blue-50":"border-gray-200 hover:border-gray-300 bg-white";
-          }else{
-            if(i===q.ans)cls+="border-green-500 bg-green-50";
-            else if(i===selected)cls+="border-red-500 bg-red-50";
-            else cls+="border-gray-200 bg-white opacity-50";
-          }
-          return<button key={i} onClick={()=>handleSelect(i)} className={cls} disabled={showResult}>
-            <span className="font-medium">{String.fromCharCode(65+i)}.</span> {opt}
-          </button>;
-        })}
-      </div>
-      {showResult&&<div className={`mt-4 p-4 rounded-lg ${selected===q.ans?'bg-green-100 text-green-800':'bg-amber-100 text-amber-800'}`}>
-        <p className="font-medium mb-1">{selected===q.ans?'✓ Correct!':'✗ Not quite!'}</p>
-        <p className="text-sm">{q.info}</p>
-      </div>}
-    </div>
-    {showResult&&<button onClick={nextQuestion} className="w-full py-3 bg-[#1b649e] text-white rounded-lg hover:bg-[#134d7a] font-medium">
-      {current<questions.length-1?'Next Question':'See Results'}
-    </button>}
-  </div>;
-};
-
 const OriginStoryView=({setView,cmsContent,races})=>{
   // Display vest code vs link target (HER shows pre-merger Hercules AC vest, links to H/W)
   const foundingClubs=[
@@ -5143,7 +4951,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     return<div>
     <table className="w-full text-sm"><thead><tr className="border-b border-gray-200"><th colSpan="3" className={`text-left ${leftRowPy} pr-2 text-xs text-gray-500 uppercase`}>{bStandRows?<span className="flex items-center gap-2"><span className="hidden sm:inline">Division 1</span><span className="inline-flex bg-gray-100 rounded-lg p-0.5 -my-1 normal-case whitespace-nowrap" role="group" aria-label="Season table for">{[['a','A Teams'],['b','B Teams']].map(([id,l])=><button key={id} type="button" aria-pressed={standView===id} onClick={()=>setStandView(id)} className={`px-1.5 sm:px-2 py-0.5 rounded-md text-[11px] font-medium whitespace-nowrap ${standView===id?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{l}</button>)}</span></span>:'Division 1'}</th><th className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase`} title={seasonData?.scoring==='points'?"League points across all matches (highest wins)":"Total of a team's scores across all matches"}>{seasonData?.scoring==='points'?'Pts':'Tot'}</th>{matchNums.map((n,i)=>{const race=findRace(n);return<th key={i} className={`text-right ${leftRowPy} px-0.5 w-11 text-xs text-gray-500 uppercase ${race?'cursor-pointer hover:text-[#1b649e]':''}`} title={seasonData?.scoring==='points'?`League points in match ${n}`:`Team score in match ${n}`} onClick={()=>race&&setView({type:'race',race})}>M{n}</th>})}</tr></thead><tbody>{rows.map((team,i)=><tr key={team.club} style={i===0&&isSeasonFinished?winTint(team.club):undefined} className={`hover:bg-gray-50 ${!showB&&showRelegation&&i===relegationLineAfter?'border-b border-dotted border-gray-300':'border-b border-gray-100'}`}><td className={`${leftRowPy} pr-1 w-6`}><div className="flex items-center"><span className={`${i===0?'font-bold':'text-gray-600'}`}>{i===0&&isSeasonFinished?<img src="/trophy.svg?v=2" alt="" aria-hidden="true" style={{display:'inline-block',height:'1.25em',width:'auto',verticalAlign:'-0.25em'}}/>:(team.pos||'-')}</span><PositionChange change={team.change}/></div></td><td className={`${leftRowPy} pr-1 w-5`}><ClubShield club={team.club} size={16}/></td><td className={`${leftRowPy} pr-2 cursor-pointer hover:text-[#1b649e]`} onClick={()=>setView({type:'club',club:team.club})}><ClubName club={team.club} className={`${i===0?'font-semibold':''}`}/></td><td className={`text-right ${leftRowPy} px-0.5`}><span className={`tabular-nums ${i===0?'font-bold text-[#1b649e]':'font-semibold'}`}>{team.total||'-'}</span></td>{matchNums.map((n,mi)=><td key={mi} className={`text-right ${leftRowPy} px-0.5`}><span className="text-gray-600 tabular-nums">{team[`m${n}`]||'-'}</span></td>)}</tr>)}</tbody></table>
     {seasonData?.scoring==='points'&&<p className="text-xs text-gray-500 mt-2">League points table: most points wins the title.{seasonData?.tableNote?' '+seasonData.tableNote:''}</p>}
-    {isHistorical&&!hasCompleteResults&&seasonRaces.length>0&&<p className="text-xs text-gray-500 mt-2">* Only partial results in for this season. <span className="underline cursor-pointer hover:text-gray-600" onClick={()=>setView({type:'submit'})}>Submit results</span>.</p>}
+    {isHistorical&&!hasCompleteResults&&seasonRaces.length>0&&<p className="text-xs text-gray-500 mt-2">* Only partial results in for this season.</p>}
   </div>;};
   
   const FixturesTable=()=><div>
@@ -5434,7 +5242,6 @@ const parseUrlParams=(athletes)=>{
     case'athletes':return{type:'athletes',division};
     case'clubs':return{type:'clubs',division};
     case'h2h':return{type:'h2h',division};
-    case'quiz':return{type:'quiz',division};
     case'chartroom':return{type:'chartroom',division};
     case'origin':return{type:'origin',division};
     case'analysis':return{type:'analysis',division};
@@ -5460,7 +5267,6 @@ const updateUrl=(view,division='men')=>{
   else if(view.type==='athletes')hash=prefix+sep+'athletes';
   else if(view.type==='clubs')hash=prefix+sep+'clubs';
   else if(view.type==='h2h')hash=prefix+sep+'h2h';
-  else if(view.type==='quiz')hash=prefix+sep+'quiz';
   else if(view.type==='chartroom')hash=prefix+sep+'chartroom';
   else if(view.type==='origin')hash=prefix+sep+'origin';
   const target=view.type==='analysis'?'/analysis':(view.type==='athlete'&&view.athlete?.name)?(division==='women'?'/women':'')+'/athlete/'+nameToSlug(view.athlete.name):(view.type==='race'&&view.race)?(division==='women'?'/women':'')+'/race/'+seasonToCompact(view.race.season)+'-'+view.race.match+(view.mode==='guide'?'/form-guide':view.mode==='compare'?'/compare':''):'/'+hash;
@@ -5595,181 +5401,6 @@ const H2HView=({athletes,races,setView,prefill})=>{
       <p>Pick two athletes to compare</p>
     </div>}
     </div>
-  </div>;
-};
-
-const AskView=({data,setView})=>{
-  const[query,setQuery]=useState('');
-  const[loading,setLoading]=useState(false);
-  const[answer,setAnswer]=useState('');
-  const[error,setError]=useState('');
-  
-  const exampleQueries=[
-    "Which athlete improved their average position the most from one season to the next?",
-    "Who has the best win rate (wins per race)?",
-    "Which club has the most athletes with race wins?",
-    "What's the closest team race in the database?",
-    "Who are the top 5 most consistent athletes (lowest position variance)?",
-    "Which venue has produced the most first-time winners?"
-  ];
-  
-  const buildDataSummary=()=>{
-    // Create a compact summary of the data for the AI
-    const athletes=data.athletes.slice(0,100).map(a=>({
-      name:a.name,club:a.club,wins:a.wins,top3:a.top3,top10:a.top10,races:a.races,aScores:a.aScores
-    }));
-    const seasons=Object.keys(data.seasonsData).sort().reverse();
-    const recentRaces=data.races.slice(0,20).map(r=>({
-      season:r.season,match:r.match,venue:r.venue,date:r.date,
-      top10:r.results.slice(0,10).map(x=>({pos:x.pos,name:x.name,club:x.club}))
-    }));
-    return{
-      stats:data.stats,
-      seasons,
-      topAthletes:athletes,
-      recentRaces,
-      clubHonours:data.clubAllTime,
-      achievements:data.achievements
-    };
-  };
-  
-  const askQuestion=async()=>{
-    if(!query.trim())return;
-    setLoading(true);
-    setError('');
-    setAnswer('');
-    
-    try{
-      // Build a summary since full data is too large
-      const summary=buildDataSummary();
-      
-      // For deeper analysis, include race-by-race athlete positions
-      const athleteSeasonStats={};
-      data.races.forEach(race=>{
-        const season=race.season;
-        race.results.forEach(r=>{
-          const key=r.name;
-          if(!athleteSeasonStats[key])athleteSeasonStats[key]={};
-          if(!athleteSeasonStats[key][season])athleteSeasonStats[key][season]={positions:[],club:r.club};
-          athleteSeasonStats[key][season].positions.push(r.pos);
-        });
-      });
-      
-      // Calculate averages per season for each athlete
-      const athleteSeasonAvg={};
-      Object.entries(athleteSeasonStats).forEach(([name,seasons])=>{
-        athleteSeasonAvg[name]={};
-        Object.entries(seasons).forEach(([season,data])=>{
-          const avg=data.positions.reduce((a,b)=>a+b,0)/data.positions.length;
-          athleteSeasonAvg[name][season]={avg:Math.round(avg*10)/10,races:data.positions.length,club:data.club};
-        });
-      });
-      
-      const systemPrompt=`You are a helpful assistant analyzing Surrey Cross Country League data. Answer questions about race results, athlete performance, club standings, and statistics. Be specific and cite data. Format answers clearly. When referencing athletes or clubs, be precise with names.
-
-The database contains:
-- ${data.stats.totalRaces} races from ${data.stats.seasons} seasons (2014-present with full data)
-- ${data.stats.totalAthletes} athletes
-- ${data.stats.totalResults} individual results
-
-Key data structures available:
-1. Athletes: name, club, wins, top3, top5, top10, top20, races, aScores (A-team finishes)
-2. Races: season, match number, venue, date, full results with positions
-3. Season standings: club points per match, final standings
-4. Club honours: titles, 2nd places, 3rd places all-time`;
-
-      const response=await fetch('https://surrey-league-ai.stephendgardner.workers.dev',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          model:'claude-sonnet-4-20250514',
-          max_tokens:1000,
-          system:systemPrompt,
-          messages:[{
-            role:'user',
-            content:`Here is a summary of the league data:
-
-TOP 100 ATHLETES:
-${JSON.stringify(summary.topAthletes,null,1)}
-
-CLUB HONOURS (ALL-TIME):
-${JSON.stringify(summary.clubHonours,null,1)}
-
-ACHIEVEMENTS:
-${JSON.stringify(summary.achievements,null,1)}
-
-ATHLETE SEASON AVERAGES (for improvement analysis):
-${JSON.stringify(Object.fromEntries(Object.entries(athleteSeasonAvg).filter(([k,v])=>Object.keys(v).length>=2).slice(0,200)),null,1)}
-
-RECENT RACES (top 10 finishers each):
-${JSON.stringify(summary.recentRaces,null,1)}
-
-QUESTION: ${query}`
-          }]
-        })
-      });
-      
-      const result=await response.json();
-      if(result.error){
-        setError(result.error.message||'API error');
-      }else if(result.content&&result.content[0]){
-        setAnswer(result.content[0].text);
-      }
-    }catch(e){
-      setError(e.message||'Failed to get answer');
-    }finally{
-      setLoading(false);
-    }
-  };
-  
-  return<div className="max-w-3xl mx-auto px-4 pt-3 md:pt-6 pb-8">
-    <div className="mb-8">
-      <div className="flex items-center gap-2 mb-2">
-        <Sparkles className="w-6 h-6 text-[#1b649e]"/>
-        <h1 className="text-2xl font-bold text-gray-900">Ask the Archive</h1>
-      </div>
-      <p className="text-sm text-gray-500">Ask questions about Surrey League history, athlete performance, club records, and more.</p>
-    </div>
-    
-    <div className="mb-6">
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={query}
-          onChange={e=>setQuery(e.target.value)}
-          onKeyDown={e=>e.key==='Enter'&&!loading&&askQuestion()}
-          placeholder="Ask a question about the league..."
-          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b649e] focus:border-transparent"
-        />
-        <button
-          onClick={askQuestion}
-          disabled={loading||!query.trim()}
-          className={`px-6 py-3 rounded-lg flex items-center gap-2 ${loading||!query.trim()?'bg-gray-200 text-gray-500':'bg-[#1b649e] text-white hover:bg-[#134d7a]'}`}
-        >
-          {loading?<span className="animate-pulse">Thinking...</span>:<><Send className="w-4 h-4"/>Ask</>}
-        </button>
-      </div>
-    </div>
-    
-    {!answer&&!loading&&!error&&<div className="mb-8">
-      <p className="text-xs text-gray-500 uppercase tracking-wide mb-3">Example questions</p>
-      <div className="flex flex-wrap gap-2">
-        {exampleQueries.map((q,i)=><button
-          key={i}
-          onClick={()=>setQuery(q)}
-          className="text-sm px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-700"
-        >{q}</button>)}
-      </div>
-    </div>}
-    
-    {error&&<div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 mb-4">{error}</div>}
-    
-    {answer&&<div className="prose prose-sm max-w-none">
-      <div className="p-6 bg-gray-50 rounded-lg border border-gray-200">
-        <div className="whitespace-pre-wrap text-gray-800">{answer}</div>
-      </div>
-      <button onClick={()=>{setAnswer('');setQuery('');}} className="mt-4 text-sm text-[#1b649e] hover:underline">Ask another question</button>
-    </div>}
   </div>;
 };
 
@@ -6761,8 +6392,6 @@ function App(){
       case'athletes':t=`${W}Athletes`;break;
       case'clubs':t=`${W}Clubs`;break;
       case'h2h':t='Head to head';break;
-      case'quiz':t='Pub quiz';break;
-      case'submit':t='Submit results';break;
       case'chartroom':t='Chart room';break;
       case'origin':t='Origin story';break;
       case'analysis':t='How deep was the field?';break;}
@@ -6786,8 +6415,6 @@ function App(){
       {view.type==='clubs'&&<ClubsView setView={setView} clubAllTime={data.clubAllTime}/>}
       {view.type==='club'&&<ClubDetailView clubCode={view.club} setView={setView} athletes={data.athletes} races={data.races} clubAllTime={data.clubAllTime} clubMvps={data.clubMvps} seasonsData={data.seasonsData} division={division} cmsContent={cmsContent}/>}
       {view.type==='h2h'&&<H2HView athletes={data.athletes} races={data.races} setView={setView} prefill={view.prefill}/>}
-      {view.type==='quiz'&&<PubQuizView setView={setView}/>}
-      {view.type==='submit'&&<SubmitView setView={setView}/>}
       {view.type==='chartroom'&&<ChartRoomView setView={setView} data={data} menData={menData} womenData={womenData}/>}
       {view.type==='origin'&&<OriginStoryView setView={setView} cmsContent={cmsContent} races={data.races}/>}
       {view.type==='analysis'&&<AnalysisView key={view.init?.pin||'a'} setView={setView} init={view.init}/>}
