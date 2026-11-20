@@ -208,6 +208,12 @@ function openPanel() { if (!panel) { panel = h('div', { class: 'sl-panel', role:
 function closePanel() { const was = panel && !panel.hidden; if (panel) panel.hidden = true; document.body.classList.remove('sl-lock'); if (was) { query = ''; tellNav(false); } }
 // The floating nav (drawn by the site's page) opens and closes the Following screen through this
 window.slFollowing = (open) => { if (open) openPanel(); else closePanel(); };
+// Privacy and Help pages open over the app (in-app browser), like FantaXC
+function openWeb(url) {
+  const C = window.Capacitor;
+  if (C && C.isPluginAvailable && C.isPluginAvailable('Browser')) { C.Plugins.Browser.open({ url, presentationStyle: 'popover' }); return; }
+  window.open(url, '_blank');
+}
 // FantaXC: Richard's site opens over the app, with Done to come back (an in-app browser if the build has one)
 let fanta = null;
 window.slFantaXC = () => {
@@ -270,7 +276,10 @@ function renderPanel() {
       h('p', { class: 'sl-small' }, 'You’ll hear about a runner’s results even if their league is switched off.')),
     h('section', {}, h('div', { class: 'sl-list' },
       toggle('Corrections to results', follow.corrections, () => change(() => { follow.corrections = !follow.corrections; }), 'When a result is changed after it’s published'))),
-    h('p', { class: 'sl-small sl-foot' }, h('button', { type: 'button', class: 'sl-link sl-small', onclick: approverCode },
+    h('p', { class: 'sl-small sl-foot sl-legal' },
+      h('button', { type: 'button', class: 'sl-link sl-small', onclick: () => openWeb('https://slarchive.org/privacy') }, 'Privacy'), ' · ',
+      h('button', { type: 'button', class: 'sl-link sl-small', onclick: () => openWeb('https://slarchive.org/support') }, 'Help')),
+    h('p', { class: 'sl-small' }, h('button', { type: 'button', class: 'sl-link sl-small', onclick: approverCode },
       localStorage.getItem('sl-approver-code') ? 'Approver: this phone approves notifications' : 'Approver code')),
     h('p', { class: 'sl-small' }, window.SL_LIVE_VERSION ? `App updated ${new Date(+localStorage.getItem('sl-live-at') || Date.now()).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} (${window.SL_LIVE_VERSION})` : `Built-in version (${window.SL_BUILT_HASH || '–'})`),
   ].filter(Boolean));
