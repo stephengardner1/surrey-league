@@ -2014,7 +2014,7 @@ const fillRacePhotoCaptions=(data)=>{const w=data.division==='women';
   Object.entries(RACE_PHOTOS).forEach(([k,list])=>{if(k.startsWith('w|')!==w)return;const [season,match]=k.replace(/^w\|/,'').split('|');
     const race=(data.races||[]).find(r=>r.season===season&&String(r.match)===match);
     list.forEach(ph=>{if(!ph.tpl&&!ph.caption.includes('{pos:'))return;ph.tpl=ph.tpl||ph.caption;ph.caption=race?fillCaption(ph.tpl,race):ph.tpl.replace(/\{pos:[^|}]+\|([^}]*)\}/g,'$1');});});};
-const racePhotosFor=(race)=>race?(RACE_PHOTOS[`${onWomenRoute()?'w|':''}${race.season}|${race.match}`]||[]):[];
+const racePhotosFor=(race)=>race&&race.justIn?[]:race?(RACE_PHOTOS[`${onWomenRoute()?'w|':''}${race.season}|${race.match}`]||[]):[];
 /* the season page's photo: the one marked seasonBest for that season (chosen to show a mix of clubs), else the first */
 /* the credit's text is the dimmest grey that still meets WCAG AA (4.5:1) for small text: it samples the brightest part of the photo behind the pill
    (black at 45%, darkened only when even white would fall short), so the credit stays readable on any photo but no more prominent than it needs to be */
@@ -2393,7 +2393,7 @@ const loadJustIn=(j,league)=>{
 const JustInPanel=({race})=>{
   const at=race.justIn?.at?new Date(race.justIn.at):null;
   const time=at&&!isNaN(at)?new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'numeric',minute:'2-digit',hour12:true}).format(at).replace(' ',''):null;
-  const coming=[...(race.justIn?.teams?[]:['Team scores']),'Scoring points','B teams','Form guide','Photos'];
+  const coming=[...(race.justIn?.teams?[]:['Team scores']),'Scoring points','B teams','Form guide']; // never promise photos: they depend on photographers, not on the import
   const Ring=()=><svg viewBox="0 0 16 16" className="w-3.5 h-3.5 flex-none justin-ring" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="#686e66" strokeWidth="1.5" strokeDasharray="2.6 2.6"/></svg>;
   return<div className="justin-panel mb-4 lg:mb-6 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3" role="status">
     <div className="flex items-center gap-2"><span className="justin-dot" aria-hidden="true"></span><span className="text-xs font-semibold uppercase tracking-wide text-gray-700">First results</span>{time&&<span className="text-xs text-gray-500">in at {time}</span>}</div>
@@ -2404,7 +2404,7 @@ const JustInPanel=({race})=>{
 
 const RaceDetailView=(props)=>props.race?<RaceDetailInner {...props}/>:null;
 const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualChampions,divisionConfig})=>{
-  const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const indivRef=useRef(null);const pickClub=c=>{setClubFilter(c);setTab('individual');requestAnimationFrame(()=>requestAnimationFrame(()=>{const el=[...document.querySelectorAll('[data-indiv]')].find(e=>e.offsetParent);if(!el)return;const t=el.getBoundingClientRect().top;if(t<70||t>window.innerHeight*0.6)window.scrollBy({top:t-80,behavior:MOTION.reduced()?'auto':'smooth'});}));};const[statusHover,setStatusHover]=useState(false);const resultsMode=mode==='guide'?'guide':mode==='compare'?'compare':'classic';const setResultsMode=m=>setView({type:'race',race,mode:m==='classic'?undefined:m});if(!race)return null;const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];const canCompare=(race.results||[]).length>=80&&(races||[]).some(x=>x!==race&&x.season===race.season&&(x.results||[]).length>=80);
+  const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const indivRef=useRef(null);const pickClub=c=>{setClubFilter(c);setTab('individual');requestAnimationFrame(()=>requestAnimationFrame(()=>{const el=[...document.querySelectorAll('[data-indiv]')].find(e=>e.offsetParent);if(!el)return;const t=el.getBoundingClientRect().top;if(t<70||t>window.innerHeight*0.6)window.scrollBy({top:t-80,behavior:MOTION.reduced()?'auto':'smooth'});}));};const[statusHover,setStatusHover]=useState(false);const resultsMode=mode==='guide'?'guide':mode==='compare'?'compare':'classic';const setResultsMode=m=>setView({type:'race',race,mode:m==='classic'?undefined:m});if(!race)return null;const guideUrl=race.justIn?undefined:FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];const canCompare=(race.results||[]).length>=80&&(races||[]).some(x=>x!==race&&x.season===race.season&&(x.results||[]).length>=80);
   // Up/down/= marker vs each runner's previous league race (races from 2025/26 on)
   const prevPos=(()=>{const sy=parseInt(race.season);if(!(sy>=2025)||!Array.isArray(races))return null;const key=x=>parseInt(x.season)*10+(x.match||0);const me=key(race);const MON=['Oct','Nov','Jan','Feb'];
     const earlier=races.filter(x=>x!==race&&x.results&&key(x)<me).sort((a,b)=>key(a)-key(b));const m={};
