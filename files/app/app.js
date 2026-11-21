@@ -177,7 +177,7 @@ const h = (tag, attrs = {}, ...kids) => {
 };
 const toggle = (label, on, onTap, sub) => h('div', { class: 'sl-row' },
   h('span', { class: 'sl-row-label' }, h('span', { class: 'sl-strong' }, label), sub ? h('span', { class: 'sl-sub' }, sub) : null),
-  h('button', { type: 'button', class: 'sl-switch' + (on ? ' on' : ''), 'aria-pressed': on ? 'true' : 'false', 'aria-label': label, onclick: onTap }, h('span')));
+  h('button', { type: 'button', role: 'switch', class: 'sl-switch' + (on ? ' on' : ''), 'aria-checked': on ? 'true' : 'false', 'aria-label': label, onclick: onTap }, h('span')));
 // Club vest, drawn by the site's own vest artwork (vests.js), as an image so each one stands alone
 const vest = (code) => {
   const svg = window.slVest ? window.slVest(code || '') : null;
@@ -239,8 +239,26 @@ async function openApproval(url) {
 }
 
 const tellNav = (open) => window.dispatchEvent(new CustomEvent('sl-following', { detail: open }));
-function openPanel() { if (!panel) { panel = h('div', { class: 'sl-panel', role: 'region', 'aria-label': 'Following' }); document.body.append(panel); } panel.hidden = false; panel.scrollTop = 0; document.body.classList.add('sl-lock'); renderPanel(); tellNav(true); }
-function closePanel() { const was = panel && !panel.hidden; if (panel) panel.hidden = true; document.body.classList.remove('sl-lock'); if (was) { query = ''; tellNav(false); } }
+let panelOpen = false;
+const BEHIND = '#main-content, #root footer, .app-top, a[href="#main-content"]';
+function setBehind(hide) {
+  if (hide) document.querySelectorAll(BEHIND).forEach((el) => { if (!el.hasAttribute('inert')) { el.setAttribute('inert', ''); el.setAttribute('data-sl-inert', ''); } });
+  else document.querySelectorAll('[data-sl-inert]').forEach((el) => { el.removeAttribute('inert'); el.removeAttribute('data-sl-inert'); });
+}
+function openPanel() {
+  if (!panel) { panel = h('div', { class: 'sl-panel', role: 'dialog', 'aria-labelledby': 'sl-following-title' }); document.body.append(panel); }
+  const was = panelOpen;
+  panelOpen = true; panel.hidden = false; panel.scrollTop = 0; document.body.classList.add('sl-lock'); renderPanel(); tellNav(true);
+  setBehind(true);
+  if (!was) { const t = document.getElementById('sl-following-title'); if (t) t.focus({ preventScroll: true }); }
+}
+function closePanel() {
+  const was = panelOpen; panelOpen = false; if (panel) panel.hidden = true; document.body.classList.remove('sl-lock'); setBehind(false);
+  if (was) { query = ''; tellNav(false);
+    // hand VoiceOver and the keyboard back to the Following tab, unless something on the page has already taken focus
+    const a = document.activeElement;
+    if (!a || a === document.body || panel.contains(a)) { const tab = [...document.querySelectorAll('.app-nav > button')].find((b) => b.textContent.trim() === 'Following'); if (tab) tab.focus({ preventScroll: true }); } }
+}
 // The floating nav (drawn by the site's page) opens and closes the Following screen through this
 window.slFollowing = (open) => { if (open) openPanel(); else closePanel(); };
 // Privacy and Help pages open over the app (in-app browser), like FantaXC
@@ -281,8 +299,10 @@ function renderPanel() {
   const results = searchRunners(query).filter((m) => !follow.runners.some((r) => r.name === m.name && r.league === m.league));
   const clubHits = searchClubs(query);
   const none = !follow.clubs.length && !follow.runners.length;
+  // the screen is redrawn after every change, so note which control had focus and give it back afterwards
+  const act = document.activeElement, held = act && panel.contains(act) && act.id !== 'sl-search' ? [act.tagName, act.getAttribute('aria-label') || act.textContent] : null;
   panel.replaceChildren(...[
-    h('div', { class: 'sl-head' }, h('h1', {}, 'Following'), h('p', { class: 'sl-muted' }, 'Get a notification on this phone the moment results are published for the leagues, clubs and runners you follow.')),
+    h('div', { class: 'sl-head' }, h('h1', { id: 'sl-following-title', tabindex: '-1' }, 'Following'), h('p', { class: 'sl-muted' }, 'Get a notification on this phone the moment results are published for the leagues, clubs and runners you follow.')),
     pushState === 'denied' ? h('p', { class: 'sl-warn' }, 'Notifications are switched off for this app. Turn them on in your iPhone’s Settings › Surrey League › Notifications.') : null,
     !NATIVE ? h('p', { class: 'sl-warn' }, 'Notifications work in the iPhone app.') : null,
     h('section', {}, h('div', { class: 'sl-label' }, 'Leagues'), h('div', { class: 'sl-list' },
@@ -292,10 +312,10 @@ function renderPanel() {
       none ? h('p', { class: 'sl-muted' }, 'Nobody yet. Add a club or runner below, or tap the bell beside their name.') : null,
       h('div', { class: 'sl-list' },
         follow.clubs.map((c) => h('div', { class: 'sl-row' },
-          h('button', { type: 'button', class: 'sl-open', 'aria-label': 'Open ' + clubName(c), onclick: () => openPage('#club/' + clubKey(c)) }, vest(c), h('span', { class: 'sl-grow sl-strong' }, clubName(c))),
+          h('button', { type: 'button', class: 'sl-open', onclick: () => openPage('#club/' + clubKey(c)) }, vest(c), h('span', { class: 'sl-grow sl-strong' }, clubName(c))),
           h('button', { type: 'button', class: 'sl-link', 'aria-label': 'Unfollow ' + clubName(c), onclick: () => change(() => { follow.clubs = follow.clubs.filter((x) => x !== c); }) }, 'Unfollow'))),
         follow.runners.map((r) => h('div', { class: 'sl-row' },
-          h('button', { type: 'button', class: 'sl-open', 'aria-label': 'Open ' + r.name, onclick: () => openPage('#' + (r.league === 'women' ? 'women/' : '') + 'athlete/' + slug(r.name)) }, face(r.name, r.club),
+          h('button', { type: 'button', class: 'sl-open', onclick: () => openPage('#' + (r.league === 'women' ? 'women/' : '') + 'athlete/' + slug(r.name)) }, face(r.name, r.club),
             h('span', { class: 'sl-grow sl-col' }, h('span', { class: 'sl-strong' }, r.name), h('span', { class: 'sl-sub' }, `${clubName(r.club)}, ${r.league === 'women' ? 'women' : 'men'}`))),
           h('button', { type: 'button', class: 'sl-link', 'aria-label': 'Unfollow ' + r.name, onclick: () => change(() => { follow.runners = follow.runners.filter((x) => x !== r); }) }, 'Unfollow')))),
       h('label', { class: 'sl-search' }, searchIcon(), h('input', { id: 'sl-search', type: 'search', autocomplete: 'off', placeholder: 'Add a club or runner', 'aria-label': 'Add a club or runner', value: query,
@@ -318,6 +338,10 @@ function renderPanel() {
       localStorage.getItem('sl-approver-code') ? 'Approver: this phone approves notifications' : 'Approver code')),
     h('p', { class: 'sl-small' }, window.SL_LIVE_VERSION ? `App updated ${new Date(+localStorage.getItem('sl-live-at') || Date.now()).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} (${window.SL_LIVE_VERSION})` : `Built-in version (${window.SL_BUILT_HASH || '–'})`),
   ].filter(Boolean));
+  if (held) {
+    const again = [...panel.querySelectorAll('button, input')].find((e) => e.tagName === held[0] && (e.getAttribute('aria-label') || e.textContent) === held[1]);
+    (again || document.getElementById('sl-following-title'))?.focus({ preventScroll: true });
+  }
 }
 
 // Steve's phone: typing the approver code makes it the phone that approves each batch
@@ -453,6 +477,41 @@ loadData();
 setupPush().then(renderAll);
 // Keep the back office up to date (e.g. after a reinstall)
 if (pushToken) sync();
+
+// ---------- Text size: follow the iPhone's own Text Size setting (Settings › Display & Brightness › Text Size) ----------
+// iPhone tells web pages its chosen text size through the "-apple-system-body" font: 17px at the standard setting,
+// larger as the slider moves up. When it is set larger, the app's text grows in proportion, up to 112% (one notch up).
+// That is as far as the screens still fit an iPhone's width; if a screen would spill off the side at that size, the
+// text steps back down until it fits. Going further needs the tables redesigning for big text; pinch to zoom covers
+// the rest. Smaller settings leave the app as designed. The floating nav keeps its size, as iPhone tab bars do
+// (see .app-nav in app.css). window.SL_TEXT_PX stands in for the iPhone's setting when testing in a browser.
+(function textSize() {
+  const TEST = +window.SL_TEXT_PX || 0;
+  if (!TEST) {
+    if (!NATIVE || (Cap.getPlatform && Cap.getPlatform() !== 'ios')) return;
+    if (!(window.CSS && CSS.supports && CSS.supports('font', '-apple-system-body'))) return;
+  }
+  let max = 112, now = 100;
+  const root = document.documentElement;
+  const probe = h('div', { 'aria-hidden': 'true', style: 'font:-apple-system-body;position:absolute;left:-999px;top:0;visibility:hidden;pointer-events:none' }, 'M');
+  document.body.append(probe);
+  const set = (pct) => { now = pct; root.style.setProperty('-webkit-text-size-adjust', pct + '%'); root.style.setProperty('text-size-adjust', pct + '%'); };
+  const apply = () => {
+    const px = TEST || parseFloat(getComputedStyle(probe).fontSize);
+    if (!(px >= 10 && px <= 80)) return;
+    const pct = Math.max(100, Math.min(max, Math.round(px / 17 * 100)));
+    set(pct < 103 ? 100 : pct);
+    fit();
+  };
+  // If this screen is now wider than the phone, step the text down (3% at a time) until it fits, and stay there
+  const fit = () => { let n = 0; while (now > 100 && root.scrollWidth > root.clientWidth + 1 && n++ < 6) { max = Math.max(100, now - 3); set(max); } };
+  let t1 = 0, t2 = 0;
+  const later = () => { clearTimeout(t1); clearTimeout(t2); t1 = setTimeout(fit, 400); t2 = setTimeout(fit, 1800); };
+  apply(); later();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) { apply(); later(); } });
+  window.addEventListener('popstate', later); window.addEventListener('hashchange', later);
+  for (const fn of ['pushState', 'replaceState']) { const orig = history[fn].bind(history); history[fn] = (...a) => { const r = orig(...a); later(); return r; }; }
+})();
 
 // ---------- Pull to refresh (the app turns off iPhone's own bounce, so it's drawn here) ----------
 // Pull down at the top of a page: the page follows your finger with some resistance and a ring
