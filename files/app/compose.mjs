@@ -362,13 +362,16 @@ export function render(event, follow, ctx) {
     const before = teamResult(ctx.prev, season, event.match);
     const after = teamResult(data, season, event.match);
     const clubScoreChanged = clubs.some((c) => { const a = after.find((t) => t.club === c), b = before.find((t) => t.club === c); return a && b && (a.pts !== b.pts || a.pos !== b.pos); });
-    const myRunnerChanges = event.changes.filter((ch) => mineKeys.has(ch.n.toLowerCase()) && ['moved', 'added', 'replaced', 'club', 'removed', 'time'].includes(ch.kind));
+    // a followed runner is involved if they are the runner now in the place, or the one who was there before
+    const myRunnerChanges = event.changes.filter((ch) => (mineKeys.has(ch.n.toLowerCase()) || (ch.was && ch.was.n && mineKeys.has(ch.was.n.toLowerCase()))) && ['moved', 'added', 'replaced', 'club', 'removed', 'time'].includes(ch.kind));
     // Steve, 21 Nov 2026: any correction that changes scoring is worth knowing about, whichever club it is,
     // and especially one that changes match or league positions.
     const anyScoreChanged = after.length !== before.length || after.some((a) => { const b = before.find((t) => t.club === a.club); return !b || a.pts !== b.pts || a.pos !== b.pos; });
-    let interested;
-    if (leagueOn(follow, league) && !clubs.length) interested = true; // league follower: every correction
-    else interested = (leagueOn(follow, league) && (clubScoreChanged || anyScoreChanged)) || myRunnerChanges.length > 0;
+    // A correction that changes no scoring (e.g. one name replaced by another) only goes to followers of
+    // the runner involved or of a club involved, not to the whole league.
+    const involved = new Set(event.changes.flatMap((ch) => [ch.c, ch.was && ch.was.c]).filter(Boolean));
+    const myClubInvolved = clubs.some((c) => involved.has(c));
+    const interested = (leagueOn(follow, league) && (clubScoreChanged || anyScoreChanged || myClubInvolved)) || myRunnerChanges.length > 0;
     if (!interested) return out;
 
     const effect = teamEffect(before, after, { clubs });
