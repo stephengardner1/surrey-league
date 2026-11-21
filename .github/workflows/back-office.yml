@@ -3,6 +3,7 @@
 #
 # Needs two GitHub repository secrets (Settings > Secrets and variables > Actions):
 #   CLOUDFLARE_API_TOKEN   a Cloudflare API token made from the "Edit Cloudflare Workers" template
+#                          (it can't change the database: new tables in schema.sql are added separately)
 #   FAST_DISPATCH_TOKEN    a GitHub fine-grained token for this repository only, with
 #                          "Contents: Read and write". The back office uses it to start the
 #                          "Fast results" Action on race day.
@@ -49,7 +50,6 @@ jobs:
         working-directory: iphone-app/worker
         run: |
           npm ci
-          npx wrangler d1 execute sl-notify --remote --file=schema.sql
           npx wrangler deploy
           if [ -n "$FAST_DISPATCH_TOKEN" ]; then
             printf '%s' "$FAST_DISPATCH_TOKEN" | npx wrangler secret put GITHUB_TOKEN
