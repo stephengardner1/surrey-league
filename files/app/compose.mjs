@@ -363,9 +363,12 @@ export function render(event, follow, ctx) {
     const after = teamResult(data, season, event.match);
     const clubScoreChanged = clubs.some((c) => { const a = after.find((t) => t.club === c), b = before.find((t) => t.club === c); return a && b && (a.pts !== b.pts || a.pos !== b.pos); });
     const myRunnerChanges = event.changes.filter((ch) => mineKeys.has(ch.n.toLowerCase()) && ['moved', 'added', 'replaced', 'club', 'removed', 'time'].includes(ch.kind));
+    // Steve, 21 Nov 2026: any correction that changes scoring is worth knowing about, whichever club it is,
+    // and especially one that changes match or league positions.
+    const anyScoreChanged = after.length !== before.length || after.some((a) => { const b = before.find((t) => t.club === a.club); return !b || a.pts !== b.pts || a.pos !== b.pos; });
     let interested;
     if (leagueOn(follow, league) && !clubs.length) interested = true; // league follower: every correction
-    else interested = (leagueOn(follow, league) && clubScoreChanged) || myRunnerChanges.length > 0;
+    else interested = (leagueOn(follow, league) && (clubScoreChanged || anyScoreChanged)) || myRunnerChanges.length > 0;
     if (!interested) return out;
 
     const effect = teamEffect(before, after, { clubs });
@@ -377,8 +380,16 @@ export function render(event, follow, ctx) {
       body = `${n} corrections to the ${LEAGUE_LOWER[league]} results at ${race.venue}. ` + effect;
       for (const ch of myRunnerChanges) if (ch.kind === 'moved') body += ` ${ch.n} (${ch.c}) now ${ord(ch.p)}, was ${ord(ch.from)}.`;
     }
-    // League table moves for followed clubs (from match 2)
-    if (event.match >= 2 && clubs.length) {
+    // League table moves (from match 2): followed clubs first, then any other club that has moved up
+    if (event.match >= 2 && leagueOn(follow, league)) {
+      const tPrev = leagueTable(ctx.prev, season, event.match), tNext = leagueTable(data, season, event.match);
+      for (const c of clubs) {
+        const a = tNext.find((t) => t.club === c), b = tPrev.find((t) => t.club === c);
+        if (a && b && a.pos !== b.pos) body += `\nLeague: ${c} ${a.pos < b.pos ? 'up' : 'back'} to ${ordWord(a.pos)}`;
+      }
+      const others = tNext.filter((a) => !clubs.includes(a.club)).filter((a) => { const b = tPrev.find((t) => t.club === a.club); return b && a.pos < b.pos; }).slice(0, 3);
+      if (others.length) body += `\nLeague: ${others.map((a) => `${a.club} up to ${ordWord(a.pos)}`).join(', ')}`;
+    } else if (event.match >= 2 && clubs.length) {
       const tPrev = leagueTable(ctx.prev, season, event.match), tNext = leagueTable(data, season, event.match);
       for (const c of clubs) {
         const a = tNext.find((t) => t.club === c), b = tPrev.find((t) => t.club === c);
