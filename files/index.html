@@ -2367,18 +2367,20 @@ const RaceCompare=({race,races,setView})=>{
 };
 // ---------- Pre-race page ----------
 // A race that is in the fixture list but has no results yet still has its own page (same address as
-// the results will have): venue, date, the league table going into it, and earlier matches at the venue.
+// the results will have): venue, date, start time, and earlier matches at the venue if there are any.
 // On race day the same page fills in with the first results, then the full results, by itself.
 const upcomingRace=(D,key)=>{const fx=key&&(((D?.seasonsData||{})[key.season]||{}).matches||[]).find(m=>m.num===key.match);return fx&&fx.date&&fx.venue?{season:key.season,match:key.match,venue:fx.venue,venueDetail:fx.venueDetail,date:fx.date,results:[],upcoming:true}:undefined;};
 const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
   const sd=(seasonsData||{})[race.season]||{};
-  const played=race.match-1;
-  const table=played<1?[]:(sd.standings||[]).map(t=>{let tot=0,n=0;for(let i=1;i<=played;i++)if(t['m'+i]!=null){tot+=t['m'+i];n++;}return{club:t.club,tot,n};}).filter(t=>t.n===played).sort((a,b)=>a.tot-b.tot);
   const here=(races||[]).filter(r=>r.venue===race.venue&&!r.justIn&&(r.winner||r.teamWinner)).sort((a,b)=>b.season.localeCompare(a.season)||b.match-a.match);
   const prev=(races||[]).find(r=>r.season===race.season&&r.match===race.match-1);
   const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];
+  // Start times come from surreyleague.org once a day (tools/fixture_times.mjs)
+  const[times,setTimes]=useState(null);
+  useEffect(()=>{let on=true;fetch('/fixture-times.json').then(r=>r.json()).then(j=>{if(on)setTimes(j);}).catch(()=>{});return()=>{on=false;};},[]);
+  const ft=((times||{})[race.season]||{})[String(race.match)],hm=ft&&ft.date===race.date?ft[divisionConfig?.id==='women'?'women':'men']:null;
+  const start=hm?(()=>{const[h,m]=hm.split(':').map(Number);return`${h%12||12}${m?':'+String(m).padStart(2,'0'):''}${h<12?'am':'pm'}`;})():null;
   const today=justInDay(),raceDay=race.date===today,past=race.date<today;
-  const fmt=n=>Number.isInteger(n)?n:n.toFixed(1);
   const Label=({children})=><h2 className="text-xs font-semibold uppercase tracking-wide text-gray-500 border-b border-gray-200 pb-1 mb-1">{children}</h2>;
   return<div className="max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8">
     <div className="flex items-center justify-between mb-1 md:mb-3 -mx-2">
@@ -2389,15 +2391,12 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
       <div className="text-sm text-gray-500 mb-1">{formatDate(race.date)} · Match {race.match} · <span className="cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{race.season}</span></div>
       <h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>
       {race.venueDetail&&<p className="text-sm text-gray-700 mt-1">{race.venueDetail}</p>}
+      {start&&<p className="upcoming-start text-sm text-gray-700 mt-1">Starts {start}{ft.confirmed?'':' (to be confirmed)'}</p>}
       <p className="upcoming-status mt-2 flex items-center gap-1.5 text-sm text-gray-500" role="status">{raceDay&&<span className="justin-dot mr-0.5" aria-hidden="true"></span>}{raceDay?'Race day. Results will appear here within minutes of the league publishing them.':past?'No results published yet. They will appear here when the league publishes them.':'Results will appear here on race day, within minutes of the league publishing them.'}</p>
     </div>
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8">
-      {table.length>0&&<div><Label>League table after {played===1?'one match':played+' matches'}</Label>
-        <table className="w-full"><tbody>{table.map((t,i)=><tr key={t.club} className="border-b border-gray-50"><td className="py-1.5 pr-2 w-8 text-sm text-gray-500 tabular-nums">{i+1}</td><td className="py-1.5 px-2 text-sm"><span className="inline-flex items-center gap-1.5 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'club',club:t.club})}><ClubShield club={t.club} size={14}/>{t.club}</span></td><td className="py-1.5 pl-2 text-sm text-right font-semibold tabular-nums">{fmt(t.tot)}</td></tr>)}</tbody></table>
-        <p className="text-xs text-gray-500 mt-2">Lowest total leads. <span className="cursor-pointer underline decoration-gray-300 underline-offset-2 hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>Full table</span></p></div>}
-      <div><Label>{race.venue} in the archive</Label>
-        {here.length?<table className="w-full"><tbody>{here.map(r=><tr key={r.season+'-'+r.match} className="border-b border-gray-50 cursor-pointer hover:bg-gray-50" onClick={()=>setView({type:'race',race:r})}><td className="py-1.5 pr-2 text-sm text-gray-500 whitespace-nowrap tabular-nums">{r.season}</td><td className="py-1.5 px-2 text-sm">{r.winner||''}</td><td className="py-1.5 pl-2 text-sm text-right">{r.teamWinner?<span className="inline-flex items-center gap-1.5"><ClubShield club={r.teamWinner} size={14}/>{r.teamWinner}</span>:null}</td></tr>)}</tbody></table>
-        :<p className="text-sm text-gray-500 py-1.5">No earlier match at {race.venue} in the archive.</p>}</div>
+    <div className="max-w-xl">
+      {here.length>0&&<div><Label>{race.venue} in the archive</Label>
+        <table className="w-full"><tbody>{here.map(r=><tr key={r.season+'-'+r.match} className="border-b border-gray-50 cursor-pointer hover:bg-gray-50" onClick={()=>setView({type:'race',race:r})}><td className="py-1.5 pr-2 text-sm text-gray-500 whitespace-nowrap tabular-nums">{r.season}</td><td className="py-1.5 px-2 text-sm">{r.winner||''}</td><td className="py-1.5 pl-2 text-sm text-right">{r.teamWinner?<span className="inline-flex items-center gap-1.5"><ClubShield club={r.teamWinner} size={14}/>{r.teamWinner}</span>:null}</td></tr>)}</tbody></table></div>}
     </div>
     {guideUrl&&<div className="mt-8"><Label>Form guide</Label><FormGuideNative src={guideUrl} results={[]} teamOrder={[]}/></div>}
   </div>;
