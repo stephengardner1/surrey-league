@@ -1,0 +1,122 @@
+    versionCode=29921127 minSdk=24 targetSdk=36
+    versionName=1.0
+package: name='org.slarchive.app' versionCode='29921127' versionName='1.0' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'
+minSdkVersion:'24'
+targetSdkVersion:'36'
+application-label:'Surrey League'
+application-label-af:'Surrey League'
+application-label-am:'Surrey League'
+application-label-ar:'Surrey League'
+application-label-as:'Surrey League'
+application-label-az:'Surrey League'
+application-label-be:'Surrey League'
+application-label-bg:'Surrey League'
+application-label-bn:'Surrey League'
+application-label-bs:'Surrey League'
+application-label-ca:'Surrey League'
+application-label-cs:'Surrey League'
+application-label-da:'Surrey League'
+application-label-de:'Surrey League'
+application-label-el:'Surrey League'
+application-label-en-AU:'Surrey League'
+application-label-en-CA:'Surrey League'
+application-label-en-GB:'Surrey League'
+application-label-en-IN:'Surrey League'
+application-label-en-XC:'Surrey League'
+application-label-es:'Surrey League'
+application-label-es-US:'Surrey League'
+application-label-et:'Surrey League'
+application-label-eu:'Surrey League'
+application-label-fa:'Surrey League'
+application-label-fi:'Surrey League'
+application-label-fr:'Surrey League'
+application-label-fr-CA:'Surrey League'
+application-label-gl:'Surrey League'
+application-label-gu:'Surrey League'
+application-label-hi:'Surrey League'
+application-label-hr:'Surrey League'
+application-label-hu:'Surrey League'
+application-label-hy:'Surrey League'
+application-label-in:'Surrey League'
+application-label-is:'Surrey League'
+application-label-it:'Surrey League'
+application-label-iw:'Surrey League'
+application-label-ja:'Surrey League'
+application-label-ka:'Surrey League'
+application-label-kk:'Surrey League'
+application-label-km:'Surrey League'
+application-label-kn:'Surrey League'
+application-label-ko:'Surrey League'
+application-label-ky:'Surrey League'
+application-label-lo:'Surrey League'
+application-label-lt:'Surrey League'
+application-label-lv:'Surrey League'
+application-label-mk:'Surrey League'
+application-label-ml:'Surrey League'
+application-label-mn:'Surrey League'
+application-label-mr:'Surrey League'
+application-label-ms:'Surrey League'
+application-label-my:'Surrey League'
+application-label-nb:'Surrey League'
+application-label-ne:'Surrey League'
+application-label-nl:'Surrey League'
+application-label-or:'Surrey League'
+application-label-pa:'Surrey League'
+application-label-pl:'Surrey League'
+application-label-pt:'Surrey League'
+application-label-pt-BR:'Surrey League'
+application-label-pt-PT:'Surrey League'
+application-label-ro:'Surrey League'
+application-label-ru:'Surrey League'
+application-label-si:'Surrey League'
+application-label-sk:'Surrey League'
+application-label-sl:'Surrey League'
+application-label-sq:'Surrey League'
+application-label-sr:'Surrey League'
+application-label-sr-Latn:'Surrey League'
+application-label-sv:'Surrey League'
+application-label-sw:'Surrey League'
+application-label-ta:'Surrey League'
+application-label-te:'Surrey League'
+application-label-th:'Surrey League'
+application-label-tl:'Surrey League'
+application-label-tr:'Surrey League'
+application-label-uk:'Surrey League'
+application-label-ur:'Surrey League'
+application-label-uz:'Surrey League'
+application-label-vi:'Surrey League'
+application-label-zh-CN:'Surrey League'
+application-label-zh-HK:'Surrey League'
+application-label-zh-TW:'Surrey League'
+application-label-zu:'Surrey League'
+application-icon-160:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-240:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-320:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-480:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-640:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application-icon-65534:'res/mipmap-anydpi-v26/ic_launcher.xml'
+application: label='Surrey League' icon='res/mipmap-anydpi-v26/ic_launcher.xml'
+launchable-activity: name='org.slarchive.app.MainActivity'  label='Surrey League' icon=''
+feature-group: label=''
+    resource 0x7f0c0000 mipmap/ic_launcher
+      (mdpi) (file) res/mipmap-mdpi-v4/ic_launcher.png type=PNG
+      (hdpi) (file) res/mipmap-hdpi-v4/ic_launcher.png type=PNG
+      (xhdpi) (file) res/mipmap-xhdpi-v4/ic_launcher.png type=PNG
+      (xxhdpi) (file) res/mipmap-xxhdpi-v4/ic_launcher.png type=PNG
+      (xxxhdpi) (file) res/mipmap-xxxhdpi-v4/ic_launcher.png type=PNG
+      (anydpi-v26) (file) res/mipmap-anydpi-v26/ic_launcher.xml type=XML
+    resource 0x7f0c0001 mipmap/ic_launcher_foreground
+      (mdpi) (file) res/mipmap-mdpi-v4/ic_launcher_foreground.png type=PNG
+      (hdpi) (file) res/mipmap-hdpi-v4/ic_launcher_foreground.png type=PNG
+      (xhdpi) (file) res/mipmap-xhdpi-v4/ic_launcher_foreground.png type=PNG
+      (xxhdpi) (file) res/mipmap-xxhdpi-v4/ic_launcher_foreground.png type=PNG
+      (xxxhdpi) (file) res/mipmap-xxxhdpi-v4/ic_launcher_foreground.png type=PNG
+    resource 0x7f0c0002 mipmap/ic_launcher_round
+      (mdpi) (file) res/mipmap-mdpi-v4/ic_launcher_round.png type=PNG
+      (hdpi) (file) res/mipmap-hdpi-v4/ic_launcher_round.png type=PNG
+      (xhdpi) (file) res/mipmap-xhdpi-v4/ic_launcher_round.png type=PNG
+      (xxhdpi) (file) res/mipmap-xxhdpi-v4/ic_launcher_round.png type=PNG
+      (xxxhdpi) (file) res/mipmap-xxxhdpi-v4/ic_launcher_round.png type=PNG
+      (anydpi-v26) (file) res/mipmap-anydpi-v26/ic_launcher_round.xml type=XML
+  type raw id=0d entryCount=1
+    resource 0x7f0d0000 raw/firebase_common_keep

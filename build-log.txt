@@ -1,0 +1,20 @@
+-rw-r--r-- 1 runner runner 105005034 Nov 21 13:28 /home/runner/work/_temp/surrey-league-test.apk
+
+screens:
+total 3616
+drwxr-xr-x 2 runner runner    4096 Nov 21 13:32 .
+drwxr-xr-x 3 runner runner    4096 Nov 21 13:32 ..
+-rw-r--r-- 1 runner runner   19806 Nov 21 13:30 00-launch.png
+-rw-r--r-- 1 runner runner  242656 Nov 21 13:30 01-tables.png
+-rw-r--r-- 1 runner runner  302329 Nov 21 13:31 02-tables-scrolled.png
+-rw-r--r-- 1 runner runner  260496 Nov 21 13:31 03-races.png
+-rw-r--r-- 1 runner runner  215941 Nov 21 13:31 04-stats.png
+-rw-r--r-- 1 runner runner  193057 Nov 21 13:31 05-following.png
+-rw-r--r-- 1 runner runner  215990 Nov 21 13:31 06-after-back-button.png
+-rw-r--r-- 1 runner runner  357331 Nov 21 13:31 07-fantaxc.png
+-rw-r--r-- 1 runner runner  215843 Nov 21 13:31 08-after-back-button-2.png
+-rw-r--r-- 1 runner runner  260825 Nov 21 13:32 09-after-back-button-3.png
+-rw-r--r-- 1 runner runner 1379229 Nov 21 13:32 10-home-screen.png
+-rw-r--r-- 1 runner runner       0 Nov 21 13:32 errors.txt
+-rw-r--r-- 1 runner runner    5538 Nov 21 13:32 icon-notes.txt
+-rw-r--r-- 1 runner runner    2479 Nov 21 13:31 ui-tables.xml
