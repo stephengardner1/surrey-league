@@ -19,3 +19,5 @@ database_id = "5a6d1819-4c6e-41cd-98a2-7a3562e0013b"      # filled in when the d
 
 [triggers]
 crons = ["* * * * *"]           # every minute: carry on sending any batch in progress, and the fast race-day check
+
+# Published from GitHub by the "Publish back office" Action (first run 21 Nov 2026)
