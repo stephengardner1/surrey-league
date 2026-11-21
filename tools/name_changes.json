@@ -37046,5 +37046,19 @@
   "seasons": null,
   "evidence": "Belgrave's A Paton (1982/83-1985/86, 1996/97) and Andy Paton (1987/88-1992/93) never in the same race; the only A Paton at Belgrave (Stuart Paton is a different runner, in the same races). The Belgravian prints our '78th Andy Paton 27:59' (1991/92 m2) as 'A.Paton 27:59'.",
   "approved": "Steve, 8 Nov 2026"
+ },
+ {
+  "sex": "women",
+  "club": "BEL",
+  "from": [
+   "J Rhodes"
+  ],
+  "to": "Josephine Rhodes",
+  "seasons": [
+   "2012/13",
+   "2013/14"
+  ],
+  "evidence": "Steve: Belgrave's Josephine Rhodes, J Rhodes and Jojo Rhodes are one runner. The three forms never meet in a race (2012/13 m3 and 2013/14 m2-3 as 'J', 2013/14 m1 and m4 as 'Jojo', 'Josephine' otherwise, 2012/13-2021/22). 'Jojo Rhodes' is a nickname, so it is kept as printed and joined to her page with athleteAliases.",
+  "approved": "Steve, 21 Nov 2026"
  }
 ]
