@@ -456,11 +456,11 @@ if (pushToken) sync();
 
 // ---------- Pull to refresh (the app turns off iPhone's own bounce, so it's drawn here) ----------
 // Pull down at the top of a page: the page follows your finger with some resistance and a ring
-// under the title fills; let go past the line to check for new results. Springs back gently.
+// under the title fills; let go past the line to check for new results. Glides back, no bounce.
 (function pullToRefresh() {
   if (!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) return;
   const TRIGGER = 64, MAX = 92, HOLD = 52, R = 9, C = 2 * Math.PI * R;
-  const SPRING = 'transform 420ms cubic-bezier(.3, 1.25, .5, 1)'; // settles with a slight overshoot
+  const SPRING = 'transform 300ms cubic-bezier(.65, 0, .35, 1)'; // the site's "move": glides back, never overshoots
   const ring = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   ring.setAttribute('viewBox', '0 0 24 24'); ring.setAttribute('width', '24'); ring.setAttribute('height', '24');
   ring.innerHTML = `<circle cx="12" cy="12" r="${R}" fill="none" stroke="var(--sl-rule)" stroke-width="2"></circle>`
@@ -478,7 +478,7 @@ if (pushToken) sync();
     const m = main(); if (!m) return;
     m.style.transition = animate ? SPRING : 'none';
     m.style.transform = px ? `translateY(${px}px)` : '';
-    ind.style.transition = animate ? 'opacity 200ms ease-out, transform 420ms cubic-bezier(.3, 1.25, .5, 1)' : 'none';
+    ind.style.transition = animate ? 'opacity 200ms ease-out, transform 300ms cubic-bezier(.65, 0, .35, 1)' : 'none';
     ind.style.top = top() + 'px';
     ind.style.opacity = px ? Math.min(1, px / 32) : 0;
     ind.style.transform = `translate(-50%, ${Math.max(0, px - 36) / 2 + 8}px)`;
@@ -486,7 +486,7 @@ if (pushToken) sync();
     const nowArmed = px >= TRIGGER;
     if (nowArmed !== armed) { armed = nowArmed; ind.classList.toggle('armed', armed); }
   }
-  const settle = () => { draw(0, true); setTimeout(() => { const m = main(); if (m && !pull) m.style.transition = ''; }, 450); };
+  const settle = () => { draw(0, true); setTimeout(() => { const m = main(); if (m && !pull) m.style.transition = ''; }, 330); };
 
   addEventListener('touchstart', (e) => {
     startY = (blocked() || window.scrollY > 0 || e.touches.length !== 1) ? null : e.touches[0].clientY;
@@ -545,6 +545,73 @@ if (pushToken) sync();
     toast(msg);
     if (changed) setTimeout(() => location.reload(), 600);
   }
+})();
+
+// ---------- Soft page edges (iPhone: its own bounce is off, so a scroll used to hit the end and stop dead) ----------
+// Arriving at the top or bottom of a page with some speed: the page carries on a little way (more
+// for a faster scroll, 22px at most), slowing as it goes, then glides back. One movement, no bounce.
+// At the bottom, pulling further makes the page follow your finger with resistance, as it does at the top.
+// Reduce Motion turns both off. Android has its own edge effect, so this is iPhone only.
+(function softEdges() {
+  const cap = window.Capacitor;
+  if (!(cap && cap.isNativePlatform && cap.isNativePlatform())) return;
+  if (cap.getPlatform && cap.getPlatform() !== 'ios') return;
+  const ENTER = 'cubic-bezier(.16, 1, .3, 1)', MOVE = 'cubic-bezier(.65, 0, .35, 1)';
+  const GIVE_MAX = 22, OUT = 140, BACK = 300, PULL_MAX = 56;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const main = () => document.getElementById('main-content');
+  const maxY = () => Math.max(0, document.documentElement.scrollHeight - innerHeight);
+  const locked = () => reduce.matches || document.body.classList.contains('sl-lock');
+  let lastY = scrollY, lastT = 0, lastV = 0, touched = -1e9, anim = null;
+
+  function give(px) {
+    const m = main(); if (!m || (anim && anim.playState === 'running')) return;
+    const frames = [{ transform: 'translateY(0)', easing: ENTER },
+      { transform: `translateY(${px}px)`, offset: OUT / (OUT + BACK), easing: MOVE }, { transform: 'translateY(0)' }];
+    try { anim = m.animate(frames, { duration: OUT + BACK, composite: 'add' }); }
+    catch (e) { try { anim = m.animate(frames, { duration: OUT + BACK }); } catch (e2) {} }
+  }
+
+  addEventListener('scroll', () => {
+    const y = scrollY, t = performance.now(), dt = t - lastT, dy = y - lastY, max = maxY();
+    // Only a real, continuous scroll counts: not a jump to the top on a new page, or a page changing height
+    const v = dt > 0 && dt < 60 && Math.abs(dy) < 400 ? dy / dt : 0;
+    if (v && t - touched < 5000 && !locked()) {
+      const speed = Math.max(Math.abs(v), Math.sign(lastV) === Math.sign(v) ? Math.abs(lastV) : 0); // the last step is cut short by the edge
+      const px = Math.min(GIVE_MAX, speed * 9);
+      if (px >= 2) {
+        if (y <= 0 && lastY > 0) give(px);
+        else if (max > 0 && y >= max - 1 && lastY < max - 1) give(-px);
+      }
+    }
+    lastY = y; lastT = t; lastV = v;
+  }, { passive: true });
+
+  // Pulling up at the bottom of a page
+  let startY = null, pull = 0;
+  const draw = (px, animate) => {
+    const m = main(); if (!m) return;
+    m.style.transition = animate ? `transform ${BACK}ms ${MOVE}` : 'none';
+    m.style.transform = px ? `translateY(${-px}px)` : '';
+    if (animate) setTimeout(() => { if (!pull && !m.style.transform) m.style.transition = ''; }, BACK + 30);
+  };
+  addEventListener('touchstart', (e) => {
+    touched = performance.now();
+    const max = maxY();
+    startY = (locked() || max < 8 || scrollY < max - 1 || e.touches.length !== 1) ? null : e.touches[0].clientY;
+    pull = 0;
+  }, { passive: true });
+  addEventListener('touchmove', (e) => {
+    touched = performance.now();
+    if (startY == null) return;
+    const dy = startY - e.touches[0].clientY;
+    if (scrollY < maxY() - 1 || dy <= 0) { if (pull) { pull = 0; draw(0, false); } return; }
+    pull = Math.min(PULL_MAX, dy * 0.3);
+    draw(pull, false);
+  }, { passive: true });
+  const end = () => { touched = performance.now(); if (startY == null) return; startY = null; if (pull) { pull = 0; draw(0, true); } };
+  addEventListener('touchend', end, { passive: true });
+  addEventListener('touchcancel', end, { passive: true });
 })();
 
 // ---------- Fonts added to the site after this build (e.g. Castoro Belgrave) ----------
