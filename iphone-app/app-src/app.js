@@ -247,7 +247,7 @@ function renderPanel() {
   const clubHits = searchClubs(query);
   const none = !follow.clubs.length && !follow.runners.length;
   panel.replaceChildren(...[
-    h('div', { class: 'sl-head' }, h('h1', {}, 'Following'), h('p', { class: 'sl-muted' }, 'Results as soon as they’re published.')),
+    h('div', { class: 'sl-head' }, h('h1', {}, 'Following'), h('p', { class: 'sl-muted' }, 'Get a notification on this phone the moment results are published for the leagues, clubs and runners you follow.')),
     pushState === 'denied' ? h('p', { class: 'sl-warn' }, 'Notifications are switched off for this app. Turn them on in your iPhone’s Settings › Surrey League › Notifications.') : null,
     !NATIVE ? h('p', { class: 'sl-warn' }, 'Notifications work in the iPhone app.') : null,
     h('section', {}, h('div', { class: 'sl-label' }, 'Leagues'), h('div', { class: 'sl-list' },
@@ -273,9 +273,9 @@ function renderPanel() {
           h('button', { type: 'button', class: 'sl-pill', 'aria-label': 'Follow ' + m.name,
             onclick: () => { query = ''; change(() => { follow.runners = [...follow.runners, { name: m.name, club: m.club, league: m.league }]; }); } }, 'Follow')))),
       query.trim().length >= 2 && !results.length && !clubHits.length ? h('p', { class: 'sl-muted' }, 'Nothing by that name. Runners can be found once they’ve run a Surrey League race.') : null,
-      h('p', { class: 'sl-small' }, 'You’ll hear about a runner’s results even if their league is switched off.')),
+      h('p', { class: 'sl-small' }, 'You’ll get a notification for a runner’s results even if their league is switched off.')),
     h('section', {}, h('div', { class: 'sl-list' },
-      toggle('Corrections to results', follow.corrections, () => change(() => { follow.corrections = !follow.corrections; }), 'When a result is changed after it’s published'))),
+      toggle('Corrections to results', follow.corrections, () => change(() => { follow.corrections = !follow.corrections; }), 'Get a notification when a result is changed after it’s published'))),
     h('p', { class: 'sl-small sl-foot sl-legal' },
       h('button', { type: 'button', class: 'sl-link sl-small', onclick: () => openWeb('https://slarchive.org/privacy') }, 'Privacy'), ' · ',
       h('button', { type: 'button', class: 'sl-link sl-small', onclick: () => openWeb('https://slarchive.org/support') }, 'Help')),
