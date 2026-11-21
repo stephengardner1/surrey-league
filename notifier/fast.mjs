@@ -183,6 +183,8 @@ if (!REHEARSE) {
 // Without team scores only the individual results are claimed: the team results follow from the full import.
 const body = { summary, messages, auto: true };
 if (!REHEARSE) { body.claim = withTeams ? announceKey : announceKey + '|individual'; body.fast = fastKey; }
+if (REHEARSE) await admin('/admin/announced', { fast: fastKey }); // a drill started by the back office: tell it this race is dealt with, so it doesn't ring again
+if (!messages.length) { console.log('Nothing to send to those phones.'); process.exit(0); }
 const sent = await admin('/admin/batch', body);
 console.log('Back office replied:', sent.status, await sent.text());
 if (!sent.ok) process.exit(1);

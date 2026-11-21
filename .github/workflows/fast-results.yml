@@ -44,7 +44,7 @@ jobs:
           SL_ADMIN_KEY: ${{ secrets.SL_ADMIN_KEY }}
           MATCH_ID: ${{ github.event.client_payload.matchId || inputs.matchId }}
           RACE: ${{ github.event.client_payload.race || inputs.race }}
-          MODE: ${{ github.event_name == 'repository_dispatch' && 'live' || inputs.mode || 'file' }}
+          MODE: ${{ github.event_name == 'repository_dispatch' && (github.event.client_payload.rehearse && 'rehearse' || 'live') || inputs.mode || 'file' }}
         run: |
           if [ "$MODE" = "file" ]; then   # a test asked for through notifier/fast-rehearse.txt: never a live send
             MATCH_ID=$(grep -m1 -oE '^match: [0-9]+' notifier/fast-rehearse.txt | cut -d' ' -f2)

@@ -10,7 +10,7 @@ APNS_TEAM_ID = "TR7WKKL578"     # 10 characters, top right of developer.apple.co
 APPROVAL = "on"                 # pilot: every batch waits for Steve's approval (new results from the fast race-day check skip this)
 GITHUB_REPO = "stephengardner1/surrey-league"
 # Fast race-day results: the league's match ids to watch (surreyleague.org/match/<id>/), from 1pm on match day
-FAST_MATCHES = '[{"id":197,"match":3,"date":"2027-01-16"},{"id":198,"match":4,"date":"2027-02-13"}]'
+FAST_MATCHES = '[{"id":196,"match":2,"date":"2026-11-21","rehearse":true},{"id":197,"match":3,"date":"2027-01-16"},{"id":198,"match":4,"date":"2027-02-13"}]'
 
 [[d1_databases]]
 binding = "DB"

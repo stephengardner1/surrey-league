@@ -31,7 +31,7 @@ async function get(url, as) {
 const out = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : {};
 const today = new Date().toISOString().slice(0, 10);
 for (const m of list) {
-  if (m.date < today) continue; // already run: leave whatever was last saved
+  if (m.date < today || m.rehearse) continue; // already run (or a timing drill): leave whatever was last saved
   const [page, feed] = await Promise.all([get(`https://www.surreyleague.org/match/${m.id}/`, 'text'), get(`https://www.surreyleague.org/match/${m.id}/json/`, 'json')]);
   const entry = { date: feed.startDate || m.date, confirmed: !!feed.status && feed.status !== 'tentative' };
   for (const row of page.match(/<tr[\s\S]*?<\/tr>/g) || []) {

@@ -252,7 +252,7 @@ async function fastCheck(env, nowOverride) {
         if (matchPage === null) matchPage = await fetch(`${LEAGUE_SITE}/match/${match.id}/`).then((r) => (r.ok ? r.text() : '')).catch(() => '');
         if (!(await hasTeamScores(matchPage, race))) { log.push(`${key}: waiting for team scores`); continue; }
       }
-      const ok = await ringGitHub(env, match.id, race);
+      const ok = await ringGitHub(env, match.id, race, match.rehearse === true);
       await env.DB.prepare('UPDATE fast_races SET dispatched_at = ?1, tries = tries + 1, note = ?2 WHERE key = ?3').bind(now, ok.note, key).run();
       log.push(`${key}: asked GitHub to send (${ok.note})`);
     }
@@ -275,12 +275,13 @@ async function hasTeamScores(matchPage, race) {
   return row >= 0 && (b < 0 || row < b);
 }
 
-async function ringGitHub(env, matchId, race) {
+// rehearse: a timing drill (a FAST_MATCHES entry marked "rehearse": true): the Action then sends to the approver phone only
+async function ringGitHub(env, matchId, race, rehearse) {
   if (!env.GITHUB_TOKEN || !env.GITHUB_REPO) return { ok: false, note: 'GITHUB_TOKEN or GITHUB_REPO not set' };
   const r = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/dispatches`, {
     method: 'POST',
     headers: { authorization: `Bearer ${env.GITHUB_TOKEN}`, accept: 'application/vnd.github+json', 'x-github-api-version': '2022-11-28', 'user-agent': 'sl-notify', 'content-type': 'application/json' },
-    body: JSON.stringify({ event_type: 'fast-results', client_payload: { matchId, race } }),
+    body: JSON.stringify({ event_type: 'fast-results', client_payload: rehearse ? { matchId, race, rehearse: true } : { matchId, race } }),
   }).catch(() => null);
   return r && r.status === 204 ? { ok: true, note: 'ok' } : { ok: false, note: 'GitHub replied ' + (r ? r.status : 'nothing') };
 }
@@ -346,7 +347,7 @@ async function sendWaiting(env) {
      ORDER BY d.id LIMIT ?1`).bind(CHUNK).all()).results;
   for (const r of rows) {
     const res = await sendOne(env, r, JSON.parse(r.payload));
-    await env.DB.prepare('UPDATE deliveries SET sent = ?1, result = ?2 WHERE id = ?3').bind(res.ok ? 1 : 2, res.reason || 'ok', r.id).run();
+    await env.DB.prepare('UPDATE deliveries SET sent = ?1, result = ?2 WHERE id = ?3').bind(res.ok ? 1 : 2, (res.reason || 'ok') + ' ' + new Date().toISOString(), r.id).run(); // with the time Apple answered
   }
   // Mark finished batches
   await env.DB.prepare(`UPDATE batches SET status = 'done' WHERE status = 'sending' AND NOT EXISTS
