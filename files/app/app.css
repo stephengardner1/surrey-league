@@ -65,8 +65,8 @@ html.in-app body { padding-bottom: calc(76px + env(safe-area-inset-bottom)) !imp
 
 /* Follow bell after a runner's or club's name */
 .sl-follow-wrap { white-space: nowrap; }
-.sl-follow { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin-left: 4px; vertical-align: middle; border: 0; border-radius: 9999px; background: transparent; color: var(--sl-muted); cursor: pointer; padding: 0; }
-.sl-follow svg { width: 26px; height: 26px; }
+.sl-follow { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin-left: 2px; vertical-align: middle; border: 0; border-radius: 9999px; background: transparent; color: var(--sl-muted); cursor: pointer; padding: 0; }
+.sl-follow svg { width: 22px; height: 22px; }
 .sl-follow.on { color: var(--sl-ink); }
 /* Tapping the bell: it swings twice from its top as it starts ringing, and gives one small nod when switched off */
 .sl-follow svg { transform-origin: 50% 12%; }

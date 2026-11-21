@@ -90,7 +90,7 @@ let DATA = { men: null, women: null };
 async function loadData() {
   const get = async (f) => { try { return await (await fetch(f)).json(); } catch { return null; } };
   [DATA.men, DATA.women] = await Promise.all([get('data.json'), get('data-women.json')]);
-  delete LAST.men; delete LAST.women;
+  delete LAST.men; delete LAST.women; delete ROSTER.men; delete ROSTER.women;
   renderAll();
 }
 function currentClubs() {
@@ -102,16 +102,51 @@ function currentClubs() {
   }
   return [...set].sort((a, b) => clubName(a).localeCompare(clubName(b)));
 }
+// Everyone who appears in the results, by league: the name as last printed, their latest club and season, and how many races.
+// (Built from the results themselves because the women's file has no ready-made list of athletes.)
+const ROSTER = {};
+function roster(lg) {
+  if (!ROSTER[lg]) {
+    const m = new Map();
+    const races = [...((DATA[lg] && DATA[lg].races) || [])].sort((a, b) => String(a.season).localeCompare(String(b.season)) || (a.match || 0) - (b.match || 0));
+    for (const r of races) for (const x of r.results || []) {
+      const name = x.n || x.name; if (!name || /^unknown/i.test(name)) continue;
+      const k = name.toLowerCase(); const e = m.get(k) || { name, races: 0 };
+      e.name = name; e.club = x.c || x.club || e.club; e.last = r.season; e.races++; m.set(k, e);
+    }
+    ROSTER[lg] = m;
+  }
+  return ROSTER[lg];
+}
+// An active runner has run this season or last season: the only runners who get a follow bell on their page.
+// A runner's most recent appearance, looking under every spelling the archive knows them by
+function latestRun(name, lg) {
+  const d = DATA[lg]; if (!d || !name) return null;
+  const names = [name, ...((d.athleteAliases || {})[name] || [])];
+  let best = null;
+  for (const n of names) { const e = roster(lg).get(n.toLowerCase()); if (e && (!best || e.last > best.last)) best = e; }
+  return best;
+}
+function isActive(name, lg) {
+  const e = latestRun(name, lg); if (!e) return false;
+  const seasons = Object.keys(DATA[lg].seasonsData || {}).sort();
+  return e.last >= (seasons[seasons.length - 2] || seasons[seasons.length - 1] || '');
+}
 function searchRunners(q) {
   q = q.trim().toLowerCase();
   if (q.length < 2) return [];
   const out = [];
   for (const lg of ['men', 'women']) {
     const d = DATA[lg]; if (!d) continue;
+    const seen = new Set();
     for (const a of d.athletes || []) {
       if (!a.name || /^unknown/i.test(a.name)) continue;
+      seen.add(a.name.toLowerCase());
       if (a.name.toLowerCase().includes(q)) out.push({ name: a.name, club: a.club, league: lg, races: a.races || 0, last: lastSeason(a, lg) });
     }
+    // Runners in the results but not in that list (all the women, and newcomers), leaving out old spellings of someone already listed
+    const variants = new Set([...Object.values(d.athleteAliases || {}).flat(), ...Object.keys(d.aliases || {})].map((n) => n.toLowerCase()));
+    for (const [k, e] of roster(lg)) if (!seen.has(k) && !variants.has(k) && k.includes(q)) out.push({ name: e.name, club: e.club, league: lg, races: e.races, last: e.last });
   }
   out.sort((x, y) => (y.last || '').localeCompare(x.last || '') || y.races - x.races);
   return out.slice(0, 8);
@@ -319,8 +354,10 @@ function pageSubject() {
   let m = hsh.match(/^#(women\/)?athlete\/([^/]+)/i) || (!/^#./.test(hsh) && p.match(/^\/(women\/)?athlete\/([^/]+?)(?:-poster)?\/?$/i));
   if (m) {
     const lg = m[1] ? 'women' : 'men'; const d = DATA[lg];
-    const a = d && (d.athletes || []).find((x) => slug(x.name) === m[2].toLowerCase());
-    return a ? { kind: 'runner', name: a.name, club: a.club, league: lg } : null;
+    const want = m[2].toLowerCase();
+    const a = d && ((d.athletes || []).find((x) => slug(x.name) === want) || [...roster(lg).values()].find((x) => slug(x.name) === want));
+    // The bell is only for active runners (see isActive); the club shown is the one they last ran for
+    return a && isActive(a.name, lg) ? { kind: 'runner', name: a.name, club: latestRun(a.name, lg).club || a.club, league: lg } : null;
   }
   m = hsh.match(/^#(women\/)?club\/([^/]+)/i);
   if (m) {
@@ -340,11 +377,13 @@ function placeFollow() {
   const heading = s && [...document.querySelectorAll('h1')].find((e) => e.offsetParent && !e.closest('header'));
   const on = s && (s.kind === 'runner' ? follow.runners.some((r) => r.name === s.name && r.league === s.league) : follow.clubs.includes(s.club));
   const key = s ? `${s.kind}|${s.name || s.club}|${s.league}|${on}` : '';
-  document.querySelectorAll('.sl-follow').forEach((b) => { const w = b.closest('.sl-follow-wrap') || b; if (b.dataset.key !== key || w.parentElement !== heading) w.remove(); });
+  document.querySelectorAll('.sl-follow').forEach((b) => { const w = b.closest('.sl-follow-wrap') || b; if (b.dataset.key !== key || !heading || !heading.contains(w)) w.remove(); });
   if (!s || !heading || heading.querySelector('.sl-follow')) return;
   const label = s.kind === 'runner' ? s.name : clubName(s.club);
-  // A word joiner glues the bell to the name's last word, so a long name never leaves it alone on a line
-  heading.append(h('span', { class: 'sl-follow-wrap' }, '\u2060', h('button', { type: 'button', class: 'sl-follow' + (on ? ' on' : '') + (tapped === (s.name || s.club) ? (on ? ' sl-rung' : ' sl-hushed') : ''), 'data-key': key, 'aria-pressed': on ? 'true' : 'false',
+  // On a runner's page the bell goes inside the heading's no-break tail, straight after the surname and before the Power of 10
+  // mark; elsewhere a word joiner glues it to the name's last word. Either way a long name never leaves it alone on a line
+  const tail = heading.querySelector('[data-name-tail]');
+  const bellEl = h('span', { class: 'sl-follow-wrap' }, '\u2060', h('button', { type: 'button', class: 'sl-follow' + (on ? ' on' : '') + (tapped === (s.name || s.club) ? (on ? ' sl-rung' : ' sl-hushed') : ''), 'data-key': key, 'aria-pressed': on ? 'true' : 'false',
     'aria-label': on ? `Following ${label}. Tap to stop` : `Follow ${label}`,
     onclick: (e) => {
       e.stopPropagation();
@@ -352,7 +391,8 @@ function placeFollow() {
       if (s.kind === 'runner') change(() => { follow.runners = on ? follow.runners.filter((r) => !(r.name === s.name && r.league === s.league)) : [...follow.runners, { name: s.name, club: s.club, league: s.league }]; });
       else { change(() => { follow.clubs = on ? follow.clubs.filter((c) => c !== s.club) : [...follow.clubs, s.club]; if (!on && !follow.men && !follow.women) follow[s.league] = true; }); if (!on) openSheet(s.club); }
       toast(on ? `Stopped following ${label}` : `Following ${label}`);
-    } }, bellIcon(!!on, s.club))));
+    } }, bellIcon(!!on, s.club)));
+  if (tail) tail.insertBefore(bellEl, tail.querySelector('a')); else heading.append(bellEl);
 }
 let toastEl = null;
 function toast(text) {
