@@ -5,6 +5,7 @@ import { diffLeague, messagesFor, currentSeason, seasonRaces } from './compose.m
 
 const CFG = window.SL_CONFIG || {};
 const Cap = window.Capacitor;
+const ANDROID = !!(Cap && Cap.getPlatform && Cap.getPlatform() === 'android'); // a few words differ on Android phones
 const NATIVE = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform());
 const Push = Cap && Cap.Plugins && Cap.Plugins.PushNotifications;
 const Http = Cap && Cap.Plugins && Cap.Plugins.CapacitorHttp;
@@ -259,7 +260,7 @@ window.slFantaXC = () => {
   const done = () => { fanta?.remove(); fanta = null; };
   fanta = h('div', { class: 'sl-web', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'FantaXC' },
     h('div', { class: 'sl-web-bar' }, h('button', { type: 'button', class: 'sl-link', onclick: done }, 'Done'), h('span', { class: 'sl-strong' }, 'FantaXC'),
-      h('a', { class: 'sl-link', href: url }, 'Safari')),
+      h('a', { class: 'sl-link', href: url }, ANDROID ? 'Browser' : 'Safari')),
     h('iframe', { src: url, title: 'FantaXC', allow: 'clipboard-write' }));
   document.body.append(fanta);
 };
@@ -283,7 +284,7 @@ function renderPanel() {
   const none = !follow.clubs.length && !follow.runners.length;
   panel.replaceChildren(...[
     h('div', { class: 'sl-head' }, h('h1', {}, 'Following'), h('p', { class: 'sl-muted' }, 'Get a notification on this phone the moment results are published for the leagues, clubs and runners you follow.')),
-    pushState === 'denied' ? h('p', { class: 'sl-warn' }, 'Notifications are switched off for this app. Turn them on in your iPhone’s Settings › Surrey League › Notifications.') : null,
+    pushState === 'denied' ? h('p', { class: 'sl-warn' }, ANDROID ? 'Notifications are switched off for this app. Turn them on in your phone’s Settings › Apps › Surrey League › Notifications.' : 'Notifications are switched off for this app. Turn them on in your iPhone’s Settings › Surrey League › Notifications.') : null,
     !NATIVE ? h('p', { class: 'sl-warn' }, 'Notifications work in the iPhone app.') : null,
     h('section', {}, h('div', { class: 'sl-label' }, 'Leagues'), h('div', { class: 'sl-list' },
       toggle('Men', follow.men, () => change(() => { follow.men = !follow.men; })),

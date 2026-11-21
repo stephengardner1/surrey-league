@@ -406,9 +406,11 @@ function fcmMessage(token, payload) {
   const image = payload.image;
   const notification = { title: alert.title || '', body: alert.body || '' };
   const android = { priority: 'HIGH', notification: {} };
-  // A runner's portrait comes straight from slarchive.org. (Club singlets are built into the
-  // iPhone app; Android gets them once they are published on the site.)
+  // Pictures come straight from slarchive.org: a runner's portrait, or a club singlet
+  // (the same pictures that are built into the iPhone app, published at /app/singlets/).
+  // A club with no singlet picture simply gets no picture.
   if (image && image.type === 'portrait' && image.file) android.notification.image = `https://slarchive.org/portraits/og/athletes/${encodeURIComponent(image.file)}.png`;
+  else if (image && image.type === 'singlet' && image.club) android.notification.image = `https://slarchive.org/app/singlets/singlet-${encodeURIComponent(String(image.club).replace(/\//g, '').replace(/&/g, 'and'))}.png`;
   const data = { url: String(payload.url || '/') };
   if (image) data.image = JSON.stringify(image);
   return { message: { token, notification, data, android } };
@@ -472,6 +474,8 @@ function apnsPayload(m) {
     image: m.image || null,
   };
 }
+
+export const __test = { fcmMessage };
 
 // ---------- helpers ----------
 async function isAdmin(req, env) {
