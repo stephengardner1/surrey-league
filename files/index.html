@@ -5272,7 +5272,6 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
     const matchCols=Array.from({length:Math.max(...seasonRacesLocal.map(r=>r.match||0))},(_, k)=>k+1);
     const posNum=p=>parseInt(String(p).replace('=',''),10)||0;
     const droppedRun=a=>division==='women'&&a.runs.length>3?[...a.runs].sort((x,y)=>posNum(y.pos)-posNum(x.pos)||y.match-x.match)[0]:null;
-    const anyDropped=eligible.some(a=>droppedRun(a));
     return<div className="mt-3">
       <table className="w-full text-sm">
         <thead><tr className="border-b border-gray-200">
@@ -5297,7 +5296,6 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
           </tr>}
         )}</tbody>
       </table>
-      {anyDropped&&<p className="mt-2 text-xs text-gray-400">Best three results count. A result struck through is not in the total.</p>}
     </div>;
   };
   
