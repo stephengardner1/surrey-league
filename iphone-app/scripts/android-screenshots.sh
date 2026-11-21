@@ -30,6 +30,8 @@ sleep 4;  shot 00-launch
 sleep 40; shot 01-tables
 adb shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1; adb pull /sdcard/ui.xml "$OUT/screens/ui-tables.xml" >/dev/null 2>&1
 adb shell input swipe 540 1700 540 700 400; sleep 3; shot 02-tables-scrolled
+# Scroll back to the top: the floating nav shrinks while scrolling down and the taps below expect it full size
+adb shell input swipe 540 700 540 1900 300; sleep 1; adb shell input swipe 540 700 540 1900 300; sleep 3
 tap Races 324 2230;     shot 03-races
 tap Stats 108 2230;     shot 04-stats
 tap Following 756 2230; shot 05-following
