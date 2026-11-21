@@ -2365,6 +2365,44 @@ const RaceCompare=({race,races,setView})=>{
     </div>
   </div>;
 };
+// ---------- Pre-race page ----------
+// A race that is in the fixture list but has no results yet still has its own page (same address as
+// the results will have): venue, date, the league table going into it, and earlier matches at the venue.
+// On race day the same page fills in with the first results, then the full results, by itself.
+const upcomingRace=(D,key)=>{const fx=key&&(((D?.seasonsData||{})[key.season]||{}).matches||[]).find(m=>m.num===key.match);return fx&&fx.date&&fx.venue?{season:key.season,match:key.match,venue:fx.venue,venueDetail:fx.venueDetail,date:fx.date,results:[],upcoming:true}:undefined;};
+const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
+  const sd=(seasonsData||{})[race.season]||{};
+  const played=race.match-1;
+  const table=played<1?[]:(sd.standings||[]).map(t=>{let tot=0,n=0;for(let i=1;i<=played;i++)if(t['m'+i]!=null){tot+=t['m'+i];n++;}return{club:t.club,tot,n};}).filter(t=>t.n===played).sort((a,b)=>a.tot-b.tot);
+  const here=(races||[]).filter(r=>r.venue===race.venue&&!r.justIn&&(r.winner||r.teamWinner)).sort((a,b)=>b.season.localeCompare(a.season)||b.match-a.match);
+  const prev=(races||[]).find(r=>r.season===race.season&&r.match===race.match-1);
+  const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];
+  const today=justInDay(),raceDay=race.date===today,past=race.date<today;
+  const fmt=n=>Number.isInteger(n)?n:n.toFixed(1);
+  const Label=({children})=><h2 className="text-xs font-semibold uppercase tracking-wide text-gray-500 border-b border-gray-200 pb-1 mb-1">{children}</h2>;
+  return<div className="max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8">
+    <div className="flex items-center justify-between mb-1 md:mb-3 -mx-2">
+      <button onClick={()=>setView({type:'fixtures'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ArrowLeft className="w-4 h-4"/>Fixtures</button>
+      {prev?<button onClick={()=>setView({type:'race',race:prev})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ChevronLeft className="w-4 h-4"/><span className="hidden sm:inline">{prev.venue}</span><span className="sm:hidden">Prev</span></button>:null}
+    </div>
+    <div className="mb-4 lg:mb-6">
+      <div className="text-sm text-gray-500 mb-1">{formatDate(race.date)} · Match {race.match} · <span className="cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{race.season}</span></div>
+      <h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>
+      {race.venueDetail&&<p className="text-sm text-gray-700 mt-1">{race.venueDetail}</p>}
+      <p className="upcoming-status mt-2 flex items-center gap-1.5 text-sm text-gray-500" role="status">{raceDay&&<span className="justin-dot mr-0.5" aria-hidden="true"></span>}{raceDay?'Race day. Results will appear here within minutes of the league publishing them.':past?'No results published yet. They will appear here when the league publishes them.':'Results will appear here on race day, within minutes of the league publishing them.'}</p>
+    </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-8">
+      {table.length>0&&<div><Label>League table after {played===1?'one match':played+' matches'}</Label>
+        <table className="w-full"><tbody>{table.map((t,i)=><tr key={t.club} className="border-b border-gray-50"><td className="py-1.5 pr-2 w-8 text-sm text-gray-500 tabular-nums">{i+1}</td><td className="py-1.5 px-2 text-sm"><span className="inline-flex items-center gap-1.5 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'club',club:t.club})}><ClubShield club={t.club} size={14}/>{t.club}</span></td><td className="py-1.5 pl-2 text-sm text-right font-semibold tabular-nums">{fmt(t.tot)}</td></tr>)}</tbody></table>
+        <p className="text-xs text-gray-500 mt-2">Lowest total leads. <span className="cursor-pointer underline decoration-gray-300 underline-offset-2 hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>Full table</span></p></div>}
+      <div><Label>{race.venue} in the archive</Label>
+        {here.length?<table className="w-full"><tbody>{here.map(r=><tr key={r.season+'-'+r.match} className="border-b border-gray-50 cursor-pointer hover:bg-gray-50" onClick={()=>setView({type:'race',race:r})}><td className="py-1.5 pr-2 text-sm text-gray-500 whitespace-nowrap tabular-nums">{r.season}</td><td className="py-1.5 px-2 text-sm">{r.winner||''}</td><td className="py-1.5 pl-2 text-sm text-right">{r.teamWinner?<span className="inline-flex items-center gap-1.5"><ClubShield club={r.teamWinner} size={14}/>{r.teamWinner}</span>:null}</td></tr>)}</tbody></table>
+        :<p className="text-sm text-gray-500 py-1.5">No earlier match at {race.venue} in the archive.</p>}</div>
+    </div>
+    {guideUrl&&<div className="mt-8"><Label>Form guide</Label><FormGuideNative src={guideUrl} results={[]} teamOrder={[]}/></div>}
+  </div>;
+};
+
 // ---------- "First results" pages ----------
 // On race day the app's back office spots new senior results on surreyleague.org within a minute
 // or two and keeps a copy of the race (every finisher, team scores). Until the full results are
@@ -2407,20 +2445,15 @@ const loadJustIn=(j,league)=>{
   const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),4000);
   return fetch(JUSTIN_API,{signal:ctl.signal,cache:'no-store'}).then(r=>r.json()).then(l=>applyJustIn(j,league,l.races)).catch(()=>j).finally(()=>clearTimeout(timer));
 };
-// The note at the top of a first-results race page: what is here now and what is still to come.
+// The note at the top of a first-results race page.
 const JustInPanel=({race})=>{
   const at=race.justIn?.at?new Date(race.justIn.at):null;
   const time=at&&!isNaN(at)?new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'numeric',minute:'2-digit',hour12:true}).format(at).replace(' ',''):null;
-  const coming=[...(race.justIn?.teams?[]:['Team scores']),'Scoring points','B teams','Form guide']; // never promise photos: they depend on photographers, not on the import
-  const Ring=()=><svg viewBox="0 0 16 16" className="w-3.5 h-3.5 flex-none justin-ring" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="#686e66" strokeWidth="1.5" strokeDasharray="2.6 2.6"/></svg>;
-  return<div className="justin-panel mb-4 lg:mb-6 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3" role="status">
-    <div className="flex items-center gap-2"><span className="justin-dot" aria-hidden="true"></span><span className="text-xs font-semibold uppercase tracking-wide text-gray-700">First results</span>{time&&<span className="text-xs text-gray-500">in at {time}</span>}</div>
-    <p className="text-sm text-gray-700 mt-1.5">Provisional, straight from the league. The full page is being built and will appear here by itself.</p>
-    <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1.5"><span className="text-xs uppercase tracking-wide text-gray-500 mr-1">Still to come</span>{coming.map(t=><span key={t} className="inline-flex items-center gap-1.5 text-xs text-gray-600 border border-gray-300 bg-white rounded-full pl-1.5 pr-2.5 py-0.5"><Ring/>{t}</span>)}</div>
-  </div>;
+  // One quiet line (Steve, 21 Nov 2026): people want positions and team scores first, so nothing sits between the title and the results.
+  return<p className="justin-panel mb-3 lg:mb-5 flex flex-wrap items-center gap-x-1.5 text-sm text-gray-500" role="status"><span className="justin-dot mr-0.5" aria-hidden="true"></span><span>Provisional results</span>{time&&<><span aria-hidden="true">·</span><span>in at {time}</span></>}<span aria-hidden="true">·</span><span>{race.justIn?.teams?'more detail to follow':'team scores and more detail to follow'}</span></p>;
 };
 
-const RaceDetailView=(props)=>props.race?<RaceDetailInner {...props}/>:null;
+const RaceDetailView=(props)=>props.race?(props.race.upcoming?<UpcomingRaceView {...props}/>:<RaceDetailInner {...props}/>):null;
 const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualChampions,divisionConfig})=>{
   const[tab,setTab]=useState('individual');const[clubFilter,setClubFilter]=useState(null);const indivRef=useRef(null);const pickClub=c=>{setClubFilter(c);setTab('individual');requestAnimationFrame(()=>requestAnimationFrame(()=>{const el=[...document.querySelectorAll('[data-indiv]')].find(e=>e.offsetParent);if(!el)return;const t=el.getBoundingClientRect().top;if(t<70||t>window.innerHeight*0.6)window.scrollBy({top:t-80,behavior:MOTION.reduced()?'auto':'smooth'});}));};const[statusHover,setStatusHover]=useState(false);const resultsMode=mode==='guide'?'guide':mode==='compare'?'compare':'classic';const setResultsMode=m=>setView({type:'race',race,mode:m==='classic'?undefined:m});if(!race)return null;const guideUrl=race.justIn?undefined:FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];const canCompare=(race.results||[]).length>=80&&(races||[]).some(x=>x!==race&&x.season===race.season&&(x.results||[]).length>=80);
   // Up/down/= marker vs each runner's previous league race (races from 2025/26 on)
@@ -2737,9 +2770,9 @@ const FixturesView=({setView,races,seasonsData})=>{
   const completeRaces=allFixtures.filter(r=>r.results?.length>=80).length;
   const partialRaces=allFixtures.filter(r=>r.results?.length>=4&&r.results?.length<80).length;
   const winnersOnly=allFixtures.filter(r=>!r.results?.length||r.results?.length<4).length;
-  const upcoming=(seasonsData?.[mostRecentSeason]?.matches||[]).filter(m=>!races.some(r=>r.season===mostRecentSeason&&r.match===m.num)).map(m=>({season:mostRecentSeason,match:m.num,date:m.date,venue:m.venue,venueDetail:m.venueDetail,upcoming:true}));
+  const upcoming=(seasonsData?.[mostRecentSeason]?.matches||[]).filter(m=>!races.some(r=>r.season===mostRecentSeason&&r.match===m.num)).map(m=>({season:mostRecentSeason,match:m.num,date:m.date,venue:m.venue,venueDetail:m.venueDetail,results:[],upcoming:true}));
   const displayFixtures=[...allFixtures,...upcoming].sort((a,b)=>{if(a.season!==b.season)return b.season.localeCompare(a.season);return a.match-b.match;});
-  return<div className="max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8"><div className="mb-4">{!IS_APP&&<h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Castoro Belgrave Titling',serif"}}>Fixtures</h1>}<p className="text-sm text-gray-500">{allFixtures.length} matches since {allFixtures.reduce((m,r)=>r.season&&r.season<m?r.season:m,'9999').slice(0,4)}: {completeRaces} with complete results{winnersOnly>0?', ':' and '}<span className="whitespace-nowrap"><span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 mr-1 align-middle"></span>{partialRaces}</span> with partial results{winnersOnly>0&&<>, <span className="whitespace-nowrap"><span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1 align-middle"></span>{winnersOnly}</span> with winners' data only</>}</p></div><table className="w-full max-w-3xl"><tbody>{displayFixtures.map((race,i)=>{const show=race.season!==lastSeason;const champ=show?getChampion(race.season):null;lastSeason=race.season;const hasResults=race.results?.length>=4;const upRow=race.upcoming?<tr className="border-b border-gray-50 text-gray-500"><td className="py-1.5 pr-2 text-sm w-20 max-md:w-auto whitespace-nowrap">{formatDateShort(race.date)}</td><td className="py-1.5 px-2 text-sm">{race.venueDetail?<><span className="hidden md:inline">{race.venueDetail}</span><span className="md:hidden">{race.venue}</span></>:<VenueName venue={race.venue}/>}</td><td className="hidden md:table-cell py-1.5 px-1 w-28"></td><td className="py-1.5 px-2 w-44 max-md:w-auto text-xs">Upcoming</td><td className="py-1.5 pl-2 w-24 max-md:w-auto"></td></tr>:null;return<React.Fragment key={`${race.season}-${race.match}`}>{show&&<tr><td colSpan={5} className="pt-6 pb-2"><div className="flex items-center gap-2 text-xs font-semibold text-gray-500 uppercase tracking-wide border-b border-gray-200 pb-1"><span>{race.season}</span>{champ&&<><img src="/trophy.svg?v=2" alt="" aria-hidden="true" style={{display:'inline-block',height:'1.25em',width:'auto',verticalAlign:'-0.25em'}}/><ClubShield club={champ} size={14}/><span className="text-gray-600 normal-case font-medium">{champ}</span></>}</div></td></tr>}{upRow||<tr className="border-b border-gray-50"><td className={`py-1.5 pr-2 text-sm text-gray-500 w-20 max-md:w-auto whitespace-nowrap ${hasResults?'hover:text-[#1b649e] cursor-pointer':''}`} onClick={()=>hasResults&&setView({type:'race',race})}>{race.date?.length<=3?race.date:formatDateShort(race.date)}</td><td className={`relative py-1.5 px-2 text-sm text-gray-900 ${hasResults?'hover:text-[#1b649e] cursor-pointer':''}`} onClick={()=>hasResults&&setView({type:'race',race})}>{race.results?.length<80&&<span className={`absolute -left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${race.results?.length>=4?'bg-amber-500':'bg-red-500'}`} title={race.results?.length>=4?'Partial results':'Winners\' data only'}></span>}<VenueName venue={race.venue}/></td><td className="hidden md:table-cell py-1.5 px-1 w-28 text-right text-xs text-gray-500">{race.weather&&<span title={`${race.weather.description}, ${race.weather.temp}°C, ${race.weather.windSpeed}km/h wind`}>{race.weather.icon} {race.weather.temp}° {race.weather.windSpeed}km/h</span>}</td><td className="py-1.5 px-2 w-44 max-md:w-auto max-md:whitespace-nowrap">{race.winner&&<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#1b649e]" data-ath={race.winner.includes('/')?race.winner.split('/')[0].trim():race.winner} data-club={race.winnerClub} onClick={()=>setView({type:'athlete',athlete:{name:race.winner.includes('/')?race.winner.split('/')[0].trim():race.winner,club:race.winnerClub}})}><ClubShield club={race.winnerClub} size={14}/><span className="text-sm text-gray-700">{race.winner?.includes('/')?<span className="flex flex-col leading-tight">{race.winner.split('/').map((w,i)=><span key={i}><span className="hidden md:inline">{w.trim()}</span><span className="md:hidden">{w.trim().replace(/\s*\([^)]*\)$/,'').split(' ').pop()}</span></span>)}</span>:<><span className="hidden md:inline">{race.winner}</span><span className="md:hidden">{race.winner?.replace(/\s*\([^)]*\)$/,'').split(' ').pop()}</span></>}</span></div>}</td><td className="py-1.5 pl-2 w-24 max-md:w-auto">{race.teamWinner&&<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'club',club:race.teamWinner})}><ClubShield club={race.teamWinner} size={14}/><span className="text-sm font-medium text-gray-900">{race.teamWinner}</span></div>}</td></tr>}</React.Fragment>;})}</tbody></table></div>;
+  return<div className="max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8"><div className="mb-4">{!IS_APP&&<h1 className="text-2xl font-bold text-gray-900" style={{fontFamily:"'Castoro Belgrave Titling',serif"}}>Fixtures</h1>}<p className="text-sm text-gray-500">{allFixtures.length} matches since {allFixtures.reduce((m,r)=>r.season&&r.season<m?r.season:m,'9999').slice(0,4)}: {completeRaces} with complete results{winnersOnly>0?', ':' and '}<span className="whitespace-nowrap"><span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 mr-1 align-middle"></span>{partialRaces}</span> with partial results{winnersOnly>0&&<>, <span className="whitespace-nowrap"><span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1 align-middle"></span>{winnersOnly}</span> with winners' data only</>}</p></div><table className="w-full max-w-3xl"><tbody>{displayFixtures.map((race,i)=>{const show=race.season!==lastSeason;const champ=show?getChampion(race.season):null;lastSeason=race.season;const hasResults=race.results?.length>=4;const upRow=race.upcoming?<tr className="border-b border-gray-50 text-gray-500 cursor-pointer hover:bg-gray-50" onClick={()=>setView({type:'race',race})}><td className="py-1.5 pr-2 text-sm w-20 max-md:w-auto whitespace-nowrap">{formatDateShort(race.date)}</td><td className="py-1.5 px-2 text-sm">{race.venueDetail?<><span className="hidden md:inline">{race.venueDetail}</span><span className="md:hidden">{race.venue}</span></>:<VenueName venue={race.venue}/>}</td><td className="hidden md:table-cell py-1.5 px-1 w-28"></td><td className="py-1.5 px-2 w-44 max-md:w-auto text-xs">Upcoming</td><td className="py-1.5 pl-2 w-24 max-md:w-auto"></td></tr>:null;return<React.Fragment key={`${race.season}-${race.match}`}>{show&&<tr><td colSpan={5} className="pt-6 pb-2"><div className="flex items-center gap-2 text-xs font-semibold text-gray-500 uppercase tracking-wide border-b border-gray-200 pb-1"><span>{race.season}</span>{champ&&<><img src="/trophy.svg?v=2" alt="" aria-hidden="true" style={{display:'inline-block',height:'1.25em',width:'auto',verticalAlign:'-0.25em'}}/><ClubShield club={champ} size={14}/><span className="text-gray-600 normal-case font-medium">{champ}</span></>}</div></td></tr>}{upRow||<tr className="border-b border-gray-50"><td className={`py-1.5 pr-2 text-sm text-gray-500 w-20 max-md:w-auto whitespace-nowrap ${hasResults?'hover:text-[#1b649e] cursor-pointer':''}`} onClick={()=>hasResults&&setView({type:'race',race})}>{race.date?.length<=3?race.date:formatDateShort(race.date)}</td><td className={`relative py-1.5 px-2 text-sm text-gray-900 ${hasResults?'hover:text-[#1b649e] cursor-pointer':''}`} onClick={()=>hasResults&&setView({type:'race',race})}>{race.results?.length<80&&<span className={`absolute -left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${race.results?.length>=4?'bg-amber-500':'bg-red-500'}`} title={race.results?.length>=4?'Partial results':'Winners\' data only'}></span>}<VenueName venue={race.venue}/></td><td className="hidden md:table-cell py-1.5 px-1 w-28 text-right text-xs text-gray-500">{race.weather&&<span title={`${race.weather.description}, ${race.weather.temp}°C, ${race.weather.windSpeed}km/h wind`}>{race.weather.icon} {race.weather.temp}° {race.weather.windSpeed}km/h</span>}</td><td className="py-1.5 px-2 w-44 max-md:w-auto max-md:whitespace-nowrap">{race.winner&&<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#1b649e]" data-ath={race.winner.includes('/')?race.winner.split('/')[0].trim():race.winner} data-club={race.winnerClub} onClick={()=>setView({type:'athlete',athlete:{name:race.winner.includes('/')?race.winner.split('/')[0].trim():race.winner,club:race.winnerClub}})}><ClubShield club={race.winnerClub} size={14}/><span className="text-sm text-gray-700">{race.winner?.includes('/')?<span className="flex flex-col leading-tight">{race.winner.split('/').map((w,i)=><span key={i}><span className="hidden md:inline">{w.trim()}</span><span className="md:hidden">{w.trim().replace(/\s*\([^)]*\)$/,'').split(' ').pop()}</span></span>)}</span>:<><span className="hidden md:inline">{race.winner}</span><span className="md:hidden">{race.winner?.replace(/\s*\([^)]*\)$/,'').split(' ').pop()}</span></>}</span></div>}</td><td className="py-1.5 pl-2 w-24 max-md:w-auto">{race.teamWinner&&<div className="flex items-center gap-1.5 cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'club',club:race.teamWinner})}><ClubShield club={race.teamWinner} size={14}/><span className="text-sm font-medium text-gray-900">{race.teamWinner}</span></div>}</td></tr>}</React.Fragment>;})}</tbody></table></div>;
 };
 
 const AthletesView=({setView,athletes})=>{
@@ -6521,6 +6554,26 @@ function App(){
     return()=>clearInterval(id);
   },[menData,womenData,liveAliases,division]);
 
+  // A pre-race page that is open on race day (or the day after) keeps looking for the first results
+  // and turns into the results page by itself when they arrive.
+  useEffect(()=>{
+    const r=view.type==='race'&&view.race?.upcoming?view.race:null;
+    if(!r||justInDemo)return;
+    const today=justInDay(),from=justInDay(new Date(Date.now()-2*864e5));
+    if(!(r.date<=today&&r.date>=from))return;
+    const lg=division,file=lg==='women'?'data-women.json':'data.json',set=lg==='women'?setWomenData:setMenData,key=`${r.season}|${lg}|m${r.match}`;
+    const check=()=>fetch(JUSTIN_API,{cache:'no-store'}).then(x=>x.json()).then(l=>{
+      if(!(l.races||[]).some(x=>x.key===key))return;
+      return fetch(file,{cache:'no-store'}).then(x=>x.json()).then(j=>loadJustIn(j,lg)).then(j=>{
+        const nd=normalizeData(j,lg,liveAliases),got=nd.races.find(x=>x.season===r.season&&x.match===r.match);
+        if(!got)return;
+        set(nd);setViewState(v=>v.type==='race'&&v.race?.upcoming&&v.race.season===r.season&&v.race.match===r.match?{...v,race:got}:v);
+      });
+    }).catch(()=>{});
+    const id=setInterval(check,45000);
+    return()=>clearInterval(id);
+  },[view,division,liveAliases]);
+
   // Parse URL once data is loaded (needed for athlete name resolution)
   useEffect(()=>{
     if(menData){
@@ -6531,7 +6584,7 @@ function App(){
       }
       if(parsed.division==='men'||!parsed.division){
         if(parsed.raceKey){
-          const race=menData.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
+          const race=menData.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match)||upcomingRace(menData,parsed.raceKey);
           if(race)setViewState({type:'race',race,mode:parsed.mode});else{const v=raceMissView(parsed,menData);setViewState(v);updateUrl(v,parsed.division||'men');}
         }else{const v=seasonFix(parsed,menData);setViewState(v);if(v!==parsed)updateUrl(v,parsed.division||'men');}
       }
@@ -6544,7 +6597,7 @@ function App(){
       const parsed=parseUrlParams(womenData.athletes);
       if(parsed.division==='women'){
         if(parsed.raceKey){
-          const race=womenData.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
+          const race=womenData.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match)||upcomingRace(womenData,parsed.raceKey);
           if(race)setViewState({type:'race',race,mode:parsed.mode});else{const v=raceMissView(parsed,womenData);setViewState(v);updateUrl(v,parsed.division||'men');}
         }else{const v=seasonFix(parsed,womenData);setViewState(v);if(v!==parsed)updateUrl(v,parsed.division||'men');}
       }
@@ -6556,7 +6609,7 @@ function App(){
       const parsed=parseUrlParams(data?.athletes);
       if(parsed.division!==division)setDivisionState(parsed.division||'men');
       if(parsed.raceKey&&data){
-        const race=data.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
+        const race=data.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match)||upcomingRace(data,parsed.raceKey);
         if(race)setViewState({type:'race',race,mode:parsed.mode});else{const v=raceMissView(parsed,data);setViewState(v);updateUrl(v,parsed.division||'men');}
       }else{const v=seasonFix(parsed,data);setViewState(v);if(v!==parsed)updateUrl(v,parsed.division||'men');}
     };
@@ -6569,7 +6622,7 @@ function App(){
       const parsed=parseUrlParams(data?.athletes);
       if(parsed.division!==division)setDivisionState(parsed.division||'men');
       if(parsed.raceKey&&data){
-        const race=data.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match);
+        const race=data.races.find(r=>r.season===parsed.raceKey.season&&r.match===parsed.raceKey.match)||upcomingRace(data,parsed.raceKey);
         if(race)setViewState({type:'race',race,mode:parsed.mode});else{const v=raceMissView(parsed,data);setViewState(v);updateUrl(v,parsed.division||'men');}
       }else{const v=seasonFix(parsed,data);setViewState(v);if(v!==parsed)updateUrl(v,parsed.division||'men');}
     };
