@@ -5116,6 +5116,8 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   // Season is complete if all 4 races have >100 results each
   const racesWithResults=seasonRaces.filter(r=>r.results&&r.results.length>100);
   const isCurrentSeason=season===data.seasons[0];
+  // In the app and on phones, all five names in the Mitchell Cup / individual championship list get their portrait for this season and last; elsewhere only the leader does
+  const allBusts=(IS_APP||!isDesktop)&&(season===data.seasons[0]||season===data.seasons[1]);
   const hasCompleteResults=isCurrentSeason?racesWithResults.length>0&&racesWithResults.length===seasonRaces.filter(r=>r.results?.length>0).length:racesWithResults.length===4;
   // Historical if flagged or has only partial data (races with few results)
   const isHistorical=seasonData?.historical||(!hasCompleteResults&&seasonRaces.every(r=>!r.results||r.results.length<=10));
@@ -5204,7 +5206,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
               const rankDisplay=isTied?`=${tieRank}`:String(i+1);
               return <tr key={a.name} style={isSeasonFinished&&(isTied?tieRank:i+1)===1?winTint(a.club):undefined} className="hover:bg-gray-100 cursor-pointer" data-ath={a.name} data-club={a.club} onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
                 <td className={`${rightRowPy} pr-2 text-gray-500 w-6`}>{rankDisplay}</td>
-                <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={tieRank===1}/><span className="text-gray-700">{a.name}</span></div></td>
+                <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={allBusts||tieRank===1}/><span className="text-gray-700">{a.name}</span></div></td>
                 <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
                 {a.positions.map((pos,pi)=><td key={pi} className={`${rightRowPy} px-1 text-right text-gray-500 text-xs tabular-nums w-8`}>{pos||'-'}</td>)}
               </tr>}
@@ -5265,12 +5267,18 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       return a;
     }).sort((a,b)=>a.total-b.total).slice(0,5);
     if(eligible.length===0)return null;
+    // One column per match, so each result sits under its own match (match 4 in the fourth column) and a missed race shows a dash.
+    // Women count their best three: a fourth, worse result is shown struck through because it is not in the total.
+    const matchCols=Array.from({length:Math.max(...seasonRacesLocal.map(r=>r.match||0))},(_, k)=>k+1);
+    const posNum=p=>parseInt(String(p).replace('=',''),10)||0;
+    const droppedRun=a=>division==='women'&&a.runs.length>3?[...a.runs].sort((x,y)=>posNum(y.pos)-posNum(x.pos)||y.match-x.match)[0]:null;
+    const anyDropped=eligible.some(a=>droppedRun(a));
     return<div className="mt-3">
       <table className="w-full text-sm">
         <thead><tr className="border-b border-gray-200">
           <th colSpan="2" className={`text-left ${rightRowPy} pr-2 text-xs text-gray-500 uppercase`} title={division==='women'?"Top 5 athletes with 3+ races, ranked by best 3 positions":"Top 5 athletes who raced in all matches, ranked by sum of positions (lowest is best)"}>{individualLabel}</th>
           <th className={`text-right ${rightRowPy} px-1 text-xs text-gray-500 uppercase w-10`} title={division==='women'?"Sum of best 3 finishing positions":"Sum of finishing positions across all races"}>Tot</th>
-          {[1,2,3,4].slice(0,numRaces).map(n=><th key={n} className={`text-right ${rightRowPy} px-1 text-xs text-gray-300 uppercase w-8`}></th>)}
+          {matchCols.map(n=><th key={n} className={`text-right ${rightRowPy} px-1 text-xs text-gray-300 uppercase w-8`}></th>)}
         </tr></thead>
         <tbody className="divide-y divide-gray-100">{eligible.map((a,i)=>{
           // Check for ties - same total as previous or next
@@ -5282,12 +5290,14 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
           const rankDisplay=isTied?`=${tieRank}`:String(i+1);
           return <tr key={a.name} style={isSeasonFinished&&(isTied?tieRank:i+1)===1?winTint(a.club):undefined} className="hover:bg-gray-100 cursor-pointer" data-ath={a.name} data-club={a.club} onClick={()=>setView({type:'athlete',athlete:{name:a.name,club:a.club}})}>
             <td className={`${rightRowPy} pr-2 text-gray-500 w-6`}>{rankDisplay}</td>
-            <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={tieRank===1}/><span className="text-gray-700">{a.name}</span></div></td>
+            <td className={`${rightRowPy} px-2`}><div className="flex items-center gap-1.5"><WinnerMark name={a.name} club={a.club} show={allBusts||tieRank===1}/><span className="text-gray-700">{a.name}</span></div></td>
             <td className={`${rightRowPy} px-1 text-right font-medium tabular-nums w-10`}>{a.total}</td>
-            {a.runs.map((r,ri)=><td key={ri} className={`${rightRowPy} px-1 text-right text-gray-500 text-xs tabular-nums w-8`}>{r.pos}</td>)}
+            {(()=>{const drop=droppedRun(a);return matchCols.map(n=>{const r=a.runs.find(x=>x.match===n);const out=r&&r===drop;
+              return<td key={n} className={`${rightRowPy} px-1 text-right text-xs tabular-nums w-8 ${!r||out?'text-gray-300':'text-gray-500'}`} title={out?'Not counted: best three results count':undefined}>{r?(out?<s>{r.pos}</s>:r.pos):'-'}</td>;});})()}
           </tr>}
         )}</tbody>
       </table>
+      {anyDropped&&<p className="mt-2 text-xs text-gray-400">Best three results count. A result struck through is not in the total.</p>}
     </div>;
   };
   
