@@ -8,7 +8,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode((System.getenv("SL_CODE") ?: "1").toInteger())   // minutes since 1970: always goes up, and fits Google's limit
-        versionName "1.0"
+        versionName(System.getenv("SL_VERSION") ?: "1.0")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -24,12 +24,24 @@ android {
             keyAlias 'tester'
             keyPassword 'surreyleague'
         }
+        // Google Play version. The upload key is never stored in this repository: the "Android release" Action
+        // supplies it from GitHub secrets at build time.
+        release {
+            def ks = System.getenv("SL_UPLOAD_KEYSTORE")
+            if (ks) {
+                storeFile file(ks)
+                storePassword System.getenv("SL_UPLOAD_PASSWORD")
+                keyAlias(System.getenv("SL_UPLOAD_ALIAS") ?: "upload")
+                keyPassword System.getenv("SL_UPLOAD_PASSWORD")
+            }
+        }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.tester
         }
         release {
+            if (System.getenv("SL_UPLOAD_KEYSTORE")) signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
