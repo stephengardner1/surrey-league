@@ -513,6 +513,15 @@ if (pushToken) sync();
   for (const fn of ['pushState', 'replaceState']) { const orig = history[fn].bind(history); history[fn] = (...a) => { const r = orig(...a); later(); return r; }; }
 })();
 
+// Is this touch inside something that scrolls sideways (the photo strip on a pre-race page, a wide table)?
+function sidewaysScroller(el) {
+  for (; el && el !== document.body && el.nodeType === 1; el = el.parentElement) {
+    const o = getComputedStyle(el).overflowX;
+    if ((o === 'auto' || o === 'scroll') && el.scrollWidth > el.clientWidth + 2) return true;
+  }
+  return false;
+}
+
 // ---------- Pull to refresh (the app turns off iPhone's own bounce, so it's drawn here) ----------
 // Pull down at the top of a page: the page follows your finger with some resistance and a ring
 // under the title fills; let go past the line to check for new results. Glides back, no bounce.
@@ -547,13 +556,19 @@ if (pushToken) sync();
   }
   const settle = () => { draw(0, true); setTimeout(() => { const m = main(); if (m && !pull) m.style.transition = ''; }, 330); };
 
+  // A sideways swipe (the photo strip, a wide table, next / previous race) is never a pull: the first 8px of
+  // movement decide which way the finger is going, and a sideways start switches the pull off for that touch.
+  let startX = 0, axis = '';
   addEventListener('touchstart', (e) => {
-    startY = (blocked() || window.scrollY > 0 || e.touches.length !== 1) ? null : e.touches[0].clientY;
+    startY = (blocked() || window.scrollY > 0 || e.touches.length !== 1 || sidewaysScroller(e.target)) ? null : e.touches[0].clientY;
+    startX = e.touches[0] ? e.touches[0].clientX : 0; axis = '';
     pull = 0;
   }, { passive: true });
   addEventListener('touchmove', (e) => {
     if (startY == null) return;
     const dy = e.touches[0].clientY - startY;
+    if (!axis) { const dx = Math.abs(e.touches[0].clientX - startX); if (dx < 8 && Math.abs(dy) < 8) return; axis = dx > Math.abs(dy) ? 'x' : 'y'; }
+    if (axis === 'x') { startY = null; if (pull) { pull = 0; draw(0, false); } return; }
     if (window.scrollY > 0 || dy <= 0) { if (pull) { pull = 0; draw(0, false); } return; }
     pull = Math.min(MAX, dy * 0.45); // resistance: the page moves less than your finger
     draw(pull, false);
@@ -654,16 +669,20 @@ if (pushToken) sync();
     m.style.transform = px ? `translateY(${-px}px)` : '';
     if (animate) setTimeout(() => { if (!pull && !m.style.transform) m.style.transition = ''; }, BACK + 30);
   };
+  let startX = 0, axis = '';
   addEventListener('touchstart', (e) => {
     touched = performance.now();
     const max = maxY();
-    startY = (locked() || max < 8 || scrollY < max - 1 || e.touches.length !== 1) ? null : e.touches[0].clientY;
+    startY = (locked() || max < 8 || scrollY < max - 1 || e.touches.length !== 1 || sidewaysScroller(e.target)) ? null : e.touches[0].clientY;
+    startX = e.touches[0] ? e.touches[0].clientX : 0; axis = '';
     pull = 0;
   }, { passive: true });
   addEventListener('touchmove', (e) => {
     touched = performance.now();
     if (startY == null) return;
     const dy = startY - e.touches[0].clientY;
+    if (!axis) { const dx = Math.abs(e.touches[0].clientX - startX); if (dx < 8 && Math.abs(dy) < 8) return; axis = dx > Math.abs(dy) ? 'x' : 'y'; }
+    if (axis === 'x') { startY = null; if (pull) { pull = 0; draw(0, false); } return; }
     if (scrollY < maxY() - 1 || dy <= 0) { if (pull) { pull = 0; draw(0, false); } return; }
     pull = Math.min(PULL_MAX, dy * 0.3);
     draw(pull, false);
