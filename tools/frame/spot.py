@@ -214,8 +214,8 @@ def spotlight(name, club, path, file, ctx):
     stats = [(v, l) for v, l in stats if v != 0]  # leave out a count with nothing in it
     if len(stats) < 5:  # a thin row: add how often they scored for the A team (the site's "A Scores")
         a = a_scores(name, path)
-        if a: stats.insert(1, (a, 'A scores'))
-    st = ''.join(f'<div style="width: 78px; display: flex; flex-direction: column; align-items: center; gap: 4px; animation: slFade .3s ease-out {.55+.13*k:.2f}s both">'
+        if a: stats.insert(1, (a, 'Scores'))
+    st = ''.join(f'<div style="width: 78px; display: flex; flex-direction: column; align-items: center; gap: 4px; white-space: nowrap; animation: slFade .3s ease-out {.55+.13*k:.2f}s both">'
                  f'<div style="font-family: {DISP}; font-weight: 600; font-size: 40px; line-height: 40px; color: {INK}">{v}</div>'
                  f'<div style="font-family: {SANS}; font-size: 16px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: {MUT}">{l}</div></div>'
                  for k, (v, l) in enumerate(stats))
