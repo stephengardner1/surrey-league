@@ -20,17 +20,20 @@ body{width:1080px;height:1920px;overflow:hidden}
 <div style="flex-grow: 1; font-family: 'Castoro Belgrave Titling', Georgia, serif; font-weight: 300; font-size: 58px; line-height: 58px; text-transform: uppercase; letter-spacing: -0.01em; color: #1d211d">Surrey League<img src="@@TROPHY@@" alt="" style="display: inline-block; height: 1.3em; width: auto; vertical-align: -0.28em; margin-left: 0.3em"></div>
 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px"><div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 28px; line-height: 32px; font-weight: 400; color: #686e66">@@SEASON@@</div></div>
 </div>
-<div style="margin-top: 18px; display: flex; gap: 48px">
+<div style="margin-top: 18px; display: flex; gap: 48px; height: @@COLH@@px">
 @@MEN@@@@WOMEN@@</div>
-<div style="margin-top: auto; margin-bottom: 16px">
+<div style="margin-top: 16px; margin-bottom: 16px">
 @@SPOT@@</div>
 @@FIXTURES@@</div>
 <script>
 (function(){
-  // photo slot: crossfade every 8 seconds
-  var photos=document.querySelectorAll('.photo'),caps=@@CAPTIONS@@,creds=@@CREDITS@@,p=0;
-  var cap=document.getElementById('caption'),cred=document.getElementById('credit');
-  if(photos.length>1)setInterval(function(){photos[p].style.opacity=0;p=(p+1)%photos.length;photos[p].style.opacity=1;cap.textContent=caps[p];cred.textContent=creds[p]?'\ud83d\udcf7 '+creds[p]:'';},8000);
+  // photo slots, one per column: crossfade every 8 seconds, women half a beat after men
+  var P=@@PHOTOS@@;
+  ['men','women'].forEach(function(g,gi){
+    var imgs=document.querySelectorAll('.photo-'+g),cap=document.getElementById('caption-'+g),cred=document.getElementById('credit-'+g),k=0;
+    if(imgs.length<2)return;
+    setTimeout(function(){setInterval(function(){imgs[k].style.opacity=0;k=(k+1)%imgs.length;imgs[k].style.opacity=1;cap.textContent=P[g][k][0];cred.textContent=P[g][k][1]?'\ud83d\udcf7 '+P[g][k][1]:'';},8000);},gi*4000);
+  });
   // athlete spotlight: a new athlete every 15 minutes; ?spot=N pins one for checking
   var spots=document.querySelectorAll('.spot'),n=@@SPOTS@@,cur=-1,pin=parseInt(new URLSearchParams(location.search).get('spot'),10);
   function show(){var k=isNaN(pin)?Math.floor(Date.now()/900000)%n:((pin%n)+n)%n;if(k===cur)return;if(cur>=0)spots[cur].style.display='none';spots[k].style.display='';cur=k;}
