@@ -211,7 +211,7 @@ def spotlight(name, club, path, file, ctx):
     card = (f'<div class="sl-intro{" dogcard" if dog else ""}" style="position: relative; width: {W}px; height: {H}px; flex-shrink: 0">'
             f'<div style="position: absolute; inset: 0; border-radius: {12*s:.0f}px; overflow: hidden; background: {bg}; '
             f'clip-path: polygon(0 0, 100% 0, 100% {H-c:.1f}px, {W-c:.1f}px 100%, 0 100%)">'
-            f'<div role="img" aria-label="Portrait of {name}" style="position: absolute; left: 0; top: -14px; width: {W}px; animation: slRise .6s cubic-bezier(.2,.8,.3,1) .5s both">{art}</div>'
+            f'<div role="img" aria-label="Portrait of {name}" style="position: absolute; left: 0; top: -36px; width: {W}px; animation: slRise .6s cubic-bezier(.2,.8,.3,1) .5s both">{art}</div>'
             f'{pillbox}</div>'
             f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" aria-hidden="true" style="position: absolute; left: 0; top: 0">'
             f'<polygon points="{W-c:.1f},{H} {W},{H-c:.1f} {W-c:.1f},{H-c:.1f}" fill="{back}" stroke="{back}" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></div>')
