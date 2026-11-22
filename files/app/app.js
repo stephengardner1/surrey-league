@@ -692,6 +692,40 @@ function sidewaysScroller(el) {
   addEventListener('touchcancel', end, { passive: true });
 })();
 
+// ---------- Tap the tab you're on to go back to the top ----------
+// As in other iPhone apps: tapping Tables while you're further down Tables glides the page back to the top.
+// It sets off briskly and eases in to land softly. From a long way down it first skips most of the distance
+// so the glide never drags. Touching the screen stops it. Reduce Motion jumps straight there.
+(function tapTabToTop() {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const ease = (t) => 1 - Math.pow(1 - t, 4); // fast start, long soft landing
+  let raf = 0;
+  const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+  addEventListener('touchstart', stop, { passive: true });
+  addEventListener('wheel', stop, { passive: true });
+  function glide() {
+    stop();
+    if (reduce.matches) { scrollTo(0, 0); return; }
+    let from = scrollY;
+    const jump = innerHeight * 1.5; // never glide further than a screen and a half
+    if (from > jump) { scrollTo(0, jump); from = jump; }
+    const dur = Math.min(620, 320 + from * 0.25), t0 = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      scrollTo(0, Math.round(from * (1 - ease(t))));
+      raf = t < 1 ? requestAnimationFrame(step) : 0;
+    };
+    raf = requestAnimationFrame(step);
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest && e.target.closest('.app-nav button[aria-current="page"]');
+    if (!b || document.body.classList.contains('sl-lock') || scrollY < 2) return;
+    const before = location.href;
+    // Only when the tap leaves you on the same page (from a race page, Races takes you back to the list instead)
+    setTimeout(() => { if (location.href === before && !document.body.classList.contains('sl-lock')) glide(); }, 0);
+  }, true);
+})();
+
 // ---------- Fonts added to the site after this build (e.g. Castoro Belgrave) ----------
 // The page asks for /fonts/... files; if this build doesn't have them, fetch them from
 // slarchive.org once, keep them on the phone, and hand them to the page.
