@@ -190,7 +190,6 @@ def spotlight(name, club, path, file, ctx):
     dog = file in DOGS
     svg = open(PORT + file + ('-dog' if dog else '') + '.svg').read()
     bg = re.search(r'<rect width="200" height="280" fill="(#[0-9A-Fa-f]{3,6})"', svg).group(1)
-    if light_skin(svg): bg = dark_ground(bg, club)  # a pale ground washes out a light face on the backlit Frame
     vest = re.search(r'<path d="M53,330[^"]*" fill="(#[0-9A-Fa-f]{6})"', svg)
     ink = poster_ink(bg, vest.group(1) if vest else None, club)
     h = history(name, path); pos = [p for _, _, p in h]
