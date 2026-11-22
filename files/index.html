@@ -2498,6 +2498,7 @@ const raceNeighbours=(races,seasonsData,race)=>{
 const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
   const sd=(seasonsData||{})[race.season]||{};
   const here=(races||[]).filter(r=>r.venue===race.venue&&!r.justIn&&(r.winner||r.teamWinner)).sort((a,b)=>b.season.localeCompare(a.season)||b.match-a.match);
+  // (22 Nov 2026: the strip scrolls freely and settles on a photo only when close; the app's pull gestures ignore sideways swipes.)
   // Every photo the archive has from earlier matches at this venue, as a small swipeable strip. Each carries its race, so the
   // viewer shows which match it is from and its caption links to the runners. Only ever seen here: once results arrive this
   // page becomes the race page, which shows that race's own photos.
