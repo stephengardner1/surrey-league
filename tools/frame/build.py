@@ -21,7 +21,7 @@ def bust(name, club):
     if not p: return f'<img src="{u(club)}" alt="" style="width: 40px; height: 40px; display: block; margin: 0 8px 14px">'
     t = open(spot.PORT + p['file'] + '.svg').read()
     open(OUT + 'busts/' + p['file'] + '.svg', 'w').write(re.sub(r'<rect width="200" height="280"[^>]*/>', '', t, count=1))
-    return f'<img src="/frame/busts/{p["file"]}.svg" alt="" style="width: 56px; height: 78px; display: block">'
+    return f'<img src="/frame/busts/{p["file"]}.svg" alt="" style="width: 40px; height: 56px; display: block">'
 INK='#1d211d';MUT='#686e66';INK2='#4c514a';RULE='#dfe2dd';LINK='#1b649e'
 SANS="'Public Sans', system-ui, sans-serif";MONO="'IBM Plex Mono', ui-monospace, monospace";DISP="'Castoro Belgrave Titling', Georgia, serif"
 def g(r,*ks):
@@ -33,19 +33,19 @@ def load(f,rel):
     st=sorted(st,key=lambda x:x['t'])
     rs=sorted([r for r in d['races'] if r['season']==SEASON and r.get('results')],key=lambda r:r['match'])
     return d,st,rs,rel
-HEAD=f"font-family: {SANS}; font-size: 19px; font-weight: 500; letter-spacing: 0.025em; text-transform: uppercase; color: {MUT}"
+HEAD=f"font-family: {SANS}; font-size: 15px; font-weight: 500; letter-spacing: 0.025em; text-transform: uppercase; color: {MUT}"
 G100='#f3f4f2';G300='#c9ccc7';G700='#3c403a'
 def table(st,rel,title):
     hc=lambda t,w:f'<div style="width: {w}px; text-align: right">{t}</div>'
-    h=f'<div style="display: flex; align-items: center; gap: 6px; height: 36px; box-sizing: border-box; border-bottom: 1px solid {RULE}; {HEAD}"><div style="flex-grow: 1">{title}&#39;s Div 1</div>{hc("Tot",66)}{hc("M1",50)}{hc("M2",50)}{hc("M3",50)}{hc("M4",50)}</div>\n'
+    h=f'<div style="display: flex; align-items: center; gap: 6px; height: 30px; box-sizing: border-box; border-bottom: 1px solid {RULE}; {HEAD}"><div style="flex-grow: 1">{title}&#39;s Div 1</div>{hc("Tot",56)}{hc("M1",42)}{hc("M2",42)}{hc("M3",42)}{hc("M4",42)}</div>\n'
     n=len(st)
     for i,x in enumerate(st):
         c=x['club']
         bb=f'2px dotted {G300}' if i==n-1-rel else f'1px solid {G100}'
         pw='font-weight: 700; color: '+INK if i==0 else 'color: '+INK2
         tw=f'font-weight: 700; color: {LINK}' if i==0 else f'font-weight: 600; color: {INK}'
-        ms=''.join(f'<div style="width: 50px; text-align: right; font-family: {MONO}; font-size: 21px; color: {INK2}">{x.get(k) or "-"}</div>' for k in ('m1','m2','m3','m4'))
-        h+=f'<div style="display: flex; align-items: center; gap: 6px; height: 52px; box-sizing: border-box; border-bottom: {bb}"><div style="width: 30px; font-family: {SANS}; font-size: 23px; {pw}">{i+1}</div><img src="{u(c)}" alt="{N[c]}" style="width: 34px; height: 34px; display: block"><div style="flex-grow: 1; min-width: 0; padding-left: 4px; white-space: nowrap; font-family: {SANS}; font-size: 23px; font-weight: {600 if i==0 else 400}; color: {INK}">{c.replace("&","&amp;")}</div><div style="width: 66px; text-align: right; font-family: {MONO}; font-size: 23px; {tw}">{x["t"]}</div>{ms}</div>\n'
+        ms=''.join(f'<div style="width: 42px; text-align: right; font-family: {MONO}; font-size: 17px; color: {INK2}">{x.get(k) or "-"}</div>' for k in ('m1','m2','m3','m4'))
+        h+=f'<div style="display: flex; align-items: center; gap: 6px; height: 40px; box-sizing: border-box; border-bottom: {bb}"><div style="width: 26px; font-family: {SANS}; font-size: 19px; {pw}">{i+1}</div><img src="{u(c)}" alt="{N[c]}" style="width: 22px; height: 22px; display: block"><div style="flex-grow: 1; min-width: 0; padding-left: 4px; white-space: nowrap; font-family: {SANS}; font-size: 19px; font-weight: {600 if i==0 else 400}; color: {INK}">{c.replace("&","&amp;")}</div><div style="width: 56px; text-align: right; font-family: {MONO}; font-size: 19px; {tw}">{x["t"]}</div>{ms}</div>\n'
     return h
 def col(title,st,rs,rel,note,extra=''):
     a,b=st[0],st[1]; gap=b['t']-a['t']; race=rs[-1]
@@ -65,27 +65,26 @@ def cup(rs,label):
     need=min(3,len(rs)) if best3 else len(rs)
     ind=sorted([(sum(sorted(v.values())[:3]) if best3 else sum(v.values()),k,v) for k,v in pos.items() if len(v)>=need])[:5]
     tot=[t for t,_,_ in ind]
-    ex=f'<div style="margin-top: 28px; display: flex; flex-direction: column"><div style="display: flex; align-items: center; gap: 6px; height: 36px; box-sizing: border-box; border-bottom: 1px solid {RULE}; {HEAD}"><div style="flex-grow: 1">{label}</div><div style="width: 60px; text-align: right">Tot</div><div style="width: 44px"></div><div style="width: 44px"></div></div>\n'
+    ex=f'<div style="margin-top: 20px; display: flex; flex-direction: column"><div style="display: flex; align-items: center; gap: 6px; height: 30px; box-sizing: border-box; border-bottom: 1px solid {RULE}; {HEAD}"><div style="flex-grow: 1">{label}</div><div style="width: 60px; text-align: right">Tot</div><div style="width: 44px"></div><div style="width: 44px"></div></div>\n'
     for i,(t,(n,c),v) in enumerate(ind):
         nm=n.split(' (')[0]; rank=tot.index(t)+1; rk=f'={rank}' if tot.count(t)>1 else str(i+1)
-        ps=''.join(f'<div style="width: 44px; text-align: right; font-family: {MONO}; font-size: 19px; color: {MUT}">{v[k]}</div>' for k in sorted(v))
-        ex+=f'<div style="display: flex; align-items: center; gap: 6px; height: 72px; box-sizing: border-box; border-bottom: 1px solid {G100}"><div style="width: 34px; font-family: {SANS}; font-size: 23px; color: {MUT}">{rk}</div><div style="align-self: flex-end; flex-shrink: 0; width: 56px; height: 68px; margin-bottom: 1px; margin-left: -4px; overflow: hidden">{bust(nm,c)}</div><div style="flex-grow: 1; padding-left: 4px; white-space: nowrap; font-family: {SANS}; font-size: 23px; color: {G700}">{nm}</div><div style="width: 60px; text-align: right; font-family: {MONO}; font-size: 23px; font-weight: 500; color: {INK}">{t}</div>{ps}</div>\n'
+        ps=''.join(f'<div style="width: 44px; text-align: right; font-family: {MONO}; font-size: 15px; color: {MUT}">{v[k]}</div>' for k in sorted(v))
+        ex+=f'<div style="display: flex; align-items: center; gap: 6px; height: 52px; box-sizing: border-box; border-bottom: 1px solid {G100}"><div style="width: 34px; font-family: {SANS}; font-size: 19px; color: {MUT}">{rk}</div><div style="align-self: flex-end; flex-shrink: 0; width: 40px; height: 50px; margin-bottom: 1px; margin-left: -4px; overflow: hidden">{bust(nm,c)}</div><div style="flex-grow: 1; padding-left: 4px; white-space: nowrap; font-family: {SANS}; font-size: 19px; color: {G700}">{nm}</div><div style="width: 60px; text-align: right; font-family: {MONO}; font-size: 19px; font-weight: 500; color: {INK}">{t}</div>{ps}</div>\n'
     return ex+'</div>\n'
 ex=cup(rm,'Mitchell Cup'); exw=cup(rw,'Individual')
-ex='@@PHOTO@@\n'+ex
 _i=src.index('const VENUE_SHORT='); VS=json.loads(src[src.index('{',_i):src.index('};',_i)+1].replace("'",'"'))
 FT=json.load(open(S+'fixture-times.json'))
 def fixtures():
     mm=dm['seasonsData'][SEASON]['matches']; wm=dw['seasonsData'][SEASON]['matches']
     L=f'font-family: {SANS}; font-size: 18px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: {MUT}'
-    h=f'<div style="display: flex; flex-direction: column"><div style="display: flex; align-items: center; gap: 8px; height: 36px; box-sizing: border-box; border-bottom: 1px solid {RULE}; {HEAD}"><div style="width: 266px">Matches</div><div style="width: 240px">Men</div><div style="width: 74px">Team</div><div style="width: 1px; align-self: stretch; margin: 0 10px; background: {G300}"></div><div style="width: 240px">Women</div><div style="width: 74px">Team</div></div>\n'
+    h=f'<div style="display: flex; flex-direction: column"><div style="display: flex; align-items: center; gap: 8px; height: 30px; box-sizing: border-box; border-bottom: 1px solid {RULE}; {HEAD}"><div style="width: 266px">Matches</div><div style="width: 240px">Men</div><div style="width: 74px">Team</div><div style="width: 1px; align-self: stretch; margin: 0 10px; background: {G300}"></div><div style="width: 240px">Women</div><div style="width: 74px">Team</div></div>\n'
     nxt=True
     for m,w in zip(mm,wm):
         assert m['date']==w['date'] and m['venue']==w['venue']
         dt=datetime.date.fromisoformat(m['date']); ds=f'{dt.day} {dt.strftime("%b")}'
         up=not m.get('winner')
         vc=MUT if up else INK
-        row=f'<div style="display: flex; align-items: center; gap: 8px; height: 42px; box-sizing: border-box; border-bottom: 1px solid {G100}; font-family: {SANS}; font-size: 21px; color: {INK}"><div style="width: 76px; font-family: {MONO}; font-size: 20px; color: {MUT}">{ds}</div><div style="width: 182px; white-space: nowrap; color: {vc}">{VS.get(m["venue"],m["venue"])}</div>'
+        row=f'<div style="display: flex; align-items: center; gap: 8px; height: 36px; box-sizing: border-box; border-bottom: 1px solid {G100}; font-family: {SANS}; font-size: 18px; color: {INK}"><div style="width: 76px; font-family: {MONO}; font-size: 16px; color: {MUT}">{ds}</div><div style="width: 182px; white-space: nowrap; color: {vc}">{VS.get(m["venue"],m["venue"])}</div>'
         if False:
             pass
         else:
@@ -96,24 +95,38 @@ def fixtures():
                     hm=ft.get('women' if x is w else 'men') if ft.get('date')==m['date'] else None
                     st=(lambda h,mi:f"{h%12 or 12}{':'+str(mi).zfill(2) if mi else ''}{'am' if h<12 else 'pm'}")(*map(int,hm.split(':'))) if hm else '-'
                     row+=f'<div style="width: 240px; font-family: {SANS}; color: {INK2 if hm else MUT}">{st}</div><div style="width: 74px"></div>'
-                else: row+=f'<div style="width: 240px; display: flex; align-items: center; gap: 8px; white-space: nowrap"><img src="{u(x["winnerClub"])}" alt="{N[x["winnerClub"]]}" style="width: 26px; height: 26px; display: block"><div>{x["winner"].split(" ",1)[-1]}</div></div><div style="width: 74px; display: flex; align-items: center; gap: 6px"><img src="{u(x["teamWinner"])}" alt="{N[x["teamWinner"]]}" style="width: 26px; height: 26px; display: block"><div style="font-weight: 600">{x["teamWinner"].replace("&","&amp;")}</div></div>'
+                else: row+=f'<div style="width: 240px; display: flex; align-items: center; gap: 8px; white-space: nowrap"><img src="{u(x["winnerClub"])}" alt="{N[x["winnerClub"]]}" style="width: 18px; height: 18px; display: block"><div>{x["winner"].split(" ",1)[-1]}</div></div><div style="width: 74px; display: flex; align-items: center; gap: 6px"><img src="{u(x["teamWinner"])}" alt="{N[x["teamWinner"]]}" style="width: 18px; height: 18px; display: block"><div style="font-weight: 600">{x["teamWinner"].replace("&","&amp;")}</div></div>'
         h+=row+'</div>\n'
     return h+'</div>\n'
 fixtures=fixtures()
-men=col('Men',sm,rm,2,'',ex)
-women=col('Women',sw,rw,3,'',exw)
 SPOT=spot.build((u,N,SANS,MONO,DISP,INK,INK2,MUT,RULE,'#f3f4f2',u('trophy')))
-PH=json.load(open(os.path.join(spot.HERE,'photos.json')))['photos']
-PHH=(len(sw)-len(sm))*52-24-8-52
-print('photo height',PHH)
-imgs=''.join(f'<img class="photo" src="{ph["src"]}" alt="{esc(ph["alt"])}" style="position: absolute; left: 0; top: 0; width: 468px; height: {PHH}px; display: block; object-fit: cover; object-position: 50% {ph["pos"]}; transition: opacity 1s ease; opacity: {1 if k==0 else 0}">' for k,ph in enumerate(PH))
-PHOTO=f'<div style="margin-top: 24px; display: flex; flex-direction: column; gap: 8px"><div style="position: relative; width: 468px; height: {PHH}px; border-radius: 8px; overflow: hidden; background: #f3f4f2">{imgs}<div style="position: absolute; inset: 0; background: linear-gradient(to top left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%)"></div><div style="position: absolute; right: 12px; bottom: 9px; font-family: {SANS}; font-size: 16px; line-height: 20px; color: rgba(255,255,255,0.8)"><span id="credit">📷 {esc(PH[0].get("credit",""))}</span></div></div><div style="height: 52px; font-family: {SANS}; font-size: 20px; line-height: 26px; color: {INK2}"><span id="caption">{esc(PH[0]["caption"])}</span></div></div>'
-
+PHJ=json.load(open(os.path.join(spot.HERE,'photos.json')))
+# heights: everything on the page is a fixed size, so the photo slots take whatever the columns leave over
+ROW,THEAD,CUP=40,30,20+30+52*5
+COLH=1840-80-18-16-(spot.CARD_H+36)-16-(30+36*len(dm['seasonsData'][SEASON]['matches']))
+def pos(ph,H,W=468):
+    # crop so the eyes sit a third of the way down the slot (or so the top of the frame stays in, where 'top' is set)
+    import struct
+    sh=W*ph.get('ratio',1.5)
+    want=ph['eye']*sh-H/3
+    if 'top' in ph: want=min(want,ph['top']*sh)
+    return f"{max(0,min(100,100*want/max(sh-H,1))):.1f}%"
+def photo(group,table_rows):
+    H=COLH-(THEAD+ROW*table_rows)-CUP-20-8-52
+    PH=PHJ[group]
+    imgs=''.join(f'<img class="photo-{group}" src="{ph["src"]}" alt="{esc(ph["alt"])}" style="position: absolute; left: 0; top: 0; width: 468px; height: {H}px; display: block; object-fit: cover; object-position: 50% {pos(ph,H)}; transition: opacity 1s ease; opacity: {1 if k==0 else 0}">' for k,ph in enumerate(PH))
+    print('photo',group,H)
+    return (f'<div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px"><div style="position: relative; width: 468px; height: {H}px; border-radius: 8px; overflow: hidden; background: #f3f4f2">{imgs}'
+            f'<div style="position: absolute; inset: 0; background: linear-gradient(to top left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%)"></div>'
+            f'<div style="position: absolute; right: 12px; bottom: 9px; font-family: {SANS}; font-size: 15px; line-height: 20px; color: rgba(255,255,255,0.8)"><span id="credit-{group}">\U0001F4F7 {esc(PH[0].get("credit",""))}</span></div></div>'
+            f'<div style="height: 52px; font-family: {SANS}; font-size: 18px; line-height: 25px; color: {INK2}"><span id="caption-{group}">{esc(PH[0]["caption"])}</span></div></div>\n')
+men=col('Men',sm,rm,2,'',photo('men',len(sm))+ex)
+women=col('Women',sw,rw,3,'',photo('women',len(sw))+exw)
 NAMES=[n for n,_,_,_ in spot.SHORTLIST]
 html=open(os.path.join(spot.HERE,'page.html')).read()
 html=(html.replace('@@MEN@@',men).replace('@@WOMEN@@',women).replace('@@SPOT@@',SPOT).replace('@@FIXTURES@@',fixtures)
-      .replace('@@PHOTO@@',PHOTO).replace('@@SEASON@@',SEASON).replace('@@CSS@@',spot.BLINK_CSS+'\n'+spot.INTRO_CSS+'\n'+spot.DOG_CSS)
-      .replace('@@CAPTIONS@@',json.dumps([p['caption'] for p in PH])).replace('@@CREDITS@@',json.dumps([p.get('credit','') for p in PH]))
+      .replace('@@SEASON@@',SEASON).replace('@@CSS@@',spot.BLINK_CSS+'\n'+spot.INTRO_CSS+'\n'+spot.DOG_CSS)
+      .replace('@@PHOTOS@@',json.dumps({g:[[p['caption'],p.get('credit','')] for p in PHJ[g]] for g in ('men','women')})).replace('@@COLH@@',str(COLH))
       .replace('@@SPOTS@@',str(len(NAMES))).replace('@@TROPHY@@',u('trophy')).replace('@@TITLING@@',u('titling')))
 assert '@@' not in html
 open(OUT+'index.html','w').write(html)

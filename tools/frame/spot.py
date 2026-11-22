@@ -5,6 +5,7 @@ from fontTools.ttLib import TTFont
 HERE = os.path.dirname(os.path.abspath(__file__))
 FILES = os.path.join(HERE, '..', '..', 'files') + '/'
 SITE = open(FILES + 'index.html').read()
+CARD_H = 219  # spotlight card height; the band adds 36px of padding
 DM, DW = FILES + 'data.json', FILES + 'data-women.json'
 
 FONT = TTFont(FILES + 'fonts/CastoroBelgraveTitlingLight-Regular.woff')
@@ -178,7 +179,7 @@ def spotlight(name, club, path, file, ctx):
     top3, top10, best = sum(p <= 3 for p in pos), sum(p <= 10 for p in pos), min(pos)
     seasons = sorted(set(s for s, _, _ in h))
     # poster card, scaled from the site's 150px card
-    W = 240; s = 180 / 150; H = 219
+    W = 240; s = 180 / 150; H = CARD_H
     sur = name.split(' ')[-1].upper()
     fs = min(52, 40 * (150 - 14) / text_w(sur, 40))
     c = 7 * math.sqrt(2) * s
@@ -202,10 +203,15 @@ def spotlight(name, club, path, file, ctx):
     pillbox = (f'<div style="position: absolute; left: {7*s:.1f}px; right: {6*s:.1f}px; bottom: {7*s:.1f}px; z-index: 2; display: flex; flex-wrap: wrap-reverse; '
                f'gap: {3*s:.1f}px; animation: slFade .45s ease-out .85s both">{pills}</div>') if pills else ''
     art = blinker(svg).replace('<svg ', f'<svg width="{W}" height="{W*330/230:.1f}" aria-hidden="true" style="display: block" ', 1)
+    # every card's drawing sits in the same page, so give its ids a prefix of its own (clip paths would otherwise clash)
+    pre = re.sub(r'[^a-z0-9]', '', file) + '-'
+    ids = set(re.findall(r'id="([^"]+)"', art))
+    for i in ids:
+        art = art.replace(f'id="{i}"', f'id="{pre}{i}"').replace(f'url(#{i})', f'url(#{pre}{i})').replace(f'href="#{i}"', f'href="#{pre}{i}"')
     card = (f'<div class="sl-intro{" dogcard" if dog else ""}" style="position: relative; width: {W}px; height: {H}px; flex-shrink: 0">'
             f'<div style="position: absolute; inset: 0; border-radius: {12*s:.0f}px; overflow: hidden; background: {bg}; '
             f'clip-path: polygon(0 0, 100% 0, 100% {H-c:.1f}px, {W-c:.1f}px 100%, 0 100%)">'
-            f'<div role="img" aria-label="Portrait of {name}" style="position: absolute; left: 0; top: -36px; width: {W}px; animation: slRise .6s cubic-bezier(.2,.8,.3,1) .5s both">{art}</div>'
+            f'<div role="img" aria-label="Portrait of {name}" style="position: absolute; left: 0; top: -14px; width: {W}px; animation: slRise .6s cubic-bezier(.2,.8,.3,1) .5s both">{art}</div>'
             f'{pillbox}</div>'
             f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" aria-hidden="true" style="position: absolute; left: 0; top: 0">'
             f'<polygon points="{W-c:.1f},{H} {W},{H-c:.1f} {W-c:.1f},{H-c:.1f}" fill="{back}" stroke="{back}" stroke-width="1.5" stroke-linejoin="round"></polygon></svg></div>')
@@ -216,8 +222,8 @@ def spotlight(name, club, path, file, ctx):
         a = a_scores(name, path)
         if a: stats.insert(1, (a, 'Scores'))
     st = ''.join(f'<div style="width: 78px; display: flex; flex-direction: column; align-items: center; gap: 4px; white-space: nowrap; animation: slFade .3s ease-out {.55+.13*k:.2f}s both">'
-                 f'<div style="font-family: {DISP}; font-weight: 600; font-size: 40px; line-height: 40px; color: {INK}">{v}</div>'
-                 f'<div style="font-family: {SANS}; font-size: 16px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: {MUT}">{l}</div></div>'
+                 f'<div style="font-family: {DISP}; font-weight: 600; font-size: 32px; line-height: 34px; color: {INK}">{v}</div>'
+                 f'<div style="font-family: {SANS}; font-size: 14px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: {MUT}">{l}</div></div>'
                  for k, (v, l) in enumerate(stats))
     # race graph: earliest left; y runs from best (top) to worst (bottom), as on the site
     GW, GH, pad = 716, 90, 9
@@ -251,13 +257,13 @@ def spotlight(name, club, path, file, ctx):
     axis = (f'<div style="display: flex; justify-content: space-between; font-family: {SANS}; font-size: 17px; color: {MUT}">'
             f'<div>{seasons[0]}</div><div>{seasons[-1]}</div></div>') if len(seasons) > 1 else ''
     avail = 716 - 16 - 78 * len(stats)
-    nfs = min(38, 38 * avail / max(text_w(name.upper(), 38), 1))
+    nfs = min(32, 32 * avail / max(text_w(name.upper(), 32), 1))
     right = (f'<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px">'
              f'<div style="display: flex; align-items: flex-start; gap: 16px">'
              f'<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px">'
              ''
              f'<div style="font-family: {DISP}; font-weight: 300; font-size: {nfs:.1f}px; line-height: 40px; text-transform: uppercase; letter-spacing: -0.01em; color: {INK}; white-space: nowrap">{name}</div>'
-             f'<div style="display: flex; align-items: center; gap: 8px; font-family: {SANS}; font-size: 20px; color: {INK2}; white-space: nowrap">'
+             f'<div style="display: flex; align-items: center; gap: 8px; font-family: {SANS}; font-size: 18px; color: {INK2}; white-space: nowrap">'
              f'{INFO["names"].get(club, club).replace("&", "&amp;")}</div></div>'
              f'<div style="display: flex">{st}</div></div>'
              f'<div style="border-top: 1px solid {G100}; padding-top: 8px; display: flex; flex-direction: column; gap: 2px">{graph}{axis}</div></div>')
