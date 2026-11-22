@@ -2486,7 +2486,7 @@ const RaceCompare=({race,races,setView})=>{
 // A race that is in the fixture list but has no results yet still has its own page (same address as
 // the results will have): venue, date, start time, and earlier matches at the venue if there are any.
 // On race day the same page fills in with the first results, then the full results, by itself.
-const upcomingRace=(D,key)=>{const fx=key&&(((D?.seasonsData||{})[key.season]||{}).matches||[]).find(m=>m.num===key.match);return fx&&fx.date&&fx.venue?{season:key.season,match:key.match,venue:fx.venue,venueDetail:fx.venueDetail,date:fx.date,results:[],upcoming:true}:undefined;};
+const upcomingRace=(D,key)=>{const fx=key&&(((D?.seasonsData||{})[key.season]||{}).matches||[]).find(m=>m.num===key.match);return fx&&fx.date&&fx.venue?{season:key.season,match:key.match,venue:fx.venue,venueDetail:fx.venueDetail,newCourse:!!fx.newCourse,date:fx.date,results:[],upcoming:true}:undefined;};
 // The races either side of this one in date order, counting fixtures still to come (their pre-race pages), so Prev / Next,
 // the arrow keys and a sideways swipe run straight through from the last result into the rest of the season.
 const raceNeighbours=(races,seasonsData,race)=>{
@@ -2525,6 +2525,7 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
       <div className="text-sm text-gray-500 mb-1">{formatDate(race.date)} · Match {race.match} · <span className="cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{race.season}</span></div>
       <h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>
       {race.venueDetail&&<p className="text-sm text-gray-700 mt-1">{race.venueDetail}</p>}
+      {race.newCourse&&here.length===0&&<p className="upcoming-new text-sm text-gray-700 mt-1">A new course: no Surrey League race has been held at this venue before.</p>}
       {start&&<p className="upcoming-start text-sm text-gray-700 mt-1">Starts {start}{ft.confirmed?'':' (to be confirmed)'}</p>}
       <p className="upcoming-status mt-2 flex items-center gap-1.5 text-sm text-gray-500" role="status">{raceDay&&<span className="justin-dot mr-0.5" aria-hidden="true"></span>}{raceDay?'Race day. Results will appear here within minutes of the league publishing them.':past?'No results published yet. They will appear here when the league publishes them.':'Results will appear here on race day, within minutes of the league publishing them.'}</p>
     </div>
