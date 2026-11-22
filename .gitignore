@@ -5,3 +5,4 @@ files/*-backup-*
 files/index (*.html
 files/index.fixed.html
 index (*.html
+__pycache__/
