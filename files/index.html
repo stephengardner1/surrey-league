@@ -5317,7 +5317,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
       </tr></thead>
       <tbody className="divide-y divide-gray-100">{matches.map(match=>{
         const race=findRace(match.num);const upcoming=!match.winner;
-        return<tr key={match.num} className={`${upcoming?'':'hover:bg-gray-100 cursor-pointer'}`} onClick={()=>!upcoming&&race&&setView({type:'race',race})}>
+        // A fixture still to come opens its pre-race page (the same page the Races tab opens)
+        const open=race||(upcoming?upcomingRace({seasonsData:{[season]:{matches}}},{season:season,match:match.num}):null);
+        return<tr key={match.num} className={open?'hover:bg-gray-100 cursor-pointer':''} onClick={()=>open&&setView({type:'race',race:open})}>
           <td className={`${rightRowPy} pr-2 text-gray-500 whitespace-nowrap w-14`}>{match.date?.length<=3?match.date:formatDateShort(match.date)}</td>
           <td className={`${rightRowPy} px-2 ${upcoming?'text-gray-500':'text-gray-900'}`}><VenueName venue={match.venue}/></td>
           <td className={`${rightRowPy} px-2`}>{upcoming?<span className="text-gray-500">-</span>:<div className="flex items-center gap-1.5"><ClubShield club={match.winnerClub} size={14}/><span className="text-gray-700">{String(match.winner).split(' / ').map((w,i)=><span key={i} className="block"><span className="hidden md:inline">{w}</span><span className="md:hidden">{getSurname(w)}</span></span>)}</span></div>}</td>
