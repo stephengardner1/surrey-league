@@ -2487,6 +2487,14 @@ const RaceCompare=({race,races,setView})=>{
 // the results will have): venue, date, start time, and earlier matches at the venue if there are any.
 // On race day the same page fills in with the first results, then the full results, by itself.
 const upcomingRace=(D,key)=>{const fx=key&&(((D?.seasonsData||{})[key.season]||{}).matches||[]).find(m=>m.num===key.match);return fx&&fx.date&&fx.venue?{season:key.season,match:key.match,venue:fx.venue,venueDetail:fx.venueDetail,date:fx.date,results:[],upcoming:true}:undefined;};
+// The races either side of this one in date order, counting fixtures still to come (their pre-race pages), so Prev / Next,
+// the arrow keys and a sideways swipe run straight through from the last result into the rest of the season.
+const raceNeighbours=(races,seasonsData,race)=>{
+  const done=(races||[]).filter(r=>r.results?.length>0),have=new Set(done.map(r=>r.season+'|'+r.match));
+  const coming=Object.keys(seasonsData||{}).flatMap(season=>((seasonsData[season]||{}).matches||[]).filter(m=>!have.has(season+'|'+m.num)).map(m=>upcomingRace({seasonsData},{season,match:m.num})).filter(Boolean));
+  const all=[...done,...coming].sort((a,b)=>a.season.localeCompare(b.season)||a.match-b.match),i=all.findIndex(r=>r.season===race.season&&r.match===race.match);
+  return{prev:i>0?all[i-1]:null,next:i>=0&&i<all.length-1?all[i+1]:null};
+};
 const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
   const sd=(seasonsData||{})[race.season]||{};
   const here=(races||[]).filter(r=>r.venue===race.venue&&!r.justIn&&(r.winner||r.teamWinner)).sort((a,b)=>b.season.localeCompare(a.season)||b.match-a.match);
@@ -2495,7 +2503,8 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
   // page becomes the race page, which shows that race's own photos.
   const venuePhotos=here.flatMap(r=>racePhotosFor(r).map(ph=>({...ph,race:r})));
   const[photoOpen,setPhotoOpen]=useState(-1);
-  const prev=(races||[]).find(r=>r.season===race.season&&r.match===race.match-1);
+  const{prev,next}=useMemo(()=>raceNeighbours(races,seasonsData,race),[races,seasonsData,race.season,race.match]);
+  usePrevNextNav(prev?()=>setView({type:'race',race:prev}):null,next?()=>setView({type:'race',race:next}):null);
   const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];
   // Start times come from surreyleague.org once a day (tools/fixture_times.mjs)
   const[times,setTimes]=useState(null);
@@ -2507,7 +2516,10 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
   return<div className="max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8">
     <div className="flex items-center justify-between mb-1 md:mb-3 -mx-2">
       <button onClick={()=>setView({type:'fixtures'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ArrowLeft className="w-4 h-4"/>Fixtures</button>
-      {prev?<button onClick={()=>setView({type:'race',race:prev})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ChevronLeft className="w-4 h-4"/><span className="hidden sm:inline">{prev.venue}</span><span className="sm:hidden">Prev</span></button>:null}
+      <div className="flex items-center gap-1">
+        {prev?<button onClick={()=>setView({type:'race',race:prev})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ChevronLeft className="w-4 h-4"/><span className="hidden sm:inline">{prev.venue}</span><span className="sm:hidden">Prev</span></button>:null}
+        {next?<button onClick={()=>setView({type:'race',race:next})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><span className="hidden sm:inline">{next.venue}</span><span className="sm:hidden">Next</span><ChevronRight className="w-4 h-4"/></button>:null}
+      </div>
     </div>
     <div className="mb-4 lg:mb-6">
       <div className="text-sm text-gray-500 mb-1">{formatDate(race.date)} · Match {race.match} · <span className="cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{race.season}</span></div>
@@ -2647,8 +2659,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
   // Find prev/next races
   const sortedRaces=useMemo(()=>[...races].filter(r=>r.results?.length>0).sort((a,b)=>{if(a.season!==b.season)return a.season.localeCompare(b.season);return a.match-b.match;}),[races]);
   const currentIdx=sortedRaces.findIndex(r=>r.season===race.season&&r.match===race.match);
-  const prevRace=currentIdx>0?sortedRaces[currentIdx-1]:null;
-  const nextRace=currentIdx<sortedRaces.length-1?sortedRaces[currentIdx+1]:null;
+  const{prev:prevRace,next:nextRace}=useMemo(()=>raceNeighbours(races,seasonsData,race),[races,seasonsData,race.season,race.match]);
   usePrevNextNav(prevRace?()=>setView({type:'race',race:prevRace}):null,nextRace?()=>setView({type:'race',race:nextRace}):null);
   
   // Count individual winner's race wins up to and including this race, and total career wins
