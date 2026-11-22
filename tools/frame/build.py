@@ -101,6 +101,12 @@ def fixtures():
 fixtures=fixtures()
 SPOT=spot.build((u,N,SANS,MONO,DISP,INK,INK2,MUT,RULE,'#f3f4f2',u('trophy')))
 PHJ=json.load(open(os.path.join(spot.HERE,'photos.json')))
+# no credit for Steve's own photos or the league's
+NO_CREDIT={'steve gardner','surrey league','surrey cross country league'}
+for _g in ('men','women'):
+    for _p in PHJ[_g]:
+        _c=re.sub(r'^photo:\s*','',_p.get('credit','').strip(),flags=re.I)
+        _p['credit']='' if _c.lower() in NO_CREDIT else _c
 # heights: everything on the page is a fixed size, so the photo slots take whatever the columns leave over
 ROW,THEAD,CUP=40,30,20+30+52*5
 COLH=1840-80-18-16-(spot.CARD_H+36)-16-(30+36*len(dm['seasonsData'][SEASON]['matches']))
@@ -119,7 +125,7 @@ def photo(group,table_rows):
     return (f'<div style="margin-top: 20px; position: relative; width: 468px; height: {H}px; border-radius: 8px; overflow: hidden; background: #f3f4f2">{imgs}'
             f'<div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 22%, rgba(0,0,0,0) 40%)"></div>'
             f'<div style="position: absolute; left: 14px; right: 14px; bottom: 11px; font-family: {SANS}; font-size: 16px; line-height: 21px; color: rgba(255,255,255,0.94); text-shadow: 0 1px 4px rgba(0,0,0,0.35)"><span id="caption-{group}">{esc(PH[0]["caption"])}</span> '
-            f'<span id="credit-{group}" style="font-size: 14px; color: rgba(255,255,255,0.72); white-space: nowrap">\U0001F4F7 {esc(PH[0].get("credit",""))}</span></div></div>\n')
+            f'<span id="credit-{group}" style="font-size: 14px; color: rgba(255,255,255,0.72); white-space: nowrap">{("\U0001F4F7 "+esc(PH[0]["credit"])) if PH[0]["credit"] else ""}</span></div></div>\n')
 men=col('Men',sm,rm,2,'',photo('men',len(sm))+ex)
 women=col('Women',sw,rw,3,'',photo('women',len(sw))+exw)
 NAMES=[n for n,_,_,_ in spot.SHORTLIST]
