@@ -2530,10 +2530,10 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
     </div>
     {venuePhotos.length>0&&<div className="upcoming-photos max-w-xl mb-6">
       <Label>{venuePhotos.length>1?`${venuePhotos.length} photos from ${race.venue}`:`From ${race.venue}`}</Label>
-      <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-0 -mx-4 px-4 sm:mx-0 sm:px-0 pb-1" style={{scrollbarWidth:'none'}}>{venuePhotos.map((ph,k)=><button key={ph.src} type="button" onClick={()=>setPhotoOpen(k)} aria-label={`Show the ${ph.race.season} photo larger, with its caption`} className={`snap-start shrink-0 text-left ${venuePhotos.length>1?'w-[72%] sm:w-64':'w-full'}`}>
+      <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-0 -mx-4 px-4 sm:mx-0 sm:px-0 pb-1" style={{scrollbarWidth:'none'}}>{venuePhotos.map((ph,k)=><button key={ph.src} type="button" onClick={()=>setPhotoOpen(k)} aria-label={`Show the ${ph.race.season} photo larger, with its caption`} className={`snap-start snap-always shrink-0 text-left ${venuePhotos.length>1?'w-[72%] sm:w-64':'w-full'}`}>
         <span className="block relative w-full aspect-[4/3] rounded border border-gray-200 overflow-hidden"><EyeImg src={ph.src} alt="" className="absolute inset-0 w-full h-full object-cover photo-tone" pos={ph.widePos||ph.thumbPos||'50% 30%'}/></span>
         <span className="block mt-1.5 text-xs text-gray-500">{ph.race.season} · Match {ph.race.match}</span>
-      </button>)}</div>
+      </button>)}{venuePhotos.length>1&&<span aria-hidden="true" className="shrink-0 w-[28%] sm:hidden"></span>}</div>
       {photoOpen>=0&&<PhotoLightbox photos={venuePhotos} start={photoOpen} race={venuePhotos[photoOpen].race} onClose={()=>setPhotoOpen(-1)}/>}
     </div>}
     <div className="max-w-xl">
