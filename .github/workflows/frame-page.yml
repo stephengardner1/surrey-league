@@ -1,0 +1,55 @@
+# Rebuilds files/frame/: the Surrey League page shown on the kitchen Frame (Gracedaler "surrey" mode).
+# Runs when the results, start times or the page's own code change, and hourly as a backstop,
+# because commits made by other workflows don't trigger this one.
+name: Frame page
+on:
+  push:
+    branches: [main]
+    paths:
+      - files/data.json
+      - files/data-women.json
+      - files/fixture-times.json
+      - files/portraits/**
+      - tools/frame/**
+  schedule:
+    - cron: '41 * * * *'
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: frame-page
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            tools/frame
+            files/index.html
+            files/data.json
+            files/data-women.json
+            files/fixture-times.json
+            files/portraits
+            files/fonts
+            files/frame
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build the Frame page and save if changed
+        run: |
+          pip install --quiet fonttools
+          cd tools/frame && python3 build.py && cd ../..
+          git add files/frame
+          if git diff --cached --quiet; then echo "Already up to date"; exit 0; fi
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "Frame page: rebuild from latest results"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 10
+          done
+          exit 1
