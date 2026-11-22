@@ -726,3 +726,56 @@ function sidewaysScroller(el) {
     try { const face = new FontFace(f.family, b64(data), desc); await face.load(); document.fonts.add(face); } catch (e) { console.warn('[SL] font', f.url, e && e.message); }
   }
 })();
+
+// ---------- Pictures added to the site after this build (race photos, portraits) ----------
+// The built-in copy only has the pictures that existed when the app was built. When the page
+// asks for one it doesn't have, load it from slarchive.org instead: first directly, and if that
+// fails too, through the app (like the fonts above). Runs for every picture, including ones in
+// the photo viewer that appear later, and re-checks any that had already failed.
+(function newPictures() {
+  if (!window.Capacitor?.isNativePlatform?.()) return;
+  const site = (window.SL_CONFIG && window.SL_CONFIG.site) || 'https://slarchive.org';
+  const H = window.Capacitor?.Plugins?.CapacitorHttp;
+  const viaApp = new Map(); // path -> Promise<blob url>
+  const pathOf = (img) => {
+    let u; try { u = new URL(img.getAttribute('src') || '', location.href); } catch (e) { return null; }
+    if (u.protocol === 'data:' || u.protocol === 'blob:') return null;
+    if ((u.protocol === 'http:' || u.protocol === 'https:') && u.host !== location.host) return null; // already from elsewhere
+    return u.pathname + u.search;
+  };
+  const fromSite = (path) => {
+    if (!H) return Promise.reject(new Error('no http'));
+    if (!viaApp.has(path)) viaApp.set(path, H.get({ url: site + path, responseType: 'blob' }).then((r) => {
+      if (r.status !== 200 || typeof r.data !== 'string') throw new Error('status ' + r.status);
+      const bin = atob(r.data); const u = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+      const type = /\.png$/i.test(path) ? 'image/png' : /\.svg$/i.test(path) ? 'image/svg+xml' : /\.webp$/i.test(path) ? 'image/webp' : 'image/jpeg';
+      return URL.createObjectURL(new Blob([u], { type }));
+    }).catch((e) => { viaApp.delete(path); throw e; }));
+    return viaApp.get(path);
+  };
+  const fix = (img) => {
+    const step = img.dataset.slPic || '';
+    if (step === 'app' || step === 'done') return;
+    if (step === 'site') { // the direct load from slarchive.org failed too
+      img.dataset.slPic = 'app';
+      fromSite(img.dataset.slPicPath).then((b) => { img.dataset.slPic = 'done'; img.src = b; }).catch(() => {});
+      return;
+    }
+    const path = pathOf(img);
+    const absolute = /^https?:/i.test(img.getAttribute('src') || '') && img.src.indexOf(site) === 0;
+    if (!path && !absolute) return;
+    if (absolute) { // already pointed at the site (e.g. by the built-in fallback): wait to see if that loads
+      let u; try { u = new URL(img.src); } catch (e) { return; }
+      img.dataset.slPicPath = u.pathname + u.search; img.dataset.slPic = 'site';
+      if (img.complete && img.naturalWidth === 0 && img.dataset.slRetried) fix(img); // it already failed
+      return;
+    }
+    img.dataset.slPicPath = path;
+    img.dataset.slPic = 'site';
+    img.src = site + path;
+  };
+  document.addEventListener('error', (e) => { if (e.target && e.target.tagName === 'IMG') fix(e.target); }, true);
+  const sweep = () => { for (const img of document.images) if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) fix(img); };
+  sweep(); setTimeout(sweep, 1500);
+})();
