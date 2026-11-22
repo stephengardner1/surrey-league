@@ -2525,8 +2525,8 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
       <div className="text-sm text-gray-500 mb-1">{formatDate(race.date)} · Match {race.match} · <span className="cursor-pointer hover:text-[#1b649e]" onClick={()=>setView({type:'home',urlSeason:race.season})}>{race.season}</span></div>
       <h1 className="text-2xl font-bold text-gray-900"><VenueName venue={race.venue}/></h1>
       {race.venueDetail&&<p className="text-sm text-gray-700 mt-1">{race.venueDetail}</p>}
-      {race.newCourse&&here.length===0&&<p className="upcoming-new text-sm text-gray-700 mt-1">A new course: no Surrey League race has been held at this venue before.</p>}
       {start&&<p className="upcoming-start text-sm text-gray-700 mt-1">Starts {start}{ft.confirmed?'':' (to be confirmed)'}</p>}
+      {race.newCourse&&here.length===0&&<p className="upcoming-new text-sm text-gray-700 mt-1">A new course: no Surrey League race has been held at this venue before.</p>}
       <p className="upcoming-status mt-2 flex items-center gap-1.5 text-sm text-gray-500" role="status">{raceDay&&<span className="justin-dot mr-0.5" aria-hidden="true"></span>}{raceDay?'Race day. Results will appear here within minutes of the league publishing them.':past?'No results published yet. They will appear here when the league publishes them.':'Results will appear here on race day, within minutes of the league publishing them.'}</p>
     </div>
     {venuePhotos.length>0&&<div className="upcoming-photos max-w-xl mb-6">
