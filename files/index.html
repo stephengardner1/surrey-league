@@ -2490,10 +2490,11 @@ const upcomingRace=(D,key)=>{const fx=key&&(((D?.seasonsData||{})[key.season]||{
 const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
   const sd=(seasonsData||{})[race.season]||{};
   const here=(races||[]).filter(r=>r.venue===race.venue&&!r.justIn&&(r.winner||r.teamWinner)).sort((a,b)=>b.season.localeCompare(a.season)||b.match-a.match);
-  // A photo from an earlier match at this venue (the most recent one that has any). It is only ever
-  // seen here: once results arrive this page becomes the race page, which shows that race's own photos.
-  const withPhoto=here.find(r=>racePhotosFor(r).length>0),venuePhotos=withPhoto?racePhotosFor(withPhoto):[],venuePhoto=venuePhotos[0];
-  const[photoOpen,setPhotoOpen]=useState(false);
+  // Every photo the archive has from earlier matches at this venue, as a small swipeable strip. Each carries its race, so the
+  // viewer shows which match it is from and its caption links to the runners. Only ever seen here: once results arrive this
+  // page becomes the race page, which shows that race's own photos.
+  const venuePhotos=here.flatMap(r=>racePhotosFor(r).map(ph=>({...ph,race:r})));
+  const[photoOpen,setPhotoOpen]=useState(-1);
   const prev=(races||[]).find(r=>r.season===race.season&&r.match===race.match-1);
   const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];
   // Start times come from surreyleague.org once a day (tools/fixture_times.mjs)
@@ -2515,12 +2516,14 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
       {start&&<p className="upcoming-start text-sm text-gray-700 mt-1">Starts {start}{ft.confirmed?'':' (to be confirmed)'}</p>}
       <p className="upcoming-status mt-2 flex items-center gap-1.5 text-sm text-gray-500" role="status">{raceDay&&<span className="justin-dot mr-0.5" aria-hidden="true"></span>}{raceDay?'Race day. Results will appear here within minutes of the league publishing them.':past?'No results published yet. They will appear here when the league publishes them.':'Results will appear here on race day, within minutes of the league publishing them.'}</p>
     </div>
-    {venuePhoto&&<figure className="upcoming-photo max-w-xl mb-6">
-      <button type="button" onClick={()=>setPhotoOpen(true)} aria-label="Show the photo larger" className="block relative w-full aspect-[4/3] rounded border border-gray-200 overflow-hidden"><EyeImg src={venuePhoto.src} alt="" className="absolute inset-0 w-full h-full object-cover photo-tone" pos={venuePhoto.widePos||venuePhoto.thumbPos||'50% 30%'}/></button>
-      <figcaption className="mt-2 text-sm text-gray-700">{fillCaption(venuePhoto.caption||'',withPhoto)} <span className="text-gray-500">{venuePhoto.credit}</span></figcaption>
-      <button type="button" onClick={()=>setView({type:'race',race:withPhoto})} className="mt-1 text-sm text-gray-500 underline decoration-gray-300 underline-offset-2 hover:text-[#1b649e]">From the {withPhoto.season} match at {withPhoto.venue}</button>
-      {photoOpen&&<PhotoLightbox photos={venuePhotos} race={withPhoto} onClose={()=>setPhotoOpen(false)}/>}
-    </figure>}
+    {venuePhotos.length>0&&<div className="upcoming-photos max-w-xl mb-6">
+      <Label>{venuePhotos.length>1?`${venuePhotos.length} photos from ${race.venue}`:`From ${race.venue}`}</Label>
+      <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-0 -mx-4 px-4 sm:mx-0 sm:px-0 pb-1" style={{scrollbarWidth:'none'}}>{venuePhotos.map((ph,k)=><button key={ph.src} type="button" onClick={()=>setPhotoOpen(k)} aria-label={`Show the ${ph.race.season} photo larger, with its caption`} className={`snap-start shrink-0 text-left ${venuePhotos.length>1?'w-[72%] sm:w-64':'w-full'}`}>
+        <span className="block relative w-full aspect-[4/3] rounded border border-gray-200 overflow-hidden"><EyeImg src={ph.src} alt="" className="absolute inset-0 w-full h-full object-cover photo-tone" pos={ph.widePos||ph.thumbPos||'50% 30%'}/></span>
+        <span className="block mt-1.5 text-xs text-gray-500">{ph.race.season} · Match {ph.race.match}</span>
+      </button>)}</div>
+      {photoOpen>=0&&<PhotoLightbox photos={venuePhotos} start={photoOpen} race={venuePhotos[photoOpen].race} onClose={()=>setPhotoOpen(-1)}/>}
+    </div>}
     <div className="max-w-xl">
       {here.length>0&&<div><Label>{race.venue} in the archive</Label>
         <table className="w-full"><tbody>{here.map(r=><tr key={r.season+'-'+r.match} className="border-b border-gray-50 cursor-pointer hover:bg-gray-50" onClick={()=>setView({type:'race',race:r})}><td className="py-1.5 pr-2 text-sm text-gray-500 whitespace-nowrap tabular-nums">{r.season}</td><td className="py-1.5 px-2 text-sm">{r.winner||''}</td><td className="py-1.5 pl-2 text-sm text-right">{r.teamWinner?<span className="inline-flex items-center gap-1.5"><ClubShield club={r.teamWinner} size={14}/>{r.teamWinner}</span>:null}</td></tr>)}</tbody></table></div>}
