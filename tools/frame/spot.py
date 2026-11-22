@@ -167,11 +167,30 @@ def honours(name, path):
     if titles: out.append(('League Winner', 'TROPHY', titles))
     return out
 
+def light_skin(svg):
+    """True when the portrait's face colour (its most used warm fill) is light."""
+    import collections, colorsys
+    best = None
+    for h, k in collections.Counter(re.findall(r'fill="(#[0-9A-Fa-f]{6})"', svg)).most_common():
+        r, g, b = [int(h[i:i+2], 16) / 255 for i in (1, 3, 5)]
+        H, Lh, S = colorsys.rgb_to_hls(r, g, b)
+        if r > g > b and H < 0.12 and S > 0.12 and 0.15 < Lh < 0.92: best = (r, g, b); break
+    return bool(best) and L([x * 255 for x in best]) > 0.3
+
+def dark_ground(col, club):
+    """The club's kit colour (or its portrait ground, if the kit has no hue), dark and greyed down."""
+    import colorsys
+    for c in (INFO['chartpairs'].get(club) or ())[:1] + (col,):
+        H, _, S = colorsys.rgb_to_hls(*[x / 255 for x in rgb(c)])
+        if S > 0.15: break
+    return hexc([x * 255 for x in colorsys.hls_to_rgb(H, 0.25, 0.2)])
+
 def spotlight(name, club, path, file, ctx):
     u, N, SANS, MONO, DISP, INK, INK2, MUT, RULE, G100, TROPHY = ctx
     dog = file in DOGS
     svg = open(PORT + file + ('-dog' if dog else '') + '.svg').read()
     bg = re.search(r'<rect width="200" height="280" fill="(#[0-9A-Fa-f]{3,6})"', svg).group(1)
+    if light_skin(svg): bg = dark_ground(bg, club)  # a pale ground washes out a light face on the backlit Frame
     vest = re.search(r'<path d="M53,330[^"]*" fill="(#[0-9A-Fa-f]{6})"', svg)
     ink = poster_ink(bg, vest.group(1) if vest else None, club)
     h = history(name, path); pos = [p for _, _, p in h]

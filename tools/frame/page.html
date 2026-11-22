@@ -32,7 +32,7 @@ body{width:1080px;height:1920px;overflow:hidden}
   ['men','women'].forEach(function(g,gi){
     var imgs=document.querySelectorAll('.photo-'+g),cap=document.getElementById('caption-'+g),cred=document.getElementById('credit-'+g),k=0;
     if(imgs.length<2)return;
-    setTimeout(function(){setInterval(function(){imgs[k].style.opacity=0;k=(k+1)%imgs.length;imgs[k].style.opacity=1;cap.textContent=P[g][k][0];cred.textContent=P[g][k][1]?'\ud83d\udcf7 '+P[g][k][1]:'';},8000);},gi*4000);
+    setTimeout(function(){setInterval(function(){imgs[k].style.opacity=0;k=(k+1)%imgs.length;imgs[k].style.opacity=1;cap.textContent=P[g][k][0];cred.textContent=P[g][k][1]?'\ud83d\udcf7 '+P[g][k][1]:'';},24000);},gi*12000);
   });
   // athlete spotlight: a new athlete every 15 minutes; ?spot=N pins one for checking
   var spots=document.querySelectorAll('.spot'),n=@@SPOTS@@,cur=-1,pin=parseInt(new URLSearchParams(location.search).get('spot'),10);
