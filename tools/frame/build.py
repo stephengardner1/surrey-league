@@ -112,14 +112,14 @@ def pos(ph,H,W=468):
     if 'top' in ph: want=min(want,ph['top']*sh)
     return f"{max(0,min(100,100*want/max(sh-H,1))):.1f}%"
 def photo(group,table_rows):
-    H=COLH-(THEAD+ROW*table_rows)-CUP-20-8-52
+    H=COLH-(THEAD+ROW*table_rows)-CUP-20
     PH=PHJ[group]
     imgs=''.join(f'<img class="photo-{group}" src="{ph["src"]}" alt="{esc(ph["alt"])}" style="position: absolute; left: 0; top: 0; width: 468px; height: {H}px; display: block; object-fit: cover; object-position: 50% {pos(ph,H)}; transition: opacity 1s ease; opacity: {1 if k==0 else 0}">' for k,ph in enumerate(PH))
     print('photo',group,H)
-    return (f'<div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px"><div style="position: relative; width: 468px; height: {H}px; border-radius: 8px; overflow: hidden; background: #f3f4f2">{imgs}'
-            f'<div style="position: absolute; inset: 0; background: linear-gradient(to top left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%)"></div>'
-            f'<div style="position: absolute; right: 12px; bottom: 9px; font-family: {SANS}; font-size: 15px; line-height: 20px; color: rgba(255,255,255,0.8)"><span id="credit-{group}">\U0001F4F7 {esc(PH[0].get("credit",""))}</span></div></div>'
-            f'<div style="height: 52px; font-family: {SANS}; font-size: 18px; line-height: 25px; color: {INK2}"><span id="caption-{group}">{esc(PH[0]["caption"])}</span></div></div>\n')
+    return (f'<div style="margin-top: 20px; position: relative; width: 468px; height: {H}px; border-radius: 8px; overflow: hidden; background: #f3f4f2">{imgs}'
+            f'<div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 22%, rgba(0,0,0,0) 40%)"></div>'
+            f'<div style="position: absolute; left: 14px; right: 150px; bottom: 11px; font-family: {SANS}; font-size: 16px; line-height: 21px; color: rgba(255,255,255,0.94); text-shadow: 0 1px 4px rgba(0,0,0,0.35)"><span id="caption-{group}">{esc(PH[0]["caption"])}</span></div>'
+            f'<div style="position: absolute; right: 12px; bottom: 11px; font-family: {SANS}; font-size: 14px; line-height: 21px; color: rgba(255,255,255,0.75); white-space: nowrap"><span id="credit-{group}">\U0001F4F7 {esc(PH[0].get("credit",""))}</span></div></div>\n')
 men=col('Men',sm,rm,2,'',photo('men',len(sm))+ex)
 women=col('Women',sw,rw,3,'',photo('women',len(sw))+exw)
 NAMES=[n for n,_,_,_ in spot.SHORTLIST]
