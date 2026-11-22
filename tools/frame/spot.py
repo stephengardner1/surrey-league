@@ -142,6 +142,13 @@ def history(name, path):
 
 # titles won off the course, confirmed by Steve: team manager for Belgrave's 2025/26 men's title
 EXTRA_TITLES = {'Steve Gardner': ['2026']}
+def a_scores(name, path):
+    d = json.load(open(path)); n = 0
+    for r in d['races']:
+        for x in r.get('results') or []:
+            if (x.get('n') or x.get('name')) == name and (x.get('s') or x.get('pts')): n += 1
+    return n
+
 def honours(name, path):
     d = json.load(open(path)); sd = d['seasonsData']; latest = sorted(sd)[-1]
     women = path == DW; seasons = {}
@@ -205,6 +212,9 @@ def spotlight(name, club, path, file, ctx):
     # stats, in the order of the site's athlete stats
     stats = [(races, 'Races'), (wins, 'Wins'), (top3, 'Top 3'), (top10, 'Top 10'), (ordinal(best), 'Best')]
     stats = [(v, l) for v, l in stats if v != 0]  # leave out a count with nothing in it
+    if len(stats) < 5:  # a thin row: add how often they scored for the A team (the site's "A Scores")
+        a = a_scores(name, path)
+        if a: stats.insert(1, (a, 'A scores'))
     st = ''.join(f'<div style="width: 78px; display: flex; flex-direction: column; align-items: center; gap: 4px; animation: slFade .3s ease-out {.55+.13*k:.2f}s both">'
                  f'<div style="font-family: {DISP}; font-weight: 600; font-size: 40px; line-height: 40px; color: {INK}">{v}</div>'
                  f'<div style="font-family: {SANS}; font-size: 16px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: {MUT}">{l}</div></div>'
