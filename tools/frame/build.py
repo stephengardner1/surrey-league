@@ -118,8 +118,8 @@ def photo(group,table_rows):
     print('photo',group,H)
     return (f'<div style="margin-top: 20px; position: relative; width: 468px; height: {H}px; border-radius: 8px; overflow: hidden; background: #f3f4f2">{imgs}'
             f'<div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.25) 22%, rgba(0,0,0,0) 40%)"></div>'
-            f'<div style="position: absolute; left: 14px; right: 150px; bottom: 11px; font-family: {SANS}; font-size: 16px; line-height: 21px; color: rgba(255,255,255,0.94); text-shadow: 0 1px 4px rgba(0,0,0,0.35)"><span id="caption-{group}">{esc(PH[0]["caption"])}</span></div>'
-            f'<div style="position: absolute; right: 12px; bottom: 11px; font-family: {SANS}; font-size: 14px; line-height: 21px; color: rgba(255,255,255,0.75); white-space: nowrap"><span id="credit-{group}">\U0001F4F7 {esc(PH[0].get("credit",""))}</span></div></div>\n')
+            f'<div style="position: absolute; left: 14px; right: 14px; bottom: 11px; font-family: {SANS}; font-size: 16px; line-height: 21px; color: rgba(255,255,255,0.94); text-shadow: 0 1px 4px rgba(0,0,0,0.35)"><span id="caption-{group}">{esc(PH[0]["caption"])}</span> '
+            f'<span id="credit-{group}" style="font-size: 14px; color: rgba(255,255,255,0.72); white-space: nowrap">\U0001F4F7 {esc(PH[0].get("credit",""))}</span></div></div>\n')
 men=col('Men',sm,rm,2,'',photo('men',len(sm))+ex)
 women=col('Women',sw,rw,3,'',photo('women',len(sw))+exw)
 NAMES=[n for n,_,_,_ in spot.SHORTLIST]
