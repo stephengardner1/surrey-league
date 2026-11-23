@@ -1,11 +1,11 @@
 Changing this file starts a test of the fast race-day notifications (notifier/fast.mjs):
 one race replayed straight from surreyleague.org as if it had just been published.
-  mode: dry       only prints the wording in the GitHub Action's log; sends nothing
+  mode: rehearse       only prints the wording in the GitHub Action's log; sends nothing
   mode: rehearse  sends to the approver phone only (no approval step, as on race day)
 It can never send to everyone: only the back office's own race-day check does that.
 
 match: 196
 race: Senior Men
-mode: dry
+mode: rehearse
 
-Last requested: 2026-11-20T18:10Z (first dry run on GitHub)
+Last requested: 2026-11-21T13:33Z (first rehearsal to the approver phone, after the back office was published)

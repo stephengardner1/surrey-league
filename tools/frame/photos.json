@@ -1,0 +1,71 @@
+{
+  "_note": "Photos for the Frame page: one rotation per column. 'eye' is how far down the photo the main subject's eyes are (0 to 1); the builder crops so the eyes sit a third of the way down the slot. Edit by hand after each match.",
+  "men": [
+    {
+      "src": "/photos/races/2026-27-m2-leaders.jpg",
+      "eye": 0.578,
+      "alt": "The leading men early in match 2 at Beckenham Place Park",
+      "caption": "The early leaders at Beckenham in match 2. Jack Kavanagh (560) went on to win.",
+      "credit": "George Parker"
+    },
+    {
+      "src": "/photos/races/2026-27-m2-fox.jpg",
+      "eye": 0.459,
+      "alt": "Oliver Fox of Thames Hare and Hounds",
+      "caption": "Oliver Fox at Beckenham, where he finished third in match 2.",
+      "credit": "George Parker"
+    },
+    {
+      "src": "/photos/races/2026-27-m2-mccolgan.jpg",
+      "eye": 0.415,
+      "alt": "Ethan McColgan of Thames Hare and Hounds",
+      "caption": "Ethan McColgan of Thames at Beckenham, sixth in match 2.",
+      "credit": "George Parker"
+    },
+    {
+      "src": "/photos/races/2026-27-m2-threadgold-ollington-davis.jpg",
+      "eye": 0.507,
+      "alt": "Chris Threadgold, Richard Ollington and Sam Davis sprinting for the line",
+      "caption": "Chris Threadgold, Richard Ollington and Sam Davis sprint for the line at Beckenham.",
+      "credit": "George Parker"
+    },
+    {
+      "src": "/photos/races/2025-26-m4-trophy.jpg",
+      "eye": 0.396,
+      "top": 0.105,
+      "alt": "The Belgrave team lifting the league trophy",
+      "caption": "Belgrave lift the trophy at Wimbledon in February: their first men’s title since 2002.",
+      "credit": "George Parker"
+    }
+  ],
+  "women": [
+    {
+      "src": "/photos/races/2026-27-w2-leaders.jpg",
+      "eye": 0.466,
+      "alt": "Molly Smith and Lucy Jones leading the women at Beckenham Place Park",
+      "caption": "Molly Smith and Lucy Jones out in front at Beckenham. Jones won match 2.",
+      "credit": "George Parker"
+    },
+    {
+      "src": "/photos/races/2026-27-w2-carter.jpg",
+      "eye": 0.444,
+      "alt": "Ruby Carter leading Sophie Tooley and Juliet Hodder",
+      "caption": "Ruby Carter leads Sophie Tooley and Juliet Hodder at Beckenham. Carter was third.",
+      "credit": "George Parker"
+    },
+    {
+      "src": "/photos/races/2026-27-w2-whyte-wilding.jpg",
+      "eye": 0.43,
+      "alt": "Ruby Whyte-Wilding of Belgrave",
+      "caption": "Belgrave’s Ruby Whyte-Wilding at Beckenham, 12th in match 2.",
+      "credit": "George Parker"
+    },
+    {
+      "src": "/photos/races/2026-27-w2-pack.jpg",
+      "eye": 0.47,
+      "alt": "Florence Wiggins, Olivia Stillman and Evie Warren in a pack",
+      "caption": "Florence Wiggins, Olivia Stillman and Evie Warren in a pack at Beckenham. Warren was tenth.",
+      "credit": "George Parker"
+    }
+  ]
+}

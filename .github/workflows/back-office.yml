@@ -3,6 +3,7 @@
 #
 # Needs two GitHub repository secrets (Settings > Secrets and variables > Actions):
 #   CLOUDFLARE_API_TOKEN   a Cloudflare API token made from the "Edit Cloudflare Workers" template
+#                          (it can't change the database: new tables in schema.sql are added separately)
 #   FAST_DISPATCH_TOKEN    a GitHub fine-grained token for this repository only, with
 #                          "Contents: Read and write". The back office uses it to start the
 #                          "Fast results" Action on race day.
@@ -49,7 +50,6 @@ jobs:
         working-directory: iphone-app/worker
         run: |
           npm ci
-          npx wrangler d1 execute sl-notify --remote --file=schema.sql
           npx wrangler deploy
           if [ -n "$FAST_DISPATCH_TOKEN" ]; then
             printf '%s' "$FAST_DISPATCH_TOKEN" | npx wrangler secret put GITHUB_TOKEN
@@ -65,8 +65,13 @@ jobs:
           sleep 5
           curl -fsS -H "authorization: Bearer $SL_ADMIN_KEY" "$SL_API/admin/fast"
           echo
-          if [ -n "$FAST_DISPATCH_TOKEN" ]; then   # can that token really start the Action? (asks GitHub, starts nothing)
-            code=$(curl -s -o /dev/null -w '%{http_code}' -H "authorization: Bearer $FAST_DISPATCH_TOKEN" -H "accept: application/vnd.github+json" "https://api.github.com/repos/${{ github.repository }}")
-            echo "GitHub replied $code to the dispatch token"
-            [ "$code" = "200" ]
+          if [ -n "$FAST_DISPATCH_TOKEN" ]; then
+            # Can that token really start the Fast results Action? Ring it for Match 2 (league match 196),
+            # which is long since on slarchive.org, so the run finds nothing to send and stops.
+            code=$(curl -s -o /dev/null -w '%{http_code}' -X POST \
+              -H "authorization: Bearer $FAST_DISPATCH_TOKEN" -H "accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${{ github.repository }}/dispatches" \
+              -d '{"event_type":"fast-results","client_payload":{"matchId":196,"race":"Senior Men"}}')
+            echo "GitHub replied $code to the dispatch token (204 = started)"
+            [ "$code" = "204" ]
           fi

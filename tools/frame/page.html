@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<meta name="robots" content="noindex">
+<title>Surrey League for the Frame</title>
+<!-- Built by tools/frame/build.py from the site's data. Shown full screen on the Gracedaler kitchen Frame. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+@font-face{font-family:"Castoro Belgrave Titling";font-weight:100 900;font-style:normal;font-display:swap;src:url("@@TITLING@@") format("woff2")}
+html,body{margin:0;background:#fff}
+body{width:1080px;height:1920px;overflow:hidden}
+@@CSS@@
+</style>
+</head>
+<body>
+<div style="width: 1080px; height: 1920px; box-sizing: border-box; padding: 40px 48px; background: #ffffff; display: flex; flex-direction: column; color: #1d211d; font-family: 'Public Sans', system-ui, sans-serif">
+<div style="height: 80px; display: flex; align-items: center; gap: 18px">
+<div style="flex-grow: 1; font-family: 'Castoro Belgrave Titling', Georgia, serif; font-weight: 300; font-size: 58px; line-height: 58px; text-transform: uppercase; letter-spacing: -0.01em; color: #1d211d">Surrey League<img src="@@TROPHY@@" alt="" style="display: inline-block; height: 1.3em; width: auto; vertical-align: -0.28em; margin-left: 0.3em"></div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px"><div style="font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 28px; line-height: 32px; font-weight: 400; color: #686e66">@@SEASON@@</div></div>
+</div>
+<div style="margin-top: 18px; display: flex; gap: 48px; height: @@COLH@@px">
+@@MEN@@@@WOMEN@@</div>
+<div style="margin-top: 16px; margin-bottom: 16px">
+@@SPOT@@</div>
+@@FIXTURES@@</div>
+<script>
+(function(){
+  // photo slots, one per column: crossfade every 8 seconds, women half a beat after men
+  var P=@@PHOTOS@@;
+  ['men','women'].forEach(function(g,gi){
+    var imgs=document.querySelectorAll('.photo-'+g),cap=document.getElementById('caption-'+g),cred=document.getElementById('credit-'+g),k=0;
+    if(imgs.length<2)return;
+    setTimeout(function(){setInterval(function(){imgs[k].style.opacity=0;k=(k+1)%imgs.length;imgs[k].style.opacity=1;cap.textContent=P[g][k][0];cred.textContent=P[g][k][1]?'\ud83d\udcf7 '+P[g][k][1]:'';},24000);},gi*12000);
+  });
+  // athlete spotlight: a new athlete every 15 minutes; ?spot=N pins one for checking
+  var spots=document.querySelectorAll('.spot'),n=@@SPOTS@@,cur=-1,pin=parseInt(new URLSearchParams(location.search).get('spot'),10);
+  function show(){var k=isNaN(pin)?Math.floor(Date.now()/900000)%n:((pin%n)+n)%n;if(k===cur)return;if(cur>=0)spots[cur].style.display='none';spots[k].style.display='';cur=k;}
+  show();setInterval(show,30000);
+  // pick up new results: reload every 30 minutes
+  setTimeout(function(){location.reload();},1800000);
+})();
+</script>
+</body>
+</html>

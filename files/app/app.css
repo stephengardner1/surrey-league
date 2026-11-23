@@ -49,6 +49,13 @@ body.sl-lock { overflow: hidden; }
 .sl-sheet-foot { display: flex; justify-content: space-between; }
 button:focus-visible.sl-switch, .sl-link:focus-visible, .sl-pill:focus-visible, .sl-fab:focus-visible, .sl-chip:focus-visible, .sl-pick:focus-visible { outline: 2px solid var(--sl-link); outline-offset: 2px; }
 .sl-foot { margin-top: 32px; }
+.sl-head h1:focus { outline: none; }
+/* Tap areas: the switch and the follow bell keep their look but take taps over 44px */
+.sl-switch, .sl-follow { position: relative; }
+.sl-switch::after { content: ""; position: absolute; left: 0; right: 0; top: -7px; bottom: -7px; }
+.sl-follow::after { content: ""; position: absolute; inset: -6px; }
+/* Text size: the floating nav keeps its size when the rest of the app follows the iPhone's Text Size setting */
+.app-nav { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 .sl-vest { width: 28px; height: 28px; flex-shrink: 0; margin: 0 2px; }
 .sl-face { width: 32px; height: 38px; flex-shrink: 0; object-fit: cover; object-position: top; border-radius: 4px; background: var(--sl-wash); }

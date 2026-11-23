@@ -37060,5 +37060,49 @@
   ],
   "evidence": "Steve: Belgrave's Josephine Rhodes, J Rhodes and Jojo Rhodes are one runner. The three forms never meet in a race (2012/13 m3 and 2013/14 m2-3 as 'J', 2013/14 m1 and m4 as 'Jojo', 'Josephine' otherwise, 2012/13-2021/22). 'Jojo Rhodes' is a nickname, so it is kept as printed and joined to her page with athleteAliases.",
   "approved": "Steve, 21 Nov 2026"
+ },
+ {
+  "sex": "men",
+  "club": "OME",
+  "from": [
+   "J Weightman",
+   "J Wightman"
+  ],
+  "to": "Jeremy Weightman",
+  "seasons": null,
+  "evidence": "County champs: Jeremy Weightman (Boxhill Racers) 1988-94, 'Jerry Weightman' 1983 and 1998. Omega J Weightman (1984/85, 41st, 37th) and J Wightman (1986/87, 56th, 58th) then Boxhill J Weightman (1988/89-1998/99, 17th-78th): one runner, never two forms in a race; Omega left Division 1 after 1986/87.",
+  "approved": "Steve, 23 Nov 2026"
+ },
+ {
+  "sex": "men",
+  "club": "BOX",
+  "from": [
+   "J Weightman"
+  ],
+  "to": "Jeremy Weightman",
+  "seasons": null,
+  "evidence": "County champs: Jeremy Weightman (Boxhill Racers) 1988-94, 'Jerry Weightman' 1983 and 1998. Omega J Weightman (1984/85, 41st, 37th) and J Wightman (1986/87, 56th, 58th) then Boxhill J Weightman (1988/89-1998/99, 17th-78th): one runner, never two forms in a race; Omega left Division 1 after 1986/87.",
+  "approved": "Steve, 23 Nov 2026"
+ },
+ {
+  "sex": "men",
+  "club": "OME",
+  "from": [
+   "G Weightman"
+  ],
+  "to": "Jeremy Weightman",
+  "seasons": [
+   "1984/85",
+   "1984/85"
+  ],
+  "races": [
+   [
+    "1984/85",
+    4,
+    40
+   ]
+  ],
+  "evidence": "Omega's only other Weightman result (40th, 1984/85 m4), in a season J Weightman ran m1 (41st) and m2 (37th); 'G' read as Gerry/Jerry (county champs 1985 also print G Weightman, Omega).",
+  "approved": "Steve, 23 Nov 2026"
  }
 ]

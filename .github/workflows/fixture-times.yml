@@ -1,0 +1,42 @@
+# Keeps the start times on the site's pre-race pages in step with surreyleague.org.
+# Once a day it reads the league's match pages and saves files/fixture-times.json if anything changed.
+name: Fixture times
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  push:
+    branches: [main]
+    paths:
+      - tools/fixture_times.mjs
+      - iphone-app/worker/wrangler.toml
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: fixture-times
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            tools/fixture_times.mjs
+            iphone-app/worker/wrangler.toml
+            files/fixture-times.json
+          sparse-checkout-cone-mode: false
+      - name: Read the league's start times and save if changed
+        run: |
+          node tools/fixture_times.mjs
+          git add files/fixture-times.json
+          if git diff --cached --quiet; then echo "Already up to date"; exit 0; fi
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "Fixture times: update from surreyleague.org"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 10
+          done
+          exit 1

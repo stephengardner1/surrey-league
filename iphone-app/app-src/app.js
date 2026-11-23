@@ -178,7 +178,7 @@ const h = (tag, attrs = {}, ...kids) => {
 };
 const toggle = (label, on, onTap, sub) => h('div', { class: 'sl-row' },
   h('span', { class: 'sl-row-label' }, h('span', { class: 'sl-strong' }, label), sub ? h('span', { class: 'sl-sub' }, sub) : null),
-  h('button', { type: 'button', class: 'sl-switch' + (on ? ' on' : ''), 'aria-pressed': on ? 'true' : 'false', 'aria-label': label, onclick: onTap }, h('span')));
+  h('button', { type: 'button', role: 'switch', class: 'sl-switch' + (on ? ' on' : ''), 'aria-checked': on ? 'true' : 'false', 'aria-label': label, onclick: onTap }, h('span')));
 // Club vest, drawn by the site's own vest artwork (vests.js), as an image so each one stands alone
 const vest = (code) => {
   const svg = window.slVest ? window.slVest(code || '') : null;
@@ -240,8 +240,26 @@ async function openApproval(url) {
 }
 
 const tellNav = (open) => window.dispatchEvent(new CustomEvent('sl-following', { detail: open }));
-function openPanel() { if (!panel) { panel = h('div', { class: 'sl-panel', role: 'region', 'aria-label': 'Following' }); document.body.append(panel); } panel.hidden = false; panel.scrollTop = 0; document.body.classList.add('sl-lock'); renderPanel(); tellNav(true); }
-function closePanel() { const was = panel && !panel.hidden; if (panel) panel.hidden = true; document.body.classList.remove('sl-lock'); if (was) { query = ''; tellNav(false); } }
+let panelOpen = false;
+const BEHIND = '#main-content, #root footer, .app-top, a[href="#main-content"]';
+function setBehind(hide) {
+  if (hide) document.querySelectorAll(BEHIND).forEach((el) => { if (!el.hasAttribute('inert')) { el.setAttribute('inert', ''); el.setAttribute('data-sl-inert', ''); } });
+  else document.querySelectorAll('[data-sl-inert]').forEach((el) => { el.removeAttribute('inert'); el.removeAttribute('data-sl-inert'); });
+}
+function openPanel() {
+  if (!panel) { panel = h('div', { class: 'sl-panel', role: 'dialog', 'aria-labelledby': 'sl-following-title' }); document.body.append(panel); }
+  const was = panelOpen;
+  panelOpen = true; panel.hidden = false; panel.scrollTop = 0; document.body.classList.add('sl-lock'); renderPanel(); tellNav(true);
+  setBehind(true);
+  if (!was) { const t = document.getElementById('sl-following-title'); if (t) t.focus({ preventScroll: true }); }
+}
+function closePanel() {
+  const was = panelOpen; panelOpen = false; if (panel) panel.hidden = true; document.body.classList.remove('sl-lock'); setBehind(false);
+  if (was) { query = ''; tellNav(false);
+    // hand VoiceOver and the keyboard back to the Following tab, unless something on the page has already taken focus
+    const a = document.activeElement;
+    if (!a || a === document.body || panel.contains(a)) { const tab = [...document.querySelectorAll('.app-nav > button')].find((b) => b.textContent.trim() === 'Following'); if (tab) tab.focus({ preventScroll: true }); } }
+}
 // The floating nav (drawn by the site's page) opens and closes the Following screen through this
 window.slFollowing = (open) => { if (open) openPanel(); else closePanel(); };
 // Privacy and Help pages open over the app (in-app browser), like FantaXC
@@ -282,8 +300,10 @@ function renderPanel() {
   const results = searchRunners(query).filter((m) => !follow.runners.some((r) => r.name === m.name && r.league === m.league));
   const clubHits = searchClubs(query);
   const none = !follow.clubs.length && !follow.runners.length;
+  // the screen is redrawn after every change, so note which control had focus and give it back afterwards
+  const act = document.activeElement, held = act && panel.contains(act) && act.id !== 'sl-search' ? [act.tagName, act.getAttribute('aria-label') || act.textContent] : null;
   panel.replaceChildren(...[
-    h('div', { class: 'sl-head' }, h('h1', {}, 'Following'), h('p', { class: 'sl-muted' }, 'Get a notification on this phone the moment results are published for the leagues, clubs and runners you follow.')),
+    h('div', { class: 'sl-head' }, h('h1', { id: 'sl-following-title', tabindex: '-1' }, 'Following'), h('p', { class: 'sl-muted' }, 'Get a notification on this phone the moment results are published for the leagues, clubs and runners you follow.')),
     pushState === 'denied' ? h('p', { class: 'sl-warn' }, ANDROID ? 'Notifications are switched off for this app. Turn them on in your phone’s Settings › Apps › Surrey League › Notifications.' : 'Notifications are switched off for this app. Turn them on in your iPhone’s Settings › Surrey League › Notifications.') : null,
     !NATIVE ? h('p', { class: 'sl-warn' }, 'Notifications work in the iPhone app.') : null,
     h('section', {}, h('div', { class: 'sl-label' }, 'Leagues'), h('div', { class: 'sl-list' },
@@ -293,10 +313,10 @@ function renderPanel() {
       none ? h('p', { class: 'sl-muted' }, 'Nobody yet. Add a club or runner below, or tap the bell beside their name.') : null,
       h('div', { class: 'sl-list' },
         follow.clubs.map((c) => h('div', { class: 'sl-row' },
-          h('button', { type: 'button', class: 'sl-open', 'aria-label': 'Open ' + clubName(c), onclick: () => openPage('#club/' + clubKey(c)) }, vest(c), h('span', { class: 'sl-grow sl-strong' }, clubName(c))),
+          h('button', { type: 'button', class: 'sl-open', onclick: () => openPage('#club/' + clubKey(c)) }, vest(c), h('span', { class: 'sl-grow sl-strong' }, clubName(c))),
           h('button', { type: 'button', class: 'sl-link', 'aria-label': 'Unfollow ' + clubName(c), onclick: () => change(() => { follow.clubs = follow.clubs.filter((x) => x !== c); }) }, 'Unfollow'))),
         follow.runners.map((r) => h('div', { class: 'sl-row' },
-          h('button', { type: 'button', class: 'sl-open', 'aria-label': 'Open ' + r.name, onclick: () => openPage('#' + (r.league === 'women' ? 'women/' : '') + 'athlete/' + slug(r.name)) }, face(r.name, r.club),
+          h('button', { type: 'button', class: 'sl-open', onclick: () => openPage('#' + (r.league === 'women' ? 'women/' : '') + 'athlete/' + slug(r.name)) }, face(r.name, r.club),
             h('span', { class: 'sl-grow sl-col' }, h('span', { class: 'sl-strong' }, r.name), h('span', { class: 'sl-sub' }, `${clubName(r.club)}, ${r.league === 'women' ? 'women' : 'men'}`))),
           h('button', { type: 'button', class: 'sl-link', 'aria-label': 'Unfollow ' + r.name, onclick: () => change(() => { follow.runners = follow.runners.filter((x) => x !== r); }) }, 'Unfollow')))),
       h('label', { class: 'sl-search' }, searchIcon(), h('input', { id: 'sl-search', type: 'search', autocomplete: 'off', placeholder: 'Add a club or runner', 'aria-label': 'Add a club or runner', value: query,
@@ -319,6 +339,10 @@ function renderPanel() {
       localStorage.getItem('sl-approver-code') ? 'Approver: this phone approves notifications' : 'Approver code')),
     h('p', { class: 'sl-small' }, window.SL_LIVE_VERSION ? `App updated ${new Date(+localStorage.getItem('sl-live-at') || Date.now()).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} (${window.SL_LIVE_VERSION})` : `Built-in version (${window.SL_BUILT_HASH || '–'})`),
   ].filter(Boolean));
+  if (held) {
+    const again = [...panel.querySelectorAll('button, input')].find((e) => e.tagName === held[0] && (e.getAttribute('aria-label') || e.textContent) === held[1]);
+    (again || document.getElementById('sl-following-title'))?.focus({ preventScroll: true });
+  }
 }
 
 // Steve's phone: typing the approver code makes it the phone that approves each batch
@@ -455,13 +479,57 @@ setupPush().then(renderAll);
 // Keep the back office up to date (e.g. after a reinstall)
 if (pushToken) sync();
 
+// ---------- Text size: follow the iPhone's own Text Size setting (Settings › Display & Brightness › Text Size) ----------
+// iPhone tells web pages its chosen text size through the "-apple-system-body" font: 17px at the standard setting,
+// larger as the slider moves up. When it is set larger, the app's text grows in proportion, up to 112% (one notch up).
+// That is as far as the screens still fit an iPhone's width; if a screen would spill off the side at that size, the
+// text steps back down until it fits. Going further needs the tables redesigning for big text; pinch to zoom covers
+// the rest. Smaller settings leave the app as designed. The floating nav keeps its size, as iPhone tab bars do
+// (see .app-nav in app.css). window.SL_TEXT_PX stands in for the iPhone's setting when testing in a browser.
+(function textSize() {
+  const TEST = +window.SL_TEXT_PX || 0;
+  if (!TEST) {
+    if (!NATIVE || (Cap.getPlatform && Cap.getPlatform() !== 'ios')) return;
+    if (!(window.CSS && CSS.supports && CSS.supports('font', '-apple-system-body'))) return;
+  }
+  let max = 112, now = 100;
+  const root = document.documentElement;
+  const probe = h('div', { 'aria-hidden': 'true', style: 'font:-apple-system-body;position:absolute;left:-999px;top:0;visibility:hidden;pointer-events:none' }, 'M');
+  document.body.append(probe);
+  const set = (pct) => { now = pct; root.style.setProperty('-webkit-text-size-adjust', pct + '%'); root.style.setProperty('text-size-adjust', pct + '%'); };
+  const apply = () => {
+    const px = TEST || parseFloat(getComputedStyle(probe).fontSize);
+    if (!(px >= 10 && px <= 80)) return;
+    const pct = Math.max(100, Math.min(max, Math.round(px / 17 * 100)));
+    set(pct < 103 ? 100 : pct);
+    fit();
+  };
+  // If this screen is now wider than the phone, step the text down (3% at a time) until it fits, and stay there
+  const fit = () => { let n = 0; while (now > 100 && root.scrollWidth > root.clientWidth + 1 && n++ < 6) { max = Math.max(100, now - 3); set(max); } };
+  let t1 = 0, t2 = 0;
+  const later = () => { clearTimeout(t1); clearTimeout(t2); t1 = setTimeout(fit, 400); t2 = setTimeout(fit, 1800); };
+  apply(); later();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) { apply(); later(); } });
+  window.addEventListener('popstate', later); window.addEventListener('hashchange', later);
+  for (const fn of ['pushState', 'replaceState']) { const orig = history[fn].bind(history); history[fn] = (...a) => { const r = orig(...a); later(); return r; }; }
+})();
+
+// Is this touch inside something that scrolls sideways (the photo strip on a pre-race page, a wide table)?
+function sidewaysScroller(el) {
+  for (; el && el !== document.body && el.nodeType === 1; el = el.parentElement) {
+    const o = getComputedStyle(el).overflowX;
+    if ((o === 'auto' || o === 'scroll') && el.scrollWidth > el.clientWidth + 2) return true;
+  }
+  return false;
+}
+
 // ---------- Pull to refresh (the app turns off iPhone's own bounce, so it's drawn here) ----------
 // Pull down at the top of a page: the page follows your finger with some resistance and a ring
-// under the title fills; let go past the line to check for new results. Springs back gently.
+// under the title fills; let go past the line to check for new results. Glides back, no bounce.
 (function pullToRefresh() {
   if (!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) return;
   const TRIGGER = 64, MAX = 92, HOLD = 52, R = 9, C = 2 * Math.PI * R;
-  const SPRING = 'transform 420ms cubic-bezier(.3, 1.25, .5, 1)'; // settles with a slight overshoot
+  const SPRING = 'transform 300ms cubic-bezier(.65, 0, .35, 1)'; // the site's "move": glides back, never overshoots
   const ring = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   ring.setAttribute('viewBox', '0 0 24 24'); ring.setAttribute('width', '24'); ring.setAttribute('height', '24');
   ring.innerHTML = `<circle cx="12" cy="12" r="${R}" fill="none" stroke="var(--sl-rule)" stroke-width="2"></circle>`
@@ -479,7 +547,7 @@ if (pushToken) sync();
     const m = main(); if (!m) return;
     m.style.transition = animate ? SPRING : 'none';
     m.style.transform = px ? `translateY(${px}px)` : '';
-    ind.style.transition = animate ? 'opacity 200ms ease-out, transform 420ms cubic-bezier(.3, 1.25, .5, 1)' : 'none';
+    ind.style.transition = animate ? 'opacity 200ms ease-out, transform 300ms cubic-bezier(.65, 0, .35, 1)' : 'none';
     ind.style.top = top() + 'px';
     ind.style.opacity = px ? Math.min(1, px / 32) : 0;
     ind.style.transform = `translate(-50%, ${Math.max(0, px - 36) / 2 + 8}px)`;
@@ -487,15 +555,21 @@ if (pushToken) sync();
     const nowArmed = px >= TRIGGER;
     if (nowArmed !== armed) { armed = nowArmed; ind.classList.toggle('armed', armed); }
   }
-  const settle = () => { draw(0, true); setTimeout(() => { const m = main(); if (m && !pull) m.style.transition = ''; }, 450); };
+  const settle = () => { draw(0, true); setTimeout(() => { const m = main(); if (m && !pull) m.style.transition = ''; }, 330); };
 
+  // A sideways swipe (the photo strip, a wide table, next / previous race) is never a pull: the first 8px of
+  // movement decide which way the finger is going, and a sideways start switches the pull off for that touch.
+  let startX = 0, axis = '';
   addEventListener('touchstart', (e) => {
-    startY = (blocked() || window.scrollY > 0 || e.touches.length !== 1) ? null : e.touches[0].clientY;
+    startY = (blocked() || window.scrollY > 0 || e.touches.length !== 1 || sidewaysScroller(e.target)) ? null : e.touches[0].clientY;
+    startX = e.touches[0] ? e.touches[0].clientX : 0; axis = '';
     pull = 0;
   }, { passive: true });
   addEventListener('touchmove', (e) => {
     if (startY == null) return;
     const dy = e.touches[0].clientY - startY;
+    if (!axis) { const dx = Math.abs(e.touches[0].clientX - startX); if (dx < 8 && Math.abs(dy) < 8) return; axis = dx > Math.abs(dy) ? 'x' : 'y'; }
+    if (axis === 'x') { startY = null; if (pull) { pull = 0; draw(0, false); } return; }
     if (window.scrollY > 0 || dy <= 0) { if (pull) { pull = 0; draw(0, false); } return; }
     pull = Math.min(MAX, dy * 0.45); // resistance: the page moves less than your finger
     draw(pull, false);
@@ -548,6 +622,111 @@ if (pushToken) sync();
   }
 })();
 
+// ---------- Soft page edges (iPhone: its own bounce is off, so a scroll used to hit the end and stop dead) ----------
+// Arriving at the top or bottom of a page with some speed: the page carries on a little way (more
+// for a faster scroll, 22px at most), slowing as it goes, then glides back. One movement, no bounce.
+// At the bottom, pulling further makes the page follow your finger with resistance, as it does at the top.
+// Reduce Motion turns both off. Android has its own edge effect, so this is iPhone only.
+(function softEdges() {
+  const cap = window.Capacitor;
+  if (!(cap && cap.isNativePlatform && cap.isNativePlatform())) return;
+  if (cap.getPlatform && cap.getPlatform() !== 'ios') return;
+  const ENTER = 'cubic-bezier(.16, 1, .3, 1)', MOVE = 'cubic-bezier(.65, 0, .35, 1)';
+  const GIVE_MAX = 22, OUT = 140, BACK = 300, PULL_MAX = 56;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const main = () => document.getElementById('main-content');
+  const maxY = () => Math.max(0, document.documentElement.scrollHeight - innerHeight);
+  const locked = () => reduce.matches || document.body.classList.contains('sl-lock');
+  let lastY = scrollY, lastT = 0, lastV = 0, touched = -1e9, anim = null;
+
+  function give(px) {
+    const m = main(); if (!m || (anim && anim.playState === 'running')) return;
+    const frames = [{ transform: 'translateY(0)', easing: ENTER },
+      { transform: `translateY(${px}px)`, offset: OUT / (OUT + BACK), easing: MOVE }, { transform: 'translateY(0)' }];
+    try { anim = m.animate(frames, { duration: OUT + BACK, composite: 'add' }); }
+    catch (e) { try { anim = m.animate(frames, { duration: OUT + BACK }); } catch (e2) {} }
+  }
+
+  addEventListener('scroll', () => {
+    const y = scrollY, t = performance.now(), dt = t - lastT, dy = y - lastY, max = maxY();
+    // Only a real, continuous scroll counts: not a jump to the top on a new page, or a page changing height
+    const v = dt > 0 && dt < 60 && Math.abs(dy) < 400 ? dy / dt : 0;
+    if (v && t - touched < 5000 && !locked()) {
+      const speed = Math.max(Math.abs(v), Math.sign(lastV) === Math.sign(v) ? Math.abs(lastV) : 0); // the last step is cut short by the edge
+      const px = Math.min(GIVE_MAX, speed * 9);
+      if (px >= 2) {
+        if (y <= 0 && lastY > 0) give(px);
+        else if (max > 0 && y >= max - 1 && lastY < max - 1) give(-px);
+      }
+    }
+    lastY = y; lastT = t; lastV = v;
+  }, { passive: true });
+
+  // Pulling up at the bottom of a page
+  let startY = null, pull = 0;
+  const draw = (px, animate) => {
+    const m = main(); if (!m) return;
+    m.style.transition = animate ? `transform ${BACK}ms ${MOVE}` : 'none';
+    m.style.transform = px ? `translateY(${-px}px)` : '';
+    if (animate) setTimeout(() => { if (!pull && !m.style.transform) m.style.transition = ''; }, BACK + 30);
+  };
+  let startX = 0, axis = '';
+  addEventListener('touchstart', (e) => {
+    touched = performance.now();
+    const max = maxY();
+    startY = (locked() || max < 8 || scrollY < max - 1 || e.touches.length !== 1 || sidewaysScroller(e.target)) ? null : e.touches[0].clientY;
+    startX = e.touches[0] ? e.touches[0].clientX : 0; axis = '';
+    pull = 0;
+  }, { passive: true });
+  addEventListener('touchmove', (e) => {
+    touched = performance.now();
+    if (startY == null) return;
+    const dy = startY - e.touches[0].clientY;
+    if (!axis) { const dx = Math.abs(e.touches[0].clientX - startX); if (dx < 8 && Math.abs(dy) < 8) return; axis = dx > Math.abs(dy) ? 'x' : 'y'; }
+    if (axis === 'x') { startY = null; if (pull) { pull = 0; draw(0, false); } return; }
+    if (scrollY < maxY() - 1 || dy <= 0) { if (pull) { pull = 0; draw(0, false); } return; }
+    pull = Math.min(PULL_MAX, dy * 0.3);
+    draw(pull, false);
+  }, { passive: true });
+  const end = () => { touched = performance.now(); if (startY == null) return; startY = null; if (pull) { pull = 0; draw(0, true); } };
+  addEventListener('touchend', end, { passive: true });
+  addEventListener('touchcancel', end, { passive: true });
+})();
+
+// ---------- Tap the tab you're on to go back to the top ----------
+// As in other iPhone apps: tapping Tables while you're further down Tables glides the page back to the top.
+// It sets off briskly and eases in to land softly. From a long way down it first skips most of the distance
+// so the glide never drags. Touching the screen stops it. Reduce Motion jumps straight there.
+(function tapTabToTop() {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const ease = (t) => 1 - Math.pow(1 - t, 4); // fast start, long soft landing
+  let raf = 0;
+  const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
+  addEventListener('touchstart', stop, { passive: true });
+  addEventListener('wheel', stop, { passive: true });
+  function glide() {
+    stop();
+    if (reduce.matches) { scrollTo(0, 0); return; }
+    let from = scrollY;
+    const jump = innerHeight * 1.5; // never glide further than a screen and a half
+    if (from > jump) { scrollTo(0, jump); from = jump; }
+    const dur = Math.min(620, 320 + from * 0.25), t0 = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      scrollTo(0, Math.round(from * (1 - ease(t))));
+      raf = t < 1 ? requestAnimationFrame(step) : 0;
+    };
+    raf = requestAnimationFrame(step);
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest && e.target.closest('.app-nav button[aria-current="page"]');
+    if (!b || document.body.classList.contains('sl-lock') || scrollY < 2) return;
+    const before = location.href;
+    // Only when the tap leaves you on the same page (from a race page, Races takes you back to the list instead)
+    setTimeout(() => { if (location.href === before && !document.body.classList.contains('sl-lock')) glide(); }, 0);
+  }, true);
+})();
+
 // ---------- Fonts added to the site after this build (e.g. Castoro Belgrave) ----------
 // The page asks for /fonts/... files; if this build doesn't have them, fetch them from
 // slarchive.org once, keep them on the phone, and hand them to the page.
@@ -581,4 +760,57 @@ if (pushToken) sync();
     if (!data) continue;
     try { const face = new FontFace(f.family, b64(data), desc); await face.load(); document.fonts.add(face); } catch (e) { console.warn('[SL] font', f.url, e && e.message); }
   }
+})();
+
+// ---------- Pictures added to the site after this build (race photos, portraits) ----------
+// The built-in copy only has the pictures that existed when the app was built. When the page
+// asks for one it doesn't have, load it from slarchive.org instead: first directly, and if that
+// fails too, through the app (like the fonts above). Runs for every picture, including ones in
+// the photo viewer that appear later, and re-checks any that had already failed.
+(function newPictures() {
+  if (!window.Capacitor?.isNativePlatform?.()) return;
+  const site = (window.SL_CONFIG && window.SL_CONFIG.site) || 'https://slarchive.org';
+  const H = window.Capacitor?.Plugins?.CapacitorHttp;
+  const viaApp = new Map(); // path -> Promise<blob url>
+  const pathOf = (img) => {
+    let u; try { u = new URL(img.getAttribute('src') || '', location.href); } catch (e) { return null; }
+    if (u.protocol === 'data:' || u.protocol === 'blob:') return null;
+    if ((u.protocol === 'http:' || u.protocol === 'https:') && u.host !== location.host) return null; // already from elsewhere
+    return u.pathname + u.search;
+  };
+  const fromSite = (path) => {
+    if (!H) return Promise.reject(new Error('no http'));
+    if (!viaApp.has(path)) viaApp.set(path, H.get({ url: site + path, responseType: 'blob' }).then((r) => {
+      if (r.status !== 200 || typeof r.data !== 'string') throw new Error('status ' + r.status);
+      const bin = atob(r.data); const u = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+      const type = /\.png$/i.test(path) ? 'image/png' : /\.svg$/i.test(path) ? 'image/svg+xml' : /\.webp$/i.test(path) ? 'image/webp' : 'image/jpeg';
+      return URL.createObjectURL(new Blob([u], { type }));
+    }).catch((e) => { viaApp.delete(path); throw e; }));
+    return viaApp.get(path);
+  };
+  const fix = (img) => {
+    const step = img.dataset.slPic || '';
+    if (step === 'app' || step === 'done') return;
+    if (step === 'site') { // the direct load from slarchive.org failed too
+      img.dataset.slPic = 'app';
+      fromSite(img.dataset.slPicPath).then((b) => { img.dataset.slPic = 'done'; img.src = b; }).catch(() => {});
+      return;
+    }
+    const path = pathOf(img);
+    const absolute = /^https?:/i.test(img.getAttribute('src') || '') && img.src.indexOf(site) === 0;
+    if (!path && !absolute) return;
+    if (absolute) { // already pointed at the site (e.g. by the built-in fallback): wait to see if that loads
+      let u; try { u = new URL(img.src); } catch (e) { return; }
+      img.dataset.slPicPath = u.pathname + u.search; img.dataset.slPic = 'site';
+      if (img.complete && img.naturalWidth === 0 && img.dataset.slRetried) fix(img); // it already failed
+      return;
+    }
+    img.dataset.slPicPath = path;
+    img.dataset.slPic = 'site';
+    img.src = site + path;
+  };
+  document.addEventListener('error', (e) => { if (e.target && e.target.tagName === 'IMG') fix(e.target); }, true);
+  const sweep = () => { for (const img of document.images) if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) fix(img); };
+  sweep(); setTimeout(sweep, 1500);
 })();
