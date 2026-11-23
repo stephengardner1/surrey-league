@@ -103,7 +103,7 @@ Not joined: Beauvais at Walton (Clive and C Beauvais ran in the same race: two r
 
 - The guest "J Mayes" (7th, 2001/02 m4, 2 Feb 2002) is Jermaine Mays (Steve, 7 Nov 2026).
 
-- J Weightman / J Wightman (Omega 1984-87, then Boxhill 1988-99) is Jeremy (Jerry) Weightman (county champs) (Steve, 23 Nov 2026). Omega's "G Weightman" (1984/85 m4; county champs 1985) is probably him too (Gerry/Jerry) but is left as printed.
+- J Weightman / J Wightman (Omega 1984-87, then Boxhill 1988-99) is Jeremy (Jerry) Weightman (county champs) (Steve, 23 Nov 2026). Omega's "G Weightman" (1984/85 m4; county champs 1985) is him too (Gerry/Jerry), joined on Steve's say-so.
 
 ## Kept as they are (Steve, 19 Oct 2026)
 - Mel Thorpe (BEL, 1963-66): The Belgravian's results print "R. Thorpe" but its prose and later results say Mel / M. Thorpe.
