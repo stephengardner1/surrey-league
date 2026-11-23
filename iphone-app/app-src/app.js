@@ -272,6 +272,9 @@ function openWeb(url) {
 let fanta = null;
 window.slFantaXC = () => {
   const url = 'https://fantaxc.com/surrey-league';
+  // Android, for now: hand over to the phone's own browser, so the app itself has no sign-in (Google Play then
+  // needs no test login or account declarations for it). To come back inside the app once FantaXC is built in.
+  if (ANDROID) { location.href = url; return; }
   const C = window.Capacitor;
   if (C && C.isPluginAvailable && C.isPluginAvailable('Browser')) { C.Plugins.Browser.open({ url, presentationStyle: 'popover' }); return; }
   fanta?.remove();
