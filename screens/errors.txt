@@ -1,0 +1,8 @@
+--------- beginning of main
+11-23 16:23:53.560  4652  4652 E ocessService0:3: Not starting debugger since process cannot load the jdwp agent.
+11-23 16:23:53.632  4662  4662 E ocessService0:4: Not starting debugger since process cannot load the jdwp agent.
+11-23 16:23:53.674  4679  4679 E ocessService0:5: Not starting debugger since process cannot load the jdwp agent.
+11-23 16:23:53.676  4681  4681 E ocessService0:6: Not starting debugger since process cannot load the jdwp agent.
+--------- beginning of kernel
+11-23 16:23:53.895     0     0 E audit   : rate limit exceeded
+11-23 16:23:53.802   560  1519 E IPCThreadState: Binder transaction failure. id: 372755, BR_*: 29189, error: -3 (No such process)
