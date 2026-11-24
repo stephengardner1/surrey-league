@@ -85,6 +85,29 @@ function go(url) {
   window.scrollTo(0, 0);
 }
 
+// ---------- slarchive.org links open in the app ----------
+// With the app installed, tapping a slarchive.org link (in WhatsApp, Messages, Mail…) opens the app instead of Safari,
+// straight to that page. iOS hands us the link; we open the same page inside the app. Needs a build with the App plugin
+// and the associated-domains setting; on older builds this does nothing and links keep opening in Safari.
+(function openLinksInApp() {
+  const AppP = NATIVE && window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+  if (!AppP || !AppP.addListener) return;
+  const open = (link) => {
+    let u; try { u = new URL(link); } catch { return; }
+    if (!/(^|\.)slarchive\.org$/i.test(u.hostname)) return;
+    const path = (u.pathname || '/') + u.search + u.hash;
+    if (path === '/' || path === '') { go('/'); return; }
+    go(path);
+  };
+  AppP.addListener('appUrlOpen', (e) => e && e.url && open(e.url));
+  // A link that started the app from closed: open it once (not again when the app refreshes itself later)
+  if (AppP.getLaunchUrl) AppP.getLaunchUrl().then((r) => {
+    const url = r && r.url; if (!url) return;
+    try { if (sessionStorage.getItem('sl-launch-url') === url) return; sessionStorage.setItem('sl-launch-url', url); } catch {}
+    setTimeout(() => open(url), 300);
+  }).catch(() => {});
+})();
+
 // ---------- data for the screens ----------
 let DATA = { men: null, women: null };
 async function loadData() {
