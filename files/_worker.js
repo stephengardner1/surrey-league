@@ -252,6 +252,15 @@ export default {
         headers: { ...cors, 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': body ? 'public, max-age=300' : 'no-store' },
       });
     }
+    // Apple's check that the Surrey League Compendium app may open slarchive.org links (universal links).
+    // Every page opens in the app except files (anything with a dot, e.g. .json/.jpg/.html) and the site's own services.
+    if (url.pathname === '/.well-known/apple-app-site-association' || url.pathname === '/apple-app-site-association') {
+      const aasa = { applinks: { details: [{ appIDs: ['TR7WKKL578.org.slarchive.app'], components: [
+        { '/': '/*.*', exclude: true }, { '/': '/count/*', exclude: true }, { '/': '/api/*', exclude: true },
+        { '/': '/app/*', exclude: true }, { '/': '/fonts/*', exclude: true }, { '/': '/portraits/*', exclude: true },
+        { '/': '/photos/*', exclude: true }, { '/': '/*' } ] }] } };
+      return new Response(JSON.stringify(aasa), { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600' } });
+    }
     // poster download counter (see countSave in index.html): the address itself is what gets counted, so reply with nothing
     if (url.pathname.startsWith('/count/')) return new Response(null, { status: 204, headers: { 'Cache-Control': 'no-store' } });
     const m = url.pathname.match(/^\/(women\/)?athlete\/([^\/]+)\/?$/i);
