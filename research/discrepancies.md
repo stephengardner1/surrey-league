@@ -55,3 +55,12 @@ What we have (winner, the Belgrave runners and all team scores) comes from The B
 ## Scoring points on partial early results (Oct 2026)
 The Belgravian import (commit 0438174) added runners to partial 1960s-70s results without scoring points, so they showed "-" (non-scorer) between scorers, e.g. Lionel Mann 7th in 1970/71 m1 between 6th and 10th who scored 6 and 10. Where a later runner in the same race scores at exactly their finishing position, everyone above them must have scored at theirs too, so 360 missing points were filled in across 28 men's races (1962/63-1971/72, 1989/90 m4). Team scores untouched. 2012/13 m1 was left alone. In races with under 80 results, a missing point now shows blank (not known) rather than "-".
 Follow-up (Steve, Oct 2026): in partial-results matches where The Belgravian gives every Belgrave finisher (10+ Belgrave runners held, results under 80), Belgrave's first ten now count as A-team scorers (field s = finishing position, flagged sEst). 214 results in 29 matches. This only lets them show as A1-A10 on their profiles; match scores are never recalculated from it, and the race page tooltip says the exact scoring position is not known.
+
+## Women 2004/05 final table: Stragglers (26 Nov 2026)
+- Table built by adding up each match's team scores (15 clubs). Totals match Athletics Weekly's printed final standings
+  (16 Feb 2005, p39) for Ranelagh 245, Belgrave 299, Thames H&H 508, South London 540, Epsom & Ewell 871, Woking 879, Herne Hill 892.
+- **Stragglers: ours 760 (5th); AW prints 996 (10th).** The gap is 236, exactly Stragglers' match 4 score, so AW (or the league's
+  sheet) may have counted match 4 twice. Our match 3 score of 102 is backed by the individual results (first five add up to 104).
+  Shown on the site as 760, 5th. Steve to decide.
+- AW also lists Ranelagh B 8th on 992 in the same table (B teams not in our main table) and skips 9th.
+- Relegated per AW: Dorking & Mole Valley (AW 1289, ours 1287), Lingfield (AW 1463, ours 1483), Epsom Allsorts (AW 1920, ours 1919).
