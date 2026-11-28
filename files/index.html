@@ -234,11 +234,6 @@
 .lb-arrow:hover .lb-dot,.lb-arrow:focus-visible .lb-dot{background:rgba(0,0,0,.55);color:#fff}
 @media (pointer:coarse){.lb-dot{opacity:.6}.lb-arrow:active .lb-dot{opacity:1}}
 .lb-close .lb-dot{opacity:1}
-/* Season swipe hint: a small note under the season, fading in and out */
-.sl-swipe-hint{position:absolute;top:calc(100% + 6px);right:0;z-index:40;white-space:nowrap;pointer-events:none;font-size:12px;line-height:1;color:#3d423b;background:#fff;border:1px solid #e3e5e1;border-radius:9999px;padding:7px 11px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:inline-flex;gap:6px;align-items:center;animation:sl-hint 4.6s ease both}
-.sl-swipe-arrows{color:#1b649e;font-weight:600}
-@keyframes sl-hint{0%{opacity:0;transform:translateY(-4px)}8%{opacity:1;transform:none}85%{opacity:1}100%{opacity:0}}
-@media (prefers-reduced-motion:reduce){.sl-swipe-hint{animation:none}}
 /* While a photo is open the floating nav steps out of the way (slides down, fades), so captions are never hidden under it */
 .app-nav{transition:transform 240ms cubic-bezier(.65,0,.35,1),opacity 200ms ease}
 body:has([data-lightbox]) .app-nav{transform:translateY(calc(100% + 24px));opacity:0;pointer-events:none}
@@ -1837,7 +1832,7 @@ const Nav=({setView,division,setDivision,view,champ})=>{
 };
 
 // Left/right arrow keys and horizontal swipes step to the previous/next item (seasons on the tables page, fixtures on a race page)
-const usePrevNextNav=(onPrev,onNext)=>{const ref=React.useRef({});ref.current={onPrev,onNext};
+const usePrevNextNav=(onPrev,onNext,noSwipe)=>{const ref=React.useRef({});ref.current={onPrev,onNext,noSwipe};
   React.useEffect(()=>{
     const typing=el=>el&&(el.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
     const onKey=e=>{if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||e.shiftKey||typing(document.activeElement))return;
@@ -1845,14 +1840,69 @@ const usePrevNextNav=(onPrev,onNext)=>{const ref=React.useRef({});ref.current={o
     // Ignore swipes that start in a sideways-scrolling table, or at the screen edge (the browser's own back gesture)
     const scrollsX=el=>{for(;el&&el!==document.body;el=el.parentElement){const o=getComputedStyle(el).overflowX;if((o==='auto'||o==='scroll')&&el.scrollWidth>el.clientWidth+2)return true;}return false;};
     let t=null;
-    const onStart=e=>{if(e.touches.length!==1){t=null;return;}const p=e.touches[0];if(p.clientX<30||p.clientX>window.innerWidth-30||scrollsX(e.target)||typing(e.target)){t=null;return;}t={x:p.clientX,y:p.clientY,at:Date.now()};};
+    const onStart=e=>{if(ref.current.noSwipe||e.touches.length!==1){t=null;return;}const p=e.touches[0];if(p.clientX<30||p.clientX>window.innerWidth-30||scrollsX(e.target)||typing(e.target)){t=null;return;}t={x:p.clientX,y:p.clientY,at:Date.now()};};
     const onEnd=e=>{if(!t)return;const p=e.changedTouches[0],dx=p.clientX-t.x,dy=p.clientY-t.y,dt=Date.now()-t.at;t=null;
       if(dt>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2)return;
       const go=dx<0?ref.current.onNext:ref.current.onPrev;if(go){go();try{localStorage.setItem('sl-swiped','1');}catch(e){}}};
     window.addEventListener('keydown',onKey);window.addEventListener('touchstart',onStart,{passive:true});window.addEventListener('touchend',onEnd,{passive:true});
     return()=>{window.removeEventListener('keydown',onKey);window.removeEventListener('touchstart',onStart);window.removeEventListener('touchend',onEnd);};
   },[]);};
-const SeasonSelector=({season,setSeason,seasons})=>{
+// Swipe between seasons by dragging (touch screens). The season block follows your finger and the neighbouring season's
+// table slides in beside it: drag right for the season before, left for the season after. Let go past a quarter of the
+// width (or flick) and it carries on and lands on that season; otherwise both glide back. At the newest or oldest season
+// it gives a little and springs back. Sideways-scrolling tables and the screen edges (the iPhone's back gesture) are left alone.
+// The first few visits (until you've swiped once), it gives a small nudge that shows a sliver of last season.
+const SWIPE_SEASONS=(()=>{try{return IS_APP||matchMedia('(pointer:coarse) and (max-width: 767px)').matches;}catch(e){return false;}})();
+const GUTTER=32;
+const SeasonSwipe=({season,seasons,setSeason,renderGhost,children})=>{
+  const wrapRef=useRef(null),curRef=useRef(null),ghostRef=useRef(null);
+  const[adj,setAdj]=useState(null);  // {season, dir}: dir 1 = the season before (shown on the left), -1 = the season after (right)
+  const st=useRef({});
+  const idx=seasons.indexOf(season);
+  const neighbour=dir=>dir>0?seasons[idx+1]:seasons[idx-1];
+  const paint=dx=>{const c=curRef.current,g=ghostRef.current;if(c)c.style.transform=dx?`translateX(${dx}px)`:'';if(g)g.style.transform=`translateX(${dx}px)`;};
+  // after landing on the new season, the real table replaces the slid-in copy in the same frame
+  React.useLayoutEffect(()=>{paint(0);setAdj(null);st.current.busy=false;},[season]);
+  React.useLayoutEffect(()=>{if(adj)paint(st.current.dx||0);},[adj]);
+  useEffect(()=>{const el=wrapRef.current;if(!el)return;
+    const scrollsX=t=>{for(;t&&t!==el;t=t.parentElement){const o=getComputedStyle(t).overflowX;if((o==='auto'||o==='scroll')&&t.scrollWidth>t.clientWidth+2)return true;}return false;};
+    const start=e=>{const s=st.current;if(s.busy||e.touches.length!==1){s.on=false;return;}const p=e.touches[0];
+      if(p.clientX<24||p.clientX>innerWidth-24||scrollsX(e.target)||/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)){s.on=false;return;}
+      Object.assign(s,{on:true,ax:'',x:p.clientX,y:p.clientY,lx:p.clientX,lt:e.timeStamp,v:0,dx:0,dir:0});};
+    const move=e=>{const s=st.current;if(!s.on)return;const p=e.touches[0],mx=p.clientX-s.x,my=p.clientY-s.y;
+      if(!s.ax){if(Math.hypot(mx,my)<10)return;s.ax=Math.abs(mx)>Math.abs(my)*1.2?'x':'y';if(s.ax==='y'){s.on=false;return;}
+        s.dir=mx>0?1:-1;s.has=!!neighbour(s.dir);if(s.has)setAdj({season:neighbour(s.dir),dir:s.dir});}
+      e.preventDefault();const dt=e.timeStamp-s.lt;if(dt>0)s.v=.7*((p.clientX-s.lx)/dt)+.3*s.v;s.lx=p.clientX;s.lt=e.timeStamp;
+      let dx=mx;if(Math.sign(dx)!==s.dir)dx=0;if(!s.has)dx=dx*.25;s.dx=dx;paint(dx);};
+    const end=()=>{const s=st.current;if(!s.on||s.ax!=='x'){s.on=false;return;}s.on=false;const W=el.offsetWidth+GUTTER,dx=s.dx;
+      const go=s.has&&(Math.abs(dx)>W/4||(Math.abs(s.v)>.4&&Math.sign(s.v)===s.dir&&Math.abs(dx)>20));
+      const from=dx,to=go?s.dir*W:0,dur=go?Math.round(Math.min(300,Math.max(160,(W-Math.abs(dx))/Math.max(Math.abs(s.v),1.2)))):320;
+      s.busy=true;const t0=performance.now(),ease=go?(t=>1-Math.pow(1-t,2)):(t=>1-Math.pow(1-t,3));
+      const step=now=>{const t=Math.min(1,(now-t0)/dur);paint(from+(to-from)*ease(t));if(t<1)requestAnimationFrame(step);
+        else if(go){try{localStorage.setItem('sl-swiped','1');}catch(e){}setSeason(neighbour(s.dir));}
+        else{paint(0);setAdj(null);s.busy=false;}};
+      requestAnimationFrame(step);};
+    el.addEventListener('touchstart',start,{passive:true});el.addEventListener('touchmove',move,{passive:false});
+    el.addEventListener('touchend',end);el.addEventListener('touchcancel',end);
+    return()=>{el.removeEventListener('touchstart',start);el.removeEventListener('touchmove',move);el.removeEventListener('touchend',end);el.removeEventListener('touchcancel',end);};
+  },[season,seasons]);
+  // First few visits: a small nudge that shows a sliver of last season (no words). Not with Reduce Motion.
+  useEffect(()=>{if(idx>=seasons.length-1||MOTION.reduced())return;let n=0;
+    try{if(localStorage.getItem('sl-swiped')||sessionStorage.getItem('sl-swipe-hint'))return;n=+(localStorage.getItem('sl-swipe-hint')||0);if(n>=3)return;}catch(e){return;}
+    let touched=false;const stop=()=>{touched=true;};window.addEventListener('touchstart',stop,{passive:true});
+    const t1=setTimeout(()=>{if(touched||st.current.on||st.current.busy)return;try{localStorage.setItem('sl-swipe-hint',String(n+1));sessionStorage.setItem('sl-swipe-hint','1');}catch(e){}
+      st.current.busy=true;st.current.dx=0;setAdj({season:neighbour(1),dir:1});const t0=performance.now(),D=1100;
+      const step=now=>{const t=Math.min(1,(now-t0)/D);const k=t<.4?Math.sin(t/.4*Math.PI/2):Math.cos((t-.4)/.6*Math.PI/2);paint(Math.round(56*k*k*(3-2*k)));
+        if(t<1)requestAnimationFrame(step);else{paint(0);setAdj(null);st.current.busy=false;}};
+      requestAnimationFrame(step);},1400);
+    return()=>{clearTimeout(t1);window.removeEventListener('touchstart',stop);};
+  },[]);
+  return<div ref={wrapRef} style={{position:'relative',overflow:'clip'}}>
+    <div ref={curRef} style={{willChange:adj?'transform':undefined}}>{children}</div>
+    {adj&&<div ref={ghostRef} aria-hidden="true" inert="" style={{position:'absolute',top:0,left:adj.dir>0?`calc(-100% - ${GUTTER}px)`:`calc(100% + ${GUTTER}px)`,width:'100%',pointerEvents:'none'}}>{renderGhost(adj.season)}</div>}
+  </div>;
+};
+const SeasonSelector=({season,setSeason,seasons,ghost,noSwipe})=>{
   const[showDropdown,setShowDropdown]=useState(false);
   const idx=seasons.indexOf(season);
   const dropdownRef=React.useRef(null);
@@ -1863,23 +1913,8 @@ const SeasonSelector=({season,setSeason,seasons})=>{
     return()=>document.removeEventListener('mousedown',handleClick);
   },[]);
   
-  usePrevNextNav(idx<seasons.length-1?()=>setSeason(seasons[idx+1]):null,idx>0?()=>setSeason(seasons[idx-1]):null);
-  // Swipe hint (touch screens): the first few times, the page gives a little sideways nudge, as if a season were
-  // waiting just off the edge, and a small note says you can swipe. Shown at most once a visit, three visits in all,
-  // and never again once you've swiped between seasons. With Reduce Motion on, just the note.
-  const[hint,setHint]=useState(false);
-  React.useEffect(()=>{
-    if(seasons.length<2||!(IS_APP||(window.matchMedia&&matchMedia('(pointer:coarse)').matches)))return;
-    let n=0;try{if(localStorage.getItem('sl-swiped')||sessionStorage.getItem('sl-swipe-hint'))return;n=+(localStorage.getItem('sl-swipe-hint')||0);if(n>=3)return;}catch(e){return;}
-    let touched=false;const stop=()=>{touched=true;setHint(false);};window.addEventListener('touchstart',stop,{passive:true});
-    const t1=setTimeout(()=>{if(touched)return;try{localStorage.setItem('sl-swipe-hint',String(n+1));sessionStorage.setItem('sl-swipe-hint','1');}catch(e){}
-      setHint(true);const m=document.getElementById('main-content');
-      if(m&&m.animate&&!MOTION.reduced())m.animate([{transform:'none'},{transform:'translateX(30px)',offset:.4},{transform:'translateX(-5px)',offset:.75},{transform:'none'}],{duration:950,easing:'cubic-bezier(.45,0,.25,1)'});},1400);
-    const t2=setTimeout(()=>setHint(false),6000);
-    return()=>{clearTimeout(t1);clearTimeout(t2);window.removeEventListener('touchstart',stop);};
-  },[]);
+  usePrevNextNav(!ghost&&idx<seasons.length-1?()=>setSeason(seasons[idx+1]):null,!ghost&&idx>0?()=>setSeason(seasons[idx-1]):null,noSwipe);
   return<div className="flex items-center gap-2 relative" ref={dropdownRef}>
-    {hint&&<span role="status" className="sl-swipe-hint"><span aria-hidden="true" className="sl-swipe-arrows">{idx===0?'\u2192':'\u2194'}</span>{idx===0?'Swipe right for earlier seasons':'Swipe to change season'}</span>}
     {!IS_APP&&<button onClick={()=>idx<seasons.length-1&&setSeason(seasons[seasons.length-1])} className={`text-xs ${idx<seasons.length-1?'text-gray-500 hover:text-gray-900':'text-gray-300 cursor-default'}`}>Earliest</button>}
     <div className="flex items-center">
       <button aria-label="Previous season" onClick={()=>idx<seasons.length-1&&setSeason(seasons[idx+1])} className={`p-0.5 rounded ${idx<seasons.length-1?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronLeft className="w-5 h-5"/></button>
@@ -5289,7 +5324,8 @@ const SeasonAnalysis=({season,seasonData,races,standings,allSeasonsData,isComple
   </div>;
 };
 
-const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
+const HomeView=({setView:setViewReal,data,initialSeason,division='men',divisionConfig,ghost})=>{
+  const setView=ghost?(()=>{}):setViewReal;
   const[season,setSeasonState]=useState(initialSeason&&data.seasons.includes(initialSeason)?initialSeason:data.seasons[0]);
   useEffect(()=>{if(initialSeason&&data.seasons.includes(initialSeason))setSeasonState(initialSeason);},[initialSeason]);
   const setSeason=(s)=>{setSeasonState(s);setView({type:'home',urlSeason:s});};
@@ -5570,9 +5606,9 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
   
   const allTimeRef=React.useRef(null);
   
-  return<div className="max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8">
-    {seasonData?<div className="mb-8">
-      {IS_APP?<div className="app-strip"><DivisionToggle division={division} setDivision={v=>DIV.set&&DIV.set(v)}/><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>:<div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons}/></div>}
+  return<div className={ghost?undefined:"max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8"}>
+    {(()=>{const block=seasonData?<div className="mb-8">
+      {IS_APP?<div className="app-strip"><DivisionToggle division={division} setDivision={v=>DIV.set&&DIV.set(v)}/><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons} ghost={ghost} noSwipe={SWIPE_SEASONS}/></div>:<div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons} ghost={ghost} noSwipe={SWIPE_SEASONS}/></div>}
       {sPhoto?<div className="grid md:grid-cols-2 gap-8 md:gap-y-0 items-start md:[grid-template-rows:auto_1fr]">
         {/* desktop with a season photo: punditry under the table, and the photo under the Mitchell Cup cropped to end level with it */}
         <div ref={standRef} className="overflow-hidden md:col-start-1 md:row-start-1">{StandingsTable()}</div>
@@ -5590,8 +5626,10 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
         <div><FixturesTable/><IndividualsTable/>{division==='women'&&<SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason} division={division}/>}</div>
       </div>
       {division!=='women'&&<SeasonAnalysis season={season} seasonData={seasonData} races={data.races} standings={standings} allSeasonsData={data.seasonsData} isComplete={isComplete} data={data} setView={setView} setSeason={setSeason} division={division}/>}</>}
-    </div>:<p className="text-sm text-gray-500 mb-10">No data</p>}
-    
+    </div>:<p className="text-sm text-gray-500 mb-10">No data</p>;
+      if(ghost||!SWIPE_SEASONS)return block;
+      return<SeasonSwipe season={season} seasons={data.seasons} setSeason={setSeason} renderGhost={s=><HomeView ghost key={s} setView={()=>{}} data={data} initialSeason={s} division={division} divisionConfig={divisionConfig}/>}>{block}</SeasonSwipe>;})()}
+    {!ghost&&<>
     <div ref={allTimeRef} className="flex items-center justify-center gap-0 mt-6 mb-2">
       <div className="flex-1 h-px bg-gray-200"></div>
       <Wreath width={40} fill="#c9ccc7" className="mx-3 flex-shrink-0"/>
@@ -5688,6 +5726,7 @@ const HomeView=({setView,data,initialSeason,division='men',divisionConfig})=>{
         </div>
       </div>;
     })()}
+    </>}
   </div>;
 };
 
