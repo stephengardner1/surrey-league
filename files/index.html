@@ -1869,7 +1869,7 @@ const SwipePager=({curKey,prev,next,onGo,renderGhost,labelText,hint,children})=>
     const Q='.app-strip,.sl-season-strip,[data-swipe-still],thead';const cq=[...c.querySelectorAll(Q)],gq=[...g.querySelectorAll(Q)];
     const top=el=>el.getBoundingClientRect().top;const cTop=top(c),gTop=top(g);let cs=null;
     cq.forEach((h,i)=>{const o=gq[i];if(!o||o.tagName!==h.tagName||Math.abs((top(h)-cTop)-(top(o)-gTop))>=2||h.offsetWidth!==o.offsetWidth)return;
-      const add=e=>{e.style.position=e.style.position||'relative';e.style.zIndex='2';e.dataset.swipeLift='1';s.still.push(e);};if(h.tagName==='THEAD')h.querySelectorAll('th').forEach(add);else add(h);o.style.visibility='hidden';
+      const add=e=>{const pos=getComputedStyle(e).position;if(pos==='static'){e.style.position='relative';e.dataset.swipeLift='pos';}else e.dataset.swipeLift='1';if(pos==='static'||pos==='relative')e.style.zIndex='2';s.still.push(e);};  /* the season strip is sticky: leave it sticky */if(h.tagName==='THEAD')h.querySelectorAll('th').forEach(add);else add(h);o.style.visibility='hidden';
       if(h.matches('.app-strip,.sl-season-strip'))cs=h;
       for(let a=h.parentElement;a&&a!==c;a=a.parentElement){const ov=getComputedStyle(a).overflowX;if((ov==='hidden'||ov==='clip')&&!s.unclip.includes(a)){s.unclip.push(a);a.style.overflow='visible';}}});
     const lab=cs&&labelText&&cs.querySelector('.sl-season-label');if(lab&&adjRef.current){const inn=lab.querySelector('.sl-season-in');inn.textContent=labelText(adjRef.current.item);inn.style.visibility='visible';
@@ -1877,7 +1877,7 @@ const SwipePager=({curKey,prev,next,onGo,renderGhost,labelText,hint,children})=>
   const paint=dx=>{const c=curRef.current,g=ghostRef.current,s=st.current;if(c)c.style.transform=dx?`translateX(${dx}px)`:'';if(g)g.style.transform=`translateX(${dx}px)`;
     (s.still||[]).forEach(el=>{el.style.transform=dx?`translateX(${-dx}px)`:'';});
     const L=s.lab;if(L){const W=(wrapRef.current?.offsetWidth||1)+GUTTER,m=dx/W*L.w;L.t.style.transform=dx?`translateX(${m}px)`:'';L.inn.style.transform=`translateX(${m-L.dir*L.w}px)`;}
-    if(!dx&&!s.on&&!adjRef.current){(s.still||[]).forEach(el=>{el.style.transform='';if(el.dataset.swipeLift){el.style.zIndex='';if(el.style.position==='relative')el.style.position='';delete el.dataset.swipeLift;}});if(L){L.t.style.transform='';L.inn.style.visibility='hidden';L.inn.style.transform='';L.inn.textContent='';}(s.unclip||[]).forEach(a=>{a.style.overflow='';});s.unclip=[];s.still=[];s.lab=null;}};
+    if(!dx&&!s.on&&!adjRef.current){(s.still||[]).forEach(el=>{el.style.transform='';if(el.dataset.swipeLift){if(el.dataset.swipeLift==='pos'){el.style.position='';el.style.zIndex='';}else if(el.style.zIndex==='2')el.style.zIndex='';delete el.dataset.swipeLift;}});if(L){L.t.style.transform='';L.inn.style.visibility='hidden';L.inn.style.transform='';L.inn.textContent='';}(s.unclip||[]).forEach(a=>{a.style.overflow='';});s.unclip=[];s.still=[];s.lab=null;}};
   // after landing on the new season, the real table replaces the slid-in copy in the same frame
   React.useLayoutEffect(()=>{paint(0);setAdj(null);st.current.busy=false;},[curKey]);
   React.useLayoutEffect(()=>{if(adj){prep();paint(st.current.dx||0);}else paint(0);},[adj]);
