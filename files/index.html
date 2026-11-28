@@ -1847,37 +1847,39 @@ const usePrevNextNav=(onPrev,onNext,noSwipe)=>{const ref=React.useRef({});ref.cu
     window.addEventListener('keydown',onKey);window.addEventListener('touchstart',onStart,{passive:true});window.addEventListener('touchend',onEnd,{passive:true});
     return()=>{window.removeEventListener('keydown',onKey);window.removeEventListener('touchstart',onStart);window.removeEventListener('touchend',onEnd);};
   },[]);};
-// Swipe between seasons by dragging (touch screens). The season block follows your finger and the neighbouring season's
+// Swipe between seasons, or between races, by dragging (touch screens). The season block follows your finger and the neighbouring season's
 // table slides in beside it: drag right for the season before, left for the season after. Let go past a quarter of the
 // width (or flick) and it carries on and lands on that season; otherwise both glide back. At the newest or oldest season
 // it gives a little and springs back. Sideways-scrolling tables and the screen edges (the iPhone's back gesture) are left alone.
 // The first few visits (until you've swiped once), it gives a small nudge that shows a sliver of last season.
 const SWIPE_SEASONS=(()=>{try{return IS_APP||matchMedia('(pointer:coarse) and (max-width: 767px)').matches;}catch(e){return false;}})();
 const GUTTER=32;
-const SeasonSwipe=({season,seasons,setSeason,renderGhost,children})=>{
+const SwipePager=({curKey,prev,next,onGo,renderGhost,labelText,hint,children})=>{
   const wrapRef=useRef(null),curRef=useRef(null),ghostRef=useRef(null);
-  const[adj,setAdj]=useState(null);  // {season, dir}: dir 1 = the season before (shown on the left), -1 = the season after (right)
+  const[adj,setAdj]=useState(null);  // {item, dir}: dir 1 = the one before (shown on the left), -1 = the one after (right)
   const adjRef=useRef(null);adjRef.current=adj;
   const st=useRef({});
-  const idx=seasons.indexOf(season);
-  const neighbour=dir=>dir>0?seasons[idx+1]:seasons[idx-1];
+  const nb=useRef({});nb.current={prev,next,onGo};
+  const neighbour=dir=>dir>0?nb.current.prev:nb.current.next;
   // What stays still while the season slides: the Men/Women and season strip, and column headings (where the incoming
   // season's headings sit in the same place). The season name itself slides within its chevrons.
-  const prep=()=>{const c=curRef.current,g=ghostRef.current,s=st.current;s.still=[];s.lab=null;if(!c||!g)return;
-    const strip=x=>x.querySelector('.app-strip,.sl-season-strip');const cs=strip(c),gs=strip(g);
-    if(cs){s.still.push(cs);if(gs)gs.style.visibility='hidden';}
-    const top=el=>el.getBoundingClientRect().top;const ct=[...c.querySelectorAll('thead')],gt=[...g.querySelectorAll('thead')];
-    const cTop=top(c),gTop=top(g);
-    s.unclip=[];ct.forEach((h,i)=>{const o=gt[i];if(o&&Math.abs((top(h)-cTop)-(top(o)-gTop))<2&&h.offsetWidth===o.offsetWidth){s.still.push(...h.querySelectorAll('th'));o.style.visibility='hidden';
-      for(let a=h.parentElement;a&&a!==c;a=a.parentElement){const ov=getComputedStyle(a).overflowX;if((ov==='hidden'||ov==='clip')&&!s.unclip.includes(a)){s.unclip.push(a);a.style.overflow='visible';}}}});
-    const lab=cs&&cs.querySelector('.sl-season-label');if(lab&&adjRef.current){const inn=lab.querySelector('.sl-season-in');inn.textContent=adjRef.current.season;inn.style.visibility='visible';
+  const prep=()=>{const c=curRef.current,g=ghostRef.current,s=st.current;s.still=[];s.lab=null;s.unclip=[];if(!c||!g)return;
+    // pair the parts that can stay still (strips, tabs, column headings) with the incoming page's; keep one still only
+    // where its partner sits in exactly the same place, and hide the partner
+    const Q='.app-strip,.sl-season-strip,[data-swipe-still],thead';const cq=[...c.querySelectorAll(Q)],gq=[...g.querySelectorAll(Q)];
+    const top=el=>el.getBoundingClientRect().top;const cTop=top(c),gTop=top(g);let cs=null;
+    cq.forEach((h,i)=>{const o=gq[i];if(!o||o.tagName!==h.tagName||Math.abs((top(h)-cTop)-(top(o)-gTop))>=2||h.offsetWidth!==o.offsetWidth)return;
+      const add=e=>{e.style.position=e.style.position||'relative';e.style.zIndex='2';e.dataset.swipeLift='1';s.still.push(e);};if(h.tagName==='THEAD')h.querySelectorAll('th').forEach(add);else add(h);o.style.visibility='hidden';
+      if(h.matches('.app-strip,.sl-season-strip'))cs=h;
+      for(let a=h.parentElement;a&&a!==c;a=a.parentElement){const ov=getComputedStyle(a).overflowX;if((ov==='hidden'||ov==='clip')&&!s.unclip.includes(a)){s.unclip.push(a);a.style.overflow='visible';}}});
+    const lab=cs&&labelText&&cs.querySelector('.sl-season-label');if(lab&&adjRef.current){const inn=lab.querySelector('.sl-season-in');inn.textContent=labelText(adjRef.current.item);inn.style.visibility='visible';
       s.lab={t:lab.querySelector('.sl-season-text'),inn,w:lab.offsetWidth+6,dir:adjRef.current.dir};}};
   const paint=dx=>{const c=curRef.current,g=ghostRef.current,s=st.current;if(c)c.style.transform=dx?`translateX(${dx}px)`:'';if(g)g.style.transform=`translateX(${dx}px)`;
     (s.still||[]).forEach(el=>{el.style.transform=dx?`translateX(${-dx}px)`:'';});
     const L=s.lab;if(L){const W=(wrapRef.current?.offsetWidth||1)+GUTTER,m=dx/W*L.w;L.t.style.transform=dx?`translateX(${m}px)`:'';L.inn.style.transform=`translateX(${m-L.dir*L.w}px)`;}
-    if(!dx&&!s.on&&!adjRef.current){(s.still||[]).forEach(el=>{el.style.transform='';});if(L){L.t.style.transform='';L.inn.style.visibility='hidden';L.inn.style.transform='';L.inn.textContent='';}(s.unclip||[]).forEach(a=>{a.style.overflow='';});s.unclip=[];s.still=[];s.lab=null;}};
+    if(!dx&&!s.on&&!adjRef.current){(s.still||[]).forEach(el=>{el.style.transform='';if(el.dataset.swipeLift){el.style.zIndex='';if(el.style.position==='relative')el.style.position='';delete el.dataset.swipeLift;}});if(L){L.t.style.transform='';L.inn.style.visibility='hidden';L.inn.style.transform='';L.inn.textContent='';}(s.unclip||[]).forEach(a=>{a.style.overflow='';});s.unclip=[];s.still=[];s.lab=null;}};
   // after landing on the new season, the real table replaces the slid-in copy in the same frame
-  React.useLayoutEffect(()=>{paint(0);setAdj(null);st.current.busy=false;},[season]);
+  React.useLayoutEffect(()=>{paint(0);setAdj(null);st.current.busy=false;},[curKey]);
   React.useLayoutEffect(()=>{if(adj){prep();paint(st.current.dx||0);}else paint(0);},[adj]);
   useEffect(()=>{const el=wrapRef.current;if(!el)return;
     const scrollsX=t=>{for(;t&&t!==el;t=t.parentElement){const o=getComputedStyle(t).overflowX;if((o==='auto'||o==='scroll')&&t.scrollWidth>t.clientWidth+2)return true;}return false;};
@@ -1886,7 +1888,7 @@ const SeasonSwipe=({season,seasons,setSeason,renderGhost,children})=>{
       Object.assign(s,{on:true,ax:'',x:p.clientX,y:p.clientY,lx:p.clientX,lt:e.timeStamp,v:0,dx:0,dir:0});};
     const move=e=>{const s=st.current;if(!s.on)return;const p=e.touches[0],mx=p.clientX-s.x,my=p.clientY-s.y;
       if(!s.ax){if(Math.hypot(mx,my)<10)return;s.ax=Math.abs(mx)>Math.abs(my)*1.2?'x':'y';if(s.ax==='y'){s.on=false;return;}
-        s.dir=mx>0?1:-1;s.has=!!neighbour(s.dir);if(s.has)setAdj({season:neighbour(s.dir),dir:s.dir});}
+        s.dir=mx>0?1:-1;s.has=!!neighbour(s.dir);if(s.has)setAdj({item:neighbour(s.dir),dir:s.dir});}
       e.preventDefault();const dt=e.timeStamp-s.lt;if(dt>0)s.v=.7*((p.clientX-s.lx)/dt)+.3*s.v;s.lx=p.clientX;s.lt=e.timeStamp;
       let dx=mx;if(Math.sign(dx)!==s.dir)dx=0;if(!s.has)dx=dx*.25;s.dx=dx;paint(dx);};
     const end=()=>{const s=st.current;if(!s.on||s.ax!=='x'){s.on=false;return;}s.on=false;const W=el.offsetWidth+GUTTER,dx=s.dx;
@@ -1894,29 +1896,32 @@ const SeasonSwipe=({season,seasons,setSeason,renderGhost,children})=>{
       const from=dx,to=go?s.dir*W:0,dur=go?Math.round(Math.min(300,Math.max(160,(W-Math.abs(dx))/Math.max(Math.abs(s.v),1.2)))):320;
       s.busy=true;const t0=performance.now(),ease=go?(t=>1-Math.pow(1-t,2)):(t=>1-Math.pow(1-t,3));
       const step=now=>{const t=Math.min(1,(now-t0)/dur);paint(from+(to-from)*ease(t));if(t<1)requestAnimationFrame(step);
-        else if(go){try{localStorage.setItem('sl-swiped','1');}catch(e){}setSeason(neighbour(s.dir));}
+        else if(go){try{localStorage.setItem('sl-swiped','1');}catch(e){}nb.current.onGo(neighbour(s.dir));}
         else{paint(0);setAdj(null);s.busy=false;}};
       requestAnimationFrame(step);};
     el.addEventListener('touchstart',start,{passive:true});el.addEventListener('touchmove',move,{passive:false});
     el.addEventListener('touchend',end);el.addEventListener('touchcancel',end);
     return()=>{el.removeEventListener('touchstart',start);el.removeEventListener('touchmove',move);el.removeEventListener('touchend',end);el.removeEventListener('touchcancel',end);};
-  },[season,seasons]);
+  },[curKey]);
   // First few visits: a small nudge that shows a sliver of last season (no words). Not with Reduce Motion.
-  useEffect(()=>{if(idx>=seasons.length-1||MOTION.reduced())return;let n=0;
+  useEffect(()=>{if(!hint||!prev||MOTION.reduced())return;let n=0;
     try{if(localStorage.getItem('sl-swiped')||sessionStorage.getItem('sl-swipe-hint'))return;n=+(localStorage.getItem('sl-swipe-hint')||0);if(n>=3)return;}catch(e){return;}
     let touched=false;const stop=()=>{touched=true;};window.addEventListener('touchstart',stop,{passive:true});
     const t1=setTimeout(()=>{if(touched||st.current.on||st.current.busy)return;try{localStorage.setItem('sl-swipe-hint',String(n+1));sessionStorage.setItem('sl-swipe-hint','1');}catch(e){}
-      st.current.busy=true;st.current.dx=0;setAdj({season:neighbour(1),dir:1});const t0=performance.now(),D=1100;
+      st.current.busy=true;st.current.dx=0;setAdj({item:neighbour(1),dir:1});const t0=performance.now(),D=1100;
       const step=now=>{const t=Math.min(1,(now-t0)/D);const k=t<.4?Math.sin(t/.4*Math.PI/2):Math.cos((t-.4)/.6*Math.PI/2);paint(Math.round(56*k*k*(3-2*k)));
         if(t<1)requestAnimationFrame(step);else{paint(0);setAdj(null);st.current.busy=false;}};
       requestAnimationFrame(step);},1400);
     return()=>{clearTimeout(t1);window.removeEventListener('touchstart',stop);};
   },[]);
   return<div ref={wrapRef} style={{position:'relative',overflow:'clip'}}>
-    <div ref={curRef} style={{willChange:adj?'transform':undefined}}>{children}</div>
-    {adj&&<div ref={ghostRef} aria-hidden="true" inert="" style={{position:'absolute',top:0,left:adj.dir>0?`calc(-100% - ${GUTTER}px)`:`calc(100% + ${GUTTER}px)`,width:'100%',pointerEvents:'none'}}>{renderGhost(adj.season)}</div>}
+    <div ref={curRef} style={{willChange:adj?'transform':undefined,position:'relative',zIndex:adj?1:undefined}}>{children}</div>
+    {adj&&<div ref={ghostRef} aria-hidden="true" inert="" style={{position:'absolute',top:0,left:adj.dir>0?`calc(-100% - ${GUTTER}px)`:`calc(100% + ${GUTTER}px)`,width:'100%',pointerEvents:'none'}}>{renderGhost(adj.item)}</div>}
   </div>;
 };
+const SeasonSwipe=({season,seasons,setSeason,renderGhost,children})=>{const i=seasons.indexOf(season);
+  return<SwipePager curKey={season} prev={seasons[i+1]||null} next={i>0?seasons[i-1]:null} onGo={setSeason} renderGhost={renderGhost} labelText={x=>x} hint>{children}</SwipePager>;};
+
 const SeasonSelector=({season,setSeason,seasons,ghost,noSwipe})=>{
   const[showDropdown,setShowDropdown]=useState(false);
   const idx=seasons.indexOf(season);
@@ -2674,7 +2679,7 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
   const venuePhotos=here.flatMap(r=>racePhotosFor(r).map(ph=>({...ph,race:r})));
   const[photoOpen,setPhotoOpen]=useState(-1);
   const{prev,next}=useMemo(()=>raceNeighbours(races,seasonsData,race),[races,seasonsData,race.season,race.match]);
-  usePrevNextNav(prev?()=>setView({type:'race',race:prev}):null,next?()=>setView({type:'race',race:next}):null);
+  usePrevNextNav(prev?()=>setView({type:'race',race:prev}):null,next?()=>setView({type:'race',race:next}):null,SWIPE_SEASONS);
   const guideUrl=FORM_GUIDES[`${divisionConfig?.id}|${race.season}|${race.match}`];
   // Start times come from surreyleague.org once a day (tools/fixture_times.mjs)
   const[times,setTimes]=useState(null);
@@ -2684,7 +2689,7 @@ const UpcomingRaceView=({race,setView,seasonsData,races,divisionConfig})=>{
   const today=justInDay(),raceDay=race.date===today,past=race.date<today;
   const Label=({children})=><h2 className="text-xs font-semibold uppercase tracking-wide text-gray-500 border-b border-gray-200 pb-1 mb-1">{children}</h2>;
   return<div className="max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8">
-    <div className="flex items-center justify-between mb-1 md:mb-3 -mx-2">
+    <div data-swipe-still="bar" className="flex items-center justify-between mb-1 md:mb-3 -mx-2">
       <button onClick={()=>setView({type:'fixtures'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ArrowLeft className="w-4 h-4"/>Fixtures</button>
       <div className="flex items-center gap-1">
         {prev?<button onClick={()=>setView({type:'race',race:prev})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ChevronLeft className="w-4 h-4"/><span className="hidden sm:inline">{prev.venue}</span><span className="sm:hidden">Prev</span></button>:null}
@@ -2831,7 +2836,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
   const sortedRaces=useMemo(()=>[...races].filter(r=>r.results?.length>0).sort((a,b)=>{if(a.season!==b.season)return a.season.localeCompare(b.season);return a.match-b.match;}),[races]);
   const currentIdx=sortedRaces.findIndex(r=>r.season===race.season&&r.match===race.match);
   const{prev:prevRace,next:nextRace}=useMemo(()=>raceNeighbours(races,seasonsData,race),[races,seasonsData,race.season,race.match]);
-  usePrevNextNav(prevRace?()=>setView({type:'race',race:prevRace}):null,nextRace?()=>setView({type:'race',race:nextRace}):null);
+  usePrevNextNav(prevRace?()=>setView({type:'race',race:prevRace}):null,nextRace?()=>setView({type:'race',race:nextRace}):null,SWIPE_SEASONS);
   
   // Count individual winner's race wins up to and including this race, and total career wins
   // For dead heats, we need to handle multiple winners
@@ -2884,7 +2889,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
   },[winnersData,latestSeason,race.season]);
   
   return<div className="max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8">
-    <div className="flex items-center justify-between mb-1 md:mb-3 -mx-2">
+    <div data-swipe-still="bar" className="flex items-center justify-between mb-1 md:mb-3 -mx-2">
       <button onClick={()=>setView({type:'fixtures'})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ArrowLeft className="w-4 h-4"/>Fixtures</button>
       <div className="flex items-center gap-1">
         {prevRace?<button onClick={()=>setView({type:'race',race:prevRace})} className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 px-2 py-1 rounded hover:bg-gray-100"><ChevronLeft className="w-4 h-4"/><span className="hidden sm:inline">{prevRace.venue}</span><span className="sm:hidden">Prev</span></button>:null}
@@ -2897,7 +2902,7 @@ const RaceDetailInner=({race,mode,setView,seasonsData,clubMvps,races,individualC
     {/* Mobile: tabs */}
     <div className="lg:hidden">
       {raceFilmFor(race)?.header&&<RaceFilmHeader key={(onWomenRoute()?'w':'m')+race.season+race.match} film={raceFilmFor(race).header}/>}
-      <div className="flex items-center justify-between gap-3 mb-1"><div className="inline-flex shrink-0 items-center bg-gray-100 rounded-lg p-0.5" role="group" aria-label="Results shown">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} type="button" aria-pressed={tab===t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${tab===t.id?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>{raceMediaFor(race).length>0&&<RacePhotoThumb key={race.season+race.match} photos={raceMediaFor(race)} race={race}/>}</div>
+      <div className="flex items-center justify-between gap-3 mb-1"><div className="inline-flex shrink-0 items-center bg-gray-100 rounded-lg p-0.5" role="group" aria-label="Results shown" data-swipe-still="shown">{[{id:'individual',label:'Individual'},{id:'a-teams',label:'A Teams'},{id:'b-teams',label:'B Teams'}].filter(t=>t.id!=='b-teams'||parseInt(race.season)>=2013).map(t=><button key={t.id} type="button" aria-pressed={tab===t.id} onClick={()=>{setTab(t.id);setClubFilter(null);}} className={`px-2 md:px-3 py-1 rounded-md text-xs md:text-sm font-medium transition-colors ${tab===t.id?'bg-white text-gray-900 shadow-sm':'text-gray-500 hover:text-gray-700'}`}>{t.label}</button>)}</div>{raceMediaFor(race).length>0&&<RacePhotoThumb key={race.season+race.match} photos={raceMediaFor(race)} race={race}/>}</div>
       {tab==='a-teams'&&(race.justIn&&!race.justIn.teams?<p className="text-sm text-gray-500">Team scores to follow.</p>:displayTeamScores?<KnownTeamScoresTable scores={displayTeamScores} title="A Teams" results={race.results} onClub={pickClub} note={race.justIn?"* Team scores as first published by the league":undefined}/>:<TeamResultsTable results={race.results} onClub={pickClub} startPos={1} count={effectiveTeamSize.a} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>)}
       {tab==='b-teams'&&hasCalculableResults&&<TeamResultsTable results={race.results} onClub={pickClub} startPos={effectiveTeamSize.a+1} count={effectiveTeamSize.b} finishers={race.finishers} divisionConfig={divisionConfig} race={race}/>}
       {tab==='b-teams'&&!hasCalculableResults&&<p className="text-sm text-gray-500">{race.justIn?"B team scores to follow.":"B team scores not available for this race."}</p>}
@@ -6989,7 +6994,10 @@ function App(){
     <Nav setView={setView} division={division} setDivision={setDivision} view={view} champ={reigningChamp(data)}/>
     <main id="main-content" className="flex-1">
       {view.type==='home'&&<HomeView key={view.urlSeason||'default'} setView={setView} data={data} initialSeason={view.urlSeason} division={division} divisionConfig={divisionConfig}/>}
-      {view.type==='race'&&<RaceDetailView race={view.race} mode={view.mode} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions} divisionConfig={divisionConfig}/>}
+      {view.type==='race'&&(()=>{const page=<RaceDetailView race={view.race} mode={view.mode} setView={setView} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions} divisionConfig={divisionConfig}/>;
+        if(!SWIPE_SEASONS||!view.race)return page;const nb=raceNeighbours(data.races,data.seasonsData,view.race);
+        return<SwipePager curKey={view.race.season+'-'+view.race.match} prev={nb.prev||null} next={nb.next||null} onGo={r=>{const y=window.scrollY;setView({type:'race',race:r});if(y)window.scrollTo(0,y);}}
+          renderGhost={r=><RaceDetailView key={r.season+'-'+r.match} race={r} setView={()=>{}} seasonsData={data.seasonsData} clubMvps={data.clubMvps} races={data.races} individualChampions={data.individualChampions} divisionConfig={divisionConfig}/>}>{page}</SwipePager>;})()}
       {view.type==='fixtures'&&<FixturesView setView={setView} races={data.races} seasonsData={data.seasonsData}/>}
       {view.type==='seasons'&&<SeasonsView setView={setView} seasonsData={data.seasonsData} races={data.races} mitchellCupWinners={data.mitchellCupWinners} division={division}/>}
       {view.type==='athletes'&&<AthletesView setView={setView} athletes={data.athletes}/>}
