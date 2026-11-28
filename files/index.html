@@ -5343,7 +5343,8 @@ const HomeView=({setView:setViewReal,data,initialSeason,division='men',divisionC
   const setView=ghost?(()=>{}):setViewReal;
   const[season,setSeasonState]=useState(initialSeason&&data.seasons.includes(initialSeason)?initialSeason:data.seasons[0]);
   useEffect(()=>{if(initialSeason&&data.seasons.includes(initialSeason))setSeasonState(initialSeason);},[initialSeason]);
-  const setSeason=(s)=>{setSeasonState(s);setView({type:'home',urlSeason:s});};
+  // changing season on this page (swipe, chevrons, list) keeps you where you are on the page rather than jumping to the top
+  const setSeason=(s)=>{const y=window.scrollY;setSeasonState(s);setView({type:'home',urlSeason:s});if(y)window.scrollTo(0,y);};
   const seasonData=data.seasonsData[season];
   const winTint=c=>({background:tintHalf(PORTRAIT_GROUND[c]||'#E6EAE4')});  /* the club's lightest tint, as on club pages, behind a season's winners */
   const sPhoto=useMemo(()=>seasonPhotoFor(season,division==='women',data.races),[season,division,data]);
