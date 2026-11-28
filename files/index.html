@@ -1857,13 +1857,28 @@ const GUTTER=32;
 const SeasonSwipe=({season,seasons,setSeason,renderGhost,children})=>{
   const wrapRef=useRef(null),curRef=useRef(null),ghostRef=useRef(null);
   const[adj,setAdj]=useState(null);  // {season, dir}: dir 1 = the season before (shown on the left), -1 = the season after (right)
+  const adjRef=useRef(null);adjRef.current=adj;
   const st=useRef({});
   const idx=seasons.indexOf(season);
   const neighbour=dir=>dir>0?seasons[idx+1]:seasons[idx-1];
-  const paint=dx=>{const c=curRef.current,g=ghostRef.current;if(c)c.style.transform=dx?`translateX(${dx}px)`:'';if(g)g.style.transform=`translateX(${dx}px)`;};
+  // What stays still while the season slides: the Men/Women and season strip, and column headings (where the incoming
+  // season's headings sit in the same place). The season name itself slides within its chevrons.
+  const prep=()=>{const c=curRef.current,g=ghostRef.current,s=st.current;s.still=[];s.lab=null;if(!c||!g)return;
+    const strip=x=>x.querySelector('.app-strip,.sl-season-strip');const cs=strip(c),gs=strip(g);
+    if(cs){s.still.push(cs);if(gs)gs.style.visibility='hidden';}
+    const top=el=>el.getBoundingClientRect().top;const ct=[...c.querySelectorAll('thead')],gt=[...g.querySelectorAll('thead')];
+    const cTop=top(c),gTop=top(g);
+    s.unclip=[];ct.forEach((h,i)=>{const o=gt[i];if(o&&Math.abs((top(h)-cTop)-(top(o)-gTop))<2&&h.offsetWidth===o.offsetWidth){s.still.push(...h.querySelectorAll('th'));o.style.visibility='hidden';
+      for(let a=h.parentElement;a&&a!==c;a=a.parentElement){const ov=getComputedStyle(a).overflowX;if((ov==='hidden'||ov==='clip')&&!s.unclip.includes(a)){s.unclip.push(a);a.style.overflow='visible';}}}});
+    const lab=cs&&cs.querySelector('.sl-season-label');if(lab&&adjRef.current){const inn=lab.querySelector('.sl-season-in');inn.textContent=adjRef.current.season;inn.style.visibility='visible';
+      s.lab={t:lab.querySelector('.sl-season-text'),inn,w:lab.offsetWidth+6,dir:adjRef.current.dir};}};
+  const paint=dx=>{const c=curRef.current,g=ghostRef.current,s=st.current;if(c)c.style.transform=dx?`translateX(${dx}px)`:'';if(g)g.style.transform=`translateX(${dx}px)`;
+    (s.still||[]).forEach(el=>{el.style.transform=dx?`translateX(${-dx}px)`:'';});
+    const L=s.lab;if(L){const W=(wrapRef.current?.offsetWidth||1)+GUTTER,m=dx/W*L.w;L.t.style.transform=dx?`translateX(${m}px)`:'';L.inn.style.transform=`translateX(${m-L.dir*L.w}px)`;}
+    if(!dx&&!s.on&&!adjRef.current){(s.still||[]).forEach(el=>{el.style.transform='';});if(L){L.t.style.transform='';L.inn.style.visibility='hidden';L.inn.style.transform='';L.inn.textContent='';}(s.unclip||[]).forEach(a=>{a.style.overflow='';});s.unclip=[];s.still=[];s.lab=null;}};
   // after landing on the new season, the real table replaces the slid-in copy in the same frame
   React.useLayoutEffect(()=>{paint(0);setAdj(null);st.current.busy=false;},[season]);
-  React.useLayoutEffect(()=>{if(adj)paint(st.current.dx||0);},[adj]);
+  React.useLayoutEffect(()=>{if(adj){prep();paint(st.current.dx||0);}else paint(0);},[adj]);
   useEffect(()=>{const el=wrapRef.current;if(!el)return;
     const scrollsX=t=>{for(;t&&t!==el;t=t.parentElement){const o=getComputedStyle(t).overflowX;if((o==='auto'||o==='scroll')&&t.scrollWidth>t.clientWidth+2)return true;}return false;};
     const start=e=>{const s=st.current;if(s.busy||e.touches.length!==1){s.on=false;return;}const p=e.touches[0];
@@ -1918,7 +1933,7 @@ const SeasonSelector=({season,setSeason,seasons,ghost,noSwipe})=>{
     {!IS_APP&&<button onClick={()=>idx<seasons.length-1&&setSeason(seasons[seasons.length-1])} className={`text-xs ${idx<seasons.length-1?'text-gray-500 hover:text-gray-900':'text-gray-300 cursor-default'}`}>Earliest</button>}
     <div className="flex items-center">
       <button aria-label="Previous season" onClick={()=>idx<seasons.length-1&&setSeason(seasons[idx+1])} className={`p-0.5 rounded ${idx<seasons.length-1?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronLeft className="w-5 h-5"/></button>
-      <span className="text-base font-semibold text-gray-900 min-w-[5rem] text-center cursor-pointer hover:text-[#1b649e]" onClick={()=>setShowDropdown(!showDropdown)}>{season}</span>
+      <span className="sl-season-label text-base font-semibold text-gray-900 min-w-[5rem] text-center cursor-pointer hover:text-[#1b649e]" style={{position:'relative',overflow:'hidden',display:'inline-block'}} onClick={()=>setShowDropdown(!showDropdown)}><span className="sl-season-text" style={{display:'inline-block'}}>{season}</span><span className="sl-season-in" aria-hidden="true" style={{position:'absolute',inset:0,textAlign:'center',visibility:'hidden'}}></span></span>
       <button aria-label="Next season" onClick={()=>idx>0&&setSeason(seasons[idx-1])} className={`p-0.5 rounded ${idx>0?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronRight className="w-5 h-5"/></button>
     </div>
     {!IS_APP&&<button onClick={()=>idx>0&&setSeason(seasons[0])} className={`text-xs ${idx>0?'text-gray-500 hover:text-gray-900':'text-gray-300 cursor-default'}`}>Latest</button>}
@@ -5608,7 +5623,7 @@ const HomeView=({setView:setViewReal,data,initialSeason,division='men',divisionC
   
   return<div className={ghost?undefined:"max-w-5xl mx-auto px-4 pt-3 md:pt-6 pb-8"}>
     {(()=>{const block=seasonData?<div className="mb-8">
-      {IS_APP?<div className="app-strip"><DivisionToggle division={division} setDivision={v=>DIV.set&&DIV.set(v)}/><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons} ghost={ghost} noSwipe={SWIPE_SEASONS}/></div>:<div className="flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons} ghost={ghost} noSwipe={SWIPE_SEASONS}/></div>}
+      {IS_APP?<div className="app-strip"><DivisionToggle division={division} setDivision={v=>DIV.set&&DIV.set(v)}/><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons} ghost={ghost} noSwipe={SWIPE_SEASONS}/></div>:<div className="sl-season-strip flex items-center gap-2 mb-4"><SeasonSelector season={season} setSeason={setSeason} seasons={data.seasons} ghost={ghost} noSwipe={SWIPE_SEASONS}/></div>}
       {sPhoto?<div className="grid md:grid-cols-2 gap-8 md:gap-y-0 items-start md:[grid-template-rows:auto_1fr]">
         {/* desktop with a season photo: punditry under the table, and the photo under the Mitchell Cup cropped to end level with it */}
         <div ref={standRef} className="overflow-hidden md:col-start-1 md:row-start-1">{StandingsTable()}</div>
