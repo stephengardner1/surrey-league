@@ -234,6 +234,11 @@
 .lb-arrow:hover .lb-dot,.lb-arrow:focus-visible .lb-dot{background:rgba(0,0,0,.55);color:#fff}
 @media (pointer:coarse){.lb-dot{opacity:.6}.lb-arrow:active .lb-dot{opacity:1}}
 .lb-close .lb-dot{opacity:1}
+/* Season swipe hint: a small note under the season, fading in and out */
+.sl-swipe-hint{position:absolute;top:calc(100% + 6px);right:0;z-index:40;white-space:nowrap;pointer-events:none;font-size:12px;line-height:1;color:#3d423b;background:#fff;border:1px solid #e3e5e1;border-radius:9999px;padding:7px 11px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:inline-flex;gap:6px;align-items:center;animation:sl-hint 4.6s ease both}
+.sl-swipe-arrows{color:#1b649e;font-weight:600}
+@keyframes sl-hint{0%{opacity:0;transform:translateY(-4px)}8%{opacity:1;transform:none}85%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.sl-swipe-hint{animation:none}}
 /* While a photo is open the floating nav steps out of the way (slides down, fades), so captions are never hidden under it */
 .app-nav{transition:transform 240ms cubic-bezier(.65,0,.35,1),opacity 200ms ease}
 body:has([data-lightbox]) .app-nav{transform:translateY(calc(100% + 24px));opacity:0;pointer-events:none}
@@ -1843,7 +1848,7 @@ const usePrevNextNav=(onPrev,onNext)=>{const ref=React.useRef({});ref.current={o
     const onStart=e=>{if(e.touches.length!==1){t=null;return;}const p=e.touches[0];if(p.clientX<30||p.clientX>window.innerWidth-30||scrollsX(e.target)||typing(e.target)){t=null;return;}t={x:p.clientX,y:p.clientY,at:Date.now()};};
     const onEnd=e=>{if(!t)return;const p=e.changedTouches[0],dx=p.clientX-t.x,dy=p.clientY-t.y,dt=Date.now()-t.at;t=null;
       if(dt>700||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2)return;
-      if(dx<0&&ref.current.onNext)ref.current.onNext();else if(dx>0&&ref.current.onPrev)ref.current.onPrev();};
+      const go=dx<0?ref.current.onNext:ref.current.onPrev;if(go){go();try{localStorage.setItem('sl-swiped','1');}catch(e){}}};
     window.addEventListener('keydown',onKey);window.addEventListener('touchstart',onStart,{passive:true});window.addEventListener('touchend',onEnd,{passive:true});
     return()=>{window.removeEventListener('keydown',onKey);window.removeEventListener('touchstart',onStart);window.removeEventListener('touchend',onEnd);};
   },[]);};
@@ -1859,7 +1864,22 @@ const SeasonSelector=({season,setSeason,seasons})=>{
   },[]);
   
   usePrevNextNav(idx<seasons.length-1?()=>setSeason(seasons[idx+1]):null,idx>0?()=>setSeason(seasons[idx-1]):null);
+  // Swipe hint (touch screens): the first few times, the page gives a little sideways nudge, as if a season were
+  // waiting just off the edge, and a small note says you can swipe. Shown at most once a visit, three visits in all,
+  // and never again once you've swiped between seasons. With Reduce Motion on, just the note.
+  const[hint,setHint]=useState(false);
+  React.useEffect(()=>{
+    if(seasons.length<2||!(IS_APP||(window.matchMedia&&matchMedia('(pointer:coarse)').matches)))return;
+    let n=0;try{if(localStorage.getItem('sl-swiped')||sessionStorage.getItem('sl-swipe-hint'))return;n=+(localStorage.getItem('sl-swipe-hint')||0);if(n>=3)return;}catch(e){return;}
+    let touched=false;const stop=()=>{touched=true;setHint(false);};window.addEventListener('touchstart',stop,{passive:true});
+    const t1=setTimeout(()=>{if(touched)return;try{localStorage.setItem('sl-swipe-hint',String(n+1));sessionStorage.setItem('sl-swipe-hint','1');}catch(e){}
+      setHint(true);const m=document.getElementById('main-content');
+      if(m&&m.animate&&!MOTION.reduced())m.animate([{transform:'none'},{transform:'translateX(30px)',offset:.4},{transform:'translateX(-5px)',offset:.75},{transform:'none'}],{duration:950,easing:'cubic-bezier(.45,0,.25,1)'});},1400);
+    const t2=setTimeout(()=>setHint(false),6000);
+    return()=>{clearTimeout(t1);clearTimeout(t2);window.removeEventListener('touchstart',stop);};
+  },[]);
   return<div className="flex items-center gap-2 relative" ref={dropdownRef}>
+    {hint&&<span role="status" className="sl-swipe-hint"><span aria-hidden="true" className="sl-swipe-arrows">{idx===0?'\u2192':'\u2194'}</span>{idx===0?'Swipe right for earlier seasons':'Swipe to change season'}</span>}
     {!IS_APP&&<button onClick={()=>idx<seasons.length-1&&setSeason(seasons[seasons.length-1])} className={`text-xs ${idx<seasons.length-1?'text-gray-500 hover:text-gray-900':'text-gray-300 cursor-default'}`}>Earliest</button>}
     <div className="flex items-center">
       <button aria-label="Previous season" onClick={()=>idx<seasons.length-1&&setSeason(seasons[idx+1])} className={`p-0.5 rounded ${idx<seasons.length-1?'hover:bg-gray-100 text-gray-600':'text-gray-300'}`}><ChevronLeft className="w-5 h-5"/></button>
